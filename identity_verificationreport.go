@@ -48,13 +48,62 @@ const (
 	IdentityVerificationReportDocumentTypePassport       IdentityVerificationReportDocumentType = "passport"
 )
 
+// Confidence that the provided address matches the email records.
+type IdentityVerificationReportEmailAddressMatchConfidence string
+
+// List of values that IdentityVerificationReportEmailAddressMatchConfidence can take
+const (
+	IdentityVerificationReportEmailAddressMatchConfidenceHighest IdentityVerificationReportEmailAddressMatchConfidence = "highest"
+	IdentityVerificationReportEmailAddressMatchConfidenceLow     IdentityVerificationReportEmailAddressMatchConfidence = "low"
+	IdentityVerificationReportEmailAddressMatchConfidenceNormal  IdentityVerificationReportEmailAddressMatchConfidence = "normal"
+	IdentityVerificationReportEmailAddressMatchConfidenceUnknown IdentityVerificationReportEmailAddressMatchConfidence = "unknown"
+)
+
+// Confidence that the email address exists.
+type IdentityVerificationReportEmailEmailExistsConfidence string
+
+// List of values that IdentityVerificationReportEmailEmailExistsConfidence can take
+const (
+	IdentityVerificationReportEmailEmailExistsConfidenceHighest IdentityVerificationReportEmailEmailExistsConfidence = "highest"
+	IdentityVerificationReportEmailEmailExistsConfidenceLow     IdentityVerificationReportEmailEmailExistsConfidence = "low"
+	IdentityVerificationReportEmailEmailExistsConfidenceNormal  IdentityVerificationReportEmailEmailExistsConfidence = "normal"
+	IdentityVerificationReportEmailEmailExistsConfidenceUnknown IdentityVerificationReportEmailEmailExistsConfidence = "unknown"
+)
+
 // A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportEmailErrorCode string
 
 // List of values that IdentityVerificationReportEmailErrorCode can take
 const (
+	IdentityVerificationReportEmailErrorCodeEmailAddressMismatch      IdentityVerificationReportEmailErrorCode = "email_address_mismatch"
+	IdentityVerificationReportEmailErrorCodeEmailNameMismatch         IdentityVerificationReportEmailErrorCode = "email_name_mismatch"
+	IdentityVerificationReportEmailErrorCodeEmailOwnershipUnverified  IdentityVerificationReportEmailErrorCode = "email_ownership_unverified"
+	IdentityVerificationReportEmailErrorCodeEmailPhoneMismatch        IdentityVerificationReportEmailErrorCode = "email_phone_mismatch"
+	IdentityVerificationReportEmailErrorCodeEmailShortTenure          IdentityVerificationReportEmailErrorCode = "email_short_tenure"
 	IdentityVerificationReportEmailErrorCodeEmailUnverifiedOther      IdentityVerificationReportEmailErrorCode = "email_unverified_other"
 	IdentityVerificationReportEmailErrorCodeEmailVerificationDeclined IdentityVerificationReportEmailErrorCode = "email_verification_declined"
+)
+
+// Confidence that the provided name matches the email records.
+type IdentityVerificationReportEmailNameMatchConfidence string
+
+// List of values that IdentityVerificationReportEmailNameMatchConfidence can take
+const (
+	IdentityVerificationReportEmailNameMatchConfidenceHighest IdentityVerificationReportEmailNameMatchConfidence = "highest"
+	IdentityVerificationReportEmailNameMatchConfidenceLow     IdentityVerificationReportEmailNameMatchConfidence = "low"
+	IdentityVerificationReportEmailNameMatchConfidenceNormal  IdentityVerificationReportEmailNameMatchConfidence = "normal"
+	IdentityVerificationReportEmailNameMatchConfidenceUnknown IdentityVerificationReportEmailNameMatchConfidence = "unknown"
+)
+
+// Confidence that the provided phone matches the email records.
+type IdentityVerificationReportEmailPhoneMatchConfidence string
+
+// List of values that IdentityVerificationReportEmailPhoneMatchConfidence can take
+const (
+	IdentityVerificationReportEmailPhoneMatchConfidenceHighest IdentityVerificationReportEmailPhoneMatchConfidence = "highest"
+	IdentityVerificationReportEmailPhoneMatchConfidenceLow     IdentityVerificationReportEmailPhoneMatchConfidence = "low"
+	IdentityVerificationReportEmailPhoneMatchConfidenceNormal  IdentityVerificationReportEmailPhoneMatchConfidence = "normal"
+	IdentityVerificationReportEmailPhoneMatchConfidenceUnknown IdentityVerificationReportEmailPhoneMatchConfidence = "unknown"
 )
 
 // Status of this `email` check.
@@ -105,13 +154,52 @@ const (
 	IdentityVerificationReportOptionsDocumentAllowedTypePassport       IdentityVerificationReportOptionsDocumentAllowedType = "passport"
 )
 
+// Confidence that the provided address matches the phone records.
+type IdentityVerificationReportPhoneAddressMatchConfidence string
+
+// List of values that IdentityVerificationReportPhoneAddressMatchConfidence can take
+const (
+	IdentityVerificationReportPhoneAddressMatchConfidenceHighest IdentityVerificationReportPhoneAddressMatchConfidence = "highest"
+	IdentityVerificationReportPhoneAddressMatchConfidenceLow     IdentityVerificationReportPhoneAddressMatchConfidence = "low"
+	IdentityVerificationReportPhoneAddressMatchConfidenceNormal  IdentityVerificationReportPhoneAddressMatchConfidence = "normal"
+	IdentityVerificationReportPhoneAddressMatchConfidenceUnknown IdentityVerificationReportPhoneAddressMatchConfidence = "unknown"
+)
+
 // A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportPhoneErrorCode string
 
 // List of values that IdentityVerificationReportPhoneErrorCode can take
 const (
+	IdentityVerificationReportPhoneErrorCodePhoneAddressMismatch      IdentityVerificationReportPhoneErrorCode = "phone_address_mismatch"
+	IdentityVerificationReportPhoneErrorCodePhoneInvalid              IdentityVerificationReportPhoneErrorCode = "phone_invalid"
+	IdentityVerificationReportPhoneErrorCodePhoneInvalidLineType      IdentityVerificationReportPhoneErrorCode = "phone_invalid_line_type"
+	IdentityVerificationReportPhoneErrorCodePhoneNameMismatch         IdentityVerificationReportPhoneErrorCode = "phone_name_mismatch"
+	IdentityVerificationReportPhoneErrorCodePhoneOwnershipUnverified  IdentityVerificationReportPhoneErrorCode = "phone_ownership_unverified"
+	IdentityVerificationReportPhoneErrorCodePhoneShortTenure          IdentityVerificationReportPhoneErrorCode = "phone_short_tenure"
+	IdentityVerificationReportPhoneErrorCodePhoneUnsupportedCountry   IdentityVerificationReportPhoneErrorCode = "phone_unsupported_country"
 	IdentityVerificationReportPhoneErrorCodePhoneUnverifiedOther      IdentityVerificationReportPhoneErrorCode = "phone_unverified_other"
 	IdentityVerificationReportPhoneErrorCodePhoneVerificationDeclined IdentityVerificationReportPhoneErrorCode = "phone_verification_declined"
+)
+
+// The type of phone line.
+type IdentityVerificationReportPhoneLineType string
+
+// List of values that IdentityVerificationReportPhoneLineType can take
+const (
+	IdentityVerificationReportPhoneLineTypeLandline IdentityVerificationReportPhoneLineType = "landline"
+	IdentityVerificationReportPhoneLineTypeMobile   IdentityVerificationReportPhoneLineType = "mobile"
+	IdentityVerificationReportPhoneLineTypeVoip     IdentityVerificationReportPhoneLineType = "voip"
+)
+
+// Confidence that the provided name matches the phone records.
+type IdentityVerificationReportPhoneNameMatchConfidence string
+
+// List of values that IdentityVerificationReportPhoneNameMatchConfidence can take
+const (
+	IdentityVerificationReportPhoneNameMatchConfidenceHighest IdentityVerificationReportPhoneNameMatchConfidence = "highest"
+	IdentityVerificationReportPhoneNameMatchConfidenceLow     IdentityVerificationReportPhoneNameMatchConfidence = "low"
+	IdentityVerificationReportPhoneNameMatchConfidenceNormal  IdentityVerificationReportPhoneNameMatchConfidence = "normal"
+	IdentityVerificationReportPhoneNameMatchConfidenceUnknown IdentityVerificationReportPhoneNameMatchConfidence = "unknown"
 )
 
 // Status of this `phone` check.
@@ -296,12 +384,26 @@ type IdentityVerificationReportEmailError struct {
 
 // Result from a email check
 type IdentityVerificationReportEmail struct {
+	// Confidence that the provided address matches the email records.
+	AddressMatchConfidence IdentityVerificationReportEmailAddressMatchConfidence `json:"address_match_confidence,omitempty"`
 	// Additional email verification details
 	Details *IdentityVerificationReportEmailDetails `json:"details,omitempty"`
+	// Two-letter country code of the email domain's country.
+	DomainCountry string `json:"domain_country,omitempty"`
 	// Email to be verified.
 	Email string `json:"email"`
+	// Confidence that the email address exists.
+	EmailExistsConfidence IdentityVerificationReportEmailEmailExistsConfidence `json:"email_exists_confidence,omitempty"`
 	// Details on the verification error. Present when status is `unverified`.
 	Error *IdentityVerificationReportEmailError `json:"error"`
+	// Confidence that the provided name matches the email records.
+	NameMatchConfidence IdentityVerificationReportEmailNameMatchConfidence `json:"name_match_confidence,omitempty"`
+	// The observed number of days the email domain has existed.
+	ObservedDomainTenureDays float64 `json:"observed_domain_tenure_days,omitempty"`
+	// The observed number of days the email address has existed.
+	ObservedEmailTenureDays float64 `json:"observed_email_tenure_days,omitempty"`
+	// Confidence that the provided phone matches the email records.
+	PhoneMatchConfidence IdentityVerificationReportEmailPhoneMatchConfidence `json:"phone_match_confidence,omitempty"`
 	// Status of this `email` check.
 	Status IdentityVerificationReportEmailStatus `json:"status"`
 }
@@ -367,8 +469,18 @@ type IdentityVerificationReportPhoneError struct {
 
 // Result from a phone check
 type IdentityVerificationReportPhone struct {
+	// Confidence that the provided address matches the phone records.
+	AddressMatchConfidence IdentityVerificationReportPhoneAddressMatchConfidence `json:"address_match_confidence,omitempty"`
+	// The phone carrier.
+	Carrier string `json:"carrier,omitempty"`
 	// Details on the verification error. Present when status is `unverified`.
 	Error *IdentityVerificationReportPhoneError `json:"error"`
+	// The type of phone line.
+	LineType IdentityVerificationReportPhoneLineType `json:"line_type,omitempty"`
+	// Confidence that the provided name matches the phone records.
+	NameMatchConfidence IdentityVerificationReportPhoneNameMatchConfidence `json:"name_match_confidence,omitempty"`
+	// The observed number of days the person has owned the phone number.
+	ObservedPhoneTenureDays float64 `json:"observed_phone_tenure_days,omitempty"`
 	// Phone to be verified.
 	Phone string `json:"phone"`
 	// Status of this `phone` check.

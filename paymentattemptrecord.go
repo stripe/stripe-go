@@ -182,7 +182,6 @@ type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
-	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -2091,6 +2090,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsSequra struct {
+	// The SeQura transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2242,6 +2245,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentAttemptRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentAttemptRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

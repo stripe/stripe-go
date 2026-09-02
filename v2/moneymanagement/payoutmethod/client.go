@@ -48,6 +48,21 @@ func (c Client) Archive(id string, params *stripe.V2MoneyManagementPayoutMethodA
 	return payoutmethod, err
 }
 
+// Disable a PayoutMethod object. The payout method will not be available for use in outbound money movement.
+// To re-enable the payout method, create an OutboundSetupIntent
+// using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Disable(id string, params *stripe.V2MoneyManagementPayoutMethodDisableParams) (*stripe.V2MoneyManagementPayoutMethod, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/payout_methods/%s/disable", id)
+	payoutmethod := &stripe.V2MoneyManagementPayoutMethod{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutmethod)
+	return payoutmethod, err
+}
+
 // Unarchive an PayoutMethod object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

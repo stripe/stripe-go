@@ -46,11 +46,12 @@ const (
 	SharedPaymentIssuedTokenStatusRequiresAction SharedPaymentIssuedTokenStatus = "requires_action"
 )
 
-// The recurring interval at which the shared payment token's amount usage restrictions reset.
+// The interval at which the shared payment token's amount usage restrictions reset.
 type SharedPaymentIssuedTokenUsageLimitsRecurringInterval string
 
 // List of values that SharedPaymentIssuedTokenUsageLimitsRecurringInterval can take
 const (
+	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalDay   SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "day"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalMonth SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "month"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "week"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalYear  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "year"
@@ -90,6 +91,14 @@ type SharedPaymentIssuedTokenSellerDetailsParams struct {
 	NetworkBusinessProfile *string `form:"network_business_profile" json:"network_business_profile,omitempty"`
 }
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type SharedPaymentIssuedTokenUsageLimitsRecurringParams struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between each reset. Defaults to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // Limits on how this SharedPaymentToken can be used.
 type SharedPaymentIssuedTokenUsageLimitsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -98,6 +107,8 @@ type SharedPaymentIssuedTokenUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *SharedPaymentIssuedTokenUsageLimitsRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }
@@ -134,6 +145,14 @@ type SharedPaymentIssuedTokenCreateSellerDetailsParams struct {
 	NetworkBusinessProfile *string `form:"network_business_profile" json:"network_business_profile,omitempty"`
 }
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type SharedPaymentIssuedTokenCreateUsageLimitsRecurringParams struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between each reset. Defaults to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // Limits on how this SharedPaymentToken can be used.
 type SharedPaymentIssuedTokenCreateUsageLimitsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -142,6 +161,8 @@ type SharedPaymentIssuedTokenCreateUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *SharedPaymentIssuedTokenCreateUsageLimitsRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }
@@ -278,6 +299,14 @@ type SharedPaymentIssuedTokenUsageDetails struct {
 	AmountCaptured *SharedPaymentIssuedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
 }
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type SharedPaymentIssuedTokenUsageLimitsRecurring struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval SharedPaymentIssuedTokenUsageLimitsRecurringInterval `json:"interval"`
+	// The number of intervals between each reset.
+	IntervalCount int64 `json:"interval_count"`
+}
+
 // Usage limits of the SharedPaymentIssuedToken.
 type SharedPaymentIssuedTokenUsageLimits struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -286,6 +315,8 @@ type SharedPaymentIssuedTokenUsageLimits struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Max amount that can be captured using this SharedPaymentToken.
 	MaxAmount int64 `json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *SharedPaymentIssuedTokenUsageLimitsRecurring `json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval SharedPaymentIssuedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }

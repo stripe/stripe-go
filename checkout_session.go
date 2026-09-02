@@ -769,7 +769,8 @@ type CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -1477,6 +1478,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
 	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
 	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsSequraCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSequraCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsSequraCaptureMethodManual CheckoutSessionPaymentMethodOptionsSequraCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2650,7 +2659,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
-	// An arbitrary string attached to the object. Often useful for displaying to users.
+	// An arbitrary string attached to the object. Often useful for displaying to users. Pass an empty string to clear a previously configured value.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -2658,7 +2667,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// see the PaymentIntents [use case for connected
 	// accounts](https://docs.stripe.com/docs/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails). Pass an empty string to clear a previously configured recipient.
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
@@ -2671,20 +2680,42 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	//
+	// Pass an empty string to remove a previously supplied configuration.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	//  Pass an empty string to clear a previously configured value.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	//  Pass an empty string to clear a previously configured value.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
-	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
+	TransferGroup *string                                            `form:"transfer_group" json:"transfer_group,omitempty"`
+	UnsetFields   []CheckoutSessionPaymentIntentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionPaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionPaymentIntentDataParams.
+type CheckoutSessionPaymentIntentDataParamsUnsetField string
+
+const (
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldDescription               CheckoutSessionPaymentIntentDataParamsUnsetField = "description"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldMetadata                  CheckoutSessionPaymentIntentDataParamsUnsetField = "metadata"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldReceiptEmail              CheckoutSessionPaymentIntentDataParamsUnsetField = "receipt_email"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldSetupFutureUsage          CheckoutSessionPaymentIntentDataParamsUnsetField = "setup_future_usage"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldStatementDescriptor       CheckoutSessionPaymentIntentDataParamsUnsetField = "statement_descriptor"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix CheckoutSessionPaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionPaymentIntentDataParams) AddUnsetField(field CheckoutSessionPaymentIntentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2938,6 +2969,8 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []*string `form:"funding_types_blocked" json:"funding_types_blocked,omitempty"`
 }
 
 // contains details about the Card payment method options.
@@ -4236,6 +4269,8 @@ type CheckoutSessionParams struct {
 	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	//
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
 	// This may occur if the Checkout Session includes a free trial or a discount.
@@ -5456,6 +5491,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []*string `form:"funding_types_blocked" json:"funding_types_blocked,omitempty"`
 }
 
 // contains details about the Card payment method options.
@@ -7053,6 +7090,67 @@ func (p *CheckoutSessionUpdateLineItemParams) AddMetadata(key string, value stri
 	p.Metadata[key] = value
 }
 
+// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+//
+// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
+type CheckoutSessionUpdatePaymentIntentDataParams struct {
+	// An arbitrary string attached to the object. Often useful for displaying to users. Pass an empty string to clear a previously configured value.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails). Pass an empty string to clear a previously configured recipient.
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	//
+	// Pass an empty string to remove a previously supplied configuration.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	//  Pass an empty string to clear a previously configured value.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	//  Pass an empty string to clear a previously configured value.
+	StatementDescriptorSuffix *string                                                  `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
+	UnsetFields               []CheckoutSessionUpdatePaymentIntentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdatePaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdatePaymentIntentDataParams.
+type CheckoutSessionUpdatePaymentIntentDataParamsUnsetField string
+
+const (
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldDescription               CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "description"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldMetadata                  CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "metadata"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldReceiptEmail              CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "receipt_email"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldSetupFutureUsage          CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "setup_future_usage"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptor       CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdatePaymentIntentDataParams) AddUnsetField(field CheckoutSessionUpdatePaymentIntentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionUpdatePaymentIntentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type CheckoutSessionUpdateShippingOptionShippingRateDataDeliveryEstimateMaximumParams struct {
 	// A unit of time.
@@ -7224,6 +7322,10 @@ type CheckoutSessionUpdateParams struct {
 	LineItems []*CheckoutSessionUpdateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	//
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
+	PaymentIntentData *CheckoutSessionUpdatePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options" json:"shipping_options,omitempty"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
@@ -8351,6 +8453,10 @@ type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsSequra struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsSequraCaptureMethod `json:"capture_method,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -8500,6 +8606,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Satispay         *CheckoutSessionPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
 	Scalapay         *CheckoutSessionPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
+	Sequra           *CheckoutSessionPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	Sunbit           *CheckoutSessionPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`

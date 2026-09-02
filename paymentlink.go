@@ -925,10 +925,23 @@ type PaymentLinkTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// If specified, successful charges will be attributed to the destination
-	// account for tax reporting, and the funds from charges will be transferred
-	// to the destination account. The ID of the resulting transfer will be
-	// returned on the successful charge's `transfer` field.
-	Destination *string `form:"destination" json:"destination"`
+	//  account for tax reporting, and the funds from charges will be transferred
+	//  to the destination account. The ID of the resulting transfer will be
+	//  returned on the successful charge's `transfer` field.
+	Destination *string                                   `form:"destination" json:"destination"`
+	UnsetFields []PaymentLinkTransferDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkTransferDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkTransferDataParams.
+type PaymentLinkTransferDataParamsUnsetField string
+
+const (
+	PaymentLinkTransferDataParamsUnsetFieldAmount PaymentLinkTransferDataParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkTransferDataParams) AddUnsetField(field PaymentLinkTransferDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a payment link.
@@ -1017,15 +1030,19 @@ type PaymentLinkParams struct {
 type PaymentLinkParamsUnsetField string
 
 const (
+	PaymentLinkParamsUnsetFieldApplicationFeeAmount      PaymentLinkParamsUnsetField = "application_fee_amount"
+	PaymentLinkParamsUnsetFieldApplicationFeePercent     PaymentLinkParamsUnsetField = "application_fee_percent"
 	PaymentLinkParamsUnsetFieldCustomFields              PaymentLinkParamsUnsetField = "custom_fields"
 	PaymentLinkParamsUnsetFieldInactiveMessage           PaymentLinkParamsUnsetField = "inactive_message"
 	PaymentLinkParamsUnsetFieldNameCollection            PaymentLinkParamsUnsetField = "name_collection"
+	PaymentLinkParamsUnsetFieldOnBehalfOf                PaymentLinkParamsUnsetField = "on_behalf_of"
 	PaymentLinkParamsUnsetFieldOptionalItems             PaymentLinkParamsUnsetField = "optional_items"
 	PaymentLinkParamsUnsetFieldPaymentMethodOptions      PaymentLinkParamsUnsetField = "payment_method_options"
 	PaymentLinkParamsUnsetFieldPaymentMethodTypes        PaymentLinkParamsUnsetField = "payment_method_types"
 	PaymentLinkParamsUnsetFieldRestrictions              PaymentLinkParamsUnsetField = "restrictions"
 	PaymentLinkParamsUnsetFieldShippingAddressCollection PaymentLinkParamsUnsetField = "shipping_address_collection"
 	PaymentLinkParamsUnsetFieldShippingOptions           PaymentLinkParamsUnsetField = "shipping_options"
+	PaymentLinkParamsUnsetFieldTransferData              PaymentLinkParamsUnsetField = "transfer_data"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2286,6 +2303,30 @@ type PaymentLinkUpdateTaxIDCollectionParams struct {
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
+// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
+type PaymentLinkUpdateTransferDataParams struct {
+	// The amount that will be transferred automatically when a charge succeeds.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// If specified, successful charges will be attributed to the destination
+	//  account for tax reporting, and the funds from charges will be transferred
+	//  to the destination account. The ID of the resulting transfer will be
+	//  returned on the successful charge's `transfer` field.
+	Destination *string                                         `form:"destination" json:"destination"`
+	UnsetFields []PaymentLinkUpdateTransferDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkUpdateTransferDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateTransferDataParams.
+type PaymentLinkUpdateTransferDataParamsUnsetField string
+
+const (
+	PaymentLinkUpdateTransferDataParamsUnsetFieldAmount PaymentLinkUpdateTransferDataParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkUpdateTransferDataParams) AddUnsetField(field PaymentLinkUpdateTransferDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Updates a payment link.
 type PaymentLinkUpdateParams struct {
 	Params `form:"*"`
@@ -2295,6 +2336,10 @@ type PaymentLinkUpdateParams struct {
 	AfterCompletion *PaymentLinkUpdateAfterCompletionParams `form:"after_completion" json:"after_completion,omitempty"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes" json:"allow_promotion_codes,omitempty"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Can only be applied when there are no line items with recurring prices.
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
@@ -2319,6 +2364,8 @@ type PaymentLinkUpdateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Controls settings applied for collecting the customer's name.
 	NameCollection *PaymentLinkUpdateNameCollectionParams `form:"name_collection" json:"name_collection,omitempty"`
+	// The account on behalf of which to charge.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
 	// There is a maximum of 20 combined line items and optional items.
@@ -2351,22 +2398,28 @@ type PaymentLinkUpdateParams struct {
 	SubscriptionData *PaymentLinkUpdateSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// Controls tax ID collection during checkout.
 	TaxIDCollection *PaymentLinkUpdateTaxIDCollectionParams `form:"tax_id_collection" json:"tax_id_collection,omitempty"`
-	UnsetFields     []PaymentLinkUpdateParamsUnsetField     `form:"-" json:"-"`
+	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
+	TransferData *PaymentLinkUpdateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
+	UnsetFields  []PaymentLinkUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateParams.
 type PaymentLinkUpdateParamsUnsetField string
 
 const (
+	PaymentLinkUpdateParamsUnsetFieldApplicationFeeAmount      PaymentLinkUpdateParamsUnsetField = "application_fee_amount"
+	PaymentLinkUpdateParamsUnsetFieldApplicationFeePercent     PaymentLinkUpdateParamsUnsetField = "application_fee_percent"
 	PaymentLinkUpdateParamsUnsetFieldCustomFields              PaymentLinkUpdateParamsUnsetField = "custom_fields"
 	PaymentLinkUpdateParamsUnsetFieldInactiveMessage           PaymentLinkUpdateParamsUnsetField = "inactive_message"
 	PaymentLinkUpdateParamsUnsetFieldNameCollection            PaymentLinkUpdateParamsUnsetField = "name_collection"
+	PaymentLinkUpdateParamsUnsetFieldOnBehalfOf                PaymentLinkUpdateParamsUnsetField = "on_behalf_of"
 	PaymentLinkUpdateParamsUnsetFieldOptionalItems             PaymentLinkUpdateParamsUnsetField = "optional_items"
 	PaymentLinkUpdateParamsUnsetFieldPaymentMethodOptions      PaymentLinkUpdateParamsUnsetField = "payment_method_options"
 	PaymentLinkUpdateParamsUnsetFieldPaymentMethodTypes        PaymentLinkUpdateParamsUnsetField = "payment_method_types"
 	PaymentLinkUpdateParamsUnsetFieldRestrictions              PaymentLinkUpdateParamsUnsetField = "restrictions"
 	PaymentLinkUpdateParamsUnsetFieldShippingAddressCollection PaymentLinkUpdateParamsUnsetField = "shipping_address_collection"
 	PaymentLinkUpdateParamsUnsetFieldShippingOptions           PaymentLinkUpdateParamsUnsetField = "shipping_options"
+	PaymentLinkUpdateParamsUnsetFieldTransferData              PaymentLinkUpdateParamsUnsetField = "transfer_data"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

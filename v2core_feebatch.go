@@ -25,6 +25,7 @@ type V2CoreFeeBatchCollectionRecordType string
 const (
 	V2CoreFeeBatchCollectionRecordTypeBalanceTransaction         V2CoreFeeBatchCollectionRecordType = "balance_transaction"
 	V2CoreFeeBatchCollectionRecordTypeCreditTransaction          V2CoreFeeBatchCollectionRecordType = "credit_transaction"
+	V2CoreFeeBatchCollectionRecordTypeCryptoTransaction          V2CoreFeeBatchCollectionRecordType = "crypto_transaction"
 	V2CoreFeeBatchCollectionRecordTypeMoneyManagementTransaction V2CoreFeeBatchCollectionRecordType = "money_management_transaction"
 	V2CoreFeeBatchCollectionRecordTypePayableInvoice             V2CoreFeeBatchCollectionRecordType = "payable_invoice"
 )
@@ -104,6 +105,8 @@ type V2CoreFeeBatchCollectionRecord struct {
 	BalanceTransaction string `json:"balance_transaction,omitempty"`
 	// The ID of the associated credit transaction.
 	CreditTransaction string `json:"credit_transaction,omitempty"`
+	// The ID of the associated crypto transaction.
+	CryptoTransaction string `json:"crypto_transaction,omitempty"`
 	// The ID of the associated v2 money management transaction.
 	MoneyManagementTransaction string `json:"money_management_transaction,omitempty"`
 	// The ID of the associated accounts-receivable invoice.

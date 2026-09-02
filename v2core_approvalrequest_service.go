@@ -30,6 +30,19 @@ func (c v2CoreApprovalRequestService) Retrieve(ctx context.Context, id string, p
 	return approvalrequest, err
 }
 
+// POST /v2/core/approval_requests/:id
+// Updates a pending approval request's mutable fields.
+func (c v2CoreApprovalRequestService) Update(ctx context.Context, id string, params *V2CoreApprovalRequestUpdateParams) (*V2CoreApprovalRequest, error) {
+	if params == nil {
+		params = &V2CoreApprovalRequestUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/approval_requests/%s", id)
+	approvalrequest := &V2CoreApprovalRequest{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
+	return approvalrequest, err
+}
+
 // POST /v2/core/approval_requests/:id/cancel
 // Cancels a pending approval request.
 func (c v2CoreApprovalRequestService) Cancel(ctx context.Context, id string, params *V2CoreApprovalRequestCancelParams) (*V2CoreApprovalRequest, error) {
@@ -38,32 +51,6 @@ func (c v2CoreApprovalRequestService) Cancel(ctx context.Context, id string, par
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/approval_requests/%s/cancel", id)
-	approvalrequest := &V2CoreApprovalRequest{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
-	return approvalrequest, err
-}
-
-// POST /v2/core/approval_requests/:id/execute
-// Executes an approved approval request.
-func (c v2CoreApprovalRequestService) Execute(ctx context.Context, id string, params *V2CoreApprovalRequestExecuteParams) (*V2CoreApprovalRequest, error) {
-	if params == nil {
-		params = &V2CoreApprovalRequestExecuteParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v2/core/approval_requests/%s/execute", id)
-	approvalrequest := &V2CoreApprovalRequest{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
-	return approvalrequest, err
-}
-
-// POST /v2/core/approval_requests/:id/submit
-// Moves a pending approval request into the reviewer queue for auto-execution upon approval.
-func (c v2CoreApprovalRequestService) Submit(ctx context.Context, id string, params *V2CoreApprovalRequestSubmitParams) (*V2CoreApprovalRequest, error) {
-	if params == nil {
-		params = &V2CoreApprovalRequestSubmitParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v2/core/approval_requests/%s/submit", id)
 	approvalrequest := &V2CoreApprovalRequest{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
 	return approvalrequest, err

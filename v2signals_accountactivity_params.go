@@ -54,6 +54,20 @@ type V2SignalsAccountActivityAccountDetailsParams struct {
 	Data *V2SignalsAccountActivityAccountDetailsDataParams `form:"data" json:"data,omitempty"`
 }
 
+// Details for the account restriction. Provide only when type is account_restricted. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityAccountRestrictedParams struct {
+	// The reason the account or customer was restricted.
+	Reason *string `form:"reason" json:"reason"`
+}
+
+// Details for the account suspension. Provide only when type is account_suspended. The activity
+// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+type V2SignalsAccountActivityAccountSuspendedParams struct {
+	// The reason the customer was suspended.
+	Reason *string `form:"reason" json:"reason"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityLoginAttemptClientDetailsDataParams struct {
 	// The IP address associated with the activity.
@@ -121,10 +135,18 @@ type V2SignalsAccountActivityParams struct {
 	AccountDetails *V2SignalsAccountActivityAccountDetailsParams `form:"account_details" json:"account_details,omitempty"`
 	// The account evaluation this activity is associated with, when applicable.
 	AccountEvaluation *string `form:"account_evaluation" json:"account_evaluation,omitempty"`
+	// Details for the account restriction. Provide only when type is account_restricted. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountRestricted *V2SignalsAccountActivityAccountRestrictedParams `form:"account_restricted" json:"account_restricted,omitempty"`
+	// Details for the account suspension. Provide only when type is account_suspended. The activity
+	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+	AccountSuspended *V2SignalsAccountActivityAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
 	LoginDecision *V2SignalsAccountActivityLoginDecisionParams `form:"login_decision" json:"login_decision,omitempty"`
+	// Additional information about the activity.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.
@@ -133,6 +155,15 @@ type V2SignalsAccountActivityParams struct {
 	RegistrationDecision *V2SignalsAccountActivityRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2SignalsAccountActivityParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Account profile data.
@@ -179,6 +210,20 @@ type V2SignalsAccountActivityCreateAccountDetailsParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountActivityCreateAccountDetailsDataParams `form:"data" json:"data,omitempty"`
+}
+
+// Details for the account restriction. Provide only when type is account_restricted. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityCreateAccountRestrictedParams struct {
+	// The reason the account or customer was restricted.
+	Reason *string `form:"reason" json:"reason"`
+}
+
+// Details for the account suspension. Provide only when type is account_suspended. The activity
+// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+type V2SignalsAccountActivityCreateAccountSuspendedParams struct {
+	// The reason the customer was suspended.
+	Reason *string `form:"reason" json:"reason"`
 }
 
 // Raw client details for the activity, when a Radar session is not available.
@@ -248,10 +293,18 @@ type V2SignalsAccountActivityCreateParams struct {
 	AccountDetails *V2SignalsAccountActivityCreateAccountDetailsParams `form:"account_details" json:"account_details,omitempty"`
 	// The account evaluation this activity is associated with, when applicable.
 	AccountEvaluation *string `form:"account_evaluation" json:"account_evaluation,omitempty"`
+	// Details for the account restriction. Provide only when type is account_restricted. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountRestricted *V2SignalsAccountActivityCreateAccountRestrictedParams `form:"account_restricted" json:"account_restricted,omitempty"`
+	// Details for the account suspension. Provide only when type is account_suspended. The activity
+	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+	AccountSuspended *V2SignalsAccountActivityCreateAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityCreateLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
 	LoginDecision *V2SignalsAccountActivityCreateLoginDecisionParams `form:"login_decision" json:"login_decision,omitempty"`
+	// Additional information about the activity.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.
@@ -260,6 +313,15 @@ type V2SignalsAccountActivityCreateParams struct {
 	RegistrationDecision *V2SignalsAccountActivityCreateRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2SignalsAccountActivityCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Deletes an AccountActivity by its ID.

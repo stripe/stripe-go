@@ -31,6 +31,15 @@ const (
 	V2CoreApprovalRequestActionTransferCreate                         V2CoreApprovalRequestAction = "transfer.create"
 )
 
+// The type of actor that made the request.
+type V2CoreApprovalRequestRequestedByType string
+
+// List of values that V2CoreApprovalRequestRequestedByType can take
+const (
+	V2CoreApprovalRequestRequestedByTypeAPIKey V2CoreApprovalRequestRequestedByType = "api_key"
+	V2CoreApprovalRequestRequestedByTypeUser   V2CoreApprovalRequestRequestedByType = "user"
+)
+
 // The result of the review.
 type V2CoreApprovalRequestReviewResult string
 
@@ -38,6 +47,15 @@ type V2CoreApprovalRequestReviewResult string
 const (
 	V2CoreApprovalRequestReviewResultApproved V2CoreApprovalRequestReviewResult = "approved"
 	V2CoreApprovalRequestReviewResultRejected V2CoreApprovalRequestReviewResult = "rejected"
+)
+
+// The type of actor that reviewed the request.
+type V2CoreApprovalRequestReviewReviewedByType string
+
+// List of values that V2CoreApprovalRequestReviewReviewedByType can take
+const (
+	V2CoreApprovalRequestReviewReviewedByTypeAPIKey V2CoreApprovalRequestReviewReviewedByType = "api_key"
+	V2CoreApprovalRequestReviewReviewedByTypeUser   V2CoreApprovalRequestReviewReviewedByType = "user"
 )
 
 // The status of this ApprovalRequest.
@@ -59,20 +77,52 @@ const (
 	V2CoreApprovalRequestStatusSucceeded          V2CoreApprovalRequestStatus = "succeeded"
 )
 
+// Present when `type` is `api_key`.
+type V2CoreApprovalRequestRequestedByAPIKey struct {
+	// Stripe-defined identifier for the API key (e.g. a restricted API key token).
+	ID string `json:"id"`
+	// Merchant-defined name for the API key.
+	Name string `json:"name,omitempty"`
+}
+
+// Present when `type` is `user`.
+type V2CoreApprovalRequestRequestedByUser struct {
+	// Email address of the dashboard user.
+	Email string `json:"email"`
+}
+
 // The requester of this ApprovalRequest.
 type V2CoreApprovalRequestRequestedBy struct {
-	// Stripe-defined identifier for the requester (e.g. a restricted API key token).
+	// Present when `type` is `api_key`.
+	APIKey *V2CoreApprovalRequestRequestedByAPIKey `json:"api_key,omitempty"`
+	// The type of actor that made the request.
+	Type V2CoreApprovalRequestRequestedByType `json:"type"`
+	// Present when `type` is `user`.
+	User *V2CoreApprovalRequestRequestedByUser `json:"user,omitempty"`
+}
+
+// Present when `type` is `api_key`.
+type V2CoreApprovalRequestReviewReviewedByAPIKey struct {
+	// Stripe-defined identifier for the API key (e.g. a restricted API key token).
 	ID string `json:"id"`
-	// Merchant-defined name for the requester.
+	// Merchant-defined name for the API key.
 	Name string `json:"name,omitempty"`
+}
+
+// Present when `type` is `user`.
+type V2CoreApprovalRequestReviewReviewedByUser struct {
+	// Email address of the dashboard user.
+	Email string `json:"email"`
 }
 
 // The reviewer who performed the review.
 type V2CoreApprovalRequestReviewReviewedBy struct {
-	// Stripe-defined identifier for the reviewer (e.g. a restricted API key token).
-	ID string `json:"id"`
-	// Merchant-defined name for the reviewer.
-	Name string `json:"name"`
+	// Present when `type` is `api_key`.
+	APIKey *V2CoreApprovalRequestReviewReviewedByAPIKey `json:"api_key,omitempty"`
+	// The type of actor that reviewed the request.
+	Type V2CoreApprovalRequestReviewReviewedByType `json:"type"`
+	// Present when `type` is `user`.
+	User *V2CoreApprovalRequestReviewReviewedByUser `json:"user,omitempty"`
 }
 
 // The review of this ApprovalRequest if it has been reviewed.
@@ -191,6 +241,8 @@ type V2CoreApprovalRequestStatusDetails struct {
 
 // The transitions of the status of this ApprovalRequest.
 type V2CoreApprovalRequestStatusTransitions struct {
+	// Timestamp when the approval request was approved.
+	ApprovedAt time.Time `json:"approved_at,omitempty"`
 	// Timestamp when the approval request was canceled.
 	CanceledAt time.Time `json:"canceled_at,omitempty"`
 	// Timestamp when the approval request expired.
@@ -199,8 +251,6 @@ type V2CoreApprovalRequestStatusTransitions struct {
 	FailedAt time.Time `json:"failed_at,omitempty"`
 	// Timestamp when the approval request was rejected.
 	RejectedAt time.Time `json:"rejected_at,omitempty"`
-	// Timestamp when the approval request moved to requires_execution status.
-	RequiresExecutionAt time.Time `json:"requires_execution_at,omitempty"`
 	// Timestamp when the approval request succeeded.
 	SucceededAt time.Time `json:"succeeded_at,omitempty"`
 }
@@ -214,8 +264,6 @@ type V2CoreApprovalRequest struct {
 	Created time.Time `json:"created"`
 	// The URL to the dashboard for this ApprovalRequest.
 	DashboardURL string `json:"dashboard_url,omitempty"`
-	// A description of the approval request.
-	Description string `json:"description,omitempty"`
 	// The timestamp at which this ApprovalRequest will expire.
 	ExpiresAt time.Time `json:"expires_at"`
 	// The unique identifier for this ApprovalRequest.
@@ -224,6 +272,8 @@ type V2CoreApprovalRequest struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Context provided by the requester (e.g. an agent) to help reviewers evaluate the request.
+	Reason string `json:"reason,omitempty"`
 	// The requester of this ApprovalRequest.
 	RequestedBy *V2CoreApprovalRequestRequestedBy `json:"requested_by"`
 	// The review of this ApprovalRequest if it has been reviewed.

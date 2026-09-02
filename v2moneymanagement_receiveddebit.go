@@ -97,6 +97,8 @@ const (
 
 // This object stores details about the balance transfer object that resulted in the ReceivedDebit.
 type V2MoneyManagementReceivedDebitBalanceTransfer struct {
+	// The ID of the v1 account that received the balance transfer.
+	ToAccount string `json:"to_account,omitempty"`
 	// The ID of the topup object that originated the ReceivedDebit.
 	Topup string `json:"topup,omitempty"`
 	// Open Enum. The type of balance transfer that originated the ReceivedDebit.

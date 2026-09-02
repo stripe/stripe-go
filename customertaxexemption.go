@@ -128,20 +128,26 @@ type CustomerTaxExemptionUS struct {
 // Location specific customer tax exemptions.
 type CustomerTaxExemption struct {
 	APIResource
-	Ca       *CustomerTaxExemptionCa `json:"ca,omitempty"`
-	Country  string                  `json:"country"`
-	Created  int64                   `json:"created"`
-	Customer string                  `json:"customer"`
+	Ca *CustomerTaxExemptionCa `json:"ca,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// ID of the customer this tax exemption belongs to.
+	Customer string `json:"customer"`
 	// Present and true when the exemption has been deleted.
 	Deleted bool `json:"deleted,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption becomes effective.
 	EffectiveDate string `json:"effective_date"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption expires.
-	ExpirationDate string                  `json:"expiration_date"`
-	ID             string                  `json:"id"`
-	Livemode       bool                    `json:"livemode"`
-	Object         string                  `json:"object"`
-	US             *CustomerTaxExemptionUS `json:"us,omitempty"`
+	ExpirationDate string `json:"expiration_date"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string                  `json:"object"`
+	US     *CustomerTaxExemptionUS `json:"us,omitempty"`
 }
 
 // CustomerTaxExemptionList is a list of CustomerTaxExemptions as retrieved from a list endpoint.

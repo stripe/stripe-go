@@ -6,6 +6,14 @@
 
 package stripe
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type TestHelpersSharedPaymentGrantedTokenUsageLimitsRecurringParams struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between each reset. Defaults to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // Limits on how this SharedPaymentGrantedToken can be used.
 type TestHelpersSharedPaymentGrantedTokenUsageLimitsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -14,6 +22,8 @@ type TestHelpersSharedPaymentGrantedTokenUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *TestHelpersSharedPaymentGrantedTokenUsageLimitsRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }
@@ -63,6 +73,14 @@ func (p *TestHelpersSharedPaymentGrantedTokenRevokeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsRecurringParams struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between each reset. Defaults to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // Limits on how this SharedPaymentGrantedToken can be used.
 type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -71,6 +89,8 @@ type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }

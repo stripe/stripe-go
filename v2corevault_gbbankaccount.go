@@ -142,6 +142,8 @@ type V2CoreVaultGBBankAccount struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Whether the GB Bank Account is currently unusable for money movement, despite potentially being correctly set up. Please reach out to Stripe Support for more information.
+	Restricted bool `json:"restricted"`
 	// The Sort Code of the bank account.
 	SortCode string `json:"sort_code,omitempty"`
 	// The list of currencies supported by this bank account.

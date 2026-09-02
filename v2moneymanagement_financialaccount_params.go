@@ -19,6 +19,12 @@ type V2MoneyManagementFinancialAccountListParams struct {
 	Types []*string `form:"types" json:"types,omitempty"`
 }
 
+// Parameters specific to creating `savings` type FinancialAccounts.
+type V2MoneyManagementFinancialAccountSavingsParams struct {
+	// The currencies that this savings FinancialAccount can hold. Three-letter ISO currency code, in lowercase.
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
+}
+
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
@@ -38,6 +44,8 @@ type V2MoneyManagementFinancialAccountParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+	// Parameters specific to creating `savings` type FinancialAccounts.
+	Savings *V2MoneyManagementFinancialAccountSavingsParams `form:"savings" json:"savings,omitempty"`
 	// Parameters for updating storage-specific fields on the FinancialAccount.
 	Storage *V2MoneyManagementFinancialAccountStorageParams `form:"storage" json:"storage,omitempty"`
 	// The type of FinancialAccount to create.
@@ -68,6 +76,12 @@ type V2MoneyManagementFinancialAccountCloseParams struct {
 	ForwardingSettings *V2MoneyManagementFinancialAccountCloseForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
 }
 
+// Parameters specific to creating `savings` type FinancialAccounts.
+type V2MoneyManagementFinancialAccountCreateSavingsParams struct {
+	// The currencies that this savings FinancialAccount can hold. Three-letter ISO currency code, in lowercase.
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
+}
+
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
@@ -83,6 +97,8 @@ type V2MoneyManagementFinancialAccountCreateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Parameters specific to creating `savings` type FinancialAccounts.
+	Savings *V2MoneyManagementFinancialAccountCreateSavingsParams `form:"savings" json:"savings,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountCreateStorageParams `form:"storage" json:"storage,omitempty"`
 	// The type of FinancialAccount to create.

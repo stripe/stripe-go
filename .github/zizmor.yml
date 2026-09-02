@@ -1,0 +1,20 @@
+rules:
+  # Actions under the stripe namespace are unpinned on purpose.
+  # This is deliberately scoped to that namespace so that other actions
+  # still require a full commit hash.
+  unpinned-uses:
+    config:
+      policies:
+        "stripe/openapi/*": ref-pin
+
+  # The Test job keeps setup-go's Go build cache; Lint and govulncheck disable
+  # it. A poisoned cache has nothing to reach here: a Go release is the git tag,
+  # so CI builds no release artifact, and the publish job only checks out and
+  # notifies Slack — it restores no cache.
+  #
+  # Anchored to the line rather than the file so that a cache added elsewhere in
+  # ci.yml is still flagged, and so a shift in the file makes this reappear
+  # rather than silently covering something it was never reasoned about.
+  cache-poisoning:
+    ignore:
+      - ci.yml:111

@@ -160,9 +160,21 @@ const (
 	CustomerSessionComponentsTaxIDElementFeaturesTaxIDSaveEnabled  CustomerSessionComponentsTaxIDElementFeaturesTaxIDSave = "enabled"
 )
 
+// Configuration for active entitlements.
+type CustomerSessionComponentsActiveEntitlementsParams struct {
+	// Whether the active entitlements is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
 // Configuration for buy button.
 type CustomerSessionComponentsBuyButtonParams struct {
 	// Whether the buy button is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
+// Configuration for customer portal.
+type CustomerSessionComponentsCustomerPortalParams struct {
+	// Whether the customer portal is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
@@ -276,8 +288,12 @@ type CustomerSessionComponentsTaxIDElementParams struct {
 
 // Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
+	// Configuration for active entitlements.
+	ActiveEntitlements *CustomerSessionComponentsActiveEntitlementsParams `form:"active_entitlements" json:"active_entitlements,omitempty"`
 	// Configuration for buy button.
 	BuyButton *CustomerSessionComponentsBuyButtonParams `form:"buy_button" json:"buy_button,omitempty"`
+	// Configuration for customer portal.
+	CustomerPortal *CustomerSessionComponentsCustomerPortalParams `form:"customer_portal" json:"customer_portal,omitempty"`
 	// Configuration for the customer sheet.
 	CustomerSheet *CustomerSessionComponentsCustomerSheetParams `form:"customer_sheet" json:"customer_sheet,omitempty"`
 	// Configuration for the mobile payment element.
@@ -308,9 +324,21 @@ func (p *CustomerSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configuration for active entitlements.
+type CustomerSessionCreateComponentsActiveEntitlementsParams struct {
+	// Whether the active entitlements is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
 // Configuration for buy button.
 type CustomerSessionCreateComponentsBuyButtonParams struct {
 	// Whether the buy button is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
+// Configuration for customer portal.
+type CustomerSessionCreateComponentsCustomerPortalParams struct {
+	// Whether the customer portal is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
@@ -424,8 +452,12 @@ type CustomerSessionCreateComponentsTaxIDElementParams struct {
 
 // Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionCreateComponentsParams struct {
+	// Configuration for active entitlements.
+	ActiveEntitlements *CustomerSessionCreateComponentsActiveEntitlementsParams `form:"active_entitlements" json:"active_entitlements,omitempty"`
 	// Configuration for buy button.
 	BuyButton *CustomerSessionCreateComponentsBuyButtonParams `form:"buy_button" json:"buy_button,omitempty"`
+	// Configuration for customer portal.
+	CustomerPortal *CustomerSessionCreateComponentsCustomerPortalParams `form:"customer_portal" json:"customer_portal,omitempty"`
 	// Configuration for the customer sheet.
 	CustomerSheet *CustomerSessionCreateComponentsCustomerSheetParams `form:"customer_sheet" json:"customer_sheet,omitempty"`
 	// Configuration for the mobile payment element.

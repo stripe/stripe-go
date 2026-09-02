@@ -44,6 +44,8 @@ type Client struct {
 	V1BillingCreditBalanceTransactions *v1BillingCreditBalanceTransactionService
 	// V1BillingCreditGrants is the service used to invoke /v1/billing/credit_grants APIs.
 	V1BillingCreditGrants *v1BillingCreditGrantService
+	// V1BillingFeedbackOptions is the service used to invoke /v1/billing/feedback_options APIs.
+	V1BillingFeedbackOptions *v1BillingFeedbackOptionService
 	// V1BillingMeterEventAdjustments is the service used to invoke /v1/billing/meter_event_adjustments APIs.
 	V1BillingMeterEventAdjustments *v1BillingMeterEventAdjustmentService
 	// V1BillingMeterEvents is the service used to invoke /v1/billing/meter_events APIs.
@@ -252,6 +254,8 @@ type Client struct {
 	V1Quotes *v1QuoteService
 	// V1RadarAccountEvaluations is the service used to invoke /v1/radar/account_evaluations APIs.
 	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
+	// V1RadarBillingEvaluations is the service used to invoke /v1/radar/billing_evaluations APIs.
+	V1RadarBillingEvaluations *v1RadarBillingEvaluationService
 	// V1RadarCustomerEvaluations is the service used to invoke /v1/radar/customer_evaluations APIs.
 	V1RadarCustomerEvaluations *v1RadarCustomerEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -576,6 +580,12 @@ type Client struct {
 	V2SignalsAccountEvaluations *v2SignalsAccountEvaluationService
 	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2SignalsAccountSignalService
+	// V2SignalsPaymentRetryEvaluations is the service used to invoke /v2/signals/payment_retry_evaluations APIs.
+	V2SignalsPaymentRetryEvaluations *v2SignalsPaymentRetryEvaluationService
+	// V2SignalsPaymentRetrySignals is the service used to invoke paymentretrysignal related APIs.
+	V2SignalsPaymentRetrySignals *v2SignalsPaymentRetrySignalService
+	// V2TaxIntegrationConfigurations is the service used to invoke integrationconfiguration related APIs.
+	V2TaxIntegrationConfigurations *v2TaxIntegrationConfigurationService
 	// V2TaxManualRules is the service used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2TaxManualRuleService
 	// V2TaxOperations is the service used to invoke operation related APIs.
@@ -641,6 +651,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
+	client.V1BillingFeedbackOptions = &v1BillingFeedbackOptionService{B: backends.API, Key: key}
 	client.V1BillingMeterEventAdjustments = &v1BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
@@ -745,6 +756,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
+	client.V1RadarBillingEvaluations = &v1RadarBillingEvaluationService{B: backends.API, Key: key}
 	client.V1RadarCustomerEvaluations = &v1RadarCustomerEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
 	client.V1RadarIssuingAuthorizationEvaluations = &v1RadarIssuingAuthorizationEvaluationService{B: backends.API, Key: key}
@@ -907,6 +919,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
+	client.V2SignalsPaymentRetryEvaluations = &v2SignalsPaymentRetryEvaluationService{B: backends.API, Key: key}
+	client.V2SignalsPaymentRetrySignals = &v2SignalsPaymentRetrySignalService{B: backends.API, Key: key}
+	client.V2TaxIntegrationConfigurations = &v2TaxIntegrationConfigurationService{B: backends.API, Key: key}
 	client.V2TaxManualRules = &v2TaxManualRuleService{B: backends.API, Key: key}
 	client.V2TaxOperations = &v2TaxOperationService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}

@@ -35,6 +35,19 @@ func (c Client) Get(id string, params *stripe.V2CoreApprovalRequestParams) (*str
 	return approvalrequest, err
 }
 
+// POST /v2/core/approval_requests/:id
+// Updates a pending approval request's mutable fields.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.V2CoreApprovalRequestParams) (*stripe.V2CoreApprovalRequest, error) {
+	path := stripe.FormatURLPath("/v2/core/approval_requests/%s", id)
+	approvalrequest := &stripe.V2CoreApprovalRequest{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
+	return approvalrequest, err
+}
+
 // POST /v2/core/approval_requests/:id/cancel
 // Cancels a pending approval request.
 //
@@ -43,32 +56,6 @@ func (c Client) Get(id string, params *stripe.V2CoreApprovalRequestParams) (*str
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.V2CoreApprovalRequestCancelParams) (*stripe.V2CoreApprovalRequest, error) {
 	path := stripe.FormatURLPath("/v2/core/approval_requests/%s/cancel", id)
-	approvalrequest := &stripe.V2CoreApprovalRequest{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
-	return approvalrequest, err
-}
-
-// POST /v2/core/approval_requests/:id/execute
-// Executes an approved approval request.
-//
-// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
-//
-// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Execute(id string, params *stripe.V2CoreApprovalRequestExecuteParams) (*stripe.V2CoreApprovalRequest, error) {
-	path := stripe.FormatURLPath("/v2/core/approval_requests/%s/execute", id)
-	approvalrequest := &stripe.V2CoreApprovalRequest{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
-	return approvalrequest, err
-}
-
-// POST /v2/core/approval_requests/:id/submit
-// Moves a pending approval request into the reviewer queue for auto-execution upon approval.
-//
-// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
-//
-// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Submit(id string, params *stripe.V2CoreApprovalRequestSubmitParams) (*stripe.V2CoreApprovalRequest, error) {
-	path := stripe.FormatURLPath("/v2/core/approval_requests/%s/submit", id)
 	approvalrequest := &stripe.V2CoreApprovalRequest{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, approvalrequest)
 	return approvalrequest, err

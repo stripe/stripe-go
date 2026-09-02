@@ -42,6 +42,20 @@ func (c v2MoneyManagementPayoutMethodService) Archive(ctx context.Context, id st
 	return payoutmethod, err
 }
 
+// Disable a PayoutMethod object. The payout method will not be available for use in outbound money movement.
+// To re-enable the payout method, create an OutboundSetupIntent
+// using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
+func (c v2MoneyManagementPayoutMethodService) Disable(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodDisableParams) (*V2MoneyManagementPayoutMethod, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutMethodDisableParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_methods/%s/disable", id)
+	payoutmethod := &V2MoneyManagementPayoutMethod{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutmethod)
+	return payoutmethod, err
+}
+
 // Unarchive an PayoutMethod object.
 func (c v2MoneyManagementPayoutMethodService) Unarchive(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodUnarchiveParams) (*V2MoneyManagementPayoutMethod, error) {
 	if params == nil {

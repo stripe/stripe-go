@@ -400,6 +400,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeStripeBalance      SubscriptionPaymentSettingsPaymentMethodType = "stripe_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeSwish              SubscriptionPaymentSettingsPaymentMethodType = "swish"
+	SubscriptionPaymentSettingsPaymentMethodTypeTruemoney          SubscriptionPaymentSettingsPaymentMethodType = "truemoney"
 	SubscriptionPaymentSettingsPaymentMethodTypeTWINT              SubscriptionPaymentSettingsPaymentMethodType = "twint"
 	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
@@ -503,8 +504,10 @@ type SubscriptionCancelCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                                 `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionCancelCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancelCancellationDetailsParams.
@@ -618,6 +621,8 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionPrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
+	// Token used to resolve the presentment currency and FX rate applied to this subscription's adaptive pricing.
+	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
@@ -857,8 +862,10 @@ type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                           `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                           `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancellationDetailsParams.
@@ -1775,8 +1782,10 @@ type SubscriptionUpdateCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                                 `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionUpdateCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateCancellationDetailsParams.
@@ -2501,6 +2510,8 @@ type SubscriptionUpdateParams struct {
 	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionUpdatePrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
+	// Token used to resolve the presentment currency and FX rate applied to this subscription's adaptive pricing.
+	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.

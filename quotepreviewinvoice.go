@@ -490,6 +490,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeStripeBalance      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSwish              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "swish"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeTruemoney          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "truemoney"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeTWINT              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "twint"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUpi                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "upi"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"

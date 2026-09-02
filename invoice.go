@@ -327,6 +327,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeStripeBalance      InvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
+	InvoicePaymentSettingsPaymentMethodTypeTruemoney          InvoicePaymentSettingsPaymentMethodType = "truemoney"
 	InvoicePaymentSettingsPaymentMethodTypeTWINT              InvoicePaymentSettingsPaymentMethodType = "twint"
 	InvoicePaymentSettingsPaymentMethodTypeUpi                InvoicePaymentSettingsPaymentMethodType = "upi"
 	InvoicePaymentSettingsPaymentMethodTypeUSBankAccount      InvoicePaymentSettingsPaymentMethodType = "us_bank_account"

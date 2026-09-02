@@ -1871,6 +1871,18 @@ func (h *eventNotificationHandlerBase) OnV2CoreHealthMeterEventSummariesDelayedR
 		h, "v2.core.health.meter_event_summaries_delayed.resolved", callback)
 }
 
+// OnV2CoreHealthMetronomeNotificationLatencyFiring registers a callback to handle notifications about the "v2.core.health.metronome_notification_latency.firing" event.
+func (h *eventNotificationHandlerBase) OnV2CoreHealthMetronomeNotificationLatencyFiring(callback func(ctx context.Context, notif *V2CoreHealthMetronomeNotificationLatencyFiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.metronome_notification_latency.firing", callback)
+}
+
+// OnV2CoreHealthMetronomeNotificationLatencyResolved registers a callback to handle notifications about the "v2.core.health.metronome_notification_latency.resolved" event.
+func (h *eventNotificationHandlerBase) OnV2CoreHealthMetronomeNotificationLatencyResolved(callback func(ctx context.Context, notif *V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.metronome_notification_latency.resolved", callback)
+}
+
 // OnV2CoreHealthPaymentMethodErrorFiring registers a callback to handle notifications about the "v2.core.health.payment_method_error.firing" event.
 func (h *eventNotificationHandlerBase) OnV2CoreHealthPaymentMethodErrorFiring(callback func(ctx context.Context, notif *V2CoreHealthPaymentMethodErrorFiringEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2204,6 +2216,36 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementOutboundTransferUnderR
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementOutboundTransferUpdated(callback func(ctx context.Context, notif *V2MoneyManagementOutboundTransferUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.outbound_transfer.updated", callback)
+}
+
+// OnV2MoneyManagementPayoutIntentCanceled registers a callback to handle notifications about the "v2.money_management.payout_intent.canceled" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementPayoutIntentCanceled(callback func(ctx context.Context, notif *V2MoneyManagementPayoutIntentCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_intent.canceled", callback)
+}
+
+// OnV2MoneyManagementPayoutIntentCreated registers a callback to handle notifications about the "v2.money_management.payout_intent.created" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementPayoutIntentCreated(callback func(ctx context.Context, notif *V2MoneyManagementPayoutIntentCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_intent.created", callback)
+}
+
+// OnV2MoneyManagementPayoutIntentPosted registers a callback to handle notifications about the "v2.money_management.payout_intent.posted" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementPayoutIntentPosted(callback func(ctx context.Context, notif *V2MoneyManagementPayoutIntentPostedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_intent.posted", callback)
+}
+
+// OnV2MoneyManagementPayoutIntentProcessing registers a callback to handle notifications about the "v2.money_management.payout_intent.processing" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementPayoutIntentProcessing(callback func(ctx context.Context, notif *V2MoneyManagementPayoutIntentProcessingEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_intent.processing", callback)
+}
+
+// OnV2MoneyManagementPayoutIntentRequiresAction registers a callback to handle notifications about the "v2.money_management.payout_intent.requires_action" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementPayoutIntentRequiresAction(callback func(ctx context.Context, notif *V2MoneyManagementPayoutIntentRequiresActionEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_intent.requires_action", callback)
 }
 
 // OnV2MoneyManagementPayoutMethodCreated registers a callback to handle notifications about the "v2.money_management.payout_method.created" event.
@@ -2542,6 +2584,12 @@ func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalMerchantDelinquen
 func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalPaymentDelinquencyExposureReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.signals.account_signal.payment_delinquency_exposure_ready", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationsRetryRecommended registers a callback to handle notifications about the "v2.signals.payment_retry_evaluations.retry_recommended" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationsRetryRecommended(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluations.retry_recommended", callback)
 }
 
 // event-handler-methods: The end of the section generated from our OpenAPI spec
