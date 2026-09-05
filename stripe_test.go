@@ -2865,3 +2865,57 @@ func BenchmarkCollectAllUnsetFields(b *testing.B) {
 		}
 	})
 }
+
+func TestAssertOriginRelativePath(t *testing.T) {
+	originRelative := []string{
+		"/v1/customers/cus_123",
+		"/v1/customers",
+		"/v2/core/accounts?page=page_123&limit=2",
+		// "@" is legal inside a path or query string -- it only opens an
+		// authority when it precedes the first "/".
+		"/v1/customers?email=user%40example.com",
+		"/v1/invoices/in_123@456",
+		// A backslash does not open an authority: the "/" already closed it.
+		`/v1/\evil.example`,
+	}
+	for _, path := range originRelative {
+		assert.NoError(t, validatePath(path), "expected to accept %q", path)
+	}
+
+	hostile := []string{
+		// Each of these moves the request's authority off api.stripe.com.
+		"@evil.example/v1/leak",
+		":pw@evil.example/v1/leak",
+		":80@evil.example/v1/leak",
+		// Extends the host into an attacker-owned subdomain
+		// (api.stripe.com.evil.example), which has a valid certificate.
+		".evil.example/v1/leak",
+		"-evil.example/v1/leak",
+		"https://evil.example/v1/leak",
+		"//evil.example/v1/leak",
+		"",
+		"v1/customers",
+	}
+	for _, path := range hostile {
+		assert.Error(t, validatePath(path), "expected to reject %q", path)
+	}
+}
+
+func TestNewRequestRejectsHostilePath(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+
+	req, err := c.NewRequest(http.MethodGet, "@evil.example/v1/leak", "sk_test_123", "", nil)
+
+	assert.Error(t, err)
+	assert.Nil(t, req)
+	assert.Contains(t, err.Error(), `must begin with a single "/"`)
+}
+
+func TestRawRequestRejectsHostilePath(t *testing.T) {
+	backend := GetBackend(APIBackend).(*BackendImplementation)
+
+	// A hostile path must be refused before any connection is attempted.
+	_, err := backend.RawRequest(http.MethodGet, "@evil.example/v1/leak", "sk_test_123", "", nil)
+
+	assert.Error(t, err)
+}
