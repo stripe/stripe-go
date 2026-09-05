@@ -86,7 +86,7 @@ type CustomerParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
@@ -509,7 +509,7 @@ type CustomerUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerUpdateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
@@ -692,7 +692,7 @@ type CustomerCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerCreateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`

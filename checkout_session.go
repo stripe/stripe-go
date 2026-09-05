@@ -2411,6 +2411,8 @@ type CheckoutSessionItemSubscriptionTrialSettingsParams struct {
 
 // Configuration for the subscription item.
 type CheckoutSessionItemSubscriptionParams struct {
+	// A past timestamp to backdate the subscription's start date to.
+	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
 	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 	BillingCycleAnchorConfig *CheckoutSessionItemSubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -2631,7 +2633,7 @@ type CheckoutSessionOptionalItemAdjustableQuantityParams struct {
 //
 // For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 //
-// You can't set this parameter if `ui_mode` is `custom`.
+// You can't set this parameter if `ui_mode` is `elements` or `form`.
 type CheckoutSessionOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *CheckoutSessionOptionalItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
@@ -4264,7 +4266,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	//
-	// You can't set this parameter if `ui_mode` is `custom`.
+	// You can't set this parameter if `ui_mode` is `elements` or `form`.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
@@ -4971,6 +4973,8 @@ type CheckoutSessionCreateItemSubscriptionTrialSettingsParams struct {
 
 // Configuration for the subscription item.
 type CheckoutSessionCreateItemSubscriptionParams struct {
+	// A past timestamp to backdate the subscription's start date to.
+	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
 	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 	BillingCycleAnchorConfig *CheckoutSessionCreateItemSubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -5175,7 +5179,7 @@ type CheckoutSessionCreateOptionalItemAdjustableQuantityParams struct {
 //
 // For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 //
-// You can't set this parameter if `ui_mode` is `custom`.
+// You can't set this parameter if `ui_mode` is `elements` or `form`.
 type CheckoutSessionCreateOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *CheckoutSessionCreateOptionalItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
@@ -6757,7 +6761,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	//
-	// You can't set this parameter if `ui_mode` is `custom`.
+	// You can't set this parameter if `ui_mode` is `elements` or `form`.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
@@ -7849,6 +7853,8 @@ type CheckoutSessionItemSubscriptionTrialSettings struct {
 
 // Details on the subscription for this item.
 type CheckoutSessionItemSubscription struct {
+	// The Unix timestamp marking the subscription's backdated start date.
+	BackdateStartDate int64 `json:"backdate_start_date,omitempty"`
 	// The description for the subscription.
 	Description string `json:"description"`
 	// The items in the subscription.

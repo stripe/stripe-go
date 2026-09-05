@@ -1563,6 +1563,8 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantCurrency Currency `json:"merchant_currency"`
 	// Details about the authorization request, such as identifiers, set by the card network.
 	NetworkData *IssuingAuthorizationRequestHistoryNetworkData `json:"network_data,omitempty"`
+	// The network-specific response code associated with Stripe's decision for this authorization request. The value is a Visa or Mastercard response code depending on the network over which the authorization was routed.
+	NetworkResponseCode string `json:"network_response_code,omitempty"`
 	// The card network's estimate of the likelihood that an authorization is fraudulent. Takes on values between 1 and 99.
 	NetworkRiskScore int64 `json:"network_risk_score"`
 	// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.

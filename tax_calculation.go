@@ -577,8 +577,10 @@ type TaxCalculationShippingCostTaxBreakdownTaxRateDetails struct {
 // Detailed account of taxes relevant to shipping cost.
 type TaxCalculationShippingCostTaxBreakdown struct {
 	// The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Amount       int64                                               `json:"amount"`
-	Jurisdiction *TaxCalculationShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
+	Amount int64 `json:"amount"`
+	// The ID of the [customer tax exemption](https://docs.stripe.com/api/tax/exemptions) that was applied to this tax breakdown.
+	CustomerTaxExemption string                                              `json:"customer_tax_exemption,omitempty"`
+	Jurisdiction         *TaxCalculationShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
 	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
 	Sourcing TaxCalculationShippingCostTaxBreakdownSourcing `json:"sourcing"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
