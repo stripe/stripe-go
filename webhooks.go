@@ -29,6 +29,7 @@ const (
 
 // This block represents the list of errors that could be raised when using the webhook package.
 var (
+	ErrWebhookEmptySecret      = errors.New("webhook secret must not be empty")
 	ErrWebhookInvalidHeader    = errors.New("webhook has invalid Stripe-Signature header")
 	ErrWebhookNoValidSignature = errors.New("webhook had no valid signature")
 	ErrWebhookNotSigned        = errors.New("webhook has no Stripe-Signature header")
@@ -269,6 +270,12 @@ func validatePayload(payload []byte, sigHeader string, secret string, cfg webhoo
 	expiredTimestamp := time.Since(header.timestamp) > cfg.Tolerance
 	if !cfg.IgnoreTolerance && expiredTimestamp {
 		return ErrWebhookTooOld
+	}
+
+	// An empty secret would otherwise verify successfully against a signature
+	// forged with an empty key, since HMAC accepts a zero-length key.
+	if secret == "" {
+		return ErrWebhookEmptySecret
 	}
 
 	expectedSignature := ComputeSignature(header.timestamp, payload, secret)

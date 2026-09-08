@@ -343,3 +343,27 @@ func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "EventNotification")
 }
+
+// An empty secret must be rejected outright. HMAC accepts a zero-length key, so
+// without this an attacker could forge a payload signed with an empty secret and
+// have it verify successfully. Verification is delegated to the root stripe
+// package, so this also covers that the delegation is wired up.
+func TestValidatePayload_EmptySecret(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Secret = ""
+	})
+	err := ValidatePayloadIgnoringTolerance(p.Payload, p.Header, p.Secret)
+	if err != ErrEmptySecret {
+		t.Errorf("expected ErrEmptySecret for empty secret, got: %v", err)
+	}
+}
+
+func TestConstructEvent_EmptySecret(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Secret = ""
+	})
+	_, err := ConstructEventIgnoringTolerance(p.Payload, p.Header, p.Secret)
+	if err != ErrEmptySecret {
+		t.Errorf("expected ErrEmptySecret for empty secret, got: %v", err)
+	}
+}
