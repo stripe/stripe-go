@@ -116,6 +116,8 @@ type PaymentIntentAmountDetailsLineItem struct {
 	Tax *PaymentIntentAmountDetailsLineItemTax `json:"tax"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost int64 `json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision int64 `json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc. Required for L3 rates. At most 12 alphanumeric characters long.
 	UnitOfMeasure string `json:"unit_of_measure"`
 }

@@ -3997,7 +3997,7 @@ type SubscriptionTransferData struct {
 // Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
-	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
+	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }

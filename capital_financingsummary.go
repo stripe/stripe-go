@@ -93,9 +93,7 @@ type CapitalFinancingSummaryDetails struct {
 	WithholdRate float64 `json:"withhold_rate"`
 }
 
-// A financing summary object describes a connected account's financing status in real time.
-// A financing status is either `accepted`, `delivered`, or `none`.
-// You can read the status of your connected accounts.
+// A financing summary object describes a connected account's financing details in real time.
 type CapitalFinancingSummary struct {
 	APIResource
 	// Additional information about the financing summary. Describes currency, advance amount,

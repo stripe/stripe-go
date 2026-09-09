@@ -30,6 +30,7 @@ type TreasuryFinancialAccountFinancialAddressSupportedNetwork string
 // List of values that TreasuryFinancialAccountFinancialAddressSupportedNetwork can take
 const (
 	TreasuryFinancialAccountFinancialAddressSupportedNetworkACH            TreasuryFinancialAccountFinancialAddressSupportedNetwork = "ach"
+	TreasuryFinancialAccountFinancialAddressSupportedNetworkRTP            TreasuryFinancialAccountFinancialAddressSupportedNetwork = "rtp"
 	TreasuryFinancialAccountFinancialAddressSupportedNetworkUSDomesticWire TreasuryFinancialAccountFinancialAddressSupportedNetwork = "us_domestic_wire"
 )
 

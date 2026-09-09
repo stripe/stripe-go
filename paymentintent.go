@@ -2465,6 +2465,8 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -7210,6 +7212,8 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -8415,6 +8419,8 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -9827,6 +9833,8 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentDecrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -10172,6 +10180,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -10635,6 +10645,8 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -15209,7 +15221,7 @@ func (p *PaymentIntentCreateParams) AddMetadata(key string, value string) {
 //
 // You can retrieve a PaymentIntent client-side using a publishable key when the client_secret is in the query string.
 //
-// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://docs.stripe.com/api#payment_intent_object) object reference for more details.
+// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://docs.stripe.com/api/payment_intents/object) object reference for more details.
 type PaymentIntentRetrieveParams struct {
 	Params `form:"*"`
 	// The client secret of the PaymentIntent. We require it if you use a publishable key to retrieve the source.
@@ -15337,6 +15349,8 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// The number of decimal places implied in the unit_cost. For example, if unit_cost is 10000 and unit_cost_precision is 1, the actual unit cost is 1000.0. Defaults to 0 if not provided.
+	UnitCostPrecision *int64 `form:"unit_cost_precision" json:"unit_cost_precision,omitempty"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
 }
@@ -22332,7 +22346,7 @@ type PaymentIntent struct {
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. A comprehensive list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []string `json:"payment_method_types"`
 	// ID of the [Payment Record object](https://docs.stripe.com/api/payment-record) created by this PaymentIntent.
-	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
+	PaymentRecord *PaymentRecord `json:"payment_record"`
 	// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
 	PaymentsOrchestration *PaymentIntentPaymentsOrchestration `json:"payments_orchestration,omitempty"`
 	PresentmentDetails    *PaymentIntentPresentmentDetails    `json:"presentment_details,omitempty"`

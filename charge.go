@@ -215,6 +215,7 @@ type ChargePaymentMethodDetailsCardThreeDSecureResult string
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardThreeDSecureResultDataShareOnly       ChargePaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	ChargePaymentMethodDetailsCardThreeDSecureResultExempted            ChargePaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	ChargePaymentMethodDetailsCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardThreeDSecureResult = "failed"
 	ChargePaymentMethodDetailsCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardThreeDSecureResult = "not_supported"
