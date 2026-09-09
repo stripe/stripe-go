@@ -1,5 +1,17 @@
 # Changelog
 
+## 86.5.0-alpha.3 - 2026-09-09
+* [#2428](https://github.com/stripe/stripe-go/pull/2428) Update generated code for private-preview
+  * Add support for `CustomerTaxExemption` on `TaxCalculationLineItemTaxBreakdown`, `TaxCalculationShippingCostTaxBreakdown`, and `TaxTransactionShippingCostTaxBreakdown`
+  * Add support for new value `data_share_only` on enums `ChargePaymentMethodDetailsCardThreeDSecure.Result`, `PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure.Result`, `PaymentRecordPaymentMethodDetailsCardThreeDSecure.Result`, and `SetupAttemptPaymentMethodDetailsCardThreeDSecure.Result`
+  * Add support for `BackdateStartDate` on `CheckoutSessionItemSubscriptionParams` and `CheckoutSessionItemSubscription`
+  * Add support for `Signals` on `IdentityVerificationReport`
+  * Add support for `NetworkResponseCode` on `IssuingAuthorizationRequestHistory`
+  * Add support for `UnitCostPrecision` on `PaymentIntentAmountDetailsLineItem`, `PaymentIntentAmountDetailsLineItemsParams`, `PaymentIntentCaptureAmountDetailsLineItemsParams`, `PaymentIntentConfirmAmountDetailsLineItemsParams`, `PaymentIntentDecrementAuthorizationAmountDetailsLineItemsParams`, and `PaymentIntentIncrementAuthorizationAmountDetailsLineItemsParams`
+  * Add support for `Active` on `ProductCatalogTrialOfferListParams`
+  * Add support for new value `rtp` on enum `TreasuryFinancialAccountFinancialAddress.SupportedNetworks`
+  * Add support for new value `blik_recurring_payments` on enums `V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability.Capability` and `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+
 ## 86.5.0-alpha.2 - 2026-09-02
 * [#2420](https://github.com/stripe/stripe-go/pull/2420) Update generated code for private-preview
   * Add support for new resources `RadarBillingEvaluation`, `V2SignalsPaymentRetryEvaluation`, `V2SignalsPaymentRetrySignal`, and `V2TaxIntegrationConfiguration`
