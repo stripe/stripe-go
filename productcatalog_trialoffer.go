@@ -26,6 +26,8 @@ const (
 // Returns a list of trial offers.
 type ProductCatalogTrialOfferListParams struct {
 	ListParams `form:"*"`
+	// Only return trial offers that are active (`true`) or archived (`false`). If omitted, both active and archived trial offers are returned.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Only return trial offers that were created during the given date interval.
 	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return trial offers that were created during the given date interval.
