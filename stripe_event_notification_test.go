@@ -2,7 +2,9 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"reflect"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -61,6 +63,20 @@ func v1BillingMeterPayloadWithNilContext() string {
 			"url": "/v1/billing/meters/mtr_456"
 		}
 	}`
+}
+
+// v1BillingMeterPayloadWithRelatedObject builds a known-event payload around an
+// arbitrary `related_object` blob, so tests can vary just that piece.
+func v1BillingMeterPayloadWithRelatedObject(relatedObject string) string {
+	return fmt.Sprintf(`{
+		"id": "evt_123",
+		"object": "v2.core.event",
+		"type": "v1.billing.meter.error_report_triggered",
+		"livemode": false,
+		"created": "2022-02-15T00:27:45.330Z",
+		"context": "event_context_456",
+		"related_object": %s
+	}`, relatedObject)
 }
 
 func unknownEventPayload() string {
@@ -1169,4 +1185,45 @@ func TestWithoutVerification_PreHandleRegistrationErrorsArePromoted(t *testing.T
 	err = handler.PreHandle(hook)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
+}
+
+// Test: V2CoreEventRelatedSingletonObject holds only the type and url. It's the related
+// object type for events whose related object has no standalone id.
+func TestV2CoreEventRelatedSingletonObject(t *testing.T) {
+	t.Run("unmarshals type and url", func(t *testing.T) {
+		var related V2CoreEventRelatedSingletonObject
+		err := json.Unmarshal([]byte(`{
+			"type": "balance",
+			"url": "/v1/balance"
+		}`), &related)
+
+		assert.NoError(t, err)
+		assert.Equal(t, "balance", related.Type)
+		assert.Equal(t, "/v1/balance", related.URL)
+	})
+
+	t.Run("has no ID field", func(t *testing.T) {
+		singletonType := reflect.TypeOf(V2CoreEventRelatedSingletonObject{})
+
+		_, hasID := singletonType.FieldByName("ID")
+		assert.False(t, hasID, "Singleton related objects have no standalone id")
+		assert.Equal(t, 2, singletonType.NumField(), "Only Type and URL should be present")
+
+		// ...unlike the type shared by every other event
+		_, sharedHasID := reflect.TypeOf(V2CoreEventRelatedObject{}).FieldByName("ID")
+		assert.True(t, sharedHasID)
+	})
+
+	t.Run("ignores an id in the payload", func(t *testing.T) {
+		var related V2CoreEventRelatedSingletonObject
+		err := json.Unmarshal([]byte(`{
+			"id": null,
+			"type": "balance",
+			"url": "/v1/balance"
+		}`), &related)
+
+		assert.NoError(t, err)
+		assert.Equal(t, "balance", related.Type)
+		assert.Equal(t, "/v1/balance", related.URL)
+	})
 }
