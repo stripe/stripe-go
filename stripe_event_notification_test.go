@@ -65,20 +65,6 @@ func v1BillingMeterPayloadWithNilContext() string {
 	}`
 }
 
-// v1BillingMeterPayloadWithRelatedObject builds a known-event payload around an
-// arbitrary `related_object` blob, so tests can vary just that piece.
-func v1BillingMeterPayloadWithRelatedObject(relatedObject string) string {
-	return fmt.Sprintf(`{
-		"id": "evt_123",
-		"object": "v2.core.event",
-		"type": "v1.billing.meter.error_report_triggered",
-		"livemode": false,
-		"created": "2022-02-15T00:27:45.330Z",
-		"context": "event_context_456",
-		"related_object": %s
-	}`, relatedObject)
-}
-
 func unknownEventPayload() string {
 	return `{
 		"id": "evt_unknown",
