@@ -646,7 +646,7 @@ type AccountSessionComponentsParams struct {
 	TerminalHardwareShop *AccountSessionComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop" json:"terminal_hardware_shop,omitempty"`
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 type AccountSessionParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
@@ -1302,7 +1302,7 @@ type AccountSessionCreateComponentsParams struct {
 	TerminalHardwareShop *AccountSessionCreateComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop" json:"terminal_hardware_shop,omitempty"`
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 type AccountSessionCreateParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
@@ -1560,14 +1560,6 @@ type AccountSessionComponentsIssuingCardsList struct {
 	Enabled  bool                                              `json:"enabled"`
 	Features *AccountSessionComponentsIssuingCardsListFeatures `json:"features"`
 }
-type AccountSessionComponentsNestingDemoFeatures struct{}
-
-// Configuration for the [Nestingdemo](https://docs.stripe.com/connect/supported-embedded-components/nesting-demo/) embedded component.
-type AccountSessionComponentsNestingDemo struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                         `json:"enabled"`
-	Features *AccountSessionComponentsNestingDemoFeatures `json:"features"`
-}
 type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
 
 // Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
@@ -1750,8 +1742,6 @@ type AccountSessionComponents struct {
 	InstantPayoutsPromotion       *AccountSessionComponentsInstantPayoutsPromotion       `json:"instant_payouts_promotion"`
 	IssuingCard                   *AccountSessionComponentsIssuingCard                   `json:"issuing_card"`
 	IssuingCardsList              *AccountSessionComponentsIssuingCardsList              `json:"issuing_cards_list"`
-	// Configuration for the [Nestingdemo](https://docs.stripe.com/connect/supported-embedded-components/nesting-demo/) embedded component.
-	NestingDemo *AccountSessionComponentsNestingDemo `json:"nesting_demo,omitempty"`
 	// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
 	NetworkCostPassthroughReport *AccountSessionComponentsNetworkCostPassthroughReport `json:"network_cost_passthrough_report,omitempty"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`

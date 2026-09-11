@@ -19,7 +19,7 @@ type v1FinancialConnectionsAccountService struct {
 	Key string
 }
 
-// Retrieves the details of an Financial Connections Account.
+// Retrieves the details of a Financial Connections Account.
 func (c v1FinancialConnectionsAccountService) GetByID(ctx context.Context, id string, params *FinancialConnectionsAccountRetrieveParams) (*FinancialConnectionsAccount, error) {
 	if params == nil {
 		params = &FinancialConnectionsAccountRetrieveParams{}

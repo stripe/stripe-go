@@ -157,6 +157,14 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+type SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
+)
+
 // Type of registration the company or entity holds in their registered country.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
 
@@ -1008,9 +1016,9 @@ type SubscriptionItemsParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -1064,6 +1072,13 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior      *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
@@ -1290,6 +1305,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -1328,6 +1345,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField string
 
 const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -1993,7 +2011,7 @@ type SubscriptionUpdateItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type SubscriptionUpdateItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2027,9 +2045,9 @@ type SubscriptionUpdateItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionUpdateItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2081,6 +2099,13 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct
 	// Additional fields for Mandate creation
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior      *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
@@ -2307,6 +2332,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -2345,6 +2372,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 
 const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -3048,6 +3076,13 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior      *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
 // This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -3271,6 +3306,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -3309,6 +3346,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 
 const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -3712,6 +3750,13 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebit struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior      string                                                                     `json:"debit_behavior"`
+	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
+}
+
 // This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -3876,6 +3921,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPay struct {
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	// This sub-hash contains details about the Bacs Direct Debit payment method options to pass to invoices created by the subscription.
+	BACSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebit `json:"bacs_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.

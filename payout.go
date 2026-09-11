@@ -112,6 +112,18 @@ func (p *PayoutListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Additional options for a Financial Account payout method. Only valid when payout_method is a Financial Account ID.
+type PayoutPayoutMethodOptionsFinancialAccountParams struct {
+	// Identifies the currency to credit in the destination Financial Account. Must be a currency supported by the target Financial Account. When omitted, the payout uses the currency parameter.
+	DestinationCurrency *string `form:"destination_currency" json:"destination_currency,omitempty"`
+}
+
+// Additional options that complement the payout_method. The keys in this dictionary identify the type of payout method the options apply to.
+type PayoutPayoutMethodOptionsParams struct {
+	// Additional options for a Financial Account payout method. Only valid when payout_method is a Financial Account ID.
+	FinancialAccount *PayoutPayoutMethodOptionsFinancialAccountParams `form:"financial_account" json:"financial_account,omitempty"`
+}
+
 // To send funds to your own bank account, create a new payout object. Your [Stripe balance](https://docs.stripe.com/api#balance) must cover the payout amount. If it doesn't, you receive an “Insufficient Funds” error.
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
@@ -135,6 +147,8 @@ type PayoutParams struct {
 	Method *string `form:"method" json:"method,omitempty"`
 	// The ID of a v2 FinancialAccount to send funds to.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Additional options that complement the payout_method. The keys in this dictionary identify the type of payout method the options apply to.
+	PayoutMethodOptions *PayoutPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
 	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. For US ACH payouts, this maps to the ACH Company Entry Description field, which the NACHA standard limits to 10 characters. Stripe truncates descriptors longer than 10 characters for US ACH payouts.
@@ -193,6 +207,18 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Additional options for a Financial Account payout method. Only valid when payout_method is a Financial Account ID.
+type PayoutCreatePayoutMethodOptionsFinancialAccountParams struct {
+	// Identifies the currency to credit in the destination Financial Account. Must be a currency supported by the target Financial Account. When omitted, the payout uses the currency parameter.
+	DestinationCurrency *string `form:"destination_currency" json:"destination_currency,omitempty"`
+}
+
+// Additional options that complement the payout_method. The keys in this dictionary identify the type of payout method the options apply to.
+type PayoutCreatePayoutMethodOptionsParams struct {
+	// Additional options for a Financial Account payout method. Only valid when payout_method is a Financial Account ID.
+	FinancialAccount *PayoutCreatePayoutMethodOptionsFinancialAccountParams `form:"financial_account" json:"financial_account,omitempty"`
+}
+
 // To send funds to your own bank account, create a new payout object. Your [Stripe balance](https://docs.stripe.com/api#balance) must cover the payout amount. If it doesn't, you receive an “Insufficient Funds” error.
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
@@ -216,6 +242,8 @@ type PayoutCreateParams struct {
 	Method *string `form:"method" json:"method,omitempty"`
 	// The ID of a v2 FinancialAccount to send funds to.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Additional options that complement the payout_method. The keys in this dictionary identify the type of payout method the options apply to.
+	PayoutMethodOptions *PayoutCreatePayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
 	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. For US ACH payouts, this maps to the ACH Company Entry Description field, which the NACHA standard limits to 10 characters. Stripe truncates descriptors longer than 10 characters for US ACH payouts.

@@ -17,7 +17,7 @@ type v1FinancialConnectionsAuthorizationService struct {
 	Key string
 }
 
-// Retrieves the details of an Financial Connections Authorization.
+// Retrieves the details of a Financial Connections Authorization.
 func (c v1FinancialConnectionsAuthorizationService) Retrieve(ctx context.Context, id string, params *FinancialConnectionsAuthorizationRetrieveParams) (*FinancialConnectionsAuthorization, error) {
 	if params == nil {
 		params = &FinancialConnectionsAuthorizationRetrieveParams{}
