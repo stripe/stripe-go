@@ -1,0 +1,1 @@
+It is built on top of SDK version 85.0.0 which contains breaking changes. Please review the [changelog for 85.0.0](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md#8500---2026-03-25) if upgrading from older SDK versions.
