@@ -367,7 +367,7 @@ type PaymentLinkCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -1165,7 +1165,7 @@ type PaymentLinkCreateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkCreateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -1838,7 +1838,7 @@ type PaymentLinkUpdateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkUpdateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -2512,7 +2512,7 @@ type PaymentLinkCustomFieldDropdown struct {
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
 }
 type PaymentLinkCustomFieldLabel struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom string `json:"custom"`
 	// The type of the label.
 	Type PaymentLinkCustomFieldLabelType `json:"type"`

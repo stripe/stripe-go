@@ -610,7 +610,7 @@ type InvoiceItemProrationDetailsCreditedItems struct {
 	Type InvoiceItemProrationDetailsCreditedItemsType `json:"type"`
 }
 
-// Discount amounts applied when the proration was created.
+// Discount amounts applied when the proration was created. This field is only populated for prorations created from subscriptions with `billing_mode=flexible`.
 type InvoiceItemProrationDetailsDiscountAmount struct {
 	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
@@ -620,7 +620,7 @@ type InvoiceItemProrationDetailsDiscountAmount struct {
 type InvoiceItemProrationDetails struct {
 	// For a credit proration, links to the debit invoice line items or invoice item that the credit applies to.
 	CreditedItems *InvoiceItemProrationDetailsCreditedItems `json:"credited_items"`
-	// Discount amounts applied when the proration was created.
+	// Discount amounts applied when the proration was created. This field is only populated for prorations created from subscriptions with `billing_mode=flexible`.
 	DiscountAmounts []*InvoiceItemProrationDetailsDiscountAmount `json:"discount_amounts"`
 }
 

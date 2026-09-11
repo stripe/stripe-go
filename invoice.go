@@ -133,6 +133,14 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+type InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
+)
+
 // Type of registration the company or entity holds in their registered country.
 type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
 
@@ -634,6 +642,13 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -852,6 +867,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *InvoicePaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -890,6 +907,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -3322,7 +3340,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams struct 
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -3356,9 +3374,9 @@ type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -3559,6 +3577,8 @@ type InvoiceCreatePreviewParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
 	PreviewMode *string `form:"preview_mode" json:"preview_mode,omitempty"`
+	// A pricing token whose presentment currency and exchange rate are used to convert the amounts on the previewed invoice into the customer-facing presentment currency. When omitted, amounts are returned in the settlement currency.
+	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule" json:"schedule,omitempty"`
 	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
@@ -3703,6 +3723,13 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
@@ -3924,6 +3951,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -3962,6 +3991,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 
 const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -4151,7 +4181,8 @@ type InvoiceUpdateTransferDataParams struct {
 }
 
 // Draft invoices are fully editable. Once an invoice is [finalized](https://docs.stripe.com/docs/billing/invoices/workflow#finalized),
-// monetary values, as well as collection_method, become uneditable.
+// you can no longer change most of its details, including monetary values and collection_method. For most invoices,
+// this also includes description.
 //
 // If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,
 // sending reminders for, or [automatically reconciling](https://docs.stripe.com/docs/billing/invoices/reconciliation) invoices, pass
@@ -4357,6 +4388,13 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBACSDebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
@@ -4578,6 +4616,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -4616,6 +4656,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 
 const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBACSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
@@ -5070,6 +5111,13 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBACSDebit struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate         string                                                                `json:"target_date,omitempty"`
+	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
+}
+
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -5207,6 +5255,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsWeChatPay struct {
 type InvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *InvoicePaymentSettingsPaymentMethodOptionsBACSDebit `json:"bacs_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.

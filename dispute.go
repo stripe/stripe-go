@@ -662,6 +662,15 @@ func (p *DisputeUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type DisputeEvidenceAppealCard struct {
+	// The reason for filing the appeal.
+	ReasonForFiling string `json:"reason_for_filing,omitempty"`
+	// One or more document IDs returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
+	SupportingFiles []string `json:"supporting_files,omitempty"`
+}
+type DisputeEvidenceAppeal struct {
+	Card *DisputeEvidenceAppealCard `json:"card,omitempty"`
+}
 type DisputeEvidenceEnhancedEvidenceMastercardCompliance struct {
 	// A field acknowledging the fee incurred when countering a Mastercard compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute.
 	FeeAcknowledged bool `json:"fee_acknowledged"`
@@ -723,7 +732,8 @@ type DisputeEvidenceEnhancedEvidence struct {
 }
 type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
-	AccessActivityLog string `json:"access_activity_log"`
+	AccessActivityLog string                 `json:"access_activity_log"`
+	Appeal            *DisputeEvidenceAppeal `json:"appeal,omitempty"`
 	// The billing address provided by the customer.
 	BillingAddress string `json:"billing_address"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
