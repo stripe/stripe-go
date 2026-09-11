@@ -27,6 +27,12 @@ This release changes the pinned API version to 2026-08-26.preview.
   * Add support for error code `default_payout_method_cannot_be_disabled` on `CannotProceedError`
 * [#2408](https://github.com/stripe/stripe-go/pull/2408) Add non-verified methods to managed handlers
 
+## 86.4.2 - 2026-09-09
+* [#2429](https://github.com/stripe/stripe-go/pull/2429) Validate that webhook secrets are non-empty
+
+## 86.4.1 - 2026-09-01
+* [#2424](https://github.com/stripe/stripe-go/pull/2424) Harden API requestor code against malicious URLs
+
 ## 86.4.0 - 2026-08-26
 This release changes the pinned API version to 2026-08-26.dahlia.
 
