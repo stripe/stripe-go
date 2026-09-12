@@ -1,6 +1,6 @@
 ---
 title: Do not allow setting API Version directly
-pr_link: https://github.com/stripe/stripe-go/pull/1941
+pr_url: https://github.com/stripe/stripe-go/pull/1941
 released_in_version: 81.1.0-beta.1
 ---
 

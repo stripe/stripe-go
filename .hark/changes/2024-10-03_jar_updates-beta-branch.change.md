@@ -1,6 +1,6 @@
 ---
 title: Updates beta branch with changes in master
-pr_link: https://github.com/stripe/stripe-go/pull/1930
+pr_url: https://github.com/stripe/stripe-go/pull/1930
 released_in_version: 80.2.0-beta.1
 ---
 

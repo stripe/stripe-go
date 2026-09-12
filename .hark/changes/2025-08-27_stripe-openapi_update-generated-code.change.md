@@ -1,6 +1,6 @@
 ---
 title: Update generated code for beta
-pr_link: https://github.com/stripe/stripe-go/pull/2096
+pr_url: https://github.com/stripe/stripe-go/pull/2096
 is_stripe_api_change: true
 released_in_version: 82.6.0-beta.1
 ---

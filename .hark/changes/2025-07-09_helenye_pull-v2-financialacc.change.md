@@ -1,6 +1,6 @@
 ---
 title: Pull in V2 FinancialAccount changes for June release
-pr_link: https://github.com/stripe/stripe-go/pull/2084
+pr_url: https://github.com/stripe/stripe-go/pull/2084
 is_stripe_api_change: true
 released_in_version: 82.4.0-beta.2
 ---

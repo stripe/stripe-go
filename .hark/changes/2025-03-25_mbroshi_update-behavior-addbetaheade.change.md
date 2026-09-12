@@ -1,6 +1,6 @@
 ---
 title: Update behavior of AddBetaHeader
-pr_link: https://github.com/stripe/stripe-go/pull/2002
+pr_url: https://github.com/stripe/stripe-go/pull/2002
 section: Changes
 released_in_version: 82.1.0-beta.1
 ---

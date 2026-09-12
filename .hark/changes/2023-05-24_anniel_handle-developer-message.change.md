@@ -1,5 +1,5 @@
 ---
 title: Handle developer message in preview error responses
-pr_link: https://github.com/stripe/stripe-go/pull/1663
+pr_url: https://github.com/stripe/stripe-go/pull/1663
 released_in_version: 74.22.0-beta.1
 ---

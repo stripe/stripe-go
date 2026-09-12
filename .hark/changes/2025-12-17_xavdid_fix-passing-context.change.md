@@ -1,6 +1,6 @@
 ---
 title: Fix passing context to EventNotificationHandler callbacks & update example
-pr_link: https://github.com/stripe/stripe-go/pull/2238
+pr_url: https://github.com/stripe/stripe-go/pull/2238
 is_breaking: true
 released_in_version: 84.4.0-beta.1
 ---

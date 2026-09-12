@@ -1,6 +1,6 @@
 ---
 title: Add EventNotificationHandler
-pr_link: https://github.com/stripe/stripe-go/pull/2209
+pr_url: https://github.com/stripe/stripe-go/pull/2209
 released_in_version: 84.2.0-beta.1
 ---
 

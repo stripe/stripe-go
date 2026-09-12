@@ -1,6 +1,6 @@
 ---
 title: Unexport GetBaseEvent and V2ErrorCode
-pr_link: https://github.com/stripe/stripe-go/pull/2054
+pr_url: https://github.com/stripe/stripe-go/pull/2054
 is_breaking: true
 released_in_version: 82.2.0-beta.1
 ---
