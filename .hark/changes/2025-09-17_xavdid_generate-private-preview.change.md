@@ -1,6 +1,6 @@
 ---
 title: generate private-preview SDK w/ mid Sept changes
-pr_link: https://github.com/stripe/stripe-go/pull/2118
+pr_url: https://github.com/stripe/stripe-go/pull/2118
 is_stripe_api_change: true
 released_in_version: 82.6.0-alpha.2
 ---

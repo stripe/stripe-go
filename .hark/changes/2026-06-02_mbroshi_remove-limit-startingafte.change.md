@@ -1,6 +1,6 @@
 ---
 title: Remove `Limit`, `StartingAfter`, and `EndingBefore` fields for `List` methods that do not accept those fields
-pr_link: https://github.com/stripe/stripe-go/pull/2368
+pr_url: https://github.com/stripe/stripe-go/pull/2368
 released_in_version: 85.3.0-alpha.2
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Update generated code for private-preview
-pr_link: https://github.com/stripe/stripe-go/pull/2407
+pr_url: https://github.com/stripe/stripe-go/pull/2407
 is_breaking: true
 is_stripe_api_change: true
 released_in_version: 86.4.0-alpha.2
