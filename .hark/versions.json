@@ -1,4 +1,8 @@
 {
+  "metadata": {
+    "language": "go",
+    "channel": "private-preview"
+  },
   "versions": [
     {
       "version": "86.5.0-alpha.3",
