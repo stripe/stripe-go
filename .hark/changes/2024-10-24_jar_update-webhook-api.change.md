@@ -1,6 +1,6 @@
 ---
 title: Update webhook API version validation
-pr_link: https://github.com/stripe/stripe-go/pull/1940
+pr_url: https://github.com/stripe/stripe-go/pull/1940
 released_in_version: 80.2.1
 ---
 

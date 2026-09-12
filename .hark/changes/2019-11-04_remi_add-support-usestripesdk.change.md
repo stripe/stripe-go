@@ -1,5 +1,5 @@
 ---
 title: Add support for `UseStripeSDK` on `PaymentIntent` create and confirm
-pr_link: https://github.com/stripe/stripe-go/pull/984
+pr_url: https://github.com/stripe/stripe-go/pull/984
 released_in_version: 66.3.0
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Multiple breaking changes:"
-pr_link: https://github.com/stripe/stripe-go/pull/1000
+pr_url: https://github.com/stripe/stripe-go/pull/1000
 released_in_version: 68.0.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Fix all `Get` methods to support standardized parameter structs + remove some deprecated functions
-pr_link: https://github.com/stripe/stripe-go/pull/589
+pr_url: https://github.com/stripe/stripe-go/pull/589
 released_in_version: 35.0.0
 ---
 

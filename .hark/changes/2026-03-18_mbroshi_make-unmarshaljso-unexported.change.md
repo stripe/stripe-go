@@ -1,6 +1,6 @@
 ---
 title: Make unmarshalJSONVerbose unexported and context-aware
-pr_link: https://github.com/stripe/stripe-go/pull/2301
+pr_url: https://github.com/stripe/stripe-go/pull/2301
 is_breaking: true
 released_in_version: 85.0.0
 ---

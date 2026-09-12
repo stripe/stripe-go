@@ -1,6 +1,6 @@
 ---
 title: API Updates
-pr_link: https://github.com/stripe/stripe-go/pull/1578
+pr_url: https://github.com/stripe/stripe-go/pull/1578
 is_stripe_api_change: true
 released_in_version: 74.2.0
 ---

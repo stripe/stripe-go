@@ -1,6 +1,6 @@
 ---
 title: A few Billing changes
-pr_link: https://github.com/stripe/stripe-go/pull/922
+pr_url: https://github.com/stripe/stripe-go/pull/922
 released_in_version: 62.2.0
 ---
 

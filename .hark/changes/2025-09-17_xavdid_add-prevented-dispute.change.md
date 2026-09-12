@@ -1,6 +1,6 @@
 ---
 title: Add prevented to the dispute.status enum.
-pr_link: https://github.com/stripe/stripe-go/pull/2119
+pr_url: https://github.com/stripe/stripe-go/pull/2119
 released_in_version: 82.5.1
 ---
 

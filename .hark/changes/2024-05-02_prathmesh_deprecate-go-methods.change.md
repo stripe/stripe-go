@@ -1,6 +1,6 @@
 ---
 title: Deprecate Go methods and Params
-pr_link: https://github.com/stripe/stripe-go/pull/1856
+pr_url: https://github.com/stripe/stripe-go/pull/1856
 released_in_version: 78.5.0
 ---
 

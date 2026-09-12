@@ -1,6 +1,6 @@
 ---
 title: Multiple API changes for Issuing
-pr_link: https://github.com/stripe/stripe-go/pull/1050
+pr_url: https://github.com/stripe/stripe-go/pull/1050
 released_in_version: 70.9.0
 ---
 

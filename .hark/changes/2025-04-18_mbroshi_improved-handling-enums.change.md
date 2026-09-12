@@ -1,6 +1,6 @@
 ---
 title: Improved handling for enums in params
-pr_link: https://github.com/stripe/stripe-go/pull/2022
+pr_url: https://github.com/stripe/stripe-go/pull/2022
 released_in_version: 82.1.0
 ---
 

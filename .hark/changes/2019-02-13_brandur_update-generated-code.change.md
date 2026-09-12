@@ -1,6 +1,6 @@
 ---
 title: Update generated code
-pr_link: https://github.com/stripe/stripe-go/pull/784
+pr_url: https://github.com/stripe/stripe-go/pull/784
 released_in_version: 55.15.0
 ---
 

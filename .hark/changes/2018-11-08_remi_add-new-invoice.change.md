@@ -1,6 +1,6 @@
 ---
 title: Add new invoice methods and fixes to the Issuing Cardholder resource (multiple breaking changes)
-pr_link: https://github.com/stripe/stripe-go/pull/707
+pr_url: https://github.com/stripe/stripe-go/pull/707
 released_in_version: 53.0.0
 ---
 

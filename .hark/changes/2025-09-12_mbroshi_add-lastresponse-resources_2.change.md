@@ -1,6 +1,6 @@
 ---
 title: Add LastResponse to resources returned in List and Search APIs
-pr_link: https://github.com/stripe/stripe-go/pull/2117
+pr_url: https://github.com/stripe/stripe-go/pull/2117
 released_in_version: 82.5.1
 ---
 

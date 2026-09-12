@@ -1,6 +1,6 @@
 ---
 title: "Changes related to the new API version `2019-02-19`:"
-pr_link: https://github.com/stripe/stripe-go/pull/782
+pr_url: https://github.com/stripe/stripe-go/pull/782
 released_in_version: 57.0.0
 ---
 

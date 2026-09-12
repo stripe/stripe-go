@@ -1,6 +1,6 @@
 ---
 title: Regenerate with decimal_string enabled for v2 APIs
-pr_link: https://github.com/stripe/stripe-go/pull/2310
+pr_url: https://github.com/stripe/stripe-go/pull/2310
 is_breaking: true
 released_in_version: 85.0.0
 ---

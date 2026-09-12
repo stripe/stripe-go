@@ -1,6 +1,6 @@
 ---
 title: Add support for multiple coupons on Billing APIs
-pr_link: https://github.com/stripe/stripe-go/pull/1136
+pr_url: https://github.com/stripe/stripe-go/pull/1136
 released_in_version: 71.40.0
 ---
 

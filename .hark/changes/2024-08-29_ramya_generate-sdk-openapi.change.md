@@ -1,6 +1,6 @@
 ---
 title: Generate SDK for OpenAPI spec version 1230
-pr_link: https://github.com/stripe/stripe-go/pull/1910
+pr_url: https://github.com/stripe/stripe-go/pull/1910
 is_stripe_api_change: true
 released_in_version: 79.9.0
 ---

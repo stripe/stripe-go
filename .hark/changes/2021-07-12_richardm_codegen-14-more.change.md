@@ -1,6 +1,6 @@
 ---
 title: "codegen: 14 more files"
-pr_link: https://github.com/stripe/stripe-go/pull/1312
+pr_url: https://github.com/stripe/stripe-go/pull/1312
 released_in_version: 72.57.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Remove `SubscriptionScheduleRevision`
-pr_link: https://github.com/stripe/stripe-go/pull/913
+pr_url: https://github.com/stripe/stripe-go/pull/913
 released_in_version: 61.27.0
 ---
 

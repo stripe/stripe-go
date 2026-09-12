@@ -1,6 +1,6 @@
 ---
 title: ", [#1261](https://github.com/stripe/stripe-go/pull/1261) Codegen-related changes"
-pr_link: https://github.com/stripe/stripe-go/pull/1264
+pr_url: https://github.com/stripe/stripe-go/pull/1264
 released_in_version: 72.38.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Add strongly typed EventNotifications
-pr_link: https://github.com/stripe/stripe-go/pull/2121
+pr_url: https://github.com/stripe/stripe-go/pull/2121
 is_breaking: true
 released_in_version: 83.0.0
 ---

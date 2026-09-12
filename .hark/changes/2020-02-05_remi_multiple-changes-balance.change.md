@@ -1,6 +1,6 @@
 ---
 title: "Multiple changes on the `Balance` resource:"
-pr_link: https://github.com/stripe/stripe-go/pull/1026
+pr_url: https://github.com/stripe/stripe-go/pull/1026
 is_stripe_api_change: true
 released_in_version: 68.18.0
 ---

@@ -1,6 +1,6 @@
 ---
 title: Change RelatedObject to V2CoreEventRelatedObject
-pr_link: https://github.com/stripe/stripe-go/pull/2143
+pr_url: https://github.com/stripe/stripe-go/pull/2143
 is_breaking: true
 released_in_version: 83.0.0
 ---

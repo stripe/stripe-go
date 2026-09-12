@@ -1,6 +1,6 @@
 ---
 title: Add various missing parameters
-pr_link: https://github.com/stripe/stripe-go/pull/820
+pr_url: https://github.com/stripe/stripe-go/pull/820
 released_in_version: 60.0.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Support for APIs in the new API version 2025-03-31.basil
-pr_link: https://github.com/stripe/stripe-go/pull/1992
+pr_url: https://github.com/stripe/stripe-go/pull/1992
 is_stripe_api_change: true
 released_in_version: 82.0.0
 ---

@@ -1,6 +1,6 @@
 ---
 title: Add `stripe.Context` object
-pr_link: https://github.com/stripe/stripe-go/pull/2133
+pr_url: https://github.com/stripe/stripe-go/pull/2133
 is_breaking: true
 released_in_version: 83.0.0
 ---

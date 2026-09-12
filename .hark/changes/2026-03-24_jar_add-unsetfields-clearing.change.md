@@ -1,6 +1,6 @@
 ---
 title: Add `UnsetFields` for clearing field values in v1 and v2 API requests
-pr_link: https://github.com/stripe/stripe-go/pull/2322
+pr_url: https://github.com/stripe/stripe-go/pull/2322
 released_in_version: 85.0.0
 ---
 

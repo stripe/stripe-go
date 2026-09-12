@@ -1,6 +1,6 @@
 ---
 title: add card_issuing.tos_acceptance to account.go
-pr_link: https://github.com/stripe/stripe-go/pull/1270
+pr_url: https://github.com/stripe/stripe-go/pull/1270
 released_in_version: 72.40.0
 ---
 

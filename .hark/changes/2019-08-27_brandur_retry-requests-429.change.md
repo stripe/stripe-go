@@ -1,5 +1,5 @@
 ---
 title: Retry requests on a 429 that's a lock timeout
-pr_link: https://github.com/stripe/stripe-go/pull/935
+pr_url: https://github.com/stripe/stripe-go/pull/935
 released_in_version: 62.7.0
 ---

@@ -1,6 +1,6 @@
 ---
 title: Add missing parameters to Card and BankAccount services
-pr_link: https://github.com/stripe/stripe-go/pull/2102
+pr_url: https://github.com/stripe/stripe-go/pull/2102
 released_in_version: 82.4.1
 ---
 

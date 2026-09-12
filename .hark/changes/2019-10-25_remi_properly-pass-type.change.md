@@ -1,6 +1,6 @@
 ---
 title: Properly pass `Type` in `PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams`
-pr_link: https://github.com/stripe/stripe-go/pull/978
+pr_url: https://github.com/stripe/stripe-go/pull/978
 released_in_version: 66.1.1
 ---
 

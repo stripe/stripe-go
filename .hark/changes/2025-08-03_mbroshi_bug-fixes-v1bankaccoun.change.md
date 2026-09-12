@@ -1,6 +1,6 @@
 ---
 title: Bug fixes for `V1BankAccounts` and `V1Cards` services
-pr_link: https://github.com/stripe/stripe-go/pull/2098
+pr_url: https://github.com/stripe/stripe-go/pull/2098
 released_in_version: 82.4.1
 ---
 

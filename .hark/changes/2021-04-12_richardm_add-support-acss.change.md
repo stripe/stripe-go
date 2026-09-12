@@ -1,6 +1,6 @@
 ---
 title: Add support for ACSS debit payment method
-pr_link: https://github.com/stripe/stripe-go/pull/1275
+pr_url: https://github.com/stripe/stripe-go/pull/1275
 is_stripe_api_change: true
 released_in_version: 72.42.0
 ---

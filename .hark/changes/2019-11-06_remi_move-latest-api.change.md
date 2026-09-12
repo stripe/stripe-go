@@ -1,6 +1,6 @@
 ---
 title: Move to the latest API version and add new changes
-pr_link: https://github.com/stripe/stripe-go/pull/987
+pr_url: https://github.com/stripe/stripe-go/pull/987
 released_in_version: 67.0.0
 ---
 

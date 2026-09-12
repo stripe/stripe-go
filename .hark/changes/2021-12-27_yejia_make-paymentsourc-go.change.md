@@ -1,6 +1,6 @@
 ---
 title: Make paymentsource.go and client codegen-able
-pr_link: https://github.com/stripe/stripe-go/pull/1400
+pr_url: https://github.com/stripe/stripe-go/pull/1400
 is_stripe_api_change: true
 released_in_version: 72.82.0
 ---

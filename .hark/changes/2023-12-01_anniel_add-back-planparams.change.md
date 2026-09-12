@@ -1,6 +1,6 @@
 ---
 title: Add back PlanParams.ProductID
-pr_link: https://github.com/stripe/stripe-go/pull/1777
+pr_url: https://github.com/stripe/stripe-go/pull/1777
 released_in_version: 76.8.0
 ---
 

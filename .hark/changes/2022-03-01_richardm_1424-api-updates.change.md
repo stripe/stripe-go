@@ -1,6 +1,6 @@
 ---
 title: "[#1424](https://github.com/stripe/stripe-go/pull/1424) API Updates"
-pr_link: https://github.com/stripe/stripe-go/pull/1423
+pr_url: https://github.com/stripe/stripe-go/pull/1423
 is_stripe_api_change: true
 released_in_version: 72.90.0
 ---

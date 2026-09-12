@@ -1,5 +1,5 @@
 ---
 title: Add support for installments on `PaymentIntent` and `Charge`
-pr_link: https://github.com/stripe/stripe-go/pull/974
+pr_url: https://github.com/stripe/stripe-go/pull/974
 released_in_version: 66.1.0
 ---

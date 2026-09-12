@@ -1,6 +1,6 @@
 ---
 title: "Minor breaking changes to correct a few naming inconsistencies:"
-pr_link: https://github.com/stripe/stripe-go/pull/641
+pr_url: https://github.com/stripe/stripe-go/pull/641
 released_in_version: 38.0.0
 ---
 

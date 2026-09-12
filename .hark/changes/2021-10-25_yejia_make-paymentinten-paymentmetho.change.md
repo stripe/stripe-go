@@ -1,6 +1,6 @@
 ---
 title: Make paymentintent and paymentmethod codegen-able
-pr_link: https://github.com/stripe/stripe-go/pull/1365
+pr_url: https://github.com/stripe/stripe-go/pull/1365
 is_stripe_api_change: true
 released_in_version: 72.73.0
 ---

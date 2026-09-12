@@ -1,6 +1,6 @@
 ---
 title: Various API changes
-pr_link: https://github.com/stripe/stripe-go/pull/972
+pr_url: https://github.com/stripe/stripe-go/pull/972
 released_in_version: 65.2.0
 ---
 

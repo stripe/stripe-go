@@ -1,6 +1,6 @@
 ---
 title: Add new `EventNotificationHandler` class for better thin event management
-pr_link: https://github.com/stripe/stripe-go/pull/2410
+pr_url: https://github.com/stripe/stripe-go/pull/2410
 released_in_version: 86.4.0
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "[Breaking] Update `List` and `Search` methods with `stripe.Client` to return a `struct`"
-pr_link: https://github.com/stripe/stripe-go/pull/2179
+pr_url: https://github.com/stripe/stripe-go/pull/2179
 is_breaking: true
 released_in_version: 85.0.0
 ---

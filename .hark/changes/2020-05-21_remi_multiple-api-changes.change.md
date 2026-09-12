@@ -1,6 +1,6 @@
 ---
 title: Multiple API Changes
-pr_link: https://github.com/stripe/stripe-go/pull/1101
+pr_url: https://github.com/stripe/stripe-go/pull/1101
 is_stripe_api_change: true
 released_in_version: 71.13.0
 ---

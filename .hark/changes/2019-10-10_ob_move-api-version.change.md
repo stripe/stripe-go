@@ -1,6 +1,6 @@
 ---
 title: Move to API version [`2019-10-08`](https://docs.stripe.com/changelog/2019-10-08) and other changes
-pr_link: https://github.com/stripe/stripe-go/pull/951
+pr_url: https://github.com/stripe/stripe-go/pull/951
 released_in_version: 65.0.0
 ---
 

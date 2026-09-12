@@ -1,6 +1,6 @@
 ---
 title: add `StripeContext` field to `ListParams` and `SearchParams`
-pr_link: https://github.com/stripe/stripe-go/pull/2158
+pr_url: https://github.com/stripe/stripe-go/pull/2158
 released_in_version: 83.0.1
 ---
 

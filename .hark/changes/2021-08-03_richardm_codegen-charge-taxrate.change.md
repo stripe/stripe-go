@@ -1,6 +1,6 @@
 ---
 title: "codegen: charge, taxrate"
-pr_link: https://github.com/stripe/stripe-go/pull/1317
+pr_url: https://github.com/stripe/stripe-go/pull/1317
 released_in_version: 72.60.0
 ---
 

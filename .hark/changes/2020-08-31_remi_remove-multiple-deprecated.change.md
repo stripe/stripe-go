@@ -1,6 +1,6 @@
 ---
 title: Remove multiple deprecated APIs
-pr_link: https://github.com/stripe/stripe-go/pull/1171
+pr_url: https://github.com/stripe/stripe-go/pull/1171
 is_stripe_api_change: true
 released_in_version: 72.0.0
 ---

@@ -1,6 +1,6 @@
 ---
 title: Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
-pr_link: https://github.com/stripe/stripe-go/pull/2212
+pr_url: https://github.com/stripe/stripe-go/pull/2212
 released_in_version: 83.2.1
 ---
 

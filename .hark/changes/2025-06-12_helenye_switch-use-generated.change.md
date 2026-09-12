@@ -1,6 +1,6 @@
 ---
 title: Switch to use generated API versions and add major/monthly version constants
-pr_link: https://github.com/stripe/stripe-go/pull/2076
+pr_url: https://github.com/stripe/stripe-go/pull/2076
 released_in_version: 82.3.0
 ---
 

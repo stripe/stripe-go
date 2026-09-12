@@ -1,6 +1,6 @@
 ---
 title: Make original list object accessible on iterators
-pr_link: https://github.com/stripe/stripe-go/pull/1148
+pr_url: https://github.com/stripe/stripe-go/pull/1148
 released_in_version: 71.44.0
 ---
 

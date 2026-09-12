@@ -1,6 +1,6 @@
 ---
 title: Make File resource and client codegen-able
-pr_link: https://github.com/stripe/stripe-go/pull/1366
+pr_url: https://github.com/stripe/stripe-go/pull/1366
 released_in_version: 72.73.0
 ---
 
