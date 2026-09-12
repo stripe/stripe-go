@@ -1,4 +1,8 @@
 {
+  "metadata": {
+    "language": "go",
+    "channel": "ga"
+  },
   "versions": [
     {
       "version": "86.4.2",
