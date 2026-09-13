@@ -1,1 +1,1 @@
-	plan.Del now takes `stripe.PlanParams` as a second argument
+plan.Del now takes `stripe.PlanParams` as a second argument

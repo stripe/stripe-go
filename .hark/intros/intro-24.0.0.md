@@ -1,1 +1,1 @@
-	`Pay` on invoice now takes specific pay parameters
+`Pay` on invoice now takes specific pay parameters
