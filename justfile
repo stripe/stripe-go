@@ -63,6 +63,9 @@ _normalize-imports major_version=replace_regex(`cat VERSION`, '\..*', ""):
     perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v{{ major_version }}|' go.mod
     find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/(v\d+\|\[MAJOR_VERSION\])|github.com/stripe/stripe-go/v{{ major_version }}|' {} +
 
-# the lowest Go this SDK supports, for the changelog
-minimum-runtime-version:
-    rg -N --color never -o '^go (.+)' --replace '$1' go.mod
+# ⭐ print the API version this SDK pins and the lowest runtime it supports
+print-version-info:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "pinned-api-version: $(rg -N --color never -m1 -o '[0-9]{4}-[0-9]{2}-[0-9]{2}[.\w-]*' api_version.go)"
+    echo "minimum-runtime-version: $(rg -N --color never -o '^go (.+)' --replace '$1' go.mod)"
