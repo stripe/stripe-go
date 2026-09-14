@@ -1,7 +1,7 @@
 ---
 title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/1699
-is_breaking: true
+semver_level: major
 released_in_version: 75.0.0
 ---
 

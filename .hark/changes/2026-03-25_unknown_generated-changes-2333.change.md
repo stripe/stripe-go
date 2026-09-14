@@ -1,6 +1,6 @@
 ---
 title: "Generated changes from [#2333](https://github.com/stripe/stripe-go/pull/2333), [#2326](https://github.com/stripe/stripe-go/pull/2326), [#2323](https://github.com/stripe/stripe-go/pull/2323), [#2286](https://github.com/stripe/stripe-go/pull/2286)"
-is_breaking: true
+semver_level: major
 is_stripe_api_change: true
 section: ⚠️ Breaking changes due to changes in the Stripe API
 released_in_version: 85.0.0

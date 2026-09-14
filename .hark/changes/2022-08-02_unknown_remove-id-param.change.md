@@ -1,6 +1,6 @@
 ---
 title: Remove `id` param from CheckoutSessions `ListLineItems`. Use `CheckoutSessionListLineItemsParams.Session` instead.
-is_breaking: true
+semver_level: major
 section: ⚠️ Removed
 released_in_version: 73.0.0
 ---

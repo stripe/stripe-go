@@ -1,6 +1,6 @@
 ---
 title: Rename structs, fields, enums, and methods to be consistent with the library's naming conventions and with the other Stripe SDKs.
-is_breaking: true
+semver_level: major
 section: ⚠️ Changed
 released_in_version: 73.0.0
 ---

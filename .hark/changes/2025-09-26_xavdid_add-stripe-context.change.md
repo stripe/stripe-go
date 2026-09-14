@@ -1,7 +1,7 @@
 ---
 title: Add `stripe.Context` object
 pr_url: https://github.com/stripe/stripe-go/pull/2133
-is_breaking: true
+semver_level: major
 released_in_version: 83.0.0
 ---
 

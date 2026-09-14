@@ -1,6 +1,6 @@
 ---
 title: Remove `CheckoutSessionTotalDetailsBreakdownTax.TaxRate`. Use `CheckoutSessionTotalDetailsBreakdownTax.Rate`
-is_breaking: true
+semver_level: major
 section: ⚠️ Removed
 released_in_version: 73.0.0
 ---
