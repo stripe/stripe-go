@@ -56,6 +56,11 @@ type V2CoreEventRelatedObject struct {
 	URL  string `json:"url"`
 }
 
+type V2CoreEventRelatedSingletonObject struct {
+	Type string `json:"type"`
+	URL  string `json:"url"`
+}
+
 type UnknownEventNotification struct {
 	V2CoreEventNotification
 
