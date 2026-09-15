@@ -480,6 +480,53 @@ func TestDo_StripeNoticeHeaderLogged(t *testing.T) {
 	assert.Contains(t, stderr.String(), noticeMessage)
 }
 
+func TestBuildStripeNoticeMessage(t *testing.T) {
+	t.Run("TellsHumanHowToSuppressNotices", func(t *testing.T) {
+		message := buildStripeNoticeMessage("test notice", func(string) (string, bool) {
+			return "", false
+		})
+		assert.Equal(t, "test notice\n"+stripeNoticeSuppressionMessage, message)
+	})
+
+	for _, value := range []string{"true", "TRUE"} {
+		t.Run("SuppressesHumanNoticeFor"+value, func(t *testing.T) {
+			message := buildStripeNoticeMessage("test notice", func(key string) (string, bool) {
+				if key == "STRIPE_SUPPRESS_NOTICES" {
+					return value, true
+				}
+				return "", false
+			})
+			assert.Empty(t, message)
+		})
+	}
+
+	for _, value := range []string{"", "false", "1", "invalid"} {
+		t.Run("DoesNotSuppressHumanNoticeFor"+value, func(t *testing.T) {
+			message := buildStripeNoticeMessage("test notice", func(key string) (string, bool) {
+				if key == "STRIPE_SUPPRESS_NOTICES" {
+					return value, true
+				}
+				return "", false
+			})
+			assert.Equal(t, "test notice\n"+stripeNoticeSuppressionMessage, message)
+		})
+	}
+
+	t.Run("DoesNotSuppressAIAgentNotice", func(t *testing.T) {
+		message := buildStripeNoticeMessage("test notice", func(key string) (string, bool) {
+			switch key {
+			case "STRIPE_SUPPRESS_NOTICES":
+				return "true", true
+			case "CODEX_SANDBOX":
+				return "1", true
+			default:
+				return "", false
+			}
+		})
+		assert.Equal(t, "test notice", message)
+	})
+}
+
 func TestDo_StripeNoticeHeaderAbsent(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
