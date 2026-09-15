@@ -1885,7 +1885,7 @@ var aiAgents = map[string]string{
 	// aiAgents: The end of the section generated from our OpenAPI spec
 }
 
-const stripeNoticeSuppressionMessage = "To suppress Stripe notices in test and sandbox environments, set STRIPE_SUPPRESS_NOTICES=true."
+const stripeNoticeSuppressionMessage = "To suppress Stripe notices in test and sandbox environments, set the STRIPE_SUPPRESS_NOTICES environment variable to true."
 
 func buildStripeNoticeMessage(notice string, lookupEnv func(string) (string, bool)) string {
 	_, isAIAgent := detectAIAgent(lookupEnv)
