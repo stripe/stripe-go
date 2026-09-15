@@ -371,6 +371,29 @@ func TestValidatePayload_BadSignature(t *testing.T) {
 	}
 }
 
+// An empty secret must be rejected outright. HMAC accepts a zero-length key, so
+// without this an attacker could forge a payload signed with an empty secret and
+// have it verify successfully.
+func TestValidatePayload_EmptySecret(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Secret = ""
+	})
+	err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+	if err != ErrWebhookEmptySecret {
+		t.Errorf("expected ErrWebhookEmptySecret for empty secret, got: %v", err)
+	}
+}
+
+func TestConstructEvent_EmptySecret(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Secret = ""
+	})
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+	if err != ErrWebhookEmptySecret {
+		t.Errorf("expected ErrWebhookEmptySecret for empty secret, got: %v", err)
+	}
+}
+
 func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithISO8601Timestamp
