@@ -293,7 +293,7 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 }
 type MandatePaymentMethodDetailsBLIK struct {
 	// Date at which the mandate expires.
-	ExpiresAfter int64 `json:"expires_after"`
+	ExpiresAt int64 `json:"expires_at"`
 	// Type of the mandate.
 	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
 }

@@ -260,6 +260,7 @@ import (
 	v2corehealthalert "github.com/stripe/stripe-go/v86/v2/core/health/alert"
 	v2corehealthalertshistory "github.com/stripe/stripe-go/v86/v2/core/health/alerts/history"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v86/v2/core/vault/gbbankaccount"
+	v2corevaultnetworktoken "github.com/stripe/stripe-go/v86/v2/core/vault/networktoken"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v86/v2/core/vault/usbankaccount"
 	v2dataanalyticsmetricquery "github.com/stripe/stripe-go/v86/v2/data/analytics/metricquery"
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v86/v2/data/reporting/queryrun"
@@ -809,6 +810,8 @@ type API struct {
 	V2CoreHealthAlertsHistories *v2corehealthalertshistory.Client
 	// V2CoreVaultGBBankAccounts is the client used to invoke /v2/core/vault/gb_bank_accounts APIs.
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
+	// V2CoreVaultNetworkTokens is the client used to invoke /v2/core/vault/network_tokens APIs.
+	V2CoreVaultNetworkTokens *v2corevaultnetworktoken.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
 	// V2DataAnalyticsMetricQueries is the client used to invoke /v2/data/analytics/metric_query APIs.
@@ -1166,6 +1169,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreHealthAlerts = &v2corehealthalert.Client{B: backends.API, Key: key}
 	a.V2CoreHealthAlertsHistories = &v2corehealthalertshistory.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
+	a.V2CoreVaultNetworkTokens = &v2corevaultnetworktoken.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
 	a.V2DataAnalyticsMetricQueries = &v2dataanalyticsmetricquery.Client{B: backends.API, Key: key}
 	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}

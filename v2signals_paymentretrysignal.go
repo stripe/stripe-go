@@ -43,7 +43,7 @@ type V2SignalsPaymentRetrySignal struct {
 	// The payment intent this signal relates to.
 	PaymentIntent string `json:"payment_intent,omitempty"`
 	// The payment record this signal relates to.
-	PaymentRecord string `json:"payment_record"`
+	PaymentRecord string `json:"payment_record,omitempty"`
 	// The retry recommendation.
 	Recommendation *V2SignalsPaymentRetrySignalRecommendation `json:"recommendation"`
 }

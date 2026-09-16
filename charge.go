@@ -561,9 +561,7 @@ type ChargeLevel3Params struct {
 	ShippingFromZip    *string                       `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
-// This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
-// to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
-// object used to request payment.
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -2444,11 +2442,7 @@ type ChargeCaptureTransferDataParams struct {
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
-// Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
-//
-// Uncaptured payments expire a set number of days after they are created ([7 by default](https://docs.stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
-//
-// Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/capture).
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture, which must be less than or equal to the original amount.
@@ -2520,9 +2514,7 @@ type ChargeCreateLevel3Params struct {
 	ShippingFromZip    *string                             `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
-// This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
-// to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
-// object used to request payment.
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeCreateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -3983,7 +3975,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment or created by it.
-	Mandate string `json:"mandate"`
+	Mandate *Mandate `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO         bool                                        `json:"moto,omitempty"`
 	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture,omitempty"`
@@ -4720,14 +4712,16 @@ type ChargePaymentMethodDetails struct {
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
 	Sequra             *ChargePaymentMethodDetailsSequra             `json:"sequra,omitempty"`
-	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
-	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
-	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
-	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance,omitempty"`
-	Sunbit             *ChargePaymentMethodDetailsSunbit             `json:"sunbit,omitempty"`
-	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish,omitempty"`
-	Tamara             *ChargePaymentMethodDetailsTamara             `json:"tamara,omitempty"`
-	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint,omitempty"`
+	// ID of the shared payment granted token used to make this payment.
+	SharedPaymentGrantedToken string                                   `json:"shared_payment_granted_token,omitempty"`
+	Shopeepay                 *ChargePaymentMethodDetailsShopeepay     `json:"shopeepay,omitempty"`
+	Sofort                    *ChargePaymentMethodDetailsSofort        `json:"sofort,omitempty"`
+	StripeAccount             *ChargePaymentMethodDetailsStripeAccount `json:"stripe_account,omitempty"`
+	StripeBalance             *ChargePaymentMethodDetailsStripeBalance `json:"stripe_balance,omitempty"`
+	Sunbit                    *ChargePaymentMethodDetailsSunbit        `json:"sunbit,omitempty"`
+	Swish                     *ChargePaymentMethodDetailsSwish         `json:"swish,omitempty"`
+	Tamara                    *ChargePaymentMethodDetailsTamara        `json:"tamara,omitempty"`
+	TWINT                     *ChargePaymentMethodDetailsTWINT         `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
@@ -4767,7 +4761,7 @@ type ChargeTransferData struct {
 
 // The `Charge` object represents a single attempt to move money into your Stripe account.
 // PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://docs.stripe.com/connect/account-debits) may also create Charges.
-// Some legacy payment flows create Charges directly, which is not recommended for new integrations.
+// The create and capture methods are deprecated and will be deleted soon. If your integration uses either of them, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/payments/payment-intents).
 type Charge struct {
 	APIResource
 	// Funds that are in transit and destined for another balance or another connected account.

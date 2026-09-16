@@ -53,7 +53,7 @@ type RadarBillingEvaluationClientDeviceMetadataDetailsParams struct {
 	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
-// Attributes of the customer being evaluated. Supply these when the customer isn't represented by a Customer or an Account. If `customer` or `customer_account` is also supplied, the attributes on that object are used and these are ignored.
+// Attributes of the customer being evaluated. Exactly one of `customer`, `customer_account`, and `data` must be supplied: use `data` when the customer isn't represented by a Customer or an Account.
 type RadarBillingEvaluationCustomerDetailsDataParams struct {
 	// The email address of the customer being evaluated.
 	Email *string `form:"email" json:"email,omitempty"`
@@ -69,7 +69,7 @@ type RadarBillingEvaluationCustomerDetailsParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the Account representing the customer whose upcoming payment is being evaluated.
 	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
-	// Attributes of the customer being evaluated. Supply these when the customer isn't represented by a Customer or an Account. If `customer` or `customer_account` is also supplied, the attributes on that object are used and these are ignored.
+	// Attributes of the customer being evaluated. Exactly one of `customer`, `customer_account`, and `data` must be supplied: use `data` when the customer isn't represented by a Customer or an Account.
 	Data *RadarBillingEvaluationCustomerDetailsDataParams `form:"data" json:"data,omitempty"`
 }
 
@@ -172,7 +172,7 @@ type RadarBillingEvaluationCreateClientDeviceMetadataDetailsParams struct {
 	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
-// Attributes of the customer being evaluated. Supply these when the customer isn't represented by a Customer or an Account. If `customer` or `customer_account` is also supplied, the attributes on that object are used and these are ignored.
+// Attributes of the customer being evaluated. Exactly one of `customer`, `customer_account`, and `data` must be supplied: use `data` when the customer isn't represented by a Customer or an Account.
 type RadarBillingEvaluationCreateCustomerDetailsDataParams struct {
 	// The email address of the customer being evaluated.
 	Email *string `form:"email" json:"email,omitempty"`
@@ -188,7 +188,7 @@ type RadarBillingEvaluationCreateCustomerDetailsParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the Account representing the customer whose upcoming payment is being evaluated.
 	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
-	// Attributes of the customer being evaluated. Supply these when the customer isn't represented by a Customer or an Account. If `customer` or `customer_account` is also supplied, the attributes on that object are used and these are ignored.
+	// Attributes of the customer being evaluated. Exactly one of `customer`, `customer_account`, and `data` must be supplied: use `data` when the customer isn't represented by a Customer or an Account.
 	Data *RadarBillingEvaluationCreateCustomerDetailsDataParams `form:"data" json:"data,omitempty"`
 }
 
@@ -291,7 +291,7 @@ type RadarBillingEvaluationClientDeviceMetadataDetails struct {
 	RadarSession string `json:"radar_session"`
 }
 
-// Attributes of the customer being evaluated. These are populated from the `customer` or `customer_account` object when one was supplied, and from the request otherwise.
+// Attributes of the customer being evaluated, as supplied on the request. Null when the customer was identified by `customer` or `customer_account`.
 type RadarBillingEvaluationCustomerDetailsData struct {
 	// The customer's email address.
 	Email string `json:"email"`
@@ -307,7 +307,7 @@ type RadarBillingEvaluationCustomerDetails struct {
 	Customer string `json:"customer"`
 	// The ID of the Account representing the customer whose upcoming payment was evaluated.
 	CustomerAccount string `json:"customer_account"`
-	// Attributes of the customer being evaluated. These are populated from the `customer` or `customer_account` object when one was supplied, and from the request otherwise.
+	// Attributes of the customer being evaluated, as supplied on the request. Null when the customer was identified by `customer` or `customer_account`.
 	Data *RadarBillingEvaluationCustomerDetailsData `json:"data"`
 }
 

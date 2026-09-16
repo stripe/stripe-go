@@ -502,6 +502,8 @@ type Client struct {
 	V2CoreHealthAlertsHistories *v2CoreHealthAlertsHistoryService
 	// V2CoreVaultGBBankAccounts is the service used to invoke /v2/core/vault/gb_bank_accounts APIs.
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
+	// V2CoreVaultNetworkTokens is the service used to invoke /v2/core/vault/network_tokens APIs.
+	V2CoreVaultNetworkTokens *v2CoreVaultNetworkTokenService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
 	// V2DataAnalyticsMetricQueries is the service used to invoke /v2/data/analytics/metric_query APIs.
@@ -880,6 +882,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreHealthAlerts = &v2CoreHealthAlertService{B: backends.API, Key: key}
 	client.V2CoreHealthAlertsHistories = &v2CoreHealthAlertsHistoryService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
+	client.V2CoreVaultNetworkTokens = &v2CoreVaultNetworkTokenService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
 	client.V2DataAnalyticsMetricQueries = &v2DataAnalyticsMetricQueryService{B: backends.API, Key: key}
 	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}

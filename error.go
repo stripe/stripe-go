@@ -43,6 +43,7 @@ const (
 	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
 	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
+	ErrorTypeMerchantNotGated              ErrorType = "merchant_not_gated"
 	ErrorTypeNonZeroBalance                ErrorType = "non_zero_balance"
 	ErrorTypeNotCancelable                 ErrorType = "not_cancelable"
 	ErrorTypeQuotaExceeded                 ErrorType = "quota_exceeded"
@@ -577,7 +578,7 @@ func (e *BlockedByStripeError) canRetry() bool {
 }
 
 // CannotProceedError is the Go struct corresponding to the error type "cannot_proceed".
-// Returned when the PayoutMethod object is set as default_for_currency and cannot be archived.
+// Returned when the supplied card brand is not supported for network tokenization.
 type CannotProceedError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -845,6 +846,34 @@ func (e *InvalidPayoutMethodError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *InvalidPayoutMethodError) canRetry() bool {
+	return false
+}
+
+// MerchantNotGatedError is the Go struct corresponding to the error type "merchant_not_gated".
+// Errors
+// Returned when raw card input is not enabled for the account.
+type MerchantNotGatedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *MerchantNotGatedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *MerchantNotGatedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *MerchantNotGatedError) canRetry() bool {
 	return false
 }
 

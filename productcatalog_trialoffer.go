@@ -161,7 +161,7 @@ type ProductCatalogTrialOfferEndBehaviorTransition struct {
 	Price *Price `json:"price"`
 }
 type ProductCatalogTrialOfferEndBehavior struct {
-	Transition *ProductCatalogTrialOfferEndBehaviorTransition `json:"transition"`
+	Transition *ProductCatalogTrialOfferEndBehaviorTransition `json:"transition,omitempty"`
 	// The type of behavior when the trial offer ends.
 	Type ProductCatalogTrialOfferEndBehaviorType `json:"type"`
 }

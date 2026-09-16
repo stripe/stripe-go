@@ -758,6 +758,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage = "on_session"
 )
 
+type CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2034,7 +2042,7 @@ type CheckoutSessionCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type CheckoutSessionCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -2305,6 +2313,12 @@ type CheckoutSessionItemSubscriptionBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// The trial offer to apply to this subscription item.
+type CheckoutSessionItemSubscriptionItemCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
@@ -2381,6 +2395,8 @@ type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionItemSubscriptionItemParams struct {
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *CheckoutSessionItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
@@ -2890,7 +2906,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -4270,9 +4287,9 @@ type CheckoutSessionParams struct {
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
-	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
 	//
-	// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
 	// This may occur if the Checkout Session includes a free trial or a discount.
@@ -4596,7 +4613,7 @@ type CheckoutSessionCreateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type CheckoutSessionCreateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -4867,6 +4884,12 @@ type CheckoutSessionCreateItemSubscriptionBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// The trial offer to apply to this subscription item.
+type CheckoutSessionCreateItemSubscriptionItemCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
@@ -4943,6 +4966,8 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionCreateItemSubscriptionItemParams struct {
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *CheckoutSessionCreateItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
@@ -5414,7 +5439,8 @@ type CheckoutSessionCreatePaymentMethodOptionsBACSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -7094,9 +7120,9 @@ func (p *CheckoutSessionUpdateLineItemParams) AddMetadata(key string, value stri
 	p.Metadata[key] = value
 }
 
-// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
 //
-// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
+// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
 type CheckoutSessionUpdatePaymentIntentDataParams struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users. Pass an empty string to clear a previously configured value.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -7326,9 +7352,9 @@ type CheckoutSessionUpdateParams struct {
 	LineItems []*CheckoutSessionUpdateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
 	//
-	// You can only update these parameters when `ui_mode` is `elements` and while the session is active.
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
 	PaymentIntentData *CheckoutSessionUpdatePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options" json:"shipping_options,omitempty"`
@@ -7665,7 +7691,7 @@ type CheckoutSessionCustomFieldDropdown struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldLabel struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom string `json:"custom"`
 	// The type of the label.
 	Type CheckoutSessionCustomFieldLabelType `json:"type"`
@@ -7823,8 +7849,16 @@ type CheckoutSessionInvoiceCreation struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
 
+// The trial offer applied to this subscription item.
+type CheckoutSessionItemSubscriptionItemCurrentTrial struct {
+	// The ID of the trial offer applied to this subscription item.
+	TrialOffer string `json:"trial_offer"`
+}
+
 // The items in the subscription.
 type CheckoutSessionItemSubscriptionItem struct {
+	// The trial offer applied to this subscription item.
+	CurrentTrial *CheckoutSessionItemSubscriptionItemCurrentTrial `json:"current_trial"`
 	// The price for this subscription item.
 	Price *Price `json:"price"`
 	// The quantity for this subscription item.
@@ -8034,7 +8068,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate string `json:"target_date,omitempty"`
+	TargetDate         string                                                         `json:"target_date,omitempty"`
+	VerificationMethod CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsBancontact struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

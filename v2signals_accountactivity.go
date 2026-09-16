@@ -17,6 +17,14 @@ const (
 	V2SignalsAccountActivityAccountRestrictedReasonOther V2SignalsAccountActivityAccountRestrictedReason = "other"
 )
 
+// The outcome of the merchant review.
+type V2SignalsAccountActivityAccountReviewedOutcome string
+
+// List of values that V2SignalsAccountActivityAccountReviewedOutcome can take
+const (
+	V2SignalsAccountActivityAccountReviewedOutcomeTrusted V2SignalsAccountActivityAccountReviewedOutcome = "trusted"
+)
+
 // The reason the customer was suspended.
 type V2SignalsAccountActivityAccountSuspendedReason string
 
@@ -52,6 +60,7 @@ type V2SignalsAccountActivityType string
 // List of values that V2SignalsAccountActivityType can take
 const (
 	V2SignalsAccountActivityTypeAccountRestricted    V2SignalsAccountActivityType = "account_restricted"
+	V2SignalsAccountActivityTypeAccountReviewed      V2SignalsAccountActivityType = "account_reviewed"
 	V2SignalsAccountActivityTypeAccountSuspended     V2SignalsAccountActivityType = "account_suspended"
 	V2SignalsAccountActivityTypeLoginAttempt         V2SignalsAccountActivityType = "login_attempt"
 	V2SignalsAccountActivityTypeLoginDecision        V2SignalsAccountActivityType = "login_decision"
@@ -110,6 +119,13 @@ type V2SignalsAccountActivityAccountDetails struct {
 type V2SignalsAccountActivityAccountRestricted struct {
 	// The reason the account or customer was restricted.
 	Reason V2SignalsAccountActivityAccountRestrictedReason `json:"reason"`
+}
+
+// Details for the account review. Present only when type is account_reviewed. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityAccountReviewed struct {
+	// The outcome of the merchant review.
+	Outcome V2SignalsAccountActivityAccountReviewedOutcome `json:"outcome"`
 }
 
 // Details for the account suspension. Present only when type is account_suspended. The activity
@@ -189,6 +205,9 @@ type V2SignalsAccountActivity struct {
 	// Details for the account restriction. Present only when type is account_restricted. The activity
 	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
 	AccountRestricted *V2SignalsAccountActivityAccountRestricted `json:"account_restricted,omitempty"`
+	// Details for the account review. Present only when type is account_reviewed. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountReviewed *V2SignalsAccountActivityAccountReviewed `json:"account_reviewed,omitempty"`
 	// Details for the account suspension. Present only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityAccountSuspended `json:"account_suspended,omitempty"`

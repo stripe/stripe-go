@@ -163,6 +163,8 @@ type V2BillingContractOneTimeFeesData struct {
 	ID string `json:"id"`
 	// The user-provided lookup key.
 	LookupKey string `json:"lookup_key,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// The id of the product for this fee.
 	Product string `json:"product"`
 }

@@ -211,6 +211,8 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion102 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion210 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion230 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion231 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.1"
 )
 
 // Indicates whether or not multiple captures are supported.
@@ -1481,6 +1483,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardWalletApplePay struct {
 	Type string `json:"type"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsCardWalletLink struct{}
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentAttemptRecordPaymentMethodDetailsCardWallet struct {
@@ -1488,7 +1491,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCardWallet struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                                       `json:"dynamic_last4,omitempty"`
 	GooglePay    *PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay,omitempty"`
-	// The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	Link         *PaymentAttemptRecordPaymentMethodDetailsCardWalletLink      `json:"link,omitempty"`
+	// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type string `json:"type"`
 }
 
@@ -1888,6 +1892,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
 type PaymentAttemptRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment. You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
+	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
 
@@ -1907,6 +1913,12 @@ type PaymentAttemptRecordPaymentMethodDetailsMobilepayCard struct {
 type PaymentAttemptRecordPaymentMethodDetailsMobilepay struct {
 	// Internal card details
 	Card *PaymentAttemptRecordPaymentMethodDetailsMobilepayCard `json:"card"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsMomo struct {
+	// Uniquely identifies this particular MoMo account. You can use this attribute to check whether two MoMo accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// ID of the multi-use Mandate created by, or used to make, this MoMo payment.
+	Mandate string `json:"mandate,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
@@ -2223,6 +2235,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Link            *PaymentAttemptRecordPaymentMethodDetailsLink            `json:"link,omitempty"`
 	MbWay           *PaymentAttemptRecordPaymentMethodDetailsMbWay           `json:"mb_way,omitempty"`
 	Mobilepay       *PaymentAttemptRecordPaymentMethodDetailsMobilepay       `json:"mobilepay,omitempty"`
+	Momo            *PaymentAttemptRecordPaymentMethodDetailsMomo            `json:"momo,omitempty"`
 	Multibanco      *PaymentAttemptRecordPaymentMethodDetailsMultibanco      `json:"multibanco,omitempty"`
 	NaverPay        *PaymentAttemptRecordPaymentMethodDetailsNaverPay        `json:"naver_pay,omitempty"`
 	NzBankAccount   *PaymentAttemptRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account,omitempty"`

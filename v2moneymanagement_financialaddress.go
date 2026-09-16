@@ -8,36 +8,34 @@ package stripe
 
 import "time"
 
-// The blockchain network of the crypto wallet.
-type V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork string
+// Open Enum. The type of bank account details.
+type V2MoneyManagementFinancialAddressBankAccountType string
 
-// List of values that V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork can take
+// List of values that V2MoneyManagementFinancialAddressBankAccountType can take
 const (
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkArbitrum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "arbitrum"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkAvalancheCChain V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "avalanche_c_chain"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkBase            V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "base"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkEthereum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "ethereum"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkOptimism        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "optimism"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkPolygon         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "polygon"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkSolana          V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "solana"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkStellar         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "stellar"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkTempo           V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "tempo"
+	V2MoneyManagementFinancialAddressBankAccountTypeABA      V2MoneyManagementFinancialAddressBankAccountType = "aba"
+	V2MoneyManagementFinancialAddressBankAccountTypeClabe    V2MoneyManagementFinancialAddressBankAccountType = "clabe"
+	V2MoneyManagementFinancialAddressBankAccountTypeCpa      V2MoneyManagementFinancialAddressBankAccountType = "cpa"
+	V2MoneyManagementFinancialAddressBankAccountTypeIBAN     V2MoneyManagementFinancialAddressBankAccountType = "iban"
+	V2MoneyManagementFinancialAddressBankAccountTypeSortCode V2MoneyManagementFinancialAddressBankAccountType = "sort_code"
 )
 
-// Open Enum. The type of Credentials that are provisioned for the FinancialAddress.
-type V2MoneyManagementFinancialAddressCredentialsType string
+type V2MoneyManagementFinancialAddressCryptoWalletNetwork string
 
-// List of values that V2MoneyManagementFinancialAddressCredentialsType can take
+// List of values that V2MoneyManagementFinancialAddressCryptoWalletNetwork can take
 const (
-	V2MoneyManagementFinancialAddressCredentialsTypeCaBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "ca_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeCryptoWallet    V2MoneyManagementFinancialAddressCredentialsType = "crypto_wallet"
-	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeMXBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "mx_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeSEPABankAccount V2MoneyManagementFinancialAddressCredentialsType = "sepa_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkArbitrum        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkAvalancheCChain V2MoneyManagementFinancialAddressCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkBase            V2MoneyManagementFinancialAddressCryptoWalletNetwork = "base"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkEthereum        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkOptimism        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "optimism"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkPolygon         V2MoneyManagementFinancialAddressCryptoWalletNetwork = "polygon"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkSolana          V2MoneyManagementFinancialAddressCryptoWalletNetwork = "solana"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkStellar         V2MoneyManagementFinancialAddressCryptoWalletNetwork = "stellar"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkTempo           V2MoneyManagementFinancialAddressCryptoWalletNetwork = "tempo"
 )
 
-// Closed Enum. An enum representing the status of the FinancialAddress. This indicates whether or not the FinancialAddress can be used for any money movement flows.
+// Closed Enum. The status of the FinancialAddress.
 type V2MoneyManagementFinancialAddressStatus string
 
 // List of values that V2MoneyManagementFinancialAddressStatus can take
@@ -48,149 +46,129 @@ const (
 	V2MoneyManagementFinancialAddressStatusPending  V2MoneyManagementFinancialAddressStatus = "pending"
 )
 
-// The credentials of the Canadian Bank Account for the FinancialAddress. This contains unique banking details such as the account number, institution number, etc. of a Canadian bank account.
-type V2MoneyManagementFinancialAddressCredentialsCaBankAccount struct {
-	// The account holder name to be used during bank transfers.
-	AccountHolderName string `json:"account_holder_name"`
-	// The account number of the Canadian Bank Account.
-	AccountNumber string `json:"account_number,omitempty"`
-	// The name of the Bank.
-	BankName string `json:"bank_name"`
-	// The institution number of the Canadian Bank Account.
-	InstitutionNumber string `json:"institution_number"`
-	// The last four digits of the Canadian Bank Account number. This will always be returned.
-	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
-	Last4 string `json:"last4"`
-	// The transit number of the Canadian Bank Account.
-	TransitNumber string `json:"transit_number"`
-}
+// Open Enum. The type of FinancialAddress.
+type V2MoneyManagementFinancialAddressType string
 
-// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
-type V2MoneyManagementFinancialAddressCredentialsCryptoWallet struct {
-	// The blockchain address of the crypto wallet.
-	Address string `json:"address"`
-	// Required if the network supports memos (e.g. Stellar).
-	Memo string `json:"memo,omitempty"`
-	// The blockchain network of the crypto wallet.
-	Network V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork `json:"network"`
-}
-
-// The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
-type V2MoneyManagementFinancialAddressCredentialsGBBankAccount struct {
-	// The account holder name to be used during bank transference.
-	AccountHolderName string `json:"account_holder_name"`
-	// The account number of the UK Bank Account.
-	AccountNumber string `json:"account_number,omitempty"`
-	// The last four digits of the UK Bank Account number. This will always be returned.
-	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
-	Last4 string `json:"last4"`
-	// The sort code of the UK Bank Account.
-	SortCode string `json:"sort_code"`
-}
-
-// The credentials of the Mexican Bank Account for the FinancialAddress. This contains unique banking details such as the CLABE and account holder name of a Mexican bank account.
-type V2MoneyManagementFinancialAddressCredentialsMXBankAccount struct {
-	// The account holder name to be used during bank transfers.
-	AccountHolderName string `json:"account_holder_name"`
-	// The CLABE (Clave Bancaria Estandarizada) of the Mexican Bank Account.
-	Clabe string `json:"clabe"`
-}
-
-// The credentials of the SEPA Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a SEPA bank account.
-type V2MoneyManagementFinancialAddressCredentialsSEPABankAccount struct {
-	// The account holder name to be used during bank transfers.
-	AccountHolderName string `json:"account_holder_name"`
-	// The name of the Bank.
-	BankName string `json:"bank_name"`
-	// The BIC of the SEPA Bank Account.
-	BIC string `json:"bic"`
-	// The originating country of the SEPA Bank account.
-	Country string `json:"country"`
-	// The IBAN of the SEPA Bank Account.
-	IBAN string `json:"iban"`
-	// The last four digits of the SEPA Bank Account number. This will always be returned.
-	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
-	Last4 string `json:"last4"`
-}
+// List of values that V2MoneyManagementFinancialAddressType can take
+const (
+	V2MoneyManagementFinancialAddressTypeBankAccount  V2MoneyManagementFinancialAddressType = "bank_account"
+	V2MoneyManagementFinancialAddressTypeCryptoWallet V2MoneyManagementFinancialAddressType = "crypto_wallet"
+)
 
 // The address of the account holder.
-type V2MoneyManagementFinancialAddressCredentialsUSBankAccountAccountHolderAddress struct {
-	// The city of the address.
+type V2MoneyManagementFinancialAddressBankAccountABAAccountHolderAddress struct {
+	// City.
 	City string `json:"city"`
-	// The country of the address.
+	// Country.
 	Country string `json:"country"`
-	// The first line of the address.
+	// Address line 1.
 	Line1 string `json:"line1"`
-	// The second line of the address.
+	// Address line 2.
 	Line2 string `json:"line2"`
-	// The postal / zip code of the address.
+	// Postal code.
 	PostalCode string `json:"postal_code"`
-	// The state of the address.
+	// State or province.
 	State string `json:"state"`
-	// The town of the address.
+	// Town or suburb.
 	Town string `json:"town"`
 }
 
-// The credentials of the US Bank Account for the FinancialAddress. This contains unique banking details such as the routing number, account number, etc. of a US bank account.
-type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
+// ABA bank account details (US).
+type V2MoneyManagementFinancialAddressBankAccountABA struct {
 	// The address of the account holder.
-	AccountHolderAddress *V2MoneyManagementFinancialAddressCredentialsUSBankAccountAccountHolderAddress `json:"account_holder_address,omitempty"`
+	AccountHolderAddress *V2MoneyManagementFinancialAddressBankAccountABAAccountHolderAddress `json:"account_holder_address,omitempty"`
 	// The name of the account holder.
 	AccountHolderName string `json:"account_holder_name,omitempty"`
-	// The account number of the US Bank Account.
+	// The full account number.
 	AccountNumber string `json:"account_number,omitempty"`
-	// The name of the Bank.
+	// The name of the bank.
 	BankName string `json:"bank_name,omitempty"`
-	// The BIC of the bank or financial institution.
-	BIC string `json:"bic,omitempty"`
-	// The last four digits of the US Bank Account number. This will always be returned.
-	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
+	// The last four digits of the account number.
 	Last4 string `json:"last4"`
-	// The routing number of the US Bank Account.
+	// The ABA routing number.
 	RoutingNumber string `json:"routing_number"`
 }
-
-// Object indicates the type of credentials that have been allocated and attached to the FinancialAddress.
-// It contains all necessary banking details with which to perform money movements with the FinancialAddress.
-// This field is only available for FinancialAddresses with an active status.
-type V2MoneyManagementFinancialAddressCredentials struct {
-	// The credentials of the Canadian Bank Account for the FinancialAddress. This contains unique banking details such as the account number, institution number, etc. of a Canadian bank account.
-	CaBankAccount *V2MoneyManagementFinancialAddressCredentialsCaBankAccount `json:"ca_bank_account,omitempty"`
-	// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
-	CryptoWallet *V2MoneyManagementFinancialAddressCredentialsCryptoWallet `json:"crypto_wallet,omitempty"`
-	// The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
-	GBBankAccount *V2MoneyManagementFinancialAddressCredentialsGBBankAccount `json:"gb_bank_account,omitempty"`
-	// The credentials of the Mexican Bank Account for the FinancialAddress. This contains unique banking details such as the CLABE and account holder name of a Mexican bank account.
-	MXBankAccount *V2MoneyManagementFinancialAddressCredentialsMXBankAccount `json:"mx_bank_account,omitempty"`
-	// The credentials of the SEPA Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a SEPA bank account.
-	SEPABankAccount *V2MoneyManagementFinancialAddressCredentialsSEPABankAccount `json:"sepa_bank_account,omitempty"`
-	// Open Enum. The type of Credentials that are provisioned for the FinancialAddress.
-	Type V2MoneyManagementFinancialAddressCredentialsType `json:"type"`
-	// The credentials of the US Bank Account for the FinancialAddress. This contains unique banking details such as the routing number, account number, etc. of a US bank account.
-	USBankAccount *V2MoneyManagementFinancialAddressCredentialsUSBankAccount `json:"us_bank_account,omitempty"`
+type V2MoneyManagementFinancialAddressBankAccountClabe struct {
+	AccountHolderName string `json:"account_holder_name"`
+	Clabe             string `json:"clabe"`
+}
+type V2MoneyManagementFinancialAddressBankAccountCpa struct {
+	AccountHolderName string `json:"account_holder_name"`
+	AccountNumber     string `json:"account_number,omitempty"`
+	BankName          string `json:"bank_name"`
+	InstitutionNumber string `json:"institution_number"`
+	Last4             string `json:"last4"`
+	TransitNumber     string `json:"transit_number"`
 }
 
-// A Financial Address contains information needed to transfer money to a Financial Account. A Financial Account can have more than one Financial Address.
+// IBAN bank account details.
+type V2MoneyManagementFinancialAddressBankAccountIBAN struct {
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The country of the bank account.
+	Country string `json:"country"`
+	// The full IBAN.
+	IBAN string `json:"iban,omitempty"`
+	// The last four digits of the IBAN.
+	Last4 string `json:"last4"`
+}
+
+// Sort code bank account details (UK).
+type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name"`
+	// The full account number.
+	AccountNumber string `json:"account_number,omitempty"`
+	// The last four digits of the account number.
+	Last4 string `json:"last4"`
+	// The sort code.
+	SortCode string `json:"sort_code"`
+}
+
+// Bank account details for this FinancialAddress.
+type V2MoneyManagementFinancialAddressBankAccount struct {
+	// ABA bank account details (US).
+	ABA   *V2MoneyManagementFinancialAddressBankAccountABA   `json:"aba,omitempty"`
+	Clabe *V2MoneyManagementFinancialAddressBankAccountClabe `json:"clabe,omitempty"`
+	// The country of the bank account.
+	Country string                                           `json:"country,omitempty"`
+	Cpa     *V2MoneyManagementFinancialAddressBankAccountCpa `json:"cpa,omitempty"`
+	// Open Enum. The currency of the bank account.
+	Currency Currency `json:"currency"`
+	// IBAN bank account details.
+	IBAN *V2MoneyManagementFinancialAddressBankAccountIBAN `json:"iban,omitempty"`
+	// Sort code bank account details (UK).
+	SortCode *V2MoneyManagementFinancialAddressBankAccountSortCode `json:"sort_code,omitempty"`
+	// Open Enum. The type of bank account details.
+	Type V2MoneyManagementFinancialAddressBankAccountType `json:"type"`
+}
+type V2MoneyManagementFinancialAddressCryptoWallet struct {
+	Address string                                               `json:"address"`
+	Memo    string                                               `json:"memo,omitempty"`
+	Network V2MoneyManagementFinancialAddressCryptoWalletNetwork `json:"network"`
+}
+
+// A FinancialAddress contains information needed to transfer money to a Financial Account. A Financial Account can have more than one Financial Address.
 type V2MoneyManagementFinancialAddress struct {
 	APIResource
+	// Bank account details for this FinancialAddress.
+	BankAccount *V2MoneyManagementFinancialAddressBankAccount `json:"bank_account,omitempty"`
 	// The creation timestamp of the FinancialAddress.
-	Created time.Time `json:"created"`
-	// Object indicates the type of credentials that have been allocated and attached to the FinancialAddress.
-	// It contains all necessary banking details with which to perform money movements with the FinancialAddress.
-	// This field is only available for FinancialAddresses with an active status.
-	Credentials *V2MoneyManagementFinancialAddressCredentials `json:"credentials,omitempty"`
-	// Open Enum. The currency the FinancialAddress supports.
-	Currency Currency `json:"currency"`
-	// A ID of the FinancialAccount this FinancialAddress corresponds to.
+	Created      time.Time                                      `json:"created"`
+	CryptoWallet *V2MoneyManagementFinancialAddressCryptoWallet `json:"crypto_wallet,omitempty"`
+	// The ID of the FinancialAccount this FinancialAddress corresponds to.
 	FinancialAccount string `json:"financial_account"`
-	// The ID of a FinancialAddress.
+	// The ID of the FinancialAddress.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
-	Object string `json:"object"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
+	Object             string   `json:"object"`
 	SettlementCurrency Currency `json:"settlement_currency,omitempty"`
-	// Closed Enum. An enum representing the status of the FinancialAddress. This indicates whether or not the FinancialAddress can be used for any money movement flows.
+	// Closed Enum. The status of the FinancialAddress.
 	Status V2MoneyManagementFinancialAddressStatus `json:"status"`
+	// Open Enum. The type of FinancialAddress.
+	Type V2MoneyManagementFinancialAddressType `json:"type"`
 }

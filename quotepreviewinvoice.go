@@ -272,6 +272,14 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
+)
+
 // Preferred language of the Bancontact authorization page that the customer is redirected to.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
 
@@ -771,6 +779,13 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebit struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate         string                                                                            `json:"target_date,omitempty"`
+	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
+}
+
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -908,6 +923,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPay struct {
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 	ACSSDebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	// If paying by `bacs_debit`, this sub-hash contains details about the Bacs Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	BACSDebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebit `json:"bacs_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
@@ -954,7 +971,7 @@ type QuotePreviewInvoiceRenderingPDF struct {
 	PageSize QuotePreviewInvoiceRenderingPDFPageSize `json:"page_size"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type QuotePreviewInvoiceRendering struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
@@ -1230,7 +1247,7 @@ type QuotePreviewInvoice struct {
 	PrePaymentCreditNotesAmount int64 `json:"pre_payment_credit_notes_amount"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *QuotePreviewInvoiceRendering `json:"rendering"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *QuotePreviewInvoiceShippingCost `json:"shipping_cost"`

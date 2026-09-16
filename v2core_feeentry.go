@@ -43,11 +43,9 @@ const (
 
 // The fee amount.
 type V2CoreFeeEntryAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
@@ -95,11 +93,9 @@ type V2CoreFeeEntryIncurredBy struct {
 
 // The tax amount calculated for this fee.
 type V2CoreFeeEntryTaxAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
