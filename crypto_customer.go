@@ -30,7 +30,9 @@ type CryptoCustomerKycTierVerificationError string
 
 // List of values that CryptoCustomerKycTierVerificationError can take
 const (
+	CryptoCustomerKycTierVerificationErrorAddressValidationFailed               CryptoCustomerKycTierVerificationError = "address_validation_failed"
 	CryptoCustomerKycTierVerificationErrorIDDocumentVerificationFailed          CryptoCustomerKycTierVerificationError = "id_document_verification_failed"
+	CryptoCustomerKycTierVerificationErrorPersonVerificationFailed              CryptoCustomerKycTierVerificationError = "person_verification_failed"
 	CryptoCustomerKycTierVerificationErrorPhoneVerificationFailed               CryptoCustomerKycTierVerificationError = "phone_verification_failed"
 	CryptoCustomerKycTierVerificationErrorUserHasReachedMaxVerificationAttempts CryptoCustomerKycTierVerificationError = "user_has_reached_max_verification_attempts"
 )
@@ -77,7 +79,9 @@ type CryptoCustomerVerificationError string
 
 // List of values that CryptoCustomerVerificationError can take
 const (
+	CryptoCustomerVerificationErrorAddressValidationFailed               CryptoCustomerVerificationError = "address_validation_failed"
 	CryptoCustomerVerificationErrorIDDocumentVerificationFailed          CryptoCustomerVerificationError = "id_document_verification_failed"
+	CryptoCustomerVerificationErrorPersonVerificationFailed              CryptoCustomerVerificationError = "person_verification_failed"
 	CryptoCustomerVerificationErrorPhoneVerificationFailed               CryptoCustomerVerificationError = "phone_verification_failed"
 	CryptoCustomerVerificationErrorUserHasReachedMaxVerificationAttempts CryptoCustomerVerificationError = "user_has_reached_max_verification_attempts"
 )

@@ -236,6 +236,32 @@ const (
 )
 
 // Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelElevated    RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelHighest     RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelLow         RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "low"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelNormal      RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelNotAssessed RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelUnknown     RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "unknown"
+)
+
+// Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelElevated    RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelHighest     RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelLow         RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "low"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelNormal      RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelNotAssessed RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelUnknown     RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "unknown"
+)
+
+// Risk level of this signal, based on the score.
 type RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel string
 
 // List of values that RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel can take
@@ -778,18 +804,42 @@ type RadarPaymentEvaluationPaymentDetails struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 }
 
+// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
+type RadarPaymentEvaluationSignalsEarlyFraudWarning struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel `json:"risk_level"`
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
+// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
+type RadarPaymentEvaluationSignalsFraudulentDispute struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel `json:"risk_level"`
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
 // A payment evaluation signal with evaluated_at, risk_level, and score fields.
 type RadarPaymentEvaluationSignalsFraudulentPayment struct {
 	// The time when this signal was evaluated.
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// Risk level of this signal, based on the score.
 	RiskLevel RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel `json:"risk_level"`
-	// Score for this signal. Possible values for evaluated payments are between 0 and 100. The value is returned with two decimal places and higher scores indicate a higher likelihood of the signal being true. A score of -1 is returned when a model evaluation was not performed, such as requests from incomplete integrations.
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
 	Score float64 `json:"score"`
 }
 
 // Collection of signals for this payment evaluation.
 type RadarPaymentEvaluationSignals struct {
+	// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
+	EarlyFraudWarning *RadarPaymentEvaluationSignalsEarlyFraudWarning `json:"early_fraud_warning"`
+	// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
+	FraudulentDispute *RadarPaymentEvaluationSignalsFraudulentDispute `json:"fraudulent_dispute"`
 	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
 	FraudulentPayment *RadarPaymentEvaluationSignalsFraudulentPayment `json:"fraudulent_payment"`
 }

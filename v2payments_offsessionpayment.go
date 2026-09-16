@@ -146,6 +146,54 @@ type V2PaymentsOffSessionPaymentCapture struct {
 	CaptureMethod V2PaymentsOffSessionPaymentCaptureCaptureMethod `json:"capture_method"`
 }
 
+// Details about the failure for the latest payment attempt.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsFailureDetails struct {
+	// Code for the failure.
+	Code string `json:"code,omitempty"`
+	// Message describing the failure.
+	Message string `json:"message,omitempty"`
+}
+
+// Details about the card used for the latest payment attempt.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsPaymentMethodDetailsCard struct {
+	// Authorization code returned by the card network.
+	AuthorizationCode string `json:"authorization_code,omitempty"`
+	// Stripe decline code for the latest payment attempt.
+	DeclineCode string `json:"decline_code,omitempty"`
+	// Advice code returned by the card network.
+	NetworkAdviceCode string `json:"network_advice_code,omitempty"`
+	// Decline code returned by the card network.
+	NetworkDeclineCode string `json:"network_decline_code,omitempty"`
+}
+
+// Details about the payment method for the latest payment attempt.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsPaymentMethodDetails struct {
+	// Details about the card used for the latest payment attempt.
+	Card *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsPaymentMethodDetailsCard `json:"card,omitempty"`
+}
+
+// Details about Stripe as the processor.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsProcessorDetailsStripe struct {
+	// ID of the Charge created for the latest payment attempt.
+	Charge string `json:"charge,omitempty"`
+}
+
+// Details about the processor for the latest payment attempt.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsProcessorDetails struct {
+	// Details about Stripe as the processor.
+	Stripe *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsProcessorDetailsStripe `json:"stripe,omitempty"`
+}
+
+// Details from the latest Payment Attempt Record, if one exists.
+type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetails struct {
+	// Details about the failure for the latest payment attempt.
+	FailureDetails *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsFailureDetails `json:"failure_details,omitempty"`
+	// Details about the payment method for the latest payment attempt.
+	PaymentMethodDetails *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsPaymentMethodDetails `json:"payment_method_details,omitempty"`
+	// Details about the processor for the latest payment attempt.
+	ProcessorDetails *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsProcessorDetails `json:"processor_details,omitempty"`
+}
+
 // Provides industry-specific information about the payment.
 type V2PaymentsOffSessionPaymentPaymentDetails struct {
 	// A unique value to identify the customer. This field is applicable only for card payments. For card payments, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -200,7 +248,7 @@ type V2PaymentsOffSessionPayment struct {
 	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
-	// The "presentment amount" to be collected from the customer.
+	// Amount intended to be collected by this payment.
 	AmountRequested Amount `json:"amount_requested"`
 	// The application associated with this OffSessionPayment.
 	Application string `json:"application,omitempty"`
@@ -225,6 +273,8 @@ type V2PaymentsOffSessionPayment struct {
 	LastAuthorizationAttemptError string `json:"last_authorization_attempt_error,omitempty"`
 	// Payment attempt record for the latest attempt, if one exists.
 	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record,omitempty"`
+	// Details from the latest Payment Attempt Record, if one exists.
+	LatestPaymentAttemptRecordDetails *V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetails `json:"latest_payment_attempt_record_details,omitempty"`
 	// Has the value true if the object exists in live mode or the value false if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can

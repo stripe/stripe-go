@@ -6,76 +6,66 @@
 
 package stripe
 
-// List all FinancialAddresses for a FinancialAccount.
+// List all FinancialAddresses for a FinancialAccount (V2 shape).
 type V2MoneyManagementFinancialAddressListParams struct {
 	Params `form:"*"`
 	// The ID of the FinancialAccount for which FinancialAddresses are to be returned.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// Properties needed to create a FinancialAddress for an FA with USDC currency.
-type V2MoneyManagementFinancialAddressCryptoPropertiesParams struct {
+// Properties for creating a bank account FinancialAddress.
+type V2MoneyManagementFinancialAddressBankAccountParams struct {
+	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	Country *string `form:"country" json:"country,omitempty"`
+	// The currency of the bank account to provision.
+	Currency *string `form:"currency" json:"currency"`
+}
+type V2MoneyManagementFinancialAddressCryptoWalletParams struct {
 	// The blockchain network of the crypto wallet.
 	Network *string `form:"network" json:"network"`
 }
 
-// Optional SEPA Bank account options, used to configure the type of SEPA Bank account to create, such as the originating country.
-type V2MoneyManagementFinancialAddressSEPABankAccountParams struct {
-	// The originating country of the SEPA Bank account.
-	Country *string `form:"country" json:"country"`
-}
-
-// Create a new FinancialAddress for a FinancialAccount.
+// Create a new FinancialAddress for a FinancialAccount (V2 shape).
 type V2MoneyManagementFinancialAddressParams struct {
 	Params `form:"*"`
-	// Properties needed to create a FinancialAddress for an FA with USDC currency.
-	CryptoProperties *V2MoneyManagementFinancialAddressCryptoPropertiesParams `form:"crypto_properties" json:"crypto_properties,omitempty"`
+	// Properties for creating a bank account FinancialAddress.
+	BankAccount  *V2MoneyManagementFinancialAddressBankAccountParams  `form:"bank_account" json:"bank_account,omitempty"`
+	CryptoWallet *V2MoneyManagementFinancialAddressCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
-	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
-	// Optional SEPA Bank account options, used to configure the type of SEPA Bank account to create, such as the originating country.
-	SEPABankAccount *V2MoneyManagementFinancialAddressSEPABankAccountParams `form:"sepa_bank_account" json:"sepa_bank_account,omitempty"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount. Currently, only the `usd`, `gbp` and `usdc` values are supported.
+	FinancialAccount   *string `form:"financial_account" json:"financial_account,omitempty"`
 	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
-	// The type of FinancialAddress details to provision.
+	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// Properties needed to create a FinancialAddress for an FA with USDC currency.
-type V2MoneyManagementFinancialAddressCreateCryptoPropertiesParams struct {
+// Properties for creating a bank account FinancialAddress.
+type V2MoneyManagementFinancialAddressCreateBankAccountParams struct {
+	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	Country *string `form:"country" json:"country,omitempty"`
+	// The currency of the bank account to provision.
+	Currency *string `form:"currency" json:"currency"`
+}
+type V2MoneyManagementFinancialAddressCreateCryptoWalletParams struct {
 	// The blockchain network of the crypto wallet.
 	Network *string `form:"network" json:"network"`
 }
 
-// Optional SEPA Bank account options, used to configure the type of SEPA Bank account to create, such as the originating country.
-type V2MoneyManagementFinancialAddressCreateSEPABankAccountParams struct {
-	// The originating country of the SEPA Bank account.
-	Country *string `form:"country" json:"country"`
-}
-
-// Create a new FinancialAddress for a FinancialAccount.
+// Create a new FinancialAddress for a FinancialAccount (V2 shape).
 type V2MoneyManagementFinancialAddressCreateParams struct {
 	Params `form:"*"`
-	// Properties needed to create a FinancialAddress for an FA with USDC currency.
-	CryptoProperties *V2MoneyManagementFinancialAddressCreateCryptoPropertiesParams `form:"crypto_properties" json:"crypto_properties,omitempty"`
+	// Properties for creating a bank account FinancialAddress.
+	BankAccount  *V2MoneyManagementFinancialAddressCreateBankAccountParams  `form:"bank_account" json:"bank_account,omitempty"`
+	CryptoWallet *V2MoneyManagementFinancialAddressCreateCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
-	FinancialAccount *string `form:"financial_account" json:"financial_account"`
-	// Optional SEPA Bank account options, used to configure the type of SEPA Bank account to create, such as the originating country.
-	SEPABankAccount *V2MoneyManagementFinancialAddressCreateSEPABankAccountParams `form:"sepa_bank_account" json:"sepa_bank_account,omitempty"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount. Currently, only the `usd`, `gbp` and `usdc` values are supported.
+	FinancialAccount   *string `form:"financial_account" json:"financial_account"`
 	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
-	// The type of FinancialAddress details to provision.
+	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type"`
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress (V2 shape).
 type V2MoneyManagementFinancialAddressRetrieveParams struct {
 	Params `form:"*"`
-	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
 }

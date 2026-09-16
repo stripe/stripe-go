@@ -4,13 +4,9 @@
 package webhook
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"strconv"
 	"strings"
 	"time"
 
@@ -24,8 +20,6 @@ import (
 const (
 	// DefaultTolerance indicates that signatures older than this will be rejected by ConstructEvent.
 	DefaultTolerance time.Duration = 300 * time.Second
-	// signingVersion represents the version of the signature we currently use.
-	signingVersion string = "v1"
 )
 
 //
@@ -33,11 +27,14 @@ const (
 //
 
 // This block represents the list of errors that could be raised when using the webhook package.
+// These alias the root stripe package's errors so that comparisons against
+// either package's sentinel succeed.
 var (
-	ErrInvalidHeader    = errors.New("webhook has invalid Stripe-Signature header")
-	ErrNoValidSignature = errors.New("webhook had no valid signature")
-	ErrNotSigned        = errors.New("webhook has no Stripe-Signature header")
-	ErrTooOld           = errors.New("timestamp wasn't within tolerance")
+	ErrInvalidHeader    = stripe.ErrWebhookInvalidHeader
+	ErrNoValidSignature = stripe.ErrWebhookNoValidSignature
+	ErrNotSigned        = stripe.ErrWebhookNotSigned
+	ErrTooOld           = stripe.ErrWebhookTooOld
+	ErrEmptySecret      = stripe.ErrWebhookEmptySecret
 )
 
 //
@@ -49,12 +46,7 @@ var (
 //
 // See https://stripe.com/docs/webhooks#signatures for more information.
 func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
-	mac := hmac.New(sha256.New, []byte(secret))
-	// hmac.Hash.Write never returns a non-nil error per the hash.Hash interface contract.
-	_, _ = fmt.Fprintf(mac, "%d", t.Unix())
-	mac.Write([]byte("."))
-	mac.Write(payload)
-	return mac.Sum(nil)
+	return stripe.ComputeSignature(t, payload, secret)
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
@@ -179,15 +171,6 @@ type ConstructEventOptions struct {
 }
 
 //
-// Private types
-//
-
-type signedHeader struct {
-	timestamp  time.Time
-	signatures [][]byte
-}
-
-//
 // Private functions
 //
 
@@ -252,70 +235,17 @@ func checkEventNotification(payload []byte) error {
 	return nil
 }
 
-func parseSignatureHeader(header string) (*signedHeader, error) {
-	sh := &signedHeader{}
-
-	if header == "" {
-		return sh, ErrNotSigned
-	}
-
-	// Signed header looks like "t=1495999758,v1=ABC,v1=DEF,v0=GHI"
-	pairs := strings.Split(header, ",")
-	for _, pair := range pairs {
-		parts := strings.Split(pair, "=")
-		if len(parts) != 2 {
-			return sh, ErrInvalidHeader
-		}
-
-		switch parts[0] {
-		case "t":
-			timestamp, err := strconv.ParseInt(parts[1], 10, 64)
-			if err != nil {
-				return sh, ErrInvalidHeader
-			}
-			sh.timestamp = time.Unix(timestamp, 0)
-
-		case signingVersion:
-			sig, err := hex.DecodeString(parts[1])
-			if err != nil {
-				continue // Ignore invalid signatures
-			}
-
-			sh.signatures = append(sh.signatures, sig)
-
-		default:
-			continue // Ignore unknown parts of the header
-		}
-	}
-
-	if len(sh.signatures) == 0 {
-		return sh, ErrNoValidSignature
-	}
-
-	return sh, nil
-}
-
 func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
-
-	header, err := parseSignatureHeader(sigHeader)
-	if err != nil {
-		return err
+	// Signature verification lives in the root stripe package; this package
+	// delegates so there is only one implementation to maintain. Always pass an
+	// explicit tolerance option: stripe.ValidatePayload defaults to a zero
+	// tolerance that is enforced, which would reject nearly everything.
+	opt := stripe.WithIgnoreTolerance()
+	if enforceTolerance {
+		opt = stripe.WithTolerance(tolerance)
 	}
 
-	expiredTimestamp := time.Since(header.timestamp) > tolerance
-	if enforceTolerance && expiredTimestamp {
-		return ErrTooOld
-	}
-
-	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
-	// Check all given v1 signatures, multiple signatures will be sent temporarily in the case of a rolled signature secret
-	for _, sig := range header.signatures {
-		if hmac.Equal(expectedSignature, sig) {
-			return nil
-		}
-	}
-
-	return ErrNoValidSignature
+	return stripe.ValidatePayload(payload, sigHeader, secret, opt)
 }
 
 // For mocking webhook events

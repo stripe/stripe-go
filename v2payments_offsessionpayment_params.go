@@ -204,7 +204,7 @@ type V2PaymentsOffSessionPaymentTransferDataParams struct {
 // Creates an OffSessionPayment object.
 type V2PaymentsOffSessionPaymentParams struct {
 	Params `form:"*"`
-	// The "presentment amount" to be collected from the customer.
+	// Amount intended to be collected by this payment.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
@@ -219,6 +219,8 @@ type V2PaymentsOffSessionPaymentParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about
@@ -514,7 +516,7 @@ type V2PaymentsOffSessionPaymentCreateTransferDataParams struct {
 // Creates an OffSessionPayment object.
 type V2PaymentsOffSessionPaymentCreateParams struct {
 	Params `form:"*"`
-	// The "presentment amount" to be collected from the customer.
+	// Amount intended to be collected by this payment.
 	Amount *Amount `form:"amount" json:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentCreateAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
@@ -529,6 +531,8 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	Customer *string `form:"customer" json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about

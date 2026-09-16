@@ -155,7 +155,7 @@ const (
 	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandVisa            DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "visa"
 )
 
-// The payment method types supported by the seller.
+// The payment method types supported by the seller. Stripe sources these from a non-empty `allowed_payment_method_types` response from the seller's checkout customization hook when present. Otherwise, Stripe resolves them from the seller's active or default payment method configuration. Stripe might filter agent-facing displayable payment methods for compatibility.
 type DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType string
 
 // List of values that DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType can take
@@ -1197,7 +1197,7 @@ type DelegatedCheckoutRequestedSessionSellerDetails struct {
 	MarketplaceSellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsMarketplaceSellerDetails `json:"marketplace_seller_details"`
 	// The network profile of the seller.
 	NetworkProfile *Profile `json:"network_profile"`
-	// The payment method types supported by the seller.
+	// The payment method types supported by the seller. Stripe sources these from a non-empty `allowed_payment_method_types` response from the seller's checkout customization hook when present. Otherwise, Stripe resolves them from the seller's active or default payment method configuration. Stripe might filter agent-facing displayable payment methods for compatibility.
 	PaymentMethodTypes []DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType `json:"payment_method_types"`
 	// The URL to the seller's privacy notice.
 	PrivacyNoticeURL string `json:"privacy_notice_url"`

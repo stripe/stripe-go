@@ -61,6 +61,13 @@ type V2SignalsAccountActivityAccountRestrictedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Details for the account review. Provide only when type is account_reviewed. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityAccountReviewedParams struct {
+	// The outcome of the merchant review.
+	Outcome *string `form:"outcome" json:"outcome"`
+}
+
 // Details for the account suspension. Provide only when type is account_suspended. The activity
 // requires an existing account_details.customer; account_details.account and inline data are unsupported.
 type V2SignalsAccountActivityAccountSuspendedParams struct {
@@ -138,6 +145,9 @@ type V2SignalsAccountActivityParams struct {
 	// Details for the account restriction. Provide only when type is account_restricted. The activity
 	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
 	AccountRestricted *V2SignalsAccountActivityAccountRestrictedParams `form:"account_restricted" json:"account_restricted,omitempty"`
+	// Details for the account review. Provide only when type is account_reviewed. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountReviewed *V2SignalsAccountActivityAccountReviewedParams `form:"account_reviewed" json:"account_reviewed,omitempty"`
 	// Details for the account suspension. Provide only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`
@@ -219,6 +229,13 @@ type V2SignalsAccountActivityCreateAccountRestrictedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Details for the account review. Provide only when type is account_reviewed. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityCreateAccountReviewedParams struct {
+	// The outcome of the merchant review.
+	Outcome *string `form:"outcome" json:"outcome"`
+}
+
 // Details for the account suspension. Provide only when type is account_suspended. The activity
 // requires an existing account_details.customer; account_details.account and inline data are unsupported.
 type V2SignalsAccountActivityCreateAccountSuspendedParams struct {
@@ -296,6 +313,9 @@ type V2SignalsAccountActivityCreateParams struct {
 	// Details for the account restriction. Provide only when type is account_restricted. The activity
 	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
 	AccountRestricted *V2SignalsAccountActivityCreateAccountRestrictedParams `form:"account_restricted" json:"account_restricted,omitempty"`
+	// Details for the account review. Provide only when type is account_reviewed. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountReviewed *V2SignalsAccountActivityCreateAccountReviewedParams `form:"account_reviewed" json:"account_reviewed,omitempty"`
 	// Details for the account suspension. Provide only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityCreateAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`

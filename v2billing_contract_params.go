@@ -120,8 +120,19 @@ type V2BillingContractOneTimeFeeParams struct {
 	BillAt *V2BillingContractOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of key-value pairs that you can attach to an object.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractOneTimeFeeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // When the pricing line ends.
@@ -365,8 +376,19 @@ type V2BillingContractOneTimeFeeActionAddParams struct {
 	BillAt *V2BillingContractOneTimeFeeActionAddBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata for the one-time fee.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractOneTimeFeeActionAddParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Parameters for removing a one-time fee.
@@ -395,6 +417,17 @@ type V2BillingContractOneTimeFeeActionUpdateParams struct {
 	ID *string `form:"id" json:"id,omitempty"`
 	// The lookup key of the one-time fee to update.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata mutations to apply to the one-time fee.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractOneTimeFeeActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // One-time fee actions to apply.
@@ -984,8 +1017,19 @@ type V2BillingContractCreateOneTimeFeeParams struct {
 	BillAt *V2BillingContractCreateOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of key-value pairs that you can attach to an object.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractCreateOneTimeFeeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // When the pricing line ends.
@@ -1235,8 +1279,19 @@ type V2BillingContractUpdateOneTimeFeeActionAddParams struct {
 	BillAt *V2BillingContractUpdateOneTimeFeeActionAddBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata for the one-time fee.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdateOneTimeFeeActionAddParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Parameters for removing a one-time fee.
@@ -1265,6 +1320,17 @@ type V2BillingContractUpdateOneTimeFeeActionUpdateParams struct {
 	ID *string `form:"id" json:"id,omitempty"`
 	// The lookup key of the one-time fee to update.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata mutations to apply to the one-time fee.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdateOneTimeFeeActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // One-time fee actions to apply.

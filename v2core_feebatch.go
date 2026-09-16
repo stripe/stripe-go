@@ -41,11 +41,9 @@ const (
 
 // The amount of tax adjusted for this batch.
 type V2CoreFeeBatchAdjustmentsTaxAdjustment struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
@@ -57,11 +55,9 @@ type V2CoreFeeBatchAdjustments struct {
 
 // The total fee amount billed in this batch.
 type V2CoreFeeBatchAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
@@ -73,21 +69,17 @@ type V2CoreFeeBatchCollectedBy struct {
 
 // The fee amount collected via this record.
 type V2CoreFeeBatchCollectionRecordAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
 // The tax amount collected via this record.
 type V2CoreFeeBatchCollectionRecordTaxAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 
@@ -125,11 +117,9 @@ type V2CoreFeeBatchStatusTransitions struct {
 
 // The tax amount included in this batch.
 type V2CoreFeeBatchTaxAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// A lowercase alpha3 currency code like "usd".
 	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	// In major units like "1.23" for 1.23 USD.
 	Value string `json:"value"`
 }
 

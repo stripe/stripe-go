@@ -8164,7 +8164,7 @@ func (n *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx conte
 }
 
 // V1SetupIntentSucceededEvent is the Go struct for the "v1.setup_intent.succeeded" event.
-// Occurs when an SetupIntent has successfully setup a payment method.
+// Occurs when a SetupIntent has successfully setup a payment method.
 type V1SetupIntentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -8177,7 +8177,7 @@ func (e *V1SetupIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*
 }
 
 // V1SetupIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.succeeded"
-// Occurs when an SetupIntent has successfully setup a payment method.
+// Occurs when a SetupIntent has successfully setup a payment method.
 type V1SetupIntentSucceededEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`

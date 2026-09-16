@@ -77,38 +77,38 @@ type V2MoneyManagementInboundTransferTo struct {
 	FinancialAccount string `json:"financial_account"`
 }
 
-// The history entry for a failed InboundTransfer.
+// The InboundTransfer failed. See `failure_reason` for more details.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed struct {
 	// Open Enum. The return reason for the failed InboundTransfer.
 	FailureReason V2MoneyManagementInboundTransferTransferHistoryBankDebitFailedFailureReason `json:"failure_reason"`
 }
 
-// The history entry for a processing InboundTransfer.
+// The InboundTransfer was submitted to the scheme for processing. The debit is still in progress and can later succeed or fail.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing struct{}
 
-// The history entry for a queued InboundTransfer.
+// The InboundTransfer was created and is waiting to be submitted to the scheme for processing.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued struct{}
 
-// The history entry for a returned InboundTransfer.
+// The InboundTransfer was returned. The original transaction has been reversed.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned struct {
 	// Open Enum. The return reason for the returned InboundTransfer.
 	ReturnReason V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason `json:"return_reason"`
 }
 
-// The history entry for a succeeded InboundTransfer.
+// The InboundTransfer succeeded. Funds might not yet be available; check the associated Transaction for availability.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded struct{}
 
 // A list of history objects, representing changes in the state of the InboundTransfer. The most recent entry's type indicates the current status of the InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistory struct {
-	// The history entry for a failed InboundTransfer.
+	// The InboundTransfer failed. See `failure_reason` for more details.
 	BankDebitFailed *V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed `json:"bank_debit_failed,omitempty"`
-	// The history entry for a processing InboundTransfer.
+	// The InboundTransfer was submitted to the scheme for processing. The debit is still in progress and can later succeed or fail.
 	BankDebitProcessing *V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing `json:"bank_debit_processing,omitempty"`
-	// The history entry for a queued InboundTransfer.
+	// The InboundTransfer was created and is waiting to be submitted to the scheme for processing.
 	BankDebitQueued *V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued `json:"bank_debit_queued,omitempty"`
-	// The history entry for a returned InboundTransfer.
+	// The InboundTransfer was returned. The original transaction has been reversed.
 	BankDebitReturned *V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned `json:"bank_debit_returned,omitempty"`
-	// The history entry for a succeeded InboundTransfer.
+	// The InboundTransfer succeeded. Funds might not yet be available; check the associated Transaction for availability.
 	BankDebitSucceeded *V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded `json:"bank_debit_succeeded,omitempty"`
 	// Creation time of the HistoryEntry in RFC 3339 format and UTC.
 	Created time.Time `json:"created"`

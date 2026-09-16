@@ -484,10 +484,10 @@ type PaymentMethodAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type PaymentMethodAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type PaymentMethodAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -876,9 +876,9 @@ type PaymentMethodParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *PaymentMethodAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -1115,10 +1115,10 @@ type PaymentMethodCreateAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodCreateAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type PaymentMethodCreateAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type PaymentMethodCreateAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1490,9 +1490,9 @@ type PaymentMethodCreateParams struct {
 	Alipay *PaymentMethodCreateAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *PaymentMethodCreateAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodCreateAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodCreateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`

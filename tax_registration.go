@@ -49,15 +49,6 @@ const (
 	TaxRegistrationCountryOptionsAoTypeStandard TaxRegistrationCountryOptionsAoType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsAtIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsAtIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsAtIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsAtIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsAtIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsAtIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme string
 
@@ -136,15 +127,6 @@ const (
 	TaxRegistrationCountryOptionsBdTypeStandard TaxRegistrationCountryOptionsBdType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsBeIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsBeIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsBeIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsBeIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsBeIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsBeIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme string
 
@@ -172,15 +154,6 @@ type TaxRegistrationCountryOptionsBfType string
 // List of values that TaxRegistrationCountryOptionsBfType can take
 const (
 	TaxRegistrationCountryOptionsBfTypeStandard TaxRegistrationCountryOptionsBfType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsBGIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsBGIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsBGIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsBGIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsBGIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsBGIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -311,15 +284,6 @@ const (
 	TaxRegistrationCountryOptionsCvTypeSimplified TaxRegistrationCountryOptionsCvType = "simplified"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsCyIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsCyIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsCyIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsCyIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsCyIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsCyIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme string
 
@@ -339,15 +303,6 @@ const (
 	TaxRegistrationCountryOptionsCyTypeOssNonUnion TaxRegistrationCountryOptionsCyType = "oss_non_union"
 	TaxRegistrationCountryOptionsCyTypeOssUnion    TaxRegistrationCountryOptionsCyType = "oss_union"
 	TaxRegistrationCountryOptionsCyTypeStandard    TaxRegistrationCountryOptionsCyType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsCzIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsCzIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsCzIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsCzIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsCzIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsCzIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -371,15 +326,6 @@ const (
 	TaxRegistrationCountryOptionsCzTypeStandard    TaxRegistrationCountryOptionsCzType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsDEIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsDEIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsDEIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsDEIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsDEIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsDEIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme string
 
@@ -399,15 +345,6 @@ const (
 	TaxRegistrationCountryOptionsDETypeOssNonUnion TaxRegistrationCountryOptionsDEType = "oss_non_union"
 	TaxRegistrationCountryOptionsDETypeOssUnion    TaxRegistrationCountryOptionsDEType = "oss_union"
 	TaxRegistrationCountryOptionsDETypeStandard    TaxRegistrationCountryOptionsDEType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsDkIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsDkIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsDkIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsDkIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsDkIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsDkIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -437,15 +374,6 @@ type TaxRegistrationCountryOptionsEcType string
 // List of values that TaxRegistrationCountryOptionsEcType can take
 const (
 	TaxRegistrationCountryOptionsEcTypeSimplified TaxRegistrationCountryOptionsEcType = "simplified"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsEeIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsEeIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsEeIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsEeIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsEeIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsEeIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -496,11 +424,12 @@ const (
 	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "standard"
 )
 
-// Type of registration in an EU country.
+// Type of registration in ES.
 type TaxRegistrationCountryOptionsESType string
 
 // List of values that TaxRegistrationCountryOptionsESType can take
 const (
+	TaxRegistrationCountryOptionsESTypeIgic        TaxRegistrationCountryOptionsESType = "igic"
 	TaxRegistrationCountryOptionsESTypeIoss        TaxRegistrationCountryOptionsESType = "ioss"
 	TaxRegistrationCountryOptionsESTypeOssNonUnion TaxRegistrationCountryOptionsESType = "oss_non_union"
 	TaxRegistrationCountryOptionsESTypeOssUnion    TaxRegistrationCountryOptionsESType = "oss_union"
@@ -513,15 +442,6 @@ type TaxRegistrationCountryOptionsETType string
 // List of values that TaxRegistrationCountryOptionsETType can take
 const (
 	TaxRegistrationCountryOptionsETTypeStandard TaxRegistrationCountryOptionsETType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsFIIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsFIIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsFIIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsFIIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsFIIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsFIIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -543,15 +463,6 @@ const (
 	TaxRegistrationCountryOptionsFITypeOssNonUnion TaxRegistrationCountryOptionsFIType = "oss_non_union"
 	TaxRegistrationCountryOptionsFITypeOssUnion    TaxRegistrationCountryOptionsFIType = "oss_union"
 	TaxRegistrationCountryOptionsFITypeStandard    TaxRegistrationCountryOptionsFIType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsFRIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsFRIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsFRIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsFRIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsFRIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsFRIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -608,15 +519,6 @@ const (
 	TaxRegistrationCountryOptionsGnTypeStandard TaxRegistrationCountryOptionsGnType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsGrIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsGrIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsGrIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsGrIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsGrIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsGrIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme string
 
@@ -638,15 +540,6 @@ const (
 	TaxRegistrationCountryOptionsGrTypeStandard    TaxRegistrationCountryOptionsGrType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsHRIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsHRIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsHRIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsHRIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsHRIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsHRIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme string
 
@@ -666,15 +559,6 @@ const (
 	TaxRegistrationCountryOptionsHRTypeOssNonUnion TaxRegistrationCountryOptionsHRType = "oss_non_union"
 	TaxRegistrationCountryOptionsHRTypeOssUnion    TaxRegistrationCountryOptionsHRType = "oss_union"
 	TaxRegistrationCountryOptionsHRTypeStandard    TaxRegistrationCountryOptionsHRType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsHUIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsHUIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsHUIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsHUIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsHUIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsHUIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -704,15 +588,6 @@ type TaxRegistrationCountryOptionsIDType string
 // List of values that TaxRegistrationCountryOptionsIDType can take
 const (
 	TaxRegistrationCountryOptionsIDTypeSimplified TaxRegistrationCountryOptionsIDType = "simplified"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsIeIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsIeIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsIeIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsIeIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsIeIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsIeIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -750,15 +625,6 @@ type TaxRegistrationCountryOptionsIsType string
 // List of values that TaxRegistrationCountryOptionsIsType can take
 const (
 	TaxRegistrationCountryOptionsIsTypeStandard TaxRegistrationCountryOptionsIsType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsITIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsITIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsITIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsITIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsITIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsITIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -855,15 +721,6 @@ const (
 	TaxRegistrationCountryOptionsLkTypeSimplified TaxRegistrationCountryOptionsLkType = "simplified"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsLTIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsLTIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsLTIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLTIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsLTIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLTIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme string
 
@@ -885,15 +742,6 @@ const (
 	TaxRegistrationCountryOptionsLTTypeStandard    TaxRegistrationCountryOptionsLTType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsLuIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsLuIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsLuIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLuIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsLuIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLuIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme string
 
@@ -913,15 +761,6 @@ const (
 	TaxRegistrationCountryOptionsLuTypeOssNonUnion TaxRegistrationCountryOptionsLuType = "oss_non_union"
 	TaxRegistrationCountryOptionsLuTypeOssUnion    TaxRegistrationCountryOptionsLuType = "oss_union"
 	TaxRegistrationCountryOptionsLuTypeStandard    TaxRegistrationCountryOptionsLuType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsLVIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsLVIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsLVIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLVIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsLVIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLVIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -985,15 +824,6 @@ const (
 	TaxRegistrationCountryOptionsMrTypeStandard TaxRegistrationCountryOptionsMrType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsMTIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsMTIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsMTIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsMTIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsMTIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsMTIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme string
 
@@ -1037,15 +867,6 @@ type TaxRegistrationCountryOptionsNgType string
 // List of values that TaxRegistrationCountryOptionsNgType can take
 const (
 	TaxRegistrationCountryOptionsNgTypeSimplified TaxRegistrationCountryOptionsNgType = "simplified"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsNLIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsNLIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsNLIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsNLIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsNLIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsNLIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -1135,15 +956,6 @@ const (
 	TaxRegistrationCountryOptionsPhTypeSimplified TaxRegistrationCountryOptionsPhType = "simplified"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsPLIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsPLIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsPLIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsPLIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsPLIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsPLIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme string
 
@@ -1165,15 +977,6 @@ const (
 	TaxRegistrationCountryOptionsPLTypeStandard    TaxRegistrationCountryOptionsPLType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsPTIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsPTIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsPTIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsPTIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsPTIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsPTIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme string
 
@@ -1193,15 +996,6 @@ const (
 	TaxRegistrationCountryOptionsPTTypeOssNonUnion TaxRegistrationCountryOptionsPTType = "oss_non_union"
 	TaxRegistrationCountryOptionsPTTypeOssUnion    TaxRegistrationCountryOptionsPTType = "oss_union"
 	TaxRegistrationCountryOptionsPTTypeStandard    TaxRegistrationCountryOptionsPTType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsROIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsROIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsROIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsROIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsROIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsROIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -1249,15 +1043,6 @@ const (
 	TaxRegistrationCountryOptionsSaTypeSimplified TaxRegistrationCountryOptionsSaType = "simplified"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsSeIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsSeIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsSeIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSeIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsSeIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSeIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme string
 
@@ -1296,15 +1081,6 @@ const (
 	TaxRegistrationCountryOptionsSgTypeStandard TaxRegistrationCountryOptionsSgType = "standard"
 )
 
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsSiIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsSiIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsSiIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSiIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsSiIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSiIgicPlaceOfSupplyScheme = "standard"
-)
-
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme string
 
@@ -1324,15 +1100,6 @@ const (
 	TaxRegistrationCountryOptionsSiTypeOssNonUnion TaxRegistrationCountryOptionsSiType = "oss_non_union"
 	TaxRegistrationCountryOptionsSiTypeOssUnion    TaxRegistrationCountryOptionsSiType = "oss_union"
 	TaxRegistrationCountryOptionsSiTypeStandard    TaxRegistrationCountryOptionsSiType = "standard"
-)
-
-// Place of supply scheme used in an IGIC registration.
-type TaxRegistrationCountryOptionsSKIgicPlaceOfSupplyScheme string
-
-// List of values that TaxRegistrationCountryOptionsSKIgicPlaceOfSupplyScheme can take
-const (
-	TaxRegistrationCountryOptionsSKIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSKIgicPlaceOfSupplyScheme = "inbound_goods"
-	TaxRegistrationCountryOptionsSKIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSKIgicPlaceOfSupplyScheme = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -4910,16 +4677,11 @@ type TaxRegistrationCountryOptionsAo struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAoType `json:"type"`
 }
-type TaxRegistrationCountryOptionsAtIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAtIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsAtStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsAt struct {
-	Igic     *TaxRegistrationCountryOptionsAtIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsAtStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsAtType `json:"type"`
@@ -4953,16 +4715,11 @@ type TaxRegistrationCountryOptionsBd struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsBdType `json:"type"`
 }
-type TaxRegistrationCountryOptionsBeIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBeIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsBeStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsBe struct {
-	Igic     *TaxRegistrationCountryOptionsBeIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsBeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsBeType `json:"type"`
@@ -4971,16 +4728,11 @@ type TaxRegistrationCountryOptionsBf struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsBfType `json:"type"`
 }
-type TaxRegistrationCountryOptionsBGIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBGIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsBGStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsBG struct {
-	Igic     *TaxRegistrationCountryOptionsBGIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsBGStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsBGType `json:"type"`
@@ -5043,58 +4795,38 @@ type TaxRegistrationCountryOptionsCv struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsCvType `json:"type"`
 }
-type TaxRegistrationCountryOptionsCyIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCyIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsCyStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCy struct {
-	Igic     *TaxRegistrationCountryOptionsCyIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsCyStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsCyType `json:"type"`
-}
-type TaxRegistrationCountryOptionsCzIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCzIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCzStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCz struct {
-	Igic     *TaxRegistrationCountryOptionsCzIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsCzStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsCzType `json:"type"`
-}
-type TaxRegistrationCountryOptionsDEIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDEIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDEStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDE struct {
-	Igic     *TaxRegistrationCountryOptionsDEIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsDEStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsDEType `json:"type"`
-}
-type TaxRegistrationCountryOptionsDkIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDkIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDkStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDk struct {
-	Igic     *TaxRegistrationCountryOptionsDkIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsDkStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsDkType `json:"type"`
@@ -5103,16 +4835,11 @@ type TaxRegistrationCountryOptionsEc struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsEcType `json:"type"`
 }
-type TaxRegistrationCountryOptionsEeIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsEeIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsEeStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsEe struct {
-	Igic     *TaxRegistrationCountryOptionsEeIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsEeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsEeType `json:"type"`
@@ -5132,37 +4859,27 @@ type TaxRegistrationCountryOptionsESStandard struct {
 type TaxRegistrationCountryOptionsES struct {
 	Igic     *TaxRegistrationCountryOptionsESIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsESStandard `json:"standard,omitempty"`
-	// Type of registration in an EU country.
+	// Type of registration in ES.
 	Type TaxRegistrationCountryOptionsESType `json:"type"`
 }
 type TaxRegistrationCountryOptionsET struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsETType `json:"type"`
 }
-type TaxRegistrationCountryOptionsFIIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFIIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsFIStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsFI struct {
-	Igic     *TaxRegistrationCountryOptionsFIIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsFIStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsFIType `json:"type"`
-}
-type TaxRegistrationCountryOptionsFRIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFRIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsFRStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsFR struct {
-	Igic     *TaxRegistrationCountryOptionsFRIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsFRStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsFRType `json:"type"`
@@ -5184,44 +4901,29 @@ type TaxRegistrationCountryOptionsGn struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsGnType `json:"type"`
 }
-type TaxRegistrationCountryOptionsGrIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGrIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsGrStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsGr struct {
-	Igic     *TaxRegistrationCountryOptionsGrIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsGrStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsGrType `json:"type"`
-}
-type TaxRegistrationCountryOptionsHRIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHRIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHRStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHR struct {
-	Igic     *TaxRegistrationCountryOptionsHRIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsHRStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsHRType `json:"type"`
-}
-type TaxRegistrationCountryOptionsHUIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHUIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHUStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHU struct {
-	Igic     *TaxRegistrationCountryOptionsHUIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsHUStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsHUType `json:"type"`
@@ -5230,16 +4932,11 @@ type TaxRegistrationCountryOptionsID struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsIDType `json:"type"`
 }
-type TaxRegistrationCountryOptionsIeIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsIeIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsIeStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsIe struct {
-	Igic     *TaxRegistrationCountryOptionsIeIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsIeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsIeType `json:"type"`
@@ -5252,16 +4949,11 @@ type TaxRegistrationCountryOptionsIs struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsIsType `json:"type"`
 }
-type TaxRegistrationCountryOptionsITIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsITIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsITStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsIT struct {
-	Igic     *TaxRegistrationCountryOptionsITIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsITStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsITType `json:"type"`
@@ -5303,44 +4995,29 @@ type TaxRegistrationCountryOptionsLk struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsLkType `json:"type"`
 }
-type TaxRegistrationCountryOptionsLTIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLTIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsLTStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLT struct {
-	Igic     *TaxRegistrationCountryOptionsLTIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsLTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLTType `json:"type"`
-}
-type TaxRegistrationCountryOptionsLuIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLuIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLuStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLu struct {
-	Igic     *TaxRegistrationCountryOptionsLuIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsLuStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLuType `json:"type"`
-}
-type TaxRegistrationCountryOptionsLVIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLVIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLVStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLV struct {
-	Igic     *TaxRegistrationCountryOptionsLVIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsLVStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLVType `json:"type"`
@@ -5365,16 +5042,11 @@ type TaxRegistrationCountryOptionsMr struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsMrType `json:"type"`
 }
-type TaxRegistrationCountryOptionsMTIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsMTIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsMTStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsMT struct {
-	Igic     *TaxRegistrationCountryOptionsMTIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsMTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsMTType `json:"type"`
@@ -5391,16 +5063,11 @@ type TaxRegistrationCountryOptionsNg struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNgType `json:"type"`
 }
-type TaxRegistrationCountryOptionsNLIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNLIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsNLStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsNL struct {
-	Igic     *TaxRegistrationCountryOptionsNLIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsNLStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsNLType `json:"type"`
@@ -5439,44 +5106,29 @@ type TaxRegistrationCountryOptionsPh struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsPhType `json:"type"`
 }
-type TaxRegistrationCountryOptionsPLIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPLIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsPLStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsPL struct {
-	Igic     *TaxRegistrationCountryOptionsPLIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsPLStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsPLType `json:"type"`
-}
-type TaxRegistrationCountryOptionsPTIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPTIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsPTStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsPT struct {
-	Igic     *TaxRegistrationCountryOptionsPTIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsPTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsPTType `json:"type"`
-}
-type TaxRegistrationCountryOptionsROIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsROIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsROStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsRO struct {
-	Igic     *TaxRegistrationCountryOptionsROIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsROStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsROType `json:"type"`
@@ -5493,16 +5145,11 @@ type TaxRegistrationCountryOptionsSa struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsSaType `json:"type"`
 }
-type TaxRegistrationCountryOptionsSeIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSeIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsSeStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSe struct {
-	Igic     *TaxRegistrationCountryOptionsSeIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsSeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSeType `json:"type"`
@@ -5516,30 +5163,20 @@ type TaxRegistrationCountryOptionsSg struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsSgType `json:"type"`
 }
-type TaxRegistrationCountryOptionsSiIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSiIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
-}
 type TaxRegistrationCountryOptionsSiStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSi struct {
-	Igic     *TaxRegistrationCountryOptionsSiIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsSiStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSiType `json:"type"`
-}
-type TaxRegistrationCountryOptionsSKIgic struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSKIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSKStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSK struct {
-	Igic     *TaxRegistrationCountryOptionsSKIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsSKStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSKType `json:"type"`
