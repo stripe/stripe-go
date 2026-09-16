@@ -1012,7 +1012,9 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	}
 
 	if notice := resp.Header.Get("Stripe-Notice"); notice != "" {
-		s.logWarnf(req.Context(), "%s", notice)
+		if message := buildStripeNoticeMessage(notice, os.LookupEnv); message != "" {
+			s.logWarnf(req.Context(), "%s", message)
+		}
 	}
 
 	return resp, result, &requestDuration, nil
@@ -2106,9 +2108,24 @@ var aiAgents = map[string]string{
 	"CODEX_CI":                       "codex_cli",
 	"CURSOR_AGENT":                   "cursor",
 	"GEMINI_CLI":                     "gemini_cli",
+	"HERMES_AGENT":                   "hermes",
 	"OPENCLAW_SHELL":                 "openclaw",
 	"OPENCODE":                       "open_code",
 	// aiAgents: The end of the section generated from our OpenAPI spec
+}
+
+const stripeNoticeSuppressionMessage = "To suppress Stripe notices in test and sandbox environments, set the STRIPE_SUPPRESS_NOTICES environment variable to true."
+
+func buildStripeNoticeMessage(notice string, lookupEnv func(string) (string, bool)) string {
+	_, isAIAgent := detectAIAgent(lookupEnv)
+	suppressionValue, _ := lookupEnv("STRIPE_SUPPRESS_NOTICES")
+	if !isAIAgent && strings.EqualFold(suppressionValue, "true") {
+		return ""
+	}
+	if !isAIAgent {
+		return notice + "\n" + stripeNoticeSuppressionMessage
+	}
+	return notice
 }
 
 func detectAIAgent(lookupEnv func(string) (string, bool)) (string, bool) {

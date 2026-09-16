@@ -758,6 +758,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage = "on_session"
 )
 
+type CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2034,7 +2042,7 @@ type CheckoutSessionCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type CheckoutSessionCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -2890,7 +2898,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -4596,7 +4605,7 @@ type CheckoutSessionCreateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type CheckoutSessionCreateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -5414,7 +5423,8 @@ type CheckoutSessionCreatePaymentMethodOptionsBACSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+	TargetDate         *string `form:"target_date" json:"target_date,omitempty"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -7665,7 +7675,7 @@ type CheckoutSessionCustomFieldDropdown struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldLabel struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom string `json:"custom"`
 	// The type of the label.
 	Type CheckoutSessionCustomFieldLabelType `json:"type"`
@@ -8034,7 +8044,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate string `json:"target_date,omitempty"`
+	TargetDate         string                                                         `json:"target_date,omitempty"`
+	VerificationMethod CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsBancontact struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
