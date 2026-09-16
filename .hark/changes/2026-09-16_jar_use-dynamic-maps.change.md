@@ -1,5 +1,6 @@
 ---
 title: Represent free-form API dictionaries as dynamic maps
+pr_url: https://github.com/stripe/stripe-go/pull/2438
 semver_level: major
 section: ⚠️ Changed
 ---
