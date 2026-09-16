@@ -211,6 +211,8 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion102 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion210 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion230 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion231 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.1"
 )
 
 // Indicates whether or not multiple captures are supported.
@@ -1888,6 +1890,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
 type PaymentAttemptRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment. You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
+	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
 
