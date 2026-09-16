@@ -5,7 +5,9 @@ import (
 	"net/url"
 	"sync"
 	"testing"
+	"time"
 
+	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
 )
 
@@ -29,6 +31,9 @@ type testStruct struct {
 	BoolPtr *bool `form:"bool_ptr"`
 
 	Emptied bool `form:"emptied,empty"`
+
+	Decimal    decimal.Decimal  `form:"decimal"`
+	DecimalPtr *decimal.Decimal `form:"decimal_ptr"`
 
 	Float32    float32  `form:"float32"`
 	Float32Ptr *float32 `form:"float32_ptr"`
@@ -63,6 +68,8 @@ type testStruct struct {
 
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
+
+	TimePtr *time.Time `form:"time_ptr"`
 
 	SubStruct    testSubStruct  `form:"substruct"`
 	SubStructPtr *testSubStruct `form:"substruct_ptr"`
@@ -131,6 +138,10 @@ func TestAppendTo(t *testing.T) {
 	var boolValT = true
 	var boolValF = false
 
+	var decimalVal = decimal.RequireFromString("12345678901234567890.123456789012")
+	var decimalFraction = decimal.RequireFromString("0.000000000001")
+	var decimalZero = decimal.Zero
+
 	var float32Val float32 = 1.2345
 	var float32Val0 float32
 
@@ -156,6 +167,8 @@ func TestAppendTo(t *testing.T) {
 
 	var stringVal = "123"
 	var stringVal0 = ""
+
+	var timeVal = time.Date(2024, time.January, 2, 3, 4, 5, 0, time.UTC)
 
 	var subStructVal = testSubStruct{
 		SubSubStruct: testSubSubStruct{
@@ -196,6 +209,11 @@ func TestAppendTo(t *testing.T) {
 		{"bool_ptr", &testStruct{BoolPtr: &boolValF}, stringPtr("false")},
 
 		{"emptied", &testStruct{Emptied: true}, stringPtr("")},
+
+		{"decimal", &testStruct{Decimal: decimalVal}, stringPtr("12345678901234567890.123456789012")},
+		{"decimal", &testStruct{Decimal: decimalFraction}, stringPtr("0.000000000001")},
+		{"decimal_ptr", &testStruct{DecimalPtr: &decimalZero}, stringPtr("0")},
+		{"decimal_ptr", &testStruct{}, nil},
 
 		{"float32", &testStruct{Float32: float32Val}, stringPtr("1.2345")},
 		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, stringPtr("1.2345")},
@@ -300,6 +318,9 @@ func TestAppendTo(t *testing.T) {
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, &stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal0}, &stringVal0},
 		{"string_ptr", &testStruct{}, nil},
+
+		{"time_ptr", &testStruct{TimePtr: &timeVal}, stringPtr("2024-01-02 03:04:05 +0000 UTC")},
+		{"time_ptr", &testStruct{}, nil},
 
 		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, stringPtr("123")},
 		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, stringPtr("123")},

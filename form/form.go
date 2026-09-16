@@ -5,6 +5,7 @@ package form
 
 import (
 	"bytes"
+	"encoding"
 	"fmt"
 	"net/url"
 	"reflect"
@@ -338,6 +339,17 @@ func timeEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 	values.Add(FormatKey(keyParts), val.String())
 }
 
+func textMarshalerEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
+	if (v.Kind() == reflect.Ptr && v.IsNil()) || (v.IsZero() && !encodeZero) {
+		return
+	}
+	text, err := v.Interface().(encoding.TextMarshaler).MarshalText()
+	if err != nil {
+		panic(fmt.Sprintf("Could not marshal %s as text: %v", v.Type(), err))
+	}
+	values.Add(FormatKey(keyParts), string(text))
+}
+
 func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
 	// interfaceEncoder never encodes a `nil`, but it will pass through an
 	// `encodeZero` value into its chained encoder
@@ -479,6 +491,12 @@ func makeTypeEncoder(t reflect.Type) encoderFunc {
 	// and don't want to inspect into it and encode it as a struct.
 	if t == reflect.TypeOf(time.Time{}) {
 		return timeEncoder
+	}
+	if t.Kind() == reflect.Ptr && t.Elem() == reflect.TypeOf(time.Time{}) {
+		return buildPtrEncoder(t)
+	}
+	if t.Implements(reflect.TypeOf((*encoding.TextMarshaler)(nil)).Elem()) {
+		return textMarshalerEncoder
 	}
 
 	switch t.Kind() {
