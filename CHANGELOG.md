@@ -7,6 +7,53 @@ Instead, edit a corresponding `.change.md` file and run `hark build`.
 
 > This changelog only covers the **private preview** releases. Each release builds on the most recent GA release; see those notes in [the GA changelog](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md).
 
+## <a id="86-5-0-alpha-4"></a>86.5.0-alpha.4 - 2026-09-16
+This release changes the pinned API version to `2026-09-16.preview`.
+
+* ⚠️ [#2430](https://github.com/stripe/stripe-go/pull/2430) Update generated code
+  * Add support for new resources `AppsInstall` and `V2CoreVaultNetworkToken`
+  * Add support for `CreateFromCredential`, `GenerateCryptogram`, `Get`, and `New` methods on resource `V2CoreVaultNetworkToken`
+  * ⚠️ Remove support for `NestingDemo` on `AccountSessionComponents`
+  * Add support for `SharedPaymentGrantedToken` on `ChargePaymentMethodDetails`
+  * ⚠️ Change type of `ChargePaymentMethodDetailsCard.Mandate` from `string` to `expandable($Mandate)`
+  * Add support for `CurrentTrial` on `CheckoutSessionItemSubscriptionItemParams` and `CheckoutSessionItemSubscriptionItem`
+  * Add support for `VerificationMethod` on `CheckoutSessionPaymentMethodOptionsBacsDebitParams` and `CheckoutSessionPaymentMethodOptionsBacsDebit`
+  * Add support for new values `address_validation_failed` and `person_verification_failed` on enum `CryptoCustomerKycTier.VerificationErrors`
+  * Add support for new values `address_validation_failed` and `person_verification_failed` on enum `CryptoCustomerVerification.Errors`
+  * Add support for new value `ripusd` on enum `CryptoOnrampSessionTransactionDetails.DestinationCurrencies`
+  * Add support for new value `ripusd` on enum `CryptoOnrampSessionTransactionDetails.DestinationCurrency`
+  * Add support for new values `cad`, `cop`, and `php` on enum `CryptoOnrampSessionTransactionDetails.SourceCurrency`
+  * Add support for `Appeal` on `DisputeEvidence`
+  * Add support for `BACSDebit` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `QuotePreviewInvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for `PricingToken` on `InvoiceCreatePreviewParams`
+  * Add support for `ExpiresAt` on `MandatePaymentMethodDetailsBlik`, `PaymentIntentNextActionSwishHandleRedirectOrDisplayQrCodeQrCode`, and `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptions`
+  * ⚠️ Remove support for `ExpiresAfter` on `MandatePaymentMethodDetailsBlik` and `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptions`
+  * Add support for `Momo` on `PaymentAttemptRecordPaymentMethodDetails` and `PaymentRecordPaymentMethodDetails`
+  * Add support for new values `2.3.0` and `2.3.1` on enums `PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure.Version` and `PaymentRecordPaymentMethodDetailsCardThreeDSecure.Version`
+  * Add support for `Link` on `PaymentAttemptRecordPaymentMethodDetailsCardWallet` and `PaymentRecordPaymentMethodDetailsCardWallet`
+  * Add support for `FundingSourceGroup` on `PaymentAttemptRecordPaymentMethodDetailsLink` and `PaymentRecordPaymentMethodDetailsLink`
+  * Add support for `PayoutMethodOptions` on `PayoutParams`
+  * Add support for `EarlyFraudWarning` and `FraudulentDispute` on `RadarPaymentEvaluationSignals`
+  * ⚠️ Remove support for `Igic` on `TaxRegistrationCountryOptionsAt`, `TaxRegistrationCountryOptionsBe`, `TaxRegistrationCountryOptionsBg`, `TaxRegistrationCountryOptionsCy`, `TaxRegistrationCountryOptionsCz`, `TaxRegistrationCountryOptionsDe`, `TaxRegistrationCountryOptionsDk`, `TaxRegistrationCountryOptionsEe`, `TaxRegistrationCountryOptionsFi`, `TaxRegistrationCountryOptionsFr`, `TaxRegistrationCountryOptionsGr`, `TaxRegistrationCountryOptionsHr`, `TaxRegistrationCountryOptionsHu`, `TaxRegistrationCountryOptionsIe`, `TaxRegistrationCountryOptionsIt`, `TaxRegistrationCountryOptionsLt`, `TaxRegistrationCountryOptionsLu`, `TaxRegistrationCountryOptionsLv`, `TaxRegistrationCountryOptionsMt`, `TaxRegistrationCountryOptionsNl`, `TaxRegistrationCountryOptionsPl`, `TaxRegistrationCountryOptionsPt`, `TaxRegistrationCountryOptionsRo`, `TaxRegistrationCountryOptionsSe`, `TaxRegistrationCountryOptionsSi`, and `TaxRegistrationCountryOptionsSk`
+  * Add support for new value `igic` on enum `TaxRegistrationCountryOptionsEs.Type`
+  * Add support for `Metadata` on `V2BillingContractOneTimeFeeActionAddParams`, `V2BillingContractOneTimeFeeActionUpdateParams`, `V2BillingContractOneTimeFeeParams`, and `V2BillingContractOneTimeFeesData`
+  * Add support for `BankAccount` and `CryptoWallet` on `V2MoneyManagementFinancialAddressParams` and `V2MoneyManagementFinancialAddress`
+  * Add support for `Type` on `V2MoneyManagementFinancialAddress` and `V2MoneyManagementReceivedCreditCryptoWalletTransfer`
+  * ⚠️ Remove support for `Credentials` and `Currency` on `V2MoneyManagementFinancialAddress`
+  * Add support for `AmountReceived` on `V2MoneyManagementReceivedCredit`
+  * Add support for `OriginatingBankAccount` on `V2MoneyManagementReceivedCreditBankTransfer`
+  * ⚠️ Remove support for `OriginType` on `V2MoneyManagementReceivedCreditBankTransfer` and `V2MoneyManagementReceivedCreditCryptoWalletTransfer`
+  * Add support for `LatestPaymentAttemptRecordDetails` on `V2PaymentsOffSessionPayment`
+  * Add support for `AccountReviewed` on `V2SignalsAccountActivityParams` and `V2SignalsAccountActivity`
+  * Add support for new value `account_reviewed` on enum `V2SignalsAccountActivity.Type`
+  * Add support for `Include` on `V2PaymentsOffSessionPaymentParams`
+  * ⚠️ Remove support for `Include` on `V2MoneyManagementFinancialAddressListParams` and `V2MoneyManagementFinancialAddressParams`
+  * ⚠️ Remove support for `CryptoProperties` and `SEPABankAccount` on `V2MoneyManagementFinancialAddressParams`
+  * Add support for error type `MerchantNotGatedError`
+  * Add support for error code `merchant_not_enrolled` on `BlockedByStripeError`
+  * Add support for error codes `card_brand_not_supported`, `cryptogram_type_unsupported`, `network_token_not_active`, and `tokenization_not_supported` on `CannotProceedError`
+  * Add support for error codes `billing_contract_rate_limit_exceeded` and `cryptogram_rate_limit` on `RateLimitError`
+
 ## <a id="86-5-0-alpha-3"></a>86.5.0-alpha.3 - 2026-09-09
 * [#2428](https://github.com/stripe/stripe-go/pull/2428) Update generated code for private-preview
   * Add support for `CustomerTaxExemption` on `TaxCalculationLineItemTaxBreakdown`, `TaxCalculationShippingCostTaxBreakdown`, and `TaxTransactionShippingCostTaxBreakdown`
