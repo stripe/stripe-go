@@ -5,7 +5,6 @@ import (
 	"net/url"
 	"sync"
 	"testing"
-	"time"
 
 	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
@@ -68,8 +67,6 @@ type testStruct struct {
 
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
-
-	TimePtr *time.Time `form:"time_ptr"`
 
 	SubStruct    testSubStruct  `form:"substruct"`
 	SubStructPtr *testSubStruct `form:"substruct_ptr"`
@@ -167,8 +164,6 @@ func TestAppendTo(t *testing.T) {
 
 	var stringVal = "123"
 	var stringVal0 = ""
-
-	var timeVal = time.Date(2024, time.January, 2, 3, 4, 5, 0, time.UTC)
 
 	var subStructVal = testSubStruct{
 		SubSubStruct: testSubSubStruct{
@@ -318,9 +313,6 @@ func TestAppendTo(t *testing.T) {
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, &stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal0}, &stringVal0},
 		{"string_ptr", &testStruct{}, nil},
-
-		{"time_ptr", &testStruct{TimePtr: &timeVal}, stringPtr("2024-01-02 03:04:05 +0000 UTC")},
-		{"time_ptr", &testStruct{}, nil},
 
 		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, stringPtr("123")},
 		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, stringPtr("123")},

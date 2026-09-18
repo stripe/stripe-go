@@ -5,7 +5,6 @@ package form
 
 import (
 	"bytes"
-	"encoding"
 	"fmt"
 	"net/url"
 	"reflect"
@@ -14,6 +13,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
 const tagName = "form"
@@ -339,15 +340,12 @@ func timeEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 	values.Add(FormatKey(keyParts), val.String())
 }
 
-func textMarshalerEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
-	if (v.Kind() == reflect.Ptr && v.IsNil()) || (v.IsZero() && !encodeZero) {
+func decimalEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
+	val := v.Interface().(decimal.Decimal)
+	if val.IsZero() && !encodeZero {
 		return
 	}
-	text, err := v.Interface().(encoding.TextMarshaler).MarshalText()
-	if err != nil {
-		panic(fmt.Sprintf("Could not marshal %s as text: %v", v.Type(), err))
-	}
-	values.Add(FormatKey(keyParts), string(text))
+	values.Add(FormatKey(keyParts), val.String())
 }
 
 func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
@@ -492,11 +490,8 @@ func makeTypeEncoder(t reflect.Type) encoderFunc {
 	if t == reflect.TypeOf(time.Time{}) {
 		return timeEncoder
 	}
-	if t.Kind() == reflect.Ptr && t.Elem() == reflect.TypeOf(time.Time{}) {
-		return buildPtrEncoder(t)
-	}
-	if t.Implements(reflect.TypeOf((*encoding.TextMarshaler)(nil)).Elem()) {
-		return textMarshalerEncoder
+	if t == reflect.TypeOf(decimal.Decimal{}) {
+		return decimalEncoder
 	}
 
 	switch t.Kind() {
