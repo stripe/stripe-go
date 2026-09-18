@@ -19,6 +19,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
 )
 
@@ -1040,6 +1041,35 @@ func TestMarshalV2JSON(t *testing.T) {
 		Amount      *int64   `form:"amount" json:"amount,omitempty"`
 		UnsetFields []string `form:"-" json:"-"`
 	}
+
+	t.Run("decimal fields are always quoted", func(t *testing.T) {
+		type nestedParams struct {
+			Amount *decimal.Decimal `json:"amount,omitempty"`
+		}
+		type decimalParams struct {
+			Params `form:"*"`
+			Detail *nestedParams   `json:"detail,omitempty"`
+			Items  []*nestedParams `json:"items,omitempty"`
+		}
+
+		oldMarshalJSONWithoutQuotes := decimal.MarshalJSONWithoutQuotes
+		decimal.MarshalJSONWithoutQuotes = true
+		t.Cleanup(func() {
+			decimal.MarshalJSONWithoutQuotes = oldMarshalJSONWithoutQuotes
+		})
+
+		value := decimal.RequireFromString("12345678901234567890.123456789012")
+		params := &decimalParams{
+			Detail: &nestedParams{Amount: &value},
+			Items:  []*nestedParams{{Amount: &value}},
+		}
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+		assert.JSONEq(t, `{
+			"detail": {"amount": "12345678901234567890.123456789012"},
+			"items": [{"amount": "12345678901234567890.123456789012"}]
+		}`, string(data))
+	})
 
 	t.Run("without UnsetFields", func(t *testing.T) {
 		params := &testParams{
