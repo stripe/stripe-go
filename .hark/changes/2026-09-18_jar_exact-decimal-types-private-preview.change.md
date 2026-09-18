@@ -1,5 +1,5 @@
 ---
-title: Use exact decimal types for private-preview decimal API fields
+title: Use exact decimal types for decimal API fields
 semver_level: major
 ---
 
