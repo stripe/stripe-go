@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // The type of parent that generated this line item
 type InvoiceLineItemParentType string
 
@@ -178,7 +180,7 @@ type InvoiceLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // The pricing information for the invoice item.
@@ -256,7 +258,7 @@ type InvoiceLineItemParams struct {
 	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
-	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
+	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
 	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
@@ -393,7 +395,7 @@ type InvoiceLineItemUpdatePriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // The pricing information for the invoice item.
@@ -471,7 +473,7 @@ type InvoiceLineItemUpdateParams struct {
 	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
-	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
+	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
 	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemUpdateTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
@@ -698,7 +700,7 @@ type InvoiceLineItemPricing struct {
 	// The type of the pricing details.
 	Type InvoiceLineItemPricingType `json:"type"`
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 }
 
 // The tax calculation identifiers of the line item.
@@ -772,8 +774,8 @@ type InvoiceLineItem struct {
 	// Quantity of units for the invoice line item in integer format, with any decimal precision truncated. For the line item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the line item is a proration or subscription, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
-	QuantityDecimal float64       `json:"quantity_decimal,string"`
-	Subscription    *Subscription `json:"subscription"`
+	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
+	Subscription    *Subscription   `json:"subscription"`
 	// The subtotal of the line item, in cents (or local equivalent), before any discounts or taxes.
 	Subtotal int64 `json:"subtotal"`
 	// The tax calculation identifiers of the line item.

@@ -13,6 +13,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v86"
 	account "github.com/stripe/stripe-go/v86/account"
@@ -9912,8 +9913,8 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1633651200),
@@ -9922,7 +9923,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -9961,8 +9962,8 @@ func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1633651200),
@@ -9971,7 +9972,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10010,8 +10011,8 @@ func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1633651200),
@@ -10020,7 +10021,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10480,8 +10481,8 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10490,7 +10491,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10541,8 +10542,8 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10551,7 +10552,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10602,8 +10603,8 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10612,7 +10613,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10661,8 +10662,8 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10671,7 +10672,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10722,8 +10723,8 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10732,7 +10733,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -10783,8 +10784,8 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.Float64(3.5),
-				QuantityDecimal: stripe.Float64(10),
+				UnitCostDecimal: stripe.Pointer(decimal.RequireFromString("3.5")),
+				QuantityDecimal: stripe.Pointer(decimal.RequireFromString("10")),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -10793,7 +10794,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
 				{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.Float64(1),
+					Quantity:    stripe.Pointer(decimal.RequireFromString("1")),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -14057,7 +14058,7 @@ func TestV2BillingIntentPostService(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.Float64(991934883.3333334),
+							PercentOff: stripe.Pointer(decimal.RequireFromString("991934883.3333334")),
 						},
 						Type: stripe.String("percent_off"),
 					},
@@ -14226,7 +14227,7 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.Float64(991934883.3333334),
+							PercentOff: stripe.Pointer(decimal.RequireFromString("991934883.3333334")),
 						},
 						Type: stripe.String("percent_off"),
 					},
@@ -15888,7 +15889,7 @@ func TestV2BillingRateCardPost3Service(t *testing.T) {
 					{
 						FlatAmount:  stripe.String("flat_amount"),
 						UnitAmount:  stripe.String("unit_amount"),
-						UpToDecimal: stripe.Float64(1387931359.3333333),
+						UpToDecimal: stripe.Pointer(decimal.RequireFromString("1387931359.3333333")),
 						UpToInf:     stripe.String("inf"),
 					},
 				},
@@ -15939,7 +15940,7 @@ func TestV2BillingRateCardPost3Client(t *testing.T) {
 					{
 						FlatAmount:  stripe.String("flat_amount"),
 						UnitAmount:  stripe.String("unit_amount"),
-						UpToDecimal: stripe.Float64(1387931359.3333333),
+						UpToDecimal: stripe.Pointer(decimal.RequireFromString("1387931359.3333333")),
 						UpToInf:     stripe.String("inf"),
 					},
 				},
@@ -22051,7 +22052,7 @@ func TestV2TaxManualRulePostService(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.Float64(614555204),
+						Percentage:   stripe.Pointer(decimal.RequireFromString("614555204")),
 						State:        stripe.String("state"),
 					},
 				},
@@ -22080,7 +22081,7 @@ func TestV2TaxManualRulePostClient(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.Float64(614555204),
+						Percentage:   stripe.Pointer(decimal.RequireFromString("614555204")),
 						State:        stripe.String("state"),
 					},
 				},
@@ -22135,7 +22136,7 @@ func TestV2TaxManualRulePost2Service(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.Float64(614555204),
+						Percentage:   stripe.Pointer(decimal.RequireFromString("614555204")),
 						State:        stripe.String("state"),
 					},
 				},
@@ -22164,7 +22165,7 @@ func TestV2TaxManualRulePost2Client(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.Float64(614555204),
+						Percentage:   stripe.Pointer(decimal.RequireFromString("614555204")),
 						State:        stripe.String("state"),
 					},
 				},

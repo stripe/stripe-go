@@ -6,12 +6,14 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
 type V2BillingServiceActionCreditGrantAmountCustomPricingUnitParams struct {
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -65,7 +67,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnitParams str
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -168,7 +170,7 @@ type V2BillingServiceActionCreateCreditGrantAmountCustomPricingUnitParams struct
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -222,7 +224,7 @@ type V2BillingServiceActionCreateCreditGrantPerTenantAmountCustomPricingUnitPara
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
