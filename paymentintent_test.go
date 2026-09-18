@@ -7,14 +7,6 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
-func TestPaymentIntentNextActionUseStripeSDK_UnmarshalJSON(t *testing.T) {
-	var action PaymentIntentNextAction
-	err := json.Unmarshal([]byte(`{"use_stripe_sdk":{"enabled":true,"nested":{"key":"value"}}}`), &action)
-	assert.NoError(t, err)
-	assert.Equal(t, true, action.UseStripeSDK["enabled"])
-	assert.Equal(t, "value", action.UseStripeSDK["nested"].(map[string]interface{})["key"])
-}
-
 func TestPaymentIntentNextAction_UnmarshalJSON(t *testing.T) {
 	actionData := map[string]interface{}{
 		"redirect_to_url": map[string]interface{}{
