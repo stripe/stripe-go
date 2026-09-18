@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // The type of grouping used for this alert notification
 type BillingAlertTriggeredGroupByType string
 
@@ -56,5 +58,5 @@ type BillingAlertTriggered struct {
 	// Timestamp at which the threshold was crossed
 	TriggeredAt int64 `json:"triggered_at,omitempty"`
 	// The value triggering the alert
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }
