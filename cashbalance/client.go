@@ -34,9 +34,8 @@ func Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
-	if params == nil || params.Customer == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set")
+	if params == nil || params.ID == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.ID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance", stripe.StringValue(params.ID))
@@ -56,9 +55,8 @@ func Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
-	if params == nil || params.Customer == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set")
+	if params == nil || params.ID == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.ID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance", stripe.StringValue(params.ID))

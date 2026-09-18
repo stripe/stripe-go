@@ -38,8 +38,8 @@ func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
-	if params.Account == nil {
-		return nil, fmt.Errorf("invalid login link params: Account must be set")
+	if params.ID == nil {
+		return nil, fmt.Errorf("invalid login link params: ID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/login_links", stripe.StringValue(params.ID))

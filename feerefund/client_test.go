@@ -10,7 +10,7 @@ import (
 
 func TestFeeRefundGet(t *testing.T) {
 	refund, err := Get("fr_123", &stripe.FeeRefundParams{
-		Fee: stripe.String("fee_123"),
+		FeeID: stripe.String("fee_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
@@ -38,7 +38,7 @@ func TestFeeRefundNew(t *testing.T) {
 
 func TestFeeRefundUpdate(t *testing.T) {
 	refund, err := Update("fr_123", &stripe.FeeRefundParams{
-		Fee: stripe.String("fee_123"),
+		FeeID: stripe.String("fee_123"),
 		Params: stripe.Params{
 			Metadata: map[string]string{
 				"foo": "bar",

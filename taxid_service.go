@@ -26,9 +26,9 @@ func (c v1TaxIDService) Create(ctx context.Context, params *TaxIDCreateParams) (
 		params = &TaxIDCreateParams{}
 	}
 	params.Context = ctx
-	if params.Customer != nil {
+	if params.ID != nil {
 		path = FormatURLPath(
-			"/v1/customers/%s/tax_ids", StringValue(params.Customer))
+			"/v1/customers/%s/tax_ids", StringValue(params.ID))
 	}
 	taxid := &TaxID{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, taxid)
@@ -42,9 +42,9 @@ func (c v1TaxIDService) Retrieve(ctx context.Context, id string, params *TaxIDRe
 		params = &TaxIDRetrieveParams{}
 	}
 	params.Context = ctx
-	if params.Customer != nil {
+	if params.CustomerID != nil {
 		path = FormatURLPath(
-			"/v1/customers/%s/tax_ids/%s", StringValue(params.Customer), id)
+			"/v1/customers/%s/tax_ids/%s", StringValue(params.CustomerID), id)
 	}
 	taxid := &TaxID{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, taxid)
@@ -58,9 +58,9 @@ func (c v1TaxIDService) Delete(ctx context.Context, id string, params *TaxIDDele
 		params = &TaxIDDeleteParams{}
 	}
 	params.Context = ctx
-	if params.Customer != nil {
+	if params.CustomerID != nil {
 		path = FormatURLPath(
-			"/v1/customers/%s/tax_ids/%s", StringValue(params.Customer), id)
+			"/v1/customers/%s/tax_ids/%s", StringValue(params.CustomerID), id)
 	}
 	taxid := &TaxID{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, taxid)
@@ -70,9 +70,9 @@ func (c v1TaxIDService) Delete(ctx context.Context, id string, params *TaxIDDele
 // Returns a list of tax IDs for a customer.
 func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) *V1List[*TaxID] {
 	path := "/v1/tax_ids"
-	if listParams != nil && listParams.Customer != nil {
+	if listParams != nil && listParams.ID != nil {
 		path = FormatURLPath(
-			"/v1/customers/%s/tax_ids", StringValue(listParams.Customer))
+			"/v1/customers/%s/tax_ids", StringValue(listParams.ID))
 	}
 	if listParams == nil {
 		listParams = &TaxIDListParams{}

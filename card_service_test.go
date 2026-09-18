@@ -12,7 +12,7 @@ import (
 func TestCardDelete_ByCustomer(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	card, err := sc.V1Cards.Delete(context.TODO(), "card_123", &stripe.CardDeleteParams{
-		Customer: stripe.String("cus_123"),
+		CustomerID: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
@@ -94,8 +94,8 @@ func TestCardCreate_ByAccount(t *testing.T) {
 func TestCardUpdate_ByCustomer(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	card, err := sc.V1Cards.Update(context.TODO(), "card_123", &stripe.CardUpdateParams{
-		Customer: stripe.String("cus_123"),
-		Name:     stripe.String("New Name"),
+		CustomerID: stripe.String("cus_123"),
+		Name:       stripe.String("New Name"),
 		Metadata: map[string]string{
 			"key": "value",
 		},

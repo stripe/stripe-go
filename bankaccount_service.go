@@ -84,10 +84,10 @@ func (c v1BankAccountService) Update(ctx context.Context, id string, params *Ban
 		return nil, fmt.Errorf("params should not be nil")
 	}
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if (params.AccountID != nil && params.Customer != nil) || (params.AccountID == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("invalid bank account params: exactly one of Account or Customer need to be set")
-	} else if params.Account != nil {
-		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	} else if params.AccountID != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.AccountID), id)
 	} else if params.Customer != nil {
 		path = FormatURLPath("/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
 	}
@@ -103,10 +103,10 @@ func (c v1BankAccountService) Delete(ctx context.Context, id string, params *Ban
 		return nil, fmt.Errorf("params should not be nil")
 	}
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if (params.AccountID != nil && params.Customer != nil) || (params.AccountID == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("invalid bank account params: exactly one of Account or Customer need to be set")
-	} else if params.Account != nil {
-		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	} else if params.AccountID != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.AccountID), id)
 	} else if params.Customer != nil {
 		path = FormatURLPath("/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
 	}

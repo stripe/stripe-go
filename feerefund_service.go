@@ -61,8 +61,8 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.FeeID == nil {
+		return nil, fmt.Errorf("params.FeeID must be set")
 	}
 	if params == nil {
 		params = &FeeRefundUpdateParams{}

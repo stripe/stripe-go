@@ -60,7 +60,7 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceDetach(t *testing.T) {
 	source, err := Detach("src_123", &stripe.SourceDetachParams{
-		Customer: stripe.String("cus_123"),
+		CustomerID: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)

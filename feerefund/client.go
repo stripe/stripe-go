@@ -78,8 +78,8 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.FeeID == nil {
+		return nil, fmt.Errorf("params.FeeID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.FeeID), id)
@@ -106,8 +106,8 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.FeeID == nil {
+		return nil, fmt.Errorf("params.FeeID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.FeeID), id)

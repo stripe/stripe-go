@@ -12,7 +12,7 @@ import (
 func TestBankAccountDelete_ByAccount(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	bankAccount, err := sc.V1BankAccounts.Delete(context.TODO(), "ba_123", &stripe.BankAccountDeleteParams{
-		Account: stripe.String("acct_123"),
+		AccountID: stripe.String("acct_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAccount)
@@ -101,7 +101,7 @@ func TestBankAccountUpdate_ByCustomer(t *testing.T) {
 func TestBankAccountUpdate_ByAccount(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	bankAccount, err := sc.V1BankAccounts.Update(context.TODO(), "ba_123", &stripe.BankAccountUpdateParams{
-		Account:           stripe.String("acct_123"),
+		AccountID:         stripe.String("acct_123"),
 		AccountHolderName: stripe.String("Jenny Rosen"),
 	})
 	assert.Nil(t, err)

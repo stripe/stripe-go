@@ -88,7 +88,7 @@ func Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error) {
-	if params.Customer == nil {
+	if params.CustomerID == nil {
 		return nil, fmt.Errorf(
 			"invalid source detach params: Customer needs to be set")
 	}

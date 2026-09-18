@@ -32,9 +32,8 @@ func (c v1CashBalanceService) Retrieve(ctx context.Context, params *CashBalanceR
 
 // Changes the settings on a customer's cash balance.
 func (c v1CashBalanceService) Update(ctx context.Context, params *CashBalanceUpdateParams) (*CashBalance, error) {
-	if params == nil || params.Customer == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set")
+	if params == nil || params.ID == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.ID must be set")
 	}
 	if params == nil {
 		params = &CashBalanceUpdateParams{}
