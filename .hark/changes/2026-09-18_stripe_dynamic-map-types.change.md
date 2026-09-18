@@ -1,5 +1,6 @@
 ---
 title: Represent script configuration as dynamic maps
+pr_url: https://github.com/stripe/stripe-go/pull/2440
 semver_level: major
 ---
 
