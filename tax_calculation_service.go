@@ -50,7 +50,7 @@ func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/tax/calculations/%s/line_items", StringValue(listParams.Calculation))
+		"/v1/tax/calculations/%s/line_items", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TaxCalculationLineItem], error) {
 		list := &v1Page[*TaxCalculationLineItem]{}
 		if p == nil {

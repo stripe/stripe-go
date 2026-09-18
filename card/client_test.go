@@ -10,7 +10,7 @@ import (
 
 func TestCardDel(t *testing.T) {
 	card, err := Del("card_123", &stripe.CardParams{
-		Customer: stripe.String("cus_123"),
+		CustomerID: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
@@ -66,8 +66,8 @@ func TestCardNew_RequiresParams(t *testing.T) {
 
 func TestCardUpdate(t *testing.T) {
 	card, err := Update("card_123", &stripe.CardParams{
-		Customer: stripe.String("cus_123"),
-		Name:     stripe.String("New Name"),
+		CustomerID: stripe.String("cus_123"),
+		Name:       stripe.String("New Name"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)

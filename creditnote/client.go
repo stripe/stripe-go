@@ -187,7 +187,7 @@ func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/credit_notes/%s/lines", stripe.StringValue(listParams.CreditNote))
+		"/v1/credit_notes/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}

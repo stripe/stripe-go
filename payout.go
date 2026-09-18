@@ -324,6 +324,14 @@ func (p *PayoutUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PayoutPayoutMethodOptionsFinancialAccount struct {
+	// The currency credited to the destination Financial Account.
+	DestinationCurrency Currency `json:"destination_currency,omitempty"`
+}
+type PayoutPayoutMethodOptions struct {
+	FinancialAccount *PayoutPayoutMethodOptionsFinancialAccount `json:"financial_account,omitempty"`
+}
+
 // A value that generates from the beneficiary's bank that allows users to track payouts with their bank. Banks might call this a "reference number" or something similar.
 type PayoutTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`.
@@ -381,7 +389,8 @@ type Payout struct {
 	// If the payout reverses another, this is the ID of the original payout.
 	OriginalPayout *Payout `json:"original_payout"`
 	// ID of the v2 FinancialAccount the funds are sent to.
-	PayoutMethod string `json:"payout_method"`
+	PayoutMethod        string                     `json:"payout_method"`
+	PayoutMethodOptions *PayoutPayoutMethodOptions `json:"payout_method_options,omitempty"`
 	// If `completed`, you can use the [Balance Transactions API](https://docs.stripe.com/api/balance_transactions/list#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.
 	ReconciliationStatus PayoutReconciliationStatus `json:"reconciliation_status"`
 	// If the payout reverses, this is the ID of the payout that reverses this payout.

@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountinferredbalance provides the /v1/financial_connections/accounts/{account}/inferred_balances APIs
+// Package accountinferredbalance provides the /v1/financial_connections/accounts/{id}/inferred_balances APIs
 package accountinferredbalance
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
+// Client is used to invoke /v1/financial_connections/accounts/{id}/inferred_balances APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func List(params *stripe.FinancialConnectionsAccountInferredBalanceListParams) *
 func (c Client) List(listParams *stripe.FinancialConnectionsAccountInferredBalanceListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", stripe.StringValue(
-			listParams.Account))
+			listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountInferredBalanceList{}

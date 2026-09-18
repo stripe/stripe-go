@@ -161,7 +161,7 @@ func TestAccountLinksPostClient(t *testing.T) {
 
 func TestAccountsCapabilitiesGet(t *testing.T) {
 	params := &stripe.CapabilityListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		ID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result := capability.List(params)
 	assert.NotNil(t, result)
@@ -171,7 +171,7 @@ func TestAccountsCapabilitiesGet(t *testing.T) {
 func TestAccountsCapabilitiesGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		ID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result := sc.Capabilities.List(params)
 	assert.NotNil(t, result)
@@ -181,7 +181,7 @@ func TestAccountsCapabilitiesGetService(t *testing.T) {
 func TestAccountsCapabilitiesGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		ID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result := sc.V1Capabilities.List(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -190,7 +190,7 @@ func TestAccountsCapabilitiesGetClient(t *testing.T) {
 
 func TestAccountsCapabilitiesGet2(t *testing.T) {
 	params := &stripe.CapabilityParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := capability.Get("card_payments", params)
 	assert.NotNil(t, result)
@@ -200,7 +200,7 @@ func TestAccountsCapabilitiesGet2(t *testing.T) {
 func TestAccountsCapabilitiesGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.Capabilities.Get("card_payments", params)
 	assert.NotNil(t, result)
@@ -210,7 +210,7 @@ func TestAccountsCapabilitiesGet2Service(t *testing.T) {
 func TestAccountsCapabilitiesGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityRetrieveParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Capabilities.Retrieve(
 		context.TODO(), "card_payments", params)
@@ -221,7 +221,7 @@ func TestAccountsCapabilitiesGet2Client(t *testing.T) {
 func TestAccountsCapabilitiesPost(t *testing.T) {
 	params := &stripe.CapabilityParams{
 		Requested: stripe.Bool(true),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := capability.Update("card_payments", params)
 	assert.NotNil(t, result)
@@ -232,7 +232,7 @@ func TestAccountsCapabilitiesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityParams{
 		Requested: stripe.Bool(true),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.Capabilities.Update("card_payments", params)
 	assert.NotNil(t, result)
@@ -243,7 +243,7 @@ func TestAccountsCapabilitiesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityUpdateParams{
 		Requested: stripe.Bool(true),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Capabilities.Update(
 		context.TODO(), "card_payments", params)
@@ -277,7 +277,7 @@ func TestAccountsDeleteClient(t *testing.T) {
 
 func TestAccountsExternalAccountsDelete(t *testing.T) {
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := bankaccount.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -287,7 +287,7 @@ func TestAccountsExternalAccountsDelete(t *testing.T) {
 func TestAccountsExternalAccountsDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.BankAccounts.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -297,7 +297,7 @@ func TestAccountsExternalAccountsDeleteService(t *testing.T) {
 func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BankAccountDeleteParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1BankAccounts.Delete(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
@@ -307,7 +307,7 @@ func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
 
 func TestAccountsExternalAccountsDelete2(t *testing.T) {
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := bankaccount.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -317,7 +317,7 @@ func TestAccountsExternalAccountsDelete2(t *testing.T) {
 func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.BankAccounts.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -327,7 +327,7 @@ func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
 func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BankAccountDeleteParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1BankAccounts.Delete(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
@@ -337,7 +337,7 @@ func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
 
 func TestAccountsExternalAccountsPost3(t *testing.T) {
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := bankaccount.Update("ba_xxxxxxxxxxxxx", params)
@@ -348,7 +348,7 @@ func TestAccountsExternalAccountsPost3(t *testing.T) {
 func TestAccountsExternalAccountsPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.BankAccounts.Update("ba_xxxxxxxxxxxxx", params)
@@ -359,7 +359,7 @@ func TestAccountsExternalAccountsPost3Service(t *testing.T) {
 func TestAccountsExternalAccountsPost3Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BankAccountUpdateParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1BankAccounts.Update(
@@ -370,7 +370,7 @@ func TestAccountsExternalAccountsPost3Client(t *testing.T) {
 
 func TestAccountsExternalAccountsPost4(t *testing.T) {
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := bankaccount.Update("card_xxxxxxxxxxxxx", params)
@@ -381,7 +381,7 @@ func TestAccountsExternalAccountsPost4(t *testing.T) {
 func TestAccountsExternalAccountsPost4Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BankAccountParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.BankAccounts.Update("card_xxxxxxxxxxxxx", params)
@@ -392,7 +392,7 @@ func TestAccountsExternalAccountsPost4Service(t *testing.T) {
 func TestAccountsExternalAccountsPost4Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BankAccountUpdateParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1BankAccounts.Update(
@@ -452,9 +452,7 @@ func TestAccountsGet2Client(t *testing.T) {
 }
 
 func TestAccountsLoginLinksPost(t *testing.T) {
-	params := &stripe.LoginLinkParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.LoginLinkParams{ID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := loginlink.New(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -462,9 +460,7 @@ func TestAccountsLoginLinksPost(t *testing.T) {
 
 func TestAccountsLoginLinksPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.LoginLinkParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.LoginLinkParams{ID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.LoginLinks.New(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -473,7 +469,7 @@ func TestAccountsLoginLinksPostService(t *testing.T) {
 func TestAccountsLoginLinksPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.LoginLinkCreateParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		ID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1LoginLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -481,7 +477,7 @@ func TestAccountsLoginLinksPostClient(t *testing.T) {
 }
 
 func TestAccountsPersonsDelete(t *testing.T) {
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := person.Del("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -489,7 +485,7 @@ func TestAccountsPersonsDelete(t *testing.T) {
 
 func TestAccountsPersonsDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Del("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -498,7 +494,7 @@ func TestAccountsPersonsDeleteService(t *testing.T) {
 func TestAccountsPersonsDeleteClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonDeleteParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Persons.Delete(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
@@ -507,9 +503,7 @@ func TestAccountsPersonsDeleteClient(t *testing.T) {
 }
 
 func TestAccountsPersonsGet(t *testing.T) {
-	params := &stripe.PersonListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.PersonListParams{ID: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := person.List(params)
 	assert.NotNil(t, result)
@@ -518,9 +512,7 @@ func TestAccountsPersonsGet(t *testing.T) {
 
 func TestAccountsPersonsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PersonListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.PersonListParams{ID: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := sc.Persons.List(params)
 	assert.NotNil(t, result)
@@ -529,9 +521,7 @@ func TestAccountsPersonsGetService(t *testing.T) {
 
 func TestAccountsPersonsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.PersonListParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.PersonListParams{ID: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Persons.List(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -539,7 +529,7 @@ func TestAccountsPersonsGetClient(t *testing.T) {
 }
 
 func TestAccountsPersonsGet2(t *testing.T) {
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := person.Get("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -547,7 +537,7 @@ func TestAccountsPersonsGet2(t *testing.T) {
 
 func TestAccountsPersonsGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Get("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -556,7 +546,7 @@ func TestAccountsPersonsGet2Service(t *testing.T) {
 func TestAccountsPersonsGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonRetrieveParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Persons.Retrieve(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
@@ -568,7 +558,7 @@ func TestAccountsPersonsPost(t *testing.T) {
 	params := &stripe.PersonParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		ID:        stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := person.New(params)
 	assert.NotNil(t, result)
@@ -580,7 +570,7 @@ func TestAccountsPersonsPostService(t *testing.T) {
 	params := &stripe.PersonParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		ID:        stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.Persons.New(params)
 	assert.NotNil(t, result)
@@ -592,7 +582,7 @@ func TestAccountsPersonsPostClient(t *testing.T) {
 	params := &stripe.PersonCreateParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
-		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
+		ID:        stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Persons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -600,7 +590,7 @@ func TestAccountsPersonsPostClient(t *testing.T) {
 }
 
 func TestAccountsPersonsPost2(t *testing.T) {
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
 	result, err := person.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -609,7 +599,7 @@ func TestAccountsPersonsPost2(t *testing.T) {
 
 func TestAccountsPersonsPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
+	params := &stripe.PersonParams{AccountID: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Persons.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -619,7 +609,7 @@ func TestAccountsPersonsPost2Service(t *testing.T) {
 func TestAccountsPersonsPost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonUpdateParams{
-		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+		AccountID: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Persons.Update(
@@ -815,7 +805,7 @@ func TestApplicationFeesRefundsGetClient(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsGet2(t *testing.T) {
-	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
+	params := &stripe.FeeRefundParams{FeeID: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := feerefund.Get("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -823,7 +813,7 @@ func TestApplicationFeesRefundsGet2(t *testing.T) {
 
 func TestApplicationFeesRefundsGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
+	params := &stripe.FeeRefundParams{FeeID: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := sc.FeeRefunds.Get("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -832,7 +822,7 @@ func TestApplicationFeesRefundsGet2Service(t *testing.T) {
 func TestApplicationFeesRefundsGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundRetrieveParams{
-		Fee: stripe.String("fee_xxxxxxxxxxxxx"),
+		FeeID: stripe.String("fee_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1FeeRefunds.Retrieve(
 		context.TODO(), "fr_xxxxxxxxxxxxx", params)
@@ -866,7 +856,7 @@ func TestApplicationFeesRefundsPostClient(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsPost2(t *testing.T) {
-	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
+	params := &stripe.FeeRefundParams{FeeID: stripe.String("fee_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
 	result, err := feerefund.Update("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -875,7 +865,7 @@ func TestApplicationFeesRefundsPost2(t *testing.T) {
 
 func TestApplicationFeesRefundsPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
+	params := &stripe.FeeRefundParams{FeeID: stripe.String("fee_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.FeeRefunds.Update("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -885,7 +875,7 @@ func TestApplicationFeesRefundsPost2Service(t *testing.T) {
 func TestApplicationFeesRefundsPost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundUpdateParams{
-		Fee: stripe.String("fee_xxxxxxxxxxxxx"),
+		FeeID: stripe.String("fee_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1FeeRefunds.Update(
@@ -1647,7 +1637,7 @@ func TestCheckoutSessionsGet2Client(t *testing.T) {
 
 func TestCheckoutSessionsLineItemsGet(t *testing.T) {
 	params := &stripe.CheckoutSessionListLineItemsParams{
-		Session: stripe.String("sess_xyz"),
+		ID: stripe.String("sess_xyz"),
 	}
 	result := checkout_session.ListLineItems(params)
 	assert.NotNil(t, result)
@@ -1657,7 +1647,7 @@ func TestCheckoutSessionsLineItemsGet(t *testing.T) {
 func TestCheckoutSessionsLineItemsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CheckoutSessionListLineItemsParams{
-		Session: stripe.String("sess_xyz"),
+		ID: stripe.String("sess_xyz"),
 	}
 	result := sc.CheckoutSessions.ListLineItems(params)
 	assert.NotNil(t, result)
@@ -1667,7 +1657,7 @@ func TestCheckoutSessionsLineItemsGetService(t *testing.T) {
 func TestCheckoutSessionsLineItemsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CheckoutSessionListLineItemsParams{
-		Session: stripe.String("sess_xyz"),
+		ID: stripe.String("sess_xyz"),
 	}
 	result := sc.V1CheckoutSessions.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2044,7 +2034,7 @@ func TestCustomerSessionsPostClient(t *testing.T) {
 
 func TestCustomersBalanceTransactionsGet(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := customerbalancetransaction.List(params)
@@ -2055,7 +2045,7 @@ func TestCustomersBalanceTransactionsGet(t *testing.T) {
 func TestCustomersBalanceTransactionsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.CustomerBalanceTransactions.List(params)
@@ -2066,7 +2056,7 @@ func TestCustomersBalanceTransactionsGetService(t *testing.T) {
 func TestCustomersBalanceTransactionsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CustomerBalanceTransactions.List(context.TODO(), params)
@@ -2076,7 +2066,7 @@ func TestCustomersBalanceTransactionsGetClient(t *testing.T) {
 
 func TestCustomersBalanceTransactionsGet2(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := customerbalancetransaction.Get("cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2086,7 +2076,7 @@ func TestCustomersBalanceTransactionsGet2(t *testing.T) {
 func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.CustomerBalanceTransactions.Get(
 		"cbtxn_xxxxxxxxxxxxx", params)
@@ -2097,7 +2087,7 @@ func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
 func TestCustomersBalanceTransactionsGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionRetrieveParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1CustomerBalanceTransactions.Retrieve(
 		context.TODO(), "cbtxn_xxxxxxxxxxxxx", params)
@@ -2109,7 +2099,7 @@ func TestCustomersBalanceTransactionsPost(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(-500),
 		Currency: stripe.String(stripe.CurrencyUSD),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID:       stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := customerbalancetransaction.New(params)
 	assert.NotNil(t, result)
@@ -2121,7 +2111,7 @@ func TestCustomersBalanceTransactionsPostService(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(-500),
 		Currency: stripe.String(stripe.CurrencyUSD),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID:       stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.CustomerBalanceTransactions.New(params)
 	assert.NotNil(t, result)
@@ -2133,7 +2123,7 @@ func TestCustomersBalanceTransactionsPostClient(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionCreateParams{
 		Amount:   stripe.Int64(-500),
 		Currency: stripe.String(stripe.CurrencyUSD),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		ID:       stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1CustomerBalanceTransactions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2142,7 +2132,7 @@ func TestCustomersBalanceTransactionsPostClient(t *testing.T) {
 
 func TestCustomersBalanceTransactionsPost2(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := customerbalancetransaction.Update(
@@ -2154,7 +2144,7 @@ func TestCustomersBalanceTransactionsPost2(t *testing.T) {
 func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.CustomerBalanceTransactions.Update(
@@ -2166,7 +2156,7 @@ func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
 func TestCustomersBalanceTransactionsPost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionUpdateParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1CustomerBalanceTransactions.Update(
@@ -2176,7 +2166,7 @@ func TestCustomersBalanceTransactionsPost2Client(t *testing.T) {
 }
 
 func TestCustomersCashBalanceGet(t *testing.T) {
-	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
+	params := &stripe.CashBalanceParams{ID: stripe.String("cus_123")}
 	result, err := cashbalance.Get(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2184,7 +2174,7 @@ func TestCustomersCashBalanceGet(t *testing.T) {
 
 func TestCustomersCashBalanceGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
+	params := &stripe.CashBalanceParams{ID: stripe.String("cus_123")}
 	result, err := sc.CashBalances.Get(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2192,9 +2182,7 @@ func TestCustomersCashBalanceGetService(t *testing.T) {
 
 func TestCustomersCashBalanceGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.CashBalanceRetrieveParams{
-		Customer: stripe.String("cus_123"),
-	}
+	params := &stripe.CashBalanceRetrieveParams{ID: stripe.String("cus_123")}
 	result, err := sc.V1CashBalances.Retrieve(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2205,7 +2193,7 @@ func TestCustomersCashBalancePost(t *testing.T) {
 		Settings: &stripe.CashBalanceSettingsParams{
 			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	result, err := cashbalance.Update(params)
 	assert.NotNil(t, result)
@@ -2218,7 +2206,7 @@ func TestCustomersCashBalancePostService(t *testing.T) {
 		Settings: &stripe.CashBalanceSettingsParams{
 			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	result, err := sc.CashBalances.Update(params)
 	assert.NotNil(t, result)
@@ -2231,7 +2219,7 @@ func TestCustomersCashBalancePostClient(t *testing.T) {
 		Settings: &stripe.CashBalanceUpdateSettingsParams{
 			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	result, err := sc.V1CashBalances.Update(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2240,7 +2228,7 @@ func TestCustomersCashBalancePostClient(t *testing.T) {
 
 func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
 	params := &stripe.CustomerCashBalanceTransactionListParams{
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := customercashbalancetransaction.List(params)
@@ -2251,7 +2239,7 @@ func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
 func TestCustomersCashBalanceTransactionsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerCashBalanceTransactionListParams{
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.CustomerCashBalanceTransactions.List(params)
@@ -2262,7 +2250,7 @@ func TestCustomersCashBalanceTransactionsGetService(t *testing.T) {
 func TestCustomersCashBalanceTransactionsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerCashBalanceTransactionListParams{
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CustomerCashBalanceTransactions.List(context.TODO(), params)
@@ -2417,8 +2405,8 @@ func TestCustomersGet3Client(t *testing.T) {
 
 func TestCustomersPaymentMethodsGet(t *testing.T) {
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xyz"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xyz"),
 	}
 	result := customer.ListPaymentMethods(params)
 	assert.NotNil(t, result)
@@ -2428,8 +2416,8 @@ func TestCustomersPaymentMethodsGet(t *testing.T) {
 func TestCustomersPaymentMethodsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xyz"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xyz"),
 	}
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
@@ -2439,8 +2427,8 @@ func TestCustomersPaymentMethodsGetService(t *testing.T) {
 func TestCustomersPaymentMethodsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xyz"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xyz"),
 	}
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2449,8 +2437,8 @@ func TestCustomersPaymentMethodsGetClient(t *testing.T) {
 
 func TestCustomersPaymentMethodsGet2(t *testing.T) {
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result := customer.ListPaymentMethods(params)
 	assert.NotNil(t, result)
@@ -2460,8 +2448,8 @@ func TestCustomersPaymentMethodsGet2(t *testing.T) {
 func TestCustomersPaymentMethodsGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
@@ -2471,8 +2459,8 @@ func TestCustomersPaymentMethodsGet2Service(t *testing.T) {
 func TestCustomersPaymentMethodsGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type: stripe.String("card"),
+		ID:   stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2606,7 +2594,7 @@ func TestCustomersSearchGet2Client(t *testing.T) {
 }
 
 func TestCustomersSourcesDelete(t *testing.T) {
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.CardParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := card.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2614,7 +2602,7 @@ func TestCustomersSourcesDelete(t *testing.T) {
 
 func TestCustomersSourcesDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.CardParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2623,7 +2611,7 @@ func TestCustomersSourcesDeleteService(t *testing.T) {
 func TestCustomersSourcesDeleteClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardDeleteParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Cards.Delete(context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2631,7 +2619,7 @@ func TestCustomersSourcesDeleteClient(t *testing.T) {
 }
 
 func TestCustomersSourcesDelete2(t *testing.T) {
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.CardParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := card.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2639,7 +2627,7 @@ func TestCustomersSourcesDelete2(t *testing.T) {
 
 func TestCustomersSourcesDelete2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.CardParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2648,7 +2636,7 @@ func TestCustomersSourcesDelete2Service(t *testing.T) {
 func TestCustomersSourcesDelete2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardDeleteParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Cards.Delete(context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2657,8 +2645,8 @@ func TestCustomersSourcesDelete2Client(t *testing.T) {
 
 func TestCustomersSourcesGet(t *testing.T) {
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("bank_account"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("bank_account"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := paymentsource.List(params)
@@ -2669,8 +2657,8 @@ func TestCustomersSourcesGet(t *testing.T) {
 func TestCustomersSourcesGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("bank_account"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("bank_account"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentSources.List(params)
@@ -2681,8 +2669,8 @@ func TestCustomersSourcesGetService(t *testing.T) {
 func TestCustomersSourcesGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("bank_account"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("bank_account"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
@@ -2692,8 +2680,8 @@ func TestCustomersSourcesGetClient(t *testing.T) {
 
 func TestCustomersSourcesGet2(t *testing.T) {
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("card"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := paymentsource.List(params)
@@ -2704,8 +2692,8 @@ func TestCustomersSourcesGet2(t *testing.T) {
 func TestCustomersSourcesGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("card"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentSources.List(params)
@@ -2716,8 +2704,8 @@ func TestCustomersSourcesGet2Service(t *testing.T) {
 func TestCustomersSourcesGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceListParams{
-		Object:   stripe.String("card"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Object: stripe.String("card"),
+		ID:     stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
@@ -2727,7 +2715,7 @@ func TestCustomersSourcesGet2Client(t *testing.T) {
 
 func TestCustomersSourcesGet3(t *testing.T) {
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := paymentsource.Get("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2737,7 +2725,7 @@ func TestCustomersSourcesGet3(t *testing.T) {
 func TestCustomersSourcesGet3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.PaymentSources.Get("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2747,7 +2735,7 @@ func TestCustomersSourcesGet3Service(t *testing.T) {
 func TestCustomersSourcesGet3Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceRetrieveParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
@@ -2757,7 +2745,7 @@ func TestCustomersSourcesGet3Client(t *testing.T) {
 
 func TestCustomersSourcesGet4(t *testing.T) {
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := paymentsource.Get("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2767,7 +2755,7 @@ func TestCustomersSourcesGet4(t *testing.T) {
 func TestCustomersSourcesGet4Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.PaymentSources.Get("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2777,7 +2765,7 @@ func TestCustomersSourcesGet4Service(t *testing.T) {
 func TestCustomersSourcesGet4Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceRetrieveParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
@@ -2787,8 +2775,8 @@ func TestCustomersSourcesGet4Client(t *testing.T) {
 
 func TestCustomersSourcesPost(t *testing.T) {
 	params := &stripe.CardParams{
-		Name:     stripe.String("Kamil"),
-		Customer: stripe.String("cus_123"),
+		Name:       stripe.String("Kamil"),
+		CustomerID: stripe.String("cus_123"),
 	}
 	result, err := card.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2798,8 +2786,8 @@ func TestCustomersSourcesPost(t *testing.T) {
 func TestCustomersSourcesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
-		Name:     stripe.String("Kamil"),
-		Customer: stripe.String("cus_123"),
+		Name:       stripe.String("Kamil"),
+		CustomerID: stripe.String("cus_123"),
 	}
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2809,8 +2797,8 @@ func TestCustomersSourcesPostService(t *testing.T) {
 func TestCustomersSourcesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
-		Name:     stripe.String("Kamil"),
-		Customer: stripe.String("cus_123"),
+		Name:       stripe.String("Kamil"),
+		CustomerID: stripe.String("cus_123"),
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -2819,8 +2807,8 @@ func TestCustomersSourcesPostClient(t *testing.T) {
 
 func TestCustomersSourcesPost5(t *testing.T) {
 	params := &stripe.CardParams{
-		Name:     stripe.String("Jenny Rosen"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Name:       stripe.String("Jenny Rosen"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := card.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2830,8 +2818,8 @@ func TestCustomersSourcesPost5(t *testing.T) {
 func TestCustomersSourcesPost5Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
-		Name:     stripe.String("Jenny Rosen"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Name:       stripe.String("Jenny Rosen"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.Cards.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2841,8 +2829,8 @@ func TestCustomersSourcesPost5Service(t *testing.T) {
 func TestCustomersSourcesPost5Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
-		Name:     stripe.String("Jenny Rosen"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Name:       stripe.String("Jenny Rosen"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2850,7 +2838,7 @@ func TestCustomersSourcesPost5Client(t *testing.T) {
 }
 
 func TestCustomersTaxIdsDelete(t *testing.T) {
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.TaxIDParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := taxid.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2858,7 +2846,7 @@ func TestCustomersTaxIdsDelete(t *testing.T) {
 
 func TestCustomersTaxIdsDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.TaxIDParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2867,7 +2855,7 @@ func TestCustomersTaxIdsDeleteService(t *testing.T) {
 func TestCustomersTaxIdsDeleteClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDDeleteParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1TaxIDs.Delete(context.TODO(), "txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2875,9 +2863,7 @@ func TestCustomersTaxIdsDeleteClient(t *testing.T) {
 }
 
 func TestCustomersTaxIdsGet(t *testing.T) {
-	params := &stripe.TaxIDListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.TaxIDListParams{ID: stripe.String("cus_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := taxid.List(params)
 	assert.NotNil(t, result)
@@ -2886,9 +2872,7 @@ func TestCustomersTaxIdsGet(t *testing.T) {
 
 func TestCustomersTaxIdsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.TaxIDListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.TaxIDListParams{ID: stripe.String("cus_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := sc.TaxIDs.List(params)
 	assert.NotNil(t, result)
@@ -2897,9 +2881,7 @@ func TestCustomersTaxIdsGetService(t *testing.T) {
 
 func TestCustomersTaxIdsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.TaxIDListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-	}
+	params := &stripe.TaxIDListParams{ID: stripe.String("cus_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TaxIDs.List(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2907,7 +2889,7 @@ func TestCustomersTaxIdsGetClient(t *testing.T) {
 }
 
 func TestCustomersTaxIdsGet2(t *testing.T) {
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.TaxIDParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := taxid.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2915,7 +2897,7 @@ func TestCustomersTaxIdsGet2(t *testing.T) {
 
 func TestCustomersTaxIdsGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
+	params := &stripe.TaxIDParams{CustomerID: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -2924,7 +2906,7 @@ func TestCustomersTaxIdsGet2Service(t *testing.T) {
 func TestCustomersTaxIdsGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDRetrieveParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		CustomerID: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1TaxIDs.Retrieve(
 		context.TODO(), "txi_xxxxxxxxxxxxx", params)
@@ -2934,9 +2916,9 @@ func TestCustomersTaxIdsGet2Client(t *testing.T) {
 
 func TestCustomersTaxIdsPost(t *testing.T) {
 	params := &stripe.TaxIDParams{
-		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
-		Value:    stripe.String("DE123456789"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
+		Value: stripe.String("DE123456789"),
+		ID:    stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := taxid.New(params)
 	assert.NotNil(t, result)
@@ -2946,9 +2928,9 @@ func TestCustomersTaxIdsPost(t *testing.T) {
 func TestCustomersTaxIdsPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxIDParams{
-		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
-		Value:    stripe.String("DE123456789"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
+		Value: stripe.String("DE123456789"),
+		ID:    stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.TaxIDs.New(params)
 	assert.NotNil(t, result)
@@ -2958,9 +2940,9 @@ func TestCustomersTaxIdsPostService(t *testing.T) {
 func TestCustomersTaxIdsPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDCreateParams{
-		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
-		Value:    stripe.String("DE123456789"),
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
+		Value: stripe.String("DE123456789"),
+		ID:    stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := sc.V1TaxIDs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3278,7 +3260,7 @@ func TestFinancialConnectionsAccountsGet4Client(t *testing.T) {
 func TestFinancialConnectionsAccountsOwnersGet(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xyz"),
-		Account:   stripe.String("fca_xyz"),
+		ID:        stripe.String("fca_xyz"),
 	}
 	result := financialconnections_account.ListOwners(params)
 	assert.NotNil(t, result)
@@ -3289,7 +3271,7 @@ func TestFinancialConnectionsAccountsOwnersGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xyz"),
-		Account:   stripe.String("fca_xyz"),
+		ID:        stripe.String("fca_xyz"),
 	}
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
 	assert.NotNil(t, result)
@@ -3300,7 +3282,7 @@ func TestFinancialConnectionsAccountsOwnersGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xyz"),
-		Account:   stripe.String("fca_xyz"),
+		ID:        stripe.String("fca_xyz"),
 	}
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3310,7 +3292,7 @@ func TestFinancialConnectionsAccountsOwnersGetClient(t *testing.T) {
 func TestFinancialConnectionsAccountsOwnersGet2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
-		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
+		ID:        stripe.String("fca_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := financialconnections_account.ListOwners(params)
@@ -3322,7 +3304,7 @@ func TestFinancialConnectionsAccountsOwnersGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
-		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
+		ID:        stripe.String("fca_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
@@ -3334,7 +3316,7 @@ func TestFinancialConnectionsAccountsOwnersGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
-		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
+		ID:        stripe.String("fca_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(context.TODO(), params)
@@ -5469,9 +5451,7 @@ func TestPaymentLinksGet3Client(t *testing.T) {
 }
 
 func TestPaymentLinksLineItemsGet(t *testing.T) {
-	params := &stripe.PaymentLinkListLineItemsParams{
-		PaymentLink: stripe.String("pl_xyz"),
-	}
+	params := &stripe.PaymentLinkListLineItemsParams{ID: stripe.String("pl_xyz")}
 	result := paymentlink.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -5479,9 +5459,7 @@ func TestPaymentLinksLineItemsGet(t *testing.T) {
 
 func TestPaymentLinksLineItemsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PaymentLinkListLineItemsParams{
-		PaymentLink: stripe.String("pl_xyz"),
-	}
+	params := &stripe.PaymentLinkListLineItemsParams{ID: stripe.String("pl_xyz")}
 	result := sc.PaymentLinks.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -5489,9 +5467,7 @@ func TestPaymentLinksLineItemsGetService(t *testing.T) {
 
 func TestPaymentLinksLineItemsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.PaymentLinkListLineItemsParams{
-		PaymentLink: stripe.String("pl_xyz"),
-	}
+	params := &stripe.PaymentLinkListLineItemsParams{ID: stripe.String("pl_xyz")}
 	result := sc.V1PaymentLinks.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -6850,7 +6826,7 @@ func TestQuotesGet2Client(t *testing.T) {
 
 func TestQuotesLineItemsGet(t *testing.T) {
 	params := &stripe.QuoteListLineItemsParams{
-		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
+		ID: stripe.String("qt_xxxxxxxxxxxxx"),
 	}
 	result := quote.ListLineItems(params)
 	assert.NotNil(t, result)
@@ -6860,7 +6836,7 @@ func TestQuotesLineItemsGet(t *testing.T) {
 func TestQuotesLineItemsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteListLineItemsParams{
-		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
+		ID: stripe.String("qt_xxxxxxxxxxxxx"),
 	}
 	result := sc.Quotes.ListLineItems(params)
 	assert.NotNil(t, result)
@@ -6870,7 +6846,7 @@ func TestQuotesLineItemsGetService(t *testing.T) {
 func TestQuotesLineItemsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteListLineItemsParams{
-		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
+		ID: stripe.String("qt_xxxxxxxxxxxxx"),
 	}
 	result := sc.V1Quotes.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -8711,9 +8687,7 @@ func TestSubscriptionsSearchGetClient(t *testing.T) {
 }
 
 func TestTaxCalculationsLineItemsGet(t *testing.T) {
-	params := &stripe.TaxCalculationListLineItemsParams{
-		Calculation: stripe.String("xxx"),
-	}
+	params := &stripe.TaxCalculationListLineItemsParams{ID: stripe.String("xxx")}
 	result := tax_calculation.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -8721,9 +8695,7 @@ func TestTaxCalculationsLineItemsGet(t *testing.T) {
 
 func TestTaxCalculationsLineItemsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.TaxCalculationListLineItemsParams{
-		Calculation: stripe.String("xxx"),
-	}
+	params := &stripe.TaxCalculationListLineItemsParams{ID: stripe.String("xxx")}
 	result := sc.TaxCalculations.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -8731,9 +8703,7 @@ func TestTaxCalculationsLineItemsGetService(t *testing.T) {
 
 func TestTaxCalculationsLineItemsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.TaxCalculationListLineItemsParams{
-		Calculation: stripe.String("xxx"),
-	}
+	params := &stripe.TaxCalculationListLineItemsParams{ID: stripe.String("xxx")}
 	result := sc.V1TaxCalculations.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.NoError(t, result.Err())
@@ -16523,7 +16493,7 @@ func TestV2BillingServiceActionPost2Client(t *testing.T) {
 func TestV2CoreAccountGetService(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16535,7 +16505,7 @@ func TestV2CoreAccountGetService(t *testing.T) {
 func TestV2CoreAccountGetClient(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16547,7 +16517,7 @@ func TestV2CoreAccountGetClient(t *testing.T) {
 func TestV2CoreAccountPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16560,7 +16530,7 @@ func TestV2CoreAccountPostService(t *testing.T) {
 func TestV2CoreAccountPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountCreateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16573,7 +16543,7 @@ func TestV2CoreAccountPostClient(t *testing.T) {
 func TestV2CoreAccountGet2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16586,7 +16556,7 @@ func TestV2CoreAccountGet2Service(t *testing.T) {
 func TestV2CoreAccountGet2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16599,7 +16569,7 @@ func TestV2CoreAccountGet2Client(t *testing.T) {
 func TestV2CoreAccountPost2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16612,7 +16582,7 @@ func TestV2CoreAccountPost2Service(t *testing.T) {
 func TestV2CoreAccountPost2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16625,7 +16595,7 @@ func TestV2CoreAccountPost2Client(t *testing.T) {
 func TestV2CoreAccountPost3Service(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16638,7 +16608,7 @@ func TestV2CoreAccountPost3Service(t *testing.T) {
 func TestV2CoreAccountPost3Client(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"card_creator\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16899,7 +16869,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
+				Configurations: []*string{stripe.String("developer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -16908,7 +16878,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
+				Configurations: []*string{stripe.String("developer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -16953,7 +16923,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
+				Configurations: []*string{stripe.String("developer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -16962,7 +16932,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
+				Configurations: []*string{stripe.String("developer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -21410,6 +21380,655 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPost2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningCatalogProviderGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningCatalogProviderListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/catalog/providers", params, "{\"data\":[{\"object\":\"v2.provisioning.provider\",\"capabilities\":[\"capabilities\"],\"categories\":[\"categories\"],\"configuration_schema\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"created\":\"1970-01-12T21:42:34.472Z\",\"deep_link_purposes\":[\"deep_link_purposes\"],\"description\":\"description\",\"development\":true,\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ProvisioningCatalogProviders.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningCatalogProviderGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningCatalogProviderListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/catalog/providers", params, "{\"data\":[{\"object\":\"v2.provisioning.provider\",\"capabilities\":[\"capabilities\"],\"categories\":[\"categories\"],\"configuration_schema\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"created\":\"1970-01-12T21:42:34.472Z\",\"deep_link_purposes\":[\"deep_link_purposes\"],\"description\":\"description\",\"development\":true,\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ProvisioningCatalogProviders.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningCatalogServiceGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningCatalogServiceListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/catalog/services", params, "{\"data\":[{\"object\":\"v2.provisioning.provider_service_detail\",\"allowed_updates\":[{\"direction\":\"down\",\"service\":\"service\"}],\"availability\":\"not_in_country\",\"categories\":[\"categories\"],\"configuration_schema\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"constraints\":[{\"type\":\"count\"}],\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"development\":true,\"id\":\"obj_123\",\"kind\":\"deployable\",\"livemode\":true,\"pricing\":{\"component\":{\"options\":[{\"paid\":{\"type\":\"free\"},\"parent_services\":[\"parent_services\"],\"type\":\"free\"}]},\"paid\":{\"type\":\"free\"},\"paid_pricing\":[{\"configuration\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"type\":\"free\"}],\"type\":\"component\"},\"provider\":\"provider\",\"provider_name\":\"provider_name\",\"scope\":\"account\",\"service_id\":\"service_id\",\"updateable_to\":[\"updateable_to\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ProvisioningCatalogServices.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningCatalogServiceGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningCatalogServiceListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/catalog/services", params, "{\"data\":[{\"object\":\"v2.provisioning.provider_service_detail\",\"allowed_updates\":[{\"direction\":\"down\",\"service\":\"service\"}],\"availability\":\"not_in_country\",\"categories\":[\"categories\"],\"configuration_schema\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"constraints\":[{\"type\":\"count\"}],\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"development\":true,\"id\":\"obj_123\",\"kind\":\"deployable\",\"livemode\":true,\"pricing\":{\"component\":{\"options\":[{\"paid\":{\"type\":\"free\"},\"parent_services\":[\"parent_services\"],\"type\":\"free\"}]},\"paid\":{\"type\":\"free\"},\"paid_pricing\":[{\"configuration\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"type\":\"free\"}],\"type\":\"component\"},\"provider\":\"provider\",\"provider_name\":\"provider_name\",\"scope\":\"account\",\"service_id\":\"service_id\",\"updateable_to\":[\"updateable_to\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ProvisioningCatalogServices.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningEligibilityGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningEligibilityParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/eligibility", params, "{\"object\":\"v2.provisioning.eligibility\",\"is_eligible\":true,\"livemode\":true,\"requirements\":[\"requirements\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningEligibilities.Get(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningEligibilityGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningEligibilityRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/eligibility", params, "{\"object\":\"v2.provisioning.eligibility\",\"is_eligible\":true,\"livemode\":true,\"requirements\":[\"requirements\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningEligibilities.Retrieve(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentMethodRequestPostService(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentMethodRequestParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/payment_method_requests", params, "{\"object\":\"v2.provisioning.payment_method_request\",\"checkout_session_url\":\"checkout_session_url\",\"livemode\":true,\"status\":\"checkout_initiated\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningPaymentMethodRequests.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentMethodRequestPostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentMethodRequestCreateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/payment_method_requests", params, "{\"object\":\"v2.provisioning.payment_method_request\",\"checkout_session_url\":\"checkout_session_url\",\"livemode\":true,\"status\":\"checkout_initiated\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningPaymentMethodRequests.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentProfileGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentProfileParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/payment_profile", params, "{\"object\":\"v2.provisioning.payment_profile\",\"card_last4\":\"card_last4\",\"livemode\":true,\"providers\":[{\"provider\":\"provider\"}],\"shared_with_providers\":[\"shared_with_providers\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningPaymentProfiles.Get(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentProfileGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentProfileRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/payment_profile", params, "{\"object\":\"v2.provisioning.payment_profile\",\"card_last4\":\"card_last4\",\"livemode\":true,\"providers\":[{\"provider\":\"provider\"}],\"shared_with_providers\":[\"shared_with_providers\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningPaymentProfiles.Retrieve(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentProfileUpdateLimitPostService(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentProfileUpdateLimitParams{
+		UsageLimits: &stripe.V2ProvisioningPaymentProfileUpdateLimitUsageLimitsParams{
+			Currency:          stripe.String(stripe.CurrencyUSD),
+			MaxAmount:         stripe.Int64(803901331),
+			RecurringInterval: stripe.String("year"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/payment_profile/update_limit", params, "{\"object\":\"v2.provisioning.payment_profile\",\"card_last4\":\"card_last4\",\"livemode\":true,\"providers\":[{\"provider\":\"provider\"}],\"shared_with_providers\":[\"shared_with_providers\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningPaymentProfileUpdateLimits.Update(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningPaymentProfileUpdateLimitPostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningPaymentProfileUpdateLimitUpdateParams{
+		UsageLimits: &stripe.V2ProvisioningPaymentProfileUpdateLimitUpdateUsageLimitsParams{
+			Currency:          stripe.String(stripe.CurrencyUSD),
+			MaxAmount:         stripe.Int64(803901331),
+			RecurringInterval: stripe.String("year"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/payment_profile/update_limit", params, "{\"object\":\"v2.provisioning.payment_profile\",\"card_last4\":\"card_last4\",\"livemode\":true,\"providers\":[{\"provider\":\"provider\"}],\"shared_with_providers\":[\"shared_with_providers\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningPaymentProfileUpdateLimits.Update(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProjectPostService(t *testing.T) {
+	params := &stripe.V2ProvisioningProjectParams{Name: stripe.String("name")}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/projects", params, "{\"object\":\"v2.provisioning.project\",\"catalog\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningProjects.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProjectPostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningProjectCreateParams{
+		Name: stripe.String("name"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/projects", params, "{\"object\":\"v2.provisioning.project\",\"catalog\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningProjects.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/provider_connections", params, "{\"data\":[{\"object\":\"v2.provisioning.provider_connection\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"status\":\"active\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ProvisioningProviderConnections.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningProviderConnectionGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/provider_connections", params, "{\"data\":[{\"object\":\"v2.provisioning.provider_connection\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"status\":\"active\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ProvisioningProviderConnections.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ProvisioningProviderConnectionPostService(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionUnlinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connections/id_123/unlink", params, "{\"object\":\"v2.provisioning.provider_connection\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"status\":\"active\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningProviderConnections.Unlink("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionPostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionUnlinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connections/id_123/unlink", params, "{\"object\":\"v2.provisioning.provider_connection\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"status\":\"active\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningProviderConnections.Unlink(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestPostService(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestParams{
+		Configuration: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connection_requests", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningProviderConnectionRequests.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestPostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestCreateParams{
+		Configuration: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connection_requests", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningProviderConnectionRequests.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/provider_connection_requests/id_123", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningProviderConnectionRequests.Get(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/provider_connection_requests/id_123", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningProviderConnectionRequests.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestPost2Service(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestSubmitInformationParams{
+		Information: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connection_requests/id_123/submit_information", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningProviderConnectionRequests.SubmitInformation(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningProviderConnectionRequestPost2Client(t *testing.T) {
+	params := &stripe.V2ProvisioningProviderConnectionRequestSubmitInformationParams{
+		Information: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/provider_connection_requests/id_123/submit_information", params, "{\"object\":\"v2.provisioning.provider_connection_request\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"request_status\":\"error\",\"scopes\":[\"scopes\"]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningProviderConnectionRequests.SubmitInformation(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePostService(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceParams{
+		Configuration: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+		Provider:   stripe.String("provider"),
+		ServiceRef: stripe.String("service_ref"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePostClient(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceCreateParams{
+		Configuration: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+		Provider:   stripe.String("provider"),
+		ServiceRef: stripe.String("service_ref"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost2Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceLinkParams{
+		Provider:   stripe.String("provider"),
+		ServiceRef: stripe.String("service_ref"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/link", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.Link(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost2Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceLinkParams{
+		Provider:   stripe.String("provider"),
+		ServiceRef: stripe.String("service_ref"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/link", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Link(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourceGetService(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/resources/id_123", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourceGetClient(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/provisioning/resources/id_123", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost3Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost3Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Update(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost4Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceRemoveParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/remove", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.Remove("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost4Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceRemoveParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/remove", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Remove(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost5Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceRotateCredentialsParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/rotate_credentials", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.RotateCredentials("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost5Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceRotateCredentialsParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/rotate_credentials", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.RotateCredentials(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost6Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceSubmitInformationParams{
+		SubmittedInformation: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/submit_information", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.SubmitInformation("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost6Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceSubmitInformationParams{
+		SubmittedInformation: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/submit_information", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.SubmitInformation(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost7Service(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceUnlinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/unlink", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ProvisioningResources.Unlink("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ProvisioningResourcePost7Client(t *testing.T) {
+	params := &stripe.V2ProvisioningResourceUnlinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/provisioning/resources/id_123/unlink", params, "{\"object\":\"v2.provisioning.resource\",\"created\":\"1970-01-12T21:42:34.472Z\",\"environment\":\"prod\",\"id\":\"obj_123\",\"livemode\":true,\"provider\":\"provider\",\"service_ref\":\"service_ref\",\"status\":\"complete\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ProvisioningResources.Unlink(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)

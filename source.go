@@ -122,8 +122,8 @@ const (
 
 // Delete a specified source for a given customer.
 type SourceDetachParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

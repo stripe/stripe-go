@@ -88,12 +88,12 @@ func Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error) {
-	if params.Customer == nil {
+	if params.CustomerID == nil {
 		return nil, fmt.Errorf(
 			"invalid source detach params: Customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.CustomerID), id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

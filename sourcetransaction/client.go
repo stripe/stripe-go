@@ -32,7 +32,7 @@ func List(params *stripe.SourceTransactionListParams) *Iter {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
-	if listParams == nil || listParams.Source == nil {
+	if listParams == nil || listParams.ID == nil {
 		return &Iter{
 			Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 				list := &stripe.SourceTransactionList{}
@@ -41,7 +41,7 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 		}
 	}
 	path := stripe.FormatURLPath(
-		"/v1/sources/%s/source_transactions", stripe.StringValue(listParams.Source))
+		"/v1/sources/%s/source_transactions", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SourceTransactionList{}

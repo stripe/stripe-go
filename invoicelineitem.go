@@ -234,7 +234,7 @@ type InvoiceLineItemTaxAmountParams struct {
 type InvoiceLineItemParams struct {
 	Params `form:"*"`
 	// Invoice ID of line item
-	Invoice *string `form:"-"` // Included in URL
+	InvoiceID *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
@@ -449,7 +449,7 @@ type InvoiceLineItemUpdateTaxAmountParams struct {
 type InvoiceLineItemUpdateParams struct {
 	Params `form:"*"`
 	// Invoice ID of line item
-	Invoice *string `form:"-"` // Included in URL
+	InvoiceID *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.

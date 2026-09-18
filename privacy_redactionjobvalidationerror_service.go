@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1PrivacyRedactionJobValidationErrorService is used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+// v1PrivacyRedactionJobValidationErrorService is used to invoke /v1/privacy/redaction_jobs/{id}/validation_errors APIs.
 type v1PrivacyRedactionJobValidationErrorService struct {
 	B   Backend
 	Key string
@@ -27,7 +27,7 @@ func (c v1PrivacyRedactionJobValidationErrorService) List(ctx context.Context, l
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
-			listParams.Job))
+			listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PrivacyRedactionJobValidationError], error) {
 		list := &v1Page[*PrivacyRedactionJobValidationError]{}
 		if p == nil {

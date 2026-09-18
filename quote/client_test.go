@@ -27,7 +27,7 @@ func TestQuoteList(t *testing.T) {
 
 func TestQuoteListComputedUpfrontLineItems(t *testing.T) {
 	i := ListComputedUpfrontLineItems(&stripe.QuoteListComputedUpfrontLineItemsParams{
-		Quote: stripe.String("qt_123"),
+		ID: stripe.String("qt_123"),
 	})
 
 	// Verify that we can get at least line item
@@ -39,7 +39,7 @@ func TestQuoteListComputedUpfrontLineItems(t *testing.T) {
 
 func TestQuoteListLineItems(t *testing.T) {
 	i := ListLineItems(&stripe.QuoteListLineItemsParams{
-		Quote: stripe.String("qt_123"),
+		ID: stripe.String("qt_123"),
 	})
 
 	// Verify that we can get at least one quote

@@ -4,7 +4,7 @@
 //
 //
 
-// Package productfeature provides the /v1/products/{product}/features APIs
+// Package productfeature provides the /v1/products/{id}/features APIs
 package productfeature
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/products/{product}/features APIs.
+// Client is used to invoke /v1/products/{id}/features APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -35,7 +35,7 @@ func New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features", stripe.StringValue(params.Product))
+		"/v1/products/%s/features", stripe.StringValue(params.ID))
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -53,7 +53,7 @@ func Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features/%s", stripe.StringValue(params.Product), id)
+		"/v1/products/%s/features/%s", stripe.StringValue(params.ProductID), id)
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -71,7 +71,7 @@ func Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features/%s", stripe.StringValue(params.Product), id)
+		"/v1/products/%s/features/%s", stripe.StringValue(params.ProductID), id)
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -89,7 +89,7 @@ func List(params *stripe.ProductFeatureListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ProductFeatureListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features", stripe.StringValue(listParams.Product))
+		"/v1/products/%s/features", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ProductFeatureList{}

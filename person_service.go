@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1PersonService is used to invoke /v1/accounts/{account}/persons APIs.
+// v1PersonService is used to invoke /v1/accounts/{id}/persons APIs.
 type v1PersonService struct {
 	B   Backend
 	Key string
@@ -25,7 +25,7 @@ func (c v1PersonService) Create(ctx context.Context, params *PersonCreateParams)
 		params = &PersonCreateParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath("/v1/accounts/%s/persons", StringValue(params.Account))
+	path := FormatURLPath("/v1/accounts/%s/persons", StringValue(params.ID))
 	person := &Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
 	return person, err
@@ -38,7 +38,7 @@ func (c v1PersonService) Retrieve(ctx context.Context, id string, params *Person
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/persons/%s", StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", StringValue(params.AccountID), id)
 	person := &Person{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, person)
 	return person, err
@@ -51,7 +51,7 @@ func (c v1PersonService) Update(ctx context.Context, id string, params *PersonUp
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/persons/%s", StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", StringValue(params.AccountID), id)
 	person := &Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
 	return person, err
@@ -64,7 +64,7 @@ func (c v1PersonService) Delete(ctx context.Context, id string, params *PersonDe
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/persons/%s", StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", StringValue(params.AccountID), id)
 	person := &Person{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, person)
 	return person, err
@@ -76,8 +76,7 @@ func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams)
 		listParams = &PersonListParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/persons", StringValue(listParams.Account))
+	path := FormatURLPath("/v1/accounts/%s/persons", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Person], error) {
 		list := &v1Page[*Person]{}
 		if p == nil {

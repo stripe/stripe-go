@@ -35,10 +35,10 @@ func New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := "/v1/tax_ids"
-	if params.Customer != nil {
+	if params.ID != nil {
 		path = stripe.FormatURLPath(
 			"/v1/customers/%s/tax_ids",
-			stripe.StringValue(params.Customer),
+			stripe.StringValue(params.ID),
 		)
 	}
 	taxid := &stripe.TaxID{}
@@ -61,10 +61,10 @@ func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 		"/v1/tax_ids/%s",
 		id,
 	)
-	if params.Customer != nil {
+	if params.CustomerID != nil {
 		path = stripe.FormatURLPath(
 			"/v1/customers/%s/tax_ids/%s",
-			stripe.StringValue(params.Customer),
+			stripe.StringValue(params.CustomerID),
 			id,
 		)
 	}
@@ -88,10 +88,10 @@ func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 		"/v1/tax_ids/%s",
 		id,
 	)
-	if params.Customer != nil {
+	if params.CustomerID != nil {
 		path = stripe.FormatURLPath(
 			"/v1/customers/%s/tax_ids/%s",
-			stripe.StringValue(params.Customer),
+			stripe.StringValue(params.CustomerID),
 			id,
 		)
 	}
@@ -112,10 +112,10 @@ func List(params *stripe.TaxIDListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 	path := "/v1/tax_ids"
-	if listParams != nil && listParams.Customer != nil {
+	if listParams != nil && listParams.ID != nil {
 		path = stripe.FormatURLPath(
 			"/v1/customers/%s/tax_ids",
-			stripe.StringValue(listParams.Customer),
+			stripe.StringValue(listParams.ID),
 		)
 	}
 	return &Iter{

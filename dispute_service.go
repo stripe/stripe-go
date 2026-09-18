@@ -75,7 +75,7 @@ func (c v1DisputeService) MarshalBatchClose(id string, params *DisputeCloseParam
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"dispute": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

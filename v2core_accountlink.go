@@ -32,6 +32,7 @@ type V2CoreAccountLinkUseCaseAccountOnboardingConfiguration string
 // List of values that V2CoreAccountLinkUseCaseAccountOnboardingConfiguration can take
 const (
 	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationCustomer     V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "customer"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationDeveloper    V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "developer"
 	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationMerchant     V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "merchant"
 	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationMoneyManager V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "money_manager"
 	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationRecipient    V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "recipient"
@@ -62,6 +63,7 @@ type V2CoreAccountLinkUseCaseAccountUpdateConfiguration string
 // List of values that V2CoreAccountLinkUseCaseAccountUpdateConfiguration can take
 const (
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationCustomer     V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "customer"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationDeveloper    V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "developer"
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMerchant     V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "merchant"
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMoneyManager V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "money_manager"
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationRecipient    V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "recipient"

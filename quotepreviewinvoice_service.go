@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1QuotePreviewInvoiceService is used to invoke /v1/quotes/{quote}/preview_invoices APIs.
+// v1QuotePreviewInvoiceService is used to invoke /v1/quotes/{id}/preview_invoices APIs.
 type v1QuotePreviewInvoiceService struct {
 	B   Backend
 	Key string
@@ -26,7 +26,7 @@ func (c v1QuotePreviewInvoiceService) List(ctx context.Context, listParams *Quot
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/quotes/%s/preview_invoices", StringValue(listParams.Quote))
+		"/v1/quotes/%s/preview_invoices", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*QuotePreviewInvoice], error) {
 		list := &v1Page[*QuotePreviewInvoice]{}
 		if p == nil {

@@ -70,6 +70,8 @@ type InvoiceItemParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of an existing invoice to add this invoice item to. For subscription invoices, when left blank, the invoice item will be added to the next upcoming scheduled invoice. For standalone invoices, the invoice item won't be automatically added unless you pass `pending_invoice_item_behavior: 'include'` when creating the invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice" json:"invoice,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// Settings for Managed Payments for this invoice item.
 	ManagedPayments *InvoiceItemManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
@@ -305,6 +307,8 @@ type InvoiceItemUpdateParams struct {
 	Discounts []*InvoiceItemUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

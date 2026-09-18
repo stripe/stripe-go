@@ -48,7 +48,7 @@ func (c v1FeeRefundService) Retrieve(ctx context.Context, id string, params *Fee
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
+		"/v1/application_fees/%s/refunds/%s", StringValue(params.FeeID), id)
 	feerefund := &FeeRefund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, feerefund)
 	return feerefund, err
@@ -61,15 +61,15 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.FeeID == nil {
+		return nil, fmt.Errorf("params.FeeID must be set")
 	}
 	if params == nil {
 		params = &FeeRefundUpdateParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
+		"/v1/application_fees/%s/refunds/%s", StringValue(params.FeeID), id)
 	feerefund := &FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err

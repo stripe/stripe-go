@@ -1069,8 +1069,8 @@ func (p *PaymentLinkParams) AddMetadata(key string, value string) {
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type PaymentLinkListLineItemsParams struct {
-	ListParams  `form:"*"`
-	PaymentLink *string `form:"-"` // Included in URL
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

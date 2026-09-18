@@ -10,7 +10,7 @@ import (
 
 func TestBankAccountDel_ByAccount(t *testing.T) {
 	bankAccount, err := Del("ba_123", &stripe.BankAccountParams{
-		Account: stripe.String("acct_123"),
+		AccountID: stripe.String("acct_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAccount)
@@ -67,7 +67,7 @@ func TestBankAccountNew_ByCustomer(t *testing.T) {
 
 func TestBankAccountUpdate_ByAccount(t *testing.T) {
 	bankAccount, err := Update("ba_123", &stripe.BankAccountParams{
-		Account:            stripe.String("acct_123"),
+		AccountID:          stripe.String("acct_123"),
 		DefaultForCurrency: stripe.Bool(true),
 	})
 	assert.Nil(t, err)

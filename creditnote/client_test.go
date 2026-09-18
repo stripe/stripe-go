@@ -29,7 +29,7 @@ func TestCreditNoteList(t *testing.T) {
 
 func TestCreditNoteListLines(t *testing.T) {
 	i := ListLines(&stripe.CreditNoteListLinesParams{
-		CreditNote: stripe.String("cn_123"),
+		ID: stripe.String("cn_123"),
 	})
 
 	// Verify that we can get at least one invoice
