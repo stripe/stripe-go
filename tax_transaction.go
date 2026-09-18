@@ -257,8 +257,8 @@ func (p *TaxTransactionParams) AddExpand(f string) {
 
 // Retrieves the line items of a committed standalone transaction as a collection.
 type TaxTransactionListLineItemsParams struct {
-	ListParams  `form:"*"`
-	Transaction *string `form:"-"` // Included in URL
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

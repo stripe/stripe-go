@@ -135,7 +135,7 @@ func (c v1SubscriptionService) MarshalBatchCancel(id string, params *Subscriptio
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"subscription_exposed_id": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -197,7 +197,7 @@ func (c v1SubscriptionService) MarshalBatchMigrate(id string, params *Subscripti
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"subscription": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -228,7 +228,7 @@ func (c v1SubscriptionService) MarshalBatchPause(id string, params *Subscription
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"subscription": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -259,7 +259,7 @@ func (c v1SubscriptionService) MarshalBatchResume(id string, params *Subscriptio
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"subscription": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -290,7 +290,7 @@ func (c v1SubscriptionService) MarshalBatchUpdate(id string, params *Subscriptio
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"subscription_exposed_id": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

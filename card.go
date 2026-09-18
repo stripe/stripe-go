@@ -125,10 +125,11 @@ const cardSource = "source"
 
 // Delete a specified source for a given customer.
 type CardParams struct {
-	Params   `form:"*"`
-	Token    *string `form:"-"` // Included in URL
-	Account  *string `form:"-"` // Included in URL
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	Customer   *string `form:"-"` // Included in URL
+	Token      *string `form:"-"` // Included in URL
+	Account    *string `form:"-"` // Included in URL
+	CustomerID *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -324,9 +325,9 @@ func (p *CardListParams) AddExpand(f string) {
 
 // Delete a specified source for a given customer.
 type CardDeleteParams struct {
-	Params   `form:"*"`
-	Account  *string `form:"-"` // Included in URL
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	Account    *string `form:"-"` // Included in URL
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -349,9 +350,9 @@ type CardUpdateOwnerParams struct {
 
 // Update a specified source for a given customer.
 type CardUpdateParams struct {
-	Params   `form:"*"`
-	Account  *string `form:"-"` // Included in URL
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	Account    *string `form:"-"` // Included in URL
+	CustomerID *string `form:"-"` // Included in URL
 	// City/District/Suburb/Town/Village.
 	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.

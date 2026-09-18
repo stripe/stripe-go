@@ -131,6 +131,8 @@ type TaxCalculationLineItemTaxBreakdown struct {
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxCalculationLineItemTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
+
+// A Tax Calculation Line Item represents a single item in a tax calculation.
 type TaxCalculationLineItem struct {
 	// The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`

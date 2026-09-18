@@ -386,7 +386,7 @@ func ListLines(params *stripe.InvoiceListLinesParams) *LineItemIter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/lines", stripe.StringValue(listParams.Invoice))
+		"/v1/invoices/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}

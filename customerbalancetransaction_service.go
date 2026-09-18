@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1CustomerBalanceTransactionService is used to invoke /v1/customers/{customer}/balance_transactions APIs.
+// v1CustomerBalanceTransactionService is used to invoke /v1/customers/{id}/balance_transactions APIs.
 type v1CustomerBalanceTransactionService struct {
 	B   Backend
 	Key string
@@ -26,7 +26,7 @@ func (c v1CustomerBalanceTransactionService) Create(ctx context.Context, params 
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions", StringValue(params.Customer))
+		"/v1/customers/%s/balance_transactions", StringValue(params.ID))
 	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
@@ -41,7 +41,7 @@ func (c v1CustomerBalanceTransactionService) Retrieve(ctx context.Context, id st
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/balance_transactions/%s", StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, customerbalancetransaction)
@@ -56,7 +56,7 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/balance_transactions/%s", StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
@@ -70,7 +70,7 @@ func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParam
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
+		"/v1/customers/%s/balance_transactions", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CustomerBalanceTransaction], error) {
 		list := &v1Page[*CustomerBalanceTransaction]{}
 		if p == nil {

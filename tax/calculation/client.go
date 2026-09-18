@@ -69,8 +69,7 @@ func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIt
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/tax/calculations/%s/line_items", stripe.StringValue(
-			listParams.Calculation))
+		"/v1/tax/calculations/%s/line_items", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxCalculationLineItemList{}

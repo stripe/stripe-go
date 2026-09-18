@@ -66,7 +66,7 @@ func (c v1SourceService) Detach(ctx context.Context, id string, params *SourceDe
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", StringValue(params.CustomerID), id)
 	source := &Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

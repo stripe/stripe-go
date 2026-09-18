@@ -335,6 +335,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeStripeBalance      InvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
+	InvoicePaymentSettingsPaymentMethodTypeTouchNGo           InvoicePaymentSettingsPaymentMethodType = "touch_n_go"
 	InvoicePaymentSettingsPaymentMethodTypeTruemoney          InvoicePaymentSettingsPaymentMethodType = "truemoney"
 	InvoicePaymentSettingsPaymentMethodTypeTWINT              InvoicePaymentSettingsPaymentMethodType = "twint"
 	InvoicePaymentSettingsPaymentMethodTypeUpi                InvoicePaymentSettingsPaymentMethodType = "upi"
@@ -3611,7 +3612,7 @@ func (p *InvoiceCreatePreviewParams) AddExpand(f string) {
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`
-	Invoice    *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -5422,7 +5423,7 @@ type InvoiceTotalTax struct {
 // Invoices are statements of amounts owed by a customer, and are either
 // generated one-off, or generated periodically from a subscription.
 //
-// They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+// They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
 // that may be caused by subscription upgrades/downgrades (if necessary).
 //
 // If your invoice is configured to be billed through automatic charges,

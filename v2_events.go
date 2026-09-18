@@ -238,6 +238,7 @@ type V2CoreAccountLinkReturnedEventDataConfiguration string
 // List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
 	V2CoreAccountLinkReturnedEventDataConfigurationCustomer     V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationDeveloper    V2CoreAccountLinkReturnedEventDataConfiguration = "developer"
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant     V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationMoneyManager V2CoreAccountLinkReturnedEventDataConfiguration = "money_manager"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient    V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
@@ -1095,7 +1096,7 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 // Occurs whenever your Stripe balance has been updated (e.g., when a charge is available to be paid out). By default, Stripe automatically transfers funds in your balance to your bank account on a daily basis. This event is not fired for negative transactions.
 type V1BalanceAvailableEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*Balance, error)
 }
 
@@ -1108,7 +1109,7 @@ func (e *V1BalanceAvailableEvent) FetchRelatedObject(ctx context.Context) (*Bala
 // Occurs whenever your Stripe balance has been updated (e.g., when a charge is available to be paid out). By default, Stripe automatically transfers funds in your balance to your bank account on a daily basis. This event is not fired for negative transactions.
 type V1BalanceAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BalanceAvailableEvent that created this Notification
@@ -1136,7 +1137,7 @@ func (n *V1BalanceAvailableEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever a balance settings status or property has changed.
 type V1BalanceSettingsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*BalanceSettings, error)
 }
 
@@ -1149,7 +1150,7 @@ func (e *V1BalanceSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs whenever a balance settings status or property has changed.
 type V1BalanceSettingsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BalanceSettingsUpdatedEvent that created this Notification
@@ -1711,7 +1712,7 @@ func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs whenever there is a positive remaining cash balance after Stripe automatically reconciles new funds into the cash balance. If you enabled manual reconciliation, this webhook will fire whenever there are new funds into the cash balance.
 type V1CashBalanceFundsAvailableEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*CashBalance, error)
 }
 
@@ -1724,7 +1725,7 @@ func (e *V1CashBalanceFundsAvailableEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever there is a positive remaining cash balance after Stripe automatically reconciles new funds into the cash balance. If you enabled manual reconciliation, this webhook will fire whenever there are new funds into the cash balance.
 type V1CashBalanceFundsAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CashBalanceFundsAvailableEvent that created this Notification
@@ -8700,7 +8701,7 @@ func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever tax settings is updated.
 type V1TaxSettingsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxSettings, error)
 }
 
@@ -8713,7 +8714,7 @@ func (e *V1TaxSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Ta
 // Occurs whenever tax settings is updated.
 type V1TaxSettingsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxSettingsUpdatedEvent that created this Notification
@@ -19737,7 +19738,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.balance.available":
 		result := &V1BalanceAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*Balance, error) {
 			v := &Balance{}
 			params := &Params{}
@@ -19752,7 +19753,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.balance_settings.updated":
 		result := &V1BalanceSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*BalanceSettings, error) {
 			v := &BalanceSettings{}
 			params := &Params{}
@@ -19961,7 +19962,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.cash_balance.funds_available":
 		result := &V1CashBalanceFundsAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*CashBalance, error) {
 			v := &CashBalance{}
 			params := &Params{}
@@ -22515,7 +22516,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.tax.settings.updated":
 		result := &V1TaxSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*TaxSettings, error) {
 			v := &TaxSettings{}
 			params := &Params{}

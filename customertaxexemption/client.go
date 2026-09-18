@@ -4,7 +4,7 @@
 //
 //
 
-// Package customertaxexemption provides the /v1/customers/{customer}/tax_exemptions APIs
+// Package customertaxexemption provides the /v1/customers/{id}/tax_exemptions APIs
 package customertaxexemption
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+// Client is used to invoke /v1/customers/{id}/tax_exemptions APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -35,7 +35,7 @@ func New(params *stripe.CustomerTaxExemptionParams) (*stripe.CustomerTaxExemptio
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CustomerTaxExemptionParams) (*stripe.CustomerTaxExemption, error) {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_exemptions", stripe.StringValue(params.Customer))
+		"/v1/customers/%s/tax_exemptions", stripe.StringValue(params.ID))
 	customertaxexemption := &stripe.CustomerTaxExemption{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -54,7 +54,7 @@ func Get(id string, params *stripe.CustomerTaxExemptionParams) (*stripe.Customer
 func (c Client) Get(id string, params *stripe.CustomerTaxExemptionParams) (*stripe.CustomerTaxExemption, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/tax_exemptions/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customertaxexemption := &stripe.CustomerTaxExemption{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -73,7 +73,7 @@ func Del(id string, params *stripe.CustomerTaxExemptionParams) (*stripe.Customer
 func (c Client) Del(id string, params *stripe.CustomerTaxExemptionParams) (*stripe.CustomerTaxExemption, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/tax_exemptions/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customertaxexemption := &stripe.CustomerTaxExemption{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -91,7 +91,7 @@ func List(params *stripe.CustomerTaxExemptionListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CustomerTaxExemptionListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_exemptions", stripe.StringValue(listParams.Customer))
+		"/v1/customers/%s/tax_exemptions", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerTaxExemptionList{}

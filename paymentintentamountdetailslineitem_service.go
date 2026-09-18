@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1PaymentIntentAmountDetailsLineItemService is used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+// v1PaymentIntentAmountDetailsLineItemService is used to invoke /v1/payment_intents/{id}/amount_details_line_items APIs.
 type v1PaymentIntentAmountDetailsLineItemService struct {
 	B   Backend
 	Key string
@@ -27,7 +27,7 @@ func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, l
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
-			listParams.Intent))
+			listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentIntentAmountDetailsLineItem], error) {
 		list := &v1Page[*PaymentIntentAmountDetailsLineItem]{}
 		if p == nil {

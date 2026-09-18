@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1CustomerTaxExemptionService is used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+// v1CustomerTaxExemptionService is used to invoke /v1/customers/{id}/tax_exemptions APIs.
 type v1CustomerTaxExemptionService struct {
 	B   Backend
 	Key string
@@ -26,7 +26,7 @@ func (c v1CustomerTaxExemptionService) Create(ctx context.Context, params *Custo
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/tax_exemptions", StringValue(params.Customer))
+		"/v1/customers/%s/tax_exemptions", StringValue(params.ID))
 	customertaxexemption := &CustomerTaxExemption{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -39,7 +39,7 @@ func (c v1CustomerTaxExemptionService) Retrieve(ctx context.Context, id string, 
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/tax_exemptions/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/tax_exemptions/%s", StringValue(params.CustomerID), id)
 	customertaxexemption := &CustomerTaxExemption{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -52,7 +52,7 @@ func (c v1CustomerTaxExemptionService) Delete(ctx context.Context, id string, pa
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/tax_exemptions/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/tax_exemptions/%s", StringValue(params.CustomerID), id)
 	customertaxexemption := &CustomerTaxExemption{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, customertaxexemption)
 	return customertaxexemption, err
@@ -65,7 +65,7 @@ func (c v1CustomerTaxExemptionService) List(ctx context.Context, listParams *Cus
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/tax_exemptions", StringValue(listParams.Customer))
+		"/v1/customers/%s/tax_exemptions", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CustomerTaxExemption], error) {
 		list := &v1Page[*CustomerTaxExemption]{}
 		if p == nil {

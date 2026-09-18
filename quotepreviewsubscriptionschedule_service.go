@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1QuotePreviewSubscriptionScheduleService is used to invoke /v1/quotes/{quote}/preview_subscription_schedules APIs.
+// v1QuotePreviewSubscriptionScheduleService is used to invoke /v1/quotes/{id}/preview_subscription_schedules APIs.
 type v1QuotePreviewSubscriptionScheduleService struct {
 	B   Backend
 	Key string
@@ -26,8 +26,7 @@ func (c v1QuotePreviewSubscriptionScheduleService) List(ctx context.Context, lis
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/quotes/%s/preview_subscription_schedules", StringValue(
-			listParams.Quote))
+		"/v1/quotes/%s/preview_subscription_schedules", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*QuotePreviewSubscriptionSchedule], error) {
 		list := &v1Page[*QuotePreviewSubscriptionSchedule]{}
 		if p == nil {

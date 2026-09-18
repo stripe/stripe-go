@@ -249,7 +249,7 @@ func ListComputedUpfrontLineItems(params *stripe.QuoteListComputedUpfrontLineIte
 func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListComputedUpfrontLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", stripe.StringValue(
-			listParams.Quote))
+			listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
@@ -294,7 +294,7 @@ func ListLineItems(params *stripe.QuoteListLineItemsParams) *LineItemIter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/line_items", stripe.StringValue(listParams.Quote))
+		"/v1/quotes/%s/line_items", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
@@ -322,7 +322,7 @@ func ListLines(params *stripe.QuoteListLinesParams) *LineIter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLines(listParams *stripe.QuoteListLinesParams) *LineIter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/lines", stripe.StringValue(listParams.Quote))
+		"/v1/quotes/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuoteLineList{}
@@ -368,7 +368,7 @@ func ListPreviewInvoiceLines(params *stripe.QuoteListPreviewInvoiceLinesParams) 
 func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_invoices/%s/lines", stripe.StringValue(
-			listParams.Quote), stripe.StringValue(listParams.PreviewInvoice))
+			listParams.QuoteID), stripe.StringValue(listParams.ID))
 	return &InvoiceLineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}

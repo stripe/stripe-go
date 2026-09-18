@@ -4,7 +4,7 @@
 //
 //
 
-// Package customercashbalancetransaction provides the /v1/customers/{customer}/cash_balance_transactions APIs
+// Package customercashbalancetransaction provides the /v1/customers/{id}/cash_balance_transactions APIs
 package customercashbalancetransaction
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
+// Client is used to invoke /v1/customers/{id}/cash_balance_transactions APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*strip
 func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, customercashbalancetransaction)
@@ -56,7 +56,7 @@ func List(params *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 func (c Client) List(listParams *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions", stripe.StringValue(
-			listParams.Customer))
+			listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerCashBalanceTransactionList{}

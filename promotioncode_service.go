@@ -102,7 +102,7 @@ func (c v1PromotionCodeService) MarshalBatchUpdate(id string, params *PromotionC
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"promotion_code": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

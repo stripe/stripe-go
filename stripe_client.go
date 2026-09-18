@@ -14,7 +14,7 @@ type Client struct {
 	V1Accounts *v1AccountService
 	// V1AccountSessions is the service used to invoke /v1/account_sessions APIs.
 	V1AccountSessions *v1AccountSessionService
-	// V1AccountSignals is the service used to invoke /v1/accounts/{account_id}/signals APIs.
+	// V1AccountSignals is the service used to invoke /v1/accounts/{id}/signals APIs.
 	V1AccountSignals *v1AccountSignalsService
 	// V1ApplePayDomains is the service used to invoke /v1/apple_pay/domains APIs.
 	V1ApplePayDomains *v1ApplePayDomainService
@@ -58,7 +58,7 @@ type Client struct {
 	V1BillingPortalConfigurations *v1BillingPortalConfigurationService
 	// V1BillingPortalSessions is the service used to invoke /v1/billing_portal/sessions APIs.
 	V1BillingPortalSessions *v1BillingPortalSessionService
-	// V1Capabilities is the service used to invoke /v1/accounts/{account}/capabilities APIs.
+	// V1Capabilities is the service used to invoke /v1/accounts/{id}/capabilities APIs.
 	V1Capabilities *v1CapabilityService
 	// V1CapitalFinancingOffers is the service used to invoke /v1/capital/financing_offers APIs.
 	V1CapitalFinancingOffers *v1CapitalFinancingOfferService
@@ -68,7 +68,7 @@ type Client struct {
 	V1CapitalFinancingTransactions *v1CapitalFinancingTransactionService
 	// V1Cards is the service used to invoke /v1/accounts/{account}/external_accounts APIs.
 	V1Cards *v1CardService
-	// V1CashBalances is the service used to invoke /v1/customers/{customer}/cash_balance APIs.
+	// V1CashBalances is the service used to invoke /v1/customers/{id}/cash_balance APIs.
 	V1CashBalances *v1CashBalanceService
 	// V1Charges is the service used to invoke /v1/charges APIs.
 	V1Charges *v1ChargeService
@@ -100,15 +100,15 @@ type Client struct {
 	V1CryptoOnrampSessions *v1CryptoOnrampSessionService
 	// V1CryptoOnrampTransactionLimits is the service used to invoke /v1/crypto/onramp_transaction_limits APIs.
 	V1CryptoOnrampTransactionLimits *v1CryptoOnrampTransactionLimitsService
-	// V1CustomerBalanceTransactions is the service used to invoke /v1/customers/{customer}/balance_transactions APIs.
+	// V1CustomerBalanceTransactions is the service used to invoke /v1/customers/{id}/balance_transactions APIs.
 	V1CustomerBalanceTransactions *v1CustomerBalanceTransactionService
-	// V1CustomerCashBalanceTransactions is the service used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
+	// V1CustomerCashBalanceTransactions is the service used to invoke /v1/customers/{id}/cash_balance_transactions APIs.
 	V1CustomerCashBalanceTransactions *v1CustomerCashBalanceTransactionService
 	// V1Customers is the service used to invoke /v1/customers APIs.
 	V1Customers *v1CustomerService
 	// V1CustomerSessions is the service used to invoke /v1/customer_sessions APIs.
 	V1CustomerSessions *v1CustomerSessionService
-	// V1CustomerTaxExemptions is the service used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+	// V1CustomerTaxExemptions is the service used to invoke /v1/customers/{id}/tax_exemptions APIs.
 	V1CustomerTaxExemptions *v1CustomerTaxExemptionService
 	// V1DelegatedCheckoutOrders is the service used to invoke /v1/delegated_checkout/orders APIs.
 	V1DelegatedCheckoutOrders *v1DelegatedCheckoutOrderService
@@ -132,7 +132,7 @@ type Client struct {
 	V1FileLinks *v1FileLinkService
 	// V1Files is the service used to invoke /v1/files APIs.
 	V1Files *v1FileService
-	// V1FinancialConnectionsAccountInferredBalances is the service used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
+	// V1FinancialConnectionsAccountInferredBalances is the service used to invoke /v1/financial_connections/accounts/{id}/inferred_balances APIs.
 	V1FinancialConnectionsAccountInferredBalances *v1FinancialConnectionsAccountInferredBalanceService
 	// V1FinancialConnectionsAccounts is the service used to invoke /v1/financial_connections/accounts APIs.
 	V1FinancialConnectionsAccounts *v1FinancialConnectionsAccountService
@@ -160,7 +160,7 @@ type Client struct {
 	V1IdentityVerificationSessions *v1IdentityVerificationSessionService
 	// V1InvoiceItems is the service used to invoke /v1/invoiceitems APIs.
 	V1InvoiceItems *v1InvoiceItemService
-	// V1InvoiceLineItems is the service used to invoke /v1/invoices/{invoice}/lines APIs.
+	// V1InvoiceLineItems is the service used to invoke /v1/invoices/{id}/lines APIs.
 	V1InvoiceLineItems *v1InvoiceLineItemService
 	// V1InvoicePayments is the service used to invoke /v1/invoice_payments APIs.
 	V1InvoicePayments *v1InvoicePaymentService
@@ -192,7 +192,7 @@ type Client struct {
 	V1IssuingTokens *v1IssuingTokenService
 	// V1IssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
 	V1IssuingTransactions *v1IssuingTransactionService
-	// V1LoginLinks is the service used to invoke /v1/accounts/{account}/login_links APIs.
+	// V1LoginLinks is the service used to invoke /v1/accounts/{id}/login_links APIs.
 	V1LoginLinks *v1LoginLinkService
 	// V1Mandates is the service used to invoke /v1/mandates APIs.
 	V1Mandates *v1MandateService
@@ -204,7 +204,7 @@ type Client struct {
 	V1Orders *v1OrderService
 	// V1PaymentAttemptRecords is the service used to invoke /v1/payment_attempt_records APIs.
 	V1PaymentAttemptRecords *v1PaymentAttemptRecordService
-	// V1PaymentIntentAmountDetailsLineItems is the service used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+	// V1PaymentIntentAmountDetailsLineItems is the service used to invoke /v1/payment_intents/{id}/amount_details_line_items APIs.
 	V1PaymentIntentAmountDetailsLineItems *v1PaymentIntentAmountDetailsLineItemService
 	// V1PaymentIntents is the service used to invoke /v1/payment_intents APIs.
 	V1PaymentIntents *v1PaymentIntentService
@@ -224,11 +224,11 @@ type Client struct {
 	V1PaymentPlans *v1PaymentPlanService
 	// V1PaymentRecords is the service used to invoke /v1/payment_records APIs.
 	V1PaymentRecords *v1PaymentRecordService
-	// V1PaymentSources is the service used to invoke /v1/customers/{customer}/sources APIs.
+	// V1PaymentSources is the service used to invoke /v1/customers/{id}/sources APIs.
 	V1PaymentSources *v1PaymentSourceService
 	// V1Payouts is the service used to invoke /v1/payouts APIs.
 	V1Payouts *v1PayoutService
-	// V1Persons is the service used to invoke /v1/accounts/{account}/persons APIs.
+	// V1Persons is the service used to invoke /v1/accounts/{id}/persons APIs.
 	V1Persons *v1PersonService
 	// V1Plans is the service used to invoke /v1/plans APIs.
 	V1Plans *v1PlanService
@@ -236,26 +236,24 @@ type Client struct {
 	V1Prices *v1PriceService
 	// V1PrivacyRedactionJobs is the service used to invoke /v1/privacy/redaction_jobs APIs.
 	V1PrivacyRedactionJobs *v1PrivacyRedactionJobService
-	// V1PrivacyRedactionJobValidationErrors is the service used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+	// V1PrivacyRedactionJobValidationErrors is the service used to invoke /v1/privacy/redaction_jobs/{id}/validation_errors APIs.
 	V1PrivacyRedactionJobValidationErrors *v1PrivacyRedactionJobValidationErrorService
 	// V1ProductCatalogTrialOffers is the service used to invoke /v1/product_catalog/trial_offers APIs.
 	V1ProductCatalogTrialOffers *v1ProductCatalogTrialOfferService
-	// V1ProductFeatures is the service used to invoke /v1/products/{product}/features APIs.
+	// V1ProductFeatures is the service used to invoke /v1/products/{id}/features APIs.
 	V1ProductFeatures *v1ProductFeatureService
 	// V1Products is the service used to invoke /v1/products APIs.
 	V1Products *v1ProductService
 	// V1PromotionCodes is the service used to invoke /v1/promotion_codes APIs.
 	V1PromotionCodes *v1PromotionCodeService
-	// V1QuotePreviewInvoices is the service used to invoke /v1/quotes/{quote}/preview_invoices APIs.
+	// V1QuotePreviewInvoices is the service used to invoke /v1/quotes/{id}/preview_invoices APIs.
 	V1QuotePreviewInvoices *v1QuotePreviewInvoiceService
-	// V1QuotePreviewSubscriptionSchedules is the service used to invoke /v1/quotes/{quote}/preview_subscription_schedules APIs.
+	// V1QuotePreviewSubscriptionSchedules is the service used to invoke /v1/quotes/{id}/preview_subscription_schedules APIs.
 	V1QuotePreviewSubscriptionSchedules *v1QuotePreviewSubscriptionScheduleService
 	// V1Quotes is the service used to invoke /v1/quotes APIs.
 	V1Quotes *v1QuoteService
 	// V1RadarAccountEvaluations is the service used to invoke /v1/radar/account_evaluations APIs.
 	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
-	// V1RadarBillingEvaluations is the service used to invoke /v1/radar/billing_evaluations APIs.
-	V1RadarBillingEvaluations *v1RadarBillingEvaluationService
 	// V1RadarCustomerEvaluations is the service used to invoke /v1/radar/customer_evaluations APIs.
 	V1RadarCustomerEvaluations *v1RadarCustomerEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -296,7 +294,7 @@ type Client struct {
 	V1SigmaScheduledQueryRuns *v1SigmaScheduledQueryRunService
 	// V1Sources is the service used to invoke /v1/sources APIs.
 	V1Sources *v1SourceService
-	// V1SourceTransactions is the service used to invoke /v1/sources/{source}/source_transactions APIs.
+	// V1SourceTransactions is the service used to invoke /v1/sources/{id}/source_transactions APIs.
 	V1SourceTransactions *v1SourceTransactionService
 	// V1SubscriptionItems is the service used to invoke /v1/subscription_items APIs.
 	V1SubscriptionItems *v1SubscriptionItemService
@@ -570,6 +568,26 @@ type Client struct {
 	V2PaymentsSettlementAllocationIntents *v2PaymentsSettlementAllocationIntentService
 	// V2PaymentsSettlementAllocationIntentsSplits is the service used to invoke /v2/payments/settlement_allocation_intents/{settlement_allocation_intent_id}/splits APIs.
 	V2PaymentsSettlementAllocationIntentsSplits *v2PaymentsSettlementAllocationIntentsSplitService
+	// V2ProvisioningCatalogProviders is the service used to invoke /v2/provisioning/catalog/providers APIs.
+	V2ProvisioningCatalogProviders *v2ProvisioningCatalogProviderService
+	// V2ProvisioningCatalogServices is the service used to invoke /v2/provisioning/catalog/services APIs.
+	V2ProvisioningCatalogServices *v2ProvisioningCatalogServiceService
+	// V2ProvisioningEligibilities is the service used to invoke eligibility related APIs.
+	V2ProvisioningEligibilities *v2ProvisioningEligibilityService
+	// V2ProvisioningPaymentMethodRequests is the service used to invoke /v2/provisioning/payment_method_requests APIs.
+	V2ProvisioningPaymentMethodRequests *v2ProvisioningPaymentMethodRequestService
+	// V2ProvisioningPaymentProfiles is the service used to invoke paymentprofile related APIs.
+	V2ProvisioningPaymentProfiles *v2ProvisioningPaymentProfileService
+	// V2ProvisioningPaymentProfileUpdateLimits is the service used to invoke updatelimit related APIs.
+	V2ProvisioningPaymentProfileUpdateLimits *v2ProvisioningPaymentProfileUpdateLimitService
+	// V2ProvisioningProjects is the service used to invoke /v2/provisioning/projects APIs.
+	V2ProvisioningProjects *v2ProvisioningProjectService
+	// V2ProvisioningProviderConnectionRequests is the service used to invoke /v2/provisioning/provider_connection_requests APIs.
+	V2ProvisioningProviderConnectionRequests *v2ProvisioningProviderConnectionRequestService
+	// V2ProvisioningProviderConnections is the service used to invoke /v2/provisioning/provider_connections APIs.
+	V2ProvisioningProviderConnections *v2ProvisioningProviderConnectionService
+	// V2ProvisioningResources is the service used to invoke /v2/provisioning/resources APIs.
+	V2ProvisioningResources *v2ProvisioningResourceService
 	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
@@ -758,7 +776,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
-	client.V1RadarBillingEvaluations = &v1RadarBillingEvaluationService{B: backends.API, Key: key}
 	client.V1RadarCustomerEvaluations = &v1RadarCustomerEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
 	client.V1RadarIssuingAuthorizationEvaluations = &v1RadarIssuingAuthorizationEvaluationService{B: backends.API, Key: key}
@@ -916,6 +933,16 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2PaymentsSettlementAllocationIntents = &v2PaymentsSettlementAllocationIntentService{B: backends.API, Key: key}
 	client.V2PaymentsSettlementAllocationIntentsSplits = &v2PaymentsSettlementAllocationIntentsSplitService{B: backends.API, Key: key}
+	client.V2ProvisioningCatalogProviders = &v2ProvisioningCatalogProviderService{B: backends.API, Key: key}
+	client.V2ProvisioningCatalogServices = &v2ProvisioningCatalogServiceService{B: backends.API, Key: key}
+	client.V2ProvisioningEligibilities = &v2ProvisioningEligibilityService{B: backends.API, Key: key}
+	client.V2ProvisioningPaymentMethodRequests = &v2ProvisioningPaymentMethodRequestService{B: backends.API, Key: key}
+	client.V2ProvisioningPaymentProfiles = &v2ProvisioningPaymentProfileService{B: backends.API, Key: key}
+	client.V2ProvisioningPaymentProfileUpdateLimits = &v2ProvisioningPaymentProfileUpdateLimitService{B: backends.API, Key: key}
+	client.V2ProvisioningProjects = &v2ProvisioningProjectService{B: backends.API, Key: key}
+	client.V2ProvisioningProviderConnectionRequests = &v2ProvisioningProviderConnectionRequestService{B: backends.API, Key: key}
+	client.V2ProvisioningProviderConnections = &v2ProvisioningProviderConnectionService{B: backends.API, Key: key}
+	client.V2ProvisioningResources = &v2ProvisioningResourceService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
 	client.V2RiskInquiries = &v2RiskInquiryService{B: backends.API, Key: key}

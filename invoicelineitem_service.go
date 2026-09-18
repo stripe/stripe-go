@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-// v1InvoiceLineItemService is used to invoke /v1/invoices/{invoice}/lines APIs.
+// v1InvoiceLineItemService is used to invoke /v1/invoices/{id}/lines APIs.
 type v1InvoiceLineItemService struct {
 	B   Backend
 	Key string
@@ -27,7 +27,7 @@ func (c v1InvoiceLineItemService) Update(ctx context.Context, id string, params 
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/invoices/%s/lines/%s", StringValue(params.Invoice), id)
+		"/v1/invoices/%s/lines/%s", StringValue(params.InvoiceID), id)
 	invoicelineitem := &InvoiceLineItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoicelineitem)
 	return invoicelineitem, err

@@ -22,7 +22,7 @@ const (
 type PrivacyRedactionJobValidationErrorListParams struct {
 	ListParams `form:"*"`
 	// RedactionJob object identifier
-	Job *string `form:"-"` // Included in URL
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

@@ -171,8 +171,7 @@ func ListLineItems(params *stripe.CheckoutSessionListLineItemsParams) *LineItemI
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/checkout/sessions/%s/line_items", stripe.StringValue(
-			listParams.Session))
+		"/v1/checkout/sessions/%s/line_items", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
