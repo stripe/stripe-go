@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // Refund a test-mode Transaction.
 type TestHelpersIssuingTransactionRefundParams struct {
 	Params `form:"*"`
@@ -59,21 +61,21 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetCardhold
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownFuelParams struct {
 	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
-	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
+	GrossAmountDecimal *decimal.Decimal `form:"gross_amount_decimal" json:"gross_amount_decimal,omitempty"`
 }
 
 // Breakdown of non-fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownNonFuelParams struct {
 	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
-	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
+	GrossAmountDecimal *decimal.Decimal `form:"gross_amount_decimal" json:"gross_amount_decimal,omitempty"`
 }
 
 // Information about tax included in this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownTaxParams struct {
 	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	LocalAmountDecimal *float64 `form:"local_amount_decimal,high_precision" json:"local_amount_decimal,string,omitempty"`
+	LocalAmountDecimal *decimal.Decimal `form:"local_amount_decimal" json:"local_amount_decimal,omitempty"`
 	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	NationalAmountDecimal *float64 `form:"national_amount_decimal,high_precision" json:"national_amount_decimal,string,omitempty"`
+	NationalAmountDecimal *decimal.Decimal `form:"national_amount_decimal" json:"national_amount_decimal,omitempty"`
 }
 
 // More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
@@ -133,13 +135,13 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams st
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
 	IndustryProductCode *string `form:"industry_product_code" json:"industry_product_code,omitempty"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
-	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
+	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type *string `form:"type" json:"type,omitempty"`
 	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit *string `form:"unit" json:"unit,omitempty"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
-	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
+	UnitCostDecimal *decimal.Decimal `form:"unit_cost_decimal" json:"unit_cost_decimal,omitempty"`
 }
 
 // Information about lodging that was purchased with this transaction.
@@ -152,10 +154,10 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams
 
 // The line items in the purchase.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams struct {
-	Description *string  `form:"description" json:"description,omitempty"`
-	Quantity    *float64 `form:"quantity,high_precision" json:"quantity,string,omitempty"`
-	Total       *int64   `form:"total" json:"total,omitempty"`
-	UnitCost    *int64   `form:"unit_cost" json:"unit_cost,omitempty"`
+	Description *string          `form:"description" json:"description,omitempty"`
+	Quantity    *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	Total       *int64           `form:"total" json:"total,omitempty"`
+	UnitCost    *int64           `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 
 // Additional purchase information that is optionally provided by the merchant.
@@ -235,21 +237,21 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetCardho
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownFuelParams struct {
 	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
-	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
+	GrossAmountDecimal *decimal.Decimal `form:"gross_amount_decimal" json:"gross_amount_decimal,omitempty"`
 }
 
 // Breakdown of non-fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownNonFuelParams struct {
 	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
-	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
+	GrossAmountDecimal *decimal.Decimal `form:"gross_amount_decimal" json:"gross_amount_decimal,omitempty"`
 }
 
 // Information about tax included in this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownTaxParams struct {
 	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	LocalAmountDecimal *float64 `form:"local_amount_decimal,high_precision" json:"local_amount_decimal,string,omitempty"`
+	LocalAmountDecimal *decimal.Decimal `form:"local_amount_decimal" json:"local_amount_decimal,omitempty"`
 	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	NationalAmountDecimal *float64 `form:"national_amount_decimal,high_precision" json:"national_amount_decimal,string,omitempty"`
+	NationalAmountDecimal *decimal.Decimal `form:"national_amount_decimal" json:"national_amount_decimal,omitempty"`
 }
 
 // More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
@@ -309,13 +311,13 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams 
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
 	IndustryProductCode *string `form:"industry_product_code" json:"industry_product_code,omitempty"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
-	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
+	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type *string `form:"type" json:"type,omitempty"`
 	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit *string `form:"unit" json:"unit,omitempty"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
-	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
+	UnitCostDecimal *decimal.Decimal `form:"unit_cost_decimal" json:"unit_cost_decimal,omitempty"`
 }
 
 // Information about lodging that was purchased with this transaction.
@@ -328,10 +330,10 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingPara
 
 // The line items in the purchase.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams struct {
-	Description *string  `form:"description" json:"description,omitempty"`
-	Quantity    *float64 `form:"quantity,high_precision" json:"quantity,string,omitempty"`
-	Total       *int64   `form:"total" json:"total,omitempty"`
-	UnitCost    *int64   `form:"unit_cost" json:"unit_cost,omitempty"`
+	Description *string          `form:"description" json:"description,omitempty"`
+	Quantity    *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	Total       *int64           `form:"total" json:"total,omitempty"`
+	UnitCost    *int64           `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 
 // Additional purchase information that is optionally provided by the merchant.
