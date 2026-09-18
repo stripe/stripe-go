@@ -1,5 +1,6 @@
 ---
 title: Represent dynamic objects as maps
+pr_url: https://github.com/stripe/stripe-go/pull/2441
 semver_level: major
 ---
 
