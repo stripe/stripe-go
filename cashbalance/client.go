@@ -4,7 +4,7 @@
 //
 //
 
-// Package cashbalance provides the /v1/customers/{customer}/cash_balance APIs
+// Package cashbalance provides the /v1/customers/{id}/cash_balance APIs
 package cashbalance
 
 import (
@@ -14,7 +14,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v86"
 )
 
-// Client is used to invoke /v1/customers/{customer}/cash_balance APIs.
+// Client is used to invoke /v1/customers/{id}/cash_balance APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -39,7 +39,7 @@ func (c Client) Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, erro
 			"params cannot be nil, and params.Customer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/cash_balance", stripe.StringValue(params.Customer))
+		"/v1/customers/%s/cash_balance", stripe.StringValue(params.ID))
 	cashbalance := &stripe.CashBalance{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, cashbalance)
 	return cashbalance, err
@@ -61,7 +61,7 @@ func (c Client) Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, e
 			"params cannot be nil, and params.Customer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/cash_balance", stripe.StringValue(params.Customer))
+		"/v1/customers/%s/cash_balance", stripe.StringValue(params.ID))
 	cashbalance := &stripe.CashBalance{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, cashbalance)
 	return cashbalance, err

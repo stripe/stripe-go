@@ -129,8 +129,7 @@ func ListLineItems(params *stripe.PaymentLinkListLineItemsParams) *LineItemIter 
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/payment_links/%s/line_items", stripe.StringValue(
-			listParams.PaymentLink))
+		"/v1/payment_links/%s/line_items", stripe.StringValue(listParams.ID))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}

@@ -115,7 +115,7 @@ func (c v1CouponService) MarshalBatchDelete(id string, params *CouponDeleteParam
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"coupon": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -146,7 +146,7 @@ func (c v1CouponService) MarshalBatchUpdate(id string, params *CouponUpdateParam
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"coupon": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

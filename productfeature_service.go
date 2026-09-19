@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1ProductFeatureService is used to invoke /v1/products/{product}/features APIs.
+// v1ProductFeatureService is used to invoke /v1/products/{id}/features APIs.
 type v1ProductFeatureService struct {
 	B   Backend
 	Key string
@@ -25,7 +25,7 @@ func (c v1ProductFeatureService) Create(ctx context.Context, params *ProductFeat
 		params = &ProductFeatureCreateParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath("/v1/products/%s/features", StringValue(params.Product))
+	path := FormatURLPath("/v1/products/%s/features", StringValue(params.ID))
 	productfeature := &ProductFeature{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -38,7 +38,7 @@ func (c v1ProductFeatureService) Retrieve(ctx context.Context, id string, params
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/products/%s/features/%s", StringValue(params.Product), id)
+		"/v1/products/%s/features/%s", StringValue(params.ProductID), id)
 	productfeature := &ProductFeature{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -51,7 +51,7 @@ func (c v1ProductFeatureService) Delete(ctx context.Context, id string, params *
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/products/%s/features/%s", StringValue(params.Product), id)
+		"/v1/products/%s/features/%s", StringValue(params.ProductID), id)
 	productfeature := &ProductFeature{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -63,8 +63,7 @@ func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFe
 		listParams = &ProductFeatureListParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/products/%s/features", StringValue(listParams.Product))
+	path := FormatURLPath("/v1/products/%s/features", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ProductFeature], error) {
 		list := &v1Page[*ProductFeature]{}
 		if p == nil {

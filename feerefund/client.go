@@ -82,7 +82,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.Fee), id)
+		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.FeeID), id)
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, feerefund)
 	return feerefund, err
@@ -110,7 +110,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.Fee), id)
+		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.FeeID), id)
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err

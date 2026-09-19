@@ -58,6 +58,7 @@ type V2MoneyManagementPayoutMethodType string
 
 // List of values that V2MoneyManagementPayoutMethodType can take
 const (
+	V2MoneyManagementPayoutMethodTypeApplePay                     V2MoneyManagementPayoutMethodType = "apple_pay"
 	V2MoneyManagementPayoutMethodTypeBankAccount                  V2MoneyManagementPayoutMethodType = "bank_account"
 	V2MoneyManagementPayoutMethodTypeCard                         V2MoneyManagementPayoutMethodType = "card"
 	V2MoneyManagementPayoutMethodTypeCryptoWallet                 V2MoneyManagementPayoutMethodType = "crypto_wallet"
@@ -94,6 +95,23 @@ type V2MoneyManagementPayoutMethodAlternativeReference struct {
 	ID string `json:"id"`
 	// The type of the alternative reference (e.g., external_account for V1 external accounts).
 	Type V2MoneyManagementPayoutMethodAlternativeReferenceType `json:"type"`
+}
+
+// The PayoutMethodApplePay object details.
+type V2MoneyManagementPayoutMethodApplePay struct {
+	// The last four digits of the device account number (DPAN).
+	DynamicLast4 string `json:"dynamic_last4"`
+	// The month the card expires.
+	ExpMonth string `json:"exp_month"`
+	// The year the card expires.
+	ExpYear string `json:"exp_year"`
+	// Uniquely identifies this particular Apple-Pay-registered DPAN (Device PAN). Refer to
+	// https://support.stripe.com/questions/how-do-card-numbers-work-with-apple-pay-and-google-pay-and-what-is-dynamic-last4 for more info on DPANs.
+	Fingerprint string `json:"fingerprint"`
+	// The last 4 digits of the card number.
+	Last4 string `json:"last4"`
+	// The list of currencies supported by this card.
+	SupportedCurrencies []Currency `json:"supported_currencies"`
 }
 
 // The PayoutMethodBankAccount object details.
@@ -178,6 +196,8 @@ type V2MoneyManagementPayoutMethod struct {
 	APIResource
 	// The alternative reference for this payout method, if it's a projected payout method.
 	AlternativeReference *V2MoneyManagementPayoutMethodAlternativeReference `json:"alternative_reference,omitempty"`
+	// The PayoutMethodApplePay object details.
+	ApplePay *V2MoneyManagementPayoutMethodApplePay `json:"apple_pay,omitempty"`
 	// A set of available payout speeds for this payout method.
 	AvailablePayoutSpeeds []V2MoneyManagementPayoutMethodAvailablePayoutSpeed `json:"available_payout_speeds"`
 	// The PayoutMethodBankAccount object details.

@@ -4,7 +4,7 @@
 //
 //
 
-// Package quotepreviewinvoice provides the /v1/quotes/{quote}/preview_invoices APIs
+// Package quotepreviewinvoice provides the /v1/quotes/{id}/preview_invoices APIs
 package quotepreviewinvoice
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/quotes/{quote}/preview_invoices APIs.
+// Client is used to invoke /v1/quotes/{id}/preview_invoices APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -35,7 +35,7 @@ func List(params *stripe.QuotePreviewInvoiceListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.QuotePreviewInvoiceListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/preview_invoices", stripe.StringValue(listParams.Quote))
+		"/v1/quotes/%s/preview_invoices", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuotePreviewInvoiceList{}

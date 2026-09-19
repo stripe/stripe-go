@@ -138,7 +138,6 @@ import (
 	"github.com/stripe/stripe-go/v86/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v86/quotepreviewsubscriptionschedule"
 	radaraccountevaluation "github.com/stripe/stripe-go/v86/radar/accountevaluation"
-	radarbillingevaluation "github.com/stripe/stripe-go/v86/radar/billingevaluation"
 	radarcustomerevaluation "github.com/stripe/stripe-go/v86/radar/customerevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v86/radar/earlyfraudwarning"
 	radarissuingauthorizationevaluation "github.com/stripe/stripe-go/v86/radar/issuingauthorizationevaluation"
@@ -273,6 +272,7 @@ import (
 	v2moneymanagementdebitdispute "github.com/stripe/stripe-go/v86/v2/moneymanagement/debitdispute"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccount"
 	v2moneymanagementfinancialaccountsstatement "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccounts/statement"
+	v2moneymanagementfinancialaccountswalletexport "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccounts/walletexport"
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaddress"
 	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v86/v2/moneymanagement/inboundtransfer"
 	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v86/v2/moneymanagement/outboundpayment"
@@ -294,6 +294,16 @@ import (
 	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v86/v2/payments/offsessionpayment"
 	v2paymentssettlementallocationintent "github.com/stripe/stripe-go/v86/v2/payments/settlementallocationintent"
 	v2paymentssettlementallocationintentssplit "github.com/stripe/stripe-go/v86/v2/payments/settlementallocationintents/split"
+	v2provisioningcatalogprovider "github.com/stripe/stripe-go/v86/v2/provisioning/catalog/provider"
+	v2provisioningcatalogservice "github.com/stripe/stripe-go/v86/v2/provisioning/catalog/service"
+	v2provisioningeligibility "github.com/stripe/stripe-go/v86/v2/provisioning/eligibility"
+	v2provisioningpaymentmethodrequest "github.com/stripe/stripe-go/v86/v2/provisioning/paymentmethodrequest"
+	v2provisioningpaymentprofile "github.com/stripe/stripe-go/v86/v2/provisioning/paymentprofile"
+	v2provisioningpaymentprofileupdatelimit "github.com/stripe/stripe-go/v86/v2/provisioning/paymentprofile/updatelimit"
+	v2provisioningproject "github.com/stripe/stripe-go/v86/v2/provisioning/project"
+	v2provisioningproviderconnection "github.com/stripe/stripe-go/v86/v2/provisioning/providerconnection"
+	v2provisioningproviderconnectionrequest "github.com/stripe/stripe-go/v86/v2/provisioning/providerconnectionrequest"
+	v2provisioningresource "github.com/stripe/stripe-go/v86/v2/provisioning/resource"
 	v2reportingreport "github.com/stripe/stripe-go/v86/v2/reporting/report"
 	v2reportingreportrun "github.com/stripe/stripe-go/v86/v2/reporting/reportrun"
 	v2riskinquiry "github.com/stripe/stripe-go/v86/v2/risk/inquiry"
@@ -324,7 +334,7 @@ type API struct {
 	Accounts *account.Client
 	// AccountSessions is the client used to invoke /v1/account_sessions APIs.
 	AccountSessions *accountsession.Client
-	// AccountSignals is the client used to invoke /v1/accounts/{account_id}/signals APIs.
+	// AccountSignals is the client used to invoke /v1/accounts/{id}/signals APIs.
 	AccountSignals *accountsignals.Client
 	// ApplePayDomains is the client used to invoke /v1/apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
@@ -368,7 +378,7 @@ type API struct {
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /v1/billing_portal/sessions APIs.
 	BillingPortalSessions *billingportalsession.Client
-	// Capabilities is the client used to invoke /v1/accounts/{account}/capabilities APIs.
+	// Capabilities is the client used to invoke /v1/accounts/{id}/capabilities APIs.
 	Capabilities *capability.Client
 	// CapitalFinancingOffers is the client used to invoke /v1/capital/financing_offers APIs.
 	CapitalFinancingOffers *capitalfinancingoffer.Client
@@ -378,7 +388,7 @@ type API struct {
 	CapitalFinancingTransactions *capitalfinancingtransaction.Client
 	// Cards is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
 	Cards *card.Client
-	// CashBalances is the client used to invoke /v1/customers/{customer}/cash_balance APIs.
+	// CashBalances is the client used to invoke /v1/customers/{id}/cash_balance APIs.
 	CashBalances *cashbalance.Client
 	// Charges is the client used to invoke /v1/charges APIs.
 	Charges *charge.Client
@@ -410,15 +420,15 @@ type API struct {
 	CryptoOnrampSessions *cryptoonrampsession.Client
 	// CryptoOnrampTransactionLimits is the client used to invoke /v1/crypto/onramp_transaction_limits APIs.
 	CryptoOnrampTransactionLimits *cryptoonramptransactionlimits.Client
-	// CustomerBalanceTransactions is the client used to invoke /v1/customers/{customer}/balance_transactions APIs.
+	// CustomerBalanceTransactions is the client used to invoke /v1/customers/{id}/balance_transactions APIs.
 	CustomerBalanceTransactions *customerbalancetransaction.Client
-	// CustomerCashBalanceTransactions is the client used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
+	// CustomerCashBalanceTransactions is the client used to invoke /v1/customers/{id}/cash_balance_transactions APIs.
 	CustomerCashBalanceTransactions *customercashbalancetransaction.Client
 	// Customers is the client used to invoke /v1/customers APIs.
 	Customers *customer.Client
 	// CustomerSessions is the client used to invoke /v1/customer_sessions APIs.
 	CustomerSessions *customersession.Client
-	// CustomerTaxExemptions is the client used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+	// CustomerTaxExemptions is the client used to invoke /v1/customers/{id}/tax_exemptions APIs.
 	CustomerTaxExemptions *customertaxexemption.Client
 	// DelegatedCheckoutOrders is the client used to invoke /v1/delegated_checkout/orders APIs.
 	DelegatedCheckoutOrders *delegatedcheckoutorder.Client
@@ -442,7 +452,7 @@ type API struct {
 	FileLinks *filelink.Client
 	// Files is the client used to invoke /v1/files APIs.
 	Files *file.Client
-	// FinancialConnectionsAccountInferredBalances is the client used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
+	// FinancialConnectionsAccountInferredBalances is the client used to invoke /v1/financial_connections/accounts/{id}/inferred_balances APIs.
 	FinancialConnectionsAccountInferredBalances *financialconnectionsaccountinferredbalance.Client
 	// FinancialConnectionsAccounts is the client used to invoke /v1/financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
@@ -470,7 +480,7 @@ type API struct {
 	IdentityVerificationSessions *identityverificationsession.Client
 	// InvoiceItems is the client used to invoke /v1/invoiceitems APIs.
 	InvoiceItems *invoiceitem.Client
-	// InvoiceLineItems is the client used to invoke /v1/invoices/{invoice}/lines APIs.
+	// InvoiceLineItems is the client used to invoke /v1/invoices/{id}/lines APIs.
 	InvoiceLineItems *invoicelineitem.Client
 	// InvoicePayments is the client used to invoke /v1/invoice_payments APIs.
 	InvoicePayments *invoicepayment.Client
@@ -502,7 +512,7 @@ type API struct {
 	IssuingTokens *issuingtoken.Client
 	// IssuingTransactions is the client used to invoke /v1/issuing/transactions APIs.
 	IssuingTransactions *issuingtransaction.Client
-	// LoginLinks is the client used to invoke /v1/accounts/{account}/login_links APIs.
+	// LoginLinks is the client used to invoke /v1/accounts/{id}/login_links APIs.
 	LoginLinks *loginlink.Client
 	// Mandates is the client used to invoke /v1/mandates APIs.
 	Mandates *mandate.Client
@@ -516,7 +526,7 @@ type API struct {
 	Orders *order.Client
 	// PaymentAttemptRecords is the client used to invoke /v1/payment_attempt_records APIs.
 	PaymentAttemptRecords *paymentattemptrecord.Client
-	// PaymentIntentAmountDetailsLineItems is the client used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+	// PaymentIntentAmountDetailsLineItems is the client used to invoke /v1/payment_intents/{id}/amount_details_line_items APIs.
 	PaymentIntentAmountDetailsLineItems *paymentintentamountdetailslineitem.Client
 	// PaymentIntents is the client used to invoke /v1/payment_intents APIs.
 	PaymentIntents *paymentintent.Client
@@ -536,11 +546,11 @@ type API struct {
 	PaymentPlans *paymentplan.Client
 	// PaymentRecords is the client used to invoke /v1/payment_records APIs.
 	PaymentRecords *paymentrecord.Client
-	// PaymentSources is the client used to invoke /v1/customers/{customer}/sources APIs.
+	// PaymentSources is the client used to invoke /v1/customers/{id}/sources APIs.
 	PaymentSources *paymentsource.Client
 	// Payouts is the client used to invoke /v1/payouts APIs.
 	Payouts *payout.Client
-	// Persons is the client used to invoke /v1/accounts/{account}/persons APIs.
+	// Persons is the client used to invoke /v1/accounts/{id}/persons APIs.
 	Persons *person.Client
 	// Plans is the client used to invoke /v1/plans APIs.
 	Plans *plan.Client
@@ -548,26 +558,24 @@ type API struct {
 	Prices *price.Client
 	// PrivacyRedactionJobs is the client used to invoke /v1/privacy/redaction_jobs APIs.
 	PrivacyRedactionJobs *privacyredactionjob.Client
-	// PrivacyRedactionJobValidationErrors is the client used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+	// PrivacyRedactionJobValidationErrors is the client used to invoke /v1/privacy/redaction_jobs/{id}/validation_errors APIs.
 	PrivacyRedactionJobValidationErrors *privacyredactionjobvalidationerror.Client
 	// ProductCatalogTrialOffers is the client used to invoke /v1/product_catalog/trial_offers APIs.
 	ProductCatalogTrialOffers *productcatalogtrialoffer.Client
-	// ProductFeatures is the client used to invoke /v1/products/{product}/features APIs.
+	// ProductFeatures is the client used to invoke /v1/products/{id}/features APIs.
 	ProductFeatures *productfeature.Client
 	// Products is the client used to invoke /v1/products APIs.
 	Products *product.Client
 	// PromotionCodes is the client used to invoke /v1/promotion_codes APIs.
 	PromotionCodes *promotioncode.Client
-	// QuotePreviewInvoices is the client used to invoke /v1/quotes/{quote}/preview_invoices APIs.
+	// QuotePreviewInvoices is the client used to invoke /v1/quotes/{id}/preview_invoices APIs.
 	QuotePreviewInvoices *quotepreviewinvoice.Client
-	// QuotePreviewSubscriptionSchedules is the client used to invoke /v1/quotes/{quote}/preview_subscription_schedules APIs.
+	// QuotePreviewSubscriptionSchedules is the client used to invoke /v1/quotes/{id}/preview_subscription_schedules APIs.
 	QuotePreviewSubscriptionSchedules *quotepreviewsubscriptionschedule.Client
 	// Quotes is the client used to invoke /v1/quotes APIs.
 	Quotes *quote.Client
 	// RadarAccountEvaluations is the client used to invoke /v1/radar/account_evaluations APIs.
 	RadarAccountEvaluations *radaraccountevaluation.Client
-	// RadarBillingEvaluations is the client used to invoke /v1/radar/billing_evaluations APIs.
-	RadarBillingEvaluations *radarbillingevaluation.Client
 	// RadarCustomerEvaluations is the client used to invoke /v1/radar/customer_evaluations APIs.
 	RadarCustomerEvaluations *radarcustomerevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -608,7 +616,7 @@ type API struct {
 	SigmaScheduledQueryRuns *sigmascheduledqueryrun.Client
 	// Sources is the client used to invoke /v1/sources APIs.
 	Sources *source.Client
-	// SourceTransactions is the client used to invoke /v1/sources/{source}/source_transactions APIs.
+	// SourceTransactions is the client used to invoke /v1/sources/{id}/source_transactions APIs.
 	SourceTransactions *sourcetransaction.Client
 	// SubscriptionItems is the client used to invoke /v1/subscription_items APIs.
 	SubscriptionItems *subscriptionitem.Client
@@ -836,6 +844,8 @@ type API struct {
 	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
 	// V2MoneyManagementFinancialAccountsStatements is the client used to invoke /v2/money_management/financial_accounts/{financial_account_id}/statements APIs.
 	V2MoneyManagementFinancialAccountsStatements *v2moneymanagementfinancialaccountsstatement.Client
+	// V2MoneyManagementFinancialAccountsWalletExports is the client used to invoke walletexport related APIs.
+	V2MoneyManagementFinancialAccountsWalletExports *v2moneymanagementfinancialaccountswalletexport.Client
 	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
 	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
@@ -878,6 +888,26 @@ type API struct {
 	V2PaymentsSettlementAllocationIntents *v2paymentssettlementallocationintent.Client
 	// V2PaymentsSettlementAllocationIntentsSplits is the client used to invoke /v2/payments/settlement_allocation_intents/{settlement_allocation_intent_id}/splits APIs.
 	V2PaymentsSettlementAllocationIntentsSplits *v2paymentssettlementallocationintentssplit.Client
+	// V2ProvisioningCatalogProviders is the client used to invoke /v2/provisioning/catalog/providers APIs.
+	V2ProvisioningCatalogProviders *v2provisioningcatalogprovider.Client
+	// V2ProvisioningCatalogServices is the client used to invoke /v2/provisioning/catalog/services APIs.
+	V2ProvisioningCatalogServices *v2provisioningcatalogservice.Client
+	// V2ProvisioningEligibilities is the client used to invoke eligibility related APIs.
+	V2ProvisioningEligibilities *v2provisioningeligibility.Client
+	// V2ProvisioningPaymentMethodRequests is the client used to invoke /v2/provisioning/payment_method_requests APIs.
+	V2ProvisioningPaymentMethodRequests *v2provisioningpaymentmethodrequest.Client
+	// V2ProvisioningPaymentProfiles is the client used to invoke paymentprofile related APIs.
+	V2ProvisioningPaymentProfiles *v2provisioningpaymentprofile.Client
+	// V2ProvisioningPaymentProfileUpdateLimits is the client used to invoke updatelimit related APIs.
+	V2ProvisioningPaymentProfileUpdateLimits *v2provisioningpaymentprofileupdatelimit.Client
+	// V2ProvisioningProjects is the client used to invoke /v2/provisioning/projects APIs.
+	V2ProvisioningProjects *v2provisioningproject.Client
+	// V2ProvisioningProviderConnectionRequests is the client used to invoke /v2/provisioning/provider_connection_requests APIs.
+	V2ProvisioningProviderConnectionRequests *v2provisioningproviderconnectionrequest.Client
+	// V2ProvisioningProviderConnections is the client used to invoke /v2/provisioning/provider_connections APIs.
+	V2ProvisioningProviderConnections *v2provisioningproviderconnection.Client
+	// V2ProvisioningResources is the client used to invoke /v2/provisioning/resources APIs.
+	V2ProvisioningResources *v2provisioningresource.Client
 	// V2ReportingReportRuns is the client used to invoke /v2/reporting/report_runs APIs.
 	V2ReportingReportRuns *v2reportingreportrun.Client
 	// V2ReportingReports is the client used to invoke report related APIs.
@@ -1047,7 +1077,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarAccountEvaluations = &radaraccountevaluation.Client{B: backends.API, Key: key}
-	a.RadarBillingEvaluations = &radarbillingevaluation.Client{B: backends.API, Key: key}
 	a.RadarCustomerEvaluations = &radarcustomerevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarIssuingAuthorizationEvaluations = &radarissuingauthorizationevaluation.Client{B: backends.API, Key: key}
@@ -1182,6 +1211,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementDebitDisputes = &v2moneymanagementdebitdispute.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsStatements = &v2moneymanagementfinancialaccountsstatement.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFinancialAccountsWalletExports = &v2moneymanagementfinancialaccountswalletexport.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundPaymentQuotes = &v2moneymanagementoutboundpaymentquote.Client{B: backends.API, Key: key}
@@ -1203,6 +1233,16 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
 	a.V2PaymentsSettlementAllocationIntents = &v2paymentssettlementallocationintent.Client{B: backends.API, Key: key}
 	a.V2PaymentsSettlementAllocationIntentsSplits = &v2paymentssettlementallocationintentssplit.Client{B: backends.API, Key: key}
+	a.V2ProvisioningCatalogProviders = &v2provisioningcatalogprovider.Client{B: backends.API, Key: key}
+	a.V2ProvisioningCatalogServices = &v2provisioningcatalogservice.Client{B: backends.API, Key: key}
+	a.V2ProvisioningEligibilities = &v2provisioningeligibility.Client{B: backends.API, Key: key}
+	a.V2ProvisioningPaymentMethodRequests = &v2provisioningpaymentmethodrequest.Client{B: backends.API, Key: key}
+	a.V2ProvisioningPaymentProfiles = &v2provisioningpaymentprofile.Client{B: backends.API, Key: key}
+	a.V2ProvisioningPaymentProfileUpdateLimits = &v2provisioningpaymentprofileupdatelimit.Client{B: backends.API, Key: key}
+	a.V2ProvisioningProjects = &v2provisioningproject.Client{B: backends.API, Key: key}
+	a.V2ProvisioningProviderConnectionRequests = &v2provisioningproviderconnectionrequest.Client{B: backends.API, Key: key}
+	a.V2ProvisioningProviderConnections = &v2provisioningproviderconnection.Client{B: backends.API, Key: key}
+	a.V2ProvisioningResources = &v2provisioningresource.Client{B: backends.API, Key: key}
 	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
 	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
 	a.V2RiskInquiries = &v2riskinquiry.Client{B: backends.API, Key: key}

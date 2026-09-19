@@ -64,8 +64,8 @@ const (
 
 // Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 type CapabilityListParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -77,8 +77,8 @@ func (p *CapabilityListParams) AddExpand(f string) {
 
 // Retrieves information about the specified Account Capability.
 type CapabilityParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	AccountID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays.
@@ -94,8 +94,8 @@ func (p *CapabilityParams) AddExpand(f string) {
 
 // Retrieves information about the specified Account Capability.
 type CapabilityRetrieveParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	AccountID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -107,8 +107,8 @@ func (p *CapabilityRetrieveParams) AddExpand(f string) {
 
 // Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
 type CapabilityUpdateParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	AccountID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays.

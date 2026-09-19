@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-// v1AccountSignalsService is used to invoke /v1/accounts/{account_id}/signals APIs.
+// v1AccountSignalsService is used to invoke /v1/accounts/{id}/signals APIs.
 type v1AccountSignalsService struct {
 	B   Backend
 	Key string

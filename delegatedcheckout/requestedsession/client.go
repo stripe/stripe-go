@@ -125,7 +125,7 @@ func ListOrders(params *stripe.DelegatedCheckoutRequestedSessionListOrdersParams
 func (c Client) ListOrders(listParams *stripe.DelegatedCheckoutRequestedSessionListOrdersParams) *OrderIter {
 	path := stripe.FormatURLPath(
 		"/v1/delegated_checkout/requested_sessions/%s/orders", stripe.StringValue(
-			listParams.RequestedSession))
+			listParams.ID))
 	return &OrderIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.DelegatedCheckoutOrderList{}

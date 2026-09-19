@@ -96,7 +96,7 @@ func (c v1RefundService) MarshalBatchCancel(id string, params *RefundCancelParam
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"refund": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1FinancialConnectionsAccountInferredBalanceService is used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
+// v1FinancialConnectionsAccountInferredBalanceService is used to invoke /v1/financial_connections/accounts/{id}/inferred_balances APIs.
 type v1FinancialConnectionsAccountInferredBalanceService struct {
 	B   Backend
 	Key string
@@ -27,7 +27,7 @@ func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Co
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
-			listParams.Account))
+			listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountInferredBalance], error) {
 		list := &v1Page[*FinancialConnectionsAccountInferredBalance]{}
 		if p == nil {

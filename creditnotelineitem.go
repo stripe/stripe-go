@@ -6,8 +6,6 @@
 
 package stripe
 
-import "github.com/shopspring/decimal"
-
 // Type of the pretax credit amount referenced.
 type CreditNoteLineItemPretaxCreditAmountType string
 
@@ -153,7 +151,7 @@ type CreditNoteLineItem struct {
 	// The cost of each unit of product being credited.
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
 // CreditNoteLineItemList is a list of CreditNoteLineItems as retrieved from a list endpoint.

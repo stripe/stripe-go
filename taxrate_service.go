@@ -101,7 +101,7 @@ func (c v1TaxRateService) MarshalBatchUpdate(id string, params *TaxRateUpdatePar
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"tax_rate": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

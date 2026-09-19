@@ -93,7 +93,7 @@ func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.So
 			"invalid source detach params: Customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.CustomerID), id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

@@ -75,6 +75,8 @@ func (p *BalanceSettingsParams) AddExpand(f string) {
 
 // Configures per-currency rules for automatically transferring funds from the payments balance to a FinancialAccount.
 type BalanceSettingsPaymentsPayoutsAutomaticTransferRulesByCurrencyParams struct {
+	// The currency of the FinancialAccount balance that receives the automatic transfer. If specified, funds are converted from the source currency before transfer.
+	DestinationCurrency *string `form:"destination_currency" json:"destination_currency,omitempty"`
 	// The ID of the FinancialAccount that funds will be transferred to during automatic transfers.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
 	// The maximum amount in minor units to transfer to the FinancialAccount. Required and only applicable when `type` is `transfer_up_to_amount`.
@@ -179,6 +181,8 @@ func (p *BalanceSettingsRetrieveParams) AddExpand(f string) {
 
 // Configures per-currency rules for automatically transferring funds from the payments balance to a FinancialAccount.
 type BalanceSettingsUpdatePaymentsPayoutsAutomaticTransferRulesByCurrencyParams struct {
+	// The currency of the FinancialAccount balance that receives the automatic transfer. If specified, funds are converted from the source currency before transfer.
+	DestinationCurrency *string `form:"destination_currency" json:"destination_currency,omitempty"`
 	// The ID of the FinancialAccount that funds will be transferred to during automatic transfers.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
 	// The maximum amount in minor units to transfer to the FinancialAccount. Required and only applicable when `type` is `transfer_up_to_amount`.
@@ -285,6 +289,8 @@ func (p *BalanceSettingsUpdateParams) AddExpand(f string) {
 
 // Configures per-currency rules for automatically transferring funds from the payments balance to a FinancialAccount.
 type BalanceSettingsPaymentsPayoutsAutomaticTransferRulesByCurrency struct {
+	// The currency of the FinancialAccount balance that receives the automatic transfer.
+	DestinationCurrency Currency `json:"destination_currency,omitempty"`
 	// The ID of the FinancialAccount that funds will be transferred to during automatic transfers.
 	PayoutMethod Currency `json:"payout_method"`
 	// The maximum amount in minor units to transfer to the FinancialAccount. Only applicable when `type` is `transfer_up_to_amount`.

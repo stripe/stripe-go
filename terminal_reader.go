@@ -193,6 +193,8 @@ type TerminalReaderListParams struct {
 	SerialNumber *string `form:"serial_number" json:"serial_number,omitempty"`
 	// A status filter to filter readers to only offline or online readers
 	Status *string `form:"status" json:"status,omitempty"`
+	// Filters readers by tamper state.
+	TamperState *string `form:"tamper_state" json:"tamper_state,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

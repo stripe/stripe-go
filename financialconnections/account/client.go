@@ -168,7 +168,7 @@ func ListOwners(params *stripe.FinancialConnectionsAccountListOwnersParams) *Own
 func (c Client) ListOwners(listParams *stripe.FinancialConnectionsAccountListOwnersParams) *OwnerIter {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", stripe.StringValue(
-			listParams.Account))
+			listParams.ID))
 	return &OwnerIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountOwnerList{}

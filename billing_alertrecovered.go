@@ -6,8 +6,6 @@
 
 package stripe
 
-import "github.com/shopspring/decimal"
-
 // The aggregation period for which this alert recovered
 type BillingAlertRecoveredAggregationPeriod struct {
 	// End time of the aggregation period
@@ -35,5 +33,5 @@ type BillingAlertRecovered struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The value at which the alert recovered
-	Value decimal.Decimal `json:"value"`
+	Value float64 `json:"value,string"`
 }

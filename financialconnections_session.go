@@ -67,6 +67,15 @@ const (
 	FinancialConnectionsSessionPermissionTransactions  FinancialConnectionsSessionPermission = "transactions"
 )
 
+// The outcome of evaluating the pre-collected consent submitted for this Session.
+type FinancialConnectionsSessionPreCollectedConsentOutcome string
+
+// List of values that FinancialConnectionsSessionPreCollectedConsentOutcome can take
+const (
+	FinancialConnectionsSessionPreCollectedConsentOutcomeConsentAccepted FinancialConnectionsSessionPreCollectedConsentOutcome = "consent_accepted"
+	FinancialConnectionsSessionPreCollectedConsentOutcomeConsentRequired FinancialConnectionsSessionPreCollectedConsentOutcome = "consent_required"
+)
+
 // Data features requested to be retrieved upon account creation.
 type FinancialConnectionsSessionPrefetch string
 
@@ -167,7 +176,7 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 type FinancialConnectionsSessionFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// List of countries from which to collect accounts.
+	// List of countries from which to filter accounts.
 	Countries []*string `form:"countries" json:"countries,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`
@@ -242,7 +251,7 @@ type FinancialConnectionsSessionCreateAccountHolderParams struct {
 type FinancialConnectionsSessionCreateFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// List of countries from which to collect accounts.
+	// List of countries from which to filter accounts.
 	Countries []*string `form:"countries" json:"countries,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`
@@ -361,6 +370,10 @@ type FinancialConnectionsSessionManualEntry struct {
 	// Controls how manual entry of bank account details is presented to the user.
 	Mode FinancialConnectionsSessionManualEntryMode `json:"mode,omitempty"`
 }
+type FinancialConnectionsSessionPreCollectedConsent struct {
+	// The outcome of evaluating the pre-collected consent submitted for this Session.
+	Outcome FinancialConnectionsSessionPreCollectedConsentOutcome `json:"outcome"`
+}
 type FinancialConnectionsSessionRelinkOptions struct {
 	// Requires the end user to repair this specific account during the authentication flow instead of connecting a different one.
 	Account string `json:"account,omitempty"`
@@ -425,7 +438,8 @@ type FinancialConnectionsSession struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Permissions requested for accounts collected during this session.
-	Permissions []FinancialConnectionsSessionPermission `json:"permissions"`
+	Permissions         []FinancialConnectionsSessionPermission         `json:"permissions"`
+	PreCollectedConsent *FinancialConnectionsSessionPreCollectedConsent `json:"pre_collected_consent,omitempty"`
 	// Data features requested to be retrieved upon account creation.
 	Prefetch      []FinancialConnectionsSessionPrefetch     `json:"prefetch"`
 	RelinkOptions *FinancialConnectionsSessionRelinkOptions `json:"relink_options,omitempty"`

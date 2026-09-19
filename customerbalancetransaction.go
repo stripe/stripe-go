@@ -30,7 +30,7 @@ const (
 // Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Only return customer balance transactions that were created during the given date interval.
 	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return customer balance transactions that were created during the given date interval.
@@ -54,8 +54,9 @@ type CustomerBalanceTransactionAppliedToInvoiceParams struct {
 
 // Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Required when `type` is `applied_to_invoice`. Identifies the open invoice to apply the customer's balance credit to.
@@ -107,8 +108,8 @@ type CustomerBalanceTransactionCreateAppliedToInvoiceParams struct {
 
 // Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionCreateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount" json:"amount"`
 	// Required when `type` is `applied_to_invoice`. Identifies the open invoice to apply the customer's balance credit to.
@@ -154,8 +155,8 @@ func (p *CustomerBalanceTransactionCreateParams) AddMetadata(key string, value s
 
 // Retrieves a specific customer balance transaction that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionRetrieveParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -167,8 +168,8 @@ func (p *CustomerBalanceTransactionRetrieveParams) AddExpand(f string) {
 
 // Most credit balance transaction fields are immutable, but you may update its description and metadata.
 type CustomerBalanceTransactionUpdateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.

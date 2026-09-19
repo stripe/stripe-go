@@ -19,7 +19,7 @@ const (
 // Lists all LineItems of a given PaymentIntent.
 type PaymentIntentAmountDetailsLineItemListParams struct {
 	ListParams `form:"*"`
-	Intent     *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -86,9 +86,9 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptions struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentAmountDetailsLineItemTax struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
-	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount int64 `json:"total_tax_amount"`
 }
 type PaymentIntentAmountDetailsLineItem struct {

@@ -8,7 +8,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 	"strconv"
 )
@@ -68,7 +67,7 @@ type PlanParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
-	AmountDecimal *decimal.Decimal `form:"amount_decimal" json:"amount_decimal,omitempty"`
+	AmountDecimal *float64 `form:"amount_decimal,high_precision" json:"amount_decimal,string,omitempty"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -207,11 +206,11 @@ type PlanTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"-"` // See custom AppendTo
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -354,11 +353,11 @@ type PlanCreateTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"-"` // See custom AppendTo
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -391,7 +390,7 @@ type PlanCreateParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
-	AmountDecimal *decimal.Decimal `form:"amount_decimal" json:"amount_decimal,omitempty"`
+	AmountDecimal *float64 `form:"amount_decimal,high_precision" json:"amount_decimal,string,omitempty"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -456,11 +455,11 @@ type PlanTier struct {
 	// Price for the entire tier.
 	FlatAmount int64 `json:"flat_amount"`
 	// Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.
-	FlatAmountDecimal decimal.Decimal `json:"flat_amount_decimal"`
+	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
 	// Per unit price for units relevant to the tier.
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 	// Up to and including to this quantity will be contained in the tier.
 	UpTo int64 `json:"up_to"`
 }
@@ -473,10 +472,10 @@ type PlanTransformUsage struct {
 	Round PlanTransformUsageRound `json:"round"`
 }
 
-// You can now model subscriptions more flexibly using the [Prices API](https://api.stripe.com#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+// You can now model subscriptions more flexibly using the [Prices API](https://docs.stripe.com/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 //
 // Plans define the base price, currency, and billing cycle for recurring purchases of products.
-// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
+// [Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
 //
 // For example, you might have a single "gold" product that has plans for $10/month, $100/year, €9/month, and €90/year.
 //
@@ -488,7 +487,7 @@ type Plan struct {
 	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	Amount int64 `json:"amount"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
-	AmountDecimal decimal.Decimal `json:"amount_decimal"`
+	AmountDecimal float64 `json:"amount_decimal,string"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 	BillingScheme PlanBillingScheme `json:"billing_scheme"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

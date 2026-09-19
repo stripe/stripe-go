@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/shopspring/decimal"
-)
+import "encoding/json"
 
 // Determines whether the customer's attempt to pay must be manually approved.
 //
@@ -2393,7 +2390,7 @@ type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The list of items for the subscription.
@@ -2552,7 +2549,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -4410,7 +4407,7 @@ type CheckoutSessionCollectedInformationParams struct {
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
-	Session    *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -4424,6 +4421,24 @@ func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
 type CheckoutSessionApprovePaymentIntentDataParams struct {
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
+}
+
+// Card-specific payment method options. Use this to control 3D Secure behavior during approval.
+type CheckoutSessionApprovePaymentMethodOptionsCardParams struct {
+	// We recommend that you rely on our SCA Engine to automatically prompt your customers for
+	// authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
+	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this
+	// option. When supplied during approval, this value overrides the 3D Secure preference of the
+	// Checkout Session's underlying Intent. If omitted, Checkout does not modify the existing preference.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds)
+	// for more information on how this configuration interacts with Radar and our SCA Engine.
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// Payment method-specific configuration to apply to the Checkout Session during approval. Currently only supports `card` payment method options.
+type CheckoutSessionApprovePaymentMethodOptionsParams struct {
+	// Card-specific payment method options. Use this to control 3D Secure behavior during approval.
+	Card *CheckoutSessionApprovePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 }
 
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
@@ -4441,6 +4456,8 @@ type CheckoutSessionApproveParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionApprovePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
+	// Payment method-specific configuration to apply to the Checkout Session during approval. Currently only supports `card` payment method options.
+	PaymentMethodOptions *CheckoutSessionApprovePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
 	// payment method's app or site. This parameter is allowed and required if and only if you did not
 	// set the return URL during Checkout Session creation or in `checkout.confirm()` in Stripe.js.
@@ -4964,7 +4981,7 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The list of items for the subscription.
@@ -5123,7 +5140,7 @@ type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -7067,7 +7084,7 @@ type CheckoutSessionUpdateLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of items the customer is purchasing.
@@ -7571,7 +7588,7 @@ type CheckoutSessionCurrencyConversion struct {
 	// Total of all items in source currency after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
 	// Exchange rate used to convert source currency amounts to customer currency amounts
-	FxRate decimal.Decimal `json:"fx_rate"`
+	FxRate float64 `json:"fx_rate,string"`
 	// Creation currency of the CheckoutSession before localization
 	SourceCurrency Currency `json:"source_currency"`
 }
@@ -7622,6 +7639,10 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
 }
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCustom struct {
+	// ID of the Dashboard-only CustomPaymentMethodType. Not expandable.
+	Type string `json:"type"`
+}
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsLink struct {
 	// Unique, encrypted bank account identifier.
 	Fingerprint string `json:"fingerprint,omitempty"`
@@ -7647,6 +7668,7 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
 	BACSDebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
 	Boleto         *CheckoutSessionCurrentAttemptPaymentMethodDetailsBoleto        `json:"boleto,omitempty"`
 	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
+	Custom         *CheckoutSessionCurrentAttemptPaymentMethodDetailsCustom        `json:"custom,omitempty"`
 	Link           *CheckoutSessionCurrentAttemptPaymentMethodDetailsLink          `json:"link,omitempty"`
 	Pix            *CheckoutSessionCurrentAttemptPaymentMethodDetailsPix           `json:"pix,omitempty"`
 	SEPADebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
@@ -7887,8 +7909,6 @@ type CheckoutSessionItemSubscriptionTrialSettings struct {
 	// Defines how a subscription behaves when a free trial ends.
 	EndBehavior *CheckoutSessionItemSubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
 }
-
-// Details on the subscription for this item.
 type CheckoutSessionItemSubscription struct {
 	// The Unix timestamp marking the subscription's backdated start date.
 	BackdateStartDate int64 `json:"backdate_start_date,omitempty"`
@@ -7915,8 +7935,7 @@ type CheckoutSessionItemSubscription struct {
 // The items to be purchased by the customer.
 type CheckoutSessionItem struct {
 	// The key of the item. Guaranteed to be a unique ID within this checkout session's items.
-	Key string `json:"key"`
-	// Details on the subscription for this item.
+	Key          string                           `json:"key"`
 	Subscription *CheckoutSessionItemSubscription `json:"subscription,omitempty"`
 	// The type of the item.
 	Type CheckoutSessionItemType `json:"type"`
@@ -8785,7 +8804,7 @@ type CheckoutSessionTaxIDCollection struct {
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -8996,6 +9015,8 @@ type CheckoutSession struct {
 	PaymentMethodTypes []string `json:"payment_method_types"`
 	// The [Payment Record](https://docs.stripe.com/api/payment-record) for this Checkout Session.
 	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
+	// The ID of the Payment Reservation for this Checkout Session.
+	PaymentReservation string `json:"payment_reservation,omitempty"`
 	// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 	// You can use this value to decide when to fulfill your customer's order.
 	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`

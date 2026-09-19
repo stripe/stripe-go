@@ -89,7 +89,7 @@ func (c v1DelegatedCheckoutRequestedSessionService) ListOrders(ctx context.Conte
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/delegated_checkout/requested_sessions/%s/orders", StringValue(
-			listParams.RequestedSession))
+			listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*DelegatedCheckoutOrder], error) {
 		list := &v1Page[*DelegatedCheckoutOrder]{}
 		if p == nil {

@@ -145,7 +145,7 @@ func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMeth
 func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/payment_methods/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethod)
 	return paymentmethod, err
@@ -206,7 +206,7 @@ func ListPaymentMethods(params *stripe.CustomerListPaymentMethodsParams) *Paymen
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListPaymentMethods(listParams *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/payment_methods", stripe.StringValue(listParams.Customer))
+		"/v1/customers/%s/payment_methods", stripe.StringValue(listParams.ID))
 	return &PaymentMethodIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodList{}

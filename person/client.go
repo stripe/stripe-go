@@ -4,7 +4,7 @@
 //
 //
 
-// Package person provides the /v1/accounts/{account}/persons APIs
+// Package person provides the /v1/accounts/{id}/persons APIs
 package person
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/accounts/{account}/persons APIs.
+// Client is used to invoke /v1/accounts/{id}/persons APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func New(params *stripe.PersonParams) (*stripe.Person, error) {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/persons", stripe.StringValue(params.Account))
+		"/v1/accounts/%s/persons", stripe.StringValue(params.ID))
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
 	return person, err
@@ -58,7 +58,7 @@ func (c Client) Get(id string, params *stripe.PersonParams) (*stripe.Person, err
 			"params cannot be nil, and params.Account must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, person)
 	return person, err
@@ -76,7 +76,7 @@ func Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
 	return person, err
@@ -94,7 +94,7 @@ func Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.Account), id)
+		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, person)
 	return person, err
@@ -112,7 +112,7 @@ func List(params *stripe.PersonListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PersonListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/persons", stripe.StringValue(listParams.Account))
+		"/v1/accounts/%s/persons", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PersonList{}
