@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1CustomerCashBalanceTransactionService is used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
+// v1CustomerCashBalanceTransactionService is used to invoke /v1/customers/{id}/cash_balance_transactions APIs.
 type v1CustomerCashBalanceTransactionService struct {
 	B   Backend
 	Key string
@@ -27,7 +27,7 @@ func (c v1CustomerCashBalanceTransactionService) Retrieve(ctx context.Context, i
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions/%s", StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customercashbalancetransaction := &CustomerCashBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, customercashbalancetransaction)
@@ -41,8 +41,7 @@ func (c v1CustomerCashBalanceTransactionService) List(ctx context.Context, listP
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/cash_balance_transactions", StringValue(
-			listParams.Customer))
+		"/v1/customers/%s/cash_balance_transactions", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CustomerCashBalanceTransaction], error) {
 		list := &v1Page[*CustomerCashBalanceTransaction]{}
 		if p == nil {

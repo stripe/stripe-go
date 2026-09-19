@@ -59,10 +59,14 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 	// The time at which the minimum payment amount will be due. If not met through withholding, the Connected account's linked bank account or account balance will be debited.
 	// Given in seconds since unix epoch.
 	DueAt float64 `json:"due_at"`
+	// The balance for the current repayment interval, in minor units. This does not account for any amount paid down during the interval.
+	IncrementalIntervalTargetAmount int64 `json:"incremental_interval_target_amount,omitempty"`
 	// The amount that has already been paid in the current repayment interval, in minor units. For example, 100 USD is represented as 10000.
 	PaidAmount int64 `json:"paid_amount"`
 	// The amount that is yet to be paid in the current repayment interval, in minor units. For example, 100 USD is represented as 10000.
 	RemainingAmount int64 `json:"remaining_amount"`
+	// The time at which the current repayment interval started. Given in seconds since unix epoch.
+	StartsAt int64 `json:"starts_at,omitempty"`
 }
 
 // Additional information about the financing summary. Describes currency, advance amount,
@@ -89,6 +93,8 @@ type CapitalFinancingSummaryDetails struct {
 	RemainingAmount int64 `json:"remaining_amount"`
 	// The time at which Capital will begin withholding from payments. Given in seconds since unix epoch.
 	RepaymentsBeginAt float64 `json:"repayments_begin_at"`
+	// Total amount to be paid, independent of what's already been paid, in minor units. For example, 100 USD is represented as 10000.
+	TotalDueAmount int64 `json:"total_due_amount,omitempty"`
 	// Per-transaction rate at which Stripe withholds funds to repay the financing.
 	WithholdRate float64 `json:"withhold_rate"`
 }

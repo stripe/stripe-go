@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // Returns a paginated list of Persons associated with an Account.
 type V2CoreAccountsPersonListParams struct {
@@ -187,7 +184,7 @@ type V2CoreAccountsPersonRelationshipParams struct {
 	// Indicates whether the person is an owner of the associated legal entity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percentage of ownership the person has in the associated legal entity.
-	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// Indicates whether the person is a representative of the associated legal entity.
 	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The title or position the person holds in the associated legal entity.
@@ -483,7 +480,7 @@ type V2CoreAccountsPersonCreateRelationshipParams struct {
 	// Indicates whether the person is an owner of the associated legal entity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percentage of ownership the person has in the associated legal entity.
-	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// Indicates whether the person is a representative of the associated legal entity.
 	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The title or position the person holds in the associated legal entity.
@@ -793,7 +790,7 @@ type V2CoreAccountsPersonUpdateRelationshipParams struct {
 	// Indicates whether the person is an owner of the associated legal entity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percentage of ownership the person has in the associated legal entity.
-	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// Indicates whether the person is a representative of the associated legal entity.
 	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The title or position the person holds in the associated legal entity.

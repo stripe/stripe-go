@@ -13,7 +13,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1CapabilityService is used to invoke /v1/accounts/{account}/capabilities APIs.
+// v1CapabilityService is used to invoke /v1/accounts/{id}/capabilities APIs.
 type v1CapabilityService struct {
 	B   Backend
 	Key string
@@ -26,7 +26,7 @@ func (c v1CapabilityService) Retrieve(ctx context.Context, id string, params *Ca
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s", StringValue(params.Account), id)
+		"/v1/accounts/%s/capabilities/%s", StringValue(params.AccountID), id)
 	capability := &Capability{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, capability)
 	return capability, err
@@ -39,7 +39,7 @@ func (c v1CapabilityService) Update(ctx context.Context, id string, params *Capa
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s", StringValue(params.Account), id)
+		"/v1/accounts/%s/capabilities/%s", StringValue(params.AccountID), id)
 	capability := &Capability{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, capability)
 	return capability, err
@@ -53,7 +53,7 @@ func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityLis
 	p := listParams.GetParams()
 	p.Context = ctx
 	path := FormatURLPath(
-		"/v1/accounts/%s/capabilities", StringValue(listParams.Account))
+		"/v1/accounts/%s/capabilities", StringValue(listParams.ID))
 	queryParams := &form.Values{}
 	form.AppendTo(queryParams, listParams)
 	return newV1List(ctx, nil, func(ctx context.Context, _ *Params, _ *form.Values) (*v1Page[*Capability], error) {

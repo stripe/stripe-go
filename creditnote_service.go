@@ -146,8 +146,7 @@ func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNo
 		listParams = &CreditNoteListLinesParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
+	path := FormatURLPath("/v1/credit_notes/%s/lines", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
 		list := &v1Page[*CreditNoteLineItem]{}
 		if p == nil {

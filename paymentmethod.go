@@ -1723,16 +1723,6 @@ type PaymentMethodUpdateCustomParams struct {
 	Usage *string `form:"usage" json:"usage,omitempty"`
 }
 
-// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
-type PaymentMethodUpdatePaytoParams struct {
-	// The account number for the bank account.
-	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
-	// Bank-State-Branch number of the bank account.
-	BSBNumber *string `form:"bsb_number" json:"bsb_number,omitempty"`
-	// The PayID alias for the bank account.
-	PayID *string `form:"pay_id" json:"pay_id,omitempty"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUpdateUSBankAccountParams struct {
 	// Bank account holder type.
@@ -1756,8 +1746,6 @@ type PaymentMethodUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
-	Payto *PaymentMethodUpdatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []PaymentMethodUpdateParamsUnsetField   `form:"-" json:"-"`

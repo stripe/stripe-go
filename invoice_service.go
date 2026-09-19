@@ -177,7 +177,7 @@ func (c v1InvoiceService) MarshalBatchAddLines(id string, params *InvoiceAddLine
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -270,7 +270,7 @@ func (c v1InvoiceService) MarshalBatchDelete(id string, params *InvoiceDeletePar
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -301,7 +301,7 @@ func (c v1InvoiceService) MarshalBatchFinalizeInvoice(id string, params *Invoice
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -332,7 +332,7 @@ func (c v1InvoiceService) MarshalBatchMarkUncollectible(id string, params *Invoi
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -363,7 +363,7 @@ func (c v1InvoiceService) MarshalBatchPay(id string, params *InvoicePayParams) (
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -394,7 +394,7 @@ func (c v1InvoiceService) MarshalBatchRemoveLines(id string, params *InvoiceRemo
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -425,7 +425,7 @@ func (c v1InvoiceService) MarshalBatchSendInvoice(id string, params *InvoiceSend
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -456,7 +456,7 @@ func (c v1InvoiceService) MarshalBatchUpdate(id string, params *InvoiceUpdatePar
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -487,7 +487,7 @@ func (c v1InvoiceService) MarshalBatchUpdateLines(id string, params *InvoiceUpda
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -518,7 +518,7 @@ func (c v1InvoiceService) MarshalBatchVoidInvoice(id string, params *InvoiceVoid
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoice": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -621,8 +621,7 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 		listParams = &InvoiceListLinesParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
+	path := FormatURLPath("/v1/invoices/%s/lines", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
 		list := &v1Page[*InvoiceLineItem]{}
 		if p == nil {

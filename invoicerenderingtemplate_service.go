@@ -60,7 +60,7 @@ func (c v1InvoiceRenderingTemplateService) MarshalBatchArchive(id string, params
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"template": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -91,7 +91,7 @@ func (c v1InvoiceRenderingTemplateService) MarshalBatchUnarchive(id string, para
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"template": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

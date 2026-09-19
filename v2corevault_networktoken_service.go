@@ -17,7 +17,7 @@ type v2CoreVaultNetworkTokenService struct {
 	Key string
 }
 
-// Creates or returns a NetworkToken from raw card data for POST /v2/core/vault/network_tokens.
+// Create or Return a Network Token Using Raw Card Data.
 func (c v2CoreVaultNetworkTokenService) Create(ctx context.Context, params *V2CoreVaultNetworkTokenCreateParams) (*V2CoreVaultNetworkToken, error) {
 	if params == nil {
 		params = &V2CoreVaultNetworkTokenCreateParams{}
@@ -29,7 +29,7 @@ func (c v2CoreVaultNetworkTokenService) Create(ctx context.Context, params *V2Co
 	return networktoken, err
 }
 
-// Retrieves the persisted NetworkToken projection for GET /v2/core/vault/network_tokens/:id.
+// Retrieves an existing network token.
 func (c v2CoreVaultNetworkTokenService) Retrieve(ctx context.Context, id string, params *V2CoreVaultNetworkTokenRetrieveParams) (*V2CoreVaultNetworkToken, error) {
 	if params == nil {
 		params = &V2CoreVaultNetworkTokenRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2CoreVaultNetworkTokenService) Retrieve(ctx context.Context, id string,
 	return networktoken, err
 }
 
-// Creates or returns a NetworkToken from an existing card reference for POST /v2/core/vault/network_tokens/create_from_credential.
+// Creates or returns a Network Token from an existing card reference.
 func (c v2CoreVaultNetworkTokenService) CreateFromCredential(ctx context.Context, params *V2CoreVaultNetworkTokenCreateFromCredentialParams) (*V2CoreVaultNetworkToken, error) {
 	if params == nil {
 		params = &V2CoreVaultNetworkTokenCreateFromCredentialParams{}
@@ -53,7 +53,6 @@ func (c v2CoreVaultNetworkTokenService) CreateFromCredential(ctx context.Context
 	return networktoken, err
 }
 
-// Generates a single-use cryptogram for POST /v2/core/vault/network_tokens/:id/generate_cryptogram.
 // Every successful call generates a new cryptogram, and retrying can generate another cryptogram.
 // The cryptogram is returned only in this response and is never persisted.
 func (c v2CoreVaultNetworkTokenService) GenerateCryptogram(ctx context.Context, id string, params *V2CoreVaultNetworkTokenGenerateCryptogramParams) (*V2CoreVaultNetworkToken, error) {

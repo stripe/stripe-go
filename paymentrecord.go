@@ -145,6 +145,15 @@ const (
 	PaymentRecordPaymentMethodDetailsCardNetworkVisa            PaymentRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
+// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+type PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -1828,6 +1837,8 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
+	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+	StoredCredentialUsage PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.

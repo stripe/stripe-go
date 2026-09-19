@@ -283,7 +283,7 @@ type CustomerTaxIDDataParams struct {
 // Returns a list of PaymentMethods for a given Customer
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -299,8 +299,8 @@ func (p *CustomerListPaymentMethodsParams) AddExpand(f string) {
 
 // Retrieves a PaymentMethod object for a given Customer.
 type CustomerRetrievePaymentMethodParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -809,7 +809,7 @@ type CustomerTax struct {
 // and track payments that belong to the same customer.
 type Customer struct {
 	APIResource
-	// The customer's address.
+	// The customer's billing address.
 	Address *Address `json:"address,omitempty"`
 	// The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance).
 	Balance int64 `json:"balance,omitempty"`

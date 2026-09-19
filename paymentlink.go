@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/shopspring/decimal"
-)
+import "encoding/json"
 
 // The specified behavior after the purchase is complete.
 type PaymentLinkAfterCompletionType string
@@ -635,7 +632,7 @@ type PaymentLinkLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
@@ -1069,8 +1066,8 @@ func (p *PaymentLinkParams) AddMetadata(key string, value string) {
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type PaymentLinkListLineItemsParams struct {
-	ListParams  `form:"*"`
-	PaymentLink *string `form:"-"` // Included in URL
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -1433,7 +1430,7 @@ type PaymentLinkCreateLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.

@@ -22,6 +22,7 @@ const (
 	V2MoneyManagementTransactionCategoryConnectCollectionTransfer               V2MoneyManagementTransactionCategory = "connect_collection_transfer"
 	V2MoneyManagementTransactionCategoryConnectReservedFunds                    V2MoneyManagementTransactionCategory = "connect_reserved_funds"
 	V2MoneyManagementTransactionCategoryContribution                            V2MoneyManagementTransactionCategory = "contribution"
+	V2MoneyManagementTransactionCategoryCryptoWalletExport                      V2MoneyManagementTransactionCategory = "crypto_wallet_export"
 	V2MoneyManagementTransactionCategoryCurrencyConversion                      V2MoneyManagementTransactionCategory = "currency_conversion"
 	V2MoneyManagementTransactionCategoryDebitDispute                            V2MoneyManagementTransactionCategory = "debit_dispute"
 	V2MoneyManagementTransactionCategoryDispute                                 V2MoneyManagementTransactionCategory = "dispute"

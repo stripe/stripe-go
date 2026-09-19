@@ -49,6 +49,7 @@ const (
 	ErrorTypeQuotaExceeded                 ErrorType = "quota_exceeded"
 	ErrorTypeRateLimit                     ErrorType = "rate_limit"
 	ErrorTypeRecipientNotNotifiable        ErrorType = "recipient_not_notifiable"
+	ErrorTypeServiceUnavailable            ErrorType = "service_unavailable"
 	ErrorTypeTemporarySessionExpired       ErrorType = "temporary_session_expired"
 )
 
@@ -850,8 +851,7 @@ func (e *InvalidPayoutMethodError) canRetry() bool {
 }
 
 // MerchantNotGatedError is the Go struct corresponding to the error type "merchant_not_gated".
-// Errors
-// Returned when raw card input is not enabled for the account.
+// Returned when raw PAN permissions are not enabled for the account.
 type MerchantNotGatedError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -1009,6 +1009,33 @@ func (e *RecipientNotNotifiableError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *RecipientNotNotifiableError) canRetry() bool {
+	return false
+}
+
+// ServiceUnavailableError is the Go struct corresponding to the error type "service_unavailable".
+// The FinancialAccount wallet export is temporarily unavailable.
+type ServiceUnavailableError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *ServiceUnavailableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *ServiceUnavailableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *ServiceUnavailableError) canRetry() bool {
 	return false
 }
 

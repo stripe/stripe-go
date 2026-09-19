@@ -195,6 +195,7 @@ const (
 	RadarPaymentEvaluationOutcomeTypeFailed          RadarPaymentEvaluationOutcomeType = "failed"
 	RadarPaymentEvaluationOutcomeTypeMerchantBlocked RadarPaymentEvaluationOutcomeType = "merchant_blocked"
 	RadarPaymentEvaluationOutcomeTypeRejected        RadarPaymentEvaluationOutcomeType = "rejected"
+	RadarPaymentEvaluationOutcomeTypeRerouted        RadarPaymentEvaluationOutcomeType = "rerouted"
 	RadarPaymentEvaluationOutcomeTypeSucceeded       RadarPaymentEvaluationOutcomeType = "succeeded"
 )
 
@@ -218,7 +219,7 @@ const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardPaymentTypeSetupRecurring RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardPaymentType = "setup_recurring"
 )
 
-// Describes the type of money movement. Currently only `card` is supported.
+// Describes the type of money movement.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType string
 
 // List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType can take
@@ -322,7 +323,7 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams struct {
 	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
@@ -469,7 +470,7 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams st
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams struct {
 	// Describes card money movement details.
 	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
@@ -738,7 +739,7 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetails struct {
 	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard `json:"card"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType `json:"money_movement_type"`
 }
 

@@ -101,7 +101,7 @@ func (c v1PriceService) MarshalBatchUpdate(id string, params *PriceUpdateParams)
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"price": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

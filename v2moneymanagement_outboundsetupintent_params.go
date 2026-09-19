@@ -13,6 +13,14 @@ type V2MoneyManagementOutboundSetupIntentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// The type specific details of the Apple Pay payout method.
+type V2MoneyManagementOutboundSetupIntentPayoutMethodDataApplePayParams struct {
+	// The paymentData property of the Apple-provided PKPaymentToken (or ApplePayPaymentToken, for Apple Pay on the Web) as a UTF-8 encoded serialization of a JSON dictionary.
+	PkToken *string `form:"pk_token" json:"pk_token,omitempty"`
+	// The paymentMethod.displayName property of the Apple-provided PKPaymentToken (or ApplePayPaymentToken, for Apple Pay on the Web), e.g. "Visa 1234".
+	PkTokenDisplayName *string `form:"pk_token_display_name" json:"pk_token_display_name"`
+}
+
 // The type specific details of the bank account payout method.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams struct {
 	// The account number or IBAN of the bank account.
@@ -56,6 +64,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCryptoWalletParams stru
 // If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 // If a payout_method provided, used to update data on the credential linked to this setup intent.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
+	// The type specific details of the Apple Pay payout method.
+	ApplePay *V2MoneyManagementOutboundSetupIntentPayoutMethodDataApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// The type specific details of the bank account payout method.
 	BankAccount *V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
@@ -84,6 +94,14 @@ type V2MoneyManagementOutboundSetupIntentParams struct {
 // Cancel an OutboundSetupIntent object.
 type V2MoneyManagementOutboundSetupIntentCancelParams struct {
 	Params `form:"*"`
+}
+
+// The type specific details of the Apple Pay payout method.
+type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataApplePayParams struct {
+	// The paymentData property of the Apple-provided PKPaymentToken (or ApplePayPaymentToken, for Apple Pay on the Web) as a UTF-8 encoded serialization of a JSON dictionary.
+	PkToken *string `form:"pk_token" json:"pk_token,omitempty"`
+	// The paymentMethod.displayName property of the Apple-provided PKPaymentToken (or ApplePayPaymentToken, for Apple Pay on the Web), e.g. "Visa 1234".
+	PkTokenDisplayName *string `form:"pk_token_display_name" json:"pk_token_display_name"`
 }
 
 // The type specific details of the bank account payout method.
@@ -129,6 +147,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCryptoWalletParam
 // If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 // If a payout_method provided, used to update data on the credential linked to this setup intent.
 type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
+	// The type specific details of the Apple Pay payout method.
+	ApplePay *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// The type specific details of the bank account payout method.
 	BankAccount *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.

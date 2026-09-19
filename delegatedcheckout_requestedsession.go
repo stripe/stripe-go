@@ -354,7 +354,7 @@ type DelegatedCheckoutRequestedSessionPaymentMethodOptionsParams struct {
 type DelegatedCheckoutRequestedSessionListOrdersParams struct {
 	ListParams `form:"*"`
 	// The requested session whose orders should be listed.
-	RequestedSession *string `form:"-"` // Included in URL
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

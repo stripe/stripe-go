@@ -26,7 +26,7 @@ func (c v1SourceTransactionService) List(ctx context.Context, listParams *Source
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/sources/%s/source_transactions", StringValue(listParams.Source))
+		"/v1/sources/%s/source_transactions", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*SourceTransaction], error) {
 		list := &v1Page[*SourceTransaction]{}
 		if p == nil {

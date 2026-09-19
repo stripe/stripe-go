@@ -114,7 +114,7 @@ func (c v1SubscriptionItemService) MarshalBatchDelete(id string, params *Subscri
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"item": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -145,7 +145,7 @@ func (c v1SubscriptionItemService) MarshalBatchUpdate(id string, params *Subscri
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"item": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

@@ -121,7 +121,7 @@ func (c v1PaymentMethodService) MarshalBatchAttach(id string, params *PaymentMet
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"payment_method": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

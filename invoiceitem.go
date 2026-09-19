@@ -6,8 +6,6 @@
 
 package stripe
 
-import "github.com/shopspring/decimal"
-
 // Array of field names that can't be modified. Attempting to update a frozen field returns an error.
 type InvoiceItemFrozenField string
 
@@ -70,6 +68,8 @@ type InvoiceItemParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of an existing invoice to add this invoice item to. For subscription invoices, when left blank, the invoice item will be added to the next upcoming scheduled invoice. For standalone invoices, the invoice item won't be automatically added unless you pass `pending_invoice_item_behavior: 'include'` when creating the invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice" json:"invoice,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// Settings for Managed Payments for this invoice item.
 	ManagedPayments *InvoiceItemManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
@@ -85,7 +85,7 @@ type InvoiceItemParams struct {
 	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
-	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
 	Subscription *string `form:"subscription" json:"subscription,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -95,7 +95,7 @@ type InvoiceItemParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *decimal.Decimal              `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                      `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []InvoiceItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -178,7 +178,7 @@ type InvoiceItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The pricing information for the invoice item.
@@ -283,7 +283,7 @@ type InvoiceItemUpdatePriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The pricing information for the invoice item.
@@ -305,6 +305,8 @@ type InvoiceItemUpdateParams struct {
 	Discounts []*InvoiceItemUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -318,7 +320,7 @@ type InvoiceItemUpdateParams struct {
 	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
-	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
@@ -326,7 +328,7 @@ type InvoiceItemUpdateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *decimal.Decimal                    `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []InvoiceItemUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -415,7 +417,7 @@ type InvoiceItemCreatePriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The pricing information for the invoice item.
@@ -460,7 +462,7 @@ type InvoiceItemCreateParams struct {
 	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
-	QuantityDecimal *decimal.Decimal `form:"quantity_decimal" json:"quantity_decimal,omitempty"`
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
 	Subscription *string `form:"subscription" json:"subscription,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -470,7 +472,7 @@ type InvoiceItemCreateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *decimal.Decimal                    `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []InvoiceItemCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -594,7 +596,7 @@ type InvoiceItemPricing struct {
 	// The type of the pricing details.
 	Type InvoiceItemPricingType `json:"type"`
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 type InvoiceItemProrationDetailsCreditedItemsInvoiceLineItemDetails struct {
 	// The invoice id for the debited line item(s).
@@ -681,7 +683,7 @@ type InvoiceItem struct {
 	// Quantity of units for the invoice item in integer format, with any decimal precision truncated. For the item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
-	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// ID of the test clock this invoice item belongs to.

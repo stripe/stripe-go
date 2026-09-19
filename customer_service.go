@@ -141,7 +141,7 @@ func (c v1CustomerService) MarshalBatchCreateFundingInstructions(id string, para
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"customer": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -172,7 +172,7 @@ func (c v1CustomerService) MarshalBatchDelete(id string, params *CustomerDeleteP
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"customer": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -203,7 +203,7 @@ func (c v1CustomerService) MarshalBatchDeleteDiscount(id string, params *Custome
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"customer": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -234,7 +234,7 @@ func (c v1CustomerService) MarshalBatchUpdate(id string, params *CustomerUpdateP
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"customer": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -257,7 +257,7 @@ func (c v1CustomerService) RetrievePaymentMethod(ctx context.Context, id string,
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/payment_methods/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/payment_methods/%s", StringValue(params.CustomerID), id)
 	paymentmethod := &PaymentMethod{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethod)
 	return paymentmethod, err
@@ -287,7 +287,7 @@ func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *C
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/payment_methods", StringValue(listParams.Customer))
+		"/v1/customers/%s/payment_methods", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentMethod], error) {
 		list := &v1Page[*PaymentMethod]{}
 		if p == nil {

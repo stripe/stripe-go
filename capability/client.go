@@ -4,7 +4,7 @@
 //
 //
 
-// Package capability provides the /v1/accounts/{account}/capabilities APIs
+// Package capability provides the /v1/accounts/{id}/capabilities APIs
 package capability
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/accounts/{account}/capabilities APIs.
+// Client is used to invoke /v1/accounts/{id}/capabilities APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -40,7 +40,7 @@ func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capabil
 			"params cannot be nil, and params.Account must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.Account), id)
+		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.AccountID), id)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, capability)
 	return capability, err
@@ -58,7 +58,7 @@ func Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, err
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.Account), id)
+		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.AccountID), id)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, capability)
 	return capability, err
@@ -80,7 +80,7 @@ func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	}
 	p := listParams.GetParams()
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))
+		"/v1/accounts/%s/capabilities", stripe.StringValue(listParams.ID))
 	queryParams := &form.Values{}
 	form.AppendTo(queryParams, listParams)
 	return &Iter{

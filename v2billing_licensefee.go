@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // The interval for assessing service.
 type V2BillingLicenseFeeServiceCycleInterval string
@@ -77,7 +74,7 @@ type V2BillingLicenseFeeTier struct {
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal decimal.Decimal `json:"up_to_decimal,omitempty"`
+	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingLicenseFeeTierUpToInf `json:"up_to_inf,omitempty"`
 }

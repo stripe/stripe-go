@@ -28,7 +28,7 @@ type V2CoreVaultNetworkTokenCardParams struct {
 	OwnerDetails *V2CoreVaultNetworkTokenCardOwnerDetailsParams `form:"owner_details" json:"owner_details,omitempty"`
 }
 
-// Creates or returns a NetworkToken from raw card data for POST /v2/core/vault/network_tokens.
+// Create or Return a Network Token Using Raw Card Data.
 type V2CoreVaultNetworkTokenParams struct {
 	Params `form:"*"`
 	// Raw card values used to provision the network token.
@@ -45,7 +45,7 @@ type V2CoreVaultNetworkTokenCreateFromCredentialCardParams struct {
 	Reference *string `form:"reference" json:"reference"`
 }
 
-// Creates or returns a NetworkToken from an existing card reference for POST /v2/core/vault/network_tokens/create_from_credential.
+// Creates or returns a Network Token from an existing card reference.
 type V2CoreVaultNetworkTokenCreateFromCredentialParams struct {
 	Params `form:"*"`
 	// The existing Stripe card reference to provision or resolve.
@@ -54,7 +54,6 @@ type V2CoreVaultNetworkTokenCreateFromCredentialParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Generates a single-use cryptogram for POST /v2/core/vault/network_tokens/:id/generate_cryptogram.
 // Every successful call generates a new cryptogram, and retrying can generate another cryptogram.
 // The cryptogram is returned only in this response and is never persisted.
 type V2CoreVaultNetworkTokenGenerateCryptogramParams struct {
@@ -85,7 +84,7 @@ type V2CoreVaultNetworkTokenCreateCardParams struct {
 	OwnerDetails *V2CoreVaultNetworkTokenCreateCardOwnerDetailsParams `form:"owner_details" json:"owner_details,omitempty"`
 }
 
-// Creates or returns a NetworkToken from raw card data for POST /v2/core/vault/network_tokens.
+// Create or Return a Network Token Using Raw Card Data.
 type V2CoreVaultNetworkTokenCreateParams struct {
 	Params `form:"*"`
 	// Raw card values used to provision the network token.
@@ -94,7 +93,7 @@ type V2CoreVaultNetworkTokenCreateParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Retrieves the persisted NetworkToken projection for GET /v2/core/vault/network_tokens/:id.
+// Retrieves an existing network token.
 type V2CoreVaultNetworkTokenRetrieveParams struct {
 	Params `form:"*"`
 }

@@ -232,6 +232,47 @@ func (p *DisputeParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Evidence for a card dispute appeal.
+type DisputeEvidenceAppealCardParams struct {
+	// An explanation of the reason for filing the appeal.
+	ReasonForFiling *string `form:"reason_for_filing" json:"reason_for_filing,omitempty"`
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
+	SupportingFiles []*string                                   `form:"supporting_files" json:"supporting_files,omitempty"`
+	UnsetFields     []DisputeEvidenceAppealCardParamsUnsetField `form:"-" json:"-"`
+}
+
+// DisputeEvidenceAppealCardParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceAppealCardParams.
+type DisputeEvidenceAppealCardParamsUnsetField string
+
+const (
+	DisputeEvidenceAppealCardParamsUnsetFieldReasonForFiling DisputeEvidenceAppealCardParamsUnsetField = "reason_for_filing"
+	DisputeEvidenceAppealCardParamsUnsetFieldSupportingFiles DisputeEvidenceAppealCardParamsUnsetField = "supporting_files"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeEvidenceAppealCardParams) AddUnsetField(field DisputeEvidenceAppealCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Evidence to submit when appealing a dispute.
+type DisputeEvidenceAppealParams struct {
+	// Evidence for a card dispute appeal.
+	Card        *DisputeEvidenceAppealCardParams        `form:"card" json:"card,omitempty"`
+	UnsetFields []DisputeEvidenceAppealParamsUnsetField `form:"-" json:"-"`
+}
+
+// DisputeEvidenceAppealParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceAppealParams.
+type DisputeEvidenceAppealParamsUnsetField string
+
+const (
+	DisputeEvidenceAppealParamsUnsetFieldCard DisputeEvidenceAppealParamsUnsetField = "card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeEvidenceAppealParams) AddUnsetField(field DisputeEvidenceAppealParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Evidence provided for Mastercard compliance evidence submission.
 type DisputeEvidenceEnhancedEvidenceMastercardComplianceParams struct {
 	// A field acknowledging the fee incurred when countering a Mastercard compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute.
@@ -342,6 +383,8 @@ type DisputeEvidenceEnhancedEvidenceParams struct {
 type DisputeEvidenceParams struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Has a maximum character count of 20,000.
 	AccessActivityLog *string `form:"access_activity_log" json:"access_activity_log,omitempty"`
+	// Evidence to submit when appealing a dispute.
+	Appeal *DisputeEvidenceAppealParams `form:"appeal" json:"appeal,omitempty"`
 	// The billing address provided by the customer.
 	BillingAddress *string `form:"billing_address" json:"billing_address,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
@@ -403,6 +446,7 @@ type DisputeEvidenceParams struct {
 type DisputeEvidenceParamsUnsetField string
 
 const (
+	DisputeEvidenceParamsUnsetFieldAppeal           DisputeEvidenceParamsUnsetField = "appeal"
 	DisputeEvidenceParamsUnsetFieldEnhancedEvidence DisputeEvidenceParamsUnsetField = "enhanced_evidence"
 )
 
@@ -435,6 +479,47 @@ type DisputeRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *DisputeRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Evidence for a card dispute appeal.
+type DisputeUpdateEvidenceAppealCardParams struct {
+	// An explanation of the reason for filing the appeal.
+	ReasonForFiling *string `form:"reason_for_filing" json:"reason_for_filing,omitempty"`
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
+	SupportingFiles []*string                                         `form:"supporting_files" json:"supporting_files,omitempty"`
+	UnsetFields     []DisputeUpdateEvidenceAppealCardParamsUnsetField `form:"-" json:"-"`
+}
+
+// DisputeUpdateEvidenceAppealCardParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceAppealCardParams.
+type DisputeUpdateEvidenceAppealCardParamsUnsetField string
+
+const (
+	DisputeUpdateEvidenceAppealCardParamsUnsetFieldReasonForFiling DisputeUpdateEvidenceAppealCardParamsUnsetField = "reason_for_filing"
+	DisputeUpdateEvidenceAppealCardParamsUnsetFieldSupportingFiles DisputeUpdateEvidenceAppealCardParamsUnsetField = "supporting_files"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateEvidenceAppealCardParams) AddUnsetField(field DisputeUpdateEvidenceAppealCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Evidence to submit when appealing a dispute.
+type DisputeUpdateEvidenceAppealParams struct {
+	// Evidence for a card dispute appeal.
+	Card        *DisputeUpdateEvidenceAppealCardParams        `form:"card" json:"card,omitempty"`
+	UnsetFields []DisputeUpdateEvidenceAppealParamsUnsetField `form:"-" json:"-"`
+}
+
+// DisputeUpdateEvidenceAppealParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceAppealParams.
+type DisputeUpdateEvidenceAppealParamsUnsetField string
+
+const (
+	DisputeUpdateEvidenceAppealParamsUnsetFieldCard DisputeUpdateEvidenceAppealParamsUnsetField = "card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateEvidenceAppealParams) AddUnsetField(field DisputeUpdateEvidenceAppealParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for Mastercard compliance evidence submission.
@@ -547,6 +632,8 @@ type DisputeUpdateEvidenceEnhancedEvidenceParams struct {
 type DisputeUpdateEvidenceParams struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Has a maximum character count of 20,000.
 	AccessActivityLog *string `form:"access_activity_log" json:"access_activity_log,omitempty"`
+	// Evidence to submit when appealing a dispute.
+	Appeal *DisputeUpdateEvidenceAppealParams `form:"appeal" json:"appeal,omitempty"`
 	// The billing address provided by the customer.
 	BillingAddress *string `form:"billing_address" json:"billing_address,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
@@ -608,6 +695,7 @@ type DisputeUpdateEvidenceParams struct {
 type DisputeUpdateEvidenceParamsUnsetField string
 
 const (
+	DisputeUpdateEvidenceParamsUnsetFieldAppeal           DisputeUpdateEvidenceParamsUnsetField = "appeal"
 	DisputeUpdateEvidenceParamsUnsetFieldEnhancedEvidence DisputeUpdateEvidenceParamsUnsetField = "enhanced_evidence"
 )
 
@@ -665,7 +753,7 @@ func (p *DisputeUpdateParams) AddMetadata(key string, value string) {
 type DisputeEvidenceAppealCard struct {
 	// The reason for filing the appeal.
 	ReasonForFiling string `json:"reason_for_filing,omitempty"`
-	// One or more document IDs returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
 	SupportingFiles []string `json:"supporting_files,omitempty"`
 }
 type DisputeEvidenceAppeal struct {

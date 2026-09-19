@@ -6,8 +6,6 @@
 
 package stripe
 
-import "github.com/shopspring/decimal"
-
 // This hash is used to attest that the directors information provided to Stripe is both current and correct; IP, date, and User Agent are expanded by Stripe.
 type V2CoreAccountTokenIdentityAttestationsDirectorshipDeclarationParams struct {
 	// A boolean indicating if the directors information has been attested.
@@ -675,7 +673,7 @@ type V2CoreAccountTokenIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
@@ -1491,7 +1489,7 @@ type V2CoreAccountTokenCreateIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }

@@ -62,7 +62,7 @@ type PaymentPlanScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries.
+// The list of installment entries. Must contain at least 2 entries.
 type PaymentPlanScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -78,15 +78,15 @@ type PaymentPlanScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'.
+// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 type PaymentPlanScheduleAmountsDueParams struct {
-	// The list of installment entries.
+	// The list of installment entries. Must contain at least 2 entries.
 	Amounts []*PaymentPlanScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The schedule defining how to split the invoice total into installments.
 type PaymentPlanScheduleParams struct {
-	// Required when type is 'amounts_due'.
+	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 	AmountsDue *PaymentPlanScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
 	// The schedule type. Currently only 'amounts_due' is supported.
 	Type *string `form:"type" json:"type"`
@@ -159,7 +159,7 @@ type PaymentPlanCreateScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries.
+// The list of installment entries. Must contain at least 2 entries.
 type PaymentPlanCreateScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -175,15 +175,15 @@ type PaymentPlanCreateScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'.
+// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 type PaymentPlanCreateScheduleAmountsDueParams struct {
-	// The list of installment entries.
+	// The list of installment entries. Must contain at least 2 entries.
 	Amounts []*PaymentPlanCreateScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The schedule defining how to split the invoice total into installments.
 type PaymentPlanCreateScheduleParams struct {
-	// Required when type is 'amounts_due'.
+	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 	AmountsDue *PaymentPlanCreateScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
 	// The schedule type. Currently only 'amounts_due' is supported.
 	Type *string `form:"type" json:"type"`
@@ -254,7 +254,7 @@ type PaymentPlanUpdateScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries.
+// The list of installment entries. Must contain at least 2 entries.
 type PaymentPlanUpdateScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -270,15 +270,15 @@ type PaymentPlanUpdateScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'.
+// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 type PaymentPlanUpdateScheduleAmountsDueParams struct {
-	// The list of installment entries.
+	// The list of installment entries. Must contain at least 2 entries.
 	Amounts []*PaymentPlanUpdateScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The new schedule for this payment plan.
 type PaymentPlanUpdateScheduleParams struct {
-	// Required when type is 'amounts_due'.
+	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
 	AmountsDue *PaymentPlanUpdateScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
 	// The schedule type. Currently only 'amounts_due' is supported.
 	Type *string `form:"type" json:"type"`

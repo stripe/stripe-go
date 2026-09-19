@@ -8,7 +8,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -409,6 +408,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeStripeBalance      SubscriptionPaymentSettingsPaymentMethodType = "stripe_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeSwish              SubscriptionPaymentSettingsPaymentMethodType = "swish"
+	SubscriptionPaymentSettingsPaymentMethodTypeTouchNGo           SubscriptionPaymentSettingsPaymentMethodType = "touch_n_go"
 	SubscriptionPaymentSettingsPaymentMethodTypeTruemoney          SubscriptionPaymentSettingsPaymentMethodType = "truemoney"
 	SubscriptionPaymentSettingsPaymentMethodTypeTWINT              SubscriptionPaymentSettingsPaymentMethodType = "twint"
 	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
@@ -1154,6 +1154,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBizumParams struct {
 type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
 	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -1421,7 +1423,7 @@ type SubscriptionTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -2025,7 +2027,7 @@ type SubscriptionUpdateItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of up to 20 subscription items, each with an attached price.
@@ -2180,7 +2182,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct {
 // Configuration options for setting up a mandate
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -2448,7 +2450,7 @@ type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -3004,7 +3006,7 @@ type SubscriptionCreateItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // Define options to configure the trial on the subscription item.
@@ -3978,6 +3980,8 @@ type SubscriptionPendingInvoiceItemInterval struct {
 type SubscriptionPendingUpdate struct {
 	// If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
+	// Indicates whether this subscription should cancel at the end of the current period if the update is applied.
+	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// The pending subscription-level discount that will be applied when the pending update is applied.
 	Discount *Discount `json:"discount"`
 	// The discounts that will be applied to the subscription when the pending update is applied. Use `expand[]=discounts` to expand each discount.

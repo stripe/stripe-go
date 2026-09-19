@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/shopspring/decimal"
-)
+import "encoding/json"
 
 // The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditGrantAmountType string
@@ -58,7 +55,7 @@ type BillingCreditGrantAmountCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive integer representing the amount of the credit grant.
-	Value *decimal.Decimal `form:"value" json:"value"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // The monetary amount.
@@ -198,7 +195,7 @@ type BillingCreditGrantCreateAmountCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive integer representing the amount of the credit grant.
-	Value *decimal.Decimal `form:"value" json:"value"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // The monetary amount.
@@ -369,7 +366,7 @@ type BillingCreditGrantAmountCustomPricingUnit struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive integer representing the amount.
-	Value decimal.Decimal `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The monetary amount.
