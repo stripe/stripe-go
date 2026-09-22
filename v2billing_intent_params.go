@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // List Billing Intents.
 type V2BillingIntentListParams struct {
@@ -44,7 +47,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams struct {
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
-	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,string"`
+	PercentOff *decimal.Decimal `form:"percent_off" json:"percent_off"`
 }
 
 // Details for applying a discount rule to future invoices.
@@ -662,7 +665,7 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams struct 
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
-	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,string"`
+	PercentOff *decimal.Decimal `form:"percent_off" json:"percent_off"`
 }
 
 // Details for applying a discount rule to future invoices.
