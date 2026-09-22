@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/shopspring/decimal"
+)
 
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
@@ -1940,7 +1943,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -4027,7 +4030,7 @@ type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -5732,7 +5735,7 @@ type CheckoutSessionUpdateLineItemPriceDataParams struct {
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of items the customer is purchasing.
@@ -6055,7 +6058,7 @@ type CheckoutSessionCurrencyConversion struct {
 	// Total of all items in source currency after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
 	// Exchange rate used to convert source currency amounts to customer currency amounts
-	FxRate float64 `json:"fx_rate,string"`
+	FxRate decimal.Decimal `json:"fx_rate"`
 	// Creation currency of the CheckoutSession before localization
 	SourceCurrency Currency `json:"source_currency"`
 }

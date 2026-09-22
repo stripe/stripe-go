@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -157,11 +158,11 @@ type ProductDefaultPriceDataCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -185,7 +186,7 @@ type ProductDefaultPriceDataCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -225,7 +226,7 @@ type ProductDefaultPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -376,11 +377,11 @@ type ProductCreateDefaultPriceDataCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -404,7 +405,7 @@ type ProductCreateDefaultPriceDataCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -444,7 +445,7 @@ type ProductCreateDefaultPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
