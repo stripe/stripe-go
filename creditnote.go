@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/shopspring/decimal"
-)
+import "encoding/json"
 
 // Type of the pretax credit amount referenced.
 type CreditNotePretaxCreditAmountType string
@@ -174,7 +171,7 @@ type CreditNoteLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal                 `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                         `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNoteLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -316,7 +313,7 @@ type CreditNotePreviewLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal                        `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNotePreviewLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -446,7 +443,7 @@ type CreditNotePreviewLinesLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal                             `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                                     `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNotePreviewLinesLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -601,7 +598,7 @@ type CreditNoteCreateLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *decimal.Decimal                       `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	UnitAmountDecimal *float64                               `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNoteCreateLineParamsUnsetField `form:"-" json:"-"`
 }
 

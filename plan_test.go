@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
 	"github.com/stripe/stripe-go/v86/form"
 )
@@ -25,7 +24,7 @@ func TestPlan_Unmarshal(t *testing.T) {
 	err = json.Unmarshal(bytes, &plan)
 	assert.NoError(t, err)
 
-	assert.True(t, decimal.RequireFromString("0.0123456789").Equal(plan.AmountDecimal))
+	assert.Equal(t, 0.0123456789, plan.AmountDecimal)
 }
 
 func TestPlanListParams_AppendTo(t *testing.T) {

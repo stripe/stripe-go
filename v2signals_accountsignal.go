@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // The effect this indicator had on the overall risk level.
 type V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact string
@@ -177,7 +174,7 @@ type V2SignalsAccountSignalFraudulentMerchant struct {
 	AdditionalDetails *V2SignalsAccountSignalFraudulentMerchantAdditionalDetails `json:"additional_details,omitempty"`
 	// The probability of the merchant being fraudulent. Can be between 0.00 and 100.00. Absent when risk level is unknown,
 	// or when the user is not on a product tier that includes numeric scores.
-	Probability decimal.Decimal `json:"probability,omitempty"`
+	Probability float64 `json:"probability,string,omitempty"`
 	// Categorical assessment of the fraudulent merchant risk based on probability.
 	RiskLevel V2SignalsAccountSignalFraudulentMerchantRiskLevel `json:"risk_level"`
 }
@@ -214,7 +211,7 @@ type V2SignalsAccountSignalMerchantDelinquency struct {
 	AdditionalDetails *V2SignalsAccountSignalMerchantDelinquencyAdditionalDetails `json:"additional_details,omitempty"`
 	// The probability of delinquency. Can be between 0.00 and 100.00. Absent when risk level is unknown,
 	// or when the user is not on a product tier that includes numeric scores.
-	Probability decimal.Decimal `json:"probability,omitempty"`
+	Probability float64 `json:"probability,string,omitempty"`
 	// Categorical assessment of the delinquency risk based on probability.
 	RiskLevel V2SignalsAccountSignalMerchantDelinquencyRiskLevel `json:"risk_level"`
 }
@@ -259,7 +256,7 @@ type V2SignalsAccountSignalUserAccountSharing struct {
 	RiskLevel V2SignalsAccountSignalUserAccountSharingRiskLevel `json:"risk_level"`
 	// The specific risk score for the account, between 0.00 and 100.00. Absent when risk level is
 	// not_assessed or unknown, or when the user is not on a product tier that includes numeric scores.
-	Score decimal.Decimal `json:"score,omitempty"`
+	Score float64 `json:"score,string,omitempty"`
 }
 
 // Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
@@ -268,7 +265,7 @@ type V2SignalsAccountSignalUserMultiAccounting struct {
 	RiskLevel V2SignalsAccountSignalUserMultiAccountingRiskLevel `json:"risk_level"`
 	// The specific risk score for the account, between 0.00 and 100.00. Absent when risk level is
 	// not_assessed or unknown, or when the user is not on a product tier that includes numeric scores.
-	Score decimal.Decimal `json:"score,omitempty"`
+	Score float64 `json:"score,string,omitempty"`
 }
 
 // An automatically evaluated signal on an account. Each Account Signal object corresponds to

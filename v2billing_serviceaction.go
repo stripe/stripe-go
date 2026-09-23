@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 type V2BillingServiceActionCreditGrantAmountType string
@@ -106,7 +103,7 @@ type V2BillingServiceActionCreditGrantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value decimal.Decimal `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
@@ -162,7 +159,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value decimal.Decimal `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.

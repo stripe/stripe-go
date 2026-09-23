@@ -6,7 +6,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
 )
 
@@ -30,9 +29,6 @@ type testStruct struct {
 	BoolPtr *bool `form:"bool_ptr"`
 
 	Emptied bool `form:"emptied,empty"`
-
-	Decimal    decimal.Decimal  `form:"decimal"`
-	DecimalPtr *decimal.Decimal `form:"decimal_ptr"`
 
 	Float32    float32  `form:"float32"`
 	Float32Ptr *float32 `form:"float32_ptr"`
@@ -135,10 +131,6 @@ func TestAppendTo(t *testing.T) {
 	var boolValT = true
 	var boolValF = false
 
-	var decimalVal = decimal.RequireFromString("12345678901234567890.123456789012")
-	var decimalFraction = decimal.RequireFromString("0.000000000001")
-	var decimalZero = decimal.Zero
-
 	var float32Val float32 = 1.2345
 	var float32Val0 float32
 
@@ -204,11 +196,6 @@ func TestAppendTo(t *testing.T) {
 		{"bool_ptr", &testStruct{BoolPtr: &boolValF}, stringPtr("false")},
 
 		{"emptied", &testStruct{Emptied: true}, stringPtr("")},
-
-		{"decimal", &testStruct{Decimal: decimalVal}, stringPtr("12345678901234567890.123456789012")},
-		{"decimal", &testStruct{Decimal: decimalFraction}, stringPtr("0.000000000001")},
-		{"decimal_ptr", &testStruct{DecimalPtr: &decimalZero}, stringPtr("0")},
-		{"decimal_ptr", &testStruct{}, nil},
 
 		{"float32", &testStruct{Float32: float32Val}, stringPtr("1.2345")},
 		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, stringPtr("1.2345")},

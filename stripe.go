@@ -21,7 +21,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -465,86 +464,36 @@ func collectAllUnsetFields(v reflect.Value) [][]string {
 	return result
 }
 
-type decimalJSONField struct {
-	path  []string
-	value string
-}
-
-var decimalType = reflect.TypeOf(decimal.Decimal{})
-
-func collectDecimalJSONFields(v reflect.Value, path []string) []decimalJSONField {
-	for v.IsValid() && (v.Kind() == reflect.Interface || v.Kind() == reflect.Ptr) {
-		if v.IsNil() {
-			return nil
-		}
-		v = v.Elem()
-	}
-	if !v.IsValid() {
-		return nil
-	}
-	if v.Type() == decimalType {
-		return []decimalJSONField{{path: path, value: v.Interface().(decimal.Decimal).String()}}
-	}
-
-	var result []decimalJSONField
-	switch v.Kind() {
-	case reflect.Struct:
-		t := v.Type()
-		for i := 0; i < t.NumField(); i++ {
-			field := t.Field(i)
-			if field.PkgPath != "" {
-				continue
-			}
-			if field.Anonymous {
-				result = append(result, collectDecimalJSONFields(v.Field(i), path)...)
-				continue
-			}
-
-			jsonTag := field.Tag.Get("json")
-			name := strings.Split(jsonTag, ",")[0]
-			if name == "-" {
-				continue
-			}
-			if name == "" {
-				name = field.Name
-			}
-			fieldPath := append(append([]string(nil), path...), name)
-			result = append(result, collectDecimalJSONFields(v.Field(i), fieldPath)...)
-		}
-	case reflect.Array, reflect.Slice:
-		for i := 0; i < v.Len(); i++ {
-			elementPath := append(append([]string(nil), path...), strconv.Itoa(i))
-			result = append(result, collectDecimalJSONFields(v.Index(i), elementPath)...)
-		}
-	}
-	return result
-}
-
-// setNestedJSONValue navigates into a nested JSON structure using the given
-// path and replaces the leaf. Numeric path segments navigate into JSON arrays.
-func setNestedJSONValue(m map[string]json.RawMessage, path []string, value json.RawMessage) {
+// setNestedNull navigates into a nested JSON structure using the given path and
+// sets the leaf value to null. Intermediate objects are created if they don't
+// exist (e.g. when a nested struct was nil/omitted but has UnsetFields entries).
+// Numeric path segments navigate into JSON arrays by index.
+func setNestedNull(m map[string]json.RawMessage, path []string) {
 	if len(path) == 1 {
-		m[path[0]] = value
+		m[path[0]] = json.RawMessage("null")
 		return
 	}
 
 	key := path[0]
 	rest := path[1:]
 
+	// Check if the next path segment is an array index
 	if idx, err := strconv.Atoi(rest[0]); err == nil {
 		var arr []json.RawMessage
 		if existing, ok := m[key]; ok {
-			_ = json.Unmarshal(existing, &arr)
+			_ = json.Unmarshal(existing, &arr) // on failure arr stays nil; idx < len(arr) will be false and the null is silently not written
 		}
 		if idx < len(arr) {
 			if len(rest) == 1 {
-				arr[idx] = value
+				// The array element itself should be null (unlikely but handle it)
+				arr[idx] = json.RawMessage("null")
 			} else {
+				// Navigate into the array element (must be an object)
 				var elem map[string]json.RawMessage
 				if err := json.Unmarshal(arr[idx], &elem); err != nil {
 					elem = make(map[string]json.RawMessage)
 				}
-				setNestedJSONValue(elem, rest[1:], value)
+				setNestedNull(elem, rest[1:])
 				data, _ := json.Marshal(elem)
 				arr[idx] = json.RawMessage(data)
 			}
@@ -563,14 +512,10 @@ func setNestedJSONValue(m map[string]json.RawMessage, path []string, value json.
 		nested = make(map[string]json.RawMessage)
 	}
 
-	setNestedJSONValue(nested, rest, value)
+	setNestedNull(nested, rest)
 
 	data, _ := json.Marshal(nested)
 	m[key] = json.RawMessage(data)
-}
-
-func setNestedNull(m map[string]json.RawMessage, path []string) {
-	setNestedJSONValue(m, path, json.RawMessage("null"))
 }
 
 // marshalV2JSON marshals params to JSON for v2 POST requests. UnsetFields
@@ -582,25 +527,18 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 		return nil, err
 	}
 
-	paramsValue := reflect.ValueOf(params)
-	unsetFieldPaths := collectAllUnsetFields(paramsValue)
-	decimalFields := collectDecimalJSONFields(paramsValue, nil)
-	if len(unsetFieldPaths) == 0 && len(decimalFields) == 0 {
+	// Collect all UnsetFields from root and nested structs
+	unsetFieldPaths := collectAllUnsetFields(reflect.ValueOf(params))
+	if len(unsetFieldPaths) == 0 {
 		return data, nil
 	}
 
+	// Parse the marshaled JSON, inject null at each path
 	var m map[string]json.RawMessage
 	if err := json.Unmarshal(data, &m); err != nil {
 		return nil, err
 	}
 
-	for _, field := range decimalFields {
-		quotedValue, err := json.Marshal(field.value)
-		if err != nil {
-			return nil, err
-		}
-		setNestedJSONValue(m, field.path, quotedValue)
-	}
 	for _, path := range unsetFieldPaths {
 		setNestedNull(m, path)
 	}

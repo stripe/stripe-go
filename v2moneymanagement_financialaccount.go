@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // Direction of fee accrual for this FinancialAccount.
 type V2MoneyManagementFinancialAccountAccruedFeesDirection string
@@ -186,7 +183,7 @@ type V2MoneyManagementFinancialAccountPayments struct {
 // The interest rate applied to this savings FinancialAccount.
 type V2MoneyManagementFinancialAccountSavingsInterestRate struct {
 	// Current variable rate, e.g. "3.00".
-	Percentage decimal.Decimal `json:"percentage"`
+	Percentage float64 `json:"percentage,string"`
 	// The period over which interest accrues.
 	Period V2MoneyManagementFinancialAccountSavingsInterestRatePeriod `json:"period"`
 }
