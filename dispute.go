@@ -665,7 +665,7 @@ func (p *DisputeUpdateParams) AddMetadata(key string, value string) {
 type DisputeEvidenceAppealCard struct {
 	// The reason for filing the appeal.
 	ReasonForFiling string `json:"reason_for_filing,omitempty"`
-	// One or more document IDs returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
 	SupportingFiles []string `json:"supporting_files,omitempty"`
 }
 type DisputeEvidenceAppeal struct {

@@ -163,8 +163,22 @@ type V2MoneyManagementOutboundTransferStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda string `json:"addenda,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptions struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH `json:"ach,omitempty"`
+}
+
 // Options for bank account payout methods.
 type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccount struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this OutboundTransfer.
 	PreferredNetworks []V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
 }

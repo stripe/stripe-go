@@ -234,6 +234,8 @@ type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	//
 	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
 	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters" json:"payment_method_allow_redisplay_filters,omitempty"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. Customer Sessions can't be updated, so create a new one to change the preselection.
+	PaymentMethodPreselect *string `form:"payment_method_preselect" json:"payment_method_preselect,omitempty"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay *string `form:"payment_method_redisplay" json:"payment_method_redisplay,omitempty"`
 	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.
@@ -398,6 +400,8 @@ type CustomerSessionCreateComponentsPaymentElementFeaturesParams struct {
 	//
 	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
 	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters" json:"payment_method_allow_redisplay_filters,omitempty"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. Customer Sessions can't be updated, so create a new one to change the preselection.
+	PaymentMethodPreselect *string `form:"payment_method_preselect" json:"payment_method_preselect,omitempty"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay *string `form:"payment_method_redisplay" json:"payment_method_redisplay,omitempty"`
 	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.
@@ -562,6 +566,8 @@ type CustomerSessionComponentsPaymentElementFeatures struct {
 	//
 	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
 	PaymentMethodAllowRedisplayFilters []CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter `json:"payment_method_allow_redisplay_filters"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. Customer Sessions can't be updated, so create a new one to change the preselection.
+	PaymentMethodPreselect string `json:"payment_method_preselect,omitempty"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay `json:"payment_method_redisplay"`
 	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.

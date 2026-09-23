@@ -176,6 +176,26 @@ const (
 	ChargePaymentMethodDetailsCardRegulatedStatusUnregulated ChargePaymentMethodDetailsCardRegulatedStatus = "unregulated"
 )
 
+// The payment_method_options.card.setup_credential_usage value that was passed when setup_future_usage was present at confirmation, one of `recurring`, `unscheduled`, or `installment`
+type ChargePaymentMethodDetailsCardSetupCredentialUsage string
+
+// List of values that ChargePaymentMethodDetailsCardSetupCredentialUsage can take
+const (
+	ChargePaymentMethodDetailsCardSetupCredentialUsageInstallment ChargePaymentMethodDetailsCardSetupCredentialUsage = "installment"
+	ChargePaymentMethodDetailsCardSetupCredentialUsageRecurring   ChargePaymentMethodDetailsCardSetupCredentialUsage = "recurring"
+	ChargePaymentMethodDetailsCardSetupCredentialUsageUnscheduled ChargePaymentMethodDetailsCardSetupCredentialUsage = "unscheduled"
+)
+
+// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+type ChargePaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that ChargePaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	ChargePaymentMethodDetailsCardStoredCredentialUsageInstallment ChargePaymentMethodDetailsCardStoredCredentialUsage = "installment"
+	ChargePaymentMethodDetailsCardStoredCredentialUsageRecurring   ChargePaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	ChargePaymentMethodDetailsCardStoredCredentialUsageUnscheduled ChargePaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -569,7 +589,7 @@ type ChargeParams struct {
 	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://docs.stripe.com/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -2522,7 +2542,7 @@ type ChargeCreateParams struct {
 	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://docs.stripe.com/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -3954,8 +3974,8 @@ type ChargePaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country                  string                                                  `json:"country"`
 	DecrementalAuthorization *ChargePaymentMethodDetailsCardDecrementalAuthorization `json:"decremental_authorization,omitempty"`
-	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. The response value is the source of truth; it may differ from the request value if the network downgraded the transaction.
-	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator,omitempty"`
+	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. This is the network's final ECI and can differ from the request value. An authenticated ECI alone doesn't determine liability shift.
+	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -3993,6 +4013,10 @@ type ChargePaymentMethodDetailsCard struct {
 	ReauthorizeBefore int64 `json:"reauthorize_before,omitempty"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
+	// The payment_method_options.card.setup_credential_usage value that was passed when setup_future_usage was present at confirmation, one of `recurring`, `unscheduled`, or `installment`
+	SetupCredentialUsage ChargePaymentMethodDetailsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
+	// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+	StoredCredentialUsage ChargePaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// Transaction Link ID (TLID) is a unique identifier for a transaction. This is used by some card networks, such as Mastercard, for transaction linking, in addition to Network Transaction IDs. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.

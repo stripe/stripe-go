@@ -37,6 +37,17 @@ const (
 	V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethodSendInvoice         V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod = "send_invoice"
 )
 
+// The collection status of the contract that indicates whether there are any outstanding invoices for the contract.
+type V2BillingContractCollectionStatus string
+
+// List of values that V2BillingContractCollectionStatus can take
+const (
+	V2BillingContractCollectionStatusBlocked V2BillingContractCollectionStatus = "blocked"
+	V2BillingContractCollectionStatusCurrent V2BillingContractCollectionStatus = "current"
+	V2BillingContractCollectionStatusPastDue V2BillingContractCollectionStatus = "past_due"
+	V2BillingContractCollectionStatusUnpaid  V2BillingContractCollectionStatus = "unpaid"
+)
+
 // The type of override.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataType string
 
@@ -147,6 +158,18 @@ type V2BillingContractBillingSettings struct {
 	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetails `json:"collection_settings_details"`
 }
 
+// Historical timestamps of when the contract's collection status transitioned into each status.
+type V2BillingContractCollectionStatusTransitions struct {
+	// The timestamp when the contract's collection status transitioned to blocked.
+	BlockedAt time.Time `json:"blocked_at,omitempty"`
+	// The timestamp when the contract's collection status transitioned to current.
+	CurrentAt time.Time `json:"current_at,omitempty"`
+	// The timestamp when the contract's collection status transitioned to past due.
+	PastDueAt time.Time `json:"past_due_at,omitempty"`
+	// The timestamp when the contract's collection status transitioned to unpaid.
+	UnpaidAt time.Time `json:"unpaid_at,omitempty"`
+}
+
 // When this fee will be billed. Always contains a concrete timestamp.
 type V2BillingContractOneTimeFeesDataBillAt struct {
 	// The timestamp at which the fee will be billed.
@@ -202,7 +225,7 @@ type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataSta
 // The pricing line overrides.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesData struct {
 	// Timestamp when this override ends.
-	EndsAt *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataEndsAt `json:"ends_at"`
+	EndsAt *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataEndsAt `json:"ends_at,omitempty"`
 	// The ID of the pricing override.
 	ID string `json:"id"`
 	// The user-provided lookup key for this override.
@@ -252,7 +275,7 @@ type V2BillingContractPricingLinesDataStartsAt struct {
 // The pricing lines for this page.
 type V2BillingContractPricingLinesData struct {
 	// Timestamp when the pricing line ends.
-	EndsAt *V2BillingContractPricingLinesDataEndsAt `json:"ends_at"`
+	EndsAt *V2BillingContractPricingLinesDataEndsAt `json:"ends_at,omitempty"`
 	// The id of the pricing line.
 	ID string `json:"id"`
 	// The user-provided lookup key for the pricing line.
@@ -304,7 +327,7 @@ type V2BillingContractPricingOverridesDataStartsAt struct {
 // The pricing overrides for this page.
 type V2BillingContractPricingOverridesData struct {
 	// Resolved timestamp when the pricing override ends.
-	EndsAt *V2BillingContractPricingOverridesDataEndsAt `json:"ends_at"`
+	EndsAt *V2BillingContractPricingOverridesDataEndsAt `json:"ends_at,omitempty"`
 	// The ID of the pricing override.
 	ID string `json:"id"`
 	// The user-provided lookup key for the pricing override.
@@ -344,6 +367,10 @@ type V2BillingContract struct {
 	BillingCycleAnchor *V2BillingContractBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// The billing settings.
 	BillingSettings *V2BillingContractBillingSettings `json:"billing_settings,omitempty"`
+	// The collection status of the contract that indicates whether there are any outstanding invoices for the contract.
+	CollectionStatus V2BillingContractCollectionStatus `json:"collection_status"`
+	// Historical timestamps of when the contract's collection status transitioned into each status.
+	CollectionStatusTransitions *V2BillingContractCollectionStatusTransitions `json:"collection_status_transitions"`
 	// A unique user-provided contract number e.g. C-2026-0001.
 	ContractNumber string `json:"contract_number"`
 	// Timestamp of when the contract was created.

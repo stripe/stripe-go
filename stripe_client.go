@@ -138,6 +138,8 @@ type Client struct {
 	V1FinancialConnectionsAccounts *v1FinancialConnectionsAccountService
 	// V1FinancialConnectionsAuthorizations is the service used to invoke /v1/financial_connections/authorizations APIs.
 	V1FinancialConnectionsAuthorizations *v1FinancialConnectionsAuthorizationService
+	// V1FinancialConnectionsConsents is the service used to invoke /v1/financial_connections/consents APIs.
+	V1FinancialConnectionsConsents *v1FinancialConnectionsConsentService
 	// V1FinancialConnectionsInstitutions is the service used to invoke /v1/financial_connections/institutions APIs.
 	V1FinancialConnectionsInstitutions *v1FinancialConnectionsInstitutionService
 	// V1FinancialConnectionsSessions is the service used to invoke /v1/financial_connections/sessions APIs.
@@ -254,8 +256,6 @@ type Client struct {
 	V1Quotes *v1QuoteService
 	// V1RadarAccountEvaluations is the service used to invoke /v1/radar/account_evaluations APIs.
 	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
-	// V1RadarBillingEvaluations is the service used to invoke /v1/radar/billing_evaluations APIs.
-	V1RadarBillingEvaluations *v1RadarBillingEvaluationService
 	// V1RadarCustomerEvaluations is the service used to invoke /v1/radar/customer_evaluations APIs.
 	V1RadarCustomerEvaluations *v1RadarCustomerEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -528,6 +528,8 @@ type Client struct {
 	V2MoneyManagementFinancialAccounts *v2MoneyManagementFinancialAccountService
 	// V2MoneyManagementFinancialAccountsStatements is the service used to invoke /v2/money_management/financial_accounts/{financial_account_id}/statements APIs.
 	V2MoneyManagementFinancialAccountsStatements *v2MoneyManagementFinancialAccountsStatementService
+	// V2MoneyManagementFinancialAccountsWalletExports is the service used to invoke walletexport related APIs.
+	V2MoneyManagementFinancialAccountsWalletExports *v2MoneyManagementFinancialAccountsWalletExportService
 	// V2MoneyManagementFinancialAddresses is the service used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2MoneyManagementFinancialAddressService
 	// V2MoneyManagementInboundTransfers is the service used to invoke /v2/money_management/inbound_transfers APIs.
@@ -570,6 +572,24 @@ type Client struct {
 	V2PaymentsSettlementAllocationIntents *v2PaymentsSettlementAllocationIntentService
 	// V2PaymentsSettlementAllocationIntentsSplits is the service used to invoke /v2/payments/settlement_allocation_intents/{settlement_allocation_intent_id}/splits APIs.
 	V2PaymentsSettlementAllocationIntentsSplits *v2PaymentsSettlementAllocationIntentsSplitService
+	// V2ProvisioningCatalogProviders is the service used to invoke /v2/provisioning/catalog/providers APIs.
+	V2ProvisioningCatalogProviders *v2ProvisioningCatalogProviderService
+	// V2ProvisioningCatalogServices is the service used to invoke /v2/provisioning/catalog/services APIs.
+	V2ProvisioningCatalogServices *v2ProvisioningCatalogServiceService
+	// V2ProvisioningEligibilities is the service used to invoke eligibility related APIs.
+	V2ProvisioningEligibilities *v2ProvisioningEligibilityService
+	// V2ProvisioningPaymentMethodRequests is the service used to invoke /v2/provisioning/payment_method_requests APIs.
+	V2ProvisioningPaymentMethodRequests *v2ProvisioningPaymentMethodRequestService
+	// V2ProvisioningPaymentProfiles is the service used to invoke paymentprofile related APIs.
+	V2ProvisioningPaymentProfiles *v2ProvisioningPaymentProfileService
+	// V2ProvisioningProjects is the service used to invoke /v2/provisioning/projects APIs.
+	V2ProvisioningProjects *v2ProvisioningProjectService
+	// V2ProvisioningProviderConnectionRequests is the service used to invoke /v2/provisioning/provider_connection_requests APIs.
+	V2ProvisioningProviderConnectionRequests *v2ProvisioningProviderConnectionRequestService
+	// V2ProvisioningProviderConnections is the service used to invoke /v2/provisioning/provider_connections APIs.
+	V2ProvisioningProviderConnections *v2ProvisioningProviderConnectionService
+	// V2ProvisioningResources is the service used to invoke /v2/provisioning/resources APIs.
+	V2ProvisioningResources *v2ProvisioningResourceService
 	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
@@ -700,6 +720,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1FinancialConnectionsAccountInferredBalances = &v1FinancialConnectionsAccountInferredBalanceService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsAccounts = &v1FinancialConnectionsAccountService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsAuthorizations = &v1FinancialConnectionsAuthorizationService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsConsents = &v1FinancialConnectionsConsentService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsInstitutions = &v1FinancialConnectionsInstitutionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
@@ -758,7 +779,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
-	client.V1RadarBillingEvaluations = &v1RadarBillingEvaluationService{B: backends.API, Key: key}
 	client.V1RadarCustomerEvaluations = &v1RadarCustomerEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
 	client.V1RadarIssuingAuthorizationEvaluations = &v1RadarIssuingAuthorizationEvaluationService{B: backends.API, Key: key}
@@ -895,6 +915,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementDebitDisputes = &v2MoneyManagementDebitDisputeService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccountsStatements = &v2MoneyManagementFinancialAccountsStatementService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAccountsWalletExports = &v2MoneyManagementFinancialAccountsWalletExportService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundPaymentQuotes = &v2MoneyManagementOutboundPaymentQuoteService{B: backends.API, Key: key}
@@ -916,6 +937,15 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2PaymentsSettlementAllocationIntents = &v2PaymentsSettlementAllocationIntentService{B: backends.API, Key: key}
 	client.V2PaymentsSettlementAllocationIntentsSplits = &v2PaymentsSettlementAllocationIntentsSplitService{B: backends.API, Key: key}
+	client.V2ProvisioningCatalogProviders = &v2ProvisioningCatalogProviderService{B: backends.API, Key: key}
+	client.V2ProvisioningCatalogServices = &v2ProvisioningCatalogServiceService{B: backends.API, Key: key}
+	client.V2ProvisioningEligibilities = &v2ProvisioningEligibilityService{B: backends.API, Key: key}
+	client.V2ProvisioningPaymentMethodRequests = &v2ProvisioningPaymentMethodRequestService{B: backends.API, Key: key}
+	client.V2ProvisioningPaymentProfiles = &v2ProvisioningPaymentProfileService{B: backends.API, Key: key}
+	client.V2ProvisioningProjects = &v2ProvisioningProjectService{B: backends.API, Key: key}
+	client.V2ProvisioningProviderConnectionRequests = &v2ProvisioningProviderConnectionRequestService{B: backends.API, Key: key}
+	client.V2ProvisioningProviderConnections = &v2ProvisioningProviderConnectionService{B: backends.API, Key: key}
+	client.V2ProvisioningResources = &v2ProvisioningResourceService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
 	client.V2RiskInquiries = &v2RiskInquiryService{B: backends.API, Key: key}

@@ -15,6 +15,7 @@ type V2CoreAccountAppliedConfiguration string
 const (
 	V2CoreAccountAppliedConfigurationCardCreator  V2CoreAccountAppliedConfiguration = "card_creator"
 	V2CoreAccountAppliedConfigurationCustomer     V2CoreAccountAppliedConfiguration = "customer"
+	V2CoreAccountAppliedConfigurationDeveloper    V2CoreAccountAppliedConfiguration = "developer"
 	V2CoreAccountAppliedConfigurationMerchant     V2CoreAccountAppliedConfiguration = "merchant"
 	V2CoreAccountAppliedConfigurationRecipient    V2CoreAccountAppliedConfiguration = "recipient"
 	V2CoreAccountAppliedConfigurationMoneyManager V2CoreAccountAppliedConfiguration = "money_manager"
@@ -738,6 +739,52 @@ const (
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolutionContactStripe V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "provide_info"
+)
+
+// The current status of the protection.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus string
+
+// List of values that V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus can take
+const (
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatusActive    V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus = "active"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatusDisrupted V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus = "disrupted"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatusExpired   V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus = "expired"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatusInactive  V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus = "inactive"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus string
+
+// List of values that V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus can take
+const (
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusActive      V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus = "active"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusPending     V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus = "pending"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusRestricted  V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus = "restricted"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusUnsupported V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolutionContactStripe V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution = "provide_info"
 )
 
 // The current status of the protection.
@@ -5108,6 +5155,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAlBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "al_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAmBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "am_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAoBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ao_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeApplePay                     V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "apple_pay"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeARBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ar_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAtBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "at_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAuBankAccount                V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "au_bank_account"
@@ -5475,6 +5523,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityProjects                            V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "projects"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPromptPayPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "promptpay_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedCreditsBankAccounts         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "received_credits.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedDebitsBankAccounts          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "received_debits.bank_accounts"
@@ -5497,6 +5546,7 @@ type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration 
 const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationCardCreator  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "card_creator"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationCustomer     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "customer"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationDeveloper    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "developer"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationMerchant     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "merchant"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationMoneyManager V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "money_manager"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationRecipient    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "recipient"
@@ -6235,6 +6285,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityProjects                            V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "projects"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPromptPayPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "promptpay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedCreditsBankAccounts         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "received_credits.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedDebitsBankAccounts          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "received_debits.bank_accounts"
@@ -6257,6 +6308,7 @@ type V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration string
 const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationCardCreator  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "card_creator"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationCustomer     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "customer"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationDeveloper    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "developer"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationMerchant     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "merchant"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationMoneyManager V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "money_manager"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationRecipient    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "recipient"
@@ -7011,6 +7063,54 @@ type V2CoreAccountConfigurationCustomer struct {
 	Shipping *V2CoreAccountConfigurationCustomerShipping `json:"shipping,omitempty"`
 	// ID of the test clock to attach to the customer. Can only be set on testmode Accounts, and when the Customer Configuration is first set on an Account.
 	TestClock string `json:"test_clock,omitempty"`
+}
+
+// Protection details for PSP migration.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigration struct {
+	// The time until which the protection will expire, as a Unix timestamp.
+	ExpiresAt int64 `json:"expires_at,string,omitempty"`
+	// The time at which the protection was requested, as a Unix timestamp.
+	RequestedAt int64 `json:"requested_at,string"`
+	// The current status of the protection.
+	Status V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationStatus `json:"status"`
+}
+
+// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtections struct {
+	// Protection details for PSP migration.
+	PspMigration *V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigration `json:"psp_migration"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetailResolution `json:"resolution"`
+}
+
+// Enables the Account to use Stripe developer tooling.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjects struct {
+	// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtections `json:"protections"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationDeveloperCapabilitiesProjectsStatusDetail `json:"status_details"`
+}
+
+// Capabilities that have been requested on the Developer Configuration.
+type V2CoreAccountConfigurationDeveloperCapabilities struct {
+	// Enables the Account to use Stripe developer tooling.
+	Projects *V2CoreAccountConfigurationDeveloperCapabilitiesProjects `json:"projects,omitempty"`
+}
+
+// The Developer Configuration allows the Account to use developer tooling.
+type V2CoreAccountConfigurationDeveloper struct {
+	// Indicates whether the Developer Configuration is active.
+	Applied bool `json:"applied"`
+	// Capabilities that have been requested on the Developer Configuration.
+	Capabilities *V2CoreAccountConfigurationDeveloperCapabilities `json:"capabilities,omitempty"`
 }
 
 // Settings for Bacs Direct Debit payments.
@@ -10697,6 +10797,8 @@ type V2CoreAccountConfiguration struct {
 	CardCreator *V2CoreAccountConfigurationCardCreator `json:"card_creator,omitempty"`
 	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountConfigurationCustomer `json:"customer,omitempty"`
+	// The Developer Configuration allows the Account to use developer tooling.
+	Developer *V2CoreAccountConfigurationDeveloper `json:"developer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchant `json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
