@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2439
 semver_level: major
 is_stripe_api_change: true
+released_in_version: 86.5.0-alpha.5
 ---
 
 * Add support for new resources `FinancialConnectionsConsent`, `V2MoneyManagementFinancialAccountWalletExportCredentials`, `V2MoneyManagementFinancialAccountWalletExport`, `V2ProvisioningEligibility`, `V2ProvisioningPaymentMethodRequest`, `V2ProvisioningPaymentProfile`, `V2ProvisioningProject`, `V2ProvisioningProviderConnectionRequest`, `V2ProvisioningProviderConnection`, `V2ProvisioningProviderServiceDetail`, `V2ProvisioningProvider`, and `V2ProvisioningResource`
