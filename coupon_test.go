@@ -25,6 +25,6 @@ func TestCoupon_UnmarshalJSON(t *testing.T) {
 		err = json.Unmarshal(data, &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "25OFF", v.ID)
-		assert.Equal(t, "value", v.Script.Configuration["nested"].(map[string]interface{})["key"])
+		assert.Equal(t, "value", v.Script.Configuration["nested"].(map[string]any)["key"])
 	}
 }
