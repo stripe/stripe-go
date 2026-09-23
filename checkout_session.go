@@ -4423,6 +4423,24 @@ type CheckoutSessionApprovePaymentIntentDataParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 }
 
+// Card-specific payment method options. Use this to control 3D Secure behavior during approval.
+type CheckoutSessionApprovePaymentMethodOptionsCardParams struct {
+	// We recommend that you rely on our SCA Engine to automatically prompt your customers for
+	// authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
+	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this
+	// option. When supplied during approval, this value overrides the 3D Secure preference of the
+	// Checkout Session's underlying Intent. If omitted, Checkout does not modify the existing preference.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds)
+	// for more information on how this configuration interacts with Radar and our SCA Engine.
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// Payment method-specific configuration to apply to the Checkout Session during approval. Currently only supports `card` payment method options.
+type CheckoutSessionApprovePaymentMethodOptionsParams struct {
+	// Card-specific payment method options. Use this to control 3D Secure behavior during approval.
+	Card *CheckoutSessionApprovePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionApproveSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
@@ -4438,6 +4456,8 @@ type CheckoutSessionApproveParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionApprovePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
+	// Payment method-specific configuration to apply to the Checkout Session during approval. Currently only supports `card` payment method options.
+	PaymentMethodOptions *CheckoutSessionApprovePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
 	// payment method's app or site. This parameter is allowed and required if and only if you did not
 	// set the return URL during Checkout Session creation or in `checkout.confirm()` in Stripe.js.
@@ -7431,7 +7451,7 @@ type CheckoutSessionAutomaticSurcharge struct {
 
 // Present when `source=tax_integration_configuration` and `automatic_tax[enabled]=false`.
 type CheckoutSessionAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
-	// The parameter that prevented `automatic_tax` from being enabled (e.g. `line_items[][tax_rates]`).
+	// The parameter that prevented `automatic_tax` from being enabled (for example `line_items[][tax_rates]`).
 	ConflictingField string `json:"conflicting_field"`
 }
 
@@ -7619,6 +7639,10 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
 }
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCustom struct {
+	// ID of the Dashboard-only CustomPaymentMethodType. Not expandable.
+	Type string `json:"type"`
+}
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsLink struct {
 	// Unique, encrypted bank account identifier.
 	Fingerprint string `json:"fingerprint,omitempty"`
@@ -7644,6 +7668,7 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
 	BACSDebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
 	Boleto         *CheckoutSessionCurrentAttemptPaymentMethodDetailsBoleto        `json:"boleto,omitempty"`
 	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
+	Custom         *CheckoutSessionCurrentAttemptPaymentMethodDetailsCustom        `json:"custom,omitempty"`
 	Link           *CheckoutSessionCurrentAttemptPaymentMethodDetailsLink          `json:"link,omitempty"`
 	Pix            *CheckoutSessionCurrentAttemptPaymentMethodDetailsPix           `json:"pix,omitempty"`
 	SEPADebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
@@ -7884,8 +7909,6 @@ type CheckoutSessionItemSubscriptionTrialSettings struct {
 	// Defines how a subscription behaves when a free trial ends.
 	EndBehavior *CheckoutSessionItemSubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
 }
-
-// Details on the subscription for this item.
 type CheckoutSessionItemSubscription struct {
 	// The Unix timestamp marking the subscription's backdated start date.
 	BackdateStartDate int64 `json:"backdate_start_date,omitempty"`
@@ -7912,8 +7935,7 @@ type CheckoutSessionItemSubscription struct {
 // The items to be purchased by the customer.
 type CheckoutSessionItem struct {
 	// The key of the item. Guaranteed to be a unique ID within this checkout session's items.
-	Key string `json:"key"`
-	// Details on the subscription for this item.
+	Key          string                           `json:"key"`
 	Subscription *CheckoutSessionItemSubscription `json:"subscription,omitempty"`
 	// The type of the item.
 	Type CheckoutSessionItemType `json:"type"`
@@ -8782,7 +8804,7 @@ type CheckoutSessionTaxIDCollection struct {
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -8993,6 +9015,8 @@ type CheckoutSession struct {
 	PaymentMethodTypes []string `json:"payment_method_types"`
 	// The [Payment Record](https://docs.stripe.com/api/payment-record) for this Checkout Session.
 	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
+	// The ID of the Payment Reservation for this Checkout Session.
+	PaymentReservation string `json:"payment_reservation,omitempty"`
 	// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 	// You can use this value to decide when to fulfill your customer's order.
 	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`

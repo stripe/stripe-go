@@ -8,6 +8,17 @@ package stripe
 
 import "encoding/json"
 
+// The banking network used for this funding.
+type CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork string
+
+// List of values that CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork can take
+const (
+	CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetworkBACS  CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork = "bacs"
+	CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetworkChaps CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork = "chaps"
+	CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetworkFPS   CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork = "fps"
+	CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetworkSwift CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork = "swift"
+)
+
 // The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type CustomerCashBalanceTransactionFundedBankTransferType string
 
@@ -106,6 +117,12 @@ type CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer struct {
 type CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer struct {
 	// The last 4 digits of the account number of the sender of the funding.
 	AccountNumberLast4 string `json:"account_number_last4"`
+	// The BIC of the bank of the sender of the funding.
+	BIC string `json:"bic,omitempty"`
+	// The last 4 digits of the IBAN of the sender of the funding.
+	IBANLast4 string `json:"iban_last4,omitempty"`
+	// The banking network used for this funding.
+	Network CustomerCashBalanceTransactionFundedBankTransferGBBankTransferNetwork `json:"network,omitempty"`
 	// The full name of the sender, as supplied by the sending bank.
 	SenderName string `json:"sender_name"`
 	// The sort code of the bank of the sender of the funding

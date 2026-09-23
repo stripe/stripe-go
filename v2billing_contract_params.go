@@ -239,7 +239,7 @@ type V2BillingContractPricingLineStartsAtParams struct {
 // A list of pricing lines to create with the contract.
 type V2BillingContractPricingLineParams struct {
 	// When the pricing line ends.
-	EndsAt *V2BillingContractPricingLineEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractPricingLineEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A user-provided lookup key to reference this pricing line.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
@@ -296,7 +296,7 @@ type V2BillingContractPricingOverrideStartsAtParams struct {
 // A list of pricing overrides to create with the contract.
 type V2BillingContractPricingOverrideParams struct {
 	// When the pricing override ends.
-	EndsAt *V2BillingContractPricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractPricingOverrideEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs.
@@ -546,7 +546,7 @@ type V2BillingContractPricingLineActionAddStartsAtParams struct {
 // Add a pricing line.
 type V2BillingContractPricingLineActionAddParams struct {
 	// The end time for the pricing line.
-	EndsAt *V2BillingContractPricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractPricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the pricing line.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing line.
@@ -605,7 +605,7 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideA
 // Add a pricing line override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams struct {
 	// The end time for the override.
-	EndsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing override.
@@ -804,7 +804,7 @@ type V2BillingContractPricingOverrideActionAddStartsAtParams struct {
 // Add a pricing override.
 type V2BillingContractPricingOverrideActionAddParams struct {
 	// The end time for the pricing override.
-	EndsAt *V2BillingContractPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing override.
@@ -1136,7 +1136,7 @@ type V2BillingContractCreatePricingLineStartsAtParams struct {
 // A list of pricing lines to create with the contract.
 type V2BillingContractCreatePricingLineParams struct {
 	// When the pricing line ends.
-	EndsAt *V2BillingContractCreatePricingLineEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractCreatePricingLineEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A user-provided lookup key to reference this pricing line.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
@@ -1193,7 +1193,7 @@ type V2BillingContractCreatePricingOverrideStartsAtParams struct {
 // A list of pricing overrides to create with the contract.
 type V2BillingContractCreatePricingOverrideParams struct {
 	// When the pricing override ends.
-	EndsAt *V2BillingContractCreatePricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractCreatePricingOverrideEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs.
@@ -1449,7 +1449,7 @@ type V2BillingContractUpdatePricingLineActionAddStartsAtParams struct {
 // Add a pricing line.
 type V2BillingContractUpdatePricingLineActionAddParams struct {
 	// The end time for the pricing line.
-	EndsAt *V2BillingContractUpdatePricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractUpdatePricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the pricing line.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing line.
@@ -1508,7 +1508,7 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOve
 // Add a pricing line override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams struct {
 	// The end time for the override.
-	EndsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing override.
@@ -1707,7 +1707,7 @@ type V2BillingContractUpdatePricingOverrideActionAddStartsAtParams struct {
 // Add a pricing override.
 type V2BillingContractUpdatePricingOverrideActionAddParams struct {
 	// The end time for the pricing override.
-	EndsAt *V2BillingContractUpdatePricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
+	EndsAt *V2BillingContractUpdatePricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Metadata for the pricing override.

@@ -53,6 +53,21 @@ const (
 	V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetworkSpei V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork = "spei"
 )
 
+// Open Enum. Standard Entry Class code of the ACH entry.
+type V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeCcd V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "ccd"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeCie V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "cie"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeCtx V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "ctx"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeIat V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "iat"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodePos V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "pos"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodePpd V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "ppd"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeTel V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "tel"
+	V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCodeWeb V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode = "web"
+)
+
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
 type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork string
 
@@ -271,6 +286,32 @@ type V2MoneyManagementReceivedCreditBankTransferMXBankAccount struct {
 	Network V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork `json:"network"`
 }
 
+// NACHA details for the ACH entry that created this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACH struct {
+	// Payment-related information from the ACH addenda record, up to 80 characters.
+	Addenda string `json:"addenda,omitempty"`
+	// Company Entry Description from the ACH batch header, e.g. "HCCLAIMPMT".
+	OriginatorCompanyEntryDescription string `json:"originator_company_entry_description,omitempty"`
+	// Company Identification from the ACH batch header.
+	OriginatorCompanyID string `json:"originator_company_id,omitempty"`
+	// Company Name from the ACH batch header -- the business that sent the funds.
+	OriginatorCompanyName string `json:"originator_company_name,omitempty"`
+	// Identification Number from the ACH entry detail record.
+	ReceiverIDNumber string `json:"receiver_id_number,omitempty"`
+	// Individual Name from the ACH entry detail record.
+	ReceiverName string `json:"receiver_name,omitempty"`
+	// Open Enum. Standard Entry Class code of the ACH entry.
+	StandardEntryClassCode V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACHStandardEntryClassCode `json:"standard_entry_class_code,omitempty"`
+	// Trace Number from the ACH entry detail record.
+	TraceID string `json:"trace_id,omitempty"`
+}
+
+// Network-level detail for the transfer that created this ReceivedCredit. Present only for ACH.
+type V2MoneyManagementReceivedCreditBankTransferNetworkDetails struct {
+	// NACHA details for the ACH entry that created this ReceivedCredit.
+	ACH *V2MoneyManagementReceivedCreditBankTransferNetworkDetailsACH `json:"ach"`
+}
+
 // Hash containing the transaction bank details. Present if `type` field value is `aba`.
 type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABA struct {
 	// The name of the account holder that sent the payment.
@@ -401,6 +442,8 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 	GBBankAccount *V2MoneyManagementReceivedCreditBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
 	// Deprecated. Use `originating_bank_account.clabe` instead.
 	MXBankAccount *V2MoneyManagementReceivedCreditBankTransferMXBankAccount `json:"mx_bank_account,omitempty"`
+	// Network-level detail for the transfer that created this ReceivedCredit. Present only for ACH.
+	NetworkDetails *V2MoneyManagementReceivedCreditBankTransferNetworkDetails `json:"network_details,omitempty"`
 	// Hash containing the originating bank account details and type for this bank transfer.
 	OriginatingBankAccount *V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccount `json:"originating_bank_account"`
 	// Deprecated. Use `originating_bank_account.iban` instead.

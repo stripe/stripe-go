@@ -426,6 +426,33 @@ const (
 	IssuingAuthorizationFuelUnitUSGallon       IssuingAuthorizationFuelUnit = "us_gallon"
 )
 
+// The type of fuel that was purchased.
+type IssuingAuthorizationFuelsType string
+
+// List of values that IssuingAuthorizationFuelsType can take
+const (
+	IssuingAuthorizationFuelsTypeDiesel          IssuingAuthorizationFuelsType = "diesel"
+	IssuingAuthorizationFuelsTypeOther           IssuingAuthorizationFuelsType = "other"
+	IssuingAuthorizationFuelsTypeUnleadedPlus    IssuingAuthorizationFuelsType = "unleaded_plus"
+	IssuingAuthorizationFuelsTypeUnleadedRegular IssuingAuthorizationFuelsType = "unleaded_regular"
+	IssuingAuthorizationFuelsTypeUnleadedSuper   IssuingAuthorizationFuelsType = "unleaded_super"
+)
+
+// The units for `quantity_decimal`.
+type IssuingAuthorizationFuelsUnit string
+
+// List of values that IssuingAuthorizationFuelsUnit can take
+const (
+	IssuingAuthorizationFuelsUnitChargingMinute IssuingAuthorizationFuelsUnit = "charging_minute"
+	IssuingAuthorizationFuelsUnitImperialGallon IssuingAuthorizationFuelsUnit = "imperial_gallon"
+	IssuingAuthorizationFuelsUnitKilogram       IssuingAuthorizationFuelsUnit = "kilogram"
+	IssuingAuthorizationFuelsUnitKilowattHour   IssuingAuthorizationFuelsUnit = "kilowatt_hour"
+	IssuingAuthorizationFuelsUnitLiter          IssuingAuthorizationFuelsUnit = "liter"
+	IssuingAuthorizationFuelsUnitOther          IssuingAuthorizationFuelsUnit = "other"
+	IssuingAuthorizationFuelsUnitPound          IssuingAuthorizationFuelsUnit = "pound"
+	IssuingAuthorizationFuelsUnitUSGallon       IssuingAuthorizationFuelsUnit = "us_gallon"
+)
+
 // The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
 type IssuingAuthorizationHealthcarePurchaseType string
 
@@ -1299,6 +1326,20 @@ type IssuingAuthorizationFuel struct {
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
 }
 
+// Information about the list of fuel items that were purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
+type IssuingAuthorizationFuels struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode string `json:"industry_product_code"`
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
+	// The type of fuel that was purchased.
+	Type IssuingAuthorizationFuelsType `json:"type"`
+	// The units for `quantity_decimal`.
+	Unit IssuingAuthorizationFuelsUnit `json:"unit"`
+	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
+	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
+}
+
 // Details about the IIAS FSA/HSA healthcare amounts on this authorization.
 type IssuingAuthorizationHealthcare struct {
 	// Clinic and urgent care sub-amount for Visa only. Null if the merchant did not include this amount.
@@ -1722,6 +1763,8 @@ type IssuingAuthorization struct {
 	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges,omitempty"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
+	// Information about the list of fuel items that were purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
+	Fuels []*IssuingAuthorizationFuels `json:"fuels,omitempty"`
 	// Details about the IIAS FSA/HSA healthcare amounts on this authorization.
 	Healthcare *IssuingAuthorizationHealthcare `json:"healthcare,omitempty"`
 	// Unique identifier for the object.

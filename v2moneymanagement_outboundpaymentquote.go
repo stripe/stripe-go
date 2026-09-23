@@ -151,6 +151,8 @@ type V2MoneyManagementOutboundPaymentQuoteFxQuote struct {
 
 // ACH-specific network options.
 type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda string `json:"addenda,omitempty"`
 	// Open Enum. ACH submission timing.
 	Submission V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission `json:"submission,omitempty"`
 	// The transaction purpose for this ACH payment.

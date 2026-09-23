@@ -30,6 +30,8 @@ type FinancialConnectionsAccountAccountNumberStatus string
 // List of values that FinancialConnectionsAccountAccountNumberStatus can take
 const (
 	FinancialConnectionsAccountAccountNumberStatusDeactivated  FinancialConnectionsAccountAccountNumberStatus = "deactivated"
+	FinancialConnectionsAccountAccountNumberStatusExpired      FinancialConnectionsAccountAccountNumberStatus = "expired"
+	FinancialConnectionsAccountAccountNumberStatusPending      FinancialConnectionsAccountAccountNumberStatus = "pending"
 	FinancialConnectionsAccountAccountNumberStatusTransactable FinancialConnectionsAccountAccountNumberStatus = "transactable"
 )
 

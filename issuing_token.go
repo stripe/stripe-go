@@ -415,13 +415,13 @@ type IssuingTokenNetworkDataDevice struct {
 	Type IssuingTokenNetworkDataDeviceType `json:"type,omitempty"`
 }
 type IssuingTokenNetworkDataMastercard struct {
-	// A unique reference ID from MasterCard to represent the card account number.
+	// A unique reference ID from Mastercard to represent the card account number.
 	CardReferenceID string `json:"card_reference_id,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`
-	// The ID of the entity requesting tokenization, specific to MasterCard.
+	// The ID of the entity requesting tokenization, specific to Mastercard.
 	TokenRequestorID string `json:"token_requestor_id"`
-	// The name of the entity requesting tokenization, if known. This is directly provided from MasterCard.
+	// The name of the entity requesting tokenization, if known. This is directly provided from Mastercard.
 	TokenRequestorName string `json:"token_requestor_name,omitempty"`
 }
 type IssuingTokenNetworkDataVisa struct {

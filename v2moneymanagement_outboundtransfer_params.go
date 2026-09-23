@@ -46,8 +46,22 @@ type V2MoneyManagementOutboundTransferFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
 // Options for bank account payout methods.
 type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this OutboundTransfer.
 	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
 }
@@ -123,8 +137,22 @@ type V2MoneyManagementOutboundTransferCreateFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
 // Options for bank account payout methods.
 type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this OutboundTransfer.
 	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
 }

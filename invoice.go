@@ -335,6 +335,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeStripeBalance      InvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
+	InvoicePaymentSettingsPaymentMethodTypeTouchNGo           InvoicePaymentSettingsPaymentMethodType = "touch_n_go"
 	InvoicePaymentSettingsPaymentMethodTypeTruemoney          InvoicePaymentSettingsPaymentMethodType = "truemoney"
 	InvoicePaymentSettingsPaymentMethodTypeTWINT              InvoicePaymentSettingsPaymentMethodType = "twint"
 	InvoicePaymentSettingsPaymentMethodTypeUpi                InvoicePaymentSettingsPaymentMethodType = "upi"
@@ -5422,7 +5423,7 @@ type InvoiceTotalTax struct {
 // Invoices are statements of amounts owed by a customer, and are either
 // generated one-off, or generated periodically from a subscription.
 //
-// They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+// They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
 // that may be caused by subscription upgrades/downgrades (if necessary).
 //
 // If your invoice is configured to be billed through automatic charges,

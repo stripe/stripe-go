@@ -54,6 +54,23 @@ const (
 	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonOther            V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "other"
 )
 
+// The blockchain network configured for each crypto currency. Keys are lowercase currency codes and must identify crypto currencies also present in `holds_currencies`.
+type V2MoneyManagementFinancialAccountStorageCryptoCurrencyNetworks string
+
+// List of values that V2MoneyManagementFinancialAccountStorageCryptoCurrencyNetworks can take
+const (
+	V2MoneyManagementFinancialAccountStorageCryptoCurrencyNetworksTempo V2MoneyManagementFinancialAccountStorageCryptoCurrencyNetworks = "tempo"
+)
+
+// Describes who controls the private keys for the crypto storage.
+type V2MoneyManagementFinancialAccountStorageCryptoCustodyModel string
+
+// List of values that V2MoneyManagementFinancialAccountStorageCryptoCustodyModel can take
+const (
+	V2MoneyManagementFinancialAccountStorageCryptoCustodyModelSelf   V2MoneyManagementFinancialAccountStorageCryptoCustodyModel = "self"
+	V2MoneyManagementFinancialAccountStorageCryptoCustodyModelStripe V2MoneyManagementFinancialAccountStorageCryptoCustodyModel = "stripe"
+)
+
 // The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 type V2MoneyManagementFinancialAccountStorageFundsUsageType string
 
@@ -208,6 +225,8 @@ type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings stru
 	PaymentMethod string `json:"payment_method,omitempty"`
 	// The address to send forwarded payouts to.
 	PayoutMethod string `json:"payout_method,omitempty"`
+	// Whether to skip forwarding exportable self-custodied wallet balances. Defaults to false. This does not skip non-exportable or fiat balances, inbound-pending checks, or negative-balance requirements.
+	SkipExportableBalances bool `json:"skip_exportable_balances,omitempty"`
 }
 
 // Details related to the closed state of the FinancialAccount.
@@ -224,8 +243,18 @@ type V2MoneyManagementFinancialAccountStatusDetails struct {
 	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed,omitempty"`
 }
 
+// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+type V2MoneyManagementFinancialAccountStorageCrypto struct {
+	// The blockchain network configured for each crypto currency. Keys are lowercase currency codes and must identify crypto currencies also present in `holds_currencies`.
+	CurrencyNetworks map[string]V2MoneyManagementFinancialAccountStorageCryptoCurrencyNetworks `json:"currency_networks"`
+	// Describes who controls the private keys for the crypto storage.
+	CustodyModel V2MoneyManagementFinancialAccountStorageCryptoCustodyModel `json:"custody_model"`
+}
+
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorage struct {
+	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+	Crypto *V2MoneyManagementFinancialAccountStorageCrypto `json:"crypto,omitempty"`
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType V2MoneyManagementFinancialAccountStorageFundsUsageType `json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.

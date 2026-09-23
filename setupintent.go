@@ -292,6 +292,14 @@ const (
 	SetupIntentPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
+// Type of the mandate.
+type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType string
+
+// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsType can take
+const (
+	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOffSession SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "off_session"
+)
+
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType string
 
@@ -349,6 +357,16 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny       SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
+)
+
+// Set to indicate the future transaction type usage for the card being set up.
+type SetupIntentPaymentMethodOptionsCardSetupCredentialUsage string
+
+// List of values that SetupIntentPaymentMethodOptionsCardSetupCredentialUsage can take
+const (
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageInstallment SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "installment"
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageRecurring   SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "recurring"
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageUnscheduled SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "unscheduled"
 )
 
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
@@ -4758,6 +4776,15 @@ type SetupIntentPaymentMethodOptionsBACSDebit struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBizum struct{}
+type SetupIntentPaymentMethodOptionsBLIKMandateOptions struct {
+	// Date at which the mandate expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Type of the mandate.
+	Type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType `json:"type"`
+}
+type SetupIntentPaymentMethodOptionsBLIK struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptions `json:"mandate_options,omitempty"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -4789,6 +4816,8 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	Network SetupIntentPaymentMethodOptionsCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage SetupIntentPaymentMethodOptionsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
 type SetupIntentPaymentMethodOptionsKlarna struct {
@@ -4914,6 +4943,7 @@ type SetupIntentPaymentMethodOptions struct {
 	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay,omitempty"`
 	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit,omitempty"`
 	Bizum         *SetupIntentPaymentMethodOptionsBizum         `json:"bizum,omitempty"`
+	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik,omitempty"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card,omitempty"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present,omitempty"`
 	Klarna        *SetupIntentPaymentMethodOptionsKlarna        `json:"klarna,omitempty"`
@@ -4949,7 +4979,7 @@ type SetupIntentSetupDetails struct {
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
 // For example, you can use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
-// Later, you can use [PaymentIntents](https://api.stripe.com#payment_intents) to drive the payment flow.
+// Later, you can use [PaymentIntents](https://docs.stripe.com/api#payment_intents) to drive the payment flow.
 //
 // Create a SetupIntent when you're ready to collect your customer's payment credentials.
 // Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
@@ -4960,9 +4990,9 @@ type SetupIntentSetupDetails struct {
 // For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) might need to be run through
 // [Strong Customer Authentication](https://docs.stripe.com/strong-customer-authentication) during payment method collection
 // to streamline later [off-session payments](https://docs.stripe.com/payments/setup-intents).
-// If you use the SetupIntent with a [Customer](https://api.stripe.com#setup_intent_object-customer),
+// If you use the SetupIntent with a [Customer](https://docs.stripe.com/api#setup_intent_object-customer),
 // it automatically attaches the resulting payment method to that Customer after successful setup.
-// We recommend using SetupIntents or [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) on
+// We recommend using SetupIntents or [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) on
 // PaymentIntents to save payment methods to prevent saving invalid or unoptimized payment methods.
 //
 // By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.
