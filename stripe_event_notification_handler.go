@@ -1289,6 +1289,30 @@ func (h *eventNotificationHandlerBase) OnV2BillingContractCanceled(callback func
 	return registerTypedHandler(h, "v2.billing.contract.canceled", callback)
 }
 
+// OnV2BillingContractCollectionBlocked registers a callback to handle notifications about the "v2.billing.contract.collection_blocked" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractCollectionBlocked(callback func(ctx context.Context, notif *V2BillingContractCollectionBlockedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract.collection_blocked", callback)
+}
+
+// OnV2BillingContractCollectionCurrent registers a callback to handle notifications about the "v2.billing.contract.collection_current" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractCollectionCurrent(callback func(ctx context.Context, notif *V2BillingContractCollectionCurrentEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract.collection_current", callback)
+}
+
+// OnV2BillingContractCollectionPastDue registers a callback to handle notifications about the "v2.billing.contract.collection_past_due" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractCollectionPastDue(callback func(ctx context.Context, notif *V2BillingContractCollectionPastDueEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract.collection_past_due", callback)
+}
+
+// OnV2BillingContractCollectionUnpaid registers a callback to handle notifications about the "v2.billing.contract.collection_unpaid" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractCollectionUnpaid(callback func(ctx context.Context, notif *V2BillingContractCollectionUnpaidEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract.collection_unpaid", callback)
+}
+
 // OnV2BillingContractCreated registers a callback to handle notifications about the "v2.billing.contract.created" event.
 func (h *eventNotificationHandlerBase) OnV2BillingContractCreated(callback func(ctx context.Context, notif *V2BillingContractCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.billing.contract.created", callback)
@@ -1931,6 +1955,36 @@ func (h *eventNotificationHandlerBase) OnV2CoreHealthWebhookLatencyResolved(call
 		h, "v2.core.health.webhook_latency.resolved", callback)
 }
 
+// OnV2CoreVaultNetworkTokenActivated registers a callback to handle notifications about the "v2.core.vault.network_token.activated" event.
+func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenActivated(callback func(ctx context.Context, notif *V2CoreVaultNetworkTokenActivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.vault.network_token.activated", callback)
+}
+
+// OnV2CoreVaultNetworkTokenAuthorizationRequirementsChanged registers a callback to handle notifications about the "v2.core.vault.network_token.authorization_requirements_changed" event.
+func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenAuthorizationRequirementsChanged(callback func(ctx context.Context, notif *V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.vault.network_token.authorization_requirements_changed", callback)
+}
+
+// OnV2CoreVaultNetworkTokenDeactivated registers a callback to handle notifications about the "v2.core.vault.network_token.deactivated" event.
+func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenDeactivated(callback func(ctx context.Context, notif *V2CoreVaultNetworkTokenDeactivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.vault.network_token.deactivated", callback)
+}
+
+// OnV2CoreVaultNetworkTokenDetailsUpdated registers a callback to handle notifications about the "v2.core.vault.network_token.details_updated" event.
+func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenDetailsUpdated(callback func(ctx context.Context, notif *V2CoreVaultNetworkTokenDetailsUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.vault.network_token.details_updated", callback)
+}
+
+// OnV2CoreVaultNetworkTokenSuspended registers a callback to handle notifications about the "v2.core.vault.network_token.suspended" event.
+func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenSuspended(callback func(ctx context.Context, notif *V2CoreVaultNetworkTokenSuspendedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.vault.network_token.suspended", callback)
+}
+
 // OnV2DataReportingQueryRunCreated registers a callback to handle notifications about the "v2.data.reporting.query_run.created" event.
 func (h *eventNotificationHandlerBase) OnV2DataReportingQueryRunCreated(callback func(ctx context.Context, notif *V2DataReportingQueryRunCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2072,6 +2126,24 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountCreate
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountUpdated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.financial_account.updated", callback)
+}
+
+// OnV2MoneyManagementFinancialAccountWalletExportCompleted registers a callback to handle notifications about the "v2.money_management.financial_account.wallet_export.completed" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountWalletExportCompleted(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.financial_account.wallet_export.completed", callback)
+}
+
+// OnV2MoneyManagementFinancialAccountWalletExportPending registers a callback to handle notifications about the "v2.money_management.financial_account.wallet_export.pending" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountWalletExportPending(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountWalletExportPendingEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.financial_account.wallet_export.pending", callback)
+}
+
+// OnV2MoneyManagementFinancialAccountWalletExportReady registers a callback to handle notifications about the "v2.money_management.financial_account.wallet_export.ready" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountWalletExportReady(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountWalletExportReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.financial_account.wallet_export.ready", callback)
 }
 
 // OnV2MoneyManagementFinancialAccountStatementCreated registers a callback to handle notifications about the "v2.money_management.financial_account_statement.created" event.

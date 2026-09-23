@@ -53,10 +53,10 @@ func (p *TaxCodeRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
+// An object that describes more information about the tax location required for this tax code. Some tax codes require a [performance location](https://docs.stripe.com/tax/location-sales#required-versus-optional-performance-locations) to calculate tax correctly.
 type TaxCodeRequirements struct {
 	// Describes whether a performance location is required for a successful tax calculation with a tax code.
-	PerformanceLocation TaxCodeRequirementsPerformanceLocation `json:"performance_location,omitempty"`
+	PerformanceLocation TaxCodeRequirementsPerformanceLocation `json:"performance_location"`
 }
 
 // [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.
@@ -70,7 +70,7 @@ type TaxCode struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
+	// An object that describes more information about the tax location required for this tax code. Some tax codes require a [performance location](https://docs.stripe.com/tax/location-sales#required-versus-optional-performance-locations) to calculate tax correctly.
 	Requirements *TaxCodeRequirements `json:"requirements,omitempty"`
 }
 

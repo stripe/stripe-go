@@ -46,6 +46,7 @@ const (
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax         TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeDigitalExciseTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "digital_excise_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
@@ -59,12 +60,14 @@ const (
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeParkingTax            TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "parking_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRecyclingFee          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "recycling_fee"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeResortTax             TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeServiceTax            TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeTourismTax            TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeUtilityUsersTax       TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "utility_users_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -131,6 +134,8 @@ type TaxCalculationLineItemTaxBreakdown struct {
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxCalculationLineItemTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
+
+// A Tax Calculation Line Item represents a single item in a tax calculation.
 type TaxCalculationLineItem struct {
 	// The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`

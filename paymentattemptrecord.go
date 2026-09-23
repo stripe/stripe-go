@@ -143,6 +143,16 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardNetworkVisa            PaymentAttemptRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
+// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+type PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageInstallment PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "installment"
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -1540,6 +1550,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
+	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.

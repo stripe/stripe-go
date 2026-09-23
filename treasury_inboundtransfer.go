@@ -87,6 +87,24 @@ func (p *TreasuryInboundTransferListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Specify details about the ACH transaction.
+type TreasuryInboundTransferOriginPaymentMethodOptionsUSBankAccountACHParams struct {
+	// Freeform payment-related information to transmit in the ACH addenda record. Maximum 80 characters, ACH character set. Applied only when the payment routes over ACH. Immutable after creation.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Includes additional payment method options if the destination is a us_bank_account.
+type TreasuryInboundTransferOriginPaymentMethodOptionsUSBankAccountParams struct {
+	// Specify details about the ACH transaction.
+	ACH *TreasuryInboundTransferOriginPaymentMethodOptionsUSBankAccountACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Additional options about the origin PaymentMethod.
+type TreasuryInboundTransferOriginPaymentMethodOptionsParams struct {
+	// Includes additional payment method options if the destination is a us_bank_account.
+	USBankAccount *TreasuryInboundTransferOriginPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+}
+
 // Creates an InboundTransfer.
 type TreasuryInboundTransferParams struct {
 	Params `form:"*"`
@@ -104,6 +122,8 @@ type TreasuryInboundTransferParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The origin payment method to be debited for the InboundTransfer.
 	OriginPaymentMethod *string `form:"origin_payment_method" json:"origin_payment_method,omitempty"`
+	// Additional options about the origin PaymentMethod.
+	OriginPaymentMethodOptions *TreasuryInboundTransferOriginPaymentMethodOptionsParams `form:"origin_payment_method_options" json:"origin_payment_method_options,omitempty"`
 	// The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
@@ -134,6 +154,24 @@ func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Specify details about the ACH transaction.
+type TreasuryInboundTransferCreateOriginPaymentMethodOptionsUSBankAccountACHParams struct {
+	// Freeform payment-related information to transmit in the ACH addenda record. Maximum 80 characters, ACH character set. Applied only when the payment routes over ACH. Immutable after creation.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Includes additional payment method options if the destination is a us_bank_account.
+type TreasuryInboundTransferCreateOriginPaymentMethodOptionsUSBankAccountParams struct {
+	// Specify details about the ACH transaction.
+	ACH *TreasuryInboundTransferCreateOriginPaymentMethodOptionsUSBankAccountACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Additional options about the origin PaymentMethod.
+type TreasuryInboundTransferCreateOriginPaymentMethodOptionsParams struct {
+	// Includes additional payment method options if the destination is a us_bank_account.
+	USBankAccount *TreasuryInboundTransferCreateOriginPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+}
+
 // Creates an InboundTransfer.
 type TreasuryInboundTransferCreateParams struct {
 	Params `form:"*"`
@@ -151,6 +189,8 @@ type TreasuryInboundTransferCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The origin payment method to be debited for the InboundTransfer.
 	OriginPaymentMethod *string `form:"origin_payment_method" json:"origin_payment_method"`
+	// Additional options about the origin PaymentMethod.
+	OriginPaymentMethodOptions *TreasuryInboundTransferCreateOriginPaymentMethodOptionsParams `form:"origin_payment_method_options" json:"origin_payment_method_options,omitempty"`
 	// The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
@@ -181,7 +221,7 @@ func (p *TreasuryInboundTransferRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Details about this InboundTransfer's failure. Only set when status is `failed`.
+// Details about this InboundTransfer's failure. Will be set when `status=failed` or `returned=true`.
 type TreasuryInboundTransferFailureDetails struct {
 	// Reason for the failure.
 	Code TreasuryInboundTransferFailureDetailsCode `json:"code"`
@@ -197,11 +237,19 @@ type TreasuryInboundTransferOriginPaymentMethodDetailsBillingDetails struct {
 	// Full name.
 	Name string `json:"name"`
 }
+
+// Details about an ACH transaction.
+type TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountACH struct {
+	// Freeform payment-related information transmitted in the ACH addenda record.
+	Addenda string `json:"addenda,omitempty"`
+}
 type TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	// Details about an ACH transaction.
+	ACH *TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountACH `json:"ach,omitempty"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
@@ -232,7 +280,7 @@ type TreasuryInboundTransferStatusTransitions struct {
 	SucceededAt int64 `json:"succeeded_at"`
 }
 
-// Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://api.stripe.com#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+// Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://docs.stripe.com/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 //
 // Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)
 type TreasuryInboundTransfer struct {
@@ -247,7 +295,7 @@ type TreasuryInboundTransfer struct {
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// Details about this InboundTransfer's failure. Only set when status is `failed`.
+	// Details about this InboundTransfer's failure. Will be set when `status=failed` or `returned=true`.
 	FailureDetails *TreasuryInboundTransferFailureDetails `json:"failure_details"`
 	// The FinancialAccount that received the funds.
 	FinancialAccount string `json:"financial_account"`

@@ -36,6 +36,8 @@ type V2MoneyManagementPayoutIntentScheduleOptionsParams struct {
 
 // ACH-specific network options.
 type V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
 	// Open Enum. ACH submission timing.
 	Submission *string `form:"submission" json:"submission,omitempty"`
 	// The transaction purpose for this ACH payment.
@@ -144,6 +146,8 @@ type V2MoneyManagementPayoutIntentCreateScheduleOptionsParams struct {
 
 // ACH-specific network options.
 type V2MoneyManagementPayoutIntentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
 	// Open Enum. ACH submission timing.
 	Submission *string `form:"submission" json:"submission,omitempty"`
 	// The transaction purpose for this ACH payment.
@@ -242,6 +246,8 @@ type V2MoneyManagementPayoutIntentUpdateScheduleOptionsParams struct {
 
 // ACH-specific network options.
 type V2MoneyManagementPayoutIntentUpdateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Freeform ACH addenda (max 80 characters) included in the NACHA submission.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
 	// Open Enum. ACH submission timing.
 	Submission *string `form:"submission" json:"submission,omitempty"`
 	// The transaction purpose for this ACH payment.

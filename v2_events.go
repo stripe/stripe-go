@@ -238,6 +238,7 @@ type V2CoreAccountLinkReturnedEventDataConfiguration string
 // List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
 	V2CoreAccountLinkReturnedEventDataConfigurationCustomer     V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationDeveloper    V2CoreAccountLinkReturnedEventDataConfiguration = "developer"
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant     V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationMoneyManager V2CoreAccountLinkReturnedEventDataConfiguration = "money_manager"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient    V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
@@ -1095,7 +1096,7 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 // Occurs whenever your Stripe balance has been updated (e.g., when a charge is available to be paid out). By default, Stripe automatically transfers funds in your balance to your bank account on a daily basis. This event is not fired for negative transactions.
 type V1BalanceAvailableEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*Balance, error)
 }
 
@@ -1108,7 +1109,7 @@ func (e *V1BalanceAvailableEvent) FetchRelatedObject(ctx context.Context) (*Bala
 // Occurs whenever your Stripe balance has been updated (e.g., when a charge is available to be paid out). By default, Stripe automatically transfers funds in your balance to your bank account on a daily basis. This event is not fired for negative transactions.
 type V1BalanceAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BalanceAvailableEvent that created this Notification
@@ -1136,7 +1137,7 @@ func (n *V1BalanceAvailableEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever a balance settings status or property has changed.
 type V1BalanceSettingsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*BalanceSettings, error)
 }
 
@@ -1149,7 +1150,7 @@ func (e *V1BalanceSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs whenever a balance settings status or property has changed.
 type V1BalanceSettingsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BalanceSettingsUpdatedEvent that created this Notification
@@ -1711,7 +1712,7 @@ func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs whenever there is a positive remaining cash balance after Stripe automatically reconciles new funds into the cash balance. If you enabled manual reconciliation, this webhook will fire whenever there are new funds into the cash balance.
 type V1CashBalanceFundsAvailableEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*CashBalance, error)
 }
 
@@ -1724,7 +1725,7 @@ func (e *V1CashBalanceFundsAvailableEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever there is a positive remaining cash balance after Stripe automatically reconciles new funds into the cash balance. If you enabled manual reconciliation, this webhook will fire whenever there are new funds into the cash balance.
 type V1CashBalanceFundsAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CashBalanceFundsAvailableEvent that created this Notification
@@ -8700,7 +8701,7 @@ func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever tax settings is updated.
 type V1TaxSettingsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxSettings, error)
 }
 
@@ -8713,7 +8714,7 @@ func (e *V1TaxSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Ta
 // Occurs whenever tax settings is updated.
 type V1TaxSettingsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedSingletonObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxSettingsUpdatedEvent that created this Notification
@@ -9672,6 +9673,170 @@ func (n *V2BillingContractCanceledEventNotification) FetchEvent(ctx context.Cont
 
 // FetchRelatedObject fetches the V2BillingContract related to the event.
 func (n *V2BillingContractCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCollectionBlockedEvent is the Go struct for the "v2.billing.contract.collection_blocked" event.
+// Occurs when a Contract's collection status transitions to blocked.
+type V2BillingContractCollectionBlockedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCollectionBlockedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCollectionBlockedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.collection_blocked"
+// Occurs when a Contract's collection status transitions to blocked.
+type V2BillingContractCollectionBlockedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCollectionBlockedEvent that created this Notification
+func (n *V2BillingContractCollectionBlockedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCollectionBlockedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCollectionBlockedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCollectionBlockedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCollectionCurrentEvent is the Go struct for the "v2.billing.contract.collection_current" event.
+// Occurs when a Contract's collection status transitions to current.
+type V2BillingContractCollectionCurrentEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCollectionCurrentEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCollectionCurrentEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.collection_current"
+// Occurs when a Contract's collection status transitions to current.
+type V2BillingContractCollectionCurrentEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCollectionCurrentEvent that created this Notification
+func (n *V2BillingContractCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCollectionCurrentEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCollectionCurrentEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCollectionCurrentEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCollectionPastDueEvent is the Go struct for the "v2.billing.contract.collection_past_due" event.
+// Occurs when a Contract's collection status transitions to past due.
+type V2BillingContractCollectionPastDueEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCollectionPastDueEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCollectionPastDueEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.collection_past_due"
+// Occurs when a Contract's collection status transitions to past due.
+type V2BillingContractCollectionPastDueEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCollectionPastDueEvent that created this Notification
+func (n *V2BillingContractCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCollectionPastDueEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCollectionPastDueEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCollectionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCollectionUnpaidEvent is the Go struct for the "v2.billing.contract.collection_unpaid" event.
+// Occurs when a Contract's collection status transitions to unpaid.
+type V2BillingContractCollectionUnpaidEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCollectionUnpaidEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCollectionUnpaidEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.collection_unpaid"
+// Occurs when a Contract's collection status transitions to unpaid.
+type V2BillingContractCollectionUnpaidEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCollectionUnpaidEvent that created this Notification
+func (n *V2BillingContractCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCollectionUnpaidEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCollectionUnpaidEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCollectionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -13843,6 +14008,217 @@ func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx con
 	return evt.(*V2CoreHealthWebhookLatencyResolvedEvent), nil
 }
 
+// V2CoreVaultNetworkTokenActivatedEvent is the Go struct for the "v2.core.vault.network_token.activated" event.
+// Occurs when a token is re-activated after being suspended.
+type V2CoreVaultNetworkTokenActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreVaultNetworkToken, error)
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (e *V2CoreVaultNetworkTokenActivatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreVaultNetworkTokenActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.vault.network_token.activated"
+// Occurs when a token is re-activated after being suspended.
+type V2CoreVaultNetworkTokenActivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreVaultNetworkTokenActivatedEvent that created this Notification
+func (n *V2CoreVaultNetworkTokenActivatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreVaultNetworkTokenActivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreVaultNetworkTokenActivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (n *V2CoreVaultNetworkTokenActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreVaultNetworkToken{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent is the Go struct for the "v2.core.vault.network_token.authorization_requirements_changed" event.
+// Occurs when a network token's authorization requirements change.
+// Specifically for Mastercard: Restart any external payment series involving this token
+// with a customer-initiated transaction, in conjunction with a fresh cryptogram.
+type V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreVaultNetworkToken, error)
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (e *V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.vault.network_token.authorization_requirements_changed"
+// Occurs when a network token's authorization requirements change.
+// Specifically for Mastercard: Restart any external payment series involving this token
+// with a customer-initiated transaction, in conjunction with a fresh cryptogram.
+type V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent that created this Notification
+func (n *V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification) FetchEvent(ctx context.Context) (*V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (n *V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreVaultNetworkToken{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreVaultNetworkTokenDeactivatedEvent is the Go struct for the "v2.core.vault.network_token.deactivated" event.
+// Occurs when a network token is deactivated.
+// This is a terminal state.
+type V2CoreVaultNetworkTokenDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreVaultNetworkToken, error)
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (e *V2CoreVaultNetworkTokenDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreVaultNetworkTokenDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.vault.network_token.deactivated"
+// Occurs when a network token is deactivated.
+// This is a terminal state.
+type V2CoreVaultNetworkTokenDeactivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreVaultNetworkTokenDeactivatedEvent that created this Notification
+func (n *V2CoreVaultNetworkTokenDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreVaultNetworkTokenDeactivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreVaultNetworkTokenDeactivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (n *V2CoreVaultNetworkTokenDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreVaultNetworkToken{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreVaultNetworkTokenDetailsUpdatedEvent is the Go struct for the "v2.core.vault.network_token.details_updated" event.
+// Occurs when a network token's details, such as its number or expiration date, are updated.
+type V2CoreVaultNetworkTokenDetailsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreVaultNetworkToken, error)
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (e *V2CoreVaultNetworkTokenDetailsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreVaultNetworkTokenDetailsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.vault.network_token.details_updated"
+// Occurs when a network token's details, such as its number or expiration date, are updated.
+type V2CoreVaultNetworkTokenDetailsUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreVaultNetworkTokenDetailsUpdatedEvent that created this Notification
+func (n *V2CoreVaultNetworkTokenDetailsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreVaultNetworkTokenDetailsUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreVaultNetworkTokenDetailsUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (n *V2CoreVaultNetworkTokenDetailsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreVaultNetworkToken{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreVaultNetworkTokenSuspendedEvent is the Go struct for the "v2.core.vault.network_token.suspended" event.
+// Occurs when a network token is suspended.
+type V2CoreVaultNetworkTokenSuspendedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreVaultNetworkToken, error)
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (e *V2CoreVaultNetworkTokenSuspendedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreVaultNetworkTokenSuspendedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.vault.network_token.suspended"
+// Occurs when a network token is suspended.
+type V2CoreVaultNetworkTokenSuspendedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreVaultNetworkTokenSuspendedEvent that created this Notification
+func (n *V2CoreVaultNetworkTokenSuspendedEventNotification) FetchEvent(ctx context.Context) (*V2CoreVaultNetworkTokenSuspendedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreVaultNetworkTokenSuspendedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreVaultNetworkToken related to the event.
+func (n *V2CoreVaultNetworkTokenSuspendedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreVaultNetworkToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreVaultNetworkToken{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2DataReportingQueryRunCreatedEvent is the Go struct for the "v2.data.reporting.query_run.created" event.
 // Occurs when a QueryRun is created.
 type V2DataReportingQueryRunCreatedEvent struct {
@@ -14645,6 +15021,129 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(c
 
 // FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
 func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFinancialAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFinancialAccountWalletExportCompletedEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.completed" event.
+// Occurs when FinancialAccount wallet credentials are first exported.
+type V2MoneyManagementFinancialAccountWalletExportCompletedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (e *V2MoneyManagementFinancialAccountWalletExportCompletedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.wallet_export.completed"
+// Occurs when FinancialAccount wallet credentials are first exported.
+type V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountWalletExportCompletedEvent that created this Notification
+func (n *V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountWalletExportCompletedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountWalletExportCompletedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (n *V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFinancialAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFinancialAccountWalletExportPendingEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.pending" event.
+// Occurs when a FinancialAccount wallet export starts being prepared.
+type V2MoneyManagementFinancialAccountWalletExportPendingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (e *V2MoneyManagementFinancialAccountWalletExportPendingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountWalletExportPendingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.wallet_export.pending"
+// Occurs when a FinancialAccount wallet export starts being prepared.
+type V2MoneyManagementFinancialAccountWalletExportPendingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountWalletExportPendingEvent that created this Notification
+func (n *V2MoneyManagementFinancialAccountWalletExportPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountWalletExportPendingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountWalletExportPendingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (n *V2MoneyManagementFinancialAccountWalletExportPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFinancialAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFinancialAccountWalletExportReadyEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.ready" event.
+// Occurs when a FinancialAccount wallet export is ready for credentials retrieval.
+type V2MoneyManagementFinancialAccountWalletExportReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (e *V2MoneyManagementFinancialAccountWalletExportReadyEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountWalletExportReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.wallet_export.ready"
+// Occurs when a FinancialAccount wallet export is ready for credentials retrieval.
+type V2MoneyManagementFinancialAccountWalletExportReadyEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountWalletExportReadyEvent that created this Notification
+func (n *V2MoneyManagementFinancialAccountWalletExportReadyEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountWalletExportReadyEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountWalletExportReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (n *V2MoneyManagementFinancialAccountWalletExportReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -19737,7 +20236,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.balance.available":
 		result := &V1BalanceAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*Balance, error) {
 			v := &Balance{}
 			params := &Params{}
@@ -19752,7 +20251,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.balance_settings.updated":
 		result := &V1BalanceSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*BalanceSettings, error) {
 			v := &BalanceSettings{}
 			params := &Params{}
@@ -19961,7 +20460,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.cash_balance.funds_available":
 		result := &V1CashBalanceFundsAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*CashBalance, error) {
 			v := &CashBalance{}
 			params := &Params{}
@@ -22515,7 +23014,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.tax.settings.updated":
 		result := &V1TaxSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
+		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*TaxSettings, error) {
 			v := &TaxSettings{}
 			params := &Params{}
@@ -22865,6 +23364,66 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.billing.contract.canceled":
 		result := &V2BillingContractCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.collection_blocked":
+		result := &V2BillingContractCollectionBlockedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.collection_current":
+		result := &V2BillingContractCollectionCurrentEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.collection_past_due":
+		result := &V2BillingContractCollectionPastDueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.collection_unpaid":
+		result := &V2BillingContractCollectionUnpaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
@@ -24411,6 +24970,81 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.vault.network_token.activated":
+		result := &V2CoreVaultNetworkTokenActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
+			v := &V2CoreVaultNetworkToken{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.vault.network_token.authorization_requirements_changed":
+		result := &V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
+			v := &V2CoreVaultNetworkToken{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.vault.network_token.deactivated":
+		result := &V2CoreVaultNetworkTokenDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
+			v := &V2CoreVaultNetworkToken{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.vault.network_token.details_updated":
+		result := &V2CoreVaultNetworkTokenDetailsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
+			v := &V2CoreVaultNetworkToken{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.vault.network_token.suspended":
+		result := &V2CoreVaultNetworkTokenSuspendedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
+			v := &V2CoreVaultNetworkToken{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.data.reporting.query_run.created":
 		result := &V2DataReportingQueryRunCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -24687,6 +25321,51 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.money_management.financial_account.updated":
 		result := &V2MoneyManagementFinancialAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.wallet_export.completed":
+		result := &V2MoneyManagementFinancialAccountWalletExportCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.wallet_export.pending":
+		result := &V2MoneyManagementFinancialAccountWalletExportPendingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.wallet_export.ready":
+		result := &V2MoneyManagementFinancialAccountWalletExportReadyEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
@@ -27612,6 +28291,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.billing.contract.collection_blocked":
+		evt := V2BillingContractCollectionBlockedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.collection_current":
+		evt := V2BillingContractCollectionCurrentEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.collection_past_due":
+		evt := V2BillingContractCollectionPastDueEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.collection_unpaid":
+		evt := V2BillingContractCollectionUnpaidEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.billing.contract.created":
 		evt := V2BillingContractCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28417,6 +29124,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.core.vault.network_token.activated":
+		evt := V2CoreVaultNetworkTokenActivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.vault.network_token.authorization_requirements_changed":
+		evt := V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.vault.network_token.deactivated":
+		evt := V2CoreVaultNetworkTokenDeactivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.vault.network_token.details_updated":
+		evt := V2CoreVaultNetworkTokenDetailsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.vault.network_token.suspended":
+		evt := V2CoreVaultNetworkTokenSuspendedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.data.reporting.query_run.created":
 		evt := V2DataReportingQueryRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28594,6 +29336,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.financial_account.updated":
 		evt := V2MoneyManagementFinancialAccountUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account.wallet_export.completed":
+		evt := V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account.wallet_export.pending":
+		evt := V2MoneyManagementFinancialAccountWalletExportPendingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account.wallet_export.ready":
+		evt := V2MoneyManagementFinancialAccountWalletExportReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

@@ -26,21 +26,28 @@ type AppsInstallAuthorizedContentSecurityPolicy struct {
 
 // The content security policy entries authorized by the installer.
 type AppsInstallContentSecurityPolicyGranted struct {
+	// The URLs that the app can make network requests to.
 	ConnectSrc []string `json:"connect_src"`
-	ImageSrc   []string `json:"image_src"`
+	// The URLs that the app can load images from.
+	ImageSrc []string `json:"image_src"`
 }
 type AppsInstallContentSecurityPolicyPending struct {
+	// The URLs that the app can make network requests to.
 	ConnectSrc []string `json:"connect_src"`
-	ImageSrc   []string `json:"image_src"`
+	// The URLs that the app can load images from.
+	ImageSrc []string `json:"image_src"`
 }
 
-// An object representing an app installation.
+// An app install represents a Stripe App that is installed on an account. It reports the permissions,
+// content security policy entries, and endpoints that the installing account has authorized, along with any
+// that the app's latest version requests but the account has not authorized yet. Use the Install API to
+// install, reauthorize, and uninstall apps, and to check the state of existing installs.
 type AppsInstall struct {
 	// The ID of the account that the app install belongs to.
 	Account string `json:"account"`
 	// The ID of the app installed.
 	App string `json:"app"`
-	// Whether the installer must authorize pending permissions, content security policy entries, or endpoints.
+	// Whether the installer must authorize pending permissions, content security policy entries, or endpoints. For private apps, `approval_required` stays `false`. Install a new version from the Dashboard to grant its permissions.
 	ApprovalRequired bool `json:"approval_required"`
 	// The authorization code for an oauth app install.
 	AuthCode                        string                                      `json:"auth_code"`

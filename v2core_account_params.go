@@ -503,6 +503,40 @@ type V2CoreAccountConfigurationCustomerParams struct {
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Requests access to Stripe developer tooling.
+type V2CoreAccountConfigurationDeveloperCapabilitiesProjectsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationDeveloperCapabilitiesProjectsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Capabilities to request on the Developer Configuration.
+type V2CoreAccountConfigurationDeveloperCapabilitiesParams struct {
+	// Requests access to Stripe developer tooling.
+	Projects *V2CoreAccountConfigurationDeveloperCapabilitiesProjectsParams `form:"projects" json:"projects,omitempty"`
+}
+
+// The Developer Configuration allows the Account to use developer tooling.
+type V2CoreAccountConfigurationDeveloperParams struct {
+	// Represents the state of the configuration and can be updated to deactivate or reapply it.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
+	// Capabilities to request on the Developer Configuration.
+	Capabilities *V2CoreAccountConfigurationDeveloperCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+}
+
 // Settings used for Bacs debit payments.
 type V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams struct {
 	// Display name for Bacs Direct Debit payments.
@@ -2815,6 +2849,8 @@ type V2CoreAccountConfigurationParams struct {
 	CardCreator *V2CoreAccountConfigurationCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
+	// The Developer Configuration allows the Account to use developer tooling.
+	Developer *V2CoreAccountConfigurationDeveloperParams `form:"developer" json:"developer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
@@ -4663,6 +4699,38 @@ type V2CoreAccountCreateConfigurationCustomerParams struct {
 	Shipping *V2CoreAccountCreateConfigurationCustomerShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// ID of the test clock to attach to the customer. Can only be set on testmode Accounts, and when the Customer Configuration is first set on an Account.
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Requests access to Stripe developer tooling.
+type V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Capabilities to request on the Developer Configuration.
+type V2CoreAccountCreateConfigurationDeveloperCapabilitiesParams struct {
+	// Requests access to Stripe developer tooling.
+	Projects *V2CoreAccountCreateConfigurationDeveloperCapabilitiesProjectsParams `form:"projects" json:"projects,omitempty"`
+}
+
+// The Developer Configuration allows the Account to use developer tooling.
+type V2CoreAccountCreateConfigurationDeveloperParams struct {
+	// Capabilities to request on the Developer Configuration.
+	Capabilities *V2CoreAccountCreateConfigurationDeveloperCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
 // Settings used for Bacs debit payments.
@@ -6969,6 +7037,8 @@ type V2CoreAccountCreateConfigurationParams struct {
 	CardCreator *V2CoreAccountCreateConfigurationCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountCreateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
+	// The Developer Configuration allows the Account to use developer tooling.
+	Developer *V2CoreAccountCreateConfigurationDeveloperParams `form:"developer" json:"developer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
@@ -8811,6 +8881,40 @@ type V2CoreAccountUpdateConfigurationCustomerParams struct {
 	Shipping *V2CoreAccountUpdateConfigurationCustomerShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// ID of the test clock to attach to the customer. Can only be set on testmode Accounts, and when the Customer Configuration is first set on an Account.
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Updates access to Stripe developer tooling.
+type V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Capabilities to request on the Developer Configuration.
+type V2CoreAccountUpdateConfigurationDeveloperCapabilitiesParams struct {
+	// Updates access to Stripe developer tooling.
+	Projects *V2CoreAccountUpdateConfigurationDeveloperCapabilitiesProjectsParams `form:"projects" json:"projects,omitempty"`
+}
+
+// The Developer Configuration allows the Account to use developer tooling.
+type V2CoreAccountUpdateConfigurationDeveloperParams struct {
+	// Represents the state of the configuration and can be updated to deactivate or reapply it.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
+	// Capabilities to request on the Developer Configuration.
+	Capabilities *V2CoreAccountUpdateConfigurationDeveloperCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
 // Settings for Bacs Direct Debit payments.
@@ -11125,6 +11229,8 @@ type V2CoreAccountUpdateConfigurationParams struct {
 	CardCreator *V2CoreAccountUpdateConfigurationCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// The Customer Configuration allows the Account to be charged.
 	Customer *V2CoreAccountUpdateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
+	// The Developer Configuration allows the Account to use developer tooling.
+	Developer *V2CoreAccountUpdateConfigurationDeveloperParams `form:"developer" json:"developer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountUpdateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.

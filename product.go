@@ -206,7 +206,7 @@ type ProductListParams struct {
 	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Only return products with the given IDs. Cannot be used with [starting_after](https://api.stripe.com#list_products-starting_after) or [ending_before](https://api.stripe.com#list_products-ending_before).
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://docs.stripe.com/api#list_products-starting_after) or [ending_before](https://docs.stripe.com/api#list_products-ending_before).
 	IDs []*string `form:"ids" json:"ids,omitempty"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
@@ -766,7 +766,7 @@ type ProductPackageDimensions struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type ProductTaxDetails struct {
-	// The performance location.
+	// The ID of a tax location with type `performance`, representing where the performance takes place.
 	PerformanceLocation string `json:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode string `json:"tax_code"`
@@ -774,7 +774,7 @@ type ProductTaxDetails struct {
 
 // Products describe the specific goods or services you offer to your customers.
 // For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
-// They can be used in conjunction with [Prices](https://api.stripe.com#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
+// They can be used in conjunction with [Prices](https://docs.stripe.com/api#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
 //
 // Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription),
 // [share a Payment Link](https://docs.stripe.com/payment-links),

@@ -145,6 +145,8 @@ type CapitalFinancingOfferAcceptedTerms struct {
 	// Populated when the `product_type` of the `financingoffer` is `refill`.
 	// Represents the discount amount on remaining premium for the existing loan at payout time.
 	PreviousFinancingFeeDiscountAmount int64 `json:"previous_financing_fee_discount_amount"`
+	// Total amount due for the financing independent of what's already been paid, in minor units. For example, 100 USD is represented as 10000.
+	TotalDueAmount int64 `json:"total_due_amount,omitempty"`
 	// Per-transaction rate at which Stripe withholds funds to repay the financing.
 	WithholdRate float64 `json:"withhold_rate"`
 }

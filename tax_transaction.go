@@ -190,6 +190,7 @@ const (
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax         TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax     TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeDigitalExciseTax      TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "digital_excise_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax      TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax      TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST                   TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
@@ -203,12 +204,14 @@ const (
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeParkingTax            TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "parking_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypePST                   TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST                   TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRecyclingFee          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "recycling_fee"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeResortTax             TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee     TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST                   TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax              TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax            TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeTourismTax            TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeUtilityUsersTax       TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "utility_users_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT                   TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
