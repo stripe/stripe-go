@@ -26,7 +26,7 @@ func TestInvoiceList(t *testing.T) {
 
 func TestInvoiceListLines(t *testing.T) {
 	i := ListLines(&stripe.InvoiceListLinesParams{
-		Invoice: stripe.String("in_123"),
+		ID: stripe.String("in_123"),
 	})
 
 	// Verify that we can get at least one invoice

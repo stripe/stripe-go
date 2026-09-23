@@ -147,7 +147,7 @@ func (c v1AccountService) MarshalBatchDelete(id string, params *AccountDeletePar
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"account": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -178,7 +178,7 @@ func (c v1AccountService) MarshalBatchUpdate(id string, params *AccountUpdatePar
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"account": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

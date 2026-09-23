@@ -25,7 +25,7 @@ const (
 // List sources for a specified customer.
 type PaymentSourceListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter sources according to a particular object type.
@@ -81,8 +81,9 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -155,8 +156,8 @@ type PaymentSourceOwnerParams struct {
 
 // Verify a specified bank account for a given customer.
 type PaymentSourceVerifyParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
 	Amounts [2]int64 `form:"amounts" json:"amounts,omitempty"` // Amounts is used when verifying bank accounts
 	// Specifies which fields in the response should be expanded.
@@ -175,8 +176,8 @@ func (p *PaymentSourceVerifyParams) AddExpand(f string) {
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceCreateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -202,8 +203,8 @@ func (p *PaymentSourceCreateParams) AddMetadata(key string, value string) {
 
 // Retrieve a specified source for a given customer.
 type PaymentSourceRetrieveParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -226,8 +227,8 @@ type PaymentSourceUpdateOwnerParams struct {
 
 // Update a specified source for a given customer.
 type PaymentSourceUpdateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -286,8 +287,8 @@ func (p *PaymentSourceUpdateParams) AddMetadata(key string, value string) {
 
 // Delete a specified source for a given customer.
 type PaymentSourceDeleteParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

@@ -10,7 +10,7 @@ import (
 
 func TestSourceGet(t *testing.T) {
 	source, err := Get("card_123", &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_123"),
+		CustomerID: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)
@@ -18,7 +18,7 @@ func TestSourceGet(t *testing.T) {
 
 func TestSourceList(t *testing.T) {
 	i := List(&stripe.PaymentSourceListParams{
-		Customer: stripe.String("cus_123"),
+		ID: stripe.String("cus_123"),
 	})
 
 	// Verify that we can get at least one source
@@ -30,8 +30,8 @@ func TestSourceList(t *testing.T) {
 
 func TestSourceNew(t *testing.T) {
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_123"),
-		Source:   &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_123")},
+		ID:     stripe.String("cus_123"),
+		Source: &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_123")},
 	}
 
 	source, err := New(params)
@@ -41,7 +41,7 @@ func TestSourceNew(t *testing.T) {
 
 func TestSourceUpdate(t *testing.T) {
 	params := &stripe.PaymentSourceParams{
-		Customer: stripe.String("cus_123"),
+		CustomerID: stripe.String("cus_123"),
 	}
 	params.AddMetadata("key", "value")
 
@@ -52,8 +52,8 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceVerify(t *testing.T) {
 	source, err := Verify("ba_123", &stripe.PaymentSourceVerifyParams{
-		Customer: stripe.String("cus_123"),
-		Amounts:  [2]int64{32, 45},
+		CustomerID: stripe.String("cus_123"),
+		Amounts:    [2]int64{32, 45},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)

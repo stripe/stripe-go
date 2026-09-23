@@ -9,8 +9,9 @@ package stripe
 // Deletes the feature attachment to a product
 type ProductFeatureParams struct {
 	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// The ID of the product.
-	Product *string `form:"-"` // Included in URL
+	ProductID *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
 	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -25,7 +26,7 @@ func (p *ProductFeatureParams) AddExpand(f string) {
 // Retrieve a list of features for a product
 type ProductFeatureListParams struct {
 	ListParams `form:"*"`
-	Product    *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -37,15 +38,15 @@ func (p *ProductFeatureListParams) AddExpand(f string) {
 
 // Deletes the feature attachment to a product
 type ProductFeatureDeleteParams struct {
-	Params  `form:"*"`
-	Product *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	ProductID *string `form:"-"` // Included in URL
 }
 
 // Retrieves a product_feature, which represents a feature attachment to a product
 type ProductFeatureRetrieveParams struct {
 	Params `form:"*"`
 	// The ID of the product.
-	Product *string `form:"-"` // Included in URL
+	ProductID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -57,8 +58,8 @@ func (p *ProductFeatureRetrieveParams) AddExpand(f string) {
 
 // Creates a product_feature, which represents a feature attachment to a product
 type ProductFeatureCreateParams struct {
-	Params  `form:"*"`
-	Product *string `form:"-"` // Included in URL
+	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
 	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature"`
 	// Specifies which fields in the response should be expanded.

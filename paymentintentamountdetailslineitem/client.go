@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentintentamountdetailslineitem provides the /v1/payment_intents/{intent}/amount_details_line_items APIs
+// Package paymentintentamountdetailslineitem provides the /v1/payment_intents/{id}/amount_details_line_items APIs
 package paymentintentamountdetailslineitem
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+// Client is used to invoke /v1/payment_intents/{id}/amount_details_line_items APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func List(params *stripe.PaymentIntentAmountDetailsLineItemListParams) *Iter {
 func (c Client) List(listParams *stripe.PaymentIntentAmountDetailsLineItemListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", stripe.StringValue(
-			listParams.Intent))
+			listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentIntentAmountDetailsLineItemList{}

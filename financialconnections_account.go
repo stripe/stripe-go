@@ -30,6 +30,7 @@ type FinancialConnectionsAccountAccountNumberStatus string
 // List of values that FinancialConnectionsAccountAccountNumberStatus can take
 const (
 	FinancialConnectionsAccountAccountNumberStatusDeactivated  FinancialConnectionsAccountAccountNumberStatus = "deactivated"
+	FinancialConnectionsAccountAccountNumberStatusExpired      FinancialConnectionsAccountAccountNumberStatus = "expired"
 	FinancialConnectionsAccountAccountNumberStatusTransactable FinancialConnectionsAccountAccountNumberStatus = "transactable"
 )
 
@@ -267,7 +268,7 @@ func (p *FinancialConnectionsAccountParams) AddExpand(f string) {
 // Lists all owners for a given Account
 type FinancialConnectionsAccountListOwnersParams struct {
 	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of the ownership object to fetch owners from.

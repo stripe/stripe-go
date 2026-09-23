@@ -39,8 +39,10 @@ const (
 	BankAccountFutureRequirementsErrorCodeExternalRequest                                        BankAccountFutureRequirementsErrorCode = "external_request"
 	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
+	BankAccountFutureRequirementsErrorCodeInvalidAddressCmraAddress                              BankAccountFutureRequirementsErrorCode = "invalid_address_cmra_address"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountFutureRequirementsErrorCode = "invalid_address_private_mailbox"
+	BankAccountFutureRequirementsErrorCodeInvalidAddressRegisteredAgentAddress                   BankAccountFutureRequirementsErrorCode = "invalid_address_registered_agent_address"
 	BankAccountFutureRequirementsErrorCodeInvalidBusinessProfileName                             BankAccountFutureRequirementsErrorCode = "invalid_business_profile_name"
 	BankAccountFutureRequirementsErrorCodeInvalidBusinessProfileNameDenylisted                   BankAccountFutureRequirementsErrorCode = "invalid_business_profile_name_denylisted"
 	BankAccountFutureRequirementsErrorCodeInvalidCompanyNameDenylisted                           BankAccountFutureRequirementsErrorCode = "invalid_company_name_denylisted"
@@ -145,8 +147,10 @@ const (
 	BankAccountRequirementsErrorCodeExternalRequest                                        BankAccountRequirementsErrorCode = "external_request"
 	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
+	BankAccountRequirementsErrorCodeInvalidAddressCmraAddress                              BankAccountRequirementsErrorCode = "invalid_address_cmra_address"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountRequirementsErrorCode = "invalid_address_private_mailbox"
+	BankAccountRequirementsErrorCodeInvalidAddressRegisteredAgentAddress                   BankAccountRequirementsErrorCode = "invalid_address_registered_agent_address"
 	BankAccountRequirementsErrorCodeInvalidBusinessProfileName                             BankAccountRequirementsErrorCode = "invalid_business_profile_name"
 	BankAccountRequirementsErrorCodeInvalidBusinessProfileNameDenylisted                   BankAccountRequirementsErrorCode = "invalid_business_profile_name_denylisted"
 	BankAccountRequirementsErrorCodeInvalidCompanyNameDenylisted                           BankAccountRequirementsErrorCode = "invalid_company_name_denylisted"
@@ -260,13 +264,14 @@ const (
 // Delete a specified external account for a given account.
 type BankAccountParams struct {
 	Params `form:"*"`
-	// Token is a token referencing an external account like one returned from
-	// Stripe.js.
-	Token    *string `form:"-"` // Included in URL
-	Customer *string `form:"-"` // Included in URL
 	// Account is the identifier of the parent account under which bank
 	// accounts are nested.
 	Account *string `form:"-"` // Included in URL
+	// Token is a token referencing an external account like one returned from
+	// Stripe.js.
+	Token     *string `form:"-"` // Included in URL
+	Customer  *string `form:"-"` // Included in URL
+	AccountID *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -412,7 +417,7 @@ func (p *BankAccountParams) AddMetadata(key string, value string) {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -449,14 +454,14 @@ func (p *BankAccountListParams) AddExpand(f string) {
 
 // Delete a specified external account for a given account.
 type BankAccountDeleteParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
-	Account  *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	Customer  *string `form:"-"` // Included in URL
+	AccountID *string `form:"-"` // Included in URL
 }
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -475,9 +480,9 @@ type BankAccountUpdateDocumentsParams struct {
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 type BankAccountUpdateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
-	Account  *string `form:"-"` // Included in URL
+	Params    `form:"*"`
+	Customer  *string `form:"-"` // Included in URL
+	AccountID *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.

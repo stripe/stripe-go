@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// v1PaymentSourceService is used to invoke /v1/customers/{customer}/sources APIs.
+// v1PaymentSourceService is used to invoke /v1/customers/{id}/sources APIs.
 type v1PaymentSourceService struct {
 	B   Backend
 	Key string
@@ -30,8 +30,7 @@ func (c v1PaymentSourceService) Create(ctx context.Context, params *PaymentSourc
 		params = &PaymentSourceCreateParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/customers/%s/sources", StringValue(params.Customer))
+	path := FormatURLPath("/v1/customers/%s/sources", StringValue(params.ID))
 	paymentsource := &PaymentSource{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -44,7 +43,7 @@ func (c v1PaymentSourceService) Retrieve(ctx context.Context, id string, params 
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", StringValue(params.CustomerID), id)
 	paymentsource := &PaymentSource{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -55,7 +54,7 @@ func (c v1PaymentSourceService) Update(ctx context.Context, id string, params *P
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
-	if params.Customer == nil {
+	if params.CustomerID == nil {
 		return nil, fmt.Errorf("invalid source params: customer needs to be set")
 	}
 	if params == nil {
@@ -63,7 +62,7 @@ func (c v1PaymentSourceService) Update(ctx context.Context, id string, params *P
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", StringValue(params.CustomerID), id)
 	paymentsource := &PaymentSource{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -76,7 +75,7 @@ func (c v1PaymentSourceService) Delete(ctx context.Context, id string, params *P
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", StringValue(params.CustomerID), id)
 	paymentsource := &PaymentSource{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -90,7 +89,7 @@ func (c v1PaymentSourceService) Verify(ctx context.Context, id string, params *P
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s/verify", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s/verify", StringValue(params.CustomerID), id)
 	paymentsource := &PaymentSource{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -102,8 +101,7 @@ func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSou
 		listParams = &PaymentSourceListParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/customers/%s/sources", StringValue(listParams.Customer))
+	path := FormatURLPath("/v1/customers/%s/sources", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentSource], error) {
 		list := &v1Page[*PaymentSource]{}
 		if p == nil {

@@ -4,7 +4,7 @@
 //
 //
 
-// Package customerbalancetransaction provides the /v1/customers/{customer}/balance_transactions APIs
+// Package customerbalancetransaction provides the /v1/customers/{id}/balance_transactions APIs
 package customerbalancetransaction
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/customers/{customer}/balance_transactions APIs.
+// Client is used to invoke /v1/customers/{id}/balance_transactions APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -40,8 +40,7 @@ func (c Client) New(params *stripe.CustomerBalanceTransactionParams) (*stripe.Cu
 			"params cannot be nil, and params.Customer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions", stripe.StringValue(
-			params.Customer))
+		"/v1/customers/%s/balance_transactions", stripe.StringValue(params.ID))
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
@@ -65,7 +64,7 @@ func (c Client) Get(id string, params *stripe.CustomerBalanceTransactionParams) 
 	}
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/balance_transactions/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, customerbalancetransaction)
@@ -85,7 +84,7 @@ func Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe
 func (c Client) Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/balance_transactions/%s", stripe.StringValue(
-			params.Customer), id)
+			params.CustomerID), id)
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
@@ -104,8 +103,7 @@ func List(params *stripe.CustomerBalanceTransactionListParams) *Iter {
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CustomerBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions", stripe.StringValue(
-			listParams.Customer))
+		"/v1/customers/%s/balance_transactions", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerBalanceTransactionList{}

@@ -122,10 +122,10 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 	}
 
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if (params.AccountID != nil && params.Customer != nil) || (params.AccountID == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("invalid bank account params: exactly one of Account or Customer need to be set")
-	} else if params.Account != nil {
-		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params.AccountID != nil {
+		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.AccountID), id)
 	} else if params.Customer != nil {
 		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	}
@@ -151,10 +151,10 @@ func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	}
 
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if (params.AccountID != nil && params.Customer != nil) || (params.AccountID == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("invalid bank account params: exactly one of Account or Customer need to be set")
-	} else if params.Account != nil {
-		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params.AccountID != nil {
+		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.AccountID), id)
 	} else if params.Customer != nil {
 		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	}

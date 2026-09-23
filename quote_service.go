@@ -163,7 +163,7 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.Quote))
+		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*LineItem], error) {
 		list := &v1Page[*LineItem]{}
 		if p == nil {
@@ -181,8 +181,7 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 		listParams = &QuoteListLineItemsParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/quotes/%s/line_items", StringValue(listParams.Quote))
+	path := FormatURLPath("/v1/quotes/%s/line_items", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*LineItem], error) {
 		list := &v1Page[*LineItem]{}
 		if p == nil {
@@ -200,7 +199,7 @@ func (c v1QuoteService) ListLines(ctx context.Context, listParams *QuoteListLine
 		listParams = &QuoteListLinesParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath("/v1/quotes/%s/lines", StringValue(listParams.Quote))
+	path := FormatURLPath("/v1/quotes/%s/lines", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*QuoteLine], error) {
 		list := &v1Page[*QuoteLine]{}
 		if p == nil {
@@ -220,7 +219,7 @@ func (c v1QuoteService) ListPreviewInvoiceLines(ctx context.Context, listParams 
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/preview_invoices/%s/lines", StringValue(
-			listParams.Quote), StringValue(listParams.PreviewInvoice))
+			listParams.QuoteID), StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
 		list := &v1Page[*InvoiceLineItem]{}
 		if p == nil {

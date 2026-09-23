@@ -8,8 +8,9 @@ package stripe
 
 // Delete a location specific tax exemption for a customer.
 type CustomerTaxExemptionParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	ID         *string `form:"-"` // Included in URL
+	CustomerID *string `form:"-"` // Included in URL
 	// Canada-specific exemption details. Required when country is CA; must be absent otherwise.
 	Ca *CustomerTaxExemptionCaParams `form:"ca" json:"ca,omitempty"`
 	// Two-letter ISO country code for the exemption location.
@@ -32,7 +33,7 @@ func (p *CustomerTaxExemptionParams) AddExpand(f string) {
 // List all location specific tax exemptions for a customer.
 type CustomerTaxExemptionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Filter by two-letter ISO country code (ISO 3166-1 alpha-2).
 	Country *string `form:"country" json:"country,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -60,14 +61,14 @@ type CustomerTaxExemptionUSParams struct {
 
 // Delete a location specific tax exemption for a customer.
 type CustomerTaxExemptionDeleteParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 }
 
 // Retrieve a location specific tax exemption for a customer.
 type CustomerTaxExemptionRetrieveParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params     `form:"*"`
+	CustomerID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -93,8 +94,8 @@ type CustomerTaxExemptionCreateUSParams struct {
 
 // Create a location specific tax exemption for a customer.
 type CustomerTaxExemptionCreateParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params `form:"*"`
+	ID     *string `form:"-"` // Included in URL
 	// Canada-specific exemption details. Required when country is CA; must be absent otherwise.
 	Ca *CustomerTaxExemptionCreateCaParams `form:"ca" json:"ca,omitempty"`
 	// Two-letter ISO country code for the exemption location.

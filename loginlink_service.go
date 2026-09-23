@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-// v1LoginLinkService is used to invoke /v1/accounts/{account}/login_links APIs.
+// v1LoginLinkService is used to invoke /v1/accounts/{id}/login_links APIs.
 type v1LoginLinkService struct {
 	B   Backend
 	Key string
@@ -25,8 +25,7 @@ func (c v1LoginLinkService) Create(ctx context.Context, params *LoginLinkCreateP
 		params = &LoginLinkCreateParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/login_links", StringValue(params.Account))
+	path := FormatURLPath("/v1/accounts/%s/login_links", StringValue(params.ID))
 	loginlink := &LoginLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, loginlink)
 	return loginlink, err

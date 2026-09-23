@@ -4,7 +4,7 @@
 //
 //
 
-// Package loginlink provides the /v1/accounts/{account}/login_links APIs
+// Package loginlink provides the /v1/accounts/{id}/login_links APIs
 package loginlink
 
 import (
@@ -14,7 +14,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v86"
 )
 
-// Client is used to invoke /v1/accounts/{account}/login_links APIs.
+// Client is used to invoke /v1/accounts/{id}/login_links APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -38,11 +38,11 @@ func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
-	if params.Account == nil {
-		return nil, fmt.Errorf("invalid login link params: Account must be set")
+	if params.ID == nil {
+		return nil, fmt.Errorf("invalid login link params: ID must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/login_links", stripe.StringValue(params.Account))
+		"/v1/accounts/%s/login_links", stripe.StringValue(params.ID))
 	loginlink := &stripe.LoginLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, loginlink)
 	return loginlink, err

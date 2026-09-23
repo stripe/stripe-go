@@ -57,7 +57,7 @@ func (c v1SourceService) Update(ctx context.Context, id string, params *SourceUp
 
 // Delete a specified source for a given customer.
 func (c v1SourceService) Detach(ctx context.Context, id string, params *SourceDetachParams) (*Source, error) {
-	if params.Customer == nil {
+	if params.CustomerID == nil {
 		return nil, fmt.Errorf(
 			"invalid source detach params: Customer needs to be set")
 	}
@@ -66,7 +66,7 @@ func (c v1SourceService) Detach(ctx context.Context, id string, params *SourceDe
 	}
 	params.Context = ctx
 	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+		"/v1/customers/%s/sources/%s", StringValue(params.CustomerID), id)
 	source := &Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

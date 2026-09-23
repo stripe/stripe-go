@@ -4,7 +4,7 @@
 //
 //
 
-// Package quotepreviewsubscriptionschedule provides the /v1/quotes/{quote}/preview_subscription_schedules APIs
+// Package quotepreviewsubscriptionschedule provides the /v1/quotes/{id}/preview_subscription_schedules APIs
 package quotepreviewsubscriptionschedule
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/quotes/{quote}/preview_subscription_schedules APIs.
+// Client is used to invoke /v1/quotes/{id}/preview_subscription_schedules APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func List(params *stripe.QuotePreviewSubscriptionScheduleListParams) *Iter {
 func (c Client) List(listParams *stripe.QuotePreviewSubscriptionScheduleListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_subscription_schedules", stripe.StringValue(
-			listParams.Quote))
+			listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuotePreviewSubscriptionScheduleList{}

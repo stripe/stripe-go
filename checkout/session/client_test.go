@@ -67,7 +67,7 @@ func TestCheckoutSessionList(t *testing.T) {
 }
 
 func TestCheckoutSessionListLineItems(t *testing.T) {
-	params := &stripe.CheckoutSessionListLineItemsParams{Session: stripe.String("cs_123")}
+	params := &stripe.CheckoutSessionListLineItemsParams{ID: stripe.String("cs_123")}
 	i := ListLineItems(params)
 
 	// Verify that we can get at least one line item.

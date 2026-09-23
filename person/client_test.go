@@ -10,7 +10,7 @@ import (
 
 func TestPersonDel(t *testing.T) {
 	person, err := Del("person_123", &stripe.PersonParams{
-		Account: stripe.String("acct_123"),
+		AccountID: stripe.String("acct_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, person)
@@ -18,7 +18,7 @@ func TestPersonDel(t *testing.T) {
 
 func TestPersonGet(t *testing.T) {
 	person, err := Get("person_123", &stripe.PersonParams{
-		Account: stripe.String("acct_123"),
+		AccountID: stripe.String("acct_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, person)
@@ -26,7 +26,7 @@ func TestPersonGet(t *testing.T) {
 
 func TestPersonList(t *testing.T) {
 	i := List(&stripe.PersonListParams{
-		Account: stripe.String("acct_123"),
+		ID: stripe.String("acct_123"),
 		Relationship: &stripe.PersonListRelationshipParams{
 			Owner: stripe.Bool(true),
 		},
@@ -41,7 +41,7 @@ func TestPersonList(t *testing.T) {
 
 func TestPersonNew(t *testing.T) {
 	person, err := New(&stripe.PersonParams{
-		Account:   stripe.String("acct_123"),
+		ID:        stripe.String("acct_123"),
 		FirstName: stripe.String("John"),
 		Relationship: &stripe.PersonRelationshipParams{
 			Owner: stripe.Bool(true),
@@ -59,7 +59,7 @@ func TestPersonNew(t *testing.T) {
 
 func TestPersonUpdate(t *testing.T) {
 	person, err := Update("person_123", &stripe.PersonParams{
-		Account:   stripe.String("acct_123"),
+		AccountID: stripe.String("acct_123"),
 		FirstName: stripe.String("John"),
 	})
 	assert.Nil(t, err)

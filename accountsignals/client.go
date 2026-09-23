@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountsignals provides the /v1/accounts/{account_id}/signals APIs
+// Package accountsignals provides the /v1/accounts/{id}/signals APIs
 package accountsignals
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v86"
 )
 
-// Client is used to invoke /v1/accounts/{account_id}/signals APIs.
+// Client is used to invoke /v1/accounts/{id}/signals APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client

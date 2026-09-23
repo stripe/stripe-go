@@ -4,7 +4,7 @@
 //
 //
 
-// Package redactionjobvalidationerror provides the /v1/privacy/redaction_jobs/{job}/validation_errors APIs
+// Package redactionjobvalidationerror provides the /v1/privacy/redaction_jobs/{id}/validation_errors APIs
 package redactionjobvalidationerror
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
-// Client is used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+// Client is used to invoke /v1/privacy/redaction_jobs/{id}/validation_errors APIs.
 // Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
@@ -36,7 +36,7 @@ func List(params *stripe.PrivacyRedactionJobValidationErrorListParams) *Iter {
 func (c Client) List(listParams *stripe.PrivacyRedactionJobValidationErrorListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/privacy/redaction_jobs/%s/validation_errors", stripe.StringValue(
-			listParams.Job))
+			listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PrivacyRedactionJobValidationErrorList{}

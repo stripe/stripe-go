@@ -12,7 +12,7 @@ import "encoding/json"
 type FeeRefundParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
-	Fee    *string `form:"-"` // Included in URL
+	FeeID  *string `form:"-"` // Included in URL
 	// A positive integer, in _cents (or local equivalent)_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -64,7 +64,7 @@ func (p *FeeRefundListParams) AddExpand(f string) {
 // By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.
 type FeeRefundRetrieveParams struct {
 	Params `form:"*"`
-	Fee    *string `form:"-"` // Included in URL
+	FeeID  *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -79,7 +79,7 @@ func (p *FeeRefundRetrieveParams) AddExpand(f string) {
 // This request only accepts metadata as an argument.
 type FeeRefundUpdateParams struct {
 	Params `form:"*"`
-	Fee    *string `form:"-"` // Included in URL
+	FeeID  *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

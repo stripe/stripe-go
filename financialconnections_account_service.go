@@ -103,8 +103,7 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
-		"/v1/financial_connections/accounts/%s/owners", StringValue(
-			listParams.Account))
+		"/v1/financial_connections/accounts/%s/owners", StringValue(listParams.ID))
 	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
 		list := &v1Page[*FinancialConnectionsAccountOwner]{}
 		if p == nil {

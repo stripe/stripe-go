@@ -324,8 +324,8 @@ func (p *TaxCalculationParams) AddExpand(f string) {
 
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 type TaxCalculationListLineItemsParams struct {
-	ListParams  `form:"*"`
-	Calculation *string `form:"-"` // Included in URL
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

@@ -114,7 +114,7 @@ func (c v1InvoiceItemService) MarshalBatchDelete(id string, params *InvoiceItemD
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoiceitem": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {
@@ -145,7 +145,7 @@ func (c v1InvoiceItemService) MarshalBatchUpdate(id string, params *InvoiceItemU
 		Params        interface{}       `json:"params"`
 	}{
 		ID:            itemID,
-		PathParams:    map[string]string{"invoiceitem": id},
+		PathParams:    map[string]string{"id": id},
 		StripeVersion: APIVersion,
 	}
 	if params != nil {

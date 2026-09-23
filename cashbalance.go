@@ -22,7 +22,7 @@ type CashBalanceParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A hash of settings for this cash balance.
 	Settings *CashBalanceSettingsParams `form:"settings" json:"settings,omitempty"`
-	Customer *string                    `form:"-"` // Included in URL
+	ID       *string                    `form:"-"` // Included in URL
 }
 
 // AddExpand appends a new field to expand.
@@ -40,8 +40,8 @@ type CashBalanceSettingsParams struct {
 type CashBalanceRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand   []*string `form:"expand" json:"expand,omitempty"`
-	Customer *string   `form:"-"` // Included in URL
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	ID     *string   `form:"-"` // Included in URL
 }
 
 // AddExpand appends a new field to expand.
@@ -62,7 +62,7 @@ type CashBalanceUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A hash of settings for this cash balance.
 	Settings *CashBalanceUpdateSettingsParams `form:"settings" json:"settings,omitempty"`
-	Customer *string                          `form:"-"` // Included in URL
+	ID       *string                          `form:"-"` // Included in URL
 }
 
 // AddExpand appends a new field to expand.
