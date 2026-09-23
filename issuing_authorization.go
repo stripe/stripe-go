@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/shopspring/decimal"
-)
+import "encoding/json"
 
 // How the card details were provided.
 type IssuingAuthorizationAuthorizationMethod string
@@ -1239,21 +1236,21 @@ type IssuingAuthorizationFleetCardholderPromptData struct {
 // Breakdown of fuel portion of the purchase.
 type IssuingAuthorizationFleetReportedBreakdownFuel struct {
 	// Gross fuel amount that should equal Fuel Quantity multiplied by Fuel Unit Cost, inclusive of taxes.
-	GrossAmountDecimal decimal.Decimal `json:"gross_amount_decimal"`
+	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
 }
 
 // Breakdown of non-fuel portion of the purchase.
 type IssuingAuthorizationFleetReportedBreakdownNonFuel struct {
 	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
-	GrossAmountDecimal decimal.Decimal `json:"gross_amount_decimal"`
+	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
 }
 
 // Information about tax included in this transaction.
 type IssuingAuthorizationFleetReportedBreakdownTax struct {
 	// Amount of state or provincial Sales Tax included in the transaction amount. `null` if not reported by merchant or not subject to tax.
-	LocalAmountDecimal decimal.Decimal `json:"local_amount_decimal"`
+	LocalAmountDecimal float64 `json:"local_amount_decimal,string"`
 	// Amount of national Sales Tax or VAT included in the transaction amount. `null` if not reported by merchant or not subject to tax.
-	NationalAmountDecimal decimal.Decimal `json:"national_amount_decimal"`
+	NationalAmountDecimal float64 `json:"national_amount_decimal,string"`
 }
 
 // More information about the total amount. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
@@ -1293,13 +1290,13 @@ type IssuingAuthorizationFuel struct {
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
 	IndustryProductCode string `json:"industry_product_code"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
-	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
 	// The type of fuel that was purchased.
 	Type IssuingAuthorizationFuelType `json:"type"`
 	// The units for `quantity_decimal`.
 	Unit IssuingAuthorizationFuelUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
-	UnitCostDecimal decimal.Decimal `json:"unit_cost_decimal"`
+	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
 }
 
 // Details about the IIAS FSA/HSA healthcare amounts on this authorization.

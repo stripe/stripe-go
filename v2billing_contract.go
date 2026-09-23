@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // The type of tax calculation.
 type V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType string
@@ -231,7 +228,7 @@ type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverrides struct
 // V1 price details. Present when `type` is `price`.
 type V2BillingContractPricingLinesDataPricingPriceDetails struct {
 	// The current quantity on this pricing line.
-	CurrentQuantity decimal.Decimal `json:"current_quantity"`
+	CurrentQuantity float64 `json:"current_quantity,string"`
 	// The ID of the V1 price.
 	Price string `json:"price"`
 	// The overwrite_price overrides embedded directly on this pricing line.
