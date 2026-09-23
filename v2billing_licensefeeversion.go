@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // Defines whether the tiering price is graduated or volume-based. In volume-based tiering, the maximum
 // quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
@@ -48,7 +45,7 @@ type V2BillingLicenseFeeVersionTier struct {
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal decimal.Decimal `json:"up_to_decimal,omitempty"`
+	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingLicenseFeeVersionTierUpToInf `json:"up_to_inf,omitempty"`
 }

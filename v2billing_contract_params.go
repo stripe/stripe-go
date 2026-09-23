@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"github.com/shopspring/decimal"
-	"time"
-)
+import "time"
 
 // List contracts.
 type V2BillingContractListParams struct {
@@ -209,7 +206,7 @@ type V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams struct 
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractPricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Required if `type` is `price`.
@@ -516,7 +513,7 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeParam
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Required if `type` is `price`.
@@ -704,7 +701,7 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsQuantityChangePa
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Present when the pricing line type is `price`.
@@ -1106,7 +1103,7 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams s
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Required if `type` is `price`.
@@ -1419,7 +1416,7 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChang
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Required if `type` is `price`.
@@ -1607,7 +1604,7 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsQuantityCh
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
 	// The quantity to set.
-	Set *decimal.Decimal `form:"set" json:"set"`
+	Set *float64 `form:"set,high_precision" json:"set,string"`
 }
 
 // V1 price details. Present when the pricing line type is `price`.
