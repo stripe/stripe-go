@@ -46,11 +46,6 @@ func (p *CryptoOnrampTransactionLimitsRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The remaining onramp limit for the crypto customer, separated by currency, payment method, and settlement speed.
-//
-// Limits are shown for currencies that correspond to the regions where the customer previously transacted. If the customer has no prior transactions, we return limits for all supported currencies.
-type CryptoOnrampTransactionLimitsLimits struct{}
-
 // This object represents the limit for the remaining amount that the crypto customer can onramp.
 type CryptoOnrampTransactionLimits struct {
 	APIResource
@@ -59,7 +54,7 @@ type CryptoOnrampTransactionLimits struct {
 	// The remaining onramp limit for the crypto customer, separated by currency, payment method, and settlement speed.
 	//
 	// Limits are shown for currencies that correspond to the regions where the customer previously transacted. If the customer has no prior transactions, we return limits for all supported currencies.
-	Limits *CryptoOnrampTransactionLimitsLimits `json:"limits"`
+	Limits map[string]any `json:"limits"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

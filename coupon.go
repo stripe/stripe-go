@@ -128,13 +128,10 @@ type CouponAppliesToParams struct {
 	Products []*string `form:"products" json:"products,omitempty"`
 }
 
-// The configuration values of the script. The keys and values are specific to the script implementation.
-type CouponScriptConfigurationParams struct{}
-
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponScriptParams struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration *CouponScriptConfigurationParams `form:"configuration" json:"configuration"`
+	Configuration map[string]any `form:"configuration" json:"configuration"`
 	// The script implementation ID for this coupon.
 	ID *string `form:"id" json:"id"`
 }
@@ -232,13 +229,10 @@ type CouponCreateCurrencyOptionsParams struct {
 	AmountOff *int64 `form:"amount_off" json:"amount_off"`
 }
 
-// The configuration values of the script. The keys and values are specific to the script implementation.
-type CouponCreateScriptConfigurationParams struct{}
-
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponCreateScriptParams struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration *CouponCreateScriptConfigurationParams `form:"configuration" json:"configuration"`
+	Configuration map[string]any `form:"configuration" json:"configuration"`
 	// The script implementation ID for this coupon.
 	ID *string `form:"id" json:"id"`
 }
@@ -336,13 +330,10 @@ type CouponCurrencyOptions struct {
 	AmountOff int64 `json:"amount_off"`
 }
 
-// The configuration values of the script. The keys and values are specific to the script implementation.
-type CouponScriptConfiguration struct{}
-
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponScript struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration *CouponScriptConfiguration `json:"configuration"`
+	Configuration map[string]any `json:"configuration"`
 	// The name of the script used to calculate the discount.
 	DisplayName string `json:"display_name"`
 	// The script implementation ID for this coupon.
