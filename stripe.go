@@ -648,6 +648,25 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// validatePath ensures a request path is origin-relative: that it
+// begins with a single "/".
+//
+// The absolute URL is built by concatenating a base URL onto this path, and no
+// base URL ends in a slash (normalizeURL actively strips a trailing one). A path
+// like "@evil.example/v1/x" or ".evil.example/v1/x" would modify the resulting
+// host and direct the request (including the API key) to a non-Stripe host.
+//
+// Because some relative urls arrive from potentially untrusted sources (like
+// webhook bodies), we have to be a little defensive.
+//
+// So, we require that a path starts with a leading slash.
+func validatePath(path string) error {
+	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
+		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
+	}
+	return nil
+}
+
 // extractVersion ensures the path starts with /v1, /v2, or contains /oauth
 // and returns the corresponding APIMode.
 func extractVersion(path string) (APIMode, error) {
@@ -752,8 +771,13 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
 func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
-	if !strings.HasPrefix(path, "/") {
-		path = "/" + path
+	if err := validatePath(path); err != nil {
+		ctx := context.Background()
+		if params != nil && params.Context != nil {
+			ctx = params.Context
+		}
+		s.logErrorf(ctx, "Cannot create Stripe request: %v", err)
+		return nil, err
 	}
 
 	// Body is set later by `Do`.
@@ -988,7 +1012,9 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	}
 
 	if notice := resp.Header.Get("Stripe-Notice"); notice != "" {
-		s.logWarnf(req.Context(), "%s", notice)
+		if message := buildStripeNoticeMessage(notice, os.LookupEnv); message != "" {
+			s.logWarnf(req.Context(), "%s", message)
+		}
 	}
 
 	return resp, result, &requestDuration, nil
@@ -2063,6 +2089,20 @@ var aiAgents = map[string]string{
 	"OPENCLAW_SHELL":                 "openclaw",
 	"OPENCODE":                       "open_code",
 	// aiAgents: The end of the section generated from our OpenAPI spec
+}
+
+const stripeNoticeSuppressionMessage = "To suppress Stripe notices in test and sandbox environments, set the STRIPE_SUPPRESS_NOTICES environment variable to true."
+
+func buildStripeNoticeMessage(notice string, lookupEnv func(string) (string, bool)) string {
+	_, isAIAgent := detectAIAgent(lookupEnv)
+	suppressionValue, _ := lookupEnv("STRIPE_SUPPRESS_NOTICES")
+	if !isAIAgent && strings.EqualFold(suppressionValue, "true") {
+		return ""
+	}
+	if !isAIAgent {
+		return notice + "\n" + stripeNoticeSuppressionMessage
+	}
+	return notice
 }
 
 func detectAIAgent(lookupEnv func(string) (string, bool)) (string, bool) {
