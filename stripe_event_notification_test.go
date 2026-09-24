@@ -2,7 +2,9 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"reflect"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -1169,4 +1171,45 @@ func TestWithoutVerification_PreHandleRegistrationErrorsArePromoted(t *testing.T
 	err = handler.PreHandle(hook)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
+}
+
+// Test: V2CoreEventRelatedSingletonObject holds only the type and url. It's the related
+// object type for events whose related object has no standalone id.
+func TestV2CoreEventRelatedSingletonObject(t *testing.T) {
+	t.Run("unmarshals type and url", func(t *testing.T) {
+		var related V2CoreEventRelatedSingletonObject
+		err := json.Unmarshal([]byte(`{
+			"type": "balance",
+			"url": "/v1/balance"
+		}`), &related)
+
+		assert.NoError(t, err)
+		assert.Equal(t, "balance", related.Type)
+		assert.Equal(t, "/v1/balance", related.URL)
+	})
+
+	t.Run("has no ID field", func(t *testing.T) {
+		singletonType := reflect.TypeOf(V2CoreEventRelatedSingletonObject{})
+
+		_, hasID := singletonType.FieldByName("ID")
+		assert.False(t, hasID, "Singleton related objects have no standalone id")
+		assert.Equal(t, 2, singletonType.NumField(), "Only Type and URL should be present")
+
+		// ...unlike the type shared by every other event
+		_, sharedHasID := reflect.TypeOf(V2CoreEventRelatedObject{}).FieldByName("ID")
+		assert.True(t, sharedHasID)
+	})
+
+	t.Run("ignores an id in the payload", func(t *testing.T) {
+		var related V2CoreEventRelatedSingletonObject
+		err := json.Unmarshal([]byte(`{
+			"id": null,
+			"type": "balance",
+			"url": "/v1/balance"
+		}`), &related)
+
+		assert.NoError(t, err)
+		assert.Equal(t, "balance", related.Type)
+		assert.Equal(t, "/v1/balance", related.URL)
+	})
 }
