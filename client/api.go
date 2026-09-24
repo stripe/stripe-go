@@ -19,6 +19,7 @@ import (
 	"github.com/stripe/stripe-go/v86/accountsession"
 	"github.com/stripe/stripe-go/v86/applepaydomain"
 	"github.com/stripe/stripe-go/v86/applicationfee"
+	appsinstall "github.com/stripe/stripe-go/v86/apps/install"
 	appssecret "github.com/stripe/stripe-go/v86/apps/secret"
 	"github.com/stripe/stripe-go/v86/balance"
 	"github.com/stripe/stripe-go/v86/balancesettings"
@@ -117,6 +118,7 @@ import (
 	"github.com/stripe/stripe-go/v86/quote"
 	"github.com/stripe/stripe-go/v86/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v86/quotepreviewsubscriptionschedule"
+	radarbillingevaluation "github.com/stripe/stripe-go/v86/radar/billingevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v86/radar/earlyfraudwarning"
 	radarpaymentevaluation "github.com/stripe/stripe-go/v86/radar/paymentevaluation"
 	radarvaluelist "github.com/stripe/stripe-go/v86/radar/valuelist"
@@ -170,6 +172,7 @@ import (
 	testhelperstreasuryoutboundtransfer "github.com/stripe/stripe-go/v86/testhelpers/treasury/outboundtransfer"
 	testhelperstreasuryreceivedcredit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receivedcredit"
 	testhelperstreasuryreceiveddebit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receiveddebit"
+	threedsecureauthentication "github.com/stripe/stripe-go/v86/threedsecure/authentication"
 	"github.com/stripe/stripe-go/v86/token"
 	"github.com/stripe/stripe-go/v86/topup"
 	"github.com/stripe/stripe-go/v86/transfer"
@@ -250,6 +253,8 @@ type API struct {
 	ApplePayDomains *applepaydomain.Client
 	// ApplicationFees is the client used to invoke /v1/application_fees APIs.
 	ApplicationFees *applicationfee.Client
+	// AppsInstalls is the client used to invoke /v1/apps/installs APIs.
+	AppsInstalls *appsinstall.Client
 	// AppsSecrets is the client used to invoke /v1/apps/secrets APIs.
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /v1/balance APIs.
@@ -446,6 +451,8 @@ type API struct {
 	QuotePreviewSubscriptionSchedules *quotepreviewsubscriptionschedule.Client
 	// Quotes is the client used to invoke /v1/quotes APIs.
 	Quotes *quote.Client
+	// RadarBillingEvaluations is the client used to invoke /v1/radar/billing_evaluations APIs.
+	RadarBillingEvaluations *radarbillingevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
 	// RadarPaymentEvaluations is the client used to invoke /v1/radar/payment_evaluations APIs.
@@ -552,6 +559,8 @@ type API struct {
 	TestHelpersTreasuryReceivedCredits *testhelperstreasuryreceivedcredit.Client
 	// TestHelpersTreasuryReceivedDebits is the client used to invoke /v1/treasury/received_debits APIs.
 	TestHelpersTreasuryReceivedDebits *testhelperstreasuryreceiveddebit.Client
+	// ThreeDSecureAuthentications is the client used to invoke /v1/three_d_secure/authentications APIs.
+	ThreeDSecureAuthentications *threedsecureauthentication.Client
 	// Tokens is the client used to invoke /v1/tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /v1/topups APIs.
@@ -694,6 +703,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.AccountSessions = &accountsession.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
+	a.AppsInstalls = &appsinstall.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
@@ -792,6 +802,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewInvoices = &quotepreviewinvoice.Client{B: backends.API, Key: key}
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
+	a.RadarBillingEvaluations = &radarbillingevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarPaymentEvaluations = &radarpaymentevaluation.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
@@ -845,6 +856,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersTreasuryOutboundTransfers = &testhelperstreasuryoutboundtransfer.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedCredits = &testhelperstreasuryreceivedcredit.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
+	a.ThreeDSecureAuthentications = &threedsecureauthentication.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.TransferReversals = &transferreversal.Client{B: backends.API, Key: key}

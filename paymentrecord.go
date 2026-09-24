@@ -145,6 +145,16 @@ const (
 	PaymentRecordPaymentMethodDetailsCardNetworkVisa            PaymentRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
+// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+type PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageInstallment PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "installment"
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -213,6 +223,8 @@ const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion102 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion210 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion230 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.0"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion231 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.1"
 )
 
 // The method used to process this payment method offline. Only deferred is allowed.
@@ -625,6 +637,44 @@ func (p *PaymentRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Information about the payment attempt cancelation.
+type PaymentRecordReportPaymentAttemptCanceledParams struct {
+	Params `form:"*"`
+	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata    map[string]string                                           `form:"metadata" json:"metadata,omitempty"`
+	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
+type PaymentRecordReportPaymentAttemptCanceledParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptCanceledParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptCanceledParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddUnsetField(field PaymentRecordReportPaymentAttemptCanceledParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Information about the payment attempt failure.
 type PaymentRecordReportPaymentAttemptFailedParams struct {
 	Params `form:"*"`
@@ -748,6 +798,8 @@ type PaymentRecordReportPaymentAttemptShippingDetailsParams struct {
 //	attempt can only be specified if all other payment attempts are canceled or failed.
 type PaymentRecordReportPaymentAttemptParams struct {
 	Params `form:"*"`
+	// Information about the payment attempt cancelation.
+	Canceled *PaymentRecordReportPaymentAttemptCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -788,46 +840,6 @@ func (p *PaymentRecordReportPaymentAttemptParams) AddExpand(f string) {
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentRecordReportPaymentAttemptParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was canceled.
-type PaymentRecordReportPaymentAttemptCanceledParams struct {
-	Params `form:"*"`
-	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt *int64 `form:"canceled_at" json:"canceled_at"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                           `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
-type PaymentRecordReportPaymentAttemptCanceledParamsUnsetField string
-
-const (
-	PaymentRecordReportPaymentAttemptCanceledParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptCanceledParamsUnsetField = "metadata"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddUnsetField(field PaymentRecordReportPaymentAttemptCanceledParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
 	}
@@ -985,6 +997,12 @@ type PaymentRecordReportPaymentAmountRequestedParams struct {
 	Value *int64 `form:"value" json:"value"`
 }
 
+// Information about the payment attempt cancelation.
+type PaymentRecordReportPaymentCanceledParams struct {
+	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at"`
+}
+
 // Customer information for this payment.
 type PaymentRecordReportPaymentCustomerDetailsParams struct {
 	// The customer who made the payment.
@@ -1073,6 +1091,8 @@ type PaymentRecordReportPaymentParams struct {
 	Params `form:"*"`
 	// The amount you initially requested for this payment.
 	AmountRequested *PaymentRecordReportPaymentAmountRequestedParams `form:"amount_requested" json:"amount_requested"`
+	// Information about the payment attempt cancelation.
+	Canceled *PaymentRecordReportPaymentCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// Customer information for this payment.
 	CustomerDetails *PaymentRecordReportPaymentCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Indicates whether the customer was present in your checkout flow during this payment.
@@ -1429,6 +1449,7 @@ type PaymentRecordPaymentMethodDetailsCardWalletApplePay struct {
 	Type string `json:"type"`
 }
 type PaymentRecordPaymentMethodDetailsCardWalletGooglePay struct{}
+type PaymentRecordPaymentMethodDetailsCardWalletLink struct{}
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentRecordPaymentMethodDetailsCardWallet struct {
@@ -1436,7 +1457,8 @@ type PaymentRecordPaymentMethodDetailsCardWallet struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                                `json:"dynamic_last4,omitempty"`
 	GooglePay    *PaymentRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay,omitempty"`
-	// The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	Link         *PaymentRecordPaymentMethodDetailsCardWalletLink      `json:"link,omitempty"`
+	// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type string `json:"type"`
 }
 
@@ -1484,6 +1506,8 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
+	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+	StoredCredentialUsage PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1785,6 +1809,8 @@ type PaymentRecordPaymentMethodDetailsKrCard struct {
 type PaymentRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment. You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
+	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsMbWay struct{}
 
@@ -1804,6 +1830,12 @@ type PaymentRecordPaymentMethodDetailsMobilepayCard struct {
 type PaymentRecordPaymentMethodDetailsMobilepay struct {
 	// Internal card details
 	Card *PaymentRecordPaymentMethodDetailsMobilepayCard `json:"card"`
+}
+type PaymentRecordPaymentMethodDetailsMomo struct {
+	// Uniquely identifies this particular MoMo account. You can use this attribute to check whether two MoMo accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// ID of the multi-use Mandate created by, or used to make, this MoMo payment.
+	Mandate string `json:"mandate,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
@@ -1988,6 +2020,10 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentRecordPaymentMethodDetailsSequra struct {
+	// The SeQura transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2111,6 +2147,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Link            *PaymentRecordPaymentMethodDetailsLink            `json:"link,omitempty"`
 	MbWay           *PaymentRecordPaymentMethodDetailsMbWay           `json:"mb_way,omitempty"`
 	Mobilepay       *PaymentRecordPaymentMethodDetailsMobilepay       `json:"mobilepay,omitempty"`
+	Momo            *PaymentRecordPaymentMethodDetailsMomo            `json:"momo,omitempty"`
 	Multibanco      *PaymentRecordPaymentMethodDetailsMultibanco      `json:"multibanco,omitempty"`
 	NaverPay        *PaymentRecordPaymentMethodDetailsNaverPay        `json:"naver_pay,omitempty"`
 	NzBankAccount   *PaymentRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account,omitempty"`
@@ -2134,6 +2171,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

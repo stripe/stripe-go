@@ -279,6 +279,27 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNL QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
 )
 
+// Type of registration the company or entity holds in their registered country.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -499,6 +520,18 @@ const (
 	QuotePreviewInvoiceStatusVoid          QuotePreviewInvoiceStatus = "void"
 )
 
+// The reason why the invoice is uncollectible.
+type QuotePreviewInvoiceStatusDetailsUncollectibleReason string
+
+// List of values that QuotePreviewInvoiceStatusDetailsUncollectibleReason can take
+const (
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonMaxPaymentAttempts   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "max_payment_attempts"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonPaymentNotReceived   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "payment_not_received"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonSubscriptionCanceled QuotePreviewInvoiceStatusDetailsUncollectibleReason = "subscription_canceled"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonSubscriptionPaused   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "subscription_paused"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonUserForgiven         QuotePreviewInvoiceStatusDetailsUncollectibleReason = "user_forgiven"
+)
+
 // Type of the pretax credit amount referenced.
 type QuotePreviewInvoiceTotalPretaxCreditAmountType string
 
@@ -701,9 +734,24 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 }
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT string `json:"vat"`
+}
 
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct {
+	CompanyDetails *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference string `json:"reference,omitempty"`
+}
 
 // If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBLIK struct{}
@@ -844,7 +892,7 @@ type QuotePreviewInvoiceRenderingPDF struct {
 	PageSize QuotePreviewInvoiceRenderingPDFPageSize `json:"page_size"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type QuotePreviewInvoiceRendering struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
@@ -882,6 +930,13 @@ type QuotePreviewInvoiceShippingCost struct {
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The taxes applied to the shipping rate.
 	Taxes []*QuotePreviewInvoiceShippingCostTax `json:"taxes,omitempty"`
+}
+type QuotePreviewInvoiceStatusDetailsUncollectible struct {
+	// The reason why the invoice is uncollectible.
+	Reason QuotePreviewInvoiceStatusDetailsUncollectibleReason `json:"reason"`
+}
+type QuotePreviewInvoiceStatusDetails struct {
+	Uncollectible *QuotePreviewInvoiceStatusDetailsUncollectible `json:"uncollectible,omitempty"`
 }
 type QuotePreviewInvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
@@ -963,7 +1018,7 @@ type QuotePreviewInvoiceTotalTax struct {
 // Invoices are statements of amounts owed by a customer, and are either
 // generated one-off, or generated periodically from a subscription.
 //
-// They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+// They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
 // that may be caused by subscription upgrades/downgrades (if necessary).
 //
 // If your invoice is configured to be billed through automatic charges,
@@ -1117,7 +1172,7 @@ type QuotePreviewInvoice struct {
 	PrePaymentCreditNotesAmount int64 `json:"pre_payment_credit_notes_amount"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *QuotePreviewInvoiceRendering `json:"rendering"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *QuotePreviewInvoiceShippingCost `json:"shipping_cost"`
@@ -1129,6 +1184,7 @@ type QuotePreviewInvoice struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
+	StatusDetails     *QuotePreviewInvoiceStatusDetails     `json:"status_details,omitempty"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
 	Subscription      *Subscription                         `json:"subscription"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated

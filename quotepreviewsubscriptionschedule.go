@@ -105,6 +105,92 @@ const (
 	QuotePreviewSubscriptionScheduleLastPriceMigrationErrorTypePriceUniquenessViolation QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType = "price_uniqueness_violation"
 )
 
+// The type of outstanding usage billing behavior.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughTypeNone    QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughType = "none"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughTypePauseAt QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughType = "pause_at"
+)
+
+// The type of unused time credit behavior.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromTypeItemCurrentPeriodStart QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType = "item_current_period_start"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromTypeNone                   QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType = "none"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromTypePauseAt                QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType = "pause_at"
+)
+
+// Determines how to handle debits and credits when pausing.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehavior string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehavior can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehaviorInvoice            QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehavior = "invoice"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehaviorPendingInvoiceItem QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehavior = "pending_invoice_item"
+)
+
+// The type of pause settings.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsTypeSubscription QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType = "subscription"
+)
+
+// The lifecycle state of the pause operation.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeError     QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "error"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeScheduled QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "scheduled"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeSucceeded QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "succeeded"
+)
+
+// The billing cycle anchor that applies when the subscription is resumed.
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor can take
+const (
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchorResumeAt  QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor = "resume_at"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchorUnchanged QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor = "unchanged"
+)
+
+// Controls whether Stripe attempts payment on the resumption invoice and how that affects the subscription's status.
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehavior string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehavior can take
+const (
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehaviorResumeOnPaymentAttempt QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehavior = "resume_on_payment_attempt"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehaviorResumeOnPaymentSuccess QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehavior = "resume_on_payment_success"
+)
+
+// Determines how to handle prorations resulting from the billing_cycle_anchor change on resume.
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior can take
+const (
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorAlwaysInvoice    QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "always_invoice"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorCreateProrations QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "create_prorations"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorNone             QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "none"
+)
+
+// The lifecycle state of the resume operation.
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeError          QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "error"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypePending        QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "pending"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeRequiresAction QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "requires_action"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeScheduled      QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "scheduled"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeSucceeded      QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "succeeded"
+)
+
 // The discount end type.
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
@@ -402,6 +488,81 @@ type QuotePreviewSubscriptionScheduleLastPriceMigrationError struct {
 	FailedTransitions []*QuotePreviewSubscriptionScheduleLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
 	// The type of error encountered by the price migration.
 	Type QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThrough struct {
+	// The type of outstanding usage billing behavior.
+	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFrom struct {
+	// The type of unused time credit behavior.
+	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillFor struct {
+	OutstandingUsageThrough *QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThrough `json:"outstanding_usage_through"`
+	UnusedTimeFrom          *QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFrom          `json:"unused_time_from"`
+}
+
+// Settings controlling billing behavior during the pause.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettings struct {
+	BillFor *QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsBillFor `json:"bill_for"`
+	// Determines how to handle debits and credits when pausing.
+	InvoicingBehavior QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsInvoicingBehavior `json:"invoicing_behavior"`
+	// The type of pause settings.
+	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatus struct {
+	Error *QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusError `json:"error,omitempty"`
+	// The lifecycle state of the pause operation.
+	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePause struct {
+	// Time at which the subscription pauses.
+	PauseAt int64 `json:"pause_at"`
+	// Settings controlling billing behavior during the pause.
+	Settings *QuotePreviewSubscriptionSchedulePauseSchedulePauseSettings `json:"settings"`
+	Status   *QuotePreviewSubscriptionSchedulePauseSchedulePauseStatus   `json:"status"`
+}
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettings struct {
+	// The billing cycle anchor that applies when the subscription is resumed.
+	BillingCycleAnchor QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// Controls whether Stripe attempts payment on the resumption invoice and how that affects the subscription's status.
+	PaymentBehavior QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsPaymentBehavior `json:"payment_behavior"`
+	// Determines how to handle prorations resulting from the billing_cycle_anchor change on resume.
+	ProrationBehavior QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior `json:"proration_behavior"`
+}
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatus struct {
+	Error *QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusError `json:"error,omitempty"`
+	// The lifecycle state of the resume operation.
+	Type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType `json:"type"`
+}
+
+// Details about when and how the subscription resumes.
+type QuotePreviewSubscriptionSchedulePauseScheduleResume struct {
+	// Time at which the subscription resumes.
+	ResumeAt int64                                                        `json:"resume_at"`
+	Settings *QuotePreviewSubscriptionSchedulePauseScheduleResumeSettings `json:"settings"`
+	Status   *QuotePreviewSubscriptionSchedulePauseScheduleResumeStatus   `json:"status"`
+}
+
+// The pause schedules for this subscription schedule.
+type QuotePreviewSubscriptionSchedulePauseSchedule struct {
+	// A unique identifier for this pause schedule.
+	Key   string                                              `json:"key"`
+	Pause *QuotePreviewSubscriptionSchedulePauseSchedulePause `json:"pause"`
+	// Details about when and how the subscription resumes.
+	Resume *QuotePreviewSubscriptionSchedulePauseScheduleResume `json:"resume"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -710,6 +871,8 @@ type QuotePreviewSubscriptionSchedule struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The pause schedules for this subscription schedule.
+	PauseSchedules []*QuotePreviewSubscriptionSchedulePauseSchedule `json:"pause_schedules,omitempty"`
 	// Configuration for the subscription schedule's phases.
 	Phases []*QuotePreviewSubscriptionSchedulePhase `json:"phases"`
 	// Time period and invoice for a Subscription billed in advance.

@@ -592,7 +592,7 @@ type AccountSessionComponentsParams struct {
 	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring" json:"tax_threshold_monitoring,omitempty"`
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 type AccountSessionParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
@@ -1194,7 +1194,7 @@ type AccountSessionCreateComponentsParams struct {
 	TaxThresholdMonitoring *AccountSessionCreateComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring" json:"tax_threshold_monitoring,omitempty"`
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 type AccountSessionCreateParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
