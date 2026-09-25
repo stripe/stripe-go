@@ -72,24 +72,25 @@ type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceParams struct {
 
 // The bill settings details configures invoice and tax settings for the contract.
 type V2BillingContractBillingSettingsBillSettingsDetailsParams struct {
-	// Calculation settings.
+	// The tax calculation settings to update.
 	Calculation *V2BillingContractBillingSettingsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
-	// Invoice settings.
+	// The invoice settings to update.
 	Invoice *V2BillingContractBillingSettingsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
 // The billing profile details configures who is charged for the contract.
 type V2BillingContractBillingSettingsBillingProfileDetailsParams struct {
 	// The customer who pays for the contract invoice.
-	Customer *string `form:"customer" json:"customer"`
-	// The default payment method for the contract.
+	Customer *string `form:"customer" json:"customer,omitempty"`
+	// The default payment method to charge for the contract.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 }
 
 // The collection settings details configures how payments are collected on the contract.
 type V2BillingContractBillingSettingsCollectionSettingsDetailsParams struct {
-	// How payment is collected for the contract.
-	CollectionMethod *string `form:"collection_method" json:"collection_method"`
+	// How payment is collected for the contract. An omitted value leaves the
+	// collection method unchanged.
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// The payment method configuration.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
 }
@@ -97,11 +98,11 @@ type V2BillingContractBillingSettingsCollectionSettingsDetailsParams struct {
 // The billing settings for the contract.
 type V2BillingContractBillingSettingsParams struct {
 	// The billing profile details configures who is charged for the contract.
-	BillingProfileDetails *V2BillingContractBillingSettingsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details"`
-	// The bill settings details configures invoice and tax settings for the contract.
+	BillingProfileDetails *V2BillingContractBillingSettingsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details,omitempty"`
+	// The bill settings to update (tax calculation type and/or invoice time until due).
 	BillSettingsDetails *V2BillingContractBillingSettingsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
 	// The collection settings details configures how payments are collected on the contract.
-	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
+	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details,omitempty"`
 }
 
 // When this fee should be billed.
@@ -153,8 +154,8 @@ type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideEndsAtParams 
 
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // When the override starts. Defaults to the pricing line's start if not specified.
@@ -281,8 +282,8 @@ type V2BillingContractPricingOverrideMultiplyPricingCriterionParams struct {
 type V2BillingContractPricingOverrideMultiplyPricingParams struct {
 	// Criteria determining which rates the multiply_pricing override applies to.
 	Criteria []*V2BillingContractPricingOverrideMultiplyPricingCriterionParams `form:"criteria" json:"criteria,omitempty"`
-	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
-	Factor *string `form:"factor" json:"factor"`
+	// The multiply_pricing factor. e.g. "0.8" for a 20% reduction.
+	Factor *float64 `form:"factor,high_precision" json:"factor,string"`
 }
 
 // When the pricing override starts.
@@ -326,7 +327,7 @@ type V2BillingContractParams struct {
 	// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
 	// It is only at the top-level of the contract with no option to override at the pricing line level.
 	BillingCycleAnchor *V2BillingContractBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// The billing settings for the contract.
+	// The billing settings to update on the contract.
 	BillingSettings *V2BillingContractBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
 	// Maximum length of 200 characters.
@@ -460,8 +461,8 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideEnds
 
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // When the override starts. Defaults to the pricing line's start if not specified.
@@ -590,8 +591,8 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideA
 
 // Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // The start time for the override.
@@ -1050,8 +1051,8 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideEndsAtP
 
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // When the override starts. Defaults to the pricing line's start if not specified.
@@ -1178,8 +1179,8 @@ type V2BillingContractCreatePricingOverrideMultiplyPricingCriterionParams struct
 type V2BillingContractCreatePricingOverrideMultiplyPricingParams struct {
 	// Criteria determining which rates the multiply_pricing override applies to.
 	Criteria []*V2BillingContractCreatePricingOverrideMultiplyPricingCriterionParams `form:"criteria" json:"criteria,omitempty"`
-	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
-	Factor *string `form:"factor" json:"factor"`
+	// The multiply_pricing factor. e.g. "0.8" for a 20% reduction.
+	Factor *float64 `form:"factor,high_precision" json:"factor,string"`
 }
 
 // When the pricing override starts.
@@ -1261,6 +1262,65 @@ type V2BillingContractRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+}
+
+// Tax calculation settings.
+type V2BillingContractUpdateBillingSettingsBillSettingsDetailsCalculationTaxParams struct {
+	// The type of tax calculation.
+	Type *string `form:"type" json:"type"`
+}
+
+// The tax calculation settings to update.
+type V2BillingContractUpdateBillingSettingsBillSettingsDetailsCalculationParams struct {
+	// Tax calculation settings.
+	Tax *V2BillingContractUpdateBillingSettingsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// How long the customer has to pay the invoice before it's past due.
+type V2BillingContractUpdateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
+	// The interval unit.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
+}
+
+// The invoice settings to update.
+type V2BillingContractUpdateBillingSettingsBillSettingsDetailsInvoiceParams struct {
+	// How long the customer has to pay the invoice before it's past due.
+	TimeUntilDue *V2BillingContractUpdateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
+}
+
+// The bill settings to update (tax calculation type and/or invoice time until due).
+type V2BillingContractUpdateBillingSettingsBillSettingsDetailsParams struct {
+	// The tax calculation settings to update.
+	Calculation *V2BillingContractUpdateBillingSettingsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
+	// The invoice settings to update.
+	Invoice *V2BillingContractUpdateBillingSettingsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
+}
+
+// The billing profile details to update.
+type V2BillingContractUpdateBillingSettingsBillingProfileDetailsParams struct {
+	// The default payment method to charge for the contract.
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
+}
+
+// The collection settings details to update on the contract.
+type V2BillingContractUpdateBillingSettingsCollectionSettingsDetailsParams struct {
+	// How payment is collected for the contract. An omitted value leaves the
+	// collection method unchanged.
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
+	// The payment method configuration.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
+}
+
+// The billing settings to update on the contract.
+type V2BillingContractUpdateBillingSettingsParams struct {
+	// The billing profile details to update.
+	BillingProfileDetails *V2BillingContractUpdateBillingSettingsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details,omitempty"`
+	// The bill settings to update (tax calculation type and/or invoice time until due).
+	BillSettingsDetails *V2BillingContractUpdateBillingSettingsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
+	// The collection settings details to update on the contract.
+	CollectionSettingsDetails *V2BillingContractUpdateBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details,omitempty"`
 }
 
 // When this fee should be billed.
@@ -1363,8 +1423,8 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverri
 
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // When the override starts. Defaults to the pricing line's start if not specified.
@@ -1493,8 +1553,8 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOve
 
 // Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams struct {
-	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
+	// The per-unit amount to be charged in minor currency units.
+	UnitAmount *float64 `form:"unit_amount,high_precision" json:"unit_amount,string,omitempty"`
 }
 
 // The start time for the override.
@@ -1791,6 +1851,8 @@ type V2BillingContractUpdatePricingOverrideActionParams struct {
 // Update a draft or active contract.
 type V2BillingContractUpdateParams struct {
 	Params `form:"*"`
+	// The billing settings to update on the contract.
+	BillingSettings *V2BillingContractUpdateBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs.

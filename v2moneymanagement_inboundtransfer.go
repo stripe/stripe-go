@@ -32,15 +32,6 @@ const (
 	V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReasonInsufficientFunds            V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason = "insufficient_funds"
 )
 
-// Open Enum. The Level of the HistoryEntry.
-type V2MoneyManagementInboundTransferTransferHistoryLevel string
-
-// List of values that V2MoneyManagementInboundTransferTransferHistoryLevel can take
-const (
-	V2MoneyManagementInboundTransferTransferHistoryLevelCanonical V2MoneyManagementInboundTransferTransferHistoryLevel = "canonical"
-	V2MoneyManagementInboundTransferTransferHistoryLevelDebug     V2MoneyManagementInboundTransferTransferHistoryLevel = "debug"
-)
-
 // Open Enum. The type of the HistoryEntry.
 type V2MoneyManagementInboundTransferTransferHistoryType string
 
@@ -116,8 +107,6 @@ type V2MoneyManagementInboundTransferTransferHistory struct {
 	EffectiveAt time.Time `json:"effective_at"`
 	// A unique ID for the HistoryEntry.
 	ID string `json:"id"`
-	// Open Enum. The Level of the HistoryEntry.
-	Level V2MoneyManagementInboundTransferTransferHistoryLevel `json:"level"`
 	// Open Enum. The type of the HistoryEntry.
 	Type V2MoneyManagementInboundTransferTransferHistoryType `json:"type"`
 }

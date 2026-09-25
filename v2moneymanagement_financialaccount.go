@@ -71,6 +71,23 @@ const (
 	V2MoneyManagementFinancialAccountStorageCryptoCustodyModelStripe V2MoneyManagementFinancialAccountStorageCryptoCustodyModel = "stripe"
 )
 
+// The bank where funds are stored.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName string
+
+// List of values that V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName can take
+const (
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankNameFifthThird V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName = "fifth_third"
+)
+
+// The deposit insurance scheme.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType string
+
+// List of values that V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType can take
+const (
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityTypeFdic            V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType = "fdic"
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityTypeFdicPassthrough V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType = "fdic_passthrough"
+)
+
 // The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 type V2MoneyManagementFinancialAccountStorageFundsUsageType string
 
@@ -251,10 +268,22 @@ type V2MoneyManagementFinancialAccountStorageCrypto struct {
 	CustodyModel V2MoneyManagementFinancialAccountStorageCryptoCustodyModel `json:"custody_model"`
 }
 
+// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibility struct {
+	// The bank where funds are stored.
+	BankName V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName `json:"bank_name"`
+	// Currencies eligible for deposit insurance at this bank under this scheme.
+	Currencies []Currency `json:"currencies"`
+	// The deposit insurance scheme.
+	Type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType `json:"type"`
+}
+
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorage struct {
 	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
 	Crypto *V2MoneyManagementFinancialAccountStorageCrypto `json:"crypto,omitempty"`
+	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibility `json:"deposit_insurance_eligibility,omitempty"`
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType V2MoneyManagementFinancialAccountStorageFundsUsageType `json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.

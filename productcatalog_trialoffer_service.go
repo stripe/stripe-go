@@ -43,6 +43,18 @@ func (c v1ProductCatalogTrialOfferService) Retrieve(ctx context.Context, id stri
 	return trialoffer, err
 }
 
+// Updates the specified trial offer by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+func (c v1ProductCatalogTrialOfferService) Update(ctx context.Context, id string, params *ProductCatalogTrialOfferUpdateParams) (*ProductCatalogTrialOffer, error) {
+	if params == nil {
+		params = &ProductCatalogTrialOfferUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/product_catalog/trial_offers/%s", id)
+	trialoffer := &ProductCatalogTrialOffer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, trialoffer)
+	return trialoffer, err
+}
+
 // Returns a list of trial offers.
 func (c v1ProductCatalogTrialOfferService) List(ctx context.Context, listParams *ProductCatalogTrialOfferListParams) *V1List[*ProductCatalogTrialOffer] {
 	if listParams == nil {

@@ -1284,17 +1284,6 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
-	case "controlled_by_dashboard":
-		tmp := struct {
-			Error *ControlledByDashboardError `json:"error"`
-		}{
-			Error: &ControlledByDashboardError{},
-		}
-		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
 	case "feature_not_enabled":
 		tmp := struct {
 			Error *FeatureNotEnabledError `json:"error"`
@@ -1366,6 +1355,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *InvalidPayoutMethodError `json:"error"`
 		}{
 			Error: &InvalidPayoutMethodError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_vaulted_credential":
+		tmp := struct {
+			Error *InvalidVaultedCredentialError `json:"error"`
+		}{
+			Error: &InvalidVaultedCredentialError{},
 		}
 		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -1454,6 +1454,39 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *TemporarySessionExpiredError `json:"error"`
 		}{
 			Error: &TemporarySessionExpiredError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_attempt_failed":
+		tmp := struct {
+			Error *VerificationAttemptFailedError `json:"error"`
+		}{
+			Error: &VerificationAttemptFailedError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_expired":
+		tmp := struct {
+			Error *VerificationExpiredError `json:"error"`
+		}{
+			Error: &VerificationExpiredError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_not_initiated":
+		tmp := struct {
+			Error *VerificationNotInitiatedError `json:"error"`
+		}{
+			Error: &VerificationNotInitiatedError{},
 		}
 		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err

@@ -171,7 +171,7 @@ const (
 	AccountExternalAccountTypeCard        AccountExternalAccountType = "card"
 )
 
-// If the account is disabled, this string describes why the account can't create charges or receive payouts. Can be `rejected.fraud`, `rejected.terms_of_service`, `rejected.listed`, `rejected.other`, `fields_needed`, `listed`, `under_review`, or `other`.
+// This is typed as an enum for consistency with `requirements.disabled_reason`.
 type AccountFutureRequirementsDisabledReason string
 
 // List of values that AccountFutureRequirementsDisabledReason can take
@@ -193,7 +193,7 @@ const (
 	AccountFutureRequirementsDisabledReasonUnderReview                         AccountFutureRequirementsDisabledReason = "under_review"
 )
 
-// If the account is disabled, this string describes why the account can't create charges or receive payouts. Can be `rejected.fraud`, `rejected.terms_of_service`, `rejected.listed`, `rejected.other`, `fields_needed`, `listed`, `under_review`, or `other`.
+// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 type AccountRequirementsDisabledReason string
 
 // List of values that AccountRequirementsDisabledReason can take
@@ -553,6 +553,12 @@ type AccountCapabilitiesBLIKPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The blik_recurring_payments capability.
+type AccountCapabilitiesBLIKRecurringPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The boleto_payments capability.
 type AccountCapabilitiesBoletoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -855,6 +861,12 @@ type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -994,6 +1006,8 @@ type AccountCapabilitiesParams struct {
 	BizumPayments *AccountCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -1090,6 +1104,8 @@ type AccountCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -1852,7 +1868,7 @@ type AccountRejectParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Whether to pause payouts on the account as part of the rejection. Defaults to `pause`. Use `none` to leave payouts enabled.
 	PayoutsAction *string `form:"payouts_action" json:"payouts_action,omitempty"`
-	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
+	// The reason for rejecting the account. Can be `fraud_payment_method_casher`, `fraud_payment_method_tester`, `fraud_no_intent_to_fulfill`, `fraud_other`, `credit`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason" json:"reason"`
 }
 
@@ -2042,6 +2058,12 @@ type AccountUpdateCapabilitiesBizumPaymentsParams struct {
 
 // The blik_payments capability.
 type AccountUpdateCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// The blik_recurring_payments capability.
+type AccountUpdateCapabilitiesBLIKRecurringPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -2348,6 +2370,12 @@ type AccountUpdateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountUpdateCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountUpdateCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2487,6 +2515,8 @@ type AccountUpdateCapabilitiesParams struct {
 	BizumPayments *AccountUpdateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountUpdateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountUpdateCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountUpdateCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -2583,6 +2613,8 @@ type AccountUpdateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountUpdateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountUpdateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountUpdateCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountUpdateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -3506,6 +3538,12 @@ type AccountCreateCapabilitiesBLIKPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The blik_recurring_payments capability.
+type AccountCreateCapabilitiesBLIKRecurringPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The boleto_payments capability.
 type AccountCreateCapabilitiesBoletoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3808,6 +3846,12 @@ type AccountCreateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountCreateCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountCreateCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3947,6 +3991,8 @@ type AccountCreateCapabilitiesParams struct {
 	BizumPayments *AccountCreateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCreateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountCreateCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountCreateCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -4043,6 +4089,8 @@ type AccountCreateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountCreateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCreateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountCreateCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountCreateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -4639,6 +4687,12 @@ type AccountCreateSettingsPaypayPaymentsParams struct {
 	Site *AccountCreateSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
 }
 
+// Settings specific to SEPA Direct Debit payments.
+type AccountCreateSettingsSEPADebitPaymentsParams struct {
+	// The business creditor id for european payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Smart Disputes auto-respond settings for the account.
 type AccountCreateSettingsSmartDisputesAutoRespondParams struct {
 	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
@@ -4727,6 +4781,8 @@ type AccountCreateSettingsParams struct {
 	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountCreateSettingsPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Settings specific to SEPA Direct Debit payments.
+	SEPADebitPayments *AccountCreateSettingsSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings specific to the account's use of Smart Disputes.
 	SmartDisputes *AccountCreateSettingsSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings specific to the account's tax forms.
@@ -5243,7 +5299,7 @@ type AccountFutureRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be resolved to keep the account enabled. If not resolved by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
-	// If the account is disabled, this string describes why the account can't create charges or receive payouts. Can be `rejected.fraud`, `rejected.terms_of_service`, `rejected.listed`, `rejected.other`, `fields_needed`, `listed`, `under_review`, or `other`.
+	// This is typed as an enum for consistency with `requirements.disabled_reason`.
 	DisabledReason AccountFutureRequirementsDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
@@ -5290,7 +5346,7 @@ type AccountRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be resolved to keep the account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account will be disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// If the account is disabled, this string describes why the account can't create charges or receive payouts. Can be `rejected.fraud`, `rejected.terms_of_service`, `rejected.listed`, `rejected.other`, `fields_needed`, `listed`, `under_review`, or `other`.
+	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`

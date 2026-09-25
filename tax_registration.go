@@ -1348,12 +1348,6 @@ type TaxRegistrationCountryOptionsAoParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsAtIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAtStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1362,8 +1356,6 @@ type TaxRegistrationCountryOptionsAtStandardParams struct {
 
 // Options for the registration in AT.
 type TaxRegistrationCountryOptionsAtParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsAtIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsAtStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1446,12 +1438,6 @@ type TaxRegistrationCountryOptionsBdParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsBeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1460,8 +1446,6 @@ type TaxRegistrationCountryOptionsBeStandardParams struct {
 
 // Options for the registration in BE.
 type TaxRegistrationCountryOptionsBeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsBeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsBeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1482,12 +1466,6 @@ type TaxRegistrationCountryOptionsBfParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsBGIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBGStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1496,8 +1474,6 @@ type TaxRegistrationCountryOptionsBGStandardParams struct {
 
 // Options for the registration in BG.
 type TaxRegistrationCountryOptionsBGParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsBGIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsBGStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1616,12 +1592,6 @@ type TaxRegistrationCountryOptionsCvParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsCyIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsCyStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1630,18 +1600,10 @@ type TaxRegistrationCountryOptionsCyStandardParams struct {
 
 // Options for the registration in CY.
 type TaxRegistrationCountryOptionsCyParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsCyIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsCyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsCzIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1652,18 +1614,10 @@ type TaxRegistrationCountryOptionsCzStandardParams struct {
 
 // Options for the registration in CZ.
 type TaxRegistrationCountryOptionsCzParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsCzIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsCzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsDEIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1674,18 +1628,10 @@ type TaxRegistrationCountryOptionsDEStandardParams struct {
 
 // Options for the registration in DE.
 type TaxRegistrationCountryOptionsDEParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsDEIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsDEStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsDkIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1696,8 +1642,6 @@ type TaxRegistrationCountryOptionsDkStandardParams struct {
 
 // Options for the registration in DK.
 type TaxRegistrationCountryOptionsDkParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsDkIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsDkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1710,12 +1654,6 @@ type TaxRegistrationCountryOptionsEcParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsEeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsEeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1724,8 +1662,6 @@ type TaxRegistrationCountryOptionsEeStandardParams struct {
 
 // Options for the registration in EE.
 type TaxRegistrationCountryOptionsEeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsEeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsEeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1756,7 +1692,7 @@ type TaxRegistrationCountryOptionsESParams struct {
 	Igic *TaxRegistrationCountryOptionsESIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
-	// Type of registration to be created in an EU country.
+	// Type of registration to be created in ES.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -1774,12 +1710,6 @@ type TaxRegistrationCountryOptionsETParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsFIIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsFIStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1788,18 +1718,10 @@ type TaxRegistrationCountryOptionsFIStandardParams struct {
 
 // Options for the registration in FI.
 type TaxRegistrationCountryOptionsFIParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsFIIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsFIStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsFRIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1810,8 +1732,6 @@ type TaxRegistrationCountryOptionsFRStandardParams struct {
 
 // Options for the registration in FR.
 type TaxRegistrationCountryOptionsFRParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsFRIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsFRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1852,12 +1772,6 @@ type TaxRegistrationCountryOptionsGnParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsGrIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsGrStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1866,18 +1780,10 @@ type TaxRegistrationCountryOptionsGrStandardParams struct {
 
 // Options for the registration in GR.
 type TaxRegistrationCountryOptionsGrParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsGrIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsGrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsHRIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1888,18 +1794,10 @@ type TaxRegistrationCountryOptionsHRStandardParams struct {
 
 // Options for the registration in HR.
 type TaxRegistrationCountryOptionsHRParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsHRIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsHRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsHUIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -1910,8 +1808,6 @@ type TaxRegistrationCountryOptionsHUStandardParams struct {
 
 // Options for the registration in HU.
 type TaxRegistrationCountryOptionsHUParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsHUIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsHUStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1924,12 +1820,6 @@ type TaxRegistrationCountryOptionsIDParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsIeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsIeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1938,8 +1828,6 @@ type TaxRegistrationCountryOptionsIeStandardParams struct {
 
 // Options for the registration in IE.
 type TaxRegistrationCountryOptionsIeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsIeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsIeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -1966,12 +1854,6 @@ type TaxRegistrationCountryOptionsIsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsITIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsITStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1980,8 +1862,6 @@ type TaxRegistrationCountryOptionsITStandardParams struct {
 
 // Options for the registration in IT.
 type TaxRegistrationCountryOptionsITParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsITIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsITStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2044,12 +1924,6 @@ type TaxRegistrationCountryOptionsLkParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsLTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2058,18 +1932,10 @@ type TaxRegistrationCountryOptionsLTStandardParams struct {
 
 // Options for the registration in LT.
 type TaxRegistrationCountryOptionsLTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsLTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsLTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsLuIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -2080,18 +1946,10 @@ type TaxRegistrationCountryOptionsLuStandardParams struct {
 
 // Options for the registration in LU.
 type TaxRegistrationCountryOptionsLuParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsLuIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsLuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsLVIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -2102,8 +1960,6 @@ type TaxRegistrationCountryOptionsLVStandardParams struct {
 
 // Options for the registration in LV.
 type TaxRegistrationCountryOptionsLVParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsLVIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsLVStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2164,12 +2020,6 @@ type TaxRegistrationCountryOptionsMrParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsMTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2178,8 +2028,6 @@ type TaxRegistrationCountryOptionsMTStandardParams struct {
 
 // Options for the registration in MT.
 type TaxRegistrationCountryOptionsMTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsMTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsMTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2204,12 +2052,6 @@ type TaxRegistrationCountryOptionsNgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsNLIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsNLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2218,8 +2060,6 @@ type TaxRegistrationCountryOptionsNLStandardParams struct {
 
 // Options for the registration in NL.
 type TaxRegistrationCountryOptionsNLParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsNLIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsNLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2286,12 +2126,6 @@ type TaxRegistrationCountryOptionsPhParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsPLIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsPLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2300,18 +2134,10 @@ type TaxRegistrationCountryOptionsPLStandardParams struct {
 
 // Options for the registration in PL.
 type TaxRegistrationCountryOptionsPLParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsPLIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsPLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsPTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -2322,18 +2148,10 @@ type TaxRegistrationCountryOptionsPTStandardParams struct {
 
 // Options for the registration in PT.
 type TaxRegistrationCountryOptionsPTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsPTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsPTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsROIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -2344,8 +2162,6 @@ type TaxRegistrationCountryOptionsROStandardParams struct {
 
 // Options for the registration in RO.
 type TaxRegistrationCountryOptionsROParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsROIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsROStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2378,12 +2194,6 @@ type TaxRegistrationCountryOptionsSaParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsSeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2392,8 +2202,6 @@ type TaxRegistrationCountryOptionsSeStandardParams struct {
 
 // Options for the registration in SE.
 type TaxRegistrationCountryOptionsSeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsSeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsSeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -2414,12 +2222,6 @@ type TaxRegistrationCountryOptionsSgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsSiIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSiStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2428,18 +2230,10 @@ type TaxRegistrationCountryOptionsSiStandardParams struct {
 
 // Options for the registration in SI.
 type TaxRegistrationCountryOptionsSiParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsSiIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsSiStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCountryOptionsSKIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -2450,8 +2244,6 @@ type TaxRegistrationCountryOptionsSKStandardParams struct {
 
 // Options for the registration in SK.
 type TaxRegistrationCountryOptionsSKParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCountryOptionsSKIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsSKStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3007,12 +2799,6 @@ type TaxRegistrationCreateCountryOptionsAoParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsAtIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAtStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3021,8 +2807,6 @@ type TaxRegistrationCreateCountryOptionsAtStandardParams struct {
 
 // Options for the registration in AT.
 type TaxRegistrationCreateCountryOptionsAtParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsAtIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsAtStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3105,12 +2889,6 @@ type TaxRegistrationCreateCountryOptionsBdParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsBeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3119,8 +2897,6 @@ type TaxRegistrationCreateCountryOptionsBeStandardParams struct {
 
 // Options for the registration in BE.
 type TaxRegistrationCreateCountryOptionsBeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsBeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsBeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3141,12 +2917,6 @@ type TaxRegistrationCreateCountryOptionsBfParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsBGIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBGStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3155,8 +2925,6 @@ type TaxRegistrationCreateCountryOptionsBGStandardParams struct {
 
 // Options for the registration in BG.
 type TaxRegistrationCreateCountryOptionsBGParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsBGIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsBGStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3275,12 +3043,6 @@ type TaxRegistrationCreateCountryOptionsCvParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsCyIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsCyStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3289,18 +3051,10 @@ type TaxRegistrationCreateCountryOptionsCyStandardParams struct {
 
 // Options for the registration in CY.
 type TaxRegistrationCreateCountryOptionsCyParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsCyIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsCyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsCzIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3311,18 +3065,10 @@ type TaxRegistrationCreateCountryOptionsCzStandardParams struct {
 
 // Options for the registration in CZ.
 type TaxRegistrationCreateCountryOptionsCzParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsCzIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsCzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsDEIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3333,18 +3079,10 @@ type TaxRegistrationCreateCountryOptionsDEStandardParams struct {
 
 // Options for the registration in DE.
 type TaxRegistrationCreateCountryOptionsDEParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsDEIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsDEStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsDkIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3355,8 +3093,6 @@ type TaxRegistrationCreateCountryOptionsDkStandardParams struct {
 
 // Options for the registration in DK.
 type TaxRegistrationCreateCountryOptionsDkParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsDkIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsDkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3369,12 +3105,6 @@ type TaxRegistrationCreateCountryOptionsEcParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsEeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsEeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3383,8 +3113,6 @@ type TaxRegistrationCreateCountryOptionsEeStandardParams struct {
 
 // Options for the registration in EE.
 type TaxRegistrationCreateCountryOptionsEeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsEeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsEeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3415,7 +3143,7 @@ type TaxRegistrationCreateCountryOptionsESParams struct {
 	Igic *TaxRegistrationCreateCountryOptionsESIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
-	// Type of registration to be created in an EU country.
+	// Type of registration to be created in ES.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -3433,12 +3161,6 @@ type TaxRegistrationCreateCountryOptionsETParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsFIIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsFIStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3447,18 +3169,10 @@ type TaxRegistrationCreateCountryOptionsFIStandardParams struct {
 
 // Options for the registration in FI.
 type TaxRegistrationCreateCountryOptionsFIParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsFIIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsFIStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsFRIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3469,8 +3183,6 @@ type TaxRegistrationCreateCountryOptionsFRStandardParams struct {
 
 // Options for the registration in FR.
 type TaxRegistrationCreateCountryOptionsFRParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsFRIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsFRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3511,12 +3223,6 @@ type TaxRegistrationCreateCountryOptionsGnParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsGrIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsGrStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3525,18 +3231,10 @@ type TaxRegistrationCreateCountryOptionsGrStandardParams struct {
 
 // Options for the registration in GR.
 type TaxRegistrationCreateCountryOptionsGrParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsGrIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsGrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsHRIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3547,18 +3245,10 @@ type TaxRegistrationCreateCountryOptionsHRStandardParams struct {
 
 // Options for the registration in HR.
 type TaxRegistrationCreateCountryOptionsHRParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsHRIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsHRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsHUIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3569,8 +3259,6 @@ type TaxRegistrationCreateCountryOptionsHUStandardParams struct {
 
 // Options for the registration in HU.
 type TaxRegistrationCreateCountryOptionsHUParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsHUIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsHUStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3583,12 +3271,6 @@ type TaxRegistrationCreateCountryOptionsIDParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsIeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsIeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3597,8 +3279,6 @@ type TaxRegistrationCreateCountryOptionsIeStandardParams struct {
 
 // Options for the registration in IE.
 type TaxRegistrationCreateCountryOptionsIeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsIeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsIeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3625,12 +3305,6 @@ type TaxRegistrationCreateCountryOptionsIsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsITIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsITStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3639,8 +3313,6 @@ type TaxRegistrationCreateCountryOptionsITStandardParams struct {
 
 // Options for the registration in IT.
 type TaxRegistrationCreateCountryOptionsITParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsITIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsITStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3703,12 +3375,6 @@ type TaxRegistrationCreateCountryOptionsLkParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsLTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3717,18 +3383,10 @@ type TaxRegistrationCreateCountryOptionsLTStandardParams struct {
 
 // Options for the registration in LT.
 type TaxRegistrationCreateCountryOptionsLTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsLTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsLTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsLuIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3739,18 +3397,10 @@ type TaxRegistrationCreateCountryOptionsLuStandardParams struct {
 
 // Options for the registration in LU.
 type TaxRegistrationCreateCountryOptionsLuParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsLuIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsLuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsLVIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3761,8 +3411,6 @@ type TaxRegistrationCreateCountryOptionsLVStandardParams struct {
 
 // Options for the registration in LV.
 type TaxRegistrationCreateCountryOptionsLVParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsLVIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsLVStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3823,12 +3471,6 @@ type TaxRegistrationCreateCountryOptionsMrParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsMTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsMTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3837,8 +3479,6 @@ type TaxRegistrationCreateCountryOptionsMTStandardParams struct {
 
 // Options for the registration in MT.
 type TaxRegistrationCreateCountryOptionsMTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsMTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsMTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3863,12 +3503,6 @@ type TaxRegistrationCreateCountryOptionsNgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsNLIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsNLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3877,8 +3511,6 @@ type TaxRegistrationCreateCountryOptionsNLStandardParams struct {
 
 // Options for the registration in NL.
 type TaxRegistrationCreateCountryOptionsNLParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsNLIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsNLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -3945,12 +3577,6 @@ type TaxRegistrationCreateCountryOptionsPhParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsPLIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsPLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3959,18 +3585,10 @@ type TaxRegistrationCreateCountryOptionsPLStandardParams struct {
 
 // Options for the registration in PL.
 type TaxRegistrationCreateCountryOptionsPLParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsPLIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsPLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsPTIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -3981,18 +3599,10 @@ type TaxRegistrationCreateCountryOptionsPTStandardParams struct {
 
 // Options for the registration in PT.
 type TaxRegistrationCreateCountryOptionsPTParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsPTIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsPTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsROIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -4003,8 +3613,6 @@ type TaxRegistrationCreateCountryOptionsROStandardParams struct {
 
 // Options for the registration in RO.
 type TaxRegistrationCreateCountryOptionsROParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsROIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsROStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -4037,12 +3645,6 @@ type TaxRegistrationCreateCountryOptionsSaParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsSeIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -4051,8 +3653,6 @@ type TaxRegistrationCreateCountryOptionsSeStandardParams struct {
 
 // Options for the registration in SE.
 type TaxRegistrationCreateCountryOptionsSeParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsSeIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsSeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
@@ -4073,12 +3673,6 @@ type TaxRegistrationCreateCountryOptionsSgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsSiIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
-}
-
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSiStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -4087,18 +3681,10 @@ type TaxRegistrationCreateCountryOptionsSiStandardParams struct {
 
 // Options for the registration in SI.
 type TaxRegistrationCreateCountryOptionsSiParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsSiIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsSiStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
 	Type *string `form:"type" json:"type"`
-}
-
-// Options for the IGIC registration.
-type TaxRegistrationCreateCountryOptionsSKIgicParams struct {
-	// Place of supply scheme used in an IGIC registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the standard registration.
@@ -4109,8 +3695,6 @@ type TaxRegistrationCreateCountryOptionsSKStandardParams struct {
 
 // Options for the registration in SK.
 type TaxRegistrationCreateCountryOptionsSKParams struct {
-	// Options for the IGIC registration.
-	Igic *TaxRegistrationCreateCountryOptionsSKIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsSKStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.

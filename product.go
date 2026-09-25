@@ -816,7 +816,7 @@ type Product struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code,omitempty"`
 	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
-	TaxDetails *ProductTaxDetails `json:"tax_details,omitempty"`
+	TaxDetails *ProductTaxDetails `json:"tax_details"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.

@@ -52,6 +52,15 @@ const (
 	ChargePaymentMethodDetailsCardAccountFundingStatusEnabled  ChargePaymentMethodDetailsCardAccountFundingStatus = "enabled"
 )
 
+// If present, indicates that the Card Account Updater changed the card's credentials during this authorization. `number_changed` means the card number was updated (the expiration date may have changed as well); `expiry_changed` means only the expiration date was updated.
+type ChargePaymentMethodDetailsCardCardAccountUpdate string
+
+// List of values that ChargePaymentMethodDetailsCardCardAccountUpdate can take
+const (
+	ChargePaymentMethodDetailsCardCardAccountUpdateExpiryChanged ChargePaymentMethodDetailsCardCardAccountUpdate = "expiry_changed"
+	ChargePaymentMethodDetailsCardCardAccountUpdateNumberChanged ChargePaymentMethodDetailsCardCardAccountUpdate = "number_changed"
+)
+
 // If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
 
@@ -3969,6 +3978,8 @@ type ChargePaymentMethodDetailsCard struct {
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
 	CaptureBefore int64 `json:"capture_before,omitempty"`
+	// If present, indicates that the Card Account Updater changed the card's credentials during this authorization. `number_changed` means the card number was updated (the expiration date may have changed as well); `expiry_changed` means only the expiration date was updated.
+	CardAccountUpdate ChargePaymentMethodDetailsCardCardAccountUpdate `json:"card_account_update,omitempty"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *ChargePaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.

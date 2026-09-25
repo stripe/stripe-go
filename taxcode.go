@@ -71,7 +71,7 @@ type TaxCode struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// An object that describes more information about the tax location required for this tax code. Some tax codes require a [performance location](https://docs.stripe.com/tax/location-sales#required-versus-optional-performance-locations) to calculate tax correctly.
-	Requirements *TaxCodeRequirements `json:"requirements,omitempty"`
+	Requirements *TaxCodeRequirements `json:"requirements"`
 }
 
 // TaxCodeList is a list of TaxCodes as retrieved from a list endpoint.

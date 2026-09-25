@@ -603,7 +603,7 @@ type SubscriptionItem struct {
 	// The start time of this subscription item's current billing period.
 	CurrentPeriodStart int64 `json:"current_period_start"`
 	// The current trial that is applied to this subscription item.
-	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial,omitempty"`
+	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial"`
 	Deleted      bool                          `json:"deleted,omitempty"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`

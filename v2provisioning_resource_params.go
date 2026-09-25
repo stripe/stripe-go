@@ -15,7 +15,8 @@ type V2ProvisioningResourceParams struct {
 	Configuration map[string]any `form:"configuration" json:"configuration,omitempty"`
 	// Environment the resource should be created in.
 	Environment *string `form:"environment" json:"environment,omitempty"`
-	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to true.
+	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to false
+	// for a sandbox target and true otherwise. Sandbox targets cannot create live-mode resources.
 	Livemode *bool `form:"livemode" json:"livemode,omitempty"`
 	// Human-readable name for the resource.
 	Name *string `form:"name" json:"name,omitempty"`
@@ -35,7 +36,8 @@ type V2ProvisioningResourceLinkParams struct {
 	Catalog *string `form:"catalog" json:"catalog,omitempty"`
 	// Environment the existing resource runs in.
 	Environment *string `form:"environment" json:"environment,omitempty"`
-	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to true.
+	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to false
+	// for a sandbox target and true otherwise. Sandbox targets cannot link live-mode resources.
 	Livemode *bool `form:"livemode" json:"livemode,omitempty"`
 	// Identifier of the project to link the resource to.
 	Project *string `form:"project" json:"project,omitempty"`
@@ -76,7 +78,8 @@ type V2ProvisioningResourceCreateParams struct {
 	Configuration map[string]any `form:"configuration" json:"configuration"`
 	// Environment the resource should be created in.
 	Environment *string `form:"environment" json:"environment,omitempty"`
-	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to true.
+	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to false
+	// for a sandbox target and true otherwise. Sandbox targets cannot create live-mode resources.
 	Livemode *bool `form:"livemode" json:"livemode,omitempty"`
 	// Human-readable name for the resource.
 	Name *string `form:"name" json:"name,omitempty"`

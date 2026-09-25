@@ -76,6 +76,20 @@ const (
 	MandatePaymentMethodDetailsBLIKTypeOffSession MandatePaymentMethodDetailsBLIKType = "off_session"
 )
 
+// The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
+type MandatePaymentMethodDetailsCardIndiaInactiveReason string
+
+// List of values that MandatePaymentMethodDetailsCardIndiaInactiveReason can take
+const (
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCanceled             MandatePaymentMethodDetailsCardIndiaInactiveReason = "canceled"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCardNotSupported     MandatePaymentMethodDetailsCardIndiaInactiveReason = "card_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCurrencyNotSupported MandatePaymentMethodDetailsCardIndiaInactiveReason = "currency_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonExpired              MandatePaymentMethodDetailsCardIndiaInactiveReason = "expired"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonIssuerNotSupported   MandatePaymentMethodDetailsCardIndiaInactiveReason = "issuer_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonProcessingError      MandatePaymentMethodDetailsCardIndiaInactiveReason = "processing_error"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonUndetermined         MandatePaymentMethodDetailsCardIndiaInactiveReason = "undetermined"
+)
+
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type MandatePaymentMethodDetailsPaytoAmountType string
 
@@ -296,7 +310,13 @@ type MandatePaymentMethodDetailsBLIK struct {
 	// Type of the mandate.
 	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
 }
-type MandatePaymentMethodDetailsCard struct{}
+type MandatePaymentMethodDetailsCardIndia struct {
+	// The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
+	InactiveReason MandatePaymentMethodDetailsCardIndiaInactiveReason `json:"inactive_reason"`
+}
+type MandatePaymentMethodDetailsCard struct {
+	India *MandatePaymentMethodDetailsCardIndia `json:"india,omitempty"`
+}
 type MandatePaymentMethodDetailsCashApp struct{}
 type MandatePaymentMethodDetailsKakaoPay struct{}
 type MandatePaymentMethodDetailsKlarna struct{}

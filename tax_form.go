@@ -36,6 +36,15 @@ const (
 	TaxFormPayeeTypeExternalReference TaxFormPayeeType = "external_reference"
 )
 
+// Whether the tax form is a mutable draft or a finalized form.
+type TaxFormStatus string
+
+// List of values that TaxFormStatus can take
+const (
+	TaxFormStatusDraft     TaxFormStatus = "draft"
+	TaxFormStatusFinalized TaxFormStatus = "finalized"
+)
+
 // The type of the tax form. An additional hash is included on the tax form with a name matching this value. It contains additional information specific to the tax form type.
 type TaxFormType string
 
@@ -68,6 +77,8 @@ type TaxFormListParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The payee whose volume is represented on the tax form.
 	Payee *TaxFormListPayeeParams `form:"payee" json:"payee"`
+	// Filter forms by draft or finalized status.
+	Status *string `form:"status" json:"status,omitempty"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future tax form types. If your integration expects only one type of tax form in the response, make sure to provide a type value in the request.
 	Type *string `form:"type" json:"type,omitempty"`
 }
@@ -168,17 +179,239 @@ type TaxFormPayee struct {
 	// Specifies the payee type.
 	Type TaxFormPayeeType `json:"type"`
 }
+type TaxFormUS1099KCardNotPresentTransactions struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099KCashTips struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099KFederalIncomeTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+
+// The gross amounts for each month, ordered from January through December.
+type TaxFormUS1099KMonthlyVolume struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099KPaymentTransactionsCount struct {
+	// The effective number of transactions.
+	Count int64 `json:"count,omitempty"`
+	// The signed adjustment included in the effective count. Only present for drafts.
+	Delta int64 `json:"delta,omitempty"`
+}
+type TaxFormUS1099KStateIncomeTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
 type TaxFormUS1099K struct {
+	CardNotPresentTransactions *TaxFormUS1099KCardNotPresentTransactions `json:"card_not_present_transactions,omitempty"`
+	CashTips                   *TaxFormUS1099KCashTips                   `json:"cash_tips,omitempty"`
+	// The currency of the amounts on the form. Always `usd`.
+	Currency                 Currency                                `json:"currency,omitempty"`
+	FederalIncomeTaxWithheld *TaxFormUS1099KFederalIncomeTaxWithheld `json:"federal_income_tax_withheld,omitempty"`
+	// The gross amount of payment transactions, as a decimal string in USD.
+	GrossAmountOfTransactionsDecimal string `json:"gross_amount_of_transactions_decimal,omitempty"`
+	// The gross amounts for each month, ordered from January through December.
+	MonthlyVolumes           []*TaxFormUS1099KMonthlyVolume          `json:"monthly_volumes,omitempty"`
+	PaymentTransactionsCount *TaxFormUS1099KPaymentTransactionsCount `json:"payment_transactions_count,omitempty"`
 	// Year represented by the information reported on the tax form.
-	ReportingYear int64 `json:"reporting_year"`
+	ReportingYear          int64                                 `json:"reporting_year"`
+	StateIncomeTaxWithheld *TaxFormUS1099KStateIncomeTaxWithheld `json:"state_income_tax_withheld,omitempty"`
+}
+type TaxFormUS1099MISCCashTips struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCCropInsuranceProceeds struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCExcessGoldenParachutePayments struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCFederalIncomeTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCFishPurchasedForResale struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCFishingBoatProceeds struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCGrossProceedsPaidToAnAttorney struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCMedicalAndHealthCarePayments struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCNonqualifiedDeferredCompensation struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCOtherIncome struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCOvertimeCompensation struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCRents struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCRoyalties struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCSection409aDeferrals struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCStateIncome struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCStateTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099MISCSubstitutePayments struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
 }
 type TaxFormUS1099MISC struct {
+	CashTips              *TaxFormUS1099MISCCashTips              `json:"cash_tips,omitempty"`
+	CropInsuranceProceeds *TaxFormUS1099MISCCropInsuranceProceeds `json:"crop_insurance_proceeds,omitempty"`
+	// The currency of the amounts on the form. Always `usd`.
+	Currency Currency `json:"currency,omitempty"`
+	// Whether direct sales of at least $5,000 of consumer products were made for resale.
+	DirectSalesForResale          bool                                            `json:"direct_sales_for_resale,omitempty"`
+	ExcessGoldenParachutePayments *TaxFormUS1099MISCExcessGoldenParachutePayments `json:"excess_golden_parachute_payments,omitempty"`
+	// Whether the FATCA filing requirement applies.
+	FatcaFilingRequired              bool                                               `json:"fatca_filing_required,omitempty"`
+	FederalIncomeTaxWithheld         *TaxFormUS1099MISCFederalIncomeTaxWithheld         `json:"federal_income_tax_withheld,omitempty"`
+	FishingBoatProceeds              *TaxFormUS1099MISCFishingBoatProceeds              `json:"fishing_boat_proceeds,omitempty"`
+	FishPurchasedForResale           *TaxFormUS1099MISCFishPurchasedForResale           `json:"fish_purchased_for_resale,omitempty"`
+	GrossProceedsPaidToAnAttorney    *TaxFormUS1099MISCGrossProceedsPaidToAnAttorney    `json:"gross_proceeds_paid_to_an_attorney,omitempty"`
+	MedicalAndHealthCarePayments     *TaxFormUS1099MISCMedicalAndHealthCarePayments     `json:"medical_and_health_care_payments,omitempty"`
+	NonqualifiedDeferredCompensation *TaxFormUS1099MISCNonqualifiedDeferredCompensation `json:"nonqualified_deferred_compensation,omitempty"`
+	OtherIncome                      *TaxFormUS1099MISCOtherIncome                      `json:"other_income,omitempty"`
+	OvertimeCompensation             *TaxFormUS1099MISCOvertimeCompensation             `json:"overtime_compensation,omitempty"`
+	Rents                            *TaxFormUS1099MISCRents                            `json:"rents,omitempty"`
 	// Year represented by the information reported on the tax form.
-	ReportingYear int64 `json:"reporting_year"`
+	ReportingYear        int64                                  `json:"reporting_year"`
+	Royalties            *TaxFormUS1099MISCRoyalties            `json:"royalties,omitempty"`
+	Section409aDeferrals *TaxFormUS1099MISCSection409aDeferrals `json:"section_409a_deferrals,omitempty"`
+	StateIncome          *TaxFormUS1099MISCStateIncome          `json:"state_income,omitempty"`
+	StateTaxWithheld     *TaxFormUS1099MISCStateTaxWithheld     `json:"state_tax_withheld,omitempty"`
+	SubstitutePayments   *TaxFormUS1099MISCSubstitutePayments   `json:"substitute_payments,omitempty"`
+}
+type TaxFormUS1099NecCashTips struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099NecFederalIncomeTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099NecNonemployeeCompensation struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099NecOvertimeCompensation struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099NecStateIncome struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
+}
+type TaxFormUS1099NecStateTaxWithheld struct {
+	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
+	DeltaDecimal string `json:"delta_decimal,omitempty"`
+	// The effective amount in the form's currency, as a decimal string.
+	VolumeDecimal string `json:"volume_decimal,omitempty"`
 }
 type TaxFormUS1099Nec struct {
+	CashTips *TaxFormUS1099NecCashTips `json:"cash_tips,omitempty"`
+	// The currency of the amounts on the form. Always `usd`.
+	Currency Currency `json:"currency,omitempty"`
+	// Whether direct sales of at least $5,000 of consumer products were made for resale.
+	DirectSalesIndicator bool `json:"direct_sales_indicator,omitempty"`
+	// Whether the FATCA filing requirement applies.
+	FatcaFilingRequirement   bool                                      `json:"fatca_filing_requirement,omitempty"`
+	FederalIncomeTaxWithheld *TaxFormUS1099NecFederalIncomeTaxWithheld `json:"federal_income_tax_withheld,omitempty"`
+	NonemployeeCompensation  *TaxFormUS1099NecNonemployeeCompensation  `json:"nonemployee_compensation,omitempty"`
+	OvertimeCompensation     *TaxFormUS1099NecOvertimeCompensation     `json:"overtime_compensation,omitempty"`
 	// Year represented by the information reported on the tax form.
-	ReportingYear int64 `json:"reporting_year"`
+	ReportingYear    int64                             `json:"reporting_year"`
+	StateIncome      *TaxFormUS1099NecStateIncome      `json:"state_income,omitempty"`
+	StateTaxWithheld *TaxFormUS1099NecStateTaxWithheld `json:"state_tax_withheld,omitempty"`
 }
 
 // Tax forms are legal documents which are delivered to one or more tax authorities for information reporting purposes.
@@ -204,6 +437,8 @@ type TaxForm struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string        `json:"object"`
 	Payee  *TaxFormPayee `json:"payee"`
+	// Whether the tax form is a mutable draft or a finalized form.
+	Status TaxFormStatus `json:"status,omitempty"`
 	// The type of the tax form. An additional hash is included on the tax form with a name matching this value. It contains additional information specific to the tax form type.
 	Type       TaxFormType        `json:"type"`
 	US1099K    *TaxFormUS1099K    `json:"us_1099_k,omitempty"`

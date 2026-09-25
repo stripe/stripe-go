@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Closed Enum. If applicable, the type of flow linked to this Adjustment. The field matching this value will contain the ID of the flow.
+// Open Enum. If applicable, the type of flow linked to this Adjustment. The field matching this value will contain the ID of the flow.
 type V2MoneyManagementAdjustmentAdjustedFlowType string
 
 // List of values that V2MoneyManagementAdjustmentAdjustedFlowType can take
@@ -37,7 +37,7 @@ type V2MoneyManagementAdjustmentAdjustedFlow struct {
 	ReceivedCredit string `json:"received_credit,omitempty"`
 	// If applicable, the ID of the ReceivedDebit linked to this Adjustment.
 	ReceivedDebit string `json:"received_debit,omitempty"`
-	// Closed Enum. If applicable, the type of flow linked to this Adjustment. The field matching this value will contain the ID of the flow.
+	// Open Enum. If applicable, the type of flow linked to this Adjustment. The field matching this value will contain the ID of the flow.
 	Type V2MoneyManagementAdjustmentAdjustedFlowType `json:"type"`
 }
 

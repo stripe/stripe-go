@@ -30,6 +30,16 @@ const (
 	InvoiceAutomaticTaxDisabledReasonFinalizationSystemError            InvoiceAutomaticTaxDisabledReason = "finalization_system_error"
 )
 
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type InvoiceAutomaticTaxEnablementDetailsSource string
+
+// List of values that InvoiceAutomaticTaxEnablementDetailsSource can take
+const (
+	InvoiceAutomaticTaxEnablementDetailsSourceExplicit                    InvoiceAutomaticTaxEnablementDetailsSource = "explicit"
+	InvoiceAutomaticTaxEnablementDetailsSourceManagedPayments             InvoiceAutomaticTaxEnablementDetailsSource = "managed_payments"
+	InvoiceAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration InvoiceAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
+)
+
 // Type of the account referenced.
 type InvoiceAutomaticTaxLiabilityType string
 
@@ -386,6 +396,18 @@ const (
 	InvoiceStatusPaid          InvoiceStatus = "paid"
 	InvoiceStatusUncollectible InvoiceStatus = "uncollectible"
 	InvoiceStatusVoid          InvoiceStatus = "void"
+)
+
+// The reason why the invoice is uncollectible.
+type InvoiceStatusDetailsUncollectibleReason string
+
+// List of values that InvoiceStatusDetailsUncollectibleReason can take
+const (
+	InvoiceStatusDetailsUncollectibleReasonMaxPaymentAttempts   InvoiceStatusDetailsUncollectibleReason = "max_payment_attempts"
+	InvoiceStatusDetailsUncollectibleReasonPaymentNotReceived   InvoiceStatusDetailsUncollectibleReason = "payment_not_received"
+	InvoiceStatusDetailsUncollectibleReasonSubscriptionCanceled InvoiceStatusDetailsUncollectibleReason = "subscription_canceled"
+	InvoiceStatusDetailsUncollectibleReasonSubscriptionPaused   InvoiceStatusDetailsUncollectibleReason = "subscription_paused"
+	InvoiceStatusDetailsUncollectibleReasonUserForgiven         InvoiceStatusDetailsUncollectibleReason = "user_forgiven"
 )
 
 // Type of the pretax credit amount referenced.
@@ -3207,6 +3229,14 @@ func (p *InvoiceCreatePreviewScheduleDetailsParams) AddUnsetField(field InvoiceC
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+type InvoiceCreatePreviewSubscriptionDetailsBillingCycleAnchorParams struct {
+	// A timestamp to use as the subscription's billing cycle anchor. Only valid when `type` is `timestamp`.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Determines how the subscription's billing cycle anchor behaves for the invoice preview.
+	Type *string `form:"type" json:"type"`
+}
+
 // Configure behavior for flexible billing mode.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
@@ -3453,9 +3483,7 @@ type InvoiceCreatePreviewSubscriptionDetailsPrebillingParams struct {
 // The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
-	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchor *InvoiceCreatePreviewSubscriptionDetailsBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Sets the billing schedules for the subscription.
@@ -3523,12 +3551,6 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AddMetadata(key string, 
 
 // AppendTo implements custom encoding logic for InvoiceCreatePreviewSubscriptionDetailsParams.
 func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.BillingCycleAnchorNow) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
-	}
-	if BoolValue(p.BillingCycleAnchorUnchanged) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
-	}
 	if BoolValue(p.CancelAtMaxBilledUntil) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
@@ -4974,6 +4996,20 @@ type InvoiceAmountsDue struct {
 	Status InvoiceAmountsDueStatus `json:"status"`
 }
 
+// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+type InvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type InvoiceAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+	IntegrationConfigurationDisabledReason *InvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source InvoiceAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type InvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -4986,6 +5022,8 @@ type InvoiceAutomaticTax struct {
 	DisabledReason InvoiceAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *InvoiceAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *InvoiceAutomaticTaxLiability `json:"liability"`
 	// The tax provider powering automatic tax.
@@ -5343,6 +5381,13 @@ type InvoiceShippingCost struct {
 	// The taxes applied to the shipping rate.
 	Taxes []*InvoiceShippingCostTax `json:"taxes,omitempty"`
 }
+type InvoiceStatusDetailsUncollectible struct {
+	// The reason why the invoice is uncollectible.
+	Reason InvoiceStatusDetailsUncollectibleReason `json:"reason"`
+}
+type InvoiceStatusDetails struct {
+	Uncollectible *InvoiceStatusDetailsUncollectible `json:"uncollectible,omitempty"`
+}
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
 	FinalizedAt int64 `json:"finalized_at"`
@@ -5603,6 +5648,7 @@ type Invoice struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 	Status            InvoiceStatus             `json:"status"`
+	StatusDetails     *InvoiceStatusDetails     `json:"status_details,omitempty"`
 	StatusTransitions *InvoiceStatusTransitions `json:"status_transitions"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`

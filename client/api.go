@@ -20,6 +20,7 @@ import (
 	"github.com/stripe/stripe-go/v86/accountsignals"
 	"github.com/stripe/stripe-go/v86/applepaydomain"
 	"github.com/stripe/stripe-go/v86/applicationfee"
+	appsinstall "github.com/stripe/stripe-go/v86/apps/install"
 	appssecret "github.com/stripe/stripe-go/v86/apps/secret"
 	"github.com/stripe/stripe-go/v86/balance"
 	"github.com/stripe/stripe-go/v86/balancesettings"
@@ -139,6 +140,7 @@ import (
 	"github.com/stripe/stripe-go/v86/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v86/quotepreviewsubscriptionschedule"
 	radaraccountevaluation "github.com/stripe/stripe-go/v86/radar/accountevaluation"
+	radarbillingevaluation "github.com/stripe/stripe-go/v86/radar/billingevaluation"
 	radarcustomerevaluation "github.com/stripe/stripe-go/v86/radar/customerevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v86/radar/earlyfraudwarning"
 	radarissuingauthorizationevaluation "github.com/stripe/stripe-go/v86/radar/issuingauthorizationevaluation"
@@ -198,6 +200,7 @@ import (
 	testhelperstreasuryoutboundtransfer "github.com/stripe/stripe-go/v86/testhelpers/treasury/outboundtransfer"
 	testhelperstreasuryreceivedcredit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receivedcredit"
 	testhelperstreasuryreceiveddebit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receiveddebit"
+	threedsecureauthentication "github.com/stripe/stripe-go/v86/threedsecure/authentication"
 	"github.com/stripe/stripe-go/v86/token"
 	"github.com/stripe/stripe-go/v86/topup"
 	"github.com/stripe/stripe-go/v86/transfer"
@@ -271,6 +274,7 @@ import (
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v86/v2/moneymanagement/adjustment"
 	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v86/v2/moneymanagement/currencyconversion"
 	v2moneymanagementdebitdispute "github.com/stripe/stripe-go/v86/v2/moneymanagement/debitdispute"
+	v2moneymanagementearnedcredit "github.com/stripe/stripe-go/v86/v2/moneymanagement/earnedcredit"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccount"
 	v2moneymanagementfinancialaccountsstatement "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccounts/statement"
 	v2moneymanagementfinancialaccountswalletexport "github.com/stripe/stripe-go/v86/v2/moneymanagement/financialaccounts/walletexport"
@@ -287,6 +291,7 @@ import (
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v86/v2/moneymanagement/receiveddebit"
 	v2moneymanagementreceiveddebitmandate "github.com/stripe/stripe-go/v86/v2/moneymanagement/receiveddebitmandate"
 	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v86/v2/moneymanagement/recipientverification"
+	v2moneymanagementtesthelper "github.com/stripe/stripe-go/v86/v2/moneymanagement/testhelper"
 	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v86/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v86/v2/moneymanagement/transactionentry"
@@ -315,7 +320,6 @@ import (
 	v2taxintegrationconfiguration "github.com/stripe/stripe-go/v86/v2/tax/integrationconfiguration"
 	v2taxmanualrule "github.com/stripe/stripe-go/v86/v2/tax/manualrule"
 	v2taxoperation "github.com/stripe/stripe-go/v86/v2/tax/operation"
-	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/testhelpers/financialaddress"
 	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v86/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v86/webhookendpoint"
 )
@@ -340,6 +344,8 @@ type API struct {
 	ApplePayDomains *applepaydomain.Client
 	// ApplicationFees is the client used to invoke /v1/application_fees APIs.
 	ApplicationFees *applicationfee.Client
+	// AppsInstalls is the client used to invoke /v1/apps/installs APIs.
+	AppsInstalls *appsinstall.Client
 	// AppsSecrets is the client used to invoke /v1/apps/secrets APIs.
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /v1/balance APIs.
@@ -578,6 +584,8 @@ type API struct {
 	Quotes *quote.Client
 	// RadarAccountEvaluations is the client used to invoke /v1/radar/account_evaluations APIs.
 	RadarAccountEvaluations *radaraccountevaluation.Client
+	// RadarBillingEvaluations is the client used to invoke /v1/radar/billing_evaluations APIs.
+	RadarBillingEvaluations *radarbillingevaluation.Client
 	// RadarCustomerEvaluations is the client used to invoke /v1/radar/customer_evaluations APIs.
 	RadarCustomerEvaluations *radarcustomerevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -696,6 +704,8 @@ type API struct {
 	TestHelpersTreasuryReceivedCredits *testhelperstreasuryreceivedcredit.Client
 	// TestHelpersTreasuryReceivedDebits is the client used to invoke /v1/treasury/received_debits APIs.
 	TestHelpersTreasuryReceivedDebits *testhelperstreasuryreceiveddebit.Client
+	// ThreeDSecureAuthentications is the client used to invoke /v1/three_d_secure/authentications APIs.
+	ThreeDSecureAuthentications *threedsecureauthentication.Client
 	// Tokens is the client used to invoke /v1/tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /v1/topups APIs.
@@ -842,6 +852,8 @@ type API struct {
 	V2MoneyManagementCurrencyConversions *v2moneymanagementcurrencyconversion.Client
 	// V2MoneyManagementDebitDisputes is the client used to invoke /v2/money_management/debit_disputes APIs.
 	V2MoneyManagementDebitDisputes *v2moneymanagementdebitdispute.Client
+	// V2MoneyManagementEarnedCredits is the client used to invoke /v2/money_management/earned_credits APIs.
+	V2MoneyManagementEarnedCredits *v2moneymanagementearnedcredit.Client
 	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
 	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
 	// V2MoneyManagementFinancialAccountsStatements is the client used to invoke /v2/money_management/financial_accounts/{financial_account_id}/statements APIs.
@@ -874,6 +886,8 @@ type API struct {
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
 	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
 	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
+	// V2MoneyManagementTestHelpers is the client used to invoke testhelper related APIs.
+	V2MoneyManagementTestHelpers *v2moneymanagementtesthelper.Client
 	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2MoneyManagementTestHelpersFinancialAddresses *v2moneymanagementtesthelpersfinancialaddress.Client
 	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
@@ -914,7 +928,7 @@ type API struct {
 	V2ReportingReports *v2reportingreport.Client
 	// V2RiskInquiries is the client used to invoke /v2/risk/inquiries APIs.
 	V2RiskInquiries *v2riskinquiry.Client
-	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activity APIs.
+	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2signalsaccountactivity.Client
 	// V2SignalsAccountEvaluations is the client used to invoke /v2/signals/account_evaluations APIs.
 	V2SignalsAccountEvaluations *v2signalsaccountevaluation.Client
@@ -930,8 +944,6 @@ type API struct {
 	V2TaxManualRules *v2taxmanualrule.Client
 	// V2TaxOperations is the client used to invoke operation related APIs.
 	V2TaxOperations *v2taxoperation.Client
-	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
-	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
 	V2TestHelpersMoneyManagements *v2testhelpersmoneymanagement.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
@@ -959,6 +971,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.AccountSignals = &accountsignals.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
+	a.AppsInstalls = &appsinstall.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
@@ -1078,6 +1091,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarAccountEvaluations = &radaraccountevaluation.Client{B: backends.API, Key: key}
+	a.RadarBillingEvaluations = &radarbillingevaluation.Client{B: backends.API, Key: key}
 	a.RadarCustomerEvaluations = &radarcustomerevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarIssuingAuthorizationEvaluations = &radarissuingauthorizationevaluation.Client{B: backends.API, Key: key}
@@ -1137,6 +1151,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersTreasuryOutboundTransfers = &testhelperstreasuryoutboundtransfer.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedCredits = &testhelperstreasuryreceivedcredit.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
+	a.ThreeDSecureAuthentications = &threedsecureauthentication.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.TransferReversals = &transferreversal.Client{B: backends.API, Key: key}
@@ -1210,6 +1225,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementDebitDisputes = &v2moneymanagementdebitdispute.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementEarnedCredits = &v2moneymanagementearnedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsStatements = &v2moneymanagementfinancialaccountsstatement.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsWalletExports = &v2moneymanagementfinancialaccountswalletexport.Client{B: backends.API, Key: key}
@@ -1226,6 +1242,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementReceivedDebitMandates = &v2moneymanagementreceiveddebitmandate.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTestHelpers = &v2moneymanagementtesthelper.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
@@ -1254,7 +1271,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2TaxIntegrationConfigurations = &v2taxintegrationconfiguration.Client{B: backends.API, Key: key}
 	a.V2TaxManualRules = &v2taxmanualrule.Client{B: backends.API, Key: key}
 	a.V2TaxOperations = &v2taxoperation.Client{B: backends.API, Key: key}
-	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }

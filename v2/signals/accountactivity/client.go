@@ -30,7 +30,7 @@ type Client struct {
 func (c Client) New(params *stripe.V2SignalsAccountActivityParams) (*stripe.V2SignalsAccountActivity, error) {
 	accountactivity := &stripe.V2SignalsAccountActivity{}
 	err := c.B.Call(
-		http.MethodPost, "/v2/signals/account_activity", c.Key, params, accountactivity)
+		http.MethodPost, "/v2/signals/account_activities", c.Key, params, accountactivity)
 	return accountactivity, err
 }
 
@@ -40,7 +40,7 @@ func (c Client) New(params *stripe.V2SignalsAccountActivityParams) (*stripe.V2Si
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.V2SignalsAccountActivityParams) (*stripe.V2SignalsAccountActivity, error) {
-	path := stripe.FormatURLPath("/v2/signals/account_activity/%s", id)
+	path := stripe.FormatURLPath("/v2/signals/account_activities/%s", id)
 	accountactivity := &stripe.V2SignalsAccountActivity{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, accountactivity)
 	return accountactivity, err
@@ -52,7 +52,7 @@ func (c Client) Get(id string, params *stripe.V2SignalsAccountActivityParams) (*
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.V2SignalsAccountActivityParams) (*stripe.V2DeletedObject, error) {
-	path := stripe.FormatURLPath("/v2/signals/account_activity/%s", id)
+	path := stripe.FormatURLPath("/v2/signals/account_activities/%s", id)
 	deletedObj := &stripe.V2DeletedObject{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
 	return deletedObj, err

@@ -452,7 +452,7 @@ const (
 //
 // A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 //
-// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 //
 // If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 //
@@ -641,9 +641,9 @@ type SubscriptionParams struct {
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
 	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
-	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
@@ -1153,7 +1153,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBizumParams struct {
 // Configuration options for setting up a mandate
 type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -1421,7 +1421,7 @@ type SubscriptionTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -1608,11 +1608,19 @@ func (p *SubscriptionPauseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+type SubscriptionResumeBillingCycleAnchorParams struct {
+	// A Unix timestamp within the inclusive bounds of the subscription's current billing period. For subscriptions with multiple items, it must fall within the intersection of their current billing periods. Only valid when `type` is `timestamp`.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Determines how the billing cycle anchor changes when the subscription resumes.
+	Type *string `form:"type" json:"type"`
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use charge_automatically collection. If Stripe doesn't generate a resumption invoice, the subscription becomes active immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes active. If the invoice is manually voided, the subscription stays paused. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays paused. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
-	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	BillingCycleAnchor *SubscriptionResumeBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Controls whether Stripe attempts payment on the resumption invoice in the resume request, and how payment on that invoice affects the subscription's status. The default is `resume_on_payment_attempt`.
@@ -2180,7 +2188,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct {
 // Configuration options for setting up a mandate
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -2448,7 +2456,7 @@ type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -2486,7 +2494,7 @@ type SubscriptionUpdateParams struct {
 	AutomaticTax *SubscriptionUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
-	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	// Controls how the subscription's billing cycle anchor changes. Set `type` to `now` to reset the billing cycle anchor to the current time (in UTC), or `unchanged` to preserve it. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
@@ -2550,7 +2558,7 @@ type SubscriptionUpdateParams struct {
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
 	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionUpdateTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
@@ -3154,7 +3162,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBizumParams struct {
 // Configuration options for setting up a mandate
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -3422,7 +3430,7 @@ type SubscriptionCreateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -3513,12 +3521,12 @@ type SubscriptionCreateParams struct {
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *SubscriptionCreateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
-	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
-	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionCreateTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
@@ -3994,7 +4002,7 @@ type SubscriptionPendingUpdate struct {
 	SubscriptionItems []*SubscriptionItem `json:"subscription_items"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
 	TrialEnd int64 `json:"trial_end"`
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
+	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials/free-trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
 }
 
@@ -4156,7 +4164,7 @@ type Subscription struct {
 	//
 	// A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 	//
-	// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+	// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 	//
 	// If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 	//

@@ -1033,6 +1033,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationSequraDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSequraDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceNone PaymentMethodConfigurationSequraDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceOff  PaymentMethodConfigurationSequraDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceOn   PaymentMethodConfigurationSequraDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSequraDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSequraDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSequraDisplayPreferenceValueOff PaymentMethodConfigurationSequraDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSequraDisplayPreferenceValueOn  PaymentMethodConfigurationSequraDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationShopeepayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationShopeepayDisplayPreferencePreference can take
@@ -1911,6 +1930,18 @@ type PaymentMethodConfigurationSEPADebitParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2153,6 +2184,8 @@ type PaymentMethodConfigurationParams struct {
 	Scalapay *PaymentMethodConfigurationScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 	Shopeepay *PaymentMethodConfigurationShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
@@ -2853,6 +2886,18 @@ type PaymentMethodConfigurationCreateSEPADebitParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3093,6 +3138,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Scalapay *PaymentMethodConfigurationCreateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationCreateSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 	Shopeepay *PaymentMethodConfigurationCreateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
@@ -3805,6 +3852,18 @@ type PaymentMethodConfigurationUpdateSEPADebitParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -4045,6 +4104,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Scalapay *PaymentMethodConfigurationUpdateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationUpdateSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 	Shopeepay *PaymentMethodConfigurationUpdateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
@@ -4774,6 +4835,19 @@ type PaymentMethodConfigurationSEPADebit struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationSequraDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSequraDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSequraDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSequra struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSequraDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationShopeepayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4991,6 +5065,7 @@ type PaymentMethodConfiguration struct {
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`
 	Scalapay      *PaymentMethodConfigurationScalapay      `json:"scalapay,omitempty"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit,omitempty"`
+	Sequra        *PaymentMethodConfigurationSequra        `json:"sequra,omitempty"`
 	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay,omitempty"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
 	Sunbit        *PaymentMethodConfigurationSunbit        `json:"sunbit,omitempty"`

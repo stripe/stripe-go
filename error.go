@@ -16,6 +16,50 @@ const (
 	InvalidPaymentMethodInvalidParamRoutingNumber        InvalidPaymentMethodInvalidParam = "routing_number"
 )
 
+// Closed Enum. The field that already exists on the resource.
+type InvalidVaultedCredentialInvalidParam string
+
+// List of values that InvalidVaultedCredentialInvalidParam can take
+const (
+	InvalidVaultedCredentialInvalidParamAccountNumber InvalidVaultedCredentialInvalidParam = "account_number"
+	InvalidVaultedCredentialInvalidParamCurrency      InvalidVaultedCredentialInvalidParam = "currency"
+	InvalidVaultedCredentialInvalidParamIBAN          InvalidVaultedCredentialInvalidParam = "iban"
+	InvalidVaultedCredentialInvalidParamSortCode      InvalidVaultedCredentialInvalidParam = "sort_code"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationAttemptFailedVerificationStatus string
+
+// List of values that VerificationAttemptFailedVerificationStatus can take
+const (
+	VerificationAttemptFailedVerificationStatusAwaitingVerification VerificationAttemptFailedVerificationStatus = "awaiting_verification"
+	VerificationAttemptFailedVerificationStatusUnverified           VerificationAttemptFailedVerificationStatus = "unverified"
+	VerificationAttemptFailedVerificationStatusVerificationFailed   VerificationAttemptFailedVerificationStatus = "verification_failed"
+	VerificationAttemptFailedVerificationStatusVerified             VerificationAttemptFailedVerificationStatus = "verified"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationExpiredVerificationStatus string
+
+// List of values that VerificationExpiredVerificationStatus can take
+const (
+	VerificationExpiredVerificationStatusAwaitingVerification VerificationExpiredVerificationStatus = "awaiting_verification"
+	VerificationExpiredVerificationStatusUnverified           VerificationExpiredVerificationStatus = "unverified"
+	VerificationExpiredVerificationStatusVerificationFailed   VerificationExpiredVerificationStatus = "verification_failed"
+	VerificationExpiredVerificationStatusVerified             VerificationExpiredVerificationStatus = "verified"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationNotInitiatedVerificationStatus string
+
+// List of values that VerificationNotInitiatedVerificationStatus can take
+const (
+	VerificationNotInitiatedVerificationStatusAwaitingVerification VerificationNotInitiatedVerificationStatus = "awaiting_verification"
+	VerificationNotInitiatedVerificationStatusUnverified           VerificationNotInitiatedVerificationStatus = "unverified"
+	VerificationNotInitiatedVerificationStatusVerificationFailed   VerificationNotInitiatedVerificationStatus = "verification_failed"
+	VerificationNotInitiatedVerificationStatusVerified             VerificationNotInitiatedVerificationStatus = "verified"
+)
+
 // errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
@@ -35,7 +79,6 @@ const (
 	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
 	ErrorTypeCannotProceed                 ErrorType = "cannot_proceed"
 	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
-	ErrorTypeControlledByDashboard         ErrorType = "controlled_by_dashboard"
 	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
 	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
 	ErrorTypeFxQuoteExpired                ErrorType = "fx_quote_expired"
@@ -43,6 +86,7 @@ const (
 	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
 	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
+	ErrorTypeInvalidVaultedCredential      ErrorType = "invalid_vaulted_credential"
 	ErrorTypeMerchantNotGated              ErrorType = "merchant_not_gated"
 	ErrorTypeNonZeroBalance                ErrorType = "non_zero_balance"
 	ErrorTypeNotCancelable                 ErrorType = "not_cancelable"
@@ -51,6 +95,9 @@ const (
 	ErrorTypeRecipientNotNotifiable        ErrorType = "recipient_not_notifiable"
 	ErrorTypeServiceUnavailable            ErrorType = "service_unavailable"
 	ErrorTypeTemporarySessionExpired       ErrorType = "temporary_session_expired"
+	ErrorTypeVerificationAttemptFailed     ErrorType = "verification_attempt_failed"
+	ErrorTypeVerificationExpired           ErrorType = "verification_expired"
+	ErrorTypeVerificationNotInitiated      ErrorType = "verification_not_initiated"
 )
 
 // errorTypes: The end of the section generated from our OpenAPI spec
@@ -117,6 +164,7 @@ const (
 	ErrorCodeCustomerSessionExpired                                      ErrorCode = "customer_session_expired"
 	ErrorCodeCustomerTaxLocationInvalid                                  ErrorCode = "customer_tax_location_invalid"
 	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
+	ErrorCodeDisputeEvidencePageLimitExceeded                            ErrorCode = "dispute_evidence_page_limit_exceeded"
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeExpiredPaymentMethod                                        ErrorCode = "expired_payment_method"
@@ -127,6 +175,8 @@ const (
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
 	ErrorCodeFinancialConnectionsAccountPendingAccountNumbers            ErrorCode = "financial_connections_account_pending_account_numbers"
 	ErrorCodeFinancialConnectionsAccountUnavailableAccountNumbers        ErrorCode = "financial_connections_account_unavailable_account_numbers"
+	ErrorCodeFinancialConnectionsConsentLocaleInvalid                    ErrorCode = "financial_connections_consent_locale_invalid"
+	ErrorCodeFinancialConnectionsConsentLocaleUnsupported                ErrorCode = "financial_connections_consent_locale_unsupported"
 	ErrorCodeFinancialConnectionsInstitutionUnavailable                  ErrorCode = "financial_connections_institution_unavailable"
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
@@ -181,6 +231,7 @@ const (
 	ErrorCodeParameterMissing                                            ErrorCode = "parameter_missing"
 	ErrorCodeParameterUnknown                                            ErrorCode = "parameter_unknown"
 	ErrorCodeParametersExclusive                                         ErrorCode = "parameters_exclusive"
+	ErrorCodePaymentEvaluationOnAPIVersionNotSupported                   ErrorCode = "payment_evaluation_on_api_version_not_supported"
 	ErrorCodePaymentIntentActionRequired                                 ErrorCode = "payment_intent_action_required"
 	ErrorCodePaymentIntentAuthenticationFailure                          ErrorCode = "payment_intent_authentication_failure"
 	ErrorCodePaymentIntentIncompatiblePaymentMethod                      ErrorCode = "payment_intent_incompatible_payment_method"
@@ -552,7 +603,7 @@ func (e *AlreadyExistsError) canRetry() bool {
 }
 
 // BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe".
-// Returned when the payout method cannot be used due to suspicious activity.
+// Returned in cases where the bank account cannot be used due to suspicious activity.
 type BlockedByStripeError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -607,7 +658,7 @@ func (e *CannotProceedError) canRetry() bool {
 }
 
 // ControlledByAlternateResourceError is the Go struct corresponding to the error type "controlled_by_alternate_resource".
-// Returned when the PayoutMethod object is controlled by an alternate resource so cannot be archived.
+// Returned when the GB Bank Account is controlled by an alternate resource and cannot be archived.
 type ControlledByAlternateResourceError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -630,33 +681,6 @@ func (e *ControlledByAlternateResourceError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *ControlledByAlternateResourceError) canRetry() bool {
-	return false
-}
-
-// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard".
-// Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
-type ControlledByDashboardError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *ControlledByDashboardError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *ControlledByDashboardError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *ControlledByDashboardError) canRetry() bool {
 	return false
 }
 
@@ -847,6 +871,36 @@ func (e *InvalidPayoutMethodError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *InvalidPayoutMethodError) canRetry() bool {
+	return false
+}
+
+// InvalidVaultedCredentialError is the Go struct corresponding to the error type "invalid_vaulted_credential".
+// Returned in cases where the bank account provided is not valid (wrong format of account number
+// or a routing number that does not correspond to a banking institution).
+type InvalidVaultedCredentialError struct {
+	APIResource
+	Code   string  `json:"code"`
+	DocURL *string `json:"doc_url,omitempty"`
+	// Closed Enum. The field that already exists on the resource.
+	InvalidParam InvalidVaultedCredentialInvalidParam `json:"invalid_param"`
+	Message      string                               `json:"message"`
+	Type         ErrorType                            `json:"type"`
+	UserMessage  *string                              `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidVaultedCredentialError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidVaultedCredentialError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidVaultedCredentialError) canRetry() bool {
 	return false
 }
 
@@ -1063,6 +1117,94 @@ func (e *TemporarySessionExpiredError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *TemporarySessionExpiredError) canRetry() bool {
+	return false
+}
+
+// VerificationAttemptFailedError is the Go struct corresponding to the error type "verification_attempt_failed".
+// Returned when the wrong values were provided to confirm microdeposits.
+type VerificationAttemptFailedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationAttemptFailedVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationAttemptFailedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationAttemptFailedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationAttemptFailedError) canRetry() bool {
+	return false
+}
+
+// VerificationExpiredError is the Go struct corresponding to the error type "verification_expired".
+// Returned when an attempt to confirm microdeposits has failed because too much time has elapsed since the
+// microdeposits were sent.
+type VerificationExpiredError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationExpiredVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationExpiredError) canRetry() bool {
+	return false
+}
+
+// VerificationNotInitiatedError is the Go struct corresponding to the error type "verification_not_initiated".
+// Returned when an attempt is made to confirm microdeposits before the microdeposits have been sent.
+type VerificationNotInitiatedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationNotInitiatedVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationNotInitiatedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationNotInitiatedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationNotInitiatedError) canRetry() bool {
 	return false
 }
 

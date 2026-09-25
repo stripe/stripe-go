@@ -159,6 +159,17 @@ type AccountSessionComponentsCapitalFinancingApplicationParams struct {
 }
 
 // An empty list, because this embedded component has no features.
+type AccountSessionComponentsCapitalFinancingManualPaymentFeaturesParams struct{}
+
+// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+type AccountSessionComponentsCapitalFinancingManualPaymentParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsCapitalFinancingManualPaymentFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// An empty list, because this embedded component has no features.
 type AccountSessionComponentsCapitalFinancingPromotionFeaturesParams struct{}
 
 // Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
@@ -588,6 +599,8 @@ type AccountSessionComponentsParams struct {
 	CapitalFinancing *AccountSessionComponentsCapitalFinancingParams `form:"capital_financing" json:"capital_financing,omitempty"`
 	// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplicationParams `form:"capital_financing_application" json:"capital_financing_application,omitempty"`
+	// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+	CapitalFinancingManualPayment *AccountSessionComponentsCapitalFinancingManualPaymentParams `form:"capital_financing_manual_payment" json:"capital_financing_manual_payment,omitempty"`
 	// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion" json:"capital_financing_promotion,omitempty"`
 	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
@@ -812,6 +825,17 @@ type AccountSessionCreateComponentsCapitalFinancingApplicationParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 	// An empty list, because this embedded component has no features.
 	Features *AccountSessionCreateComponentsCapitalFinancingApplicationFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsCapitalFinancingManualPaymentFeaturesParams struct{}
+
+// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+type AccountSessionCreateComponentsCapitalFinancingManualPaymentParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsCapitalFinancingManualPaymentFeaturesParams `form:"features" json:"features,omitempty"`
 }
 
 // An empty list, because this embedded component has no features.
@@ -1244,6 +1268,8 @@ type AccountSessionCreateComponentsParams struct {
 	CapitalFinancing *AccountSessionCreateComponentsCapitalFinancingParams `form:"capital_financing" json:"capital_financing,omitempty"`
 	// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 	CapitalFinancingApplication *AccountSessionCreateComponentsCapitalFinancingApplicationParams `form:"capital_financing_application" json:"capital_financing_application,omitempty"`
+	// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+	CapitalFinancingManualPayment *AccountSessionCreateComponentsCapitalFinancingManualPaymentParams `form:"capital_financing_manual_payment" json:"capital_financing_manual_payment,omitempty"`
 	// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 	CapitalFinancingPromotion *AccountSessionCreateComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion" json:"capital_financing_promotion,omitempty"`
 	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
