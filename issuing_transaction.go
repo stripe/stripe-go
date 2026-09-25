@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/shopspring/decimal"
+)
 
 // The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelType string
@@ -195,21 +198,21 @@ type IssuingTransactionPurchaseDetailsFleetCardholderPromptData struct {
 // Breakdown of fuel portion of the purchase.
 type IssuingTransactionPurchaseDetailsFleetReportedBreakdownFuel struct {
 	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
-	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
+	GrossAmountDecimal decimal.Decimal `json:"gross_amount_decimal"`
 }
 
 // Breakdown of non-fuel portion of the purchase.
 type IssuingTransactionPurchaseDetailsFleetReportedBreakdownNonFuel struct {
 	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
-	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
+	GrossAmountDecimal decimal.Decimal `json:"gross_amount_decimal"`
 }
 
 // Information about tax included in this transaction.
 type IssuingTransactionPurchaseDetailsFleetReportedBreakdownTax struct {
 	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	LocalAmountDecimal float64 `json:"local_amount_decimal,string"`
+	LocalAmountDecimal decimal.Decimal `json:"local_amount_decimal"`
 	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
-	NationalAmountDecimal float64 `json:"national_amount_decimal,string"`
+	NationalAmountDecimal decimal.Decimal `json:"national_amount_decimal"`
 }
 
 // More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
@@ -269,13 +272,13 @@ type IssuingTransactionPurchaseDetailsFuel struct {
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
 	IndustryProductCode string `json:"industry_product_code"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
-	QuantityDecimal float64 `json:"quantity_decimal,string"`
+	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type IssuingTransactionPurchaseDetailsFuelType `json:"type"`
 	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit IssuingTransactionPurchaseDetailsFuelUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
-	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
+	UnitCostDecimal decimal.Decimal `json:"unit_cost_decimal"`
 }
 
 // Information about lodging that was purchased with this transaction.

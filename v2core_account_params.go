@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // Returns a list of Accounts.
 type V2CoreAccountListParams struct {
@@ -1194,7 +1197,7 @@ type V2CoreAccountIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
+	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
@@ -2550,7 +2553,7 @@ type V2CoreAccountCreateIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
+	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
@@ -3920,7 +3923,7 @@ type V2CoreAccountUpdateIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
+	PercentOwnership *decimal.Decimal `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
