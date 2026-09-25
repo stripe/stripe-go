@@ -10,7 +10,7 @@ The official [Stripe][stripe] Go client library.
 
 ## Requirements
 
-Per our [Language Version Support Policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy), we support the 4 most recent Go versions at the time of release. Currently, that's **Go 1.22+**.
+Per our [Language Version Support Policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy), we support Go versions that are currently receiving support, plus those within the extended support window. Currently, that's **Go 1.24+**.
 
 Read more and see the full schedule in the docs: https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy
 
