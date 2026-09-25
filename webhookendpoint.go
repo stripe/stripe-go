@@ -187,7 +187,7 @@ func (p *WebhookEndpointCreateParams) AddMetadata(key string, value string) {
 // Related guide: [Setting up webhooks](https://docs.stripe.com/webhooks/configure)
 type WebhookEndpoint struct {
 	APIResource
-	// The API version events are rendered as for this webhook endpoint.
+	// The API version that events are rendered as for this webhook endpoint. You can't change this value after you create the endpoint.
 	APIVersion string `json:"api_version"`
 	// The ID of the associated Connect application.
 	Application string `json:"application"`

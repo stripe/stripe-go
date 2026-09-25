@@ -158,6 +158,26 @@ const (
 	ChargePaymentMethodDetailsCardRegulatedStatusUnregulated ChargePaymentMethodDetailsCardRegulatedStatus = "unregulated"
 )
 
+// The payment_method_options.card.setup_credential_usage value that was passed when setup_future_usage was present at confirmation, one of `recurring`, `unscheduled`, or `installment`
+type ChargePaymentMethodDetailsCardSetupCredentialUsage string
+
+// List of values that ChargePaymentMethodDetailsCardSetupCredentialUsage can take
+const (
+	ChargePaymentMethodDetailsCardSetupCredentialUsageInstallment ChargePaymentMethodDetailsCardSetupCredentialUsage = "installment"
+	ChargePaymentMethodDetailsCardSetupCredentialUsageRecurring   ChargePaymentMethodDetailsCardSetupCredentialUsage = "recurring"
+	ChargePaymentMethodDetailsCardSetupCredentialUsageUnscheduled ChargePaymentMethodDetailsCardSetupCredentialUsage = "unscheduled"
+)
+
+// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+type ChargePaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that ChargePaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	ChargePaymentMethodDetailsCardStoredCredentialUsageInstallment ChargePaymentMethodDetailsCardStoredCredentialUsage = "installment"
+	ChargePaymentMethodDetailsCardStoredCredentialUsageRecurring   ChargePaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	ChargePaymentMethodDetailsCardStoredCredentialUsageUnscheduled ChargePaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -515,9 +535,7 @@ type ChargeLevel3Params struct {
 	ShippingFromZip    *string                       `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
-// This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
-// to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
-// object used to request payment.
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -525,7 +543,7 @@ type ChargeParams struct {
 	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://docs.stripe.com/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -2316,11 +2334,7 @@ type ChargeCaptureTransferDataParams struct {
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
-// Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
-//
-// Uncaptured payments expire a set number of days after they are created ([7 by default](https://docs.stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
-//
-// Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/capture).
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture, which must be less than or equal to the original amount.
@@ -2392,9 +2406,7 @@ type ChargeCreateLevel3Params struct {
 	ShippingFromZip    *string                             `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
-// This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
-// to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
-// object used to request payment.
+// This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
 type ChargeCreateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -2402,7 +2414,7 @@ type ChargeCreateParams struct {
 	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://docs.stripe.com/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -3772,6 +3784,8 @@ type ChargePaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country                  string                                                  `json:"country"`
 	DecrementalAuthorization *ChargePaymentMethodDetailsCardDecrementalAuthorization `json:"decremental_authorization,omitempty"`
+	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. This is the network's final ECI and can differ from the request value. An authenticated ECI alone doesn't determine liability shift.
+	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -3791,7 +3805,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment or created by it.
-	Mandate string `json:"mandate"`
+	Mandate *Mandate `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO         bool                                        `json:"moto,omitempty"`
 	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture,omitempty"`
@@ -3805,6 +3819,10 @@ type ChargePaymentMethodDetailsCard struct {
 	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization,omitempty"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
+	// The payment_method_options.card.setup_credential_usage value that was passed when setup_future_usage was present at confirmation, one of `recurring`, `unscheduled`, or `installment`
+	SetupCredentialUsage ChargePaymentMethodDetailsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
+	// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+	StoredCredentialUsage ChargePaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// Transaction Link ID (TLID) is a unique identifier for a transaction. This is used by some card networks, such as Mastercard, for transaction linking, in addition to Network Transaction IDs. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -4327,6 +4345,10 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type ChargePaymentMethodDetailsSequra struct {
+	// The SeQura transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsShopeepay struct{}
 type ChargePaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -4466,6 +4488,7 @@ type ChargePaymentMethodDetails struct {
 	Scalapay           *ChargePaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *ChargePaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
@@ -4512,7 +4535,7 @@ type ChargeTransferData struct {
 
 // The `Charge` object represents a single attempt to move money into your Stripe account.
 // PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://docs.stripe.com/connect/account-debits) may also create Charges.
-// Some legacy payment flows create Charges directly, which is not recommended for new integrations.
+// The create and capture methods are deprecated and will be deleted soon. If your integration uses either of them, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/payments/payment-intents).
 type Charge struct {
 	APIResource
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).

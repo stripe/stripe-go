@@ -43,7 +43,7 @@ const (
 	FinancialConnectionsAuthorizationStatusDetailsInactiveActionRelinkRequired FinancialConnectionsAuthorizationStatusDetailsInactiveAction = "relink_required"
 )
 
-// Retrieves the details of an Financial Connections Authorization.
+// Retrieves the details of a Financial Connections Authorization.
 type FinancialConnectionsAuthorizationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -55,7 +55,7 @@ func (p *FinancialConnectionsAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an Financial Connections Authorization.
+// Retrieves the details of a Financial Connections Authorization.
 type FinancialConnectionsAuthorizationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

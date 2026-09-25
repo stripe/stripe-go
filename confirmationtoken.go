@@ -415,6 +415,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeScalapay         ConfirmationTokenPaymentMethodPreviewType = "scalapay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeSequra           ConfirmationTokenPaymentMethodPreviewType = "sequra"
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
@@ -1098,6 +1099,7 @@ type ConfirmationTokenPaymentMethodPreviewSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type ConfirmationTokenPaymentMethodPreviewSequra struct{}
 type ConfirmationTokenPaymentMethodPreviewShopeepay struct{}
 type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -1219,6 +1221,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay,omitempty"`
 	Scalapay        *ConfirmationTokenPaymentMethodPreviewScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
+	Sequra          *ConfirmationTokenPaymentMethodPreviewSequra          `json:"sequra,omitempty"`
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance,omitempty"`

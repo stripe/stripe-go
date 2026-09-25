@@ -715,7 +715,7 @@ func TestAccountsPost2Client(t *testing.T) {
 }
 
 func TestAccountsRejectPost(t *testing.T) {
-	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
+	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud_other")}
 	result, err := account.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -723,7 +723,7 @@ func TestAccountsRejectPost(t *testing.T) {
 
 func TestAccountsRejectPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
+	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud_other")}
 	result, err := sc.Accounts.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -731,7 +731,7 @@ func TestAccountsRejectPostService(t *testing.T) {
 
 func TestAccountsRejectPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
+	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud_other")}
 	result, err := sc.V1Accounts.Reject(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3541,7 +3541,7 @@ func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := financialconnections_session.New(params)
@@ -3561,7 +3561,7 @@ func TestFinancialConnectionsSessionsPost2Service(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := sc.FinancialConnectionsSessions.New(params)
@@ -3581,7 +3581,7 @@ func TestFinancialConnectionsSessionsPost2Client(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionCreateFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := sc.V1FinancialConnectionsSessions.Create(

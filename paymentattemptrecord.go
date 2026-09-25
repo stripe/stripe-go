@@ -143,6 +143,16 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardNetworkVisa            PaymentAttemptRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
+// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+type PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageInstallment PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "installment"
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
+)
+
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -211,6 +221,8 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion102 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion210 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion230 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.0"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion231 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.1"
 )
 
 // The method used to process this payment method offline. Only deferred is allowed.
@@ -924,6 +936,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardWalletApplePay struct {
 	Type string `json:"type"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsCardWalletLink struct{}
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentAttemptRecordPaymentMethodDetailsCardWallet struct {
@@ -931,7 +944,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCardWallet struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                                       `json:"dynamic_last4,omitempty"`
 	GooglePay    *PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay,omitempty"`
-	// The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	Link         *PaymentAttemptRecordPaymentMethodDetailsCardWalletLink      `json:"link,omitempty"`
+	// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type string `json:"type"`
 }
 
@@ -979,6 +993,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
+	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1280,6 +1296,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
 type PaymentAttemptRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment. You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
+	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
 
@@ -1299,6 +1317,12 @@ type PaymentAttemptRecordPaymentMethodDetailsMobilepayCard struct {
 type PaymentAttemptRecordPaymentMethodDetailsMobilepay struct {
 	// Internal card details
 	Card *PaymentAttemptRecordPaymentMethodDetailsMobilepayCard `json:"card"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsMomo struct {
+	// Uniquely identifies this particular MoMo account. You can use this attribute to check whether two MoMo accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// ID of the multi-use Mandate created by, or used to make, this MoMo payment.
+	Mandate string `json:"mandate,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
@@ -1483,6 +1507,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsSequra struct {
+	// The SeQura transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -1606,6 +1634,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Link            *PaymentAttemptRecordPaymentMethodDetailsLink            `json:"link,omitempty"`
 	MbWay           *PaymentAttemptRecordPaymentMethodDetailsMbWay           `json:"mb_way,omitempty"`
 	Mobilepay       *PaymentAttemptRecordPaymentMethodDetailsMobilepay       `json:"mobilepay,omitempty"`
+	Momo            *PaymentAttemptRecordPaymentMethodDetailsMomo            `json:"momo,omitempty"`
 	Multibanco      *PaymentAttemptRecordPaymentMethodDetailsMultibanco      `json:"multibanco,omitempty"`
 	NaverPay        *PaymentAttemptRecordPaymentMethodDetailsNaverPay        `json:"naver_pay,omitempty"`
 	NzBankAccount   *PaymentAttemptRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account,omitempty"`
@@ -1629,6 +1658,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentAttemptRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentAttemptRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
