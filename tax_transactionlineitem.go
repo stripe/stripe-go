@@ -29,6 +29,8 @@ type TaxTransactionLineItemReversal struct {
 	// The `id` of the line item to reverse in the original transaction.
 	OriginalLineItem string `json:"original_line_item"`
 }
+
+// A Tax Transaction Line Item represents an individual item in a Tax Transaction.
 type TaxTransactionLineItem struct {
 	// The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`

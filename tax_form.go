@@ -27,7 +27,7 @@ const (
 	TaxFormFilingStatusValueRejected TaxFormFilingStatusValue = "rejected"
 )
 
-// Either `account` or `external_reference`.
+// Specifies the payee type.
 type TaxFormPayeeType string
 
 // List of values that TaxFormPayeeType can take
@@ -57,7 +57,7 @@ type TaxFormListPayeeParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 	// The external reference to the payee whose forms will be retrieved.
 	ExternalReference *string `form:"external_reference" json:"external_reference,omitempty"`
-	// Specifies the payee type. Either `account` or `external_reference`.
+	// Specifies the payee type.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -165,7 +165,7 @@ type TaxFormPayee struct {
 	Account *Account `json:"account"`
 	// The external reference to this payee.
 	ExternalReference string `json:"external_reference"`
-	// Either `account` or `external_reference`.
+	// Specifies the payee type.
 	Type TaxFormPayeeType `json:"type"`
 }
 type TaxFormUS1099K struct {

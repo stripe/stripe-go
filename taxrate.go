@@ -37,6 +37,7 @@ type TaxRateTaxType string
 const (
 	TaxRateTaxTypeAmusementTax          TaxRateTaxType = "amusement_tax"
 	TaxRateTaxTypeCommunicationsTax     TaxRateTaxType = "communications_tax"
+	TaxRateTaxTypeDigitalExciseTax      TaxRateTaxType = "digital_excise_tax"
 	TaxRateTaxTypeGST                   TaxRateTaxType = "gst"
 	TaxRateTaxTypeHST                   TaxRateTaxType = "hst"
 	TaxRateTaxTypeIGST                  TaxRateTaxType = "igst"
@@ -50,6 +51,7 @@ const (
 	TaxRateTaxTypeRST                   TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax              TaxRateTaxType = "sales_tax"
 	TaxRateTaxTypeServiceTax            TaxRateTaxType = "service_tax"
+	TaxRateTaxTypeUtilityUsersTax       TaxRateTaxType = "utility_users_tax"
 	TaxRateTaxTypeVAT                   TaxRateTaxType = "vat"
 )
 
