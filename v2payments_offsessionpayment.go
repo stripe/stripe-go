@@ -217,8 +217,6 @@ type V2PaymentsOffSessionPaymentRetryDetails struct {
 	RetryPolicy string `json:"retry_policy,omitempty"`
 	// Indicates the strategy for how you want Stripe to retry the payment.
 	RetryStrategy V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy `json:"retry_strategy"`
-	// The timestamp when this payment is no longer eligible to be retried. When this timestamp is reached, the payment will be marked as failed.
-	RetryUntil time.Time `json:"retry_until,omitempty"`
 }
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).

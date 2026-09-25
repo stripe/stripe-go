@@ -176,8 +176,8 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 type FinancialConnectionsSessionFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// List of countries from which to filter accounts.
-	Countries []*string `form:"countries" json:"countries,omitempty"`
+	// Country from which to collect accounts.
+	Country *string `form:"country" json:"country,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`
 	// Whether the session should require payment method support and successful account number retrieval before completion.
@@ -251,8 +251,8 @@ type FinancialConnectionsSessionCreateAccountHolderParams struct {
 type FinancialConnectionsSessionCreateFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// List of countries from which to filter accounts.
-	Countries []*string `form:"countries" json:"countries,omitempty"`
+	// Country from which to collect accounts.
+	Country *string `form:"country" json:"country,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`
 	// Whether the session should require payment method support and successful account number retrieval before completion.
@@ -345,8 +345,6 @@ type FinancialConnectionsSessionAccountHolder struct {
 type FinancialConnectionsSessionFilters struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []FinancialConnectionsSessionFiltersAccountSubcategory `json:"account_subcategories"`
-	// List of countries from which to filter accounts.
-	Countries []string `json:"countries"`
 	// Country from which to filter accounts.
 	Country string `json:"country"`
 	// Stripe ID of the institution with which the customer should be directed to log in.

@@ -2186,6 +2186,8 @@ type PaymentAttemptRecordPaymentMethodDetailsUSBankAccount struct {
 	Mandate *Mandate `json:"mandate,omitempty"`
 	// The ACH payment reference for this transaction.
 	PaymentReference string `json:"payment_reference"`
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode string `json:"return_code,omitempty"`
 	// The routing number for the bank account.
 	RoutingNumber string `json:"routing_number"`
 }

@@ -289,6 +289,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams struct{}
 
@@ -471,6 +474,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Scalapay *TestHelpersConfirmationTokenPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *TestHelpersConfirmationTokenPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -873,6 +878,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams struct{}
 
@@ -1055,6 +1063,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Scalapay *TestHelpersConfirmationTokenCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

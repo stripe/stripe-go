@@ -27,6 +27,7 @@ const (
 	V2MoneyManagementTransactionCategoryDebitDispute                            V2MoneyManagementTransactionCategory = "debit_dispute"
 	V2MoneyManagementTransactionCategoryDispute                                 V2MoneyManagementTransactionCategory = "dispute"
 	V2MoneyManagementTransactionCategoryDisputeReversal                         V2MoneyManagementTransactionCategory = "dispute_reversal"
+	V2MoneyManagementTransactionCategoryEarnedCredit                            V2MoneyManagementTransactionCategory = "earned_credit"
 	V2MoneyManagementTransactionCategoryFinancingPaydown                        V2MoneyManagementTransactionCategory = "financing_paydown"
 	V2MoneyManagementTransactionCategoryFinancingPaydownReversal                V2MoneyManagementTransactionCategory = "financing_paydown_reversal"
 	V2MoneyManagementTransactionCategoryInboundPayment                          V2MoneyManagementTransactionCategory = "inbound_payment"
@@ -83,6 +84,7 @@ const (
 	V2MoneyManagementTransactionFlowTypeCurrencyConversion           V2MoneyManagementTransactionFlowType = "currency_conversion"
 	V2MoneyManagementTransactionFlowTypeDebitDispute                 V2MoneyManagementTransactionFlowType = "debit_dispute"
 	V2MoneyManagementTransactionFlowTypeDispute                      V2MoneyManagementTransactionFlowType = "dispute"
+	V2MoneyManagementTransactionFlowTypeEarnedCredit                 V2MoneyManagementTransactionFlowType = "earned_credit"
 	V2MoneyManagementTransactionFlowTypeFeeTransaction               V2MoneyManagementTransactionFlowType = "fee_transaction"
 	V2MoneyManagementTransactionFlowTypeInboundTransfer              V2MoneyManagementTransactionFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionFlowTypeIssuingAuthorization         V2MoneyManagementTransactionFlowType = "issuing_authorization"
@@ -160,6 +162,8 @@ type V2MoneyManagementTransactionFlow struct {
 	DebitDispute string `json:"debit_dispute,omitempty"`
 	// If applicable, the ID of the Dispute that created this Transaction.
 	Dispute string `json:"dispute,omitempty"`
+	// If applicable, the ID of the EarnedCredit that created this Transaction.
+	EarnedCredit string `json:"earned_credit,omitempty"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
 	FeeTransaction string `json:"fee_transaction,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.

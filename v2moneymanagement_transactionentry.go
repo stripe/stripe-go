@@ -27,6 +27,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDebitDispute                            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "debit_dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDispute                                 V2MoneyManagementTransactionEntryTransactionDetailsCategory = "dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDisputeReversal                         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "dispute_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryEarnedCredit                            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "earned_credit"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryFinancingPaydown                        V2MoneyManagementTransactionEntryTransactionDetailsCategory = "financing_paydown"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryFinancingPaydownReversal                V2MoneyManagementTransactionEntryTransactionDetailsCategory = "financing_paydown_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundPayment                          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_payment"
@@ -83,6 +84,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDebitDispute                 V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "debit_dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDispute                      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "dispute"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeEarnedCredit                 V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "earned_credit"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeIssuingAuthorization         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "issuing_authorization"
@@ -139,6 +141,8 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	DebitDispute string `json:"debit_dispute,omitempty"`
 	// If applicable, the ID of the Dispute that created this Transaction.
 	Dispute string `json:"dispute,omitempty"`
+	// If applicable, the ID of the EarnedCredit that created this Transaction.
+	EarnedCredit string `json:"earned_credit,omitempty"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
 	FeeTransaction string `json:"fee_transaction,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.

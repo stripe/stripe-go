@@ -214,6 +214,7 @@ const (
 	PaymentLinkPaymentMethodTypeRechnung         PaymentLinkPaymentMethodType = "rechnung"
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSequra           PaymentLinkPaymentMethodType = "sequra"
 	PaymentLinkPaymentMethodTypeShopeepay        PaymentLinkPaymentMethodType = "shopeepay"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSunbit           PaymentLinkPaymentMethodType = "sunbit"
@@ -245,6 +246,15 @@ const (
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeAccount     PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "account"
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeApplication PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "application"
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf        PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
+)
+
+// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor string
+
+// List of values that PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor can take
+const (
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchorNow       PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor = "now"
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchorUnchanged PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor = "unchanged"
 )
 
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
@@ -864,6 +874,8 @@ type PaymentLinkSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -1603,6 +1615,8 @@ type PaymentLinkCreateSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkCreateSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -2249,6 +2263,8 @@ type PaymentLinkUpdateSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkUpdateSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -2745,6 +2761,8 @@ type PaymentLinkSubscriptionDataInvoiceSettings struct {
 
 // Defines how a subscription behaves when a free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehavior struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+	BillingCycleAnchor PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }

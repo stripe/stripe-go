@@ -2116,6 +2116,12 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementDebitDisputeSucceeded(
 		h, "v2.money_management.debit_dispute.succeeded", callback)
 }
 
+// OnV2MoneyManagementEarnedCreditSucceeded registers a callback to handle notifications about the "v2.money_management.earned_credit.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementEarnedCreditSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementEarnedCreditSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.earned_credit.succeeded", callback)
+}
+
 // OnV2MoneyManagementFinancialAccountCreated registers a callback to handle notifications about the "v2.money_management.financial_account.created" event.
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementFinancialAccountCreated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(

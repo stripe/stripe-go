@@ -29,7 +29,7 @@ func (p *SigmaScheduledQueryRunListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an scheduled query run.
+// Retrieves the details of a scheduled query run.
 type SigmaScheduledQueryRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -41,7 +41,7 @@ func (p *SigmaScheduledQueryRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an scheduled query run.
+// Retrieves the details of a scheduled query run.
 type SigmaScheduledQueryRunRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

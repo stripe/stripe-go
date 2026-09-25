@@ -72,14 +72,16 @@ type ProductCatalogTrialOfferEndBehaviorParams struct {
 // Creates a trial offer.
 type ProductCatalogTrialOfferParams struct {
 	Params `form:"*"`
+	// Whether the trial offer can be used for new subscriptions. Defaults to true.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Duration of one service period of the trial.
 	Duration *ProductCatalogTrialOfferDurationParams `form:"duration" json:"duration,omitempty"`
 	// Define behavior that occurs at the end of the trial.
 	EndBehavior *ProductCatalogTrialOfferEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name *string `form:"name" json:"name,omitempty"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price" json:"price,omitempty"`
 }
@@ -118,14 +120,16 @@ type ProductCatalogTrialOfferCreateEndBehaviorParams struct {
 // Creates a trial offer.
 type ProductCatalogTrialOfferCreateParams struct {
 	Params `form:"*"`
+	// Whether the trial offer can be used for new subscriptions. Defaults to true.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Duration of one service period of the trial.
 	Duration *ProductCatalogTrialOfferCreateDurationParams `form:"duration" json:"duration"`
 	// Define behavior that occurs at the end of the trial.
 	EndBehavior *ProductCatalogTrialOfferCreateEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name *string `form:"name" json:"name,omitempty"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price" json:"price"`
 }
@@ -144,6 +148,20 @@ type ProductCatalogTrialOfferRetrieveParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *ProductCatalogTrialOfferRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates the specified trial offer by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+type ProductCatalogTrialOfferUpdateParams struct {
+	Params `form:"*"`
+	// Whether the trial offer can be used for new purchases.
+	Active *bool `form:"active" json:"active,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductCatalogTrialOfferUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -173,14 +191,16 @@ type ProductCatalogTrialOfferEndBehavior struct {
 // using `items[current_trial][trial_offer]` when creating or updating a subscription.
 type ProductCatalogTrialOffer struct {
 	APIResource
+	// Whether the trial offer is active. Set to false to archive the trial offer.
+	Active      bool                                 `json:"active"`
 	Duration    *ProductCatalogTrialOfferDuration    `json:"duration"`
 	EndBehavior *ProductCatalogTrialOfferEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name string `json:"name,omitempty"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The price during the trial offer.

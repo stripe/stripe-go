@@ -20,6 +20,16 @@ const (
 	CapitalFinancingSummaryDetailsDisclaimerVariantYoulendUSMca       CapitalFinancingSummaryDetailsDisclaimerVariant = "youlend_us_mca"
 )
 
+// The ways the connected account can pay toward its financing(s).
+type CapitalFinancingSummaryDetailsEnabledPaymentType string
+
+// List of values that CapitalFinancingSummaryDetailsEnabledPaymentType can take
+const (
+	CapitalFinancingSummaryDetailsEnabledPaymentTypeAutomaticDebits CapitalFinancingSummaryDetailsEnabledPaymentType = "automatic_debits"
+	CapitalFinancingSummaryDetailsEnabledPaymentTypeManualPayment   CapitalFinancingSummaryDetailsEnabledPaymentType = "manual_payment"
+	CapitalFinancingSummaryDetailsEnabledPaymentTypeWithholding     CapitalFinancingSummaryDetailsEnabledPaymentType = "withholding"
+)
+
 // The financing status of the connected account.
 type CapitalFinancingSummaryStatus string
 
@@ -85,6 +95,8 @@ type CapitalFinancingSummaryDetails struct {
 	CurrentRepaymentInterval *CapitalFinancingSummaryDetailsCurrentRepaymentInterval `json:"current_repayment_interval"`
 	// The type of disclaimer to use for a financing offer in user-facing surfaces. The corresponding disclaimer text to use for each disclaimer_variant value can be found in the [regulatory compliance docs](https://docs.stripe.com/capital/regulatory-compliance).
 	DisclaimerVariant CapitalFinancingSummaryDetailsDisclaimerVariant `json:"disclaimer_variant,omitempty"`
+	// The ways the connected account can pay toward its financing(s).
+	EnabledPaymentTypes []CapitalFinancingSummaryDetailsEnabledPaymentType `json:"enabled_payment_types,omitempty"`
 	// Fixed fee amount, in minor units. For example, 100 USD is represented as 10000.
 	FeeAmount int64 `json:"fee_amount"`
 	// The amount the Connected account has paid toward the financing debt so far, in minor units. For example, 1,000 USD is represented as 100000.
