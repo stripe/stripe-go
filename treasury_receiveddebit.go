@@ -143,7 +143,7 @@ type TreasuryReceivedDebitInitiatingPaymentMethodDetails struct {
 	Balance          TreasuryReceivedDebitInitiatingPaymentMethodDetailsBalance           `json:"balance,omitempty"`
 	BillingDetails   *TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails   `json:"billing_details"`
 	FinancialAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account,omitempty"`
-	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://api.stripe.com#issuing_cards) ID.
+	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://docs.stripe.com/api#issuing_cards) ID.
 	IssuingCard string `json:"issuing_card,omitempty"`
 	// Polymorphic type matching the originating money movement's source. This can be an external account, a Stripe balance, or a FinancialAccount.
 	Type          TreasuryReceivedDebitInitiatingPaymentMethodDetailsType           `json:"type"`
@@ -154,13 +154,13 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	DebitReversal string `json:"debit_reversal"`
 	// Set if the ReceivedDebit is associated with an InboundTransfer's return of funds.
 	InboundTransfer string `json:"inbound_transfer"`
-	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://api.stripe.com#issuing_authorizations) object.
+	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://docs.stripe.com/api#issuing_authorizations) object.
 	IssuingAuthorization string `json:"issuing_authorization"`
-	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://api.stripe.com#issuing_disputes) object.
+	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://docs.stripe.com/api#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`
-	// Set if the ReceivedDebit was created due to a [Payout](https://api.stripe.com#payouts) object.
+	// Set if the ReceivedDebit was created due to a [Payout](https://docs.stripe.com/api#payouts) object.
 	Payout string `json:"payout"`
-	// Set if the ReceivedDebit was created due to a [Topup](https://api.stripe.com#topups) object.
+	// Set if the ReceivedDebit was created due to a [Topup](https://docs.stripe.com/api#topups) object.
 	Topup string `json:"topup"`
 }
 
@@ -172,7 +172,7 @@ type TreasuryReceivedDebitReversalDetails struct {
 	RestrictedReason TreasuryReceivedDebitReversalDetailsRestrictedReason `json:"restricted_reason"`
 }
 
-// ReceivedDebits represent funds pulled from a [FinancialAccount](https://api.stripe.com#financial_accounts). These are not initiated from the FinancialAccount.
+// ReceivedDebits represent funds pulled from a [FinancialAccount](https://docs.stripe.com/api#financial_accounts). These are not initiated from the FinancialAccount.
 type TreasuryReceivedDebit struct {
 	APIResource
 	// Amount (in cents) transferred.

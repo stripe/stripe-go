@@ -29,6 +29,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeBoleto               SetupIntentAllowedPaymentMethodType = "boleto"
 	SetupIntentAllowedPaymentMethodTypeCapchasePay          SetupIntentAllowedPaymentMethodType = "capchase_pay"
 	SetupIntentAllowedPaymentMethodTypeCard                 SetupIntentAllowedPaymentMethodType = "card"
+	SetupIntentAllowedPaymentMethodTypeCardPresent          SetupIntentAllowedPaymentMethodType = "card_present"
 	SetupIntentAllowedPaymentMethodTypeCashApp              SetupIntentAllowedPaymentMethodType = "cashapp"
 	SetupIntentAllowedPaymentMethodTypeCheckScan            SetupIntentAllowedPaymentMethodType = "check_scan"
 	SetupIntentAllowedPaymentMethodTypeClickToPay           SetupIntentAllowedPaymentMethodType = "click_to_pay"
@@ -49,6 +50,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeGrabpay              SetupIntentAllowedPaymentMethodType = "grabpay"
 	SetupIntentAllowedPaymentMethodTypeIDBankTransfer       SetupIntentAllowedPaymentMethodType = "id_bank_transfer"
 	SetupIntentAllowedPaymentMethodTypeIDEAL                SetupIntentAllowedPaymentMethodType = "ideal"
+	SetupIntentAllowedPaymentMethodTypeInteracPresent       SetupIntentAllowedPaymentMethodType = "interac_present"
 	SetupIntentAllowedPaymentMethodTypeKakaoPay             SetupIntentAllowedPaymentMethodType = "kakao_pay"
 	SetupIntentAllowedPaymentMethodTypeKlarna               SetupIntentAllowedPaymentMethodType = "klarna"
 	SetupIntentAllowedPaymentMethodTypeKnet                 SetupIntentAllowedPaymentMethodType = "knet"
@@ -175,6 +177,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypePayco            SetupIntentExcludedPaymentMethodType = "payco"
 	SetupIntentExcludedPaymentMethodTypePayNow           SetupIntentExcludedPaymentMethodType = "paynow"
 	SetupIntentExcludedPaymentMethodTypePaypal           SetupIntentExcludedPaymentMethodType = "paypal"
+	SetupIntentExcludedPaymentMethodTypePaypay           SetupIntentExcludedPaymentMethodType = "paypay"
 	SetupIntentExcludedPaymentMethodTypePayto            SetupIntentExcludedPaymentMethodType = "payto"
 	SetupIntentExcludedPaymentMethodTypePix              SetupIntentExcludedPaymentMethodType = "pix"
 	SetupIntentExcludedPaymentMethodTypePromptPay        SetupIntentExcludedPaymentMethodType = "promptpay"
@@ -183,6 +186,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
 	SetupIntentExcludedPaymentMethodTypeScalapay         SetupIntentExcludedPaymentMethodType = "scalapay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
+	SetupIntentExcludedPaymentMethodTypeSequra           SetupIntentExcludedPaymentMethodType = "sequra"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
 	SetupIntentExcludedPaymentMethodTypeSunbit           SetupIntentExcludedPaymentMethodType = "sunbit"
 	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
@@ -271,6 +275,14 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodInstant       SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
+// Type of the mandate.
+type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType string
+
+// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsType can take
+const (
+	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOffSession SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "off_session"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -569,10 +581,10 @@ type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentPaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type SetupIntentPaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentPaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -756,6 +768,9 @@ type SetupIntentPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentPaymentMethodDataPaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentPaymentMethodDataPaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type SetupIntentPaymentMethodDataPaytoParams struct {
 	// The account number for the bank account.
@@ -795,6 +810,9 @@ type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban" json:"iban"`
 }
+
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentPaymentMethodDataSequraParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentPaymentMethodDataSofortParams struct {
@@ -862,9 +880,9 @@ type SetupIntentPaymentMethodDataParams struct {
 	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *SetupIntentPaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentPaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -934,6 +952,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentPaymentMethodDataPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentPaymentMethodDataPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *SetupIntentPaymentMethodDataPaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -952,6 +972,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Scalapay *SetupIntentPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
@@ -1050,6 +1072,20 @@ type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentPaymentMethodOptionsBizumParams struct{}
+
+// Details of the BLIK mandate
+type SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentPaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
@@ -1411,6 +1447,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -1498,8 +1536,6 @@ type SetupIntentParams struct {
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
@@ -1577,10 +1613,10 @@ type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentConfirmPaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type SetupIntentConfirmPaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentConfirmPaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1764,6 +1800,9 @@ type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentConfirmPaymentMethodDataPaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentConfirmPaymentMethodDataPaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type SetupIntentConfirmPaymentMethodDataPaytoParams struct {
 	// The account number for the bank account.
@@ -1803,6 +1842,9 @@ type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban" json:"iban"`
 }
+
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentConfirmPaymentMethodDataSequraParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentConfirmPaymentMethodDataSofortParams struct {
@@ -1870,9 +1912,9 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *SetupIntentConfirmPaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentConfirmPaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentConfirmPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -1942,6 +1984,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentConfirmPaymentMethodDataPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentConfirmPaymentMethodDataPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *SetupIntentConfirmPaymentMethodDataPaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -1960,6 +2004,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Scalapay *SetupIntentConfirmPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentConfirmPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
@@ -2121,10 +2167,10 @@ type SetupIntentCreatePaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentCreatePaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type SetupIntentCreatePaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentCreatePaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -2308,6 +2354,9 @@ type SetupIntentCreatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentCreatePaymentMethodDataPaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentCreatePaymentMethodDataPaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type SetupIntentCreatePaymentMethodDataPaytoParams struct {
 	// The account number for the bank account.
@@ -2347,6 +2396,9 @@ type SetupIntentCreatePaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban" json:"iban"`
 }
+
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentCreatePaymentMethodDataSequraParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentCreatePaymentMethodDataSofortParams struct {
@@ -2414,9 +2466,9 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Alipay *SetupIntentCreatePaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *SetupIntentCreatePaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentCreatePaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentCreatePaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -2486,6 +2538,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	PayNow *SetupIntentCreatePaymentMethodDataPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentCreatePaymentMethodDataPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentCreatePaymentMethodDataPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *SetupIntentCreatePaymentMethodDataPaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -2504,6 +2558,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Scalapay *SetupIntentCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
@@ -2602,6 +2658,20 @@ type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentCreatePaymentMethodOptionsBizumParams struct{}
+
+// Details of the BLIK mandate
+type SetupIntentCreatePaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentCreatePaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentCreatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
@@ -2963,6 +3033,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentCreatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -3048,8 +3120,6 @@ type SetupIntentCreateParams struct {
 	PaymentMethodData *SetupIntentCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
@@ -3126,10 +3196,10 @@ type SetupIntentUpdatePaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentUpdatePaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type SetupIntentUpdatePaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentUpdatePaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -3313,6 +3383,9 @@ type SetupIntentUpdatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentUpdatePaymentMethodDataPaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentUpdatePaymentMethodDataPaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type SetupIntentUpdatePaymentMethodDataPaytoParams struct {
 	// The account number for the bank account.
@@ -3352,6 +3425,9 @@ type SetupIntentUpdatePaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban" json:"iban"`
 }
+
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentUpdatePaymentMethodDataSequraParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentUpdatePaymentMethodDataSofortParams struct {
@@ -3419,9 +3495,9 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Alipay *SetupIntentUpdatePaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *SetupIntentUpdatePaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentUpdatePaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentUpdatePaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -3491,6 +3567,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	PayNow *SetupIntentUpdatePaymentMethodDataPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentUpdatePaymentMethodDataPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentUpdatePaymentMethodDataPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *SetupIntentUpdatePaymentMethodDataPaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -3509,6 +3587,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Scalapay *SetupIntentUpdatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentUpdatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentUpdatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
@@ -3607,6 +3687,20 @@ type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentUpdatePaymentMethodOptionsBizumParams struct{}
+
+// Details of the BLIK mandate
+type SetupIntentUpdatePaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentUpdatePaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentUpdatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
@@ -3968,6 +4062,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentUpdatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentUpdatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentUpdatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentUpdatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -4028,9 +4124,7 @@ type SetupIntentUpdateParams struct {
 	PaymentMethodData *SetupIntentUpdatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string                           `form:"payment_method_types" json:"payment_method_types,omitempty"`
-	UnsetFields        []SetupIntentUpdateParamsUnsetField `form:"-" json:"-"`
+	UnsetFields          []SetupIntentUpdateParamsUnsetField          `form:"-" json:"-"`
 }
 
 // SetupIntentUpdateParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdateParams.
@@ -4182,6 +4276,15 @@ type SetupIntentPaymentMethodOptionsBACSDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBizum struct{}
+type SetupIntentPaymentMethodOptionsBLIKMandateOptions struct {
+	// Date at which the mandate expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Type of the mandate.
+	Type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType `json:"type"`
+}
+type SetupIntentPaymentMethodOptionsBLIK struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptions `json:"mandate_options,omitempty"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -4320,6 +4423,7 @@ type SetupIntentPaymentMethodOptions struct {
 	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay,omitempty"`
 	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit,omitempty"`
 	Bizum         *SetupIntentPaymentMethodOptionsBizum         `json:"bizum,omitempty"`
+	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik,omitempty"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card,omitempty"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present,omitempty"`
 	Klarna        *SetupIntentPaymentMethodOptionsKlarna        `json:"klarna,omitempty"`
@@ -4334,7 +4438,7 @@ type SetupIntentPaymentMethodOptions struct {
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
 // For example, you can use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
-// Later, you can use [PaymentIntents](https://api.stripe.com#payment_intents) to drive the payment flow.
+// Later, you can use [PaymentIntents](https://docs.stripe.com/api#payment_intents) to drive the payment flow.
 //
 // Create a SetupIntent when you're ready to collect your customer's payment credentials.
 // Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
@@ -4345,9 +4449,9 @@ type SetupIntentPaymentMethodOptions struct {
 // For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) might need to be run through
 // [Strong Customer Authentication](https://docs.stripe.com/strong-customer-authentication) during payment method collection
 // to streamline later [off-session payments](https://docs.stripe.com/payments/setup-intents).
-// If you use the SetupIntent with a [Customer](https://api.stripe.com#setup_intent_object-customer),
+// If you use the SetupIntent with a [Customer](https://docs.stripe.com/api#setup_intent_object-customer),
 // it automatically attaches the resulting payment method to that Customer after successful setup.
-// We recommend using SetupIntents or [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) on
+// We recommend using SetupIntents or [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) on
 // PaymentIntents to save payment methods to prevent saving invalid or unoptimized payment methods.
 //
 // By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.

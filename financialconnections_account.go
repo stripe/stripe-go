@@ -30,6 +30,8 @@ type FinancialConnectionsAccountAccountNumberStatus string
 // List of values that FinancialConnectionsAccountAccountNumberStatus can take
 const (
 	FinancialConnectionsAccountAccountNumberStatusDeactivated  FinancialConnectionsAccountAccountNumberStatus = "deactivated"
+	FinancialConnectionsAccountAccountNumberStatusExpired      FinancialConnectionsAccountAccountNumberStatus = "expired"
+	FinancialConnectionsAccountAccountNumberStatusPending      FinancialConnectionsAccountAccountNumberStatus = "pending"
 	FinancialConnectionsAccountAccountNumberStatusTransactable FinancialConnectionsAccountAccountNumberStatus = "transactable"
 )
 
@@ -200,7 +202,7 @@ func (p *FinancialConnectionsAccountListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an Financial Connections Account.
+// Retrieves the details of a Financial Connections Account.
 type FinancialConnectionsAccountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -281,7 +283,7 @@ func (p *FinancialConnectionsAccountUnsubscribeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an Financial Connections Account.
+// Retrieves the details of a Financial Connections Account.
 type FinancialConnectionsAccountRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

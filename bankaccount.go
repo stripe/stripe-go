@@ -39,8 +39,10 @@ const (
 	BankAccountFutureRequirementsErrorCodeExternalRequest                                        BankAccountFutureRequirementsErrorCode = "external_request"
 	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
+	BankAccountFutureRequirementsErrorCodeInvalidAddressCmraAddress                              BankAccountFutureRequirementsErrorCode = "invalid_address_cmra_address"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountFutureRequirementsErrorCode = "invalid_address_private_mailbox"
+	BankAccountFutureRequirementsErrorCodeInvalidAddressRegisteredAgentAddress                   BankAccountFutureRequirementsErrorCode = "invalid_address_registered_agent_address"
 	BankAccountFutureRequirementsErrorCodeInvalidBusinessProfileName                             BankAccountFutureRequirementsErrorCode = "invalid_business_profile_name"
 	BankAccountFutureRequirementsErrorCodeInvalidBusinessProfileNameDenylisted                   BankAccountFutureRequirementsErrorCode = "invalid_business_profile_name_denylisted"
 	BankAccountFutureRequirementsErrorCodeInvalidCompanyNameDenylisted                           BankAccountFutureRequirementsErrorCode = "invalid_company_name_denylisted"
@@ -143,8 +145,10 @@ const (
 	BankAccountRequirementsErrorCodeExternalRequest                                        BankAccountRequirementsErrorCode = "external_request"
 	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
+	BankAccountRequirementsErrorCodeInvalidAddressCmraAddress                              BankAccountRequirementsErrorCode = "invalid_address_cmra_address"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountRequirementsErrorCode = "invalid_address_private_mailbox"
+	BankAccountRequirementsErrorCodeInvalidAddressRegisteredAgentAddress                   BankAccountRequirementsErrorCode = "invalid_address_registered_agent_address"
 	BankAccountRequirementsErrorCodeInvalidBusinessProfileName                             BankAccountRequirementsErrorCode = "invalid_business_profile_name"
 	BankAccountRequirementsErrorCodeInvalidBusinessProfileNameDenylisted                   BankAccountRequirementsErrorCode = "invalid_business_profile_name_denylisted"
 	BankAccountRequirementsErrorCodeInvalidCompanyNameDenylisted                           BankAccountRequirementsErrorCode = "invalid_company_name_denylisted"
@@ -408,7 +412,7 @@ func (p *BankAccountParams) AddMetadata(key string, value string) {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -452,7 +456,7 @@ type BankAccountDeleteParams struct {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 

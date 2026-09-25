@@ -109,6 +109,27 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Type of registration the company or entity holds in their registered country.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -227,6 +248,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
 	InvoicePaymentSettingsPaymentMethodTypeBillie             InvoicePaymentSettingsPaymentMethodType = "billie"
+	InvoicePaymentSettingsPaymentMethodTypeBLIK               InvoicePaymentSettingsPaymentMethodType = "blik"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
@@ -310,6 +332,18 @@ const (
 	InvoiceStatusPaid          InvoiceStatus = "paid"
 	InvoiceStatusUncollectible InvoiceStatus = "uncollectible"
 	InvoiceStatusVoid          InvoiceStatus = "void"
+)
+
+// The reason why the invoice is uncollectible.
+type InvoiceStatusDetailsUncollectibleReason string
+
+// List of values that InvoiceStatusDetailsUncollectibleReason can take
+const (
+	InvoiceStatusDetailsUncollectibleReasonMaxPaymentAttempts   InvoiceStatusDetailsUncollectibleReason = "max_payment_attempts"
+	InvoiceStatusDetailsUncollectibleReasonPaymentNotReceived   InvoiceStatusDetailsUncollectibleReason = "payment_not_received"
+	InvoiceStatusDetailsUncollectibleReasonSubscriptionCanceled InvoiceStatusDetailsUncollectibleReason = "subscription_canceled"
+	InvoiceStatusDetailsUncollectibleReasonSubscriptionPaused   InvoiceStatusDetailsUncollectibleReason = "subscription_paused"
+	InvoiceStatusDetailsUncollectibleReasonUserForgiven         InvoiceStatusDetailsUncollectibleReason = "user_forgiven"
 )
 
 // Type of the pretax credit amount referenced.
@@ -418,7 +452,7 @@ type InvoiceParams struct {
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// How to handle pending invoice items on invoice creation. Defaults to `exclude` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior" json:"pending_invoice_items_behavior,omitempty"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *InvoiceRenderingParams `form:"rendering" json:"rendering,omitempty"`
 	// Settings for the cost of shipping for this invoice.
 	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
@@ -532,8 +566,57 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                          `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                            `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoicePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoicePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
 
 // The selected installment plan to use for this invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -680,6 +763,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
 	Billie *InvoicePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoicePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -706,6 +791,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -753,7 +839,7 @@ type InvoiceRenderingPDFParams struct {
 	PageSize *string `form:"page_size" json:"page_size,omitempty"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type InvoiceRenderingParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
@@ -958,6 +1044,27 @@ type InvoiceAddLinesLinePeriodParams struct {
 	Start *int64 `form:"start" json:"start"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams.
+type InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type InvoiceAddLinesLinePriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -970,6 +1077,8 @@ type InvoiceAddLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -1286,6 +1395,27 @@ type InvoiceUpdateLinesLinePeriodParams struct {
 	Start *int64 `form:"start" json:"start"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams.
+type InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type InvoiceUpdateLinesLinePriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -1298,6 +1428,8 @@ type InvoiceUpdateLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -2034,6 +2166,14 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
+// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+type InvoiceCreatePreviewSubscriptionDetailsBillingCycleAnchorParams struct {
+	// A timestamp to use as the subscription's billing cycle anchor. Only valid when `type` is `timestamp`.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Determines how the subscription's billing cycle anchor behaves for the invoice preview.
+	Type *string `form:"type" json:"type"`
+}
+
 // Configure behavior for flexible billing mode.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
@@ -2090,6 +2230,12 @@ type InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type InvoiceCreatePreviewSubscriptionDetailsItemCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2108,7 +2254,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams struct 
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2130,6 +2276,8 @@ type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage" json:"clear_usage,omitempty"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *InvoiceCreatePreviewSubscriptionDetailsItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted" json:"deleted,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -2140,9 +2288,9 @@ type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2175,12 +2323,44 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsItemParams) AddMetadata(key stri
 	p.Metadata[key] = value
 }
 
+// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForOutstandingUsageThroughParams struct {
+	// When to bill metered usage in the current period.
+	Type *string `form:"type" json:"type"`
+}
+
+// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForUnusedTimeFromParams struct {
+	// When to credit for unused time.
+	Type *string `form:"type" json:"type"`
+}
+
+// Controls what to bill for when pausing the subscription.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForParams struct {
+	// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+	OutstandingUsageThrough *InvoiceCreatePreviewSubscriptionDetailsPauseBillForOutstandingUsageThroughParams `form:"outstanding_usage_through" json:"outstanding_usage_through,omitempty"`
+	// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+	UnusedTimeFrom *InvoiceCreatePreviewSubscriptionDetailsPauseBillForUnusedTimeFromParams `form:"unused_time_from" json:"unused_time_from,omitempty"`
+}
+
+// Previews the invoice that would be generated when pausing the subscription. Passing an empty hash won't preview pausing and instead returns the next invoice.
+//
+// To receive a preview invoice, set `invoicing_behavior` to `invoice`. A preview isn't available if the `bill_for` options produce no billable amounts.
+//
+// `pending_invoice_item` never has a preview available because pausing wouldn't generate an invoice, and paused subscriptions don't generate invoices either.
+type InvoiceCreatePreviewSubscriptionDetailsPauseParams struct {
+	// Controls what to bill for when pausing the subscription.
+	BillFor *InvoiceCreatePreviewSubscriptionDetailsPauseBillForParams `form:"bill_for" json:"bill_for,omitempty"`
+	// Determines how to handle debits and credits when pausing. Defaults to `pending_invoice_item`.
+	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
+	// The type of pause to apply. Defaults to `subscription`.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
 // The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
-	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchor *InvoiceCreatePreviewSubscriptionDetailsBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Sets the billing schedules for the subscription.
@@ -2200,6 +2380,12 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	Items []*InvoiceCreatePreviewSubscriptionDetailsItemParams `form:"items" json:"items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Previews the invoice that would be generated when pausing the subscription. Passing an empty hash won't preview pausing and instead returns the next invoice.
+	//
+	// To receive a preview invoice, set `invoicing_behavior` to `invoice`. A preview isn't available if the `bill_for` options produce no billable amounts.
+	//
+	// `pending_invoice_item` never has a preview available because pausing wouldn't generate an invoice, and paused subscriptions don't generate invoices either.
+	Pause *InvoiceCreatePreviewSubscriptionDetailsPauseParams `form:"pause" json:"pause,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
@@ -2240,12 +2426,6 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AddMetadata(key string, 
 
 // AppendTo implements custom encoding logic for InvoiceCreatePreviewSubscriptionDetailsParams.
 func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.BillingCycleAnchorNow) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
-	}
-	if BoolValue(p.BillingCycleAnchorUnchanged) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
-	}
 	if BoolValue(p.CancelAtMaxBilledUntil) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
@@ -2414,8 +2594,57 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                                  `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
 
 // The selected installment plan to use for this invoice.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -2562,6 +2791,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
 	Billie *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2588,6 +2819,7 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -2635,7 +2867,7 @@ type InvoiceUpdateRenderingPDFParams struct {
 	PageSize *string `form:"page_size" json:"page_size,omitempty"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type InvoiceUpdateRenderingParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
@@ -2770,7 +3002,8 @@ type InvoiceUpdateTransferDataParams struct {
 }
 
 // Draft invoices are fully editable. Once an invoice is [finalized](https://docs.stripe.com/docs/billing/invoices/workflow#finalized),
-// monetary values, as well as collection_method, become uneditable.
+// you can no longer change most of its details, including monetary values and collection_method. For most invoices,
+// this also includes description.
 //
 // If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,
 // sending reminders for, or [automatically reconciling](https://docs.stripe.com/docs/billing/invoices/reconciliation) invoices, pass
@@ -2821,7 +3054,7 @@ type InvoiceUpdateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 	PaymentSettings *InvoiceUpdatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *InvoiceUpdateRenderingParams `form:"rendering" json:"rendering,omitempty"`
 	// Settings for the cost of shipping for this invoice.
 	ShippingCost *InvoiceUpdateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
@@ -2941,8 +3174,57 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                                  `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
 
 // The selected installment plan to use for this invoice.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -3089,6 +3371,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
 	Billie *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoiceCreatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -3115,6 +3399,7 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -3162,7 +3447,7 @@ type InvoiceCreateRenderingPDFParams struct {
 	PageSize *string `form:"page_size" json:"page_size,omitempty"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type InvoiceCreateRenderingParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
@@ -3353,7 +3638,7 @@ type InvoiceCreateParams struct {
 	PaymentSettings *InvoiceCreatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// How to handle pending invoice items on invoice creation. Defaults to `exclude` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior" json:"pending_invoice_items_behavior,omitempty"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *InvoiceCreateRenderingParams `form:"rendering" json:"rendering,omitempty"`
 	// Settings for the cost of shipping for this invoice.
 	ShippingCost *InvoiceCreateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
@@ -3498,9 +3783,27 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT string `json:"vat"`
+}
 
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsBillie struct {
+	CompanyDetails *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference string `json:"reference,omitempty"`
+}
+
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBLIK struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
 	// Whether Installments are enabled for this Invoice.
 	Enabled bool `json:"enabled"`
@@ -3597,6 +3900,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
 	Billie *InvoicePaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoicePaymentSettingsPaymentMethodOptionsBLIK `json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -3629,7 +3934,7 @@ type InvoiceRenderingPDF struct {
 	PageSize InvoiceRenderingPDFPageSize `json:"page_size"`
 }
 
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 type InvoiceRendering struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
@@ -3667,6 +3972,13 @@ type InvoiceShippingCost struct {
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The taxes applied to the shipping rate.
 	Taxes []*InvoiceShippingCostTax `json:"taxes,omitempty"`
+}
+type InvoiceStatusDetailsUncollectible struct {
+	// The reason why the invoice is uncollectible.
+	Reason InvoiceStatusDetailsUncollectibleReason `json:"reason"`
+}
+type InvoiceStatusDetails struct {
+	Uncollectible *InvoiceStatusDetailsUncollectible `json:"uncollectible,omitempty"`
 }
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
@@ -3738,7 +4050,7 @@ type InvoiceTotalTax struct {
 // Invoices are statements of amounts owed by a customer, and are either
 // generated one-off, or generated periodically from a subscription.
 //
-// They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+// They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
 // that may be caused by subscription upgrades/downgrades (if necessary).
 //
 // If your invoice is configured to be billed through automatic charges,
@@ -3897,7 +4209,7 @@ type Invoice struct {
 	PrePaymentCreditNotesAmount int64 `json:"pre_payment_credit_notes_amount"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	// The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
 	Rendering *InvoiceRendering `json:"rendering"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *InvoiceShippingCost `json:"shipping_cost"`
@@ -3909,6 +4221,7 @@ type Invoice struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 	Status            InvoiceStatus             `json:"status"`
+	StatusDetails     *InvoiceStatusDetails     `json:"status_details,omitempty"`
 	StatusTransitions *InvoiceStatusTransitions `json:"status_transitions"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`

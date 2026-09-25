@@ -90,6 +90,27 @@ type InvoiceLineItemPeriodParams struct {
 	Start *int64 `form:"start" json:"start"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type InvoiceLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                         `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemPriceDataProductDataTaxDetailsParams.
+type InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type InvoiceLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -102,6 +123,8 @@ type InvoiceLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *InvoiceLineItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -259,6 +282,27 @@ type InvoiceLineItemUpdatePeriodParams struct {
 	Start *int64 `form:"start" json:"start"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                               `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams.
+type InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type InvoiceLineItemUpdatePriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -271,6 +315,8 @@ type InvoiceLineItemUpdatePriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }

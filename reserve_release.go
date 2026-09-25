@@ -15,12 +15,21 @@ const (
 	ReserveReleaseCreatedByStripe      ReserveReleaseCreatedBy = "stripe"
 )
 
+// The balance destination to which the released funds are sent.
+type ReserveReleaseDestination string
+
+// List of values that ReserveReleaseDestination can take
+const (
+	ReserveReleaseDestinationOther    ReserveReleaseDestination = "other"
+	ReserveReleaseDestinationPayments ReserveReleaseDestination = "payments"
+)
+
 // The reason for the ReserveRelease, indicating why the funds were released.
 type ReserveReleaseReason string
 
 // List of values that ReserveReleaseReason can take
 const (
-	ReserveReleaseReasonBulkHoldExpiry    ReserveReleaseReason = "bulk_hold_expiry"
+	ReserveReleaseReasonHoldExpired       ReserveReleaseReason = "hold_expired"
 	ReserveReleaseReasonHoldReleasedEarly ReserveReleaseReason = "hold_released_early"
 	ReserveReleaseReasonHoldReversed      ReserveReleaseReason = "hold_reversed"
 	ReserveReleaseReasonPlanDisabled      ReserveReleaseReason = "plan_disabled"
@@ -54,6 +63,8 @@ type ReserveRelease struct {
 	CreatedBy ReserveReleaseCreatedBy `json:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// The balance destination to which the released funds are sent.
+	Destination ReserveReleaseDestination `json:"destination"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

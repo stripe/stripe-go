@@ -68,6 +68,28 @@ const (
 	MandatePaymentMethodDetailsBACSDebitRevocationReasonDebitNotAuthorized    MandatePaymentMethodDetailsBACSDebitRevocationReason = "debit_not_authorized"
 )
 
+// Type of the mandate.
+type MandatePaymentMethodDetailsBLIKType string
+
+// List of values that MandatePaymentMethodDetailsBLIKType can take
+const (
+	MandatePaymentMethodDetailsBLIKTypeOffSession MandatePaymentMethodDetailsBLIKType = "off_session"
+)
+
+// The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
+type MandatePaymentMethodDetailsCardIndiaInactiveReason string
+
+// List of values that MandatePaymentMethodDetailsCardIndiaInactiveReason can take
+const (
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCanceled             MandatePaymentMethodDetailsCardIndiaInactiveReason = "canceled"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCardNotSupported     MandatePaymentMethodDetailsCardIndiaInactiveReason = "card_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonCurrencyNotSupported MandatePaymentMethodDetailsCardIndiaInactiveReason = "currency_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonExpired              MandatePaymentMethodDetailsCardIndiaInactiveReason = "expired"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonIssuerNotSupported   MandatePaymentMethodDetailsCardIndiaInactiveReason = "issuer_not_supported"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonProcessingError      MandatePaymentMethodDetailsCardIndiaInactiveReason = "processing_error"
+	MandatePaymentMethodDetailsCardIndiaInactiveReasonUndetermined         MandatePaymentMethodDetailsCardIndiaInactiveReason = "undetermined"
+)
+
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type MandatePaymentMethodDetailsPaytoAmountType string
 
@@ -265,7 +287,19 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 	// The URL that will contain the mandate that the customer has signed.
 	URL string `json:"url"`
 }
-type MandatePaymentMethodDetailsCard struct{}
+type MandatePaymentMethodDetailsBLIK struct {
+	// Date at which the mandate expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Type of the mandate.
+	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
+}
+type MandatePaymentMethodDetailsCardIndia struct {
+	// The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
+	InactiveReason MandatePaymentMethodDetailsCardIndiaInactiveReason `json:"inactive_reason"`
+}
+type MandatePaymentMethodDetailsCard struct {
+	India *MandatePaymentMethodDetailsCardIndia `json:"india,omitempty"`
+}
 type MandatePaymentMethodDetailsCashApp struct{}
 type MandatePaymentMethodDetailsKakaoPay struct{}
 type MandatePaymentMethodDetailsKlarna struct{}
@@ -336,6 +370,7 @@ type MandatePaymentMethodDetails struct {
 	AmazonPay     *MandatePaymentMethodDetailsAmazonPay     `json:"amazon_pay,omitempty"`
 	AUBECSDebit   *MandatePaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
 	BACSDebit     *MandatePaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
+	BLIK          *MandatePaymentMethodDetailsBLIK          `json:"blik,omitempty"`
 	Card          *MandatePaymentMethodDetailsCard          `json:"card,omitempty"`
 	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp,omitempty"`
 	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay,omitempty"`
