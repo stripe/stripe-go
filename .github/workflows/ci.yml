@@ -115,7 +115,7 @@ jobs:
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: ${{ matrix.go }}
-      - uses: stripe/openapi/actions/stripe-mock@master
+      - uses: stripe/openapi/actions/stripe-mock@cadedf5d063b6932a4d43db2026c056834748abb
         with:
           openapi_version: ${{ steps.openapi.outputs.version }}
       - name: Test
