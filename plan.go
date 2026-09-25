@@ -149,6 +149,27 @@ func (p *PlanListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanProductTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                 `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PlanProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PlanProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanProductTaxDetailsParams.
+type PlanProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanProductTaxDetailsParamsUnsetFieldTaxCode PlanProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanProductTaxDetailsParams) AddUnsetField(field PlanProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active" json:"active,omitempty"`
@@ -164,6 +185,8 @@ type PlanProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanProductTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -273,6 +296,27 @@ func (p *PlanUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanCreateProductTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                       `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PlanCreateProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PlanCreateProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanCreateProductTaxDetailsParams.
+type PlanCreateProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanCreateProductTaxDetailsParamsUnsetFieldTaxCode PlanCreateProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanCreateProductTaxDetailsParams) AddUnsetField(field PlanCreateProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanCreateProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active" json:"active,omitempty"`
@@ -288,6 +332,8 @@ type PlanCreateProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanCreateProductTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -426,10 +472,10 @@ type PlanTransformUsage struct {
 	Round PlanTransformUsageRound `json:"round"`
 }
 
-// You can now model subscriptions more flexibly using the [Prices API](https://api.stripe.com#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+// You can now model subscriptions more flexibly using the [Prices API](https://docs.stripe.com/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 //
 // Plans define the base price, currency, and billing cycle for recurring purchases of products.
-// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
+// [Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
 //
 // For example, you might have a single "gold" product that has plans for $10/month, $100/year, €9/month, and €90/year.
 //

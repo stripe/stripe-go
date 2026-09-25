@@ -54,6 +54,8 @@ type ProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type" json:"type,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
@@ -73,6 +75,7 @@ const (
 	ProductParamsUnsetFieldMetadata          ProductParamsUnsetField = "metadata"
 	ProductParamsUnsetFieldPackageDimensions ProductParamsUnsetField = "package_dimensions"
 	ProductParamsUnsetFieldTaxCode           ProductParamsUnsetField = "tax_code"
+	ProductParamsUnsetFieldTaxDetails        ProductParamsUnsetField = "tax_details"
 	ProductParamsUnsetFieldUnitLabel         ProductParamsUnsetField = "unit_label"
 	ProductParamsUnsetFieldURL               ProductParamsUnsetField = "url"
 )
@@ -114,6 +117,27 @@ type ProductPackageDimensionsParams struct {
 	Width *float64 `form:"width" json:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductTaxDetailsParams.
+type ProductTaxDetailsParamsUnsetField string
+
+const (
+	ProductTaxDetailsParamsUnsetFieldTaxCode ProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductTaxDetailsParams) AddUnsetField(field ProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
 type ProductListParams struct {
 	ListParams `form:"*"`
@@ -125,7 +149,7 @@ type ProductListParams struct {
 	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Only return products with the given IDs. Cannot be used with [starting_after](https://api.stripe.com#list_products-starting_after) or [ending_before](https://api.stripe.com#list_products-ending_before).
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://docs.stripe.com/api#list_products-starting_after) or [ending_before](https://docs.stripe.com/api#list_products-ending_before).
 	IDs []*string `form:"ids" json:"ids,omitempty"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
@@ -289,6 +313,27 @@ type ProductUpdatePackageDimensionsParams struct {
 	Width *float64 `form:"width" json:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductUpdateTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductUpdateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductUpdateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductUpdateTaxDetailsParams.
+type ProductUpdateTaxDetailsParamsUnsetField string
+
+const (
+	ProductUpdateTaxDetailsParamsUnsetFieldTaxCode ProductUpdateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductUpdateTaxDetailsParams) AddUnsetField(field ProductUpdateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type ProductUpdateParams struct {
 	Params `form:"*"`
@@ -319,6 +364,8 @@ type ProductUpdateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductUpdateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 	// A URL of a publicly-accessible webpage for this product.
@@ -336,6 +383,7 @@ const (
 	ProductUpdateParamsUnsetFieldMetadata          ProductUpdateParamsUnsetField = "metadata"
 	ProductUpdateParamsUnsetFieldPackageDimensions ProductUpdateParamsUnsetField = "package_dimensions"
 	ProductUpdateParamsUnsetFieldTaxCode           ProductUpdateParamsUnsetField = "tax_code"
+	ProductUpdateParamsUnsetFieldTaxDetails        ProductUpdateParamsUnsetField = "tax_details"
 	ProductUpdateParamsUnsetFieldUnitLabel         ProductUpdateParamsUnsetField = "unit_label"
 	ProductUpdateParamsUnsetFieldURL               ProductUpdateParamsUnsetField = "url"
 )
@@ -474,6 +522,27 @@ type ProductCreatePackageDimensionsParams struct {
 	Width *float64 `form:"width" json:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductCreateTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductCreateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductCreateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductCreateTaxDetailsParams.
+type ProductCreateTaxDetailsParamsUnsetField string
+
+const (
+	ProductCreateTaxDetailsParamsUnsetFieldTaxCode ProductCreateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductCreateTaxDetailsParams) AddUnsetField(field ProductCreateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Creates a new product object.
 type ProductCreateParams struct {
 	Params `form:"*"`
@@ -506,6 +575,8 @@ type ProductCreateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductCreateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type" json:"type,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
@@ -546,9 +617,17 @@ type ProductPackageDimensions struct {
 	Width float64 `json:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductTaxDetails struct {
+	// The ID of a tax location with type `performance`, representing where the performance takes place.
+	PerformanceLocation string `json:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode string `json:"tax_code"`
+}
+
 // Products describe the specific goods or services you offer to your customers.
 // For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
-// They can be used in conjunction with [Prices](https://api.stripe.com#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
+// They can be used in conjunction with [Prices](https://docs.stripe.com/api#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
 //
 // Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription),
 // [share a Payment Link](https://docs.stripe.com/payment-links),
@@ -587,6 +666,8 @@ type Product struct {
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductTaxDetails `json:"tax_details"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.

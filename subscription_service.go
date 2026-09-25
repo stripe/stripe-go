@@ -119,6 +119,18 @@ func (c v1SubscriptionService) Migrate(ctx context.Context, id string, params *S
 	return subscription, err
 }
 
+// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+func (c v1SubscriptionService) Pause(ctx context.Context, id string, params *SubscriptionPauseParams) (*Subscription, error) {
+	if params == nil {
+		params = &SubscriptionPauseParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s/pause", id)
+	subscription := &Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use charge_automatically collection. If Stripe doesn't generate a resumption invoice, the subscription becomes active immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes active. If the invoice is manually voided, the subscription stays paused. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays paused. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
 func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *SubscriptionResumeParams) (*Subscription, error) {
 	if params == nil {

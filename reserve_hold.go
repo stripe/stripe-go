@@ -17,6 +17,16 @@ const (
 	ReserveHoldCreatedByStripe      ReserveHoldCreatedBy = "stripe"
 )
 
+// The balance destination to which the reserved funds are sent.
+type ReserveHoldDestination string
+
+// List of values that ReserveHoldDestination can take
+const (
+	ReserveHoldDestinationOther              ReserveHoldDestination = "other"
+	ReserveHoldDestinationRiskReserved       ReserveHoldDestination = "risk_reserved"
+	ReserveHoldDestinationSettlementReserved ReserveHoldDestination = "settlement_reserved"
+)
+
 // The reason for the ReserveHold.
 type ReserveHoldReason string
 
@@ -62,6 +72,8 @@ type ReserveHold struct {
 	CreatedBy ReserveHoldCreatedBy `json:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// The balance destination to which the reserved funds are sent.
+	Destination ReserveHoldDestination `json:"destination"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Whether there are any funds available to release on this ReserveHold. Note that if the ReserveHold is in the process of being released, this could be false, even though the funds haven't been fully released yet.

@@ -18,6 +18,7 @@ import (
 	"github.com/stripe/stripe-go/v86/accountsession"
 	"github.com/stripe/stripe-go/v86/applepaydomain"
 	"github.com/stripe/stripe-go/v86/applicationfee"
+	appsinstall "github.com/stripe/stripe-go/v86/apps/install"
 	appssecret "github.com/stripe/stripe-go/v86/apps/secret"
 	"github.com/stripe/stripe-go/v86/balance"
 	"github.com/stripe/stripe-go/v86/balancesettings"
@@ -94,6 +95,7 @@ import (
 	"github.com/stripe/stripe-go/v86/plan"
 	"github.com/stripe/stripe-go/v86/price"
 	"github.com/stripe/stripe-go/v86/product"
+	productcatalogtrialoffer "github.com/stripe/stripe-go/v86/productcatalog/trialoffer"
 	"github.com/stripe/stripe-go/v86/productfeature"
 	"github.com/stripe/stripe-go/v86/promotioncode"
 	"github.com/stripe/stripe-go/v86/quote"
@@ -116,6 +118,7 @@ import (
 	"github.com/stripe/stripe-go/v86/subscriptionschedule"
 	taxassociation "github.com/stripe/stripe-go/v86/tax/association"
 	taxcalculation "github.com/stripe/stripe-go/v86/tax/calculation"
+	taxlocation "github.com/stripe/stripe-go/v86/tax/location"
 	taxregistration "github.com/stripe/stripe-go/v86/tax/registration"
 	taxsettings "github.com/stripe/stripe-go/v86/tax/settings"
 	taxtransaction "github.com/stripe/stripe-go/v86/tax/transaction"
@@ -141,6 +144,7 @@ import (
 	testhelperstreasuryoutboundtransfer "github.com/stripe/stripe-go/v86/testhelpers/treasury/outboundtransfer"
 	testhelperstreasuryreceivedcredit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receivedcredit"
 	testhelperstreasuryreceiveddebit "github.com/stripe/stripe-go/v86/testhelpers/treasury/receiveddebit"
+	threedsecureauthentication "github.com/stripe/stripe-go/v86/threedsecure/authentication"
 	"github.com/stripe/stripe-go/v86/token"
 	"github.com/stripe/stripe-go/v86/topup"
 	"github.com/stripe/stripe-go/v86/transfer"
@@ -185,6 +189,8 @@ type API struct {
 	ApplePayDomains *applepaydomain.Client
 	// ApplicationFees is the client used to invoke /v1/application_fees APIs.
 	ApplicationFees *applicationfee.Client
+	// AppsInstalls is the client used to invoke /v1/apps/installs APIs.
+	AppsInstalls *appsinstall.Client
 	// AppsSecrets is the client used to invoke /v1/apps/secrets APIs.
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /v1/balance APIs.
@@ -335,6 +341,8 @@ type API struct {
 	Plans *plan.Client
 	// Prices is the client used to invoke /v1/prices APIs.
 	Prices *price.Client
+	// ProductCatalogTrialOffers is the client used to invoke /v1/product_catalog/trial_offers APIs.
+	ProductCatalogTrialOffers *productcatalogtrialoffer.Client
 	// ProductFeatures is the client used to invoke /v1/products/{product}/features APIs.
 	ProductFeatures *productfeature.Client
 	// Products is the client used to invoke /v1/products APIs.
@@ -385,6 +393,8 @@ type API struct {
 	TaxCodes *taxcode.Client
 	// TaxIDs is the client used to invoke /v1/tax_ids APIs.
 	TaxIDs *taxid.Client
+	// TaxLocations is the client used to invoke /v1/tax/locations APIs.
+	TaxLocations *taxlocation.Client
 	// TaxRates is the client used to invoke /v1/tax_rates APIs.
 	TaxRates *taxrate.Client
 	// TaxRegistrations is the client used to invoke /v1/tax/registrations APIs.
@@ -431,6 +441,8 @@ type API struct {
 	TestHelpersTreasuryReceivedCredits *testhelperstreasuryreceivedcredit.Client
 	// TestHelpersTreasuryReceivedDebits is the client used to invoke /v1/treasury/received_debits APIs.
 	TestHelpersTreasuryReceivedDebits *testhelperstreasuryreceiveddebit.Client
+	// ThreeDSecureAuthentications is the client used to invoke /v1/three_d_secure/authentications APIs.
+	ThreeDSecureAuthentications *threedsecureauthentication.Client
 	// Tokens is the client used to invoke /v1/tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /v1/topups APIs.
@@ -504,6 +516,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.AccountSessions = &accountsession.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
+	a.AppsInstalls = &appsinstall.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
@@ -579,6 +592,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Persons = &person.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Prices = &price.Client{B: backends.API, Key: key}
+	a.ProductCatalogTrialOffers = &productcatalogtrialoffer.Client{B: backends.API, Key: key}
 	a.ProductFeatures = &productfeature.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
@@ -604,6 +618,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
+	a.TaxLocations = &taxlocation.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
 	a.TaxRegistrations = &taxregistration.Client{B: backends.API, Key: key}
 	a.TaxSettings = &taxsettings.Client{B: backends.API, Key: key}
@@ -627,6 +642,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersTreasuryOutboundTransfers = &testhelperstreasuryoutboundtransfer.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedCredits = &testhelperstreasuryreceivedcredit.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
+	a.ThreeDSecureAuthentications = &threedsecureauthentication.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.TransferReversals = &transferreversal.Client{B: backends.API, Key: key}

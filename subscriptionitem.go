@@ -13,6 +13,8 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage" json:"clear_usage,omitempty"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -26,9 +28,9 @@ type SubscriptionItemParams struct {
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// The identifier of the new plan for this subscription item.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
@@ -78,6 +80,12 @@ type SubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -96,7 +104,7 @@ type SubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type SubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -157,6 +165,12 @@ type SubscriptionItemUpdateBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemUpdateCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionItemUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -175,7 +189,7 @@ type SubscriptionItemUpdatePriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type SubscriptionItemUpdatePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -196,6 +210,8 @@ type SubscriptionItemUpdateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemUpdateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemUpdateCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -208,9 +224,9 @@ type SubscriptionItemUpdateParams struct {
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// The identifier of the new plan for this subscription item.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
@@ -258,6 +274,12 @@ type SubscriptionItemCreateBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCreateCurrentTrialParams struct {
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionItemCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -297,6 +319,8 @@ type SubscriptionItemCreateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemCreateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCreateCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemCreateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -358,6 +382,13 @@ type SubscriptionItemBillingThresholds struct {
 	UsageGTE int64 `json:"usage_gte"`
 }
 
+// The current trial that is applied to this subscription item.
+type SubscriptionItemCurrentTrial struct {
+	EndDate    int64  `json:"end_date"`
+	StartDate  int64  `json:"start_date"`
+	TrialOffer string `json:"trial_offer"`
+}
+
 // Subscription items allow you to create customer subscriptions with more than
 // one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
@@ -372,7 +403,9 @@ type SubscriptionItem struct {
 	CurrentPeriodEnd int64 `json:"current_period_end"`
 	// The start time of this subscription item's current billing period.
 	CurrentPeriodStart int64 `json:"current_period_start"`
-	Deleted            bool  `json:"deleted,omitempty"`
+	// The current trial that is applied to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial"`
+	Deleted      bool                          `json:"deleted,omitempty"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
@@ -381,17 +414,17 @@ type SubscriptionItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// You can now model subscriptions more flexibly using the [Prices API](https://api.stripe.com#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+	// You can now model subscriptions more flexibly using the [Prices API](https://docs.stripe.com/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 	//
 	// Plans define the base price, currency, and billing cycle for recurring purchases of products.
-	// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
+	// [Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
 	//
 	// For example, you might have a single "gold" product that has plans for $10/month, $100/year, €9/month, and €90/year.
 	//
 	// Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription) and more about [products and prices](https://docs.stripe.com/products-prices/overview).
 	Plan *Plan `json:"plan"`
 	// Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.
-	// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
+	// [Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
 	//
 	// For example, you might have a single "gold" product that has prices for $10/month, $100/year, and €9 once.
 	//

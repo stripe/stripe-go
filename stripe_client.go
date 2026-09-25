@@ -16,6 +16,8 @@ type Client struct {
 	V1ApplePayDomains *v1ApplePayDomainService
 	// V1ApplicationFees is the service used to invoke /v1/application_fees APIs.
 	V1ApplicationFees *v1ApplicationFeeService
+	// V1AppsInstalls is the service used to invoke /v1/apps/installs APIs.
+	V1AppsInstalls *v1AppsInstallService
 	// V1AppsSecrets is the service used to invoke /v1/apps/secrets APIs.
 	V1AppsSecrets *v1AppsSecretService
 	// V1Balance is the service used to invoke /v1/balance APIs.
@@ -164,6 +166,8 @@ type Client struct {
 	V1Plans *v1PlanService
 	// V1Prices is the service used to invoke /v1/prices APIs.
 	V1Prices *v1PriceService
+	// V1ProductCatalogTrialOffers is the service used to invoke /v1/product_catalog/trial_offers APIs.
+	V1ProductCatalogTrialOffers *v1ProductCatalogTrialOfferService
 	// V1ProductFeatures is the service used to invoke /v1/products/{product}/features APIs.
 	V1ProductFeatures *v1ProductFeatureService
 	// V1Products is the service used to invoke /v1/products APIs.
@@ -214,6 +218,8 @@ type Client struct {
 	V1TaxCodes *v1TaxCodeService
 	// V1TaxIDs is the service used to invoke /v1/tax_ids APIs.
 	V1TaxIDs *v1TaxIDService
+	// V1TaxLocations is the service used to invoke /v1/tax/locations APIs.
+	V1TaxLocations *v1TaxLocationService
 	// V1TaxRates is the service used to invoke /v1/tax_rates APIs.
 	V1TaxRates *v1TaxRateService
 	// V1TaxRegistrations is the service used to invoke /v1/tax/registrations APIs.
@@ -260,6 +266,8 @@ type Client struct {
 	V1TestHelpersTreasuryReceivedCredits *v1TestHelpersTreasuryReceivedCreditService
 	// V1TestHelpersTreasuryReceivedDebits is the service used to invoke /v1/treasury/received_debits APIs.
 	V1TestHelpersTreasuryReceivedDebits *v1TestHelpersTreasuryReceivedDebitService
+	// V1ThreeDSecureAuthentications is the service used to invoke /v1/three_d_secure/authentications APIs.
+	V1ThreeDSecureAuthentications *v1ThreeDSecureAuthenticationService
 	// V1Tokens is the service used to invoke /v1/tokens APIs.
 	V1Tokens *v1TokenService
 	// V1Topups is the service used to invoke /v1/topups APIs.
@@ -357,6 +365,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1AccountSessions = &v1AccountSessionService{B: backends.API, Key: key}
 	client.V1ApplePayDomains = &v1ApplePayDomainService{B: backends.API, Key: key}
 	client.V1ApplicationFees = &v1ApplicationFeeService{B: backends.API, Key: key}
+	client.V1AppsInstalls = &v1AppsInstallService{B: backends.API, Key: key}
 	client.V1AppsSecrets = &v1AppsSecretService{B: backends.API, Key: key}
 	client.V1Balance = &v1BalanceService{B: backends.API, Key: key}
 	client.V1BalanceSettings = &v1BalanceSettingsService{B: backends.API, Key: key}
@@ -431,6 +440,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Persons = &v1PersonService{B: backends.API, Key: key}
 	client.V1Plans = &v1PlanService{B: backends.API, Key: key}
 	client.V1Prices = &v1PriceService{B: backends.API, Key: key}
+	client.V1ProductCatalogTrialOffers = &v1ProductCatalogTrialOfferService{B: backends.API, Key: key}
 	client.V1ProductFeatures = &v1ProductFeatureService{B: backends.API, Key: key}
 	client.V1Products = &v1ProductService{B: backends.API, Key: key}
 	client.V1PromotionCodes = &v1PromotionCodeService{B: backends.API, Key: key}
@@ -456,6 +466,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
+	client.V1TaxLocations = &v1TaxLocationService{B: backends.API, Key: key}
 	client.V1TaxRates = &v1TaxRateService{B: backends.API, Key: key}
 	client.V1TaxRegistrations = &v1TaxRegistrationService{B: backends.API, Key: key}
 	client.V1TaxSettings = &v1TaxSettingsService{B: backends.API, Key: key}
@@ -479,6 +490,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersTreasuryOutboundTransfers = &v1TestHelpersTreasuryOutboundTransferService{B: backends.API, Key: key}
 	client.V1TestHelpersTreasuryReceivedCredits = &v1TestHelpersTreasuryReceivedCreditService{B: backends.API, Key: key}
 	client.V1TestHelpersTreasuryReceivedDebits = &v1TestHelpersTreasuryReceivedDebitService{B: backends.API, Key: key}
+	client.V1ThreeDSecureAuthentications = &v1ThreeDSecureAuthenticationService{B: backends.API, Key: key}
 	client.V1Tokens = &v1TokenService{B: backends.API, Key: key}
 	client.V1Topups = &v1TopupService{B: backends.API, Key: key}
 	client.V1TransferReversals = &v1TransferReversalService{B: backends.API, Key: key}

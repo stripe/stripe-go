@@ -166,6 +166,10 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsBLIK struct {
+	// A unique and immutable identifier assigned by BLIK to every buyer.
+	BuyerID string `json:"buyer_id,omitempty"`
+}
 type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
 // Check results by Card networks on Card address and CVC at the time of authorization
@@ -318,6 +322,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	AUBECSDebit   *SetupAttemptPaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
 	BACSDebit     *SetupAttemptPaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
 	Bancontact    *SetupAttemptPaymentMethodDetailsBancontact    `json:"bancontact,omitempty"`
+	BLIK          *SetupAttemptPaymentMethodDetailsBLIK          `json:"blik,omitempty"`
 	Boleto        *SetupAttemptPaymentMethodDetailsBoleto        `json:"boleto,omitempty"`
 	Card          *SetupAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
 	CardPresent   *SetupAttemptPaymentMethodDetailsCardPresent   `json:"card_present,omitempty"`

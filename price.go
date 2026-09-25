@@ -185,6 +185,27 @@ type PriceCustomUnitAmountParams struct {
 	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PriceProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                      `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PriceProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PriceProductDataTaxDetailsParams.
+type PriceProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PriceProductDataTaxDetailsParamsUnsetFieldTaxCode PriceProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceProductDataTaxDetailsParams) AddUnsetField(field PriceProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -201,6 +222,8 @@ type PriceProductDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PriceProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -406,6 +429,27 @@ type PriceCreateCustomUnitAmountParams struct {
 	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PriceCreateProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                            `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PriceCreateProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceCreateProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PriceCreateProductDataTaxDetailsParams.
+type PriceCreateProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PriceCreateProductDataTaxDetailsParamsUnsetFieldTaxCode PriceCreateProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceCreateProductDataTaxDetailsParams) AddUnsetField(field PriceCreateProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // These fields can be used to create a new product that this price will belong to.
 type PriceCreateProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -422,6 +466,8 @@ type PriceCreateProductDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PriceCreateProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -730,7 +776,7 @@ type PriceTransformQuantity struct {
 }
 
 // Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.
-// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
+// [Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
 //
 // For example, you might have a single "gold" product that has prices for $10/month, $100/year, and €9 once.
 //
