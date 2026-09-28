@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/shopspring/decimal"
+)
 
 // Lists all available Climate product objects.
 type ClimateProductListParams struct {
@@ -71,7 +74,7 @@ type ClimateProduct struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The quantity of metric tons available for reservation.
-	MetricTonsAvailable float64 `json:"metric_tons_available,string"`
+	MetricTonsAvailable decimal.Decimal `json:"metric_tons_available"`
 	// The Climate product's name.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.

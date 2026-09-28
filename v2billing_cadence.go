@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // The frequency at which a cadence bills.
 type V2BillingCadenceBillingCycleType string
@@ -332,7 +335,7 @@ type V2BillingCadenceInvoiceDiscountRulePercentOff struct {
 	// The maximum applications configuration for this discount.
 	MaximumApplications *V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
-	PercentOff float64 `json:"percent_off,string"`
+	PercentOff decimal.Decimal `json:"percent_off"`
 }
 
 // The discount rules applied to all invoices for the cadence.

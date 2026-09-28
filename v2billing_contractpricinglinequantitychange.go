@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // The type of pricing.
 type V2BillingContractPricingLineQuantityChangePricingType string
@@ -42,5 +45,5 @@ type V2BillingContractPricingLineQuantityChange struct {
 	// The id of the pricing line associated with this quantity change.
 	PricingLine string `json:"pricing_line"`
 	// The quantity at the effective time.
-	Quantity float64 `json:"quantity,string"`
+	Quantity decimal.Decimal `json:"quantity"`
 }
