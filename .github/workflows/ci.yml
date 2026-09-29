@@ -104,6 +104,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Read OpenAPI version
+        id: openapi
+        shell: bash
+        run: echo "version=$(< OPENAPI_VERSION)" >> "$GITHUB_OUTPUT"
       - name: Setup go
         # The Go build cache is kept here, unlike the other two jobs: it is
         # worth ~110s on the windows-latest entry, which otherwise compiles the
@@ -112,6 +116,8 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - uses: stripe/openapi/actions/stripe-mock@master
+        with:
+          openapi_version: ${{ steps.openapi.outputs.version }}
       - name: Test
         run: just ci-test
 
