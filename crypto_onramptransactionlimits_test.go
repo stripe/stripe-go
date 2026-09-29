@@ -12,8 +12,8 @@ func TestCryptoOnrampTransactionLimits_UnmarshalJSON(t *testing.T) {
 	err := json.Unmarshal([]byte(`{"limits":{"usd":{"card":{"standard":{"remaining":1250}}}}}`), &limits)
 	assert.NoError(t, err)
 
-	usd := limits.Limits["usd"].(map[string]interface{})
-	card := usd["card"].(map[string]interface{})
-	standard := card["standard"].(map[string]interface{})
+	usd := limits.Limits["usd"].(map[string]any)
+	card := usd["card"].(map[string]any)
+	standard := card["standard"].(map[string]any)
 	assert.Equal(t, float64(1250), standard["remaining"])
 }
