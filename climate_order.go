@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // Reason for the cancellation of this order.
 type ClimateOrderCancellationReason string
 
@@ -75,7 +77,7 @@ type ClimateOrderParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Requested number of tons for the order. Either this or `amount` must be specified.
-	MetricTons *float64 `form:"metric_tons,high_precision" json:"metric_tons,string,omitempty"`
+	MetricTons *decimal.Decimal `form:"metric_tons" json:"metric_tons,omitempty"`
 	// Unique identifier of the Climate product.
 	Product     *string                        `form:"product" json:"product,omitempty"`
 	UnsetFields []ClimateOrderParamsUnsetField `form:"-" json:"-"`
@@ -143,7 +145,7 @@ type ClimateOrderCreateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Requested number of tons for the order. Either this or `amount` must be specified.
-	MetricTons *float64 `form:"metric_tons,high_precision" json:"metric_tons,string,omitempty"`
+	MetricTons *decimal.Decimal `form:"metric_tons" json:"metric_tons,omitempty"`
 	// Unique identifier of the Climate product.
 	Product *string `form:"product" json:"product"`
 }
@@ -302,7 +304,7 @@ type ClimateOrder struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Quantity of carbon removal that is included in this order.
-	MetricTons float64 `json:"metric_tons,string"`
+	MetricTons decimal.Decimal `json:"metric_tons"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Unique ID for the Climate `Product` this order is purchasing.

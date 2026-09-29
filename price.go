@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -142,11 +143,11 @@ type PriceCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -170,7 +171,7 @@ type PriceCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -233,11 +234,11 @@ type PriceTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -298,7 +299,7 @@ type PriceParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal        `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	UnsetFields       []PriceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -363,11 +364,11 @@ type PriceCreateCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -391,7 +392,7 @@ type PriceCreateCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -454,11 +455,11 @@ type PriceCreateTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -519,7 +520,7 @@ type PriceCreateParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -565,11 +566,11 @@ type PriceUpdateCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -593,7 +594,7 @@ type PriceUpdateCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
@@ -660,11 +661,11 @@ type PriceCurrencyOptionsTier struct {
 	// Price for the entire tier.
 	FlatAmount int64 `json:"flat_amount"`
 	// Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.
-	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
+	FlatAmountDecimal decimal.Decimal `json:"flat_amount_decimal"`
 	// Per unit price for units relevant to the tier.
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 	// Up to and including to this quantity will be contained in the tier.
 	UpTo int64 `json:"up_to"`
 }
@@ -680,7 +681,7 @@ type PriceCurrencyOptions struct {
 	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	UnitAmount int64 `json:"unit_amount"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -712,11 +713,11 @@ type PriceTier struct {
 	// Price for the entire tier.
 	FlatAmount int64 `json:"flat_amount"`
 	// Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.
-	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
+	FlatAmountDecimal decimal.Decimal `json:"flat_amount_decimal"`
 	// Per unit price for units relevant to the tier.
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 	// Up to and including to this quantity will be contained in the tier.
 	UpTo int64 `json:"up_to"`
 }
@@ -779,7 +780,7 @@ type Price struct {
 	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	UnitAmount int64 `json:"unit_amount"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 }
 
 // PriceList is a list of Prices as retrieved from a list endpoint.
