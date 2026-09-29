@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 type V2BillingPricingPlanSubscriptionCancellationDetailsFeedback string
@@ -263,7 +266,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetails
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
+	UpToDecimal decimal.Decimal `json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTierUpToInf `json:"up_to_inf,omitempty"`
 }
@@ -334,7 +337,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGr
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }
 
 // The amount of the credit grant.
@@ -384,7 +387,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGr
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }
 
 // The amount of the credit grant.

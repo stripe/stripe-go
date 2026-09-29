@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // Defines the type of the alert.
 type BillingAlertAlertType string
 
@@ -151,7 +153,7 @@ type BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The monetary amount.
@@ -205,7 +207,7 @@ type BillingAlertSpendThresholdGTECustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // Defines at which value the alert will fire.
@@ -357,7 +359,7 @@ type BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // The monetary amount.
@@ -411,7 +413,7 @@ type BillingAlertCreateSpendThresholdGTECustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision" json:"value,string"`
+	Value *decimal.Decimal `form:"value" json:"value"`
 }
 
 // Defines at which value the alert will fire.
@@ -520,7 +522,7 @@ type BillingAlertCreditBalanceThresholdLteCustomPricingUnit struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive decimal string representing the amount.
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }
 
 // The monetary amount.
@@ -587,7 +589,7 @@ type BillingAlertSpendThresholdGTECustomPricingUnit struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive decimal string representing the amount.
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }
 
 // The threshold value configuration for a spend threshold alert.

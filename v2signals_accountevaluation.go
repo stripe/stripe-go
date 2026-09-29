@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // Categorical assessment of the fraudulent website risk.
 type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel string
@@ -135,7 +138,7 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharing struct {
 	// Categorical assessment of the account-sharing risk.
 	RiskLevel V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharingRiskLevel `json:"risk_level"`
 	// The specific risk score for the account, between 0.00 and 100.00, when available.
-	Score float64 `json:"score,string,omitempty"`
+	Score decimal.Decimal `json:"score,omitempty"`
 	// The account signal ID containing the full user account-sharing signal result.
 	Signal string `json:"signal,omitempty"`
 }
@@ -147,7 +150,7 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting struct {
 	// Categorical assessment of the multi-accounting risk.
 	RiskLevel V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccountingRiskLevel `json:"risk_level"`
 	// The specific risk score for the account, between 0.00 and 100.00, when available.
-	Score float64 `json:"score,string,omitempty"`
+	Score decimal.Decimal `json:"score,omitempty"`
 	// The account signal ID containing the full user multi-accounting signal result.
 	Signal string `json:"signal,omitempty"`
 }

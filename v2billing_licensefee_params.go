@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 // List all License Fee objects.
 type V2BillingLicenseFeeListParams struct {
 	Params `form:"*"`
@@ -27,7 +29,7 @@ type V2BillingLicenseFeeTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
+	UpToDecimal *decimal.Decimal `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -99,7 +101,7 @@ type V2BillingLicenseFeeCreateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
+	UpToDecimal *decimal.Decimal `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -173,7 +175,7 @@ type V2BillingLicenseFeeUpdateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
+	UpToDecimal *decimal.Decimal `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }

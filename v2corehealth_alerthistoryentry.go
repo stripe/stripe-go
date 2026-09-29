@@ -6,7 +6,10 @@
 
 package stripe
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 // The HTTP method.
 type V2CoreHealthAlertHistoryEntryAPIErrorHTTPMethod string
@@ -276,7 +279,7 @@ type V2CoreHealthAlertHistoryEntryAPIErrorTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 }
 
 // Populated when type is api_error.
@@ -292,7 +295,7 @@ type V2CoreHealthAlertHistoryEntryAPIError struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAlertHistoryEntryAPIErrorTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -304,7 +307,7 @@ type V2CoreHealthAlertHistoryEntryAPILatencyTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 }
 
 // Populated when type is api_latency.
@@ -318,7 +321,7 @@ type V2CoreHealthAlertHistoryEntryAPILatency struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAlertHistoryEntryAPILatencyTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -338,13 +341,13 @@ type V2CoreHealthAlertHistoryEntryAuthorizationRateDrop struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAlertHistoryEntryAuthorizationRateDropChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage float64 `json:"current_percentage,string"`
+	CurrentPercentage decimal.Decimal `json:"current_percentage"`
 	// Dimensions that describe what subset of payments are impacted.
 	Dimensions []*V2CoreHealthAlertHistoryEntryAuthorizationRateDropDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAlertHistoryEntryAuthorizationRateDropPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage float64 `json:"previous_percentage,string"`
+	PreviousPercentage decimal.Decimal `json:"previous_percentage"`
 }
 
 // Populated when type is elements_error.
@@ -388,9 +391,9 @@ type V2CoreHealthAlertHistoryEntryFraudRate struct {
 // Populated when type is invoice_count_dropped.
 type V2CoreHealthAlertHistoryEntryInvoiceCountDropped struct {
 	// The observed number of invoices within the time window.
-	ObservedCount float64 `json:"observed_count,string"`
+	ObservedCount decimal.Decimal `json:"observed_count"`
 	// The expected threshold number of invoices within the time window.
-	ThresholdCount float64 `json:"threshold_count,string"`
+	ThresholdCount decimal.Decimal `json:"threshold_count"`
 	// The size of the observation time window.
 	TimeWindow string `json:"time_window"`
 }
@@ -438,7 +441,7 @@ type V2CoreHealthAlertHistoryEntryPaymentMethodErrorTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 }
 
 // Populated when type is payment_method_error.
@@ -448,7 +451,7 @@ type V2CoreHealthAlertHistoryEntryPaymentMethodError struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
+	ImpactedRequestsPercentage decimal.Decimal `json:"impacted_requests_percentage,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAlertHistoryEntryPaymentMethodErrorPaymentMethodType `json:"payment_method_type"`
 	// The top impacted connected accounts (only for platforms).
@@ -460,7 +463,7 @@ type V2CoreHealthAlertHistoryEntrySEPADebitDelayed struct {
 	// The number of impacted payments.
 	ImpactedPayments int64 `json:"impacted_payments"`
 	// The percentage of impacted payments.
-	ImpactedPaymentsPercentage float64 `json:"impacted_payments_percentage,string"`
+	ImpactedPaymentsPercentage decimal.Decimal `json:"impacted_payments_percentage"`
 }
 
 // Populated when type is traffic_volume_drop.
