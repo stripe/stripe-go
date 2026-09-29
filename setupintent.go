@@ -4709,9 +4709,6 @@ type SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
 	HostedInstructionsURL string                                                       `json:"hosted_instructions_url"`
 	QRCode                *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
-
-// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-type SetupIntentNextActionUseStripeSDK struct{}
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	// The timestamp when the microdeposits are expected to land.
 	ArrivalDate int64 `json:"arrival_date"`
@@ -4735,7 +4732,7 @@ type SetupIntentNextAction struct {
 	Type                             SetupIntentNextActionType                              `json:"type"`
 	UpiHandleRedirectOrDisplayQRCode *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code,omitempty"`
 	// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-	UseStripeSDK               *SetupIntentNextActionUseStripeSDK               `json:"use_stripe_sdk,omitempty"`
+	UseStripeSDK               map[string]any                                   `json:"use_stripe_sdk,omitempty"`
 	VerifyWithMicrodeposits    *SetupIntentNextActionVerifyWithMicrodeposits    `json:"verify_with_microdeposits,omitempty"`
 	WeChatPayHandleAppRedirect *SetupIntentNextActionWeChatPayHandleAppRedirect `json:"wechat_pay_handle_app_redirect,omitempty"`
 }
