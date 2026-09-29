@@ -13,6 +13,7 @@ type CapitalFinancingOfferDisclaimerVariant string
 const (
 	CapitalFinancingOfferDisclaimerVariantCelticUSLoan       CapitalFinancingOfferDisclaimerVariant = "celtic_us_loan"
 	CapitalFinancingOfferDisclaimerVariantFundboxAuFinancing CapitalFinancingOfferDisclaimerVariant = "fundbox_au_financing"
+	CapitalFinancingOfferDisclaimerVariantFundboxCaFinancing CapitalFinancingOfferDisclaimerVariant = "fundbox_ca_financing"
 	CapitalFinancingOfferDisclaimerVariantYoulendDEFinancing CapitalFinancingOfferDisclaimerVariant = "youlend_de_financing"
 	CapitalFinancingOfferDisclaimerVariantYoulendFRFinancing CapitalFinancingOfferDisclaimerVariant = "youlend_fr_financing"
 	CapitalFinancingOfferDisclaimerVariantYoulendUkMca       CapitalFinancingOfferDisclaimerVariant = "youlend_uk_mca"

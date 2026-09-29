@@ -25,10 +25,10 @@ type TestHelpersConfirmationTokenPaymentMethodDataAfterpayClearpayParams struct{
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -283,6 +283,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams struct{}
 
@@ -357,9 +360,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Alipay *TestHelpersConfirmationTokenPaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *TestHelpersConfirmationTokenPaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *TestHelpersConfirmationTokenPaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *TestHelpersConfirmationTokenPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -457,6 +460,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Scalapay *TestHelpersConfirmationTokenPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *TestHelpersConfirmationTokenPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -591,10 +596,10 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataAfterpayClearpayParams s
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataAlipayParams struct{}
 
-// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataAlmaParams struct{}
 
-// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -849,6 +854,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams struct{}
 
@@ -923,9 +931,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Alipay *TestHelpersConfirmationTokenCreatePaymentMethodDataAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
-	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	// If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
 	Alma *TestHelpersConfirmationTokenCreatePaymentMethodDataAlmaParams `form:"alma" json:"alma,omitempty"`
-	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	// If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *TestHelpersConfirmationTokenCreatePaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
@@ -1023,6 +1031,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Scalapay *TestHelpersConfirmationTokenCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

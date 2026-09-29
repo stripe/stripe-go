@@ -155,6 +155,27 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Type of registration the company or entity holds in their registered country.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
+)
+
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType string
 
@@ -923,9 +944,9 @@ type SubscriptionItemsParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -988,13 +1009,57 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                               `form:"vat" json:"vat,omitempty"`
+	UnsetFields []SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	UnsetFields    []SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field SubscriptionPaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Configuration options for setting up a mandate
 type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -1239,7 +1304,7 @@ type SubscriptionTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -1410,11 +1475,17 @@ func (p *SubscriptionPauseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+type SubscriptionResumeBillingCycleAnchorParams struct {
+	// Determines how the billing cycle anchor changes when the subscription resumes.
+	Type *string `form:"type" json:"type"`
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use charge_automatically collection. If Stripe doesn't generate a resumption invoice, the subscription becomes active immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes active. If the invoice is manually voided, the subscription stays paused. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays paused. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
-	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	BillingCycleAnchor *SubscriptionResumeBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Controls whether Stripe attempts payment on the resumption invoice in the resume request, and how payment on that invoice affects the subscription's status. The default is `resume_on_payment_attempt`.
@@ -1750,7 +1821,7 @@ type SubscriptionUpdateItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 type SubscriptionUpdateItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -1784,9 +1855,9 @@ type SubscriptionUpdateItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan" json:"plan,omitempty"`
-	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. You can use either `price` or `price_data`, but not both, to set or change this item's price. If you're updating an existing item without changing its price, omit both.
 	PriceData *SubscriptionUpdateItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -1847,13 +1918,57 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                     `form:"vat" json:"vat,omitempty"`
+	UnsetFields []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	UnsetFields    []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Configuration options for setting up a mandate
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -2098,7 +2213,7 @@ type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -2134,7 +2249,7 @@ type SubscriptionUpdateParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 	AutomaticTax *SubscriptionUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	// Controls how the subscription's billing cycle anchor changes. Set `type` to `now` to reset the billing cycle anchor to the current time (in UTC), or `unchanged` to preserve it. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
@@ -2665,13 +2780,57 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                     `form:"vat" json:"vat,omitempty"`
+	UnsetFields []SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	UnsetFields    []SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Configuration options for setting up a mandate
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -2916,7 +3075,7 @@ type SubscriptionCreateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method,omitempty"`
 }
 
 // Settings related to subscription trials.
@@ -3248,12 +3407,25 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT string `json:"vat"`
+}
 
 // This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.
-type SubscriptionPaymentSettingsPaymentMethodOptionsBillie struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillie struct {
+	CompanyDetails *SubscriptionPaymentSettingsPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptions struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter int64 `json:"expires_after"`
+	ExpiresAt int64 `json:"expires_at"`
 }
 
 // This sub-hash contains details about the Blik payment method options to pass to invoices created by the subscription.
@@ -3420,6 +3592,8 @@ type SubscriptionPendingInvoiceItemInterval struct {
 type SubscriptionPendingUpdate struct {
 	// If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
+	// Indicates whether this subscription should cancel at the end of the current period if the update is applied.
+	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// The pending subscription-level discount that will be applied when the pending update is applied.
 	Discount *Discount `json:"discount"`
 	// The discounts that will be applied to the subscription when the pending update is applied. Use `expand[]=discounts` to expand each discount.
@@ -3487,7 +3661,7 @@ type SubscriptionTransferData struct {
 // Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
 	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
-	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
+	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }

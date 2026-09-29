@@ -1,0 +1,83 @@
+---
+title: Update generated code
+pr_url: https://github.com/stripe/stripe-go/pull/2421
+semver_level: major
+is_stripe_api_change: true
+---
+
+* Add support for new resources `RadarBillingEvaluation`, `V2MoneyManagementFinancialAddressCreditSimulation`, and `V2MoneyManagementFinancialAddressGeneratedMicrodeposits`
+* ⚠️ Remove support for resources `V2FinancialAddressCreditSimulation` and `V2FinancialAddressGeneratedMicrodeposits`
+* Add support for `New` method on resource `RadarBillingEvaluation`
+* Add support for `List` method on resource `ReservePlan`
+* Add support for `Credit` method on resource `V2MoneyManagementFinancialAddressCreditSimulation`
+* Add support for `GenerateMicrodeposits` method on resource `V2MoneyManagementFinancialAddressGeneratedMicrodeposits`
+* ⚠️ Remove support for `Credit` method on resource `V2FinancialAddressCreditSimulation`
+* ⚠️ Remove support for `GenerateMicrodeposits` method on resource `V2FinancialAddressGeneratedMicrodeposits`
+* Add support for `AfterExpiration` on `BillingPortalSessionParams` and `BillingPortalSession`
+* Add support for new value `fundbox_ca_financing` on enums `CapitalFinancingOffer.DisclaimerVariant` and `CapitalFinancingSummaryDetails.DisclaimerVariant`
+* Add support for `SetupCredentialUsage` on `ChargePaymentMethodDetailsCard`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCard`, `SetupIntentConfirmPaymentMethodOptionsCardParams`, `SetupIntentPaymentMethodOptionsCardParams`, and `SetupIntentPaymentMethodOptionsCard`
+* Add support for `StoredCredentialUsage` on `ChargePaymentMethodDetailsCard`, `PaymentAttemptRecordPaymentMethodDetailsCard`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCard`, and `PaymentRecordPaymentMethodDetailsCard`
+* Add support for `ExpiresAt` on `CheckoutSessionPaymentMethodOptionsBlikMandateOptionsParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptions`
+* ⚠️ Remove support for `ExpiresAfter` on `CheckoutSessionPaymentMethodOptionsBlikMandateOptionsParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsBlikMandateOptions`
+* Add support for `PaymentIntentData` on `CheckoutSessionParams`
+* Add support for `Appeal` on `DisputeEvidenceParams` and `DisputeEvidence`
+* Add support for `Livemode` on `FxQuote`
+* ⚠️ Remove support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsPaypayParams` and `PaymentIntentPaymentMethodOptionsPaypayParams`
+* Add support for `Active` on `ProductCatalogTrialOfferListParams`, `ProductCatalogTrialOfferParams`, and `ProductCatalogTrialOffer`
+* Add support for `Nickname` on `ProductCatalogTrialOfferParams` and `ProductCatalogTrialOffer`
+* ⚠️ Remove support for `Name` on `ProductCatalogTrialOfferParams` and `ProductCatalogTrialOffer`
+* Add support for `StatusDetails` on `QuotePreviewInvoice`
+* Add support for `CompanyDetails` and `Reference` on `QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie`
+* Add support for `PauseSchedules` on `QuotePreviewSubscriptionSchedule`
+* Add support for `Destination` on `ReserveHold`, `ReservePlan`, and `ReserveRelease`
+* Add support for `ManualRelease` on `ReservePlan`
+* Add support for new value `other` on enum `ReservePlan.Status`
+* Add support for new values `manual_release` and `other` on enum `ReservePlan.Type`
+* ⚠️ Add support for new value `hold_expired` on enum `ReserveRelease.Reason`
+* ⚠️ Remove support for value `bulk_hold_expiry` from enum `ReserveRelease.Reason`
+* Add support for new value `igic` on enum `TaxRegistrationCountryOptionsEs.Type`
+* ⚠️ Remove support for `Configurations` on `V2CoreAccountLinkUseCaseAccountOnboardingParams`, `V2CoreAccountLinkUseCaseAccountOnboarding`, `V2CoreAccountLinkUseCaseAccountUpdateParams`, and `V2CoreAccountLinkUseCaseAccountUpdate`
+* Add support for new value `rejected` on enums `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAud.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCad.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEur.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGbp.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUsd.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAud.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCad.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEur.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGbp.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUsd.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsCards.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccounts.Status`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccounts.Status`, `V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocal.Status`, `V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWire.Status`, and `V2CoreAccountConfigurationRecipientCapabilitiesCards.Status`
+* Add support for new values `rejected_fraud`, `rejected_incomplete_verification`, `rejected_listed`, `rejected_other`, `rejected_platform_fraud`, `rejected_platform_other`, `rejected_platform_terms_of_service`, and `rejected_terms_of_service` on enums `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAudStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCadStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEurStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGbpStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUsdStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAudStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCadStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEurStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGbpStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUsdStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsStatusDetail.Code`, `V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsStatusDetail.Code`, `V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetail.Code`, `V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetail.Code`, and `V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetail.Code`
+* Add support for `RelatedObject` and `Request` on `V2IamActivityLog`
+* Add support for new value `stripe_action` on enum `V2IamActivityLogActor.Type`
+* Add support for `AccountSecurity`, `Authentication`, `Scim`, `Sso`, and `UserProfile` on `V2IamActivityLogDetails`
+* Add support for new values `account_security`, `authentication`, `issuing`, `payout`, `scim`, `sso`, and `user_profile` on enum `V2IamActivityLogDetails.Type`
+* Add support for new values `anomaly_detection_settings_updated`, `issuing_activated`, `issuing_balance_transfer_created`, `issuing_card_created`, `issuing_card_sensitive_details_viewed`, `issuing_card_updated`, `issuing_cardholder_created`, `issuing_cardholder_updated`, `issuing_dispute_created`, `issuing_dispute_submitted`, `issuing_dispute_updated`, `manual_payouts_disabled`, `manual_payouts_enabled`, `payout_destination_added`, `payout_destination_removed`, `payout_destination_updated`, `payout_schedule_edits_disabled`, `payout_schedule_edits_enabled`, `scim_group_deleted`, `scim_group_member_added`, `scim_group_member_removed`, `scim_group_roles_updated`, `scim_group_updated`, `sso_domain_verified`, `sso_settings_created`, `sso_settings_deleted`, `sso_settings_updated`, `two_step_authentication_mandate_disabled`, `two_step_authentication_mandate_enabled`, `user_auth_challenge_failed`, `user_email_changed`, `user_email_verified`, `user_express_phone_number_changed`, `user_google_account_connected`, `user_google_account_disconnected`, `user_passkey_added`, `user_passkey_removed`, `user_passkey_updated`, `user_passkey_upgraded`, `user_password_changed`, `user_password_initialized`, `user_password_reset_failed`, `user_password_reset_requested`, `user_password_reset_succeeded`, `user_two_step_authentication_backup_code_used`, `user_two_step_authentication_method_added`, `user_two_step_authentication_method_removed`, `user_two_step_authentication_method_reset`, `user_two_step_authentication_method_updated`, and `user_two_step_authentication_reset_requested` on enum `V2IamActivityLog.Type`
+* Add support for `DepositInsuranceEligibility` on `V2MoneyManagementFinancialAccountStorageParams` and `V2MoneyManagementFinancialAccountStorage`
+* Add support for `BankAccount` on `V2MoneyManagementFinancialAddressParams` and `V2MoneyManagementFinancialAddress`
+* Add support for `Type` on `V2MoneyManagementFinancialAddress`
+* ⚠️ Remove support for `Credentials` and `Currency` on `V2MoneyManagementFinancialAddress`
+* ⚠️ Remove support for `Level` on `V2MoneyManagementInboundTransferTransferHistory`
+* Add support for `NetworkFeeDetails` on `V2MoneyManagementOutboundPaymentQuoteEstimatedFee`
+* Add support for new value `network_fee` on enum `V2MoneyManagementOutboundPaymentQuoteEstimatedFee.Type`
+* Add support for `Archived` on `V2MoneyManagementPayoutMethod`
+* ⚠️ Remove support for `Archived` on `V2MoneyManagementPayoutMethodBankAccount` and `V2MoneyManagementPayoutMethodCard`
+* Add support for new value `ineligible` on enum `V2MoneyManagementPayoutMethodUsageStatus.Payments`
+* Add support for new value `ineligible` on enum `V2MoneyManagementPayoutMethodUsageStatus.Transfers`
+* Add support for `AmountReceived` on `V2MoneyManagementReceivedCredit`
+* Add support for `OriginatingBankAccount` on `V2MoneyManagementReceivedCreditBankTransfer`
+* ⚠️ Remove support for `OriginType` on `V2MoneyManagementReceivedCreditBankTransfer`
+* Add support for `Identity` on `V2SignalsAccountActivityAccountDetailsDataParams`, `V2SignalsAccountActivityAccountDetailsData`, `V2SignalsAccountEvaluationAccountDetailsDataParams`, and `V2SignalsAccountEvaluationAccountDetailsData`
+* Add support for `FraudulentWebsite` on `V2SignalsAccountEvaluationEvaluatedSignals` and `V2SignalsAccountSignal`
+* Add support for new value `fraudulent_website` on enum `V2SignalsAccountEvaluation.PendingSignals`
+* Add support for new value `fraudulent_website` on enum `V2SignalsAccountEvaluation.RequestedSignals`
+* Add support for `FraudulentMerchant` on `V2SignalsAccountSignal`
+* Add support for new values `fraudulent_merchant` and `fraudulent_website` on enum `V2SignalsAccountSignal.Type`
+* ⚠️ Remove support for `CreatedGTE`, `CreatedGt`, `CreatedLT`, and `CreatedLte` on `V2MoneyManagementAdjustmentListParams`, `V2MoneyManagementInboundTransferListParams`, `V2MoneyManagementReceivedCreditListParams`, `V2MoneyManagementTransactionEntryListParams`, and `V2MoneyManagementTransactionListParams`
+* ⚠️ Change type of `V2MoneyManagementAdjustmentListParams.Created`, `V2MoneyManagementInboundTransferListParams.Created`, `V2MoneyManagementReceivedCreditListParams.Created`, `V2MoneyManagementTransactionEntryListParams.Created`, and `V2MoneyManagementTransactionListParams.Created` from `DateTime` to `an object`
+* ⚠️ Remove support for `Include` on `V2MoneyManagementFinancialAddressListParams` and `V2MoneyManagementFinancialAddressParams`
+* Add support for `SettlementCurrency` on `V2MoneyManagementFinancialAddressParams`
+* Add support for `Include` on `V2MoneyManagementFinancialAccountListParams` and `V2MoneyManagementFinancialAccountParams`
+* Add support for `TreasuryTransaction` on `EventsV2MoneyManagementTransactionUpdatedEvent`
+* Add support for event notifications `V2SignalsAccountSignalFraudulentMerchantReadyEvent` and `V2SignalsAccountSignalFraudulentWebsiteReadyEvent` with related object `V2SignalsAccountSignal`
+* Add support for error types `InvalidVaultedCredentialError`, `VerificationAttemptFailedError`, `VerificationExpiredError`, and `VerificationNotInitiatedError`
+* ⚠️ Remove support for error type `ControlledByDashboardError`
+* Add support for error codes `dispute_evidence_page_limit_exceeded`, `financial_connections_consent_locale_invalid`, `financial_connections_consent_locale_unsupported`, and `payment_evaluation_on_api_version_not_supported` on `QuotePreviewInvoiceLastFinalizationError`
+* Add support for error codes `blocked_gb_bank_account`, `unsupported_gb_bank`, and `unsupported_us_bank` on `BlockedByStripeError`
+* ⚠️ Remove support for error codes `blocked_payout_method_bank_account`, `blocked_payout_method_crypto_wallet`, `unsupported_payout_method_bank_account`, and `unsupported_payout_method_crypto_wallet` on `BlockedByStripeError`
+* Add support for error codes `default_gb_bank_account_cannot_be_archived`, `gb_bank_account_incompatible_currency`, `gb_bank_account_unsupported_currency`, `incompatible_payout_method_currency`, `unsupported_payout_method_currency`, `us_bank_account_incompatible_currency`, and `us_bank_account_unsupported_currency` on `CannotProceedError`
+* Add support for error codes `gb_bank_account_cannot_be_archived` and `us_bank_account_cannot_be_archived` on `ControlledByAlternateResourceError`
+* ⚠️ Remove support for error codes `invalid_payout_method_bank_account` and `invalid_payout_method_crypto_wallet` on `InvalidPayoutMethodError`
+* Add support for error code `limit_gb_bank_account` on `QuotaExceededError`
+* ⚠️ Remove support for error codes `limit_payout_method_bank_account`, `limit_payout_method_card`, and `limit_payout_method_crypto_wallet` on `QuotaExceededError`

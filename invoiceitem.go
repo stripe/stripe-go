@@ -16,6 +16,14 @@ const (
 	InvoiceItemFrozenFieldQuantity  InvoiceItemFrozenField = "quantity"
 )
 
+// The type of invoicing rule.
+type InvoiceItemInvoicingRuleType string
+
+// List of values that InvoiceItemInvoicingRuleType can take
+const (
+	InvoiceItemInvoicingRuleTypeDeferUntilCreditedItemsResolved InvoiceItemInvoicingRuleType = "defer_until_credited_items_resolved"
+)
+
 // The type of parent that generated this invoice item
 type InvoiceItemParentType string
 
@@ -62,6 +70,8 @@ type InvoiceItemParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of an existing invoice to add this invoice item to. For subscription invoices, when left blank, the invoice item will be added to the next upcoming scheduled invoice. For standalone invoices, the invoice item won't be automatically added unless you pass `pending_invoice_item_behavior: 'include'` when creating the invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice" json:"invoice,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -289,6 +299,8 @@ type InvoiceItemUpdateParams struct {
 	Discounts []*InvoiceItemUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
+	InvoicingRules *string `form:"invoicing_rules" json:"invoicing_rules,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -478,6 +490,12 @@ func (p *InvoiceItemCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The rules that control when this invoice item is eligible for invoicing. All rules must be satisfied for the item to be invoiced.
+type InvoiceItemInvoicingRule struct {
+	// The type of invoicing rule.
+	Type InvoiceItemInvoicingRuleType `json:"type"`
+}
+
 // Details about the subscription that generated this invoice item
 type InvoiceItemParentSubscriptionDetails struct {
 	// The subscription that generated this invoice item
@@ -524,7 +542,7 @@ type InvoiceItemProrationDetailsCreditedItems struct {
 	Type InvoiceItemProrationDetailsCreditedItemsType `json:"type"`
 }
 
-// Discount amounts applied when the proration was created.
+// Discount amounts applied when the proration was created. This field is only populated for prorations created from subscriptions with `billing_mode=flexible`.
 type InvoiceItemProrationDetailsDiscountAmount struct {
 	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
@@ -534,7 +552,7 @@ type InvoiceItemProrationDetailsDiscountAmount struct {
 type InvoiceItemProrationDetails struct {
 	// For a credit proration, links to the debit invoice line items or invoice item that the credit applies to.
 	CreditedItems *InvoiceItemProrationDetailsCreditedItems `json:"credited_items"`
-	// Discount amounts applied when the proration was created.
+	// Discount amounts applied when the proration was created. This field is only populated for prorations created from subscriptions with `billing_mode=flexible`.
 	DiscountAmounts []*InvoiceItemProrationDetailsDiscountAmount `json:"discount_amounts"`
 }
 
@@ -571,6 +589,8 @@ type InvoiceItem struct {
 	ID string `json:"id"`
 	// The ID of the invoice this invoice item belongs to.
 	Invoice *Invoice `json:"invoice"`
+	// The rules that control when this invoice item is eligible for invoicing. All rules must be satisfied for the item to be invoiced.
+	InvoicingRules []*InvoiceItemInvoicingRule `json:"invoicing_rules,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The margins which apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.

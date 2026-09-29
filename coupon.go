@@ -116,10 +116,13 @@ type CouponAppliesToParams struct {
 	Products []*string `form:"products" json:"products,omitempty"`
 }
 
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponScriptConfigurationParams struct{}
+
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponScriptParams struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration map[string]any `form:"configuration" json:"configuration"`
+	Configuration *CouponScriptConfigurationParams `form:"configuration" json:"configuration"`
 	// The script implementation ID for this coupon.
 	ID *string `form:"id" json:"id"`
 }
@@ -199,10 +202,13 @@ type CouponCreateCurrencyOptionsParams struct {
 	AmountOff *int64 `form:"amount_off" json:"amount_off"`
 }
 
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponCreateScriptConfigurationParams struct{}
+
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponCreateScriptParams struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration map[string]any `form:"configuration" json:"configuration"`
+	Configuration *CouponCreateScriptConfigurationParams `form:"configuration" json:"configuration"`
 	// The script implementation ID for this coupon.
 	ID *string `form:"id" json:"id"`
 }
@@ -280,10 +286,13 @@ type CouponCurrencyOptions struct {
 	AmountOff int64 `json:"amount_off"`
 }
 
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponScriptConfiguration struct{}
+
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponScript struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
-	Configuration map[string]any `json:"configuration"`
+	Configuration *CouponScriptConfiguration `json:"configuration"`
 	// The name of the script used to calculate the discount.
 	DisplayName string `json:"display_name"`
 	// The script implementation ID for this coupon.
@@ -291,8 +300,8 @@ type CouponScript struct {
 }
 
 // A coupon contains information about a percent-off or amount-off discount you
-// might want to apply to a customer. Coupons may be applied to [subscriptions](https://api.stripe.com#subscriptions), [invoices](https://api.stripe.com#invoices),
-// [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
+// might want to apply to a customer. Coupons may be applied to [subscriptions](https://docs.stripe.com/api#subscriptions), [invoices](https://docs.stripe.com/api#invoices),
+// [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://docs.stripe.com/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
 type Coupon struct {
 	APIResource
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.

@@ -330,7 +330,7 @@ const (
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountParams struct {
 	Params `form:"*"`
-	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
+	// An [account token](https://docs.stripe.com/api#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
@@ -549,6 +549,12 @@ type AccountCapabilitiesBizumPaymentsParams struct {
 
 // The blik_payments capability.
 type AccountCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// The blik_recurring_payments capability.
+type AccountCapabilitiesBLIKRecurringPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -841,6 +847,12 @@ type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -980,6 +992,8 @@ type AccountCapabilitiesParams struct {
 	BizumPayments *AccountCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -1076,6 +1090,8 @@ type AccountCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -1190,9 +1206,9 @@ type AccountCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -1277,43 +1293,43 @@ func (p *AccountCompanyParams) AddUnsetField(field AccountCompanyParamsUnsetFiel
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -1325,7 +1341,7 @@ type AccountDocumentsProofOfRegistrationSignerParams struct {
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
@@ -1339,7 +1355,7 @@ type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -1817,7 +1833,7 @@ type AccountRejectParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Whether to pause payouts on the account as part of the rejection. Defaults to `pause`. Use `none` to leave payouts enabled.
 	PayoutsAction *string `form:"payouts_action" json:"payouts_action,omitempty"`
-	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
+	// The reason for rejecting the account. Can be `fraud_payment_method_casher`, `fraud_payment_method_tester`, `fraud_no_intent_to_fulfill`, `fraud_other`, `credit`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason" json:"reason"`
 }
 
@@ -2007,6 +2023,12 @@ type AccountUpdateCapabilitiesBizumPaymentsParams struct {
 
 // The blik_payments capability.
 type AccountUpdateCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// The blik_recurring_payments capability.
+type AccountUpdateCapabilitiesBLIKRecurringPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -2299,6 +2321,12 @@ type AccountUpdateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountUpdateCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountUpdateCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2438,6 +2466,8 @@ type AccountUpdateCapabilitiesParams struct {
 	BizumPayments *AccountUpdateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountUpdateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountUpdateCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountUpdateCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -2534,6 +2564,8 @@ type AccountUpdateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountUpdateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountUpdateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountUpdateCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountUpdateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -2646,9 +2678,9 @@ type AccountUpdateCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountUpdateCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -2730,43 +2762,43 @@ func (p *AccountUpdateCompanyParams) AddUnsetField(field AccountUpdateCompanyPar
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountUpdateDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountUpdateDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountUpdateDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountUpdateDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountUpdateDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountUpdateDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -2778,7 +2810,7 @@ type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
@@ -2792,7 +2824,7 @@ type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -3219,7 +3251,7 @@ type AccountUpdateTOSAcceptanceParams struct {
 // [Connect](https://docs.stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
 type AccountUpdateParams struct {
 	Params `form:"*"`
-	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
+	// An [account token](https://docs.stripe.com/api#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// Business information about the account.
 	BusinessProfile *AccountUpdateBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
@@ -3432,6 +3464,12 @@ type AccountCreateCapabilitiesBizumPaymentsParams struct {
 
 // The blik_payments capability.
 type AccountCreateCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// The blik_recurring_payments capability.
+type AccountCreateCapabilitiesBLIKRecurringPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3724,6 +3762,12 @@ type AccountCreateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sequra_payments capability.
+type AccountCreateCapabilitiesSequraPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The shopeepay_payments capability.
 type AccountCreateCapabilitiesShopeepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3863,6 +3907,8 @@ type AccountCreateCapabilitiesParams struct {
 	BizumPayments *AccountCreateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCreateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// The blik_recurring_payments capability.
+	BLIKRecurringPayments *AccountCreateCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountCreateCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// The card_issuing capability.
@@ -3959,6 +4005,8 @@ type AccountCreateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountCreateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCreateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// The sequra_payments capability.
+	SequraPayments *AccountCreateCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// The shopeepay_payments capability.
 	ShopeepayPayments *AccountCreateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments" json:"shopeepay_payments,omitempty"`
 	// The sofort_payments capability.
@@ -4073,9 +4121,9 @@ type AccountCreateCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountCreateCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -4209,43 +4257,43 @@ type AccountCreateControllerParams struct {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountCreateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountCreateDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountCreateDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountCreateDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountCreateDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountCreateDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountCreateDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
@@ -4257,7 +4305,7 @@ type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
 	// Information regarding the person signing the document if applicable.
 	Signer *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -4555,6 +4603,12 @@ type AccountCreateSettingsPaypayPaymentsParams struct {
 	Site *AccountCreateSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
 }
 
+// Settings specific to SEPA Direct Debit payments.
+type AccountCreateSettingsSEPADebitPaymentsParams struct {
+	// The business creditor id for european payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Smart Disputes auto-respond settings for the account.
 type AccountCreateSettingsSmartDisputesAutoRespondParams struct {
 	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
@@ -4624,6 +4678,8 @@ type AccountCreateSettingsParams struct {
 	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountCreateSettingsPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Settings specific to SEPA Direct Debit payments.
+	SEPADebitPayments *AccountCreateSettingsSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings specific to the account's use of Smart Disputes.
 	SmartDisputes *AccountCreateSettingsSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings specific to the account's tax forms.
@@ -4652,7 +4708,7 @@ type AccountCreateTOSAcceptanceParams struct {
 // You can prefill any information on the account.
 type AccountCreateParams struct {
 	Params `form:"*"`
-	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
+	// An [account token](https://docs.stripe.com/api#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// Business information about the account.
 	BusinessProfile *AccountCreateBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
@@ -4760,7 +4816,7 @@ type AccountBusinessProfile struct {
 	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
 	ProductDescription string `json:"product_description,omitempty"`
 	// A link to the business's publicly available terms related to the Specified Commercial Transaction Act. Only used for accounts in Japan.
-	SpecifiedCommercialTransactionsActURL string `json:"specified_commercial_transactions_act_url,omitempty"`
+	SpecifiedCommercialTransactionsActURL string `json:"specified_commercial_transactions_act_url"`
 	// A publicly available mailing address for sending support issues to.
 	SupportAddress *Address `json:"support_address"`
 	// A publicly available email address for sending support issues to.
@@ -4801,6 +4857,8 @@ type AccountCapabilities struct {
 	BizumPayments AccountCapabilityStatus `json:"bizum_payments,omitempty"`
 	// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
 	BLIKPayments AccountCapabilityStatus `json:"blik_payments,omitempty"`
+	// The status of the BLIK recurring payments capability of the account, or whether the account can accept recurring and subscription BLIK payments.
+	BLIKRecurringPayments AccountCapabilityStatus `json:"blik_recurring_payments,omitempty"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
 	BoletoPayments AccountCapabilityStatus `json:"boleto_payments,omitempty"`
 	// The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
@@ -4897,6 +4955,8 @@ type AccountCapabilities struct {
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments,omitempty"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments,omitempty"`
+	// The status of the SeQura capability of the account, or whether the account can directly process SeQura payments.
+	SequraPayments AccountCapabilityStatus `json:"sequra_payments,omitempty"`
 	// The status of the ShopeePay capability of the account, or whether the account can directly process ShopeePay payments.
 	ShopeepayPayments AccountCapabilityStatus `json:"shopeepay_payments,omitempty"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
@@ -5007,13 +5067,13 @@ type AccountCompanyRepresentativeDeclaration struct {
 	UserAgent string `json:"user_agent"`
 }
 type AccountCompanyVerificationDocument struct {
-	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
+	// The back of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
 	Back *File `json:"back"`
 	// A user-displayable string describing the verification state of this document.
 	Details string `json:"details"`
 	// One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.
 	DetailsCode AccountCompanyVerificationDocumentDetailsCode `json:"details_code"`
-	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
+	// The front of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
 	Front *File `json:"front"`
 }
 

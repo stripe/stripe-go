@@ -185,6 +185,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Boleto payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -353,6 +359,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsParams stru
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Satispay payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesSatispayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process SEPA bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -361,6 +373,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParam
 
 // Allow the merchant to process SEPA Direct Debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process SeQura payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesSequraPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -417,6 +435,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.
@@ -473,10 +493,14 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	RevolutPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments" json:"revolut_pay_payments,omitempty"`
 	// Allow the merchant to process Samsung Pay payments.
 	SamsungPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
+	// Allow the merchant to process Satispay payments.
+	SatispayPayments *V2CoreAccountConfigurationMerchantCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
 	// Allow the merchant to process SEPA bank transfer payments.
 	SEPABankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process SeQura payments.
+	SequraPayments *V2CoreAccountConfigurationMerchantCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// Allow the merchant to process Sunbit payments.
 	SunbitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
@@ -551,6 +575,12 @@ type V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams struct {
 	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings used for SEPA Direct Debit payments.
+type V2CoreAccountConfigurationMerchantSEPADebitPaymentsParams struct {
+	// Creditor ID for SEPA Direct Debit payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Settings for Smart Disputes auto_respond.
 type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondParams struct {
 	// The preference for automatic dispute responses.
@@ -619,6 +649,8 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings used for SEPA Direct Debit payments.
+	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings for Smart Disputes automatic response feature.
 	SmartDisputes *V2CoreAccountConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
@@ -1599,7 +1631,7 @@ type V2CoreAccountIdentityParams struct {
 // Create an Account that represents a company, individual, or other entity that your business interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountParams struct {
 	Params `form:"*"`
-	// The account token generated by the account token api.
+	// The account token generated by the account token API.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfigurationParams `form:"configuration" json:"configuration,omitempty"`
@@ -1807,6 +1839,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams stru
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process Boleto payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesBoletoPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -1975,6 +2013,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesSamsungPayPaymentsParam
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to process Satispay payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesSatispayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process SEPA bank transfer payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -1983,6 +2027,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPABankTransferPayment
 
 // Allow the merchant to process SEPA Direct Debit payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Allow the merchant to process SeQura payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesSequraPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2039,6 +2089,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.
@@ -2095,10 +2147,14 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	RevolutPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments" json:"revolut_pay_payments,omitempty"`
 	// Allow the merchant to process Samsung Pay payments.
 	SamsungPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
+	// Allow the merchant to process Satispay payments.
+	SatispayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
 	// Allow the merchant to process SEPA bank transfer payments.
 	SEPABankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process SeQura payments.
+	SequraPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// Allow the merchant to process Sunbit payments.
 	SunbitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
@@ -2173,6 +2229,12 @@ type V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams str
 	Kanji *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings used for SEPA Direct Debit payments.
+type V2CoreAccountCreateConfigurationMerchantSEPADebitPaymentsParams struct {
+	// Creditor ID for SEPA Direct Debit payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Settings for Smart Disputes auto_respond.
 type V2CoreAccountCreateConfigurationMerchantSmartDisputesAutoRespondParams struct {
 	// The preference for Smart Disputes auto-respond.
@@ -2239,6 +2301,8 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings used for SEPA Direct Debit payments.
+	SEPADebitPayments *V2CoreAccountCreateConfigurationMerchantSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings used for Smart Disputes.
 	SmartDisputes *V2CoreAccountCreateConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Statement descriptor.
@@ -3209,7 +3273,7 @@ type V2CoreAccountCreateIdentityParams struct {
 // Create an Account that represents a company, individual, or other entity that your business interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountCreateParams struct {
 	Params `form:"*"`
-	// The account token generated by the account token api.
+	// The account token generated by the account token API.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountCreateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
@@ -3413,6 +3477,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams stru
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Boleto payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBoletoPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3581,6 +3651,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSamsungPayPaymentsParam
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Satispay payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSatispayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process SEPA bank transfer payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3589,6 +3665,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPABankTransferPayment
 
 // Allow the merchant to process SEPA Direct Debit payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process SeQura payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSequraPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3645,6 +3727,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.
@@ -3701,10 +3785,14 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	RevolutPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments" json:"revolut_pay_payments,omitempty"`
 	// Allow the merchant to process Samsung Pay payments.
 	SamsungPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
+	// Allow the merchant to process Satispay payments.
+	SatispayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
 	// Allow the merchant to process SEPA bank transfer payments.
 	SEPABankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process SeQura payments.
+	SequraPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSequraPaymentsParams `form:"sequra_payments" json:"sequra_payments,omitempty"`
 	// Allow the merchant to process Sunbit payments.
 	SunbitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
@@ -3779,6 +3867,12 @@ type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams str
 	Kanji *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings for SEPA Direct Debit payments.
+type V2CoreAccountUpdateConfigurationMerchantSEPADebitPaymentsParams struct {
+	// Creditor ID for SEPA Direct Debit payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Settings for Smart Disputes auto_respond.
 type V2CoreAccountUpdateConfigurationMerchantSmartDisputesAutoRespondParams struct {
 	// The preference for automatic dispute responses.
@@ -3847,6 +3941,8 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings for SEPA Direct Debit payments.
+	SEPADebitPayments *V2CoreAccountUpdateConfigurationMerchantSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings for Smart Disputes automatic response feature.
 	SmartDisputes *V2CoreAccountUpdateConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
@@ -4837,7 +4933,7 @@ type V2CoreAccountUpdateIdentityParams struct {
 // Updates the details of an Account.
 type V2CoreAccountUpdateParams struct {
 	Params `form:"*"`
-	// The account token generated by the account token api.
+	// The account token generated by the account token API.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountUpdateConfigurationParams `form:"configuration" json:"configuration,omitempty"`

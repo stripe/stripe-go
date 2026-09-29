@@ -3111,7 +3111,7 @@ type QuoteComputedLastReestimationDetails struct {
 type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -3164,7 +3164,7 @@ type QuoteComputedRecurring struct {
 type QuoteComputedUpfrontTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -3513,7 +3513,7 @@ type QuoteSubscriptionSchedule struct {
 type QuoteTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)

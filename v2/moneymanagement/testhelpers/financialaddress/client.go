@@ -27,10 +27,10 @@ type Client struct {
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Credit(id string, params *stripe.V2TestHelpersFinancialAddressCreditParams) (*stripe.V2FinancialAddressCreditSimulation, error) {
+func (c Client) Credit(id string, params *stripe.V2MoneyManagementTestHelpersFinancialAddressCreditParams) (*stripe.V2MoneyManagementFinancialAddressCreditSimulation, error) {
 	path := stripe.FormatURLPath(
-		"/v2/test_helpers/financial_addresses/%s/credit", id)
-	financialaddresscreditsimulation := &stripe.V2FinancialAddressCreditSimulation{}
+		"/v2/money_management/test_helpers/financial_addresses/%s/credit", id)
+	financialaddresscreditsimulation := &stripe.V2MoneyManagementFinancialAddressCreditSimulation{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, financialaddresscreditsimulation)
 	return financialaddresscreditsimulation, err
@@ -41,10 +41,10 @@ func (c Client) Credit(id string, params *stripe.V2TestHelpersFinancialAddressCr
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) GenerateMicrodeposits(id string, params *stripe.V2TestHelpersFinancialAddressGenerateMicrodepositsParams) (*stripe.V2FinancialAddressGeneratedMicrodeposits, error) {
+func (c Client) GenerateMicrodeposits(id string, params *stripe.V2MoneyManagementTestHelpersFinancialAddressGenerateMicrodepositsParams) (*stripe.V2MoneyManagementFinancialAddressGeneratedMicrodeposits, error) {
 	path := stripe.FormatURLPath(
-		"/v2/test_helpers/financial_addresses/%s/generate_microdeposits", id)
-	financialaddressgeneratedmicrodeposits := &stripe.V2FinancialAddressGeneratedMicrodeposits{}
+		"/v2/money_management/test_helpers/financial_addresses/%s/generate_microdeposits", id)
+	financialaddressgeneratedmicrodeposits := &stripe.V2MoneyManagementFinancialAddressGeneratedMicrodeposits{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, financialaddressgeneratedmicrodeposits)
 	return financialaddressgeneratedmicrodeposits, err
