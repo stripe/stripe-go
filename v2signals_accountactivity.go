@@ -55,10 +55,24 @@ type V2SignalsAccountActivityAccountDetailsDataDefaults struct {
 	Profile *V2SignalsAccountActivityAccountDetailsDataDefaultsProfile `json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountActivityAccountDetailsDataIdentityBusinessDetails struct {
+	// Registered business name.
+	RegisteredName string `json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountActivityAccountDetailsDataIdentity struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountActivityAccountDetailsDataIdentityBusinessDetails `json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountActivityAccountDetailsData struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountActivityAccountDetailsDataDefaults `json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountActivityAccountDetailsDataIdentity `json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data associated with the activity.

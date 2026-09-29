@@ -430,6 +430,8 @@ type Client struct {
 	V2MoneyManagementReceivedCredits *v2MoneyManagementReceivedCreditService
 	// V2MoneyManagementReceivedDebits is the service used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2MoneyManagementReceivedDebitService
+	// V2MoneyManagementTestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2MoneyManagementTestHelpersFinancialAddressService
 	// V2MoneyManagementTransactionEntries is the service used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
 	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
@@ -438,14 +440,12 @@ type Client struct {
 	V2NetworkBusinessProfiles *v2NetworkBusinessProfileService
 	// V2OrchestratedCommerceAgreements is the service used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2OrchestratedCommerceAgreementService
-	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activity APIs.
+	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2SignalsAccountActivityService
 	// V2SignalsAccountEvaluations is the service used to invoke /v2/signals/account_evaluations APIs.
 	V2SignalsAccountEvaluations *v2SignalsAccountEvaluationService
 	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2SignalsAccountSignalService
-	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
-	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
 	backends *Backends
@@ -696,6 +696,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
+	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
@@ -703,7 +704,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
-	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 

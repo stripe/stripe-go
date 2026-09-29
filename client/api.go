@@ -224,6 +224,7 @@ import (
 	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v86/v2/moneymanagement/payoutmethodsbankaccountspec"
 	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v86/v2/moneymanagement/receivedcredit"
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v86/v2/moneymanagement/receiveddebit"
+	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v86/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v86/v2/moneymanagement/transactionentry"
 	v2networkbusinessprofile "github.com/stripe/stripe-go/v86/v2/network/businessprofile"
@@ -231,7 +232,6 @@ import (
 	v2signalsaccountactivity "github.com/stripe/stripe-go/v86/v2/signals/accountactivity"
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v86/v2/signals/accountevaluation"
 	v2signalsaccountsignal "github.com/stripe/stripe-go/v86/v2/signals/accountsignal"
-	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v86/webhookendpoint"
 )
 
@@ -663,6 +663,8 @@ type API struct {
 	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
 	// V2MoneyManagementReceivedDebits is the client used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
+	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2moneymanagementtesthelpersfinancialaddress.Client
 	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
@@ -671,14 +673,12 @@ type API struct {
 	V2NetworkBusinessProfiles *v2networkbusinessprofile.Client
 	// V2OrchestratedCommerceAgreements is the client used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2orchestratedcommerceagreement.Client
-	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activity APIs.
+	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2signalsaccountactivity.Client
 	// V2SignalsAccountEvaluations is the client used to invoke /v2/signals/account_evaluations APIs.
 	V2SignalsAccountEvaluations *v2signalsaccountevaluation.Client
 	// V2SignalsAccountSignals is the client used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2signalsaccountsignal.Client
-	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
-	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -908,6 +908,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2NetworkBusinessProfiles = &v2networkbusinessprofile.Client{B: backends.API, Key: key}
@@ -915,7 +916,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
-	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

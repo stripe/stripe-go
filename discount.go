@@ -28,6 +28,7 @@ type DiscountSource struct {
 //
 // Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
 type Discount struct {
+	APIResource
 	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Not present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
 	// The ID of the customer associated with this discount.

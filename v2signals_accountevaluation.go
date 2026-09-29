@@ -8,6 +8,18 @@ package stripe
 
 import "time"
 
+// Categorical assessment of the fraudulent website risk.
+type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel string
+
+// List of values that V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel can take
+const (
+	V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevelElevated V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel = "elevated"
+	V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevelHighest  V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel = "highest"
+	V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevelLow      V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel = "low"
+	V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevelNormal   V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel = "normal"
+	V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevelUnknown  V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel = "unknown"
+)
+
 // Categorical assessment of the account-sharing risk.
 type V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharingRiskLevel string
 
@@ -37,6 +49,7 @@ type V2SignalsAccountEvaluationPendingSignal string
 
 // List of values that V2SignalsAccountEvaluationPendingSignal can take
 const (
+	V2SignalsAccountEvaluationPendingSignalFraudulentWebsite   V2SignalsAccountEvaluationPendingSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationPendingSignalUserAccountSharing  V2SignalsAccountEvaluationPendingSignal = "user_account_sharing"
 	V2SignalsAccountEvaluationPendingSignalUserMultiAccounting V2SignalsAccountEvaluationPendingSignal = "user_multi_accounting"
 )
@@ -46,6 +59,7 @@ type V2SignalsAccountEvaluationRequestedSignal string
 
 // List of values that V2SignalsAccountEvaluationRequestedSignal can take
 const (
+	V2SignalsAccountEvaluationRequestedSignalFraudulentWebsite   V2SignalsAccountEvaluationRequestedSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationRequestedSignalUserAccountSharing  V2SignalsAccountEvaluationRequestedSignal = "user_account_sharing"
 	V2SignalsAccountEvaluationRequestedSignalUserMultiAccounting V2SignalsAccountEvaluationRequestedSignal = "user_multi_accounting"
 )
@@ -72,10 +86,24 @@ type V2SignalsAccountEvaluationAccountDetailsDataDefaults struct {
 	Profile *V2SignalsAccountEvaluationAccountDetailsDataDefaultsProfile `json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountEvaluationAccountDetailsDataIdentityBusinessDetails struct {
+	// Registered business name.
+	RegisteredName string `json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountEvaluationAccountDetailsDataIdentity struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountEvaluationAccountDetailsDataIdentityBusinessDetails `json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationAccountDetailsData struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationAccountDetailsDataDefaults `json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountEvaluationAccountDetailsDataIdentity `json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data being evaluated.
@@ -86,6 +114,18 @@ type V2SignalsAccountEvaluationAccountDetails struct {
 	Customer string `json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountEvaluationAccountDetailsData `json:"data,omitempty"`
+}
+
+// Fraudulent website result for the evaluation, when available.
+type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite struct {
+	// Human-readable details about the fraudulent website evaluation, when available.
+	Details string `json:"details,omitempty"`
+	// Timestamp at which the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at,omitempty"`
+	// Categorical assessment of the fraudulent website risk.
+	RiskLevel V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel `json:"risk_level"`
+	// The account signal ID containing the full fraudulent website signal result.
+	Signal string `json:"signal,omitempty"`
 }
 
 // User account-sharing result for the evaluation, when available.
@@ -114,6 +154,8 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting struct {
 
 // Signal results that are available for the evaluation.
 type V2SignalsAccountEvaluationEvaluatedSignals struct {
+	// Fraudulent website result for the evaluation, when available.
+	FraudulentWebsite *V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite `json:"fraudulent_website,omitempty"`
 	// User account-sharing result for the evaluation, when available.
 	UserAccountSharing *V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharing `json:"user_account_sharing,omitempty"`
 	// User multi-accounting result for the evaluation, when available.

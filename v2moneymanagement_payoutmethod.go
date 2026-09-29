@@ -55,6 +55,7 @@ type V2MoneyManagementPayoutMethodUsageStatusPayments string
 const (
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsDisabled       V2MoneyManagementPayoutMethodUsageStatusPayments = "disabled"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsEligible       V2MoneyManagementPayoutMethodUsageStatusPayments = "eligible"
+	V2MoneyManagementPayoutMethodUsageStatusPaymentsIneligible     V2MoneyManagementPayoutMethodUsageStatusPayments = "ineligible"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsInvalid        V2MoneyManagementPayoutMethodUsageStatusPayments = "invalid"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsRequiresAction V2MoneyManagementPayoutMethodUsageStatusPayments = "requires_action"
 )
@@ -67,6 +68,7 @@ type V2MoneyManagementPayoutMethodUsageStatusTransfers string
 const (
 	V2MoneyManagementPayoutMethodUsageStatusTransfersDisabled       V2MoneyManagementPayoutMethodUsageStatusTransfers = "disabled"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersEligible       V2MoneyManagementPayoutMethodUsageStatusTransfers = "eligible"
+	V2MoneyManagementPayoutMethodUsageStatusTransfersIneligible     V2MoneyManagementPayoutMethodUsageStatusTransfers = "ineligible"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersInvalid        V2MoneyManagementPayoutMethodUsageStatusTransfers = "invalid"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersRequiresAction V2MoneyManagementPayoutMethodUsageStatusTransfers = "requires_action"
 )
@@ -81,10 +83,6 @@ type V2MoneyManagementPayoutMethodAlternativeReference struct {
 
 // The PayoutMethodBankAccount object details.
 type V2MoneyManagementPayoutMethodBankAccount struct {
-	// Whether this PayoutMethodBankAccount object was archived. PayoutMethodBankAccount objects can be archived through
-	// the /archive API, and they will not be automatically archived by Stripe. Archived PayoutMethodBankAccount objects
-	// cannot be used as payout methods and will not appear in the payout method list.
-	Archived bool `json:"archived"`
 	// The type of bank account (checking or savings).
 	BankAccountType V2MoneyManagementPayoutMethodBankAccountBankAccountType `json:"bank_account_type"`
 	// The name of the bank this bank account is in. This field is populated automatically by Stripe.
@@ -109,10 +107,6 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 
 // The PayoutMethodCard object details.
 type V2MoneyManagementPayoutMethodCard struct {
-	// Whether the PayoutMethodCard object was archived. PayoutMethodCard objects can be archived through
-	// the /archive API, and they will not be automatically archived by Stripe. Archived PayoutMethodCard objects
-	// cannot be used as payout methods and will not appear in the payout method list.
-	Archived bool `json:"archived"`
 	// The month the card expires.
 	ExpMonth string `json:"exp_month"`
 	// The year the card expires.
@@ -141,6 +135,10 @@ type V2MoneyManagementPayoutMethod struct {
 	APIResource
 	// The alternative reference for this payout method, if it's a projected payout method.
 	AlternativeReference *V2MoneyManagementPayoutMethodAlternativeReference `json:"alternative_reference,omitempty"`
+	// Whether the payout method was archived. Payout methods can be archived through the /archive API,
+	// and they will not be automatically archived by Stripe. Archived payout methods cannot be used
+	// for outbound money movement.
+	Archived bool `json:"archived"`
 	// A set of available payout speeds for this payout method.
 	AvailablePayoutSpeeds []V2MoneyManagementPayoutMethodAvailablePayoutSpeed `json:"available_payout_speeds"`
 	// The PayoutMethodBankAccount object details.

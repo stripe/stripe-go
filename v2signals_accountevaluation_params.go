@@ -92,10 +92,24 @@ type V2SignalsAccountEvaluationAccountDetailsDataDefaultsParams struct {
 	Profile *V2SignalsAccountEvaluationAccountDetailsDataDefaultsProfileParams `form:"profile" json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountEvaluationAccountDetailsDataIdentityBusinessDetailsParams struct {
+	// Registered business name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountEvaluationAccountDetailsDataIdentityParams struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountEvaluationAccountDetailsDataIdentityBusinessDetailsParams `form:"business_details" json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationAccountDetailsDataParams struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountEvaluationAccountDetailsDataIdentityParams `form:"identity" json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data to evaluate.
@@ -203,10 +217,24 @@ type V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsParams struct {
 	Profile *V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsProfileParams `form:"profile" json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountEvaluationCreateAccountDetailsDataIdentityBusinessDetailsParams struct {
+	// Registered business name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountEvaluationCreateAccountDetailsDataIdentityParams struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountEvaluationCreateAccountDetailsDataIdentityBusinessDetailsParams `form:"business_details" json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationCreateAccountDetailsDataParams struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountEvaluationCreateAccountDetailsDataIdentityParams `form:"identity" json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data to evaluate.
