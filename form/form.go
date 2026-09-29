@@ -13,6 +13,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
 const tagName = "form"
@@ -338,6 +340,14 @@ func timeEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 	values.Add(FormatKey(keyParts), val.String())
 }
 
+func decimalEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
+	val := v.Interface().(decimal.Decimal)
+	if val.IsZero() && !encodeZero {
+		return
+	}
+	values.Add(FormatKey(keyParts), val.String())
+}
+
 func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
 	// interfaceEncoder never encodes a `nil`, but it will pass through an
 	// `encodeZero` value into its chained encoder
@@ -479,6 +489,9 @@ func makeTypeEncoder(t reflect.Type) encoderFunc {
 	// and don't want to inspect into it and encode it as a struct.
 	if t == reflect.TypeOf(time.Time{}) {
 		return timeEncoder
+	}
+	if t == reflect.TypeOf(decimal.Decimal{}) {
+		return decimalEncoder
 	}
 
 	switch t.Kind() {
