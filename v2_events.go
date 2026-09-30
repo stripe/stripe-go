@@ -4377,23 +4377,11 @@ func (n *V1InvoiceSentEventNotification) FetchRelatedObject(ctx context.Context)
 
 // V1InvoiceUpcomingEvent is the Go struct for the "v1.invoice.upcoming" event.
 // Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
-type V1InvoiceUpcomingEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceUpcomingEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
+type V1InvoiceUpcomingEvent struct{ V2BaseEvent }
 
 // V1InvoiceUpcomingEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.upcoming"
 // Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
-type V1InvoiceUpcomingEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
+type V1InvoiceUpcomingEventNotification struct{ V2CoreEventNotification }
 
 // FetchEvent retrieves the V1InvoiceUpcomingEvent that created this Notification
 func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpcomingEvent, error) {
@@ -4402,18 +4390,6 @@ func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V
 		return nil, err
 	}
 	return evt.(*V1InvoiceUpcomingEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceUpcomingEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
 }
 
 // V1InvoiceUpdatedEvent is the Go struct for the "v1.invoice.updated" event.
@@ -11479,17 +11455,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.invoice.upcoming":
 		result := &V1InvoiceUpcomingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
 		return result, nil
 	case "v1.invoice.updated":
 		result := &V1InvoiceUpdatedEvent{}
