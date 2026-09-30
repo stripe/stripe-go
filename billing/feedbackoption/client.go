@@ -40,12 +40,12 @@ func (c Client) New(params *stripe.BillingFeedbackOptionParams) (*stripe.Billing
 	return feedbackoption, err
 }
 
-// Retrieves a feedback options object given an ID.
+// Retrieves a feedback option object given an ID.
 func Get(id string, params *stripe.BillingFeedbackOptionParams) (*stripe.BillingFeedbackOption, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves a feedback options object given an ID.
+// Retrieves a feedback option object given an ID.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -91,12 +91,12 @@ func (c Client) Deactivate(id string, params *stripe.BillingFeedbackOptionDeacti
 	return feedbackoption, err
 }
 
-// An API method for listing the feedback options model
+// Returns a list of your feedback options.
 func List(params *stripe.BillingFeedbackOptionListParams) *Iter {
 	return getC().List(params)
 }
 
-// An API method for listing the feedback options model
+// Returns a list of your feedback options.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

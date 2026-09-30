@@ -176,11 +176,13 @@ const (
 	PaymentLinkPaymentMethodTypePayByBank        PaymentLinkPaymentMethodType = "pay_by_bank"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
+	PaymentLinkPaymentMethodTypePaypay           PaymentLinkPaymentMethodType = "paypay"
 	PaymentLinkPaymentMethodTypePayto            PaymentLinkPaymentMethodType = "payto"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSequra           PaymentLinkPaymentMethodType = "sequra"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSunbit           PaymentLinkPaymentMethodType = "sunbit"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
@@ -322,7 +324,7 @@ type PaymentLinkCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -348,7 +350,7 @@ type PaymentLinkCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -390,7 +392,7 @@ type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -516,6 +518,27 @@ type PaymentLinkLineItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PaymentLinkLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type PaymentLinkLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -528,6 +551,8 @@ type PaymentLinkLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PaymentLinkLineItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -848,7 +873,7 @@ func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string
 type PaymentLinkTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -899,9 +924,9 @@ type PaymentLinkParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -1085,7 +1110,7 @@ type PaymentLinkCreateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkCreateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -1111,7 +1136,7 @@ type PaymentLinkCreateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCreateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCreateCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -1153,7 +1178,7 @@ type PaymentLinkCreateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCreateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkCreateCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -1279,6 +1304,27 @@ type PaymentLinkCreateLineItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -1291,6 +1337,8 @@ type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name" json:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
@@ -1537,7 +1585,7 @@ func (p *PaymentLinkCreateSubscriptionDataParams) AddMetadata(key string, value 
 type PaymentLinkCreateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -1573,9 +1621,9 @@ type PaymentLinkCreateParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCreateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkCreateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -1733,7 +1781,7 @@ type PaymentLinkUpdateCustomFieldDropdownParams struct {
 
 // The label for the field, displayed to the customer.
 type PaymentLinkUpdateCustomFieldLabelParams struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom *string `form:"custom" json:"custom"`
 	// The type of the label.
 	Type *string `form:"type" json:"type"`
@@ -1759,7 +1807,7 @@ type PaymentLinkUpdateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkUpdateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkUpdateCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -1801,7 +1849,7 @@ type PaymentLinkUpdateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkUpdateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkUpdateCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -2194,7 +2242,7 @@ func (p *PaymentLinkUpdateSubscriptionDataParams) AddMetadata(key string, value 
 type PaymentLinkUpdateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -2243,9 +2291,9 @@ type PaymentLinkUpdateParams struct {
 	ConsentCollection *PaymentLinkUpdateConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkUpdateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkUpdateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -2397,7 +2445,7 @@ type PaymentLinkCustomFieldDropdown struct {
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
 }
 type PaymentLinkCustomFieldLabel struct {
-	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	// Custom text for the label, displayed to the customer. Up to 100 characters.
 	Custom string `json:"custom"`
 	// The type of the label.
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
@@ -2419,7 +2467,7 @@ type PaymentLinkCustomFieldText struct {
 	MinimumLength int64 `json:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomField struct {
 	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown,omitempty"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -2693,7 +2741,7 @@ type PaymentLink struct {
 	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCustomField `json:"custom_fields"`
 	CustomText   *PaymentLinkCustomText    `json:"custom_text"`
 	// Unique identifier for the object.

@@ -17,6 +17,16 @@ const (
 	ReservePlanCreatedByStripe      ReservePlanCreatedBy = "stripe"
 )
 
+// The balance destination to which the reserved funds are sent.
+type ReservePlanDestination string
+
+// List of values that ReservePlanDestination can take
+const (
+	ReservePlanDestinationOther              ReservePlanDestination = "other"
+	ReservePlanDestinationRiskReserved       ReservePlanDestination = "risk_reserved"
+	ReservePlanDestinationSettlementReserved ReservePlanDestination = "settlement_reserved"
+)
+
 // The current status of the ReservePlan. The ReservePlan only affects charges if it is `active`.
 type ReservePlanStatus string
 
@@ -25,6 +35,7 @@ const (
 	ReservePlanStatusActive   ReservePlanStatus = "active"
 	ReservePlanStatusDisabled ReservePlanStatus = "disabled"
 	ReservePlanStatusExpired  ReservePlanStatus = "expired"
+	ReservePlanStatusOther    ReservePlanStatus = "other"
 )
 
 // The type of the ReservePlan.
@@ -33,6 +44,8 @@ type ReservePlanType string
 // List of values that ReservePlanType can take
 const (
 	ReservePlanTypeFixedRelease   ReservePlanType = "fixed_release"
+	ReservePlanTypeManualRelease  ReservePlanType = "manual_release"
+	ReservePlanTypeOther          ReservePlanType = "other"
 	ReservePlanTypeRollingRelease ReservePlanType = "rolling_release"
 )
 
@@ -42,6 +55,7 @@ type ReservePlanFixedRelease struct {
 	// The time at which reserved funds are scheduled for release, automatically set to midnight UTC of the day after `release_after`.
 	ScheduledRelease int64 `json:"scheduled_release"`
 }
+type ReservePlanManualRelease struct{}
 type ReservePlanRollingRelease struct {
 	// The number of days to reserve funds before releasing.
 	DaysAfterCharge int64 `json:"days_after_charge"`
@@ -57,13 +71,16 @@ type ReservePlan struct {
 	CreatedBy ReservePlanCreatedBy `json:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). An unset currency indicates that the plan applies to all currencies.
 	Currency Currency `json:"currency"`
+	// The balance destination to which the reserved funds are sent.
+	Destination ReservePlanDestination `json:"destination"`
 	// Time at which the ReservePlan was disabled.
 	DisabledAt   int64                    `json:"disabled_at"`
 	FixedRelease *ReservePlanFixedRelease `json:"fixed_release,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode      bool                      `json:"livemode"`
+	ManualRelease *ReservePlanManualRelease `json:"manual_release,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.

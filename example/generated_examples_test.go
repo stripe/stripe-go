@@ -3541,7 +3541,7 @@ func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := financialconnections_session.New(params)
@@ -3561,7 +3561,7 @@ func TestFinancialConnectionsSessionsPost2Service(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := sc.FinancialConnectionsSessions.New(params)
@@ -3581,7 +3581,7 @@ func TestFinancialConnectionsSessionsPost2Client(t *testing.T) {
 			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionCreateFiltersParams{
-			Countries: []*string{stripe.String("US")},
+			Country: stripe.String("US"),
 		},
 	}
 	result, err := sc.V1FinancialConnectionsSessions.Create(
@@ -13068,7 +13068,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 func TestCoreEventsGetService(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"snapshot_event\":\"snapshot_event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13081,7 +13081,7 @@ func TestCoreEventsGetService(t *testing.T) {
 func TestCoreEventsGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"snapshot_event\":\"snapshot_event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13579,18 +13579,16 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkUseCaseAccountUpdateParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsParams{
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			Type: stripe.String("account_onboarding"),
 		},
@@ -13615,18 +13613,16 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateCollectionOptionsParams{
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("merchant")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			Type: stripe.String("account_onboarding"),
 		},
