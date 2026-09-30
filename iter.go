@@ -3,11 +3,14 @@ package stripe
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v86/form"
 )
+
+var errEmptyPageWithHasMore = errors.New("stripe: invalid list response: has_more is true but data is empty")
 
 // Iter provides a convenient interface
 // for iterating over the elements
@@ -59,7 +62,7 @@ func (it *Iter) Meta() *ListMeta {
 // It returns false when the iterator stops
 // at the end of the list.
 func (it *Iter) Next() bool {
-	if len(it.values) == 0 && it.meta.HasMore && !it.listParams.Single {
+	if len(it.values) == 0 && it.err == nil && it.meta.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
 			it.listParams.EndingBefore = String(listItemID(it.cur))
@@ -81,6 +84,9 @@ func (it *Iter) Next() bool {
 func (it *Iter) getPage() {
 	it.values, it.list, it.err = it.query(it.listParams.GetParams(), it.formValues)
 	it.meta = it.list.GetListMeta()
+	if it.err == nil {
+		it.err = validateV1ListPage(len(it.values), it.meta.HasMore, it.listParams.Single)
+	}
 
 	if it.listParams.EndingBefore != nil {
 		// We are moving backward,
@@ -202,6 +208,10 @@ func (l *V1List[T]) page(ctx context.Context) {
 		l.err = err
 		return
 	}
+	if err := validateV1ListPage(len(page.Data), page.HasMore, l.listParams.Single); err != nil {
+		l.err = err
+		return
+	}
 	if err := maybeAddLastResponseV1(page); err != nil {
 		l.err = err
 		return
@@ -216,10 +226,17 @@ func (l *V1List[T]) page(ctx context.Context) {
 
 // hasMore returns true if there is another page of items to fetch.
 func (l *V1List[T]) hasMore() bool {
-	if l == nil {
+	if l == nil || l.err != nil {
 		return false
 	}
 	return l.v1Page.HasMore && !l.listParams.Single
+}
+
+func validateV1ListPage(dataLen int, hasMore, single bool) error {
+	if dataLen == 0 && hasMore && !single {
+		return errEmptyPageWithHasMore
+	}
+	return nil
 }
 
 // maybeAddLastResponseV1 adds the LastResponse to the items in the page.
