@@ -29,7 +29,7 @@ func (c v2SignalsAccountEvaluationService) Create(ctx context.Context, params *V
 	return accountevaluation, err
 }
 
-// Retrieves an AccountEvaluation by its ID.
+// Retrieves an AccountEvaluation by its ID for up to 90 days after creation. Evaluations more than 90 days old are inaccessible.
 func (c v2SignalsAccountEvaluationService) Retrieve(ctx context.Context, id string, params *V2SignalsAccountEvaluationRetrieveParams) (*V2SignalsAccountEvaluation, error) {
 	if params == nil {
 		params = &V2SignalsAccountEvaluationRetrieveParams{}

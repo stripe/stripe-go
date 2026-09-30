@@ -38,7 +38,7 @@ func TestCheckoutSessionNew(t *testing.T) {
 				Name:    stripe.String("name"),
 			},
 		},
-		PaymentMethodTypes: stripe.StringSlice([]string{
+		AllowedPaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),
 		SubscriptionData: &stripe.CheckoutSessionSubscriptionDataParams{

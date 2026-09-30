@@ -133,8 +133,6 @@ type V2PaymentsOffSessionPaymentPaymentMethodDataBillingDetailsParams struct {
 
 // Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
 type V2PaymentsOffSessionPaymentPaymentMethodDataCardParams struct {
-	// The card CVC.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The card expiration month.
 	ExpMonth *string `form:"exp_month" json:"exp_month"`
 	// The card expiration year.
@@ -445,8 +443,6 @@ type V2PaymentsOffSessionPaymentCreatePaymentMethodDataBillingDetailsParams stru
 
 // Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
 type V2PaymentsOffSessionPaymentCreatePaymentMethodDataCardParams struct {
-	// The card CVC.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The card expiration month.
 	ExpMonth *string `form:"exp_month" json:"exp_month"`
 	// The card expiration year.

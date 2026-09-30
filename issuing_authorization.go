@@ -1334,13 +1334,13 @@ type IssuingAuthorizationFuels struct {
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
 	IndustryProductCode string `json:"industry_product_code"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
-	QuantityDecimal float64 `json:"quantity_decimal,string"`
+	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
 	// The type of fuel that was purchased.
 	Type IssuingAuthorizationFuelsType `json:"type"`
 	// The units for `quantity_decimal`.
 	Unit IssuingAuthorizationFuelsUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
-	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
+	UnitCostDecimal decimal.Decimal `json:"unit_cost_decimal"`
 }
 
 // Details about the IIAS FSA/HSA healthcare amounts on this authorization.

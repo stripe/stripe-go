@@ -19,12 +19,13 @@ const (
 	IssuingCardCancellationReasonStolen           IssuingCardCancellationReason = "stolen"
 )
 
-// The type of wallet (standard or bridge_wallet).
+// The type of crypto wallet.
 type IssuingCardCryptoWalletType string
 
 // List of values that IssuingCardCryptoWalletType can take
 const (
 	IssuingCardCryptoWalletTypeBridgeWallet IssuingCardCryptoWalletType = "bridge_wallet"
+	IssuingCardCryptoWalletTypeSquads       IssuingCardCryptoWalletType = "squads"
 	IssuingCardCryptoWalletTypeStandard     IssuingCardCryptoWalletType = "standard"
 )
 
@@ -265,7 +266,7 @@ type IssuingCardCryptoWalletParams struct {
 	Chain *string `form:"chain" json:"chain,omitempty"`
 	// Updates the crypto wallet's funding currency for subsequent card movements. This doesn't convert existing balances or change the wallet's address, chain, or type.
 	Currency *string `form:"currency" json:"currency"`
-	// The type of wallet (standard or bridge_wallet).
+	// The type of crypto wallet.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -431,7 +432,7 @@ type IssuingCardCreateCryptoWalletParams struct {
 	Chain *string `form:"chain" json:"chain"`
 	// The cryptocurrency held in the wallet.
 	Currency *string `form:"currency" json:"currency"`
-	// The type of wallet (standard or bridge_wallet).
+	// The type of crypto wallet.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -729,7 +730,7 @@ type IssuingCardCryptoWallet struct {
 	Chain string `json:"chain"`
 	// The cryptocurrency held in the wallet.
 	Currency Currency `json:"currency"`
-	// The type of wallet (standard or bridge_wallet).
+	// The type of crypto wallet.
 	Type IssuingCardCryptoWalletType `json:"type"`
 }
 

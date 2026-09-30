@@ -34,6 +34,16 @@ const (
 	QuotePreviewInvoiceAutomaticTaxDisabledReasonFinalizationSystemError            QuotePreviewInvoiceAutomaticTaxDisabledReason = "finalization_system_error"
 )
 
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource string
+
+// List of values that QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource can take
+const (
+	QuotePreviewInvoiceAutomaticTaxEnablementDetailsSourceExplicit                    QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource = "explicit"
+	QuotePreviewInvoiceAutomaticTaxEnablementDetailsSourceManagedPayments             QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource = "managed_payments"
+	QuotePreviewInvoiceAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
+)
+
 // Type of the account referenced.
 type QuotePreviewInvoiceAutomaticTaxLiabilityType string
 
@@ -551,6 +561,18 @@ const (
 	QuotePreviewInvoiceStatusVoid          QuotePreviewInvoiceStatus = "void"
 )
 
+// The reason why the invoice is uncollectible.
+type QuotePreviewInvoiceStatusDetailsUncollectibleReason string
+
+// List of values that QuotePreviewInvoiceStatusDetailsUncollectibleReason can take
+const (
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonMaxPaymentAttempts   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "max_payment_attempts"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonPaymentNotReceived   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "payment_not_received"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonSubscriptionCanceled QuotePreviewInvoiceStatusDetailsUncollectibleReason = "subscription_canceled"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonSubscriptionPaused   QuotePreviewInvoiceStatusDetailsUncollectibleReason = "subscription_paused"
+	QuotePreviewInvoiceStatusDetailsUncollectibleReasonUserForgiven         QuotePreviewInvoiceStatusDetailsUncollectibleReason = "user_forgiven"
+)
+
 // Type of the pretax credit amount referenced.
 type QuotePreviewInvoiceTotalPretaxCreditAmountType string
 
@@ -642,6 +664,20 @@ type QuotePreviewInvoiceAppliesTo struct {
 	Type QuotePreviewInvoiceAppliesToType `json:"type"`
 }
 
+// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+type QuotePreviewInvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type QuotePreviewInvoiceAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+	IntegrationConfigurationDisabledReason *QuotePreviewInvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source QuotePreviewInvoiceAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewInvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -654,6 +690,8 @@ type QuotePreviewInvoiceAutomaticTax struct {
 	DisabledReason QuotePreviewInvoiceAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *QuotePreviewInvoiceAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
 	// The tax provider powering automatic tax.
@@ -1011,6 +1049,13 @@ type QuotePreviewInvoiceShippingCost struct {
 	// The taxes applied to the shipping rate.
 	Taxes []*QuotePreviewInvoiceShippingCostTax `json:"taxes,omitempty"`
 }
+type QuotePreviewInvoiceStatusDetailsUncollectible struct {
+	// The reason why the invoice is uncollectible.
+	Reason QuotePreviewInvoiceStatusDetailsUncollectibleReason `json:"reason"`
+}
+type QuotePreviewInvoiceStatusDetails struct {
+	Uncollectible *QuotePreviewInvoiceStatusDetailsUncollectible `json:"uncollectible,omitempty"`
+}
 type QuotePreviewInvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
 	FinalizedAt int64 `json:"finalized_at"`
@@ -1260,6 +1305,7 @@ type QuotePreviewInvoice struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
+	StatusDetails     *QuotePreviewInvoiceStatusDetails     `json:"status_details,omitempty"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
 	Subscription      *Subscription                         `json:"subscription"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated

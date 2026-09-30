@@ -29,6 +29,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeBoleto               SetupIntentAllowedPaymentMethodType = "boleto"
 	SetupIntentAllowedPaymentMethodTypeCapchasePay          SetupIntentAllowedPaymentMethodType = "capchase_pay"
 	SetupIntentAllowedPaymentMethodTypeCard                 SetupIntentAllowedPaymentMethodType = "card"
+	SetupIntentAllowedPaymentMethodTypeCardPresent          SetupIntentAllowedPaymentMethodType = "card_present"
 	SetupIntentAllowedPaymentMethodTypeCashApp              SetupIntentAllowedPaymentMethodType = "cashapp"
 	SetupIntentAllowedPaymentMethodTypeCheckScan            SetupIntentAllowedPaymentMethodType = "check_scan"
 	SetupIntentAllowedPaymentMethodTypeClickToPay           SetupIntentAllowedPaymentMethodType = "click_to_pay"
@@ -49,6 +50,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeGrabpay              SetupIntentAllowedPaymentMethodType = "grabpay"
 	SetupIntentAllowedPaymentMethodTypeIDBankTransfer       SetupIntentAllowedPaymentMethodType = "id_bank_transfer"
 	SetupIntentAllowedPaymentMethodTypeIDEAL                SetupIntentAllowedPaymentMethodType = "ideal"
+	SetupIntentAllowedPaymentMethodTypeInteracPresent       SetupIntentAllowedPaymentMethodType = "interac_present"
 	SetupIntentAllowedPaymentMethodTypeKakaoPay             SetupIntentAllowedPaymentMethodType = "kakao_pay"
 	SetupIntentAllowedPaymentMethodTypeKlarna               SetupIntentAllowedPaymentMethodType = "klarna"
 	SetupIntentAllowedPaymentMethodTypeKnet                 SetupIntentAllowedPaymentMethodType = "knet"
@@ -899,6 +901,9 @@ type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentPaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentPaymentMethodDataShopeepayParams struct{}
 
@@ -1082,6 +1087,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Scalapay *SetupIntentPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -1192,6 +1199,20 @@ type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentPaymentMethodOptionsBizumParams struct{}
 
+// Details of the BLIK mandate
+type SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentPaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -1279,6 +1300,8 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -1577,6 +1600,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -2044,6 +2069,9 @@ type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentConfirmPaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentConfirmPaymentMethodDataShopeepayParams struct{}
 
@@ -2227,6 +2255,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Scalapay *SetupIntentConfirmPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentConfirmPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -2699,6 +2729,9 @@ type SetupIntentCreatePaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentCreatePaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentCreatePaymentMethodDataShopeepayParams struct{}
 
@@ -2882,6 +2915,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Scalapay *SetupIntentCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -2992,6 +3027,20 @@ type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentCreatePaymentMethodOptionsBizumParams struct{}
 
+// Details of the BLIK mandate
+type SetupIntentCreatePaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentCreatePaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentCreatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -3079,6 +3128,8 @@ type SetupIntentCreatePaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentCreatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -3377,6 +3428,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentCreatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -3841,6 +3894,9 @@ type SetupIntentUpdatePaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type SetupIntentUpdatePaymentMethodDataSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentUpdatePaymentMethodDataShopeepayParams struct{}
 
@@ -4024,6 +4080,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Scalapay *SetupIntentUpdatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *SetupIntentUpdatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -4134,6 +4192,20 @@ type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 type SetupIntentUpdatePaymentMethodOptionsBizumParams struct{}
 
+// Details of the BLIK mandate
+type SetupIntentUpdatePaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Expiry date of the mandate.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type SetupIntentUpdatePaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Details of the BLIK mandate
+	MandateOptions *SetupIntentUpdatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -4221,6 +4293,8 @@ type SetupIntentUpdatePaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentUpdatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -4519,6 +4593,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	BACSDebit *SetupIntentUpdatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
 	Bizum *SetupIntentUpdatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *SetupIntentUpdatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentUpdatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.

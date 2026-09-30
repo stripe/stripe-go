@@ -165,8 +165,10 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySatispayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "satispay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySequraPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sequra_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySunbitPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sunbit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
@@ -182,11 +184,13 @@ const (
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCAD          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.cad"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundEUR          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundGBP          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundOusd         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.ousd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUSD          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUsdc         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCAD         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.cad"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundEUR         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundGBP         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundOusd        V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.ousd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUSD         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUsdc        V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageInboundUSD          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.inbound.usd"
@@ -741,55 +745,6 @@ type V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode string
 // List of values that V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode can take
 const (
 	V2PaymentsSettlementAllocationIntentErroredEventDataReasonCodeAmountMismatch V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode = "amount_mismatch"
-)
-
-// The effect this indicator had on the overall risk level.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact string
-
-// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact can take
-const (
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactDecrease       V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "decrease"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactNeutral        V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "neutral"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactSlightIncrease V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "slight_increase"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactStrongIncrease V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "strong_increase"
-)
-
-// The name of the specific indicator used in the risk assessment.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator string
-
-// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator can take
-const (
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorBankAccount                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "bank_account"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorBusinessInformationAndAccountActivity V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "business_information_and_account_activity"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorDisputes                              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "disputes"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorFailures                              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "failures"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorGeolocation                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "geolocation"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOther                                 V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOtherRelatedAccounts                  V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other_related_accounts"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOtherTransactionActivity              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other_transaction_activity"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOwnerEmail                            V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "owner_email"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorWebPresence                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "web_presence"
-)
-
-// Categorical assessment of the fraudulent merchant risk based on probability.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel string
-
-// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel can take
-const (
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelElevated    V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "elevated"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelHighest     V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "highest"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelLow         V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "low"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelNormal      V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "normal"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelNotAssessed V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "not_assessed"
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelUnknown     V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "unknown"
-)
-
-// The type of account signal. Currently only fraudulent_merchant is supported.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType string
-
-// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataType can take
-const (
-	V2SignalsAccountSignalFraudulentMerchantReadyEventDataTypeFraudulentMerchant V2SignalsAccountSignalFraudulentMerchantReadyEventDataType = "fraudulent_merchant"
 )
 
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
@@ -14220,6 +14175,334 @@ func (n *V2CoreVaultNetworkTokenSuspendedEventNotification) FetchRelatedObject(c
 	return relatedObj, err
 }
 
+// V2DataQueryRunCreatedEvent is the Go struct for the "v2.data.query_run.created" event.
+// Occurs when a QueryRun is created.
+type V2DataQueryRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (e *V2DataQueryRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataQueryRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.query_run.created"
+// Occurs when a QueryRun is created.
+type V2DataQueryRunCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataQueryRunCreatedEvent that created this Notification
+func (n *V2DataQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataQueryRunCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataQueryRunCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (n *V2DataQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataQueryRunFailedEvent is the Go struct for the "v2.data.query_run.failed" event.
+// Occurs when a QueryRun has failed to complete.
+type V2DataQueryRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (e *V2DataQueryRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataQueryRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.query_run.failed"
+// Occurs when a QueryRun has failed to complete.
+type V2DataQueryRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataQueryRunFailedEvent that created this Notification
+func (n *V2DataQueryRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataQueryRunFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataQueryRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (n *V2DataQueryRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataQueryRunSucceededEvent is the Go struct for the "v2.data.query_run.succeeded" event.
+// Occurs when a QueryRun has successfully completed.
+type V2DataQueryRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (e *V2DataQueryRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataQueryRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.data.query_run.succeeded"
+// Occurs when a QueryRun has successfully completed.
+type V2DataQueryRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataQueryRunSucceededEvent that created this Notification
+func (n *V2DataQueryRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataQueryRunSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataQueryRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (n *V2DataQueryRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataQueryRunUpdatedEvent is the Go struct for the "v2.data.query_run.updated" event.
+// Occurs when a QueryRun is updated.
+type V2DataQueryRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (e *V2DataQueryRunUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataQueryRunUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.query_run.updated"
+// Occurs when a QueryRun is updated.
+type V2DataQueryRunUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataQueryRunUpdatedEvent that created this Notification
+func (n *V2DataQueryRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataQueryRunUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataQueryRunUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataQueryRun related to the event.
+func (n *V2DataQueryRunUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportRunCreatedEvent is the Go struct for the "v2.data.report_run.created" event.
+// Occurs when a ReportRun is created.
+type V2DataReportRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (e *V2DataReportRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.report_run.created"
+// Occurs when a ReportRun is created.
+type V2DataReportRunCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportRunCreatedEvent that created this Notification
+func (n *V2DataReportRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportRunCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportRunCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (n *V2DataReportRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportRunFailedEvent is the Go struct for the "v2.data.report_run.failed" event.
+// Occurs when a ReportRun has failed to complete.
+type V2DataReportRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (e *V2DataReportRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.report_run.failed"
+// Occurs when a ReportRun has failed to complete.
+type V2DataReportRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportRunFailedEvent that created this Notification
+func (n *V2DataReportRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportRunFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (n *V2DataReportRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportRunSucceededEvent is the Go struct for the "v2.data.report_run.succeeded" event.
+// Occurs when a ReportRun has successfully completed.
+type V2DataReportRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (e *V2DataReportRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.data.report_run.succeeded"
+// Occurs when a ReportRun has successfully completed.
+type V2DataReportRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportRunSucceededEvent that created this Notification
+func (n *V2DataReportRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataReportRunSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (n *V2DataReportRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportRunUpdatedEvent is the Go struct for the "v2.data.report_run.updated" event.
+// Occurs when a ReportRun is updated.
+type V2DataReportRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (e *V2DataReportRunUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportRunUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.report_run.updated"
+// Occurs when a ReportRun is updated.
+type V2DataReportRunUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportRunUpdatedEvent that created this Notification
+func (n *V2DataReportRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportRunUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportRunUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportRun related to the event.
+func (n *V2DataReportRunUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2DataReportingQueryRunCreatedEvent is the Go struct for the "v2.data.reporting.query_run.created" event.
 // Occurs when a QueryRun is created.
 type V2DataReportingQueryRunCreatedEvent struct {
@@ -14945,6 +15228,47 @@ func (n *V2MoneyManagementDebitDisputeSucceededEventNotification) FetchRelatedOb
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementDebitDispute{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementEarnedCreditSucceededEvent is the Go struct for the "v2.money_management.earned_credit.succeeded" event.
+// Occurs when an EarnedCredit succeeds.
+type V2MoneyManagementEarnedCreditSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementEarnedCredit, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementEarnedCredit related to the event.
+func (e *V2MoneyManagementEarnedCreditSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementEarnedCredit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementEarnedCreditSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.earned_credit.succeeded"
+// Occurs when an EarnedCredit succeeds.
+type V2MoneyManagementEarnedCreditSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementEarnedCreditSucceededEvent that created this Notification
+func (n *V2MoneyManagementEarnedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementEarnedCreditSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementEarnedCreditSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementEarnedCredit related to the event.
+func (n *V2MoneyManagementEarnedCreditSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementEarnedCredit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementEarnedCredit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -17222,7 +17546,8 @@ func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObjec
 // Occurs when a Transaction is updated.
 type V2MoneyManagementTransactionUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	Data               V2MoneyManagementTransactionUpdatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                     `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
@@ -18533,8 +18858,7 @@ func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchRelatedObject
 // Occurs when a fraudulent merchant signal is ready for an account.
 type V2SignalsAccountSignalFraudulentMerchantReadyEvent struct {
 	V2BaseEvent
-	Data               V2SignalsAccountSignalFraudulentMerchantReadyEventData `json:"data"`
-	RelatedObject      V2CoreEventRelatedObject                               `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2SignalsAccountSignal, error)
 }
 
@@ -19948,6 +20272,12 @@ type V2MoneyManagementTransactionCreatedEventData struct {
 	V1ID string `json:"v1_id,omitempty"`
 }
 
+// Occurs when a Transaction is updated.
+type V2MoneyManagementTransactionUpdatedEventData struct {
+	// Id of the v1 Treasury Transaction corresponding to this Transaction.
+	TreasuryTransaction string `json:"treasury_transaction,omitempty"`
+}
+
 // Details about the orchestrator.
 type V2OrchestratedCommerceAgreementConfirmedEventDataOrchestratorDetails struct {
 	// The name of the orchestrator. This can be the name of the agent or the name of the business.
@@ -20096,38 +20426,6 @@ type V2PaymentsSettlementAllocationIntentSplitCreatedEventData struct {
 type V2PaymentsSettlementAllocationIntentSplitSettledEventData struct {
 	// The ID of the SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
-}
-
-// Array of objects representing individual factors that contributed to the calculated probability. Maximum of 3.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicator struct {
-	// A brief explanation of how this indicator contributed to the fraudulent merchant probability.
-	Description string `json:"description"`
-	// The effect this indicator had on the overall risk level.
-	Impact V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact `json:"impact"`
-	// The name of the specific indicator used in the risk assessment.
-	Indicator V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator `json:"indicator"`
-}
-
-// Fraudulent merchant signal data. Present when type is fraudulent_merchant.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant struct {
-	// Array of objects representing individual factors that contributed to the calculated probability. Maximum of 3.
-	Indicators []*V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicator `json:"indicators"`
-	// The probability of the merchant being fraudulent. Can be between 0.00 and 100.00. May be empty if the risk_level is UNKNOWN or NOT_ASSESSED.
-	Probability decimal.Decimal `json:"probability,omitempty"`
-	// Categorical assessment of the fraudulent merchant risk based on probability.
-	RiskLevel V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel `json:"risk_level"`
-}
-
-// Occurs when a fraudulent merchant signal is ready for an account.
-type V2SignalsAccountSignalFraudulentMerchantReadyEventData struct {
-	// Account ID that this signal is associated with.
-	Account string `json:"account"`
-	// Timestamp when the signal was evaluated.
-	EvaluatedAt time.Time `json:"evaluated_at"`
-	// Fraudulent merchant signal data. Present when type is fraudulent_merchant.
-	FraudulentMerchant *V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant `json:"fraudulent_merchant,omitempty"`
-	// The type of account signal. Currently only fraudulent_merchant is supported.
-	Type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType `json:"type"`
 }
 
 // Occurs when the ML scoring model determines it's a good time to retry a failed payment.
@@ -25046,6 +25344,126 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.data.query_run.created":
+		result := &V2DataQueryRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
+			v := &V2DataQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.query_run.failed":
+		result := &V2DataQueryRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
+			v := &V2DataQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.query_run.succeeded":
+		result := &V2DataQueryRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
+			v := &V2DataQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.query_run.updated":
+		result := &V2DataQueryRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
+			v := &V2DataQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.report_run.created":
+		result := &V2DataReportRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
+			v := &V2DataReportRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.report_run.failed":
+		result := &V2DataReportRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
+			v := &V2DataReportRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.report_run.succeeded":
+		result := &V2DataReportRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
+			v := &V2DataReportRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.report_run.updated":
+		result := &V2DataReportRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
+			v := &V2DataReportRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.data.reporting.query_run.created":
 		result := &V2DataReportingQueryRunCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -25296,6 +25714,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementDebitDispute, error) {
 			v := &V2MoneyManagementDebitDispute{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.earned_credit.succeeded":
+		result := &V2MoneyManagementEarnedCreditSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementEarnedCredit, error) {
+			v := &V2MoneyManagementEarnedCredit{}
 			params := &Params{}
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -26159,6 +26592,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.orchestrated_commerce.agreement.confirmed":
 		result := &V2OrchestratedCommerceAgreementConfirmedEvent{}
@@ -26660,9 +27096,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			err := backend.Call(
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.signals.account_signal.fraudulent_website_ready":
@@ -29160,6 +29593,62 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.data.query_run.created":
+		evt := V2DataQueryRunCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.query_run.failed":
+		evt := V2DataQueryRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.query_run.succeeded":
+		evt := V2DataQueryRunSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.query_run.updated":
+		evt := V2DataQueryRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.report_run.created":
+		evt := V2DataReportRunCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.report_run.failed":
+		evt := V2DataReportRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.report_run.succeeded":
+		evt := V2DataReportRunSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.report_run.updated":
+		evt := V2DataReportRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.data.reporting.query_run.created":
 		evt := V2DataReportingQueryRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -29323,6 +29812,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.debit_dispute.succeeded":
 		evt := V2MoneyManagementDebitDisputeSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.earned_credit.succeeded":
+		evt := V2MoneyManagementEarnedCreditSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

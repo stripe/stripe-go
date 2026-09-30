@@ -217,6 +217,7 @@ const (
 	PaymentLinkPaymentMethodTypeRechnung         PaymentLinkPaymentMethodType = "rechnung"
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSequra           PaymentLinkPaymentMethodType = "sequra"
 	PaymentLinkPaymentMethodTypeShopeepay        PaymentLinkPaymentMethodType = "shopeepay"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSunbit           PaymentLinkPaymentMethodType = "sunbit"
@@ -248,6 +249,15 @@ const (
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeAccount     PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "account"
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeApplication PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "application"
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf        PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
+)
+
+// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor string
+
+// List of values that PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor can take
+const (
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchorNow       PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor = "now"
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchorUnchanged PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor = "unchanged"
 )
 
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
@@ -396,7 +406,7 @@ type PaymentLinkCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -438,7 +448,7 @@ type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -867,6 +877,8 @@ type PaymentLinkSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -919,7 +931,7 @@ func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string
 type PaymentLinkTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -972,9 +984,9 @@ type PaymentLinkParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -1194,7 +1206,7 @@ type PaymentLinkCreateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCreateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCreateCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -1236,7 +1248,7 @@ type PaymentLinkCreateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCreateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkCreateCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -1606,6 +1618,8 @@ type PaymentLinkCreateSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkCreateSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -1643,7 +1657,7 @@ func (p *PaymentLinkCreateSubscriptionDataParams) AddMetadata(key string, value 
 type PaymentLinkCreateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -1681,9 +1695,9 @@ type PaymentLinkCreateParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCreateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkCreateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -1867,7 +1881,7 @@ type PaymentLinkUpdateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkUpdateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkUpdateCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -1909,7 +1923,7 @@ type PaymentLinkUpdateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkUpdateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *PaymentLinkUpdateCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -2252,6 +2266,8 @@ type PaymentLinkUpdateSubscriptionDataInvoiceSettingsParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkUpdateSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -2302,7 +2318,7 @@ func (p *PaymentLinkUpdateSubscriptionDataParams) AddMetadata(key string, value 
 type PaymentLinkUpdateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -2351,9 +2367,9 @@ type PaymentLinkUpdateParams struct {
 	ConsentCollection *PaymentLinkUpdateConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkUpdateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *PaymentLinkUpdateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -2537,7 +2553,7 @@ type PaymentLinkCustomFieldText struct {
 	MinimumLength int64 `json:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type PaymentLinkCustomField struct {
 	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown,omitempty"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -2748,6 +2764,8 @@ type PaymentLinkSubscriptionDataInvoiceSettings struct {
 
 // Defines how a subscription behaves when a free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehavior struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+	BillingCycleAnchor PaymentLinkSubscriptionDataTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }
@@ -2812,7 +2830,7 @@ type PaymentLink struct {
 	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*PaymentLinkCustomField `json:"custom_fields"`
 	CustomText   *PaymentLinkCustomText    `json:"custom_text"`
 	// Unique identifier for the object.

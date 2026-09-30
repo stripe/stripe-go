@@ -82,6 +82,23 @@ func (c Client) Remove(id string, params *stripe.V2ProvisioningResourceRemovePar
 	return resource, err
 }
 
+// Reveals the current provider-issued access configuration for a completed Resource.
+// This is a read-only disclosure: it does not create, refresh, mint, or rotate credentials.
+// Repeated calls are safe and do not require an idempotency key, but can return a newer
+// configuration after a separate Rotate operation completes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) RevealAccessConfiguration(id string, params *stripe.V2ProvisioningResourceRevealAccessConfigurationParams) (*stripe.V2ProvisioningResourceAccessConfiguration, error) {
+	path := stripe.FormatURLPath(
+		"/v2/provisioning/resources/%s/reveal_access_configuration", id)
+	resourceaccessconfiguration := &stripe.V2ProvisioningResourceAccessConfiguration{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, resourceaccessconfiguration)
+	return resourceaccessconfiguration, err
+}
+
 // Rotates a resource's credentials.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

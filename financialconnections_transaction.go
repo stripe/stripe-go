@@ -7,17 +7,6 @@
 package stripe
 
 // Stripe's confidence in this classification.
-type FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel string
-
-// List of values that FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel can take
-const (
-	FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevelHigh     FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel = "high"
-	FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevelLow      FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel = "low"
-	FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevelMedium   FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel = "medium"
-	FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevelVeryHigh FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel = "very_high"
-)
-
-// Stripe's confidence in this classification.
 type FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel string
 
 // List of values that FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel can take
@@ -110,14 +99,6 @@ func (p *FinancialConnectionsTransactionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type FinancialConnectionsTransactionClassificationFinancialActivity struct {
-	// Stripe's confidence in this classification.
-	ConfidenceLevel FinancialConnectionsTransactionClassificationFinancialActivityConfidenceLevel `json:"confidence_level"`
-	// The detailed category label for this transaction.
-	DetailedLabel string `json:"detailed_label"`
-	// The primary category label for this transaction.
-	PrimaryLabel string `json:"primary_label"`
-}
 type FinancialConnectionsTransactionClassificationMoneyMovement struct {
 	// Stripe's confidence in this classification.
 	ConfidenceLevel FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel `json:"confidence_level"`
@@ -137,9 +118,8 @@ type FinancialConnectionsTransactionClassificationPersonalFinance struct {
 
 // Classification labels for this transaction, one entry per subscribed use case.
 type FinancialConnectionsTransactionClassification struct {
-	FinancialActivity *FinancialConnectionsTransactionClassificationFinancialActivity `json:"financial_activity,omitempty"`
-	MoneyMovement     *FinancialConnectionsTransactionClassificationMoneyMovement     `json:"money_movement,omitempty"`
-	PersonalFinance   *FinancialConnectionsTransactionClassificationPersonalFinance   `json:"personal_finance,omitempty"`
+	MoneyMovement   *FinancialConnectionsTransactionClassificationMoneyMovement   `json:"money_movement,omitempty"`
+	PersonalFinance *FinancialConnectionsTransactionClassificationPersonalFinance `json:"personal_finance,omitempty"`
 	// The taxonomy type for this classification entry.
 	Type string `json:"type"`
 }

@@ -1985,6 +1985,46 @@ func (h *eventNotificationHandlerBase) OnV2CoreVaultNetworkTokenSuspended(callba
 		h, "v2.core.vault.network_token.suspended", callback)
 }
 
+// OnV2DataQueryRunCreated registers a callback to handle notifications about the "v2.data.query_run.created" event.
+func (h *eventNotificationHandlerBase) OnV2DataQueryRunCreated(callback func(ctx context.Context, notif *V2DataQueryRunCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.query_run.created", callback)
+}
+
+// OnV2DataQueryRunFailed registers a callback to handle notifications about the "v2.data.query_run.failed" event.
+func (h *eventNotificationHandlerBase) OnV2DataQueryRunFailed(callback func(ctx context.Context, notif *V2DataQueryRunFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.query_run.failed", callback)
+}
+
+// OnV2DataQueryRunSucceeded registers a callback to handle notifications about the "v2.data.query_run.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2DataQueryRunSucceeded(callback func(ctx context.Context, notif *V2DataQueryRunSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.query_run.succeeded", callback)
+}
+
+// OnV2DataQueryRunUpdated registers a callback to handle notifications about the "v2.data.query_run.updated" event.
+func (h *eventNotificationHandlerBase) OnV2DataQueryRunUpdated(callback func(ctx context.Context, notif *V2DataQueryRunUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.query_run.updated", callback)
+}
+
+// OnV2DataReportRunCreated registers a callback to handle notifications about the "v2.data.report_run.created" event.
+func (h *eventNotificationHandlerBase) OnV2DataReportRunCreated(callback func(ctx context.Context, notif *V2DataReportRunCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.report_run.created", callback)
+}
+
+// OnV2DataReportRunFailed registers a callback to handle notifications about the "v2.data.report_run.failed" event.
+func (h *eventNotificationHandlerBase) OnV2DataReportRunFailed(callback func(ctx context.Context, notif *V2DataReportRunFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.report_run.failed", callback)
+}
+
+// OnV2DataReportRunSucceeded registers a callback to handle notifications about the "v2.data.report_run.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2DataReportRunSucceeded(callback func(ctx context.Context, notif *V2DataReportRunSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.report_run.succeeded", callback)
+}
+
+// OnV2DataReportRunUpdated registers a callback to handle notifications about the "v2.data.report_run.updated" event.
+func (h *eventNotificationHandlerBase) OnV2DataReportRunUpdated(callback func(ctx context.Context, notif *V2DataReportRunUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.report_run.updated", callback)
+}
+
 // OnV2DataReportingQueryRunCreated registers a callback to handle notifications about the "v2.data.reporting.query_run.created" event.
 func (h *eventNotificationHandlerBase) OnV2DataReportingQueryRunCreated(callback func(ctx context.Context, notif *V2DataReportingQueryRunCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2114,6 +2154,12 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementDebitDisputeSubmitted(
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementDebitDisputeSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementDebitDisputeSucceededEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.debit_dispute.succeeded", callback)
+}
+
+// OnV2MoneyManagementEarnedCreditSucceeded registers a callback to handle notifications about the "v2.money_management.earned_credit.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementEarnedCreditSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementEarnedCreditSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.earned_credit.succeeded", callback)
 }
 
 // OnV2MoneyManagementFinancialAccountCreated registers a callback to handle notifications about the "v2.money_management.financial_account.created" event.
