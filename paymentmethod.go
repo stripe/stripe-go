@@ -793,6 +793,9 @@ type PaymentMethodSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type PaymentMethodSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type PaymentMethodShopeepayParams struct{}
 
@@ -984,6 +987,8 @@ type PaymentMethodParams struct {
 	Scalapay *PaymentMethodScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *PaymentMethodSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1407,6 +1412,9 @@ type PaymentMethodCreateSEPADebitParams struct {
 	IBAN *string `form:"iban" json:"iban"`
 }
 
+// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+type PaymentMethodCreateSequraParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type PaymentMethodCreateShopeepayParams struct{}
 
@@ -1602,6 +1610,8 @@ type PaymentMethodCreateParams struct {
 	Scalapay *PaymentMethodCreateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
+	Sequra *PaymentMethodCreateSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodCreateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1723,16 +1733,6 @@ type PaymentMethodUpdateCustomParams struct {
 	Usage *string `form:"usage" json:"usage,omitempty"`
 }
 
-// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
-type PaymentMethodUpdatePaytoParams struct {
-	// The account number for the bank account.
-	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
-	// Bank-State-Branch number of the bank account.
-	BSBNumber *string `form:"bsb_number" json:"bsb_number,omitempty"`
-	// The PayID alias for the bank account.
-	PayID *string `form:"pay_id" json:"pay_id,omitempty"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUpdateUSBankAccountParams struct {
 	// Bank account holder type.
@@ -1756,8 +1756,6 @@ type PaymentMethodUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
-	Payto *PaymentMethodUpdatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []PaymentMethodUpdateParamsUnsetField   `form:"-" json:"-"`
@@ -2388,6 +2386,7 @@ type PaymentMethodSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type PaymentMethodSequra struct{}
 type PaymentMethodShopeepay struct{}
 type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -2534,6 +2533,7 @@ type PaymentMethod struct {
 	Satispay   *PaymentMethodSatispay   `json:"satispay,omitempty"`
 	Scalapay   *PaymentMethodScalapay   `json:"scalapay,omitempty"`
 	SEPADebit  *PaymentMethodSEPADebit  `json:"sepa_debit,omitempty"`
+	Sequra     *PaymentMethodSequra     `json:"sequra,omitempty"`
 	// ID of the shared payment granted token used in the creation of this PaymentMethod.
 	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`
 	Shopeepay                 *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`

@@ -24,6 +24,21 @@ const (
 	V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetworkBACS V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork = "bacs"
 )
 
+// Open Enum. The standard entry class code for the ACH debit.
+type V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeCcd V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "ccd"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeCie V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "cie"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeCtx V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "ctx"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeIat V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "iat"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodePos V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "pos"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodePpd V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "ppd"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeTel V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "tel"
+	V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCodeWeb V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode = "web"
+)
+
 // Open Enum. Indicates the origin type through which this debit was initiated.
 type V2MoneyManagementReceivedDebitBankTransferOriginType string
 
@@ -122,6 +137,32 @@ type V2MoneyManagementReceivedDebitBankTransferGBBankAccount struct {
 	SortCode string `json:"sort_code,omitempty"`
 }
 
+// ACH-specific network details.
+type V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACH struct {
+	// Additional information included with the ACH debit.
+	Addenda string `json:"addenda,omitempty"`
+	// The entry description supplied by the company that originated the ACH debit.
+	OriginatorCompanyEntryDescription string `json:"originator_company_entry_description,omitempty"`
+	// The identifier of the company that originated the ACH debit.
+	OriginatorCompanyID string `json:"originator_company_id,omitempty"`
+	// The name of the company that originated the ACH debit.
+	OriginatorCompanyName string `json:"originator_company_name,omitempty"`
+	// The identifier assigned to the receiver of the ACH debit.
+	ReceiverIDNumber string `json:"receiver_id_number,omitempty"`
+	// The name of the receiver of the ACH debit.
+	ReceiverName string `json:"receiver_name,omitempty"`
+	// Open Enum. The standard entry class code for the ACH debit.
+	StandardEntryClassCode V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACHStandardEntryClassCode `json:"standard_entry_class_code,omitempty"`
+	// The trace identifier for the ACH debit.
+	TraceID string `json:"trace_id,omitempty"`
+}
+
+// Network-specific details about the bank transfer.
+type V2MoneyManagementReceivedDebitBankTransferNetworkDetails struct {
+	// ACH-specific network details.
+	ACH *V2MoneyManagementReceivedDebitBankTransferNetworkDetailsACH `json:"ach,omitempty"`
+}
+
 // Object containing details of the US Bank Account that originated the debit.
 // Present when the debit was originated via ACH.
 type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
@@ -140,6 +181,8 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	// Object containing details of the GB Bank Account that originated the debit.
 	// Present when the debit was originated via BACS.
 	GBBankAccount *V2MoneyManagementReceivedDebitBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
+	// Network-specific details about the bank transfer.
+	NetworkDetails *V2MoneyManagementReceivedDebitBankTransferNetworkDetails `json:"network_details,omitempty"`
 	// Open Enum. Indicates the origin type through which this debit was initiated.
 	OriginType V2MoneyManagementReceivedDebitBankTransferOriginType `json:"origin_type"`
 	// Open Enum. The type of the payment method used to originate the debit.

@@ -9,66 +9,66 @@ package stripe
 // Lists all event destinations.
 type V2CoreEventDestinationListParams struct {
 	Params `form:"*"`
-	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+	// Include the normally redacted `webhook_endpoint.url` in each returned destination.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The page size.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// Amazon EventBridge configuration.
+// AWS account and region where Stripe creates the EventBridge partner event source.
 type V2CoreEventDestinationAmazonEventbridgeParams struct {
-	// The AWS account ID.
+	// Your AWS account where Stripe creates the partner event source.
 	AwsAccountID *string `form:"aws_account_id" json:"aws_account_id"`
-	// The region of the AWS event source.
+	// The AWS region where Stripe creates the partner event source.
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
-// Azure Event Grid configuration.
+// Azure subscription, resource group, and region where Stripe creates the partner topic.
 type V2CoreEventDestinationAzureEventGridParams struct {
-	// The Azure region.
+	// The Azure region where Stripe creates the partner topic.
 	AzureRegion *string `form:"azure_region" json:"azure_region"`
-	// The name of the Azure resource group.
+	// The Azure resource group where Stripe creates the partner topic.
 	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
-	// The Azure subscription ID.
+	// The Azure subscription where Stripe creates the partner topic.
 	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
 }
 
-// Webhook endpoint configuration.
+// Delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 type V2CoreEventDestinationWebhookEndpointParams struct {
-	// The URL of the webhook endpoint.
+	// The URL where Stripe sends matching events. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	URL *string `form:"url" json:"url"`
 }
 
 // Create a new event destination.
 type V2CoreEventDestinationParams struct {
 	Params `form:"*"`
-	// Amazon EventBridge configuration.
+	// AWS account and region where Stripe creates the EventBridge partner event source.
 	AmazonEventbridge *V2CoreEventDestinationAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
-	// Azure Event Grid configuration.
+	// Azure subscription, resource group, and region where Stripe creates the partner topic.
 	AzureEventGrid *V2CoreEventDestinationAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
-	// An optional description of what the event destination is used for.
+	// An optional user-defined description of the destination's purpose; it does not control routing.
 	Description *string `form:"description" json:"description,omitempty"`
-	// The list of events to enable for this endpoint.
+	// The list of event types enabled for delivery to this destination. Event scopes are configured when the destination is created.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
-	// Payload type of events being subscribed to.
+	// Whether to deliver as snapshot or thin events.
 	EventPayload *string `form:"event_payload" json:"event_payload,omitempty"`
-	// Specifies which accounts' events route to this destination.
+	// The account or organization scopes that can supply events. Use this with `enabled_events` to define the subscription.
 	// `@self`: Receive events from the account that owns the event destination.
-	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@accounts`: Receive events emitted from other accounts you manage, including your v1 and v2 accounts.
 	// `@organization_members`: Receive events from accounts directly linked to the organization.
 	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
-	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+	// Include normally redacted webhook fields in the create response. Public API clients must include `webhook_endpoint.signing_secret` to receive the signing secret.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Metadata.
+	// User-defined key/value data for the destination.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// Event destination name.
+	// A user-defined label for identifying the destination; it does not control routing.
 	Name *string `form:"name" json:"name,omitempty"`
-	// If using the snapshot event payload, the API version events are rendered as.
+	// For snapshot events only, the Stripe API version used to render event objects; do not provide this for thin events.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
-	// Event destination type.
+	// The delivery transport. Chosen when the destination is created and cannot be changed by update.
 	Type *string `form:"type" json:"type,omitempty"`
-	// Webhook endpoint configuration.
+	// New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	WebhookEndpoint *V2CoreEventDestinationWebhookEndpointParams `form:"webhook_endpoint" json:"webhook_endpoint,omitempty"`
 }
 
@@ -96,60 +96,60 @@ type V2CoreEventDestinationPingParams struct {
 	Params `form:"*"`
 }
 
-// Amazon EventBridge configuration.
+// AWS account and region where Stripe creates the EventBridge partner event source.
 type V2CoreEventDestinationCreateAmazonEventbridgeParams struct {
-	// The AWS account ID.
+	// Your AWS account where Stripe creates the partner event source.
 	AwsAccountID *string `form:"aws_account_id" json:"aws_account_id"`
-	// The region of the AWS event source.
+	// The AWS region where Stripe creates the partner event source.
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
-// Azure Event Grid configuration.
+// Azure subscription, resource group, and region where Stripe creates the partner topic.
 type V2CoreEventDestinationCreateAzureEventGridParams struct {
-	// The Azure region.
+	// The Azure region where Stripe creates the partner topic.
 	AzureRegion *string `form:"azure_region" json:"azure_region"`
-	// The name of the Azure resource group.
+	// The Azure resource group where Stripe creates the partner topic.
 	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
-	// The Azure subscription ID.
+	// The Azure subscription where Stripe creates the partner topic.
 	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
 }
 
-// Webhook endpoint configuration.
+// Delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 type V2CoreEventDestinationCreateWebhookEndpointParams struct {
-	// The URL of the webhook endpoint.
+	// The URL where Stripe sends matching events. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	URL *string `form:"url" json:"url"`
 }
 
 // Create a new event destination.
 type V2CoreEventDestinationCreateParams struct {
 	Params `form:"*"`
-	// Amazon EventBridge configuration.
+	// AWS account and region where Stripe creates the EventBridge partner event source.
 	AmazonEventbridge *V2CoreEventDestinationCreateAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
-	// Azure Event Grid configuration.
+	// Azure subscription, resource group, and region where Stripe creates the partner topic.
 	AzureEventGrid *V2CoreEventDestinationCreateAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
-	// An optional description of what the event destination is used for.
+	// An optional user-defined description of the destination's purpose.
 	Description *string `form:"description" json:"description,omitempty"`
-	// The list of events to enable for this endpoint.
+	// The list of event types enabled for delivery to this destination.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
-	// Payload type of events being subscribed to.
+	// Whether to deliver as snapshot or thin events.
 	EventPayload *string `form:"event_payload" json:"event_payload"`
-	// Specifies which accounts' events route to this destination.
+	// The account or organization scopes that can supply events. Use this with `enabled_events` to define the subscription.
 	// `@self`: Receive events from the account that owns the event destination.
-	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@accounts`: Receive events emitted from other accounts you manage, including your v1 and v2 accounts.
 	// `@organization_members`: Receive events from accounts directly linked to the organization.
 	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
-	// Additional fields to include in the response.
+	// Include normally redacted webhook fields in the create response. Public API clients must include `webhook_endpoint.signing_secret` to receive the signing secret.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Metadata.
+	// User-defined key/value data for the destination.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Event destination name.
+	// A user-defined label for identifying the destination.
 	Name *string `form:"name" json:"name"`
-	// If using the snapshot event payload, the API version events are rendered as.
+	// For snapshot events only, the Stripe API version used to render event objects; do not provide this for thin events.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
-	// Event destination type.
+	// The delivery transport. Chosen when the destination is created and cannot be changed by update.
 	Type *string `form:"type" json:"type"`
-	// Webhook endpoint configuration.
+	// Delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	WebhookEndpoint *V2CoreEventDestinationCreateWebhookEndpointParams `form:"webhook_endpoint" json:"webhook_endpoint,omitempty"`
 }
 
@@ -174,26 +174,26 @@ type V2CoreEventDestinationRetrieveParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
-// Webhook endpoint configuration.
+// New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 type V2CoreEventDestinationUpdateWebhookEndpointParams struct {
-	// The URL of the webhook endpoint.
+	// The URL where Stripe sends matching events. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	URL *string `form:"url" json:"url"`
 }
 
 // Update the details of an event destination.
 type V2CoreEventDestinationUpdateParams struct {
 	Params `form:"*"`
-	// An optional description of what the event destination is used for.
+	// An optional user-defined description of the destination's purpose; it does not control routing.
 	Description *string `form:"description" json:"description,omitempty"`
-	// The list of events to enable for this endpoint.
+	// The list of event types enabled for delivery to this destination. Event scopes are configured when the destination is created.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
-	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+	// Include the normally redacted `webhook_endpoint.url` in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// Event destination name.
+	// A user-defined label for identifying the destination; it does not control routing.
 	Name *string `form:"name" json:"name,omitempty"`
-	// Webhook endpoint configuration.
+	// New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
 	WebhookEndpoint *V2CoreEventDestinationUpdateWebhookEndpointParams `form:"webhook_endpoint" json:"webhook_endpoint,omitempty"`
 }
 

@@ -77,6 +77,23 @@ func (c v2ProvisioningResourceService) Remove(ctx context.Context, id string, pa
 	return resource, err
 }
 
+// Reveals the current provider-issued access configuration for a completed Resource.
+// This is a read-only disclosure: it does not create, refresh, mint, or rotate credentials.
+// Repeated calls are safe and do not require an idempotency key, but can return a newer
+// configuration after a separate Rotate operation completes.
+func (c v2ProvisioningResourceService) RevealAccessConfiguration(ctx context.Context, id string, params *V2ProvisioningResourceRevealAccessConfigurationParams) (*V2ProvisioningResourceAccessConfiguration, error) {
+	if params == nil {
+		params = &V2ProvisioningResourceRevealAccessConfigurationParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/provisioning/resources/%s/reveal_access_configuration", id)
+	resourceaccessconfiguration := &V2ProvisioningResourceAccessConfiguration{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, resourceaccessconfiguration)
+	return resourceaccessconfiguration, err
+}
+
 // Rotates a resource's credentials.
 func (c v2ProvisioningResourceService) RotateCredentials(ctx context.Context, id string, params *V2ProvisioningResourceRotateCredentialsParams) (*V2ProvisioningResource, error) {
 	if params == nil {

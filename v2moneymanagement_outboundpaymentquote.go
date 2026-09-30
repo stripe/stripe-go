@@ -28,6 +28,33 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed = "standard"
 )
 
+// The network associated with the fee.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkACH         V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "ach"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkBECS        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "becs"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkEft         V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "eft"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkFedwire     V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "fedwire"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkFPS         V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "fps"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkLocal       V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "local"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkNpp         V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "npp"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkRTP         V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "rtp"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSEPA        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "sepa"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSEPAInstant V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "sepa_instant"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSwift       V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "swift"
+)
+
+// Open Enum. ACH submission timing.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmissionNextDay V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission = "next_day"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmissionSameDay V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission = "same_day"
+)
+
 // The fee type.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType string
 
@@ -36,6 +63,7 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeCrossBorderPayoutFee V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "cross_border_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeForeignExchangeFee   V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "foreign_exchange_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeInstantPayoutFee     V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "instant_payout_fee"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeNetworkFee           V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "network_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeNextDayPayoutFee     V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "next_day_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeRealTimePayoutFee    V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "real_time_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeStandardPayoutFee    V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "standard_payout_fee"
@@ -103,6 +131,26 @@ type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	Speed V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed `json:"speed,omitempty"`
 }
 
+// ACH-specific network fee options.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACH struct {
+	// Open Enum. ACH submission timing.
+	Submission V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission `json:"submission,omitempty"`
+}
+
+// Per-network options that affect the fee.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptions struct {
+	// ACH-specific network fee options.
+	ACH *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Details about the network and options associated with this fee. Present when type is network_fee.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetails struct {
+	// The network associated with the fee.
+	Network V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork `json:"network"`
+	// Per-network options that affect the fee.
+	NetworkOptions *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkOptions `json:"network_options"`
+}
+
 // Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTaxAmount struct {
 	// Currency code.
@@ -115,6 +163,8 @@ type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTaxAmount struct {
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFee struct {
 	// The fee amount for corresponding fee type.
 	Amount Amount `json:"amount"`
+	// Details about the network and options associated with this fee. Present when type is network_fee.
+	NetworkFeeDetails *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetails `json:"network_fee_details,omitempty"`
 	// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
 	TaxAmount *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTaxAmount `json:"tax_amount,omitempty"`
 	// The fee type.

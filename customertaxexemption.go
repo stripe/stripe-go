@@ -16,6 +16,8 @@ type CustomerTaxExemptionParams struct {
 	Country *string `form:"country" json:"country,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption becomes effective. Must be no more than one year after today's UTC date (inclusive).
 	EffectiveDate *string `form:"effective_date" json:"effective_date,omitempty"`
+	// Spain-specific exemption details. Optional when country is ES; must be absent otherwise.
+	ES *CustomerTaxExemptionESParams `form:"es" json:"es,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption expires.
@@ -52,6 +54,12 @@ type CustomerTaxExemptionCaParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type"`
 }
 
+// Spain-specific exemption details. Optional when country is ES; must be absent otherwise.
+type CustomerTaxExemptionESParams struct {
+	// Two-letter Spanish subdivision code (ISO 3166-2).
+	State *string `form:"state" json:"state"`
+}
+
 // US-specific exemption details. Required when country is US; must be absent otherwise.
 type CustomerTaxExemptionUSParams struct {
 	// Two-letter US state code (ISO 3166-2).
@@ -85,6 +93,12 @@ type CustomerTaxExemptionCreateCaParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type"`
 }
 
+// Spain-specific exemption details. Optional when country is ES; must be absent otherwise.
+type CustomerTaxExemptionCreateESParams struct {
+	// Two-letter Spanish subdivision code (ISO 3166-2).
+	State *string `form:"state" json:"state"`
+}
+
 // US-specific exemption details. Required when country is US; must be absent otherwise.
 type CustomerTaxExemptionCreateUSParams struct {
 	// Two-letter US state code (ISO 3166-2).
@@ -101,6 +115,8 @@ type CustomerTaxExemptionCreateParams struct {
 	Country *string `form:"country" json:"country"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption becomes effective. Must be no more than one year after today's UTC date (inclusive).
 	EffectiveDate *string `form:"effective_date" json:"effective_date"`
+	// Spain-specific exemption details. Optional when country is ES; must be absent otherwise.
+	ES *CustomerTaxExemptionCreateESParams `form:"es" json:"es,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption expires.
@@ -120,6 +136,10 @@ type CustomerTaxExemptionCa struct {
 	// The type of Canadian tax (gst_hst, PST, QST, RST).
 	TaxType string `json:"tax_type"`
 }
+type CustomerTaxExemptionES struct {
+	// Two-letter Spanish subdivision code (ISO 3166-2). Absent for country-wide Spain exemptions.
+	State string `json:"state,omitempty"`
+}
 type CustomerTaxExemptionUS struct {
 	// Two-letter US state code (ISO 3166-2).
 	State string `json:"state"`
@@ -138,7 +158,8 @@ type CustomerTaxExemption struct {
 	// Present and true when the exemption has been deleted.
 	Deleted bool `json:"deleted,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption becomes effective.
-	EffectiveDate string `json:"effective_date"`
+	EffectiveDate string                  `json:"effective_date"`
+	ES            *CustomerTaxExemptionES `json:"es,omitempty"`
 	// ISO 8601 date (YYYY-MM-DD) when the exemption expires.
 	ExpirationDate string `json:"expiration_date"`
 	// Unique identifier for the object.

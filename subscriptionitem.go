@@ -577,8 +577,11 @@ type SubscriptionItemBillingThresholds struct {
 
 // The current trial that is applied to this subscription item.
 type SubscriptionItemCurrentTrial struct {
-	EndDate    int64  `json:"end_date"`
-	StartDate  int64  `json:"start_date"`
+	// The time the current trial ends.
+	EndDate int64 `json:"end_date"`
+	// The time the current trial started.
+	StartDate int64 `json:"start_date"`
+	// The Trial Offer ID applied to the subscription item.
 	TrialOffer string `json:"trial_offer"`
 }
 
@@ -605,7 +608,7 @@ type SubscriptionItem struct {
 	// The start time of this subscription item's current billing period.
 	CurrentPeriodStart int64 `json:"current_period_start"`
 	// The current trial that is applied to this subscription item.
-	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial,omitempty"`
+	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial"`
 	Deleted      bool                          `json:"deleted,omitempty"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`

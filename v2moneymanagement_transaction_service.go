@@ -41,6 +41,19 @@ func (c v2MoneyManagementTransactionService) Update(ctx context.Context, id stri
 	return transaction, err
 }
 
+// Creates a fresh hosted URL for a Transaction's regulatory receipt.
+func (c v2MoneyManagementTransactionService) RefreshRegulatoryReceipt(ctx context.Context, id string, params *V2MoneyManagementTransactionRefreshRegulatoryReceiptParams) (*V2MoneyManagementTransaction, error) {
+	if params == nil {
+		params = &V2MoneyManagementTransactionRefreshRegulatoryReceiptParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/money_management/transactions/%s/refresh_regulatory_receipt", id)
+	transaction := &V2MoneyManagementTransaction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	return transaction, err
+}
+
 // Returns a list of Transactions that match the provided filters.
 func (c v2MoneyManagementTransactionService) List(ctx context.Context, listParams *V2MoneyManagementTransactionListParams) *V2List[*V2MoneyManagementTransaction] {
 	if listParams == nil {

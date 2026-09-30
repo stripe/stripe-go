@@ -111,7 +111,7 @@ func TestAccountNew(t *testing.T) {
 func TestAccountReject(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: stripe.String("fraud"),
+		Reason: stripe.String("fraud_other"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)

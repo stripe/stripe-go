@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2SignalsAccountEvaluationParams) (*stripe.V2
 	return accountevaluation, err
 }
 
-// Retrieves an AccountEvaluation by its ID.
+// Retrieves an AccountEvaluation by its ID for up to 90 days after creation. Evaluations more than 90 days old are inaccessible.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

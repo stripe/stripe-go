@@ -17,6 +17,33 @@ const (
 	V2MoneyManagementPayoutIntentConfirmationMethodManual    V2MoneyManagementPayoutIntentConfirmationMethod = "manual"
 )
 
+// The network associated with the fee.
+type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork string
+
+// List of values that V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork can take
+const (
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkACH         V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "ach"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkBECS        V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "becs"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkEft         V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "eft"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkFedwire     V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "fedwire"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkFPS         V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "fps"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkLocal       V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "local"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkNpp         V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "npp"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkRTP         V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "rtp"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSEPA        V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "sepa"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSEPAInstant V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "sepa_instant"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSwift       V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "swift"
+)
+
+// Open Enum. ACH submission timing.
+type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission string
+
+// List of values that V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission can take
+const (
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmissionNextDay V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission = "next_day"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmissionSameDay V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission = "same_day"
+)
+
 // Open Enum. The type of fee.
 type V2MoneyManagementPayoutIntentEstimatedFeeType string
 
@@ -25,6 +52,7 @@ const (
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeCrossBorderFee       V2MoneyManagementPayoutIntentEstimatedFeeType = "cross_border_fee"
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeForeignExchangeFee   V2MoneyManagementPayoutIntentEstimatedFeeType = "foreign_exchange_fee"
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeInstantCardPayoutFee V2MoneyManagementPayoutIntentEstimatedFeeType = "instant_card_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeNetworkFee           V2MoneyManagementPayoutIntentEstimatedFeeType = "network_fee"
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeNextDayPayoutFee     V2MoneyManagementPayoutIntentEstimatedFeeType = "next_day_payout_fee"
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeRealTimePayoutFee    V2MoneyManagementPayoutIntentEstimatedFeeType = "real_time_payout_fee"
 	V2MoneyManagementPayoutIntentEstimatedFeeTypeStablecoinPayoutFee  V2MoneyManagementPayoutIntentEstimatedFeeType = "stablecoin_payout_fee"
@@ -167,6 +195,26 @@ const (
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
 )
 
+// ACH-specific network fee options.
+type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACH struct {
+	// Open Enum. ACH submission timing.
+	Submission V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACHSubmission `json:"submission,omitempty"`
+}
+
+// Per-network options that affect the fee.
+type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptions struct {
+	// ACH-specific network fee options.
+	ACH *V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Details about the network and options associated with this fee. Present when type is network_fee.
+type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetails struct {
+	// The network associated with the fee.
+	Network V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork `json:"network"`
+	// Per-network options that affect the fee.
+	NetworkOptions *V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptions `json:"network_options"`
+}
+
 // Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
 type V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount struct {
 	// Currency code.
@@ -179,6 +227,8 @@ type V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount struct {
 type V2MoneyManagementPayoutIntentEstimatedFee struct {
 	// The fee amount.
 	Amount Amount `json:"amount"`
+	// Details about the network and options associated with this fee. Present when type is network_fee.
+	NetworkFeeDetails *V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetails `json:"network_fee_details,omitempty"`
 	// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
 	TaxAmount *V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount `json:"tax_amount,omitempty"`
 	// Open Enum. The type of fee.

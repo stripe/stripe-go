@@ -13,6 +13,14 @@ type V2MoneyManagementOutboundSetupIntentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// An existing resource to use as the source for setting up outbound credentials.
+type V2MoneyManagementOutboundSetupIntentFromResourceParams struct {
+	// The identifier of the source resource.
+	ID *string `form:"id" json:"id"`
+	// The type of the source resource.
+	Type *string `form:"type" json:"type"`
+}
+
 // The type specific details of the Apple Pay payout method.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataApplePayParams struct {
 	// The paymentData property of the Apple-provided PKPaymentToken (or ApplePayPaymentToken, for Apple Pay on the Web) as a UTF-8 encoded serialization of a JSON dictionary.
@@ -79,6 +87,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
 // Create an OutboundSetupIntent object.
 type V2MoneyManagementOutboundSetupIntentParams struct {
 	Params `form:"*"`
+	// An existing resource to use as the source for setting up outbound credentials.
+	FromResource *V2MoneyManagementOutboundSetupIntentFromResourceParams `form:"from_resource" json:"from_resource,omitempty"`
 	// If provided, the existing payout method resource to link to this setup intent.
 	// Any payout_method_data provided is used to update information on this linked payout method resource.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
@@ -94,6 +104,14 @@ type V2MoneyManagementOutboundSetupIntentParams struct {
 // Cancel an OutboundSetupIntent object.
 type V2MoneyManagementOutboundSetupIntentCancelParams struct {
 	Params `form:"*"`
+}
+
+// An existing resource to use as the source for setting up outbound credentials.
+type V2MoneyManagementOutboundSetupIntentCreateFromResourceParams struct {
+	// The identifier of the source resource.
+	ID *string `form:"id" json:"id"`
+	// The type of the source resource.
+	Type *string `form:"type" json:"type"`
 }
 
 // The type specific details of the Apple Pay payout method.
@@ -162,6 +180,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
 // Create an OutboundSetupIntent object.
 type V2MoneyManagementOutboundSetupIntentCreateParams struct {
 	Params `form:"*"`
+	// An existing resource to use as the source for setting up outbound credentials.
+	FromResource *V2MoneyManagementOutboundSetupIntentCreateFromResourceParams `form:"from_resource" json:"from_resource,omitempty"`
 	// If provided, the existing payout method resource to link to this setup intent.
 	// Any payout_method_data provided is used to update information on this linked payout method resource.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`

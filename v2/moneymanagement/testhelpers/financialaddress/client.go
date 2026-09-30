@@ -22,6 +22,20 @@ type Client struct {
 	Key string
 }
 
+// Simulate crediting a FinancialAddress in a Sandbox environment. This can be used to add virtual funds and increase your balance for testing.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Credit(id string, params *stripe.V2MoneyManagementTestHelpersFinancialAddressCreditParams) (*stripe.V2MoneyManagementFinancialAddressCreditSimulation, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/test_helpers/financial_addresses/%s/credit", id)
+	financialaddresscreditsimulation := &stripe.V2MoneyManagementFinancialAddressCreditSimulation{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, financialaddresscreditsimulation)
+	return financialaddresscreditsimulation, err
+}
+
 // Simulate debiting a FinancialAddress in a Sandbox environment. This can be used to remove virtual funds and decrease your balance for testing.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -34,4 +48,18 @@ func (c Client) Debit(id string, params *stripe.V2MoneyManagementTestHelpersFina
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, financialaddressdebitsimulation)
 	return financialaddressdebitsimulation, err
+}
+
+// Generates microdeposits for a FinancialAddress in a Sandbox environment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) GenerateMicrodeposits(id string, params *stripe.V2MoneyManagementTestHelpersFinancialAddressGenerateMicrodepositsParams) (*stripe.V2MoneyManagementFinancialAddressGeneratedMicrodeposits, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/test_helpers/financial_addresses/%s/generate_microdeposits", id)
+	financialaddressgeneratedmicrodeposits := &stripe.V2MoneyManagementFinancialAddressGeneratedMicrodeposits{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, financialaddressgeneratedmicrodeposits)
+	return financialaddressgeneratedmicrodeposits, err
 }

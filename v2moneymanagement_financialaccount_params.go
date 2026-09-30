@@ -33,10 +33,22 @@ type V2MoneyManagementFinancialAccountStorageCryptoParams struct {
 	CustodyModel *string `form:"custody_model" json:"custody_model"`
 }
 
+// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams struct {
+	// The bank where funds are stored.
+	BankName *string `form:"bank_name" json:"bank_name"`
+	// Currencies eligible for deposit insurance at this bank under this scheme.
+	Currencies []*string `form:"currencies" json:"currencies"`
+	// The deposit insurance scheme.
+	Type *string `form:"type" json:"type"`
+}
+
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
 	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
 	Crypto *V2MoneyManagementFinancialAccountStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
@@ -114,10 +126,22 @@ type V2MoneyManagementFinancialAccountCreateStorageCryptoParams struct {
 	CustodyModel *string `form:"custody_model" json:"custody_model"`
 }
 
+// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+type V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams struct {
+	// The bank where funds are stored.
+	BankName *string `form:"bank_name" json:"bank_name"`
+	// Currencies eligible for deposit insurance at this bank under this scheme.
+	Currencies []*string `form:"currencies" json:"currencies"`
+	// The deposit insurance scheme.
+	Type *string `form:"type" json:"type"`
+}
+
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
 	Crypto *V2MoneyManagementFinancialAccountCreateStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.

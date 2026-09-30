@@ -1040,7 +1040,7 @@ func (p *PaymentAttemptRecordReportGuaranteedParams) AddMetadata(key string, val
 type PaymentAttemptRecordReportInformationalCustomerDetailsParams struct {
 	// The customer who made the payment.
 	Customer *string `form:"customer" json:"customer,omitempty"`
-	// The customer's phone number.
+	// The customer's email address.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
 	Name *string `form:"name" json:"name,omitempty"`
@@ -2186,6 +2186,8 @@ type PaymentAttemptRecordPaymentMethodDetailsUSBankAccount struct {
 	Mandate *Mandate `json:"mandate,omitempty"`
 	// The ACH payment reference for this transaction.
 	PaymentReference string `json:"payment_reference"`
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode string `json:"return_code,omitempty"`
 	// The routing number for the bank account.
 	RoutingNumber string `json:"routing_number"`
 }

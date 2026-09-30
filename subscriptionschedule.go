@@ -564,13 +564,13 @@ type SubscriptionSchedulePauseSchedulePausePauseAtParams struct {
 
 // Controls whether to collect metered usage accrued up to the pause date.
 type SubscriptionSchedulePauseSchedulePauseSettingsBillForOutstandingUsageThroughParams struct {
-	// Determines whether to collect metered usage accrued up to the pause date.
+	// Determines whether to collect metered usage accrued up to the pause date. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Controls how unused time on subscription items is credited when pausing.
 type SubscriptionSchedulePauseSchedulePauseSettingsBillForUnusedTimeFromParams struct {
-	// Determines which point in the billing period unused time is credited from.
+	// Determines which point in the billing period unused time is credited from. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -586,7 +586,7 @@ type SubscriptionSchedulePauseSchedulePauseSettingsBillForParams struct {
 type SubscriptionSchedulePauseSchedulePauseSettingsParams struct {
 	// Controls what to bill for when pausing the subscription.
 	BillFor *SubscriptionSchedulePauseSchedulePauseSettingsBillForParams `form:"bill_for" json:"bill_for,omitempty"`
-	// Determines whether to generate an invoice for outstanding amounts when pausing.
+	// Determines whether to generate an invoice for outstanding amounts when pausing. When adding a pause schedule, defaults to `pending_invoice_item`. On updates, the existing value is preserved if not provided.
 	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
 	// The pause type. Currently only `subscription` is supported.
 	Type *string `form:"type" json:"type,omitempty"`
@@ -620,11 +620,11 @@ type SubscriptionSchedulePauseScheduleResumeResumeAtParams struct {
 
 // Settings controlling how the subscription resumes.
 type SubscriptionSchedulePauseScheduleResumeSettingsParams struct {
-	// Controls the billing cycle anchor when the subscription resumes.
+	// Controls the billing cycle anchor when the subscription resumes. When adding a pause schedule, defaults to `resume_at`. On updates, the existing value is preserved if not provided.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. When adding a pause schedule, defaults to `resume_on_payment_success`. On updates, the existing value is preserved if not provided.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
-	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
+	// Determines how to handle prorations when the subscription resumes. When adding a pause schedule, defaults to `create_prorations`. On updates, the existing value is preserved if not provided.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
@@ -1965,13 +1965,13 @@ type SubscriptionScheduleCreatePauseSchedulePausePauseAtParams struct {
 
 // Controls whether to collect metered usage accrued up to the pause date.
 type SubscriptionScheduleCreatePauseSchedulePauseSettingsBillForOutstandingUsageThroughParams struct {
-	// Determines whether to collect metered usage accrued up to the pause date.
+	// Determines whether to collect metered usage accrued up to the pause date. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Controls how unused time on subscription items is credited when pausing.
 type SubscriptionScheduleCreatePauseSchedulePauseSettingsBillForUnusedTimeFromParams struct {
-	// Determines which point in the billing period unused time is credited from.
+	// Determines which point in the billing period unused time is credited from. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -1987,7 +1987,7 @@ type SubscriptionScheduleCreatePauseSchedulePauseSettingsBillForParams struct {
 type SubscriptionScheduleCreatePauseSchedulePauseSettingsParams struct {
 	// Controls what to bill for when pausing the subscription.
 	BillFor *SubscriptionScheduleCreatePauseSchedulePauseSettingsBillForParams `form:"bill_for" json:"bill_for,omitempty"`
-	// Determines whether to generate an invoice for outstanding amounts when pausing.
+	// Determines whether to generate an invoice for outstanding amounts when pausing. When adding a pause schedule, defaults to `pending_invoice_item`. On updates, the existing value is preserved if not provided.
 	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
 	// The pause type. Currently only `subscription` is supported.
 	Type *string `form:"type" json:"type,omitempty"`
@@ -2021,11 +2021,11 @@ type SubscriptionScheduleCreatePauseScheduleResumeResumeAtParams struct {
 
 // Settings controlling how the subscription resumes.
 type SubscriptionScheduleCreatePauseScheduleResumeSettingsParams struct {
-	// Controls the billing cycle anchor when the subscription resumes.
+	// Controls the billing cycle anchor when the subscription resumes. When adding a pause schedule, defaults to `resume_at`. On updates, the existing value is preserved if not provided.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. When adding a pause schedule, defaults to `resume_on_payment_success`. On updates, the existing value is preserved if not provided.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
-	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
+	// Determines how to handle prorations when the subscription resumes. When adding a pause schedule, defaults to `create_prorations`. On updates, the existing value is preserved if not provided.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
@@ -2732,13 +2732,13 @@ type SubscriptionScheduleUpdatePauseSchedulePausePauseAtParams struct {
 
 // Controls whether to collect metered usage accrued up to the pause date.
 type SubscriptionScheduleUpdatePauseSchedulePauseSettingsBillForOutstandingUsageThroughParams struct {
-	// Determines whether to collect metered usage accrued up to the pause date.
+	// Determines whether to collect metered usage accrued up to the pause date. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Controls how unused time on subscription items is credited when pausing.
 type SubscriptionScheduleUpdatePauseSchedulePauseSettingsBillForUnusedTimeFromParams struct {
-	// Determines which point in the billing period unused time is credited from.
+	// Determines which point in the billing period unused time is credited from. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -2754,7 +2754,7 @@ type SubscriptionScheduleUpdatePauseSchedulePauseSettingsBillForParams struct {
 type SubscriptionScheduleUpdatePauseSchedulePauseSettingsParams struct {
 	// Controls what to bill for when pausing the subscription.
 	BillFor *SubscriptionScheduleUpdatePauseSchedulePauseSettingsBillForParams `form:"bill_for" json:"bill_for,omitempty"`
-	// Determines whether to generate an invoice for outstanding amounts when pausing.
+	// Determines whether to generate an invoice for outstanding amounts when pausing. When adding a pause schedule, defaults to `pending_invoice_item`. On updates, the existing value is preserved if not provided.
 	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
 	// The pause type. Currently only `subscription` is supported.
 	Type *string `form:"type" json:"type,omitempty"`
@@ -2788,11 +2788,11 @@ type SubscriptionScheduleUpdatePauseScheduleResumeResumeAtParams struct {
 
 // Settings controlling how the subscription resumes.
 type SubscriptionScheduleUpdatePauseScheduleResumeSettingsParams struct {
-	// Controls the billing cycle anchor when the subscription resumes.
+	// Controls the billing cycle anchor when the subscription resumes. When adding a pause schedule, defaults to `resume_at`. On updates, the existing value is preserved if not provided.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. When adding a pause schedule, defaults to `resume_on_payment_success`. On updates, the existing value is preserved if not provided.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
-	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
+	// Determines how to handle prorations when the subscription resumes. When adding a pause schedule, defaults to `create_prorations`. On updates, the existing value is preserved if not provided.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 

@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The origin of the resource used to provision this network token.
+type V2CoreVaultNetworkTokenOrigin string
+
+// List of values that V2CoreVaultNetworkTokenOrigin can take
+const (
+	V2CoreVaultNetworkTokenOriginCardOnFile V2CoreVaultNetworkTokenOrigin = "card_on_file"
+	V2CoreVaultNetworkTokenOriginWallet     V2CoreVaultNetworkTokenOrigin = "wallet"
+)
+
 // Closed Enum. The status of the network token.
 type V2CoreVaultNetworkTokenStatus string
 
@@ -47,6 +56,8 @@ type V2CoreVaultNetworkToken struct {
 	Number string `json:"number,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// The origin of the resource used to provision this network token.
+	Origin V2CoreVaultNetworkTokenOrigin `json:"origin"`
 	// Closed Enum. The status of the network token.
 	Status V2CoreVaultNetworkTokenStatus `json:"status"`
 }

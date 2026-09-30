@@ -84,6 +84,8 @@ type V2MoneyManagementFinancialAddressBankAccountABA struct {
 	AccountNumber string `json:"account_number,omitempty"`
 	// The name of the bank.
 	BankName string `json:"bank_name,omitempty"`
+	// The SWIFT/BIC code.
+	BIC string `json:"bic,omitempty"`
 	// The last four digits of the account number.
 	Last4 string `json:"last4"`
 	// The ABA routing number.
@@ -106,6 +108,8 @@ type V2MoneyManagementFinancialAddressBankAccountCpa struct {
 	AccountNumber string `json:"account_number,omitempty"`
 	// The name of the bank.
 	BankName string `json:"bank_name"`
+	// The SWIFT/BIC code.
+	BIC string `json:"bic,omitempty"`
 	// The institution number.
 	InstitutionNumber string `json:"institution_number"`
 	// The last four digits of the account number.
@@ -120,6 +124,8 @@ type V2MoneyManagementFinancialAddressBankAccountIBAN struct {
 	AccountHolderName string `json:"account_holder_name"`
 	// The name of the bank.
 	BankName string `json:"bank_name"`
+	// The SWIFT/BIC code.
+	BIC string `json:"bic"`
 	// The country of the bank account.
 	Country string `json:"country"`
 	// The full IBAN.
@@ -134,6 +140,10 @@ type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 	AccountHolderName string `json:"account_holder_name"`
 	// The full account number.
 	AccountNumber string `json:"account_number,omitempty"`
+	// The SWIFT/BIC code.
+	BIC string `json:"bic,omitempty"`
+	// The full IBAN.
+	IBAN string `json:"iban,omitempty"`
 	// The last four digits of the account number.
 	Last4 string `json:"last4"`
 	// The sort code.

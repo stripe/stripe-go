@@ -25,7 +25,8 @@ type V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork string
 
 // List of values that V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetworkACSS V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork = "acss"
+	V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetworkACSS  V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork = "acss"
+	V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetworkSwift V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork = "swift"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -43,6 +44,7 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
 const (
 	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkChaps V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "chaps"
 	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS   V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkSwift V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "swift"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -75,6 +77,7 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork
 const (
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkACH            V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "ach"
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkRTP            V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "rtp"
+	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkSwift          V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "swift"
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "us_domestic_wire"
 )
 
@@ -91,7 +94,8 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetwork
 
 // List of values that V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetwork can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetworkACSS V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetwork = "acss"
+	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetworkACSS  V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetwork = "acss"
+	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetworkSwift V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountCpaNetwork = "swift"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -100,6 +104,7 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwor
 // List of values that V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork can take
 const (
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork = "sepa_credit_transfer"
+	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetworkSwift              V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork = "swift"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -109,6 +114,7 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNe
 const (
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetworkChaps V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork = "chaps"
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetworkFPS   V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetworkSwift V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork = "swift"
 )
 
 // Open Enum. The type of bank transfer that originated this ReceivedCredit.
@@ -129,6 +135,7 @@ type V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork string
 // List of values that V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork can take
 const (
 	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "sepa_credit_transfer"
+	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSwift              V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "swift"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -138,6 +145,7 @@ type V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork string
 const (
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkACH            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "ach"
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
+	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkSwift          V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "swift"
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
 )
 

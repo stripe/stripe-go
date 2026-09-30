@@ -64,6 +64,7 @@ type TreasuryReceivedCreditNetwork string
 const (
 	TreasuryReceivedCreditNetworkACH            TreasuryReceivedCreditNetwork = "ach"
 	TreasuryReceivedCreditNetworkCard           TreasuryReceivedCreditNetwork = "card"
+	TreasuryReceivedCreditNetworkRTP            TreasuryReceivedCreditNetwork = "rtp"
 	TreasuryReceivedCreditNetworkStripe         TreasuryReceivedCreditNetwork = "stripe"
 	TreasuryReceivedCreditNetworkUSDomesticWire TreasuryReceivedCreditNetwork = "us_domestic_wire"
 )

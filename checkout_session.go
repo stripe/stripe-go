@@ -542,6 +542,15 @@ const (
 	CheckoutSessionItemSubscriptionProrationBehaviorNone             CheckoutSessionItemSubscriptionProrationBehavior = "none"
 )
 
+// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+type CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchor string
+
+// List of values that CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchor can take
+const (
+	CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchorNow       CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "now"
+	CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchorUnchanged CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "unchanged"
+)
+
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 type CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorMissingPaymentMethod string
 
@@ -2071,7 +2080,7 @@ type CheckoutSessionCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -2113,7 +2122,7 @@ type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *CheckoutSessionCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -2418,6 +2427,8 @@ type CheckoutSessionItemSubscriptionPendingInvoiceItemIntervalParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -2943,7 +2954,7 @@ type CheckoutSessionPaymentMethodOptionsBizumParams struct {
 // Additional fields for Mandate creation
 type CheckoutSessionPaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // contains details about the BLIK payment method options.
@@ -2987,7 +2998,7 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
-// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
+// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
@@ -3013,7 +3024,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture" json:"request_overcapture,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
-	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 	Restrictions *CheckoutSessionPaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -3569,6 +3580,12 @@ type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 }
 
+// contains details about the SeQura payment method options.
+type CheckoutSessionPaymentMethodOptionsSequraParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+}
+
 // contains details about the Sofort payment method options.
 type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3777,6 +3794,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Scalapay *CheckoutSessionPaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// contains details about the SeQura payment method options.
+	Sequra *CheckoutSessionPaymentMethodOptionsSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// contains details about the Sunbit payment method options.
@@ -3809,7 +3828,7 @@ type CheckoutSessionPermissionsUpdateParams struct {
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
-// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
+// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 //
 // For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionPermissionsParams struct {
@@ -3848,6 +3867,8 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters" json:"allow_redisplay_filters,omitempty"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. The preselection is fixed once set. To preselect a different payment method, create a new session. An Element that's already on the page keeps its current selection.
+	PaymentMethodPreselect *string `form:"payment_method_preselect" json:"payment_method_preselect,omitempty"`
 	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
 	PaymentMethodRemove *string `form:"payment_method_remove" json:"payment_method_remove,omitempty"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
@@ -4032,6 +4053,8 @@ type CheckoutSessionSubscriptionDataTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type CheckoutSessionSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -4107,7 +4130,7 @@ func (p *CheckoutSessionSubscriptionDataParams) AddMetadata(key string, value st
 type CheckoutSessionTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -4173,6 +4196,12 @@ type CheckoutSessionParams struct {
 	AdaptivePricing *CheckoutSessionAdaptivePricingParams `form:"adaptive_pricing" json:"adaptive_pricing,omitempty"`
 	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
+	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
+	//
+	// Unlike `payment_method_types`, this acts as a filter on the dynamically computed set of
+	// eligible payment methods rather than an explicit static list. Only payment methods that
+	// are both dynamically eligible and present in this list will be offered to the customer.
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes" json:"allow_promotion_codes,omitempty"`
 	// Determines whether the customer's attempt to pay must be manually approved.
@@ -4196,7 +4225,7 @@ type CheckoutSessionParams struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
-	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
+	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded_page` or `elements` sessions.
 	CollectedInformation *CheckoutSessionCollectedInformationParams `form:"collected_information" json:"collected_information,omitempty"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
@@ -4234,7 +4263,7 @@ type CheckoutSessionParams struct {
 	CustomerEmail *string `form:"customer_email" json:"customer_email,omitempty"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
 	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
 	//
@@ -4242,7 +4271,7 @@ type CheckoutSessionParams struct {
 	//
 	// Read more about custom payment methods in checkout in our [custom payment method types guide](https://docs.stripe.com/payments/payment-methods/custom-payment-methods).
 	CustomPaymentMethodTypes []*string `form:"custom_payment_method_types" json:"custom_payment_method_types,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts" json:"discounts,omitempty"`
@@ -4278,6 +4307,8 @@ type CheckoutSessionParams struct {
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
 	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection" json:"name_collection,omitempty"`
+	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -4307,19 +4338,7 @@ type CheckoutSessionParams struct {
 	PaymentMethodData *CheckoutSessionPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
-	//
-	// You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	// See [Dynamic Payment Methods](https://docs.stripe.com/payments/payment-methods/integration-options#using-dynamic-payment-methods) for more details.
-	//
-	// Read more about the supported payment methods and their requirements in our [payment
-	// method details guide](https://docs.stripe.com/docs/payments/checkout/payment-methods).
-	//
-	// If multiple payment methods are passed, Checkout will dynamically reorder them to
-	// prioritize the most relevant payment methods based on the customer's location and
-	// other characteristics.
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
-	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
+	// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionPermissionsParams `form:"permissions" json:"permissions,omitempty"`
@@ -4401,7 +4420,7 @@ type CheckoutSessionCollectedInformationShippingDetailsParams struct {
 	Name *string `form:"name" json:"name"`
 }
 
-// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
+// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded_page` or `elements` sessions.
 type CheckoutSessionCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
@@ -4662,7 +4681,7 @@ type CheckoutSessionCreateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length" json:"minimum_length,omitempty"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCreateCustomFieldDropdownParams `form:"dropdown" json:"dropdown,omitempty"`
@@ -4704,7 +4723,7 @@ type CheckoutSessionCreateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message" json:"message"`
 }
 
-// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *CheckoutSessionCreateCustomTextAfterSubmitParams `form:"after_submit" json:"after_submit,omitempty"`
@@ -5009,6 +5028,8 @@ type CheckoutSessionCreateItemSubscriptionPendingInvoiceItemIntervalParams struc
 
 // Defines how the subscription should behave when the user's free trial ends.
 type CheckoutSessionCreateItemSubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -5496,7 +5517,7 @@ type CheckoutSessionCreatePaymentMethodOptionsBizumParams struct {
 // Additional fields for Mandate creation
 type CheckoutSessionCreatePaymentMethodOptionsBLIKMandateOptionsParams struct {
 	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
-	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // contains details about the BLIK payment method options.
@@ -5540,7 +5561,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
-// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
+// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
@@ -5566,7 +5587,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture" json:"request_overcapture,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
-	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 	Restrictions *CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -6122,6 +6143,12 @@ type CheckoutSessionCreatePaymentMethodOptionsSEPADebitParams struct {
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 }
 
+// contains details about the SeQura payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsSequraParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+}
+
 // contains details about the Sofort payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsSofortParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -6330,6 +6357,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Scalapay *CheckoutSessionCreatePaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// contains details about the SeQura payment method options.
+	Sequra *CheckoutSessionCreatePaymentMethodOptionsSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionCreatePaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// contains details about the Sunbit payment method options.
@@ -6362,7 +6391,7 @@ type CheckoutSessionCreatePermissionsUpdateParams struct {
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
-// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
+// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 //
 // For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionCreatePermissionsParams struct {
@@ -6401,6 +6430,8 @@ type CheckoutSessionCreatePhoneNumberCollectionParams struct {
 type CheckoutSessionCreateSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters" json:"allow_redisplay_filters,omitempty"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. The preselection is fixed once set. To preselect a different payment method, create a new session. An Element that's already on the page keeps its current selection.
+	PaymentMethodPreselect *string `form:"payment_method_preselect" json:"payment_method_preselect,omitempty"`
 	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
 	PaymentMethodRemove *string `form:"payment_method_remove" json:"payment_method_remove,omitempty"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
@@ -6572,6 +6603,8 @@ type CheckoutSessionCreateSubscriptionDataTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type CheckoutSessionCreateSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
@@ -6633,7 +6666,7 @@ func (p *CheckoutSessionCreateSubscriptionDataParams) AddMetadata(key string, va
 type CheckoutSessionCreateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `elements`.
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
@@ -6699,6 +6732,12 @@ type CheckoutSessionCreateParams struct {
 	AdaptivePricing *CheckoutSessionCreateAdaptivePricingParams `form:"adaptive_pricing" json:"adaptive_pricing,omitempty"`
 	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 	AfterExpiration *CheckoutSessionCreateAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
+	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
+	//
+	// Unlike `payment_method_types`, this acts as a filter on the dynamically computed set of
+	// eligible payment methods rather than an explicit static list. Only payment methods that
+	// are both dynamically eligible and present in this list will be offered to the customer.
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes" json:"allow_promotion_codes,omitempty"`
 	// Determines whether the customer's attempt to pay must be manually approved.
@@ -6758,7 +6797,7 @@ type CheckoutSessionCreateParams struct {
 	CustomerEmail *string `form:"customer_email" json:"customer_email,omitempty"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCreateCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*CheckoutSessionCreateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
 	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
 	//
@@ -6766,7 +6805,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// Read more about custom payment methods in checkout in our [custom payment method types guide](https://docs.stripe.com/payments/payment-methods/custom-payment-methods).
 	CustomPaymentMethodTypes []*string `form:"custom_payment_method_types" json:"custom_payment_method_types,omitempty"`
-	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionCreateDiscountParams `form:"discounts" json:"discounts,omitempty"`
@@ -6802,6 +6841,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
 	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection" json:"name_collection,omitempty"`
+	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -6829,19 +6870,7 @@ type CheckoutSessionCreateParams struct {
 	PaymentMethodData *CheckoutSessionCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
-	//
-	// You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	// See [Dynamic Payment Methods](https://docs.stripe.com/payments/payment-methods/integration-options#using-dynamic-payment-methods) for more details.
-	//
-	// Read more about the supported payment methods and their requirements in our [payment
-	// method details guide](https://docs.stripe.com/docs/payments/checkout/payment-methods).
-	//
-	// If multiple payment methods are passed, Checkout will dynamically reorder them to
-	// prioritize the most relevant payment methods based on the customer's location and
-	// other characteristics.
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
-	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
+	// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionCreatePermissionsParams `form:"permissions" json:"permissions,omitempty"`
@@ -6934,7 +6963,7 @@ type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 	Name *string `form:"name" json:"name"`
 }
 
-// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
+// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded_page` or `elements` sessions.
 type CheckoutSessionUpdateCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionUpdateCollectedInformationShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
@@ -7351,7 +7380,7 @@ type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
+	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded_page` or `elements` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information" json:"collected_information,omitempty"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
@@ -7745,7 +7774,7 @@ type CheckoutSessionCustomFieldText struct {
 	Value string `json:"value"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCustomField struct {
 	Dropdown *CheckoutSessionCustomFieldDropdown `json:"dropdown,omitempty"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -7903,6 +7932,8 @@ type CheckoutSessionItemSubscriptionPendingInvoiceItemInterval struct {
 
 // Defines how a subscription behaves when a free trial ends.
 type CheckoutSessionItemSubscriptionTrialSettingsEndBehavior struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+	BillingCycleAnchor CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }
@@ -8738,6 +8769,8 @@ type CheckoutSessionRedaction struct {
 type CheckoutSessionSavedPaymentMethodOptions struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter `json:"allow_redisplay_filters"`
+	// The ID of a saved payment method to select when the Payment Element renders, for example `pm_1MqLiJLkdIwHu7ixUEgbFdYF`. Takes precedence over the customer's default payment method. If the ID doesn't match one of the payment methods the Element is displaying, the Element selects a payment method as it normally would and no error is returned. Preselecting a payment method never changes which payment methods the Element displays, and never modifies the payment method, the customer, or this session. The preselection is fixed once set. To preselect a different payment method, create a new session. An Element that's already on the page keeps its current selection.
+	PaymentMethodPreselect string `json:"payment_method_preselect,omitempty"`
 	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
 	PaymentMethodRemove CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove `json:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
@@ -8903,6 +8936,8 @@ type CheckoutSession struct {
 	AdaptivePricing *CheckoutSessionAdaptivePricing `json:"adaptive_pricing"`
 	// When set, provides configuration for actions to take if this Checkout Session expires.
 	AfterExpiration *CheckoutSessionAfterExpiration `json:"after_expiration"`
+	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
+	AllowedPaymentMethodTypes []string `json:"allowed_payment_method_types"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes bool `json:"allow_promotion_codes"`
 	// Total of all items before discounts or taxes are applied.
@@ -8962,7 +8997,7 @@ type CheckoutSession struct {
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
 	CustomerEmail string `json:"customer_email"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
 	// A list of the types of [custom payment methods](https://docs.stripe.com/payments/payment-methods/custom-payment-methods) (e.g. cpmt_123) this Checkout
 	// Session is allowed to accept.

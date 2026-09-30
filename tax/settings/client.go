@@ -38,12 +38,12 @@ func (c Client) Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, erro
 	return settings, err
 }
 
-// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
+// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set. Check the returned Tax Settings object and validate that its status is active.
 func Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	return getC().Update(params)
 }
 
-// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
+// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set. Check the returned Tax Settings object and validate that its status is active.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

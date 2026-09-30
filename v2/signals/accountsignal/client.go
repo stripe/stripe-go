@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieves an AccountSignal by its ID.
+// Retrieves an AccountSignal by its ID for up to 90 days after creation. Signals more than 90 days old are inaccessible.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) Get(id string, params *stripe.V2SignalsAccountSignalParams) (*st
 	return accountsignal, err
 }
 
-// Lists the latest AccountSignals for a given account or customer, filtered by signal type. Note that this endpoint returns only the latest signal for each requested signal type.
+// Lists AccountSignals for a given account or customer. Signals more than 90 days old are omitted. Returns only the latest AccountSignal for each requested signal type.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

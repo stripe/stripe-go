@@ -35,7 +35,7 @@ func refreshMeterEventSession(client rawrequest.Client) (err error) {
 			return err
 		}
 		if rawResp.StatusCode != 200 {
-			return fmt.Errorf(rawResp.Status)
+			return fmt.Errorf("%s", rawResp.Status)
 		}
 
 		var resp map[string]interface{}
