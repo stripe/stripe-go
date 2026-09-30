@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a new FinancialAddress for a FinancialAccount.
+// Create a new FinancialAddress for a FinancialAccount (V2 shape).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2MoneyManagementFinancialAddressParams) (*st
 	return financialaddress, err
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress (V2 shape).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -47,7 +47,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAddressP
 	return financialaddress, err
 }
 
-// List all FinancialAddresses for a FinancialAccount.
+// List all FinancialAddresses for a FinancialAccount (V2 shape).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -7,7 +7,7 @@
 package stripe
 
 // Simulate crediting a FinancialAddress in a Sandbox environment. This can be used to add virtual funds and increase your balance for testing.
-type V2TestHelpersFinancialAddressCreditParams struct {
+type V2MoneyManagementTestHelpersFinancialAddressCreditParams struct {
 	Params `form:"*"`
 	// Object containing the amount value and currency to credit.
 	Amount *Amount `form:"amount" json:"amount"`
@@ -18,6 +18,6 @@ type V2TestHelpersFinancialAddressCreditParams struct {
 }
 
 // Generates microdeposits for a FinancialAddress in a Sandbox environment.
-type V2TestHelpersFinancialAddressGenerateMicrodepositsParams struct {
+type V2MoneyManagementTestHelpersFinancialAddressGenerateMicrodepositsParams struct {
 	Params `form:"*"`
 }

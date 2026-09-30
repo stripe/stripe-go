@@ -170,9 +170,9 @@ type IssuingCardholderIndividualDOBParams struct {
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderIndividualVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The back of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The front of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -324,9 +324,9 @@ type IssuingCardholderCreateIndividualDOBParams struct {
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderCreateIndividualVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The back of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The front of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -490,9 +490,9 @@ type IssuingCardholderUpdateIndividualDOBParams struct {
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderUpdateIndividualVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The back of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Back *string `form:"back" json:"back,omitempty"`
-	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The front of an ID returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
@@ -626,9 +626,9 @@ type IssuingCardholderIndividualDOB struct {
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderIndividualVerificationDocument struct {
-	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The back of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Back *File `json:"back"`
-	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
+	// The front of a document returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `identity_document`.
 	Front *File `json:"front"`
 }
 

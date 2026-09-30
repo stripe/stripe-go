@@ -57,6 +57,23 @@ func (c Client) Get(id string, params *stripe.ProductCatalogTrialOfferParams) (*
 	return trialoffer, err
 }
 
+// Updates the specified trial offer by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+func Update(id string, params *stripe.ProductCatalogTrialOfferParams) (*stripe.ProductCatalogTrialOffer, error) {
+	return getC().Update(id, params)
+}
+
+// Updates the specified trial offer by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.ProductCatalogTrialOfferParams) (*stripe.ProductCatalogTrialOffer, error) {
+	path := stripe.FormatURLPath("/v1/product_catalog/trial_offers/%s", id)
+	trialoffer := &stripe.ProductCatalogTrialOffer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, trialoffer)
+	return trialoffer, err
+}
+
 // Returns a list of trial offers.
 func List(params *stripe.ProductCatalogTrialOfferListParams) *Iter {
 	return getC().List(params)

@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/shopspring/decimal"
+
 type BillingAlertTriggered struct {
 	// A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.
 	Alert *BillingAlert `json:"alert"`
@@ -18,5 +20,5 @@ type BillingAlertTriggered struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The value triggering the alert
-	Value float64 `json:"value,string"`
+	Value decimal.Decimal `json:"value"`
 }

@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -529,7 +530,7 @@ type QuoteLineItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
@@ -1534,7 +1535,7 @@ type QuoteCreateLineItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
@@ -2379,7 +2380,7 @@ type QuoteUpdateLineItemPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
@@ -3111,7 +3112,7 @@ type QuoteComputedLastReestimationDetails struct {
 type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -3164,7 +3165,7 @@ type QuoteComputedRecurring struct {
 type QuoteComputedUpfrontTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
@@ -3513,7 +3514,7 @@ type QuoteSubscriptionSchedule struct {
 type QuoteTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+	// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)

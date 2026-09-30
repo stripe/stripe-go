@@ -7,15 +7,15 @@
 package stripe
 
 // Closed Enum. The status of the request.
-type V2FinancialAddressGeneratedMicrodepositsStatus string
+type V2MoneyManagementFinancialAddressGeneratedMicrodepositsStatus string
 
-// List of values that V2FinancialAddressGeneratedMicrodepositsStatus can take
+// List of values that V2MoneyManagementFinancialAddressGeneratedMicrodepositsStatus can take
 const (
-	V2FinancialAddressGeneratedMicrodepositsStatusAccepted V2FinancialAddressGeneratedMicrodepositsStatus = "accepted"
+	V2MoneyManagementFinancialAddressGeneratedMicrodepositsStatusAccepted V2MoneyManagementFinancialAddressGeneratedMicrodepositsStatus = "accepted"
 )
 
 // Generated Microdeposits represent verification deposits sent to a financial address for ownership verification, containing the deposited amounts and status.
-type V2FinancialAddressGeneratedMicrodeposits struct {
+type V2MoneyManagementFinancialAddressGeneratedMicrodeposits struct {
 	APIResource
 	// The amounts of the microdeposits that were generated.
 	Amounts []Amount `json:"amounts"`
@@ -24,5 +24,5 @@ type V2FinancialAddressGeneratedMicrodeposits struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Closed Enum. The status of the request.
-	Status V2FinancialAddressGeneratedMicrodepositsStatus `json:"status"`
+	Status V2MoneyManagementFinancialAddressGeneratedMicrodepositsStatus `json:"status"`
 }

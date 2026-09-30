@@ -31,7 +31,7 @@ func (c v1BillingFeedbackOptionService) Create(ctx context.Context, params *Bill
 	return feedbackoption, err
 }
 
-// Retrieves a feedback options object given an ID.
+// Retrieves a feedback option object given an ID.
 func (c v1BillingFeedbackOptionService) Retrieve(ctx context.Context, id string, params *BillingFeedbackOptionRetrieveParams) (*BillingFeedbackOption, error) {
 	if params == nil {
 		params = &BillingFeedbackOptionRetrieveParams{}
@@ -67,7 +67,7 @@ func (c v1BillingFeedbackOptionService) Deactivate(ctx context.Context, id strin
 	return feedbackoption, err
 }
 
-// An API method for listing the feedback options model
+// Returns a list of your feedback options.
 func (c v1BillingFeedbackOptionService) List(ctx context.Context, listParams *BillingFeedbackOptionListParams) *V1List[*BillingFeedbackOption] {
 	if listParams == nil {
 		listParams = &BillingFeedbackOptionListParams{}

@@ -85,7 +85,7 @@ type TopupParams struct {
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Payment method-specific configuration for this top-up.
 	PaymentMethodOptions *TopupPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
+	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. While testing, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
 	Source *string `form:"source" json:"source,omitempty"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
@@ -146,7 +146,7 @@ type TopupCreateParams struct {
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Payment method-specific configuration for this top-up.
 	PaymentMethodOptions *TopupCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
+	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. While testing, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
 	Source *string `form:"source" json:"source,omitempty"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`

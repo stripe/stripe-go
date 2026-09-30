@@ -117,7 +117,7 @@ type TreasuryDebitReversalStatusTransitions struct {
 	CompletedAt int64 `json:"completed_at"`
 }
 
-// You can reverse some [ReceivedDebits](https://api.stripe.com#received_debits) depending on their network and source flow. Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
+// You can reverse some [ReceivedDebits](https://docs.stripe.com/api#received_debits) depending on their network and source flow. Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
 type TreasuryDebitReversal struct {
 	APIResource
 	// Amount (in cents) transferred.

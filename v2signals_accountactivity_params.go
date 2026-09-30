@@ -24,10 +24,24 @@ type V2SignalsAccountActivityAccountDetailsDataDefaultsParams struct {
 	Profile *V2SignalsAccountActivityAccountDetailsDataDefaultsProfileParams `form:"profile" json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountActivityAccountDetailsDataIdentityBusinessDetailsParams struct {
+	// Registered business name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountActivityAccountDetailsDataIdentityParams struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountActivityAccountDetailsDataIdentityBusinessDetailsParams `form:"business_details" json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountActivityAccountDetailsDataParams struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountActivityAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountActivityAccountDetailsDataIdentityParams `form:"identity" json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data associated with the activity.
@@ -137,10 +151,24 @@ type V2SignalsAccountActivityCreateAccountDetailsDataDefaultsParams struct {
 	Profile *V2SignalsAccountActivityCreateAccountDetailsDataDefaultsProfileParams `form:"profile" json:"profile"`
 }
 
+// Business details for identity data.
+type V2SignalsAccountActivityCreateAccountDetailsDataIdentityBusinessDetailsParams struct {
+	// Registered business name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+}
+
+// Identity data.
+type V2SignalsAccountActivityCreateAccountDetailsDataIdentityParams struct {
+	// Business details for identity data.
+	BusinessDetails *V2SignalsAccountActivityCreateAccountDetailsDataIdentityBusinessDetailsParams `form:"business_details" json:"business_details"`
+}
+
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountActivityCreateAccountDetailsDataParams struct {
 	// Default account settings.
 	Defaults *V2SignalsAccountActivityCreateAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
+	// Identity data.
+	Identity *V2SignalsAccountActivityCreateAccountDetailsDataIdentityParams `form:"identity" json:"identity,omitempty"`
 }
 
 // The account, customer, or inline account data associated with the activity.

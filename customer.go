@@ -86,7 +86,7 @@ type CustomerParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
@@ -509,7 +509,7 @@ type CustomerUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerUpdateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
@@ -692,7 +692,7 @@ type CustomerCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The customer's full name. This may be up to *150 characters*.
 	IndividualName *string `form:"individual_name" json:"individual_name,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerCreateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
@@ -809,7 +809,7 @@ type CustomerTax struct {
 // and track payments that belong to the same customer.
 type Customer struct {
 	APIResource
-	// The customer's address.
+	// The customer's billing address.
 	Address *Address `json:"address,omitempty"`
 	// The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance).
 	Balance int64 `json:"balance,omitempty"`

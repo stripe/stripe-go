@@ -6,6 +6,14 @@
 
 package stripe
 
+// The behavior to apply when the session expires.
+type BillingPortalSessionAfterExpirationType string
+
+// List of values that BillingPortalSessionAfterExpirationType can take
+const (
+	BillingPortalSessionAfterExpirationTypeCustomerLogin BillingPortalSessionAfterExpirationType = "customer_login"
+)
+
 // The specified type of behavior after the flow is completed.
 type BillingPortalSessionFlowAfterCompletionType string
 
@@ -35,6 +43,20 @@ const (
 	BillingPortalSessionFlowTypeSubscriptionUpdate        BillingPortalSessionFlowType = "subscription_update"
 	BillingPortalSessionFlowTypeSubscriptionUpdateConfirm BillingPortalSessionFlowType = "subscription_update_confirm"
 )
+
+// Configuration for authenticating the customer after the session expires.
+type BillingPortalSessionAfterExpirationCustomerLoginParams struct {
+	// The Unix timestamp after which the customer can no longer recover this session. Leave unset to allow recovery without a deadline.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// Behavior after the portal session expires.
+type BillingPortalSessionAfterExpirationParams struct {
+	// Configuration for authenticating the customer after the session expires.
+	CustomerLogin *BillingPortalSessionAfterExpirationCustomerLoginParams `form:"customer_login" json:"customer_login,omitempty"`
+	// The behavior to apply when the session expires.
+	Type *string `form:"type" json:"type"`
+}
 
 // Configuration when `after_completion.type=hosted_confirmation`.
 type BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams struct {
@@ -131,6 +153,8 @@ type BillingPortalSessionFlowDataParams struct {
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
+	// Behavior after the portal session expires.
+	AfterExpiration *BillingPortalSessionAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
 	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
 	Configuration *string `form:"configuration" json:"configuration,omitempty"`
 	// The ID of an existing customer.
@@ -152,6 +176,20 @@ type BillingPortalSessionParams struct {
 // AddExpand appends a new field to expand.
 func (p *BillingPortalSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Configuration for authenticating the customer after the session expires.
+type BillingPortalSessionCreateAfterExpirationCustomerLoginParams struct {
+	// The Unix timestamp after which the customer can no longer recover this session. Leave unset to allow recovery without a deadline.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+}
+
+// Behavior after the portal session expires.
+type BillingPortalSessionCreateAfterExpirationParams struct {
+	// Configuration for authenticating the customer after the session expires.
+	CustomerLogin *BillingPortalSessionCreateAfterExpirationCustomerLoginParams `form:"customer_login" json:"customer_login,omitempty"`
+	// The behavior to apply when the session expires.
+	Type *string `form:"type" json:"type"`
 }
 
 // Configuration when `after_completion.type=hosted_confirmation`.
@@ -249,6 +287,8 @@ type BillingPortalSessionCreateFlowDataParams struct {
 // Creates a session of the customer portal.
 type BillingPortalSessionCreateParams struct {
 	Params `form:"*"`
+	// Behavior after the portal session expires.
+	AfterExpiration *BillingPortalSessionCreateAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
 	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
 	Configuration *string `form:"configuration" json:"configuration,omitempty"`
 	// The ID of an existing customer.
@@ -270,6 +310,20 @@ type BillingPortalSessionCreateParams struct {
 // AddExpand appends a new field to expand.
 func (p *BillingPortalSessionCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Configuration for authenticating the customer after the session expires.
+type BillingPortalSessionAfterExpirationCustomerLogin struct {
+	// The time after which the customer can no longer recover this session.
+	ExpiresAt int64 `json:"expires_at"`
+}
+
+// Behavior after the portal session expires.
+type BillingPortalSessionAfterExpiration struct {
+	// Configuration for authenticating the customer after the session expires.
+	CustomerLogin *BillingPortalSessionAfterExpirationCustomerLogin `json:"customer_login"`
+	// The behavior to apply when the session expires.
+	Type BillingPortalSessionAfterExpirationType `json:"type"`
 }
 
 // Configuration when `after_completion.type=hosted_confirmation`.
@@ -382,6 +436,8 @@ type BillingPortalSessionFlow struct {
 // Related guide: [Customer management](https://docs.stripe.com/customer-management)
 type BillingPortalSession struct {
 	APIResource
+	// Behavior after the portal session expires.
+	AfterExpiration *BillingPortalSessionAfterExpiration `json:"after_expiration,omitempty"`
 	// The configuration used by this session, describing the features available.
 	Configuration *BillingPortalConfiguration `json:"configuration"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

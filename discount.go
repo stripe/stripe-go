@@ -23,11 +23,12 @@ type DiscountSource struct {
 	Type DiscountSourceType `json:"type"`
 }
 
-// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
+// A discount represents the actual application of a [coupon](https://docs.stripe.com/api#coupons) or [promotion code](https://docs.stripe.com/api#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
 //
 // Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
 type Discount struct {
+	APIResource
 	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Not present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
 	// The ID of the customer associated with this discount.
