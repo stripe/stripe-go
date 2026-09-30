@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"github.com/stripe/stripe-go/v86/form"
 )
 
@@ -149,7 +150,7 @@ type ProductListParams struct {
 	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Only return products with the given IDs. Cannot be used with [starting_after](https://api.stripe.com#list_products-starting_after) or [ending_before](https://api.stripe.com#list_products-ending_before).
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://docs.stripe.com/api#list_products-starting_after) or [ending_before](https://docs.stripe.com/api#list_products-ending_before).
 	IDs []*string `form:"ids" json:"ids,omitempty"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
@@ -181,11 +182,11 @@ type ProductDefaultPriceDataCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -209,7 +210,7 @@ type ProductDefaultPriceDataCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -249,7 +250,7 @@ type ProductDefaultPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -424,11 +425,11 @@ type ProductCreateDefaultPriceDataCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
@@ -452,7 +453,7 @@ type ProductCreateDefaultPriceDataCurrencyOptionsParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -492,7 +493,7 @@ type ProductCreateDefaultPriceDataParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
 	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -619,7 +620,7 @@ type ProductPackageDimensions struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type ProductTaxDetails struct {
-	// The performance location.
+	// The ID of a tax location with type `performance`, representing where the performance takes place.
 	PerformanceLocation string `json:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode string `json:"tax_code"`
@@ -627,7 +628,7 @@ type ProductTaxDetails struct {
 
 // Products describe the specific goods or services you offer to your customers.
 // For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
-// They can be used in conjunction with [Prices](https://api.stripe.com#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
+// They can be used in conjunction with [Prices](https://docs.stripe.com/api#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
 //
 // Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription),
 // [share a Payment Link](https://docs.stripe.com/payment-links),
@@ -667,7 +668,7 @@ type Product struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code,omitempty"`
 	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
-	TaxDetails *ProductTaxDetails `json:"tax_details,omitempty"`
+	TaxDetails *ProductTaxDetails `json:"tax_details"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.

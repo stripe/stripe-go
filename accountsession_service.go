@@ -17,7 +17,7 @@ type v1AccountSessionService struct {
 	Key string
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 func (c v1AccountSessionService) Create(ctx context.Context, params *AccountSessionCreateParams) (*AccountSession, error) {
 	if params == nil {
 		params = &AccountSessionCreateParams{}

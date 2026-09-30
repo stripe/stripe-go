@@ -26,6 +26,8 @@ const (
 // Returns a list of trial offers.
 type ProductCatalogTrialOfferListParams struct {
 	ListParams `form:"*"`
+	// Only return trial offers that are active (`true`) or archived (`false`). If omitted, both active and archived trial offers are returned.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Only return trial offers that were created during the given date interval.
 	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return trial offers that were created during the given date interval.
@@ -70,14 +72,16 @@ type ProductCatalogTrialOfferEndBehaviorParams struct {
 // Creates a trial offer.
 type ProductCatalogTrialOfferParams struct {
 	Params `form:"*"`
+	// Whether the trial offer can be used for new subscriptions. Defaults to true.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Duration of one service period of the trial.
 	Duration *ProductCatalogTrialOfferDurationParams `form:"duration" json:"duration,omitempty"`
 	// Define behavior that occurs at the end of the trial.
 	EndBehavior *ProductCatalogTrialOfferEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name *string `form:"name" json:"name,omitempty"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price" json:"price,omitempty"`
 }
@@ -116,14 +120,16 @@ type ProductCatalogTrialOfferCreateEndBehaviorParams struct {
 // Creates a trial offer.
 type ProductCatalogTrialOfferCreateParams struct {
 	Params `form:"*"`
+	// Whether the trial offer can be used for new subscriptions. Defaults to true.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Duration of one service period of the trial.
 	Duration *ProductCatalogTrialOfferCreateDurationParams `form:"duration" json:"duration"`
 	// Define behavior that occurs at the end of the trial.
 	EndBehavior *ProductCatalogTrialOfferCreateEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name *string `form:"name" json:"name,omitempty"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price" json:"price"`
 }
@@ -145,6 +151,20 @@ func (p *ProductCatalogTrialOfferRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Updates the specified trial offer by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+type ProductCatalogTrialOfferUpdateParams struct {
+	Params `form:"*"`
+	// Whether the trial offer can be used for new purchases.
+	Active *bool `form:"active" json:"active,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductCatalogTrialOfferUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ProductCatalogTrialOfferDurationRelative struct {
 	// The number of iterations of the price's interval for this trial offer.
 	Iterations int64 `json:"iterations"`
@@ -159,26 +179,28 @@ type ProductCatalogTrialOfferEndBehaviorTransition struct {
 	Price *Price `json:"price"`
 }
 type ProductCatalogTrialOfferEndBehavior struct {
-	Transition *ProductCatalogTrialOfferEndBehaviorTransition `json:"transition"`
+	Transition *ProductCatalogTrialOfferEndBehaviorTransition `json:"transition,omitempty"`
 	// The type of behavior when the trial offer ends.
 	Type ProductCatalogTrialOfferEndBehaviorType `json:"type"`
 }
 
 // Trial offers let you define free or paid introductory pricing for a subscription item.
-// A TrialOffer specifies the price to charge during the trial, how long the trial lasts
-// (a fixed end timestamp or a number of billing intervals), and what price the subscription
-// item transitions to when the trial ends. You attach a TrialOffer to a subscription item
+// A TrialOffer specifies the price to charge during the trial, how many billing intervals
+// the trial lasts, and what price the subscription item transitions to when the trial ends.
+// You attach a TrialOffer to a subscription item
 // using `items[current_trial][trial_offer]` when creating or updating a subscription.
 type ProductCatalogTrialOffer struct {
 	APIResource
+	// Whether the trial offer is active. Set to false to archive the trial offer.
+	Active      bool                                 `json:"active"`
 	Duration    *ProductCatalogTrialOfferDuration    `json:"duration"`
 	EndBehavior *ProductCatalogTrialOfferEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
-	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name string `json:"name"`
+	// A brief description of the trial offer, hidden from customers.
+	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The price during the trial offer.

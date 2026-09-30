@@ -28,6 +28,23 @@ const (
 	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonOther            V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "other"
 )
 
+// The bank where funds are stored.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName string
+
+// List of values that V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName can take
+const (
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankNameFifthThird V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName = "fifth_third"
+)
+
+// The deposit insurance scheme.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType string
+
+// List of values that V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType can take
+const (
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityTypeFdic            V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType = "fdic"
+	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityTypeFdicPassthrough V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType = "fdic_passthrough"
+)
+
 // Type of the FinancialAccount. An additional hash is included on the FinancialAccount with a name matching this value.
 // It contains additional information specific to the FinancialAccount type.
 type V2MoneyManagementFinancialAccountType string
@@ -76,8 +93,20 @@ type V2MoneyManagementFinancialAccountStatusDetails struct {
 	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed,omitempty"`
 }
 
+// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibility struct {
+	// The bank where funds are stored.
+	BankName V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityBankName `json:"bank_name"`
+	// Currencies eligible for deposit insurance at this bank under this scheme.
+	Currencies []Currency `json:"currencies"`
+	// The deposit insurance scheme.
+	Type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType `json:"type"`
+}
+
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorage struct {
+	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
+	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibility `json:"deposit_insurance_eligibility,omitempty"`
 	// The currencies that this FinancialAccount can hold.
 	HoldsCurrencies []Currency `json:"holds_currencies"`
 }

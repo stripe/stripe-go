@@ -17,7 +17,7 @@ type v2MoneyManagementFinancialAddressService struct {
 	Key string
 }
 
-// Create a new FinancialAddress for a FinancialAccount.
+// Create a new FinancialAddress for a FinancialAccount (V2 shape).
 func (c v2MoneyManagementFinancialAddressService) Create(ctx context.Context, params *V2MoneyManagementFinancialAddressCreateParams) (*V2MoneyManagementFinancialAddress, error) {
 	if params == nil {
 		params = &V2MoneyManagementFinancialAddressCreateParams{}
@@ -29,7 +29,7 @@ func (c v2MoneyManagementFinancialAddressService) Create(ctx context.Context, pa
 	return financialaddress, err
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress (V2 shape).
 func (c v2MoneyManagementFinancialAddressService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementFinancialAddressRetrieveParams) (*V2MoneyManagementFinancialAddress, error) {
 	if params == nil {
 		params = &V2MoneyManagementFinancialAddressRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2MoneyManagementFinancialAddressService) Retrieve(ctx context.Context, 
 	return financialaddress, err
 }
 
-// List all FinancialAddresses for a FinancialAccount.
+// List all FinancialAddresses for a FinancialAccount (V2 shape).
 func (c v2MoneyManagementFinancialAddressService) List(ctx context.Context, listParams *V2MoneyManagementFinancialAddressListParams) *V2List[*V2MoneyManagementFinancialAddress] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementFinancialAddressListParams{}

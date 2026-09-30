@@ -28,7 +28,7 @@ func (c v1TaxSettingsService) Retrieve(ctx context.Context, params *TaxSettingsR
 	return settings, err
 }
 
-// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
+// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set. Check the returned Tax Settings object and validate that its status is active.
 func (c v1TaxSettingsService) Update(ctx context.Context, params *TaxSettingsUpdateParams) (*TaxSettings, error) {
 	if params == nil {
 		params = &TaxSettingsUpdateParams{}

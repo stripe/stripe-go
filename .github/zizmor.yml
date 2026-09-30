@@ -18,4 +18,4 @@ rules:
   # rather than silently covering something it was never reasoned about.
   cache-poisoning:
     ignore:
-      - ci.yml:111
+      - ci.yml:109

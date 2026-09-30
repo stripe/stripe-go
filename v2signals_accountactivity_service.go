@@ -25,7 +25,7 @@ func (c v2SignalsAccountActivityService) Create(ctx context.Context, params *V2S
 	params.Context = ctx
 	accountactivity := &V2SignalsAccountActivity{}
 	err := c.B.Call(
-		http.MethodPost, "/v2/signals/account_activity", c.Key, params, accountactivity)
+		http.MethodPost, "/v2/signals/account_activities", c.Key, params, accountactivity)
 	return accountactivity, err
 }
 
@@ -35,7 +35,7 @@ func (c v2SignalsAccountActivityService) Retrieve(ctx context.Context, id string
 		params = &V2SignalsAccountActivityRetrieveParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath("/v2/signals/account_activity/%s", id)
+	path := FormatURLPath("/v2/signals/account_activities/%s", id)
 	accountactivity := &V2SignalsAccountActivity{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, accountactivity)
 	return accountactivity, err
@@ -47,7 +47,7 @@ func (c v2SignalsAccountActivityService) Delete(ctx context.Context, id string, 
 		params = &V2SignalsAccountActivityDeleteParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath("/v2/signals/account_activity/%s", id)
+	path := FormatURLPath("/v2/signals/account_activities/%s", id)
 	deletedObj := &V2DeletedObject{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
 	return deletedObj, err

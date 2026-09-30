@@ -238,6 +238,8 @@ type FxQuote struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	Livemode bool `json:"livemode"`
 	// The duration that the quote is locked for, from creation time. The quote will be usable for the duration specified.
 	LockDuration FxQuoteLockDuration `json:"lock_duration"`
 	// Time at which the quote will expire, measured in seconds since the Unix epoch.

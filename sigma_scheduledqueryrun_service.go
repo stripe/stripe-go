@@ -19,7 +19,7 @@ type v1SigmaScheduledQueryRunService struct {
 	Key string
 }
 
-// Retrieves the details of an scheduled query run.
+// Retrieves the details of a scheduled query run.
 func (c v1SigmaScheduledQueryRunService) Retrieve(ctx context.Context, id string, params *SigmaScheduledQueryRunRetrieveParams) (*SigmaScheduledQueryRun, error) {
 	if params == nil {
 		params = &SigmaScheduledQueryRunRetrieveParams{}
