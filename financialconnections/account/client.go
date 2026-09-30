@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves the details of an Financial Connections Account.
+// Retrieves the details of a Financial Connections Account.
 func GetByID(id string, params *stripe.FinancialConnectionsAccountParams) (*stripe.FinancialConnectionsAccount, error) {
 	return getC().GetByID(id, params)
 }
 
-// Retrieves the details of an Financial Connections Account.
+// Retrieves the details of a Financial Connections Account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

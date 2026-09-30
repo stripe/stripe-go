@@ -183,6 +183,7 @@ const (
 	RadarPaymentEvaluationOutcomeTypeFailed          RadarPaymentEvaluationOutcomeType = "failed"
 	RadarPaymentEvaluationOutcomeTypeMerchantBlocked RadarPaymentEvaluationOutcomeType = "merchant_blocked"
 	RadarPaymentEvaluationOutcomeTypeRejected        RadarPaymentEvaluationOutcomeType = "rejected"
+	RadarPaymentEvaluationOutcomeTypeRerouted        RadarPaymentEvaluationOutcomeType = "rerouted"
 	RadarPaymentEvaluationOutcomeTypeSucceeded       RadarPaymentEvaluationOutcomeType = "succeeded"
 )
 
@@ -206,7 +207,7 @@ const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardPaymentTypeSetupRecurring RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardPaymentType = "setup_recurring"
 )
 
-// Describes the type of money movement. Currently only `card` is supported.
+// Describes the type of money movement.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType string
 
 // List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType can take
@@ -221,6 +222,32 @@ type RadarPaymentEvaluationRecommendedAction string
 const (
 	RadarPaymentEvaluationRecommendedActionBlock    RadarPaymentEvaluationRecommendedAction = "block"
 	RadarPaymentEvaluationRecommendedActionContinue RadarPaymentEvaluationRecommendedAction = "continue"
+)
+
+// Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelElevated    RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelHighest     RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelLow         RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "low"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelNormal      RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelNotAssessed RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevelUnknown     RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel = "unknown"
+)
+
+// Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelElevated    RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelHighest     RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelLow         RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "low"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelNormal      RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelNotAssessed RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevelUnknown     RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel = "unknown"
 )
 
 // Risk level of this signal, based on the score.
@@ -256,7 +283,7 @@ type RadarPaymentEvaluationCustomerDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
@@ -266,9 +293,9 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
@@ -369,7 +396,7 @@ type RadarPaymentEvaluationCreateCustomerDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
@@ -379,9 +406,9 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams st
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
@@ -604,7 +631,7 @@ type RadarPaymentEvaluationOutcome struct {
 	Type RadarPaymentEvaluationOutcomeType `json:"type"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardCustomerPresence `json:"customer_presence"`
@@ -614,9 +641,9 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetails struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard `json:"card"`
-	// Describes the type of money movement. Currently only `card` is supported.
+	// Describes the type of money movement.
 	MoneyMovementType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType `json:"money_movement_type"`
 }
 
@@ -668,18 +695,42 @@ type RadarPaymentEvaluationPaymentDetails struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 }
 
+// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
+type RadarPaymentEvaluationSignalsEarlyFraudWarning struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsEarlyFraudWarningRiskLevel `json:"risk_level"`
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
+// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
+type RadarPaymentEvaluationSignalsFraudulentDispute struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsFraudulentDisputeRiskLevel `json:"risk_level"`
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
 // A payment evaluation signal with evaluated_at, risk_level, and score fields.
 type RadarPaymentEvaluationSignalsFraudulentPayment struct {
 	// The time when this signal was evaluated.
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// Risk level of this signal, based on the score.
 	RiskLevel RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel `json:"risk_level"`
-	// Score for this signal. Possible values for evaluated payments are between 0 and 100. The value is returned with two decimal places and higher scores indicate a higher likelihood of the signal being true. A score of -1 is returned when a model evaluation was not performed, such as requests from incomplete integrations.
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
 	Score float64 `json:"score"`
 }
 
 // Collection of signals for this payment evaluation.
 type RadarPaymentEvaluationSignals struct {
+	// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
+	EarlyFraudWarning *RadarPaymentEvaluationSignalsEarlyFraudWarning `json:"early_fraud_warning"`
+	// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
+	FraudulentDispute *RadarPaymentEvaluationSignalsFraudulentDispute `json:"fraudulent_dispute"`
 	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
 	FraudulentPayment *RadarPaymentEvaluationSignalsFraudulentPayment `json:"fraudulent_payment"`
 }

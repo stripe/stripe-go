@@ -391,6 +391,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePaypay           ConfirmationTokenPaymentMethodPreviewType = "paypay"
 	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
@@ -399,6 +400,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeScalapay         ConfirmationTokenPaymentMethodPreviewType = "scalapay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeSequra           ConfirmationTokenPaymentMethodPreviewType = "sequra"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
@@ -1014,6 +1016,7 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
+type ConfirmationTokenPaymentMethodPreviewPaypay struct{}
 type ConfirmationTokenPaymentMethodPreviewPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1053,6 +1056,7 @@ type ConfirmationTokenPaymentMethodPreviewSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type ConfirmationTokenPaymentMethodPreviewSequra struct{}
 type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
@@ -1154,6 +1158,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco,omitempty"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow,omitempty"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal,omitempty"`
+	Paypay          *ConfirmationTokenPaymentMethodPreviewPaypay          `json:"paypay,omitempty"`
 	Payto           *ConfirmationTokenPaymentMethodPreviewPayto           `json:"payto,omitempty"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix,omitempty"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay,omitempty"`
@@ -1162,6 +1167,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay,omitempty"`
 	Scalapay        *ConfirmationTokenPaymentMethodPreviewScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
+	Sequra          *ConfirmationTokenPaymentMethodPreviewSequra          `json:"sequra,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish,omitempty"`

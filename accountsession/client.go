@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 func New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	return getC().New(params)
 }
 
-// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+// Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

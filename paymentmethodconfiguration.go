@@ -805,6 +805,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPaypayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPaypayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceNone PaymentMethodConfigurationPaypayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceOff  PaymentMethodConfigurationPaypayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceOn   PaymentMethodConfigurationPaypayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPaypayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPaypayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPaypayDisplayPreferenceValueOff PaymentMethodConfigurationPaypayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPaypayDisplayPreferenceValueOn  PaymentMethodConfigurationPaypayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPaytoDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPaytoDisplayPreferencePreference can take
@@ -954,6 +973,25 @@ type PaymentMethodConfigurationSEPADebitDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationSEPADebitDisplayPreferenceValueOff PaymentMethodConfigurationSEPADebitDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationSEPADebitDisplayPreferenceValueOn  PaymentMethodConfigurationSEPADebitDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationSequraDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSequraDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceNone PaymentMethodConfigurationSequraDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceOff  PaymentMethodConfigurationSequraDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSequraDisplayPreferencePreferenceOn   PaymentMethodConfigurationSequraDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSequraDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSequraDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSequraDisplayPreferenceValueOff PaymentMethodConfigurationSequraDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSequraDisplayPreferenceValueOn  PaymentMethodConfigurationSequraDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -1653,6 +1691,18 @@ type PaymentMethodConfigurationPaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationPaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -1746,6 +1796,18 @@ type PaymentMethodConfigurationSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1943,6 +2005,8 @@ type PaymentMethodConfigurationParams struct {
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationPaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -1959,6 +2023,8 @@ type PaymentMethodConfigurationParams struct {
 	Scalapay *PaymentMethodConfigurationScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
@@ -2511,6 +2577,18 @@ type PaymentMethodConfigurationCreatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationCreatePaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2604,6 +2682,18 @@ type PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2799,6 +2889,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationCreatePaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -2815,6 +2907,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Scalapay *PaymentMethodConfigurationCreateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationCreateSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
@@ -3379,6 +3473,18 @@ type PaymentMethodConfigurationUpdatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationUpdatePaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3472,6 +3578,18 @@ type PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateSequraDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateSequraParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateSequraDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3667,6 +3785,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationUpdatePaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -3683,6 +3803,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Scalapay *PaymentMethodConfigurationUpdateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// SeQura is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers customers payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with SeQura, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sequra *PaymentMethodConfigurationUpdateSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationUpdateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
@@ -4252,6 +4374,19 @@ type PaymentMethodConfigurationPaypal struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPaypayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPaypayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPaypayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPaypay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPaytoDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4355,6 +4490,19 @@ type PaymentMethodConfigurationSEPADebit struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationSequraDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSequraDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSequraDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSequra struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSequraDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSofortDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4535,6 +4683,7 @@ type PaymentMethodConfiguration struct {
 	Payco         *PaymentMethodConfigurationPayco         `json:"payco,omitempty"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow,omitempty"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal,omitempty"`
+	Paypay        *PaymentMethodConfigurationPaypay        `json:"paypay,omitempty"`
 	Payto         *PaymentMethodConfigurationPayto         `json:"payto,omitempty"`
 	Pix           *PaymentMethodConfigurationPix           `json:"pix,omitempty"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay,omitempty"`
@@ -4543,6 +4692,7 @@ type PaymentMethodConfiguration struct {
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`
 	Scalapay      *PaymentMethodConfigurationScalapay      `json:"scalapay,omitempty"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit,omitempty"`
+	Sequra        *PaymentMethodConfigurationSequra        `json:"sequra,omitempty"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
 	Sunbit        *PaymentMethodConfigurationSunbit        `json:"sunbit,omitempty"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish,omitempty"`

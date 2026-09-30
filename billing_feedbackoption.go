@@ -17,7 +17,7 @@ const (
 	BillingFeedbackOptionStatusInactive BillingFeedbackOptionStatus = "inactive"
 )
 
-// An API method for listing the feedback options model
+// Returns a list of your feedback options.
 type BillingFeedbackOptionListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -33,7 +33,8 @@ func (p *BillingFeedbackOptionListParams) AddExpand(f string) {
 
 // Creates a new feedback option.
 type BillingFeedbackOptionParams struct {
-	Params      `form:"*"`
+	Params `form:"*"`
+	// The text of the feedback option, which customers see when canceling. Maximum 100 characters.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -58,7 +59,8 @@ func (p *BillingFeedbackOptionDeactivateParams) AddExpand(f string) {
 
 // Creates a new feedback option.
 type BillingFeedbackOptionCreateParams struct {
-	Params      `form:"*"`
+	Params `form:"*"`
+	// The text of the feedback option, which customers see when canceling. Maximum 100 characters.
 	Description *string `form:"description" json:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -69,7 +71,7 @@ func (p *BillingFeedbackOptionCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a feedback options object given an ID.
+// Retrieves a feedback option object given an ID.
 type BillingFeedbackOptionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -83,7 +85,8 @@ func (p *BillingFeedbackOptionRetrieveParams) AddExpand(f string) {
 
 // Updates the description of an existing feedback option.
 type BillingFeedbackOptionUpdateParams struct {
-	Params      `form:"*"`
+	Params `form:"*"`
+	// The text of the feedback option, which customers see when canceling. Maximum 100 characters.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -99,7 +102,11 @@ type BillingFeedbackOptionStatusTransitions struct {
 	DeactivatedAt int64 `json:"deactivated_at"`
 }
 
-// A resource for the feedback options model (for custom cancellation reasons)
+// A feedback option is a reason you can present to customers when they cancel a
+// subscription through the customer portal. Configure the set of options a customer
+// can choose from on a [portal configuration](https://docs.stripe.com/api/customer_portal/configuration).
+//
+// Related guide: [Customer management](https://docs.stripe.com/customer-management)
 type BillingFeedbackOption struct {
 	APIResource
 	// An arbitrary string attached to the object. Often useful for displaying to users.

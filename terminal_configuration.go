@@ -124,13 +124,13 @@ func (p *TerminalConfigurationBBPOSWisePOSEParams) AddUnsetField(field TerminalC
 
 // Configuration for cellular connectivity.
 type TerminalConfigurationCellularParams struct {
-	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	// Determines whether to allow the reader to connect to a cellular network.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
 type TerminalConfigurationOfflineParams struct {
-	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
+	// Determines whether to allow transactions to be collected while reader is offline.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
@@ -648,13 +648,13 @@ func (p *TerminalConfigurationUpdateBBPOSWisePOSEParams) AddUnsetField(field Ter
 
 // Configuration for cellular connectivity.
 type TerminalConfigurationUpdateCellularParams struct {
-	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	// Determines whether to allow the reader to connect to a cellular network.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
 type TerminalConfigurationUpdateOfflineParams struct {
-	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
+	// Determines whether to allow transactions to be collected while reader is offline.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
@@ -1209,13 +1209,13 @@ func (p *TerminalConfigurationCreateBBPOSWisePOSEParams) AddUnsetField(field Ter
 
 // Configuration for cellular connectivity.
 type TerminalConfigurationCreateCellularParams struct {
-	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	// Determines whether to allow the reader to connect to a cellular network.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
 type TerminalConfigurationCreateOfflineParams struct {
-	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
+	// Determines whether to allow transactions to be collected while reader is offline.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
