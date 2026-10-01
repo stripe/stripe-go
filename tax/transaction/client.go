@@ -10,8 +10,8 @@ package transaction
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v86"
-	"github.com/stripe/stripe-go/v86/form"
+	stripe "github.com/stripe/stripe-go/v87"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // Client is used to invoke /v1/tax/transactions APIs.

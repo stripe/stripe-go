@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // v1ThreeDSecureAuthenticationService is used to invoke /v1/three_d_secure/authentications APIs.

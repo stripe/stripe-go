@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/shopspring/decimal"
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // v1RadarEarlyFraudWarningService is used to invoke /v1/radar/early_fraud_warnings APIs.

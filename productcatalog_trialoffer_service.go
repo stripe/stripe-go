@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // v1ProductCatalogTrialOfferService is used to invoke /v1/product_catalog/trial_offers APIs.
