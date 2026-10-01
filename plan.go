@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/shopspring/decimal"
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 	"strconv"
 )
 

@@ -21,7 +21,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/stripe/stripe-go/v86"
+	"github.com/stripe/stripe-go/v87"
 )
 
 var apiKey = "{{API_KEY}}"

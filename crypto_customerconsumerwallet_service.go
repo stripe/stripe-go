@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // v1CryptoCustomerConsumerWalletService is used to invoke /v1/crypto/customers/{id}/crypto_consumer_wallets APIs.

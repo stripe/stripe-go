@@ -10,7 +10,7 @@ package onetimeitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v86"
+	stripe "github.com/stripe/stripe-go/v87"
 )
 
 // Client is used to invoke onetimeitem related APIs.

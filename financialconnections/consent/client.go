@@ -10,7 +10,7 @@ package consent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v86"
+	stripe "github.com/stripe/stripe-go/v87"
 )
 
 // Client is used to invoke /v1/financial_connections/consents APIs.

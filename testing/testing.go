@@ -16,8 +16,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	stripe "github.com/stripe/stripe-go/v86"
-	"github.com/stripe/stripe-go/v86/form"
+	stripe "github.com/stripe/stripe-go/v87"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // This file should contain any testing helpers that should be commonly

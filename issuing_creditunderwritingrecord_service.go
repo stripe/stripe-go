@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // v1IssuingCreditUnderwritingRecordService is used to invoke /v1/issuing/credit_underwriting_records APIs.

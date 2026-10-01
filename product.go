@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/shopspring/decimal"
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // Whether this product is eligible for use with Managed Payments. Possible values are `eligible` and `ineligible`.
