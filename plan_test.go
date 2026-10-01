@@ -7,7 +7,7 @@ import (
 
 	"github.com/shopspring/decimal"
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 func TestPlan_Unmarshal(t *testing.T) {

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 var errEmptyPageWithHasMore = errors.New("stripe: invalid list response: has_more is true but data is empty")
