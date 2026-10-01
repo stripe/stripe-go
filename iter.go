@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // Iter provides a convenient interface

@@ -11,8 +11,8 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v86"
-	. "github.com/stripe/stripe-go/v86/testing"
+	stripe "github.com/stripe/stripe-go/v87"
+	. "github.com/stripe/stripe-go/v87/testing"
 )
 
 func TestNewClient(t *testing.T) {

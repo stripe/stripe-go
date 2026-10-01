@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2435
 semver_level: major
 is_stripe_api_change: true
+released_in_version: 87.0.0
 ---
 
 * Add support for new resources `AppsInstall`, `ProductCatalogTrialOffer`, `TaxLocation`, and `ThreeDSecureAuthentication`

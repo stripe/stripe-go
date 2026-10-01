@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stripe/stripe-go/v86/form"
+	"github.com/stripe/stripe-go/v87/form"
 	"strconv"
 )
 
