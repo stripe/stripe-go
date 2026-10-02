@@ -345,6 +345,36 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestV2SearchReplaysOriginalParams(t *testing.T) {
+	params := &testParams{Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}}}
+	var paths []string
+	var seen []ParamsContainer
+	pages := []*V2SearchPage[*item]{
+		{Data: []*item{{"x"}}, TotalCount: 2, V2ListMeta: V2ListMeta{NextPageURL: "/test?page=2"}},
+		{Data: []*item{{"y"}}, TotalCount: 2},
+	}
+	fetch := func(_ context.Context, path string, p ParamsContainer) (*V2SearchPage[*item], error) {
+		paths = append(paths, path)
+		seen = append(seen, p)
+		page := pages[0]
+		pages = pages[1:]
+		return page, nil
+	}
+	list := newV2SearchList(context.Background(), "/test", params, fetch)
+	got, err := collectV2SearchList(list)
+	assert.NoError(t, err)
+	assert.Equal(t, []*item{{"x"}, {"y"}}, got)
+	assert.Equal(t, []string{"/test", "/test?page=2"}, paths)
+	assert.NotSame(t, params, seen[0])
+	assert.Same(t, seen[0], seen[1])
+	assert.Equal(t, "value", seen[0].GetParams().Extra.Values.Get("future"))
+	assert.Equal(t, int64(2), list.TotalCount())
+}
+
+type testParams struct{ Params }
+
+func (p *testParams) GetParams() *Params { return &p.Params }
+
 //
 // ---
 //
@@ -392,6 +422,20 @@ func (tq *testV2Query[T]) query(context.Context, string, ParamsContainer) (*V2Pa
 }
 
 func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
+	var tt []T
+	var err error
+	it.All(context.TODO())(func(t T, e error) bool {
+		if e != nil {
+			err = e
+			return false
+		}
+		tt = append(tt, t)
+		return true
+	})
+	return tt, err
+}
+
+func collectV2SearchList[T any](it *V2SearchList[T]) ([]T, error) {
 	var tt []T
 	var err error
 	it.All(context.TODO())(func(t T, e error) bool {
