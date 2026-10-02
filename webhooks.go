@@ -274,7 +274,7 @@ func validatePayload(payload []byte, sigHeader string, secret string, cfg webhoo
 
 	// An empty secret would otherwise verify successfully against a signature
 	// forged with an empty key, since HMAC accepts a zero-length key.
-	if secret == "" {
+	if strings.Trim(secret, " \t\r\n\f\v") == "" {
 		return ErrWebhookEmptySecret
 	}
 

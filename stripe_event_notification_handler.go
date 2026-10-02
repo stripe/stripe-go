@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // CallbackFunc is run when an event of a registered type is received.
@@ -48,7 +49,7 @@ type EventNotificationHandler struct {
 }
 
 func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
-	if webhookSecret == "" {
+	if strings.Trim(webhookSecret, " \t\r\n\f\v") == "" {
 		panic("webhookSecret must be a non-empty string")
 	}
 	return &EventNotificationHandler{
