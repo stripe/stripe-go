@@ -2386,7 +2386,7 @@ type TaxRegistrationCountryOptionsUSResortTaxParams struct {
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
 	Type *string `form:"type" json:"type"`
@@ -3837,7 +3837,7 @@ type TaxRegistrationCreateCountryOptionsUSResortTaxParams struct {
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
 	Type *string `form:"type" json:"type"`

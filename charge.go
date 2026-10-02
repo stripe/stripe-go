@@ -349,6 +349,7 @@ type ChargePaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that ChargePaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	ChargePaymentMethodDetailsCryptoTokenCurrencyOusd        ChargePaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyPhantomCash ChargePaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdc        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdg        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -621,7 +622,7 @@ type ChargeParams struct {
 	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
-	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and receipts are only sent for payments in live mode. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
@@ -2485,7 +2486,7 @@ type ChargeCaptureParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *ChargeCapturePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
+	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts are only sent for payments in live mode.
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
@@ -2570,7 +2571,7 @@ type ChargeCreateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
-	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and receipts are only sent for payments in live mode. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
@@ -3618,16 +3619,6 @@ type ChargeLevel3 struct {
 	ShippingFromZip    string                  `json:"shipping_from_zip,omitempty"`
 }
 
-// The ID of the Radar rule that matched the payment, if applicable.
-type ChargeOutcomeRule struct {
-	// The action taken on the payment.
-	Action string `json:"action"`
-	// Unique identifier for the object.
-	ID string `json:"id"`
-	// The predicate to evaluate the payment against.
-	Predicate string `json:"predicate"`
-}
-
 // Details about whether the payment was accepted, and why. See [understanding declines](https://docs.stripe.com/declines) for details.
 type ChargeOutcome struct {
 	// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://docs.stripe.com/declines#retrying-issuer-declines).
@@ -3645,7 +3636,7 @@ type ChargeOutcome struct {
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are between 0 and 100. For non-card payments, card-based payments predating the public assignment of risk scores, or in the event of an error during evaluation, this field will not be present. This field is only available with Radar for Fraud Teams.
 	RiskScore int64 `json:"risk_score,omitempty"`
 	// The ID of the Radar rule that matched the payment, if applicable.
-	Rule *ChargeOutcomeRule `json:"rule,omitempty"`
+	Rule *RadarRule `json:"rule,omitempty"`
 	// A human-readable description of the outcome type and reason, designed for you (the recipient of the payment), not your customer.
 	SellerMessage string `json:"seller_message"`
 	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://docs.stripe.com/declines) and [Radar reviews](https://docs.stripe.com/radar/reviews) for details.
