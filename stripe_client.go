@@ -548,6 +548,8 @@ type Client struct {
 	V2MoneyManagementFinancialAccountsWalletExports *v2MoneyManagementFinancialAccountsWalletExportService
 	// V2MoneyManagementFinancialAddresses is the service used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2MoneyManagementFinancialAddressService
+	// V2MoneyManagementFundingSessions is the service used to invoke /v2/money_management/funding_sessions APIs.
+	V2MoneyManagementFundingSessions *v2MoneyManagementFundingSessionService
 	// V2MoneyManagementInboundTransfers is the service used to invoke /v2/money_management/inbound_transfers APIs.
 	V2MoneyManagementInboundTransfers *v2MoneyManagementInboundTransferService
 	// V2MoneyManagementOutboundPaymentQuotes is the service used to invoke /v2/money_management/outbound_payment_quotes APIs.
@@ -941,6 +943,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementFinancialAccountsStatements = &v2MoneyManagementFinancialAccountsStatementService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccountsWalletExports = &v2MoneyManagementFinancialAccountsWalletExportService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
+	client.V2MoneyManagementFundingSessions = &v2MoneyManagementFundingSessionService{B: backends.API, Key: key}
 	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundPaymentQuotes = &v2MoneyManagementOutboundPaymentQuoteService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundPayments = &v2MoneyManagementOutboundPaymentService{B: backends.API, Key: key}

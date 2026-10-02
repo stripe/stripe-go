@@ -305,6 +305,7 @@ type PaymentRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyOusd        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"

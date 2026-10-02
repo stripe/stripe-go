@@ -24,6 +24,19 @@ type V2MoneyManagementInboundTransferFromParams struct {
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 }
 
+// ACH-specific network details. Only applied when the transfer routes over ACH.
+type V2MoneyManagementInboundTransferNetworkDetailsACHParams struct {
+	// Optional freeform payment-related information written into the type-7 ACH
+	// addenda record of the NACHA submission. Max 80 characters.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Network-specific details for the InboundTransfer.
+type V2MoneyManagementInboundTransferNetworkDetailsParams struct {
+	// ACH-specific network details. Only applied when the transfer routes over ACH.
+	ACH *V2MoneyManagementInboundTransferNetworkDetailsACHParams `form:"ach" json:"ach"`
+}
+
 // Object containing details about where the funds will land.
 type V2MoneyManagementInboundTransferToParams struct {
 	// The currency in which funds will land in.
@@ -41,6 +54,8 @@ type V2MoneyManagementInboundTransferParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// Object containing details about where the funds will originate from.
 	From *V2MoneyManagementInboundTransferFromParams `form:"from" json:"from,omitempty"`
+	// Network-specific details for the InboundTransfer.
+	NetworkDetails *V2MoneyManagementInboundTransferNetworkDetailsParams `form:"network_details" json:"network_details,omitempty"`
 	// An optional statement descriptor surfaced on the payer's bank statement. Max 10 characters.
 	// When omitted, Stripe sends its default descriptor.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
@@ -55,6 +70,19 @@ type V2MoneyManagementInboundTransferCreateFromParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of the Payment Method using which IBT will be made.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
+}
+
+// ACH-specific network details. Only applied when the transfer routes over ACH.
+type V2MoneyManagementInboundTransferCreateNetworkDetailsACHParams struct {
+	// Optional freeform payment-related information written into the type-7 ACH
+	// addenda record of the NACHA submission. Max 80 characters.
+	Addenda *string `form:"addenda" json:"addenda,omitempty"`
+}
+
+// Network-specific details for the InboundTransfer.
+type V2MoneyManagementInboundTransferCreateNetworkDetailsParams struct {
+	// ACH-specific network details. Only applied when the transfer routes over ACH.
+	ACH *V2MoneyManagementInboundTransferCreateNetworkDetailsACHParams `form:"ach" json:"ach"`
 }
 
 // Object containing details about where the funds will land.
@@ -74,6 +102,8 @@ type V2MoneyManagementInboundTransferCreateParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// Object containing details about where the funds will originate from.
 	From *V2MoneyManagementInboundTransferCreateFromParams `form:"from" json:"from"`
+	// Network-specific details for the InboundTransfer.
+	NetworkDetails *V2MoneyManagementInboundTransferCreateNetworkDetailsParams `form:"network_details" json:"network_details,omitempty"`
 	// An optional statement descriptor surfaced on the payer's bank statement. Max 10 characters.
 	// When omitted, Stripe sends its default descriptor.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`

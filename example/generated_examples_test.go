@@ -19653,6 +19653,53 @@ func TestV2MoneyManagementFinancialAddressGet2Client(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestV2MoneyManagementFundingSessionPostService(t *testing.T) {
+	params := &stripe.V2MoneyManagementFundingSessionParams{
+		Account:          stripe.String("account"),
+		FinancialAccount: stripe.String("financial_account"),
+		FinancialAddressOptions: &stripe.V2MoneyManagementFundingSessionFinancialAddressOptionsParams{
+			CryptoWallet: &stripe.V2MoneyManagementFundingSessionFinancialAddressOptionsCryptoWalletParams{
+				SettlementCurrency: stripe.String("usd"),
+			},
+		},
+		FinancialAddressTypes: []*string{stripe.String("bank_account")},
+		ReturnURL:             stripe.String("return_url"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/funding_sessions", params, "{\"object\":\"v2.money_management.funding_session\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"financial_address_options\":{},\"financial_address_types\":[\"bank_account\"],\"id\":\"obj_123\",\"livemode\":true,\"return_url\":\"return_url\",\"url\":\"url\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementFundingSessions.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementFundingSessionPostClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementFundingSessionCreateParams{
+		Account:          stripe.String("account"),
+		FinancialAccount: stripe.String("financial_account"),
+		FinancialAddressOptions: &stripe.V2MoneyManagementFundingSessionCreateFinancialAddressOptionsParams{
+			CryptoWallet: &stripe.V2MoneyManagementFundingSessionCreateFinancialAddressOptionsCryptoWalletParams{
+				SettlementCurrency: stripe.String("usd"),
+			},
+		},
+		FinancialAddressTypes: []*string{stripe.String("bank_account")},
+		ReturnURL:             stripe.String("return_url"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/funding_sessions", params, "{\"object\":\"v2.money_management.funding_session\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"financial_address_options\":{},\"financial_address_types\":[\"bank_account\"],\"id\":\"obj_123\",\"livemode\":true,\"return_url\":\"return_url\",\"url\":\"url\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementFundingSessions.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
 func TestV2MoneyManagementInboundTransferGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementInboundTransferListParams{}
 	testServer := MockServer(

@@ -1673,6 +1673,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsageNone CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with the payment method collected by this Checkout Session.
+type CheckoutSessionPaymentSettingsSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentSettingsSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentSettingsSetupFutureUsageOffSession CheckoutSessionPaymentSettingsSetupFutureUsage = "off_session"
+	CheckoutSessionPaymentSettingsSetupFutureUsageOnSession  CheckoutSessionPaymentSettingsSetupFutureUsage = "on_session"
+)
+
 // The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 // You can use this value to decide when to fulfill your customer's order.
 type CheckoutSessionPaymentStatus string
@@ -2713,6 +2722,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	//
+	// You must wrap any Checkout Session update that mutates `setup_future_usage` in [`runServerUpdate`](https://docs.stripe.com/js/custom_checkout/run_server_update) and await it before continuing with the payment.
 	// Pass an empty string to remove a previously supplied configuration.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
@@ -3812,6 +3822,83 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	WeChatPay *CheckoutSessionPaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 }
 
+// Configures an application fee transferred to the application owner's Stripe account.
+type CheckoutSessionPaymentSettingsApplicationFeeDataParams struct {
+	// The amount of the application fee, in the currency's smallest unit, to apply to the initial payment and transfer to the application owner's Stripe account. The application fee is capped at the total amount captured.
+	InitialAmount *int64 `form:"initial_amount" json:"initial_amount,omitempty"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of each payment total that will be transferred to the application owner's Stripe account.
+	PercentageDecimal *decimal.Decimal `form:"percentage_decimal" json:"percentage_decimal,omitempty"`
+}
+
+// Configures how much of each payment is transferred to the destination account. If omitted, the entire amount is transferred.
+type CheckoutSessionPaymentSettingsTransferDataTransferAmountParams struct {
+	// The amount, in the currency's smallest unit, that will be transferred to the destination account when the initial payment succeeds.
+	InitialAmount *int64 `form:"initial_amount" json:"initial_amount,omitempty"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of each payment total that will be transferred to the destination account.
+	PercentageDecimal *decimal.Decimal `form:"percentage_decimal" json:"percentage_decimal,omitempty"`
+}
+
+// Configures automatic transfers to a connected account when payments succeed.
+type CheckoutSessionPaymentSettingsTransferDataParams struct {
+	// If specified, successful charges will be attributed to the destination
+	// account for tax reporting, and the funds from charges will be transferred
+	// to the destination account. The ID of the resulting transfer will be
+	// returned on the successful charge's `transfer` field.
+	Destination *string `form:"destination" json:"destination"`
+	// Configures how much of each payment is transferred to the destination account. If omitted, the entire amount is transferred.
+	TransferAmount *CheckoutSessionPaymentSettingsTransferDataTransferAmountParams `form:"transfer_amount" json:"transfer_amount,omitempty"`
+}
+
+// A subset of parameters to configure the payment for this Checkout Session.
+type CheckoutSessionPaymentSettingsParams struct {
+	// Configures an application fee transferred to the application owner's Stripe account.
+	ApplicationFeeData *CheckoutSessionPaymentSettingsApplicationFeeDataParams `form:"application_fee_data" json:"application_fee_data,omitempty"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
+	// method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the
+	// customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the
+	// customer that their payment details will be saved and used for future
+	// payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer,
+	// Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached
+	// to a Customer. To reuse the payment method, you can retrieve it from the
+	// Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage`
+	// to dynamically optimize your payment flow and comply with regional
+	// legislation and network rules, such as SCA.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
+	// Configures automatic transfers to a connected account when payments succeed.
+	TransferData *CheckoutSessionPaymentSettingsTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
+	// A string that identifies the initial payment as part of a group.
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionPaymentSettingsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Permissions for updating the Checkout Session.
 type CheckoutSessionPermissionsUpdateParams struct {
 	// Determines which entity is allowed to update the line items.
@@ -4338,6 +4425,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodData *CheckoutSessionPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	// A subset of parameters to configure the payment for this Checkout Session.
+	PaymentSettings *CheckoutSessionPaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
@@ -6375,6 +6464,83 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	WeChatPay *CheckoutSessionCreatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 }
 
+// Configures an application fee transferred to the application owner's Stripe account.
+type CheckoutSessionCreatePaymentSettingsApplicationFeeDataParams struct {
+	// The amount of the application fee, in the currency's smallest unit, to apply to the initial payment and transfer to the application owner's Stripe account. The application fee is capped at the total amount captured.
+	InitialAmount *int64 `form:"initial_amount" json:"initial_amount,omitempty"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of each payment total that will be transferred to the application owner's Stripe account.
+	PercentageDecimal *decimal.Decimal `form:"percentage_decimal" json:"percentage_decimal,omitempty"`
+}
+
+// Configures how much of each payment is transferred to the destination account. If omitted, the entire amount is transferred.
+type CheckoutSessionCreatePaymentSettingsTransferDataTransferAmountParams struct {
+	// The amount, in the currency's smallest unit, that will be transferred to the destination account when the initial payment succeeds.
+	InitialAmount *int64 `form:"initial_amount" json:"initial_amount,omitempty"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of each payment total that will be transferred to the destination account.
+	PercentageDecimal *decimal.Decimal `form:"percentage_decimal" json:"percentage_decimal,omitempty"`
+}
+
+// Configures automatic transfers to a connected account when payments succeed.
+type CheckoutSessionCreatePaymentSettingsTransferDataParams struct {
+	// If specified, successful charges will be attributed to the destination
+	// account for tax reporting, and the funds from charges will be transferred
+	// to the destination account. The ID of the resulting transfer will be
+	// returned on the successful charge's `transfer` field.
+	Destination *string `form:"destination" json:"destination"`
+	// Configures how much of each payment is transferred to the destination account. If omitted, the entire amount is transferred.
+	TransferAmount *CheckoutSessionCreatePaymentSettingsTransferDataTransferAmountParams `form:"transfer_amount" json:"transfer_amount,omitempty"`
+}
+
+// A subset of parameters to configure the payment for this Checkout Session.
+type CheckoutSessionCreatePaymentSettingsParams struct {
+	// Configures an application fee transferred to the application owner's Stripe account.
+	ApplicationFeeData *CheckoutSessionCreatePaymentSettingsApplicationFeeDataParams `form:"application_fee_data" json:"application_fee_data,omitempty"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
+	// method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the
+	// customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the
+	// customer that their payment details will be saved and used for future
+	// payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer,
+	// Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached
+	// to a Customer. To reuse the payment method, you can retrieve it from the
+	// Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage`
+	// to dynamically optimize your payment flow and comply with regional
+	// legislation and network rules, such as SCA.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
+	// Configures automatic transfers to a connected account when payments succeed.
+	TransferData *CheckoutSessionCreatePaymentSettingsTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
+	// A string that identifies the initial payment as part of a group.
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreatePaymentSettingsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Permissions for updating the Checkout Session.
 type CheckoutSessionCreatePermissionsUpdateParams struct {
 	// Determines which entity is allowed to update the line items.
@@ -6870,6 +7036,8 @@ type CheckoutSessionCreateParams struct {
 	PaymentMethodData *CheckoutSessionCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	// A subset of parameters to configure the payment for this Checkout Session.
+	PaymentSettings *CheckoutSessionCreatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
@@ -7194,6 +7362,7 @@ type CheckoutSessionUpdatePaymentIntentDataParams struct {
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	//
+	// You must wrap any Checkout Session update that mutates `setup_future_usage` in [`runServerUpdate`](https://docs.stripe.com/js/custom_checkout/run_server_update) and await it before continuing with the payment.
 	// Pass an empty string to remove a previously supplied configuration.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
@@ -8713,6 +8882,48 @@ type CheckoutSessionPaymentMethodOptions struct {
 	WeChatPay        *CheckoutSessionPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
 }
 
+// Configures an application fee transferred to the application owner's Stripe account.
+type CheckoutSessionPaymentSettingsApplicationFeeData struct {
+	// The application fee amount, in the currency's smallest unit, applied to the initial payment.
+	InitialAmount int64 `json:"initial_amount"`
+	// The percentage of each payment collected as an application fee.
+	PercentageDecimal decimal.Decimal `json:"percentage_decimal"`
+}
+
+// Configures the amount transferred to the destination account.
+type CheckoutSessionPaymentSettingsTransferDataTransferAmount struct {
+	// The amount, in the currency's smallest unit, transferred from the initial payment.
+	InitialAmount int64 `json:"initial_amount"`
+	// The percentage of each payment transferred to the destination account.
+	PercentageDecimal decimal.Decimal `json:"percentage_decimal"`
+}
+
+// Configures automatic transfers to a connected account when payments succeed.
+type CheckoutSessionPaymentSettingsTransferData struct {
+	// The connected account that receives funds from payments created by this Checkout Session.
+	Destination string `json:"destination"`
+	// Configures the amount transferred to the destination account.
+	TransferAmount *CheckoutSessionPaymentSettingsTransferDataTransferAmount `json:"transfer_amount"`
+}
+type CheckoutSessionPaymentSettings struct {
+	// Configures an application fee transferred to the application owner's Stripe account.
+	ApplicationFeeData *CheckoutSessionPaymentSettingsApplicationFeeData `json:"application_fee_data,omitempty"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod string `json:"capture_method"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// Indicates that you intend to make future payments with the payment method collected by this Checkout Session.
+	SetupFutureUsage CheckoutSessionPaymentSettingsSetupFutureUsage `json:"setup_future_usage"`
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor.
+	StatementDescriptor string `json:"statement_descriptor"`
+	// Configures automatic transfers to a connected account when payments succeed.
+	TransferData *CheckoutSessionPaymentSettingsTransferData `json:"transfer_data,omitempty"`
+	// A string that identifies the initial payment as part of a group.
+	TransferGroup string `json:"transfer_group,omitempty"`
+}
+
 // Permissions for updating the Checkout Session.
 type CheckoutSessionPermissionsUpdate struct {
 	// Determines which entity is allowed to update the line items.
@@ -9034,6 +9245,8 @@ type CheckoutSession struct {
 	NameCollection *CheckoutSessionNameCollection `json:"name_collection,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
+	OnBehalfOf string `json:"on_behalf_of,omitempty"`
 	// The optional items presented to the customer at checkout.
 	OptionalItems []*CheckoutSessionOptionalItem `json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session.
@@ -9054,7 +9267,8 @@ type CheckoutSession struct {
 	// The [Payment Record](https://docs.stripe.com/api/payment-record) for this Checkout Session.
 	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
 	// The ID of the Payment Reservation for this Checkout Session.
-	PaymentReservation string `json:"payment_reservation,omitempty"`
+	PaymentReservation string                          `json:"payment_reservation,omitempty"`
+	PaymentSettings    *CheckoutSessionPaymentSettings `json:"payment_settings,omitempty"`
 	// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 	// You can use this value to decide when to fulfill your customer's order.
 	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`

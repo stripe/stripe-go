@@ -1191,6 +1191,40 @@ const (
 	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred  PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
 )
 
+// The prompt that the Terminal SDK displays to collect this Fleet value.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptAdditionalFleetData1    PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_1"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptAdditionalFleetData2    PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_2"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptDriverID                PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "driver_id"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptEmployeeNumber          PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "employee_number"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptEnteredDataAlphanumeric PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "entered_data_alphanumeric"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptEnteredDataNumeric      PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "entered_data_numeric"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptGenericID               PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "generic_id"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptInvoiceNumber           PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "invoice_number"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptOdometer                PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "odometer"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptPostalCode              PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "postal_code"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptReeferHours             PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "reefer_hours"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptReplacementCar          PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "replacement_car"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptTrailerNumber           PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "trailer_number"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptTripNumber              PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "trip_number"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptUnitNumber              PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "unit_number"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptVehicleID               PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "vehicle_id"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptVehicleTag              PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "vehicle_tag"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPromptWorkOrder               PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt = "work_order"
+)
+
+// Whether the collected value is printed on the receipt.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehaviorOmit  PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior = "omit"
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehaviorPrint PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior = "print"
+)
+
 // Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture string
 
@@ -4619,6 +4653,48 @@ type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams struct {
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
+// Fleet prompts and values collected for this transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParams struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt *string `form:"prompt" json:"prompt"`
+	// Whether the collected value is printed on the receipt. Defaults to `omit`.
+	ReceiptBehavior *string `form:"receipt_behavior" json:"receipt_behavior,omitempty"`
+	// The value collected for this Fleet prompt.
+	Value       *string                                                                             `form:"value" json:"value"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParams.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetFieldValue PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField = "value"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Fleet prompting data for this payment.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetParams struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumParams `form:"transaction_data" json:"transaction_data,omitempty"`
+	UnsetFields     []PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetField        `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentFleetParams.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetFieldTransactionData PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetField = "transaction_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentFleetParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentFleetParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
@@ -4661,6 +4737,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Fleet prompting data for this payment.
+	Fleet *PaymentIntentPaymentMethodOptionsCardPresentFleetParams `form:"fleet" json:"fleet,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
@@ -4672,7 +4750,20 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-	Routing *PaymentIntentPaymentMethodOptionsCardPresentRoutingParams `form:"routing" json:"routing,omitempty"`
+	Routing     *PaymentIntentPaymentMethodOptionsCardPresentRoutingParams     `form:"routing" json:"routing,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentParams.
+type PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetFieldFleet PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetField = "fleet"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
@@ -5948,8 +6039,10 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	UnsetFields      []PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// The merchant's subscription identifier for this off-session charge.
+	SubscriptionReference *string                                                   `form:"subscription_reference" json:"subscription_reference,omitempty"`
+	UnsetFields           []PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsPaypayParams.
@@ -7053,7 +7146,7 @@ type PaymentIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -9762,7 +9855,7 @@ type PaymentIntentConfirmParams struct {
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	// If the payment method is attached to a Customer, it must match the [customer](https://docs.stripe.com/api#create_payment_intent-customer) that is set on this PaymentIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
@@ -12853,6 +12946,48 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams struct
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
+// Fleet prompts and values collected for this transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParams struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt *string `form:"prompt" json:"prompt"`
+	// Whether the collected value is printed on the receipt. Defaults to `omit`.
+	ReceiptBehavior *string `form:"receipt_behavior" json:"receipt_behavior,omitempty"`
+	// The value collected for this Fleet prompt.
+	Value       *string                                                                                   `form:"value" json:"value"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetFieldValue PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField = "value"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Fleet prompting data for this payment.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParams struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentIntentCreatePaymentMethodOptionsCardPresentFleetTransactionDatumParams `form:"transaction_data" json:"transaction_data,omitempty"`
+	UnsetFields     []PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetField        `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetFieldTransactionData PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetField = "transaction_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
@@ -12895,6 +13030,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Fleet prompting data for this payment.
+	Fleet *PaymentIntentCreatePaymentMethodOptionsCardPresentFleetParams `form:"fleet" json:"fleet,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
@@ -12906,7 +13043,20 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-	Routing *PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams `form:"routing" json:"routing,omitempty"`
+	Routing     *PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams     `form:"routing" json:"routing,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetFieldFleet PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetField = "fleet"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
@@ -14182,8 +14332,10 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// The merchant's subscription identifier for this off-session charge.
+	SubscriptionReference *string                                                         `form:"subscription_reference" json:"subscription_reference,omitempty"`
+	UnsetFields           []PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsPaypayParams.
@@ -15289,7 +15441,7 @@ type PaymentIntentCreateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCreatePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -17594,6 +17746,48 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams struct
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
+// Fleet prompts and values collected for this transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParams struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt *string `form:"prompt" json:"prompt"`
+	// Whether the collected value is printed on the receipt. Defaults to `omit`.
+	ReceiptBehavior *string `form:"receipt_behavior" json:"receipt_behavior,omitempty"`
+	// The value collected for this Fleet prompt.
+	Value       *string                                                                                   `form:"value" json:"value"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetFieldValue PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField = "value"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Fleet prompting data for this payment.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParams struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetTransactionDatumParams `form:"transaction_data" json:"transaction_data,omitempty"`
+	UnsetFields     []PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetField        `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetFieldTransactionData PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetField = "transaction_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
@@ -17636,6 +17830,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Fleet prompting data for this payment.
+	Fleet *PaymentIntentUpdatePaymentMethodOptionsCardPresentFleetParams `form:"fleet" json:"fleet,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
@@ -17647,7 +17843,20 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-	Routing *PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams `form:"routing" json:"routing,omitempty"`
+	Routing     *PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams     `form:"routing" json:"routing,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetFieldFleet PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetField = "fleet"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
@@ -18923,8 +19132,10 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// The merchant's subscription identifier for this off-session charge.
+	SubscriptionReference *string                                                         `form:"subscription_reference" json:"subscription_reference,omitempty"`
+	UnsetFields           []PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsPaypayParams.
@@ -21606,6 +21817,22 @@ type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay struct {
 	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
 	Hours int64 `json:"hours,omitempty"`
 }
+
+// Fleet prompts and values collected for this transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatum struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumPrompt `json:"prompt"`
+	// Whether the collected value is printed on the receipt.
+	ReceiptBehavior PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior `json:"receipt_behavior"`
+	// The value collected for this Fleet prompt.
+	Value string `json:"value"`
+}
+
+// Fleet prompting data for this payment.
+type PaymentIntentPaymentMethodOptionsCardPresentFleet struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatum `json:"transaction_data"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	// Requested routing priority
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
@@ -21619,6 +21846,8 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	CaptureDelay *PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay `json:"capture_delay,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method,omitempty"`
+	// Fleet prompting data for this payment.
+	Fleet *PaymentIntentPaymentMethodOptionsCardPresentFleet `json:"fleet,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
@@ -22009,6 +22238,8 @@ type PaymentIntentPaymentMethodOptionsPaypay struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+	// A reference to the merchant subscription this payment corresponds to.
+	SubscriptionReference string `json:"subscription_reference,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
