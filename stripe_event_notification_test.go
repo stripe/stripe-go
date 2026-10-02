@@ -855,7 +855,7 @@ func TestWithoutVerification_InheritedOnMethods(t *testing.T) {
 	assert.True(t, noMeterCalled, "NoMeter handler should have been called")
 }
 
-// Test: NewEventNotificationHandler panics when webhookSecret is empty
+// Test: NewEventNotificationHandler panics when webhookSecret is blank
 func TestNewEventNotificationHandler_PanicsOnEmptySecret(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
@@ -863,9 +863,36 @@ func TestNewEventNotificationHandler_PanicsOnEmptySecret(t *testing.T) {
 		return nil
 	}
 
-	assert.Panics(t, func() {
-		NewEventNotificationHandler(client, "", onUnhandled)
-	})
+	for name, secret := range map[string]string{
+		"empty":           "",
+		"space":           " ",
+		"tab":             "\t",
+		"carriage return": "\r",
+		"line feed":       "\n",
+		"form feed":       "\f",
+		"vertical tab":    "\v",
+		"mixed":           " \t\r\n\f\v",
+	} {
+		t.Run(name, func(t *testing.T) {
+			assert.PanicsWithValue(t, "webhookSecret must be a non-empty string", func() {
+				NewEventNotificationHandler(client, secret, onUnhandled)
+			})
+		})
+	}
+}
+
+func TestNewEventNotificationHandler_NonBlankSecret(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	for name, secret := range map[string]string{
+		"surrounded by ASCII whitespace": " \tsecret\r\n",
+		"non-breaking space only":        "\u00a0",
+	} {
+		t.Run(name, func(t *testing.T) {
+			handler := NewEventNotificationHandler(client, secret, nil)
+			assert.Equal(t, secret, handler.webhookSecret)
+		})
+	}
 }
 
 // Test: With no PreHandle hook registered, the callback still runs (regression)
