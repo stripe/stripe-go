@@ -28,10 +28,10 @@ func TestCharge_UnmarshalJSON(t *testing.T) {
 	}
 }
 
-func TestChargeOutcomeRule_UnmarshalJSON(t *testing.T) {
+func TestRadarRule_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string
 	{
-		var v ChargeOutcomeRule
+		var v RadarRule
 		err := json.Unmarshal([]byte(`"ssr_123"`), &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "ssr_123", v.ID)
@@ -39,7 +39,7 @@ func TestChargeOutcomeRule_UnmarshalJSON(t *testing.T) {
 
 	// Unmarshals from a JSON object
 	{
-		v := ChargeOutcomeRule{ID: "ssr_123"}
+		v := RadarRule{ID: "ssr_123"}
 		data, err := json.Marshal(&v)
 		assert.NoError(t, err)
 
