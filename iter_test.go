@@ -2,6 +2,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"testing"
 
@@ -345,6 +346,142 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestV2ListJSONRoundTrip(t *testing.T) {
+	type resource struct {
+		Items *V2List[*item] `json:"items,omitempty"`
+	}
+	input := `{"items":{"data":[{"ID":"first"}],"next_page_url":"/items?page=2","previous_page_url":""}}`
+	var resourceWithItems resource
+	assert.NoError(t, json.Unmarshal([]byte(input), &resourceWithItems))
+	assert.Equal(t, []*item{{"first"}}, resourceWithItems.Items.Data())
+	assert.Equal(t, "/items?page=2", resourceWithItems.Items.Meta().NextPageURL)
+
+	encoded, err := json.Marshal(resourceWithItems)
+	assert.NoError(t, err)
+	assert.JSONEq(t, input, string(encoded))
+}
+
+func TestV2ListJSONAbsentNullAndEmpty(t *testing.T) {
+	type resource struct {
+		Items *V2List[*item] `json:"items"`
+	}
+
+	var absent resource
+	assert.NoError(t, json.Unmarshal([]byte(`{}`), &absent))
+	assert.Nil(t, absent.Items)
+
+	var null resource
+	assert.NoError(t, json.Unmarshal([]byte(`{"items":null}`), &null))
+	assert.Nil(t, null.Items)
+
+	var empty resource
+	assert.NoError(t, json.Unmarshal([]byte(`{"items":{}}`), &empty))
+	assert.NotNil(t, empty.Items)
+	assert.Nil(t, empty.Items.Data())
+	assert.Equal(t, V2ListMeta{}, empty.Items.Meta())
+}
+
+func TestV2ListZeroValue(t *testing.T) {
+	var list V2List[*item]
+	assert.Nil(t, list.Data())
+	assert.Equal(t, V2ListMeta{}, list.Meta())
+	assert.Nil(t, list.LastResponse())
+	assert.NoError(t, list.Err())
+	assert.Empty(t, collectV2ListValues(t, &list, context.Background()))
+
+	var nilList *V2List[*item]
+	assert.Nil(t, nilList.Data())
+	assert.Equal(t, V2ListMeta{}, nilList.Meta())
+	assert.Nil(t, nilList.LastResponse())
+	assert.NoError(t, nilList.Err())
+	assert.Empty(t, collectV2ListValues(t, nilList, context.Background()))
+
+	encoded, err := json.Marshal(list)
+	assert.NoError(t, err)
+	assert.JSONEq(t, `{"data":null,"next_page_url":"","previous_page_url":""}`, string(encoded))
+}
+
+func TestV2ListIncludedPagePagination(t *testing.T) {
+	type contextKey string
+	ctx := context.WithValue(context.Background(), contextKey("key"), "value")
+	backend := &v2ListTestBackend{
+		responses: map[string]string{
+			"/items?page=2": `{"data":[{"ID":"second"}],"next_page_url":"/items?page=3"}`,
+			"/items?page=3": `{"data":[{"ID":"third"}]}`,
+		},
+	}
+	var list V2List[*item]
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[{"ID":"first"}],"next_page_url":"/items?page=2"}`), &list))
+	InitializeV2Lists(&list, backend, "sk_test_custom")
+
+	assert.Equal(t, []*item{{"first"}}, list.Data())
+	assert.Empty(t, backend.paths)
+	assert.Equal(t, []*item{{"first"}, {"second"}, {"third"}}, collectV2ListValues(t, &list, ctx))
+	assert.Equal(t, []string{"/items?page=2", "/items?page=3"}, backend.paths)
+	assert.Equal(t, []string{"sk_test_custom", "sk_test_custom"}, backend.keys)
+	assert.Same(t, ctx, backend.contexts[0])
+	assert.Same(t, ctx, backend.contexts[1])
+}
+
+func TestV2ListInitializesNestedListsOnLaterPages(t *testing.T) {
+	type parentItem struct {
+		ID       string         `json:"id"`
+		Children *V2List[*item] `json:"children"`
+	}
+	backend := &v2ListTestBackend{
+		responses: map[string]string{
+			"/parents?page=2":  `{"data":[{"id":"parent","children":{"data":[{"ID":"child-1"}],"next_page_url":"/children?page=2"}}]}`,
+			"/children?page=2": `{"data":[{"ID":"child-2"}]}`,
+		},
+	}
+	var list V2List[*parentItem]
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[],"next_page_url":"/parents?page=2"}`), &list))
+	InitializeV2Lists(&list, backend, "key")
+
+	parents := collectV2ListValues(t, &list, context.Background())
+	assert.Len(t, parents, 1)
+	assert.Equal(t, []*item{{"child-1"}, {"child-2"}}, collectV2ListValues(t, parents[0].Children, context.Background()))
+	assert.Equal(t, []string{"/parents?page=2", "/children?page=2"}, backend.paths)
+}
+
+func TestV2ListMissingInitializerError(t *testing.T) {
+	var list V2List[*item]
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[{"ID":"first"}],"next_page_url":"/items?page=2"}`), &list))
+	values, err := collectV2List(&list)
+	assert.Equal(t, []*item{{"first"}}, values)
+	assert.EqualError(t, err, "stripe: V2List cannot fetch its next page because it is not associated with a Stripe client")
+}
+
+func TestV2ListPreservesBackendError(t *testing.T) {
+	backend := &v2ListTestBackend{
+		responses: map[string]string{"/items?page=2": `{"data":[{"ID":"partial"}]}`},
+		errors:    map[string]error{"/items?page=2": errTest},
+	}
+	var list V2List[*item]
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[],"next_page_url":"/items?page=2"}`), &list))
+	InitializeV2Lists(&list, backend, "key")
+
+	values, err := collectV2List(&list)
+	assert.Equal(t, []*item{{"partial"}}, values)
+	assert.ErrorIs(t, err, errTest)
+}
+
+func TestInitializeV2ListsHandlesCyclesAndInaccessibleFields(t *testing.T) {
+	type resource struct {
+		Next   *resource
+		Items  *V2List[*item]
+		hidden *V2List[*item]
+	}
+	backend := &v2ListTestBackend{responses: map[string]string{"/items?page=2": `{"data":[]}`}}
+	value := &resource{Items: &V2List[*item]{}, hidden: &V2List[*item]{}}
+	value.Next = value
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[],"next_page_url":"/items?page=2"}`), value.Items))
+
+	InitializeV2Lists(value, backend, "key")
+	assert.Empty(t, collectV2ListValues(t, value.Items, context.Background()))
+	assert.Equal(t, []string{"/items?page=2"}, backend.paths)
+}
+
 //
 // ---
 //
@@ -389,6 +526,38 @@ func (tq *testV2Query[T]) query(context.Context, string, ParamsContainer) (*V2Pa
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.e
+}
+
+type v2ListTestBackend struct {
+	Backend
+	responses map[string]string
+	errors    map[string]error
+	paths     []string
+	keys      []string
+	contexts  []context.Context
+}
+
+func (b *v2ListTestBackend) Call(_ string, path, key string, params ParamsContainer, v LastResponseSetter) error {
+	b.paths = append(b.paths, path)
+	b.keys = append(b.keys, key)
+	b.contexts = append(b.contexts, params.GetParams().Context)
+	if response, ok := b.responses[path]; ok {
+		if err := json.Unmarshal([]byte(response), v); err != nil {
+			return err
+		}
+	}
+	return b.errors[path]
+}
+
+func collectV2ListValues[T any](t *testing.T, list *V2List[T], ctx context.Context) []T {
+	t.Helper()
+	var values []T
+	list.All(ctx)(func(value T, err error) bool {
+		assert.NoError(t, err)
+		values = append(values, value)
+		return true
+	})
+	return values
 }
 
 func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
