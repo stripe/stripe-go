@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v87/form"
@@ -354,23 +355,55 @@ type V2Page[T any] struct {
 	Data []T `json:"data"`
 }
 
+// UnmarshalJSON stores an included page without fetching it.
+func (l *V2List[T]) UnmarshalJSON(data []byte) error {
+	page := &V2Page[T]{}
+	if err := json.Unmarshal(data, page); err != nil {
+		return err
+	}
+	l.v2Page = page
+	l.initialized = true
+	l.err = nil
+	return nil
+}
+
+// MarshalJSON returns the current page as its wire envelope.
+func (l V2List[T]) MarshalJSON() ([]byte, error) {
+	if l.v2Page == nil {
+		return json.Marshal(&V2Page[T]{})
+	}
+	return json.Marshal(l.v2Page)
+}
+
 // Data returns the data for the current page.
 func (l *V2List[T]) Data() []T {
+	if l == nil || l.v2Page == nil {
+		return nil
+	}
 	return l.v2Page.Data
 }
 
 // Err returns the error for the current page.
 func (l *V2List[T]) Err() error {
+	if l == nil {
+		return nil
+	}
 	return l.err
 }
 
 // Meta returns the metadata for the current page.
 func (l *V2List[T]) Meta() V2ListMeta {
+	if l == nil || l.v2Page == nil {
+		return V2ListMeta{}
+	}
 	return l.v2Page.V2ListMeta
 }
 
 // LastResponse returns the last response for the current page.
 func (l *V2List[T]) LastResponse() *APIResponse {
+	if l == nil || l.v2Page == nil {
+		return nil
+	}
 	return l.v2Page.LastResponse
 }
 
@@ -378,6 +411,9 @@ func (l *V2List[T]) LastResponse() *APIResponse {
 // The All function will continue to fetch pages of items as needed.
 func (l *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
+		if l == nil {
+			return
+		}
 		for {
 			for _, item := range l.Data() {
 				if !yield(item, nil) {
@@ -407,6 +443,12 @@ func (l *V2List[T]) page(ctx context.Context) {
 		params = &Params{}
 	} else {
 		params = l.params
+	}
+
+	if l.fetch == nil {
+		l.v2Page = &V2Page[T]{}
+		l.err = errors.New("stripe: V2List cannot fetch its next page because it is not associated with a Stripe client")
+		return
 	}
 
 	next, err := l.fetch(ctx, l.v2Page.NextPageURL, params)
@@ -464,10 +506,91 @@ func maybeAddLastResponseV2[T any](page *V2Page[T]) error {
 
 // hasMore returns true if there is another page of items to fetch.
 func (l *V2List[T]) hasMore() bool {
-	if l == nil {
+	if l == nil || l.v2Page == nil {
 		return false
 	}
 	return l.v2Page.NextPageURL != ""
+}
+
+type v2ListInitializer interface {
+	initializeV2List(Backend, string)
+}
+
+func (l *V2List[T]) initializeV2List(backend Backend, key string) {
+	l.fetch = func(ctx context.Context, path string, _ ParamsContainer) (*V2Page[T], error) {
+		page := &V2Page[T]{}
+		err := backend.Call(http.MethodGet, path, key, &Params{Context: ctx}, page)
+		InitializeV2Lists(page, backend, key)
+		return page, err
+	}
+	InitializeV2Lists(l.Data(), backend, key)
+}
+
+// InitializeV2Lists associates all V2List fields reachable from value with a client.
+func InitializeV2Lists(value any, backend Backend, key string) {
+	type visit struct {
+		kind  reflect.Kind
+		type_ reflect.Type
+		ptr   uintptr
+	}
+	visited := make(map[visit]struct{})
+	var initialize func(reflect.Value)
+	initialize = func(v reflect.Value) {
+		if !v.IsValid() {
+			return
+		}
+		if v.CanInterface() {
+			if list, ok := v.Interface().(v2ListInitializer); ok {
+				list.initializeV2List(backend, key)
+				return
+			}
+		}
+		if v.CanAddr() && v.Addr().CanInterface() {
+			if list, ok := v.Addr().Interface().(v2ListInitializer); ok {
+				list.initializeV2List(backend, key)
+				return
+			}
+		}
+
+		switch v.Kind() {
+		case reflect.Pointer:
+			if v.IsNil() {
+				return
+			}
+			current := visit{kind: v.Kind(), type_: v.Type(), ptr: v.Pointer()}
+			if _, ok := visited[current]; ok {
+				return
+			}
+			visited[current] = struct{}{}
+			initialize(v.Elem())
+		case reflect.Struct:
+			for i := 0; i < v.NumField(); i++ {
+				field := v.Field(i)
+				if field.CanInterface() {
+					initialize(field)
+				}
+			}
+		case reflect.Slice:
+			if v.IsNil() {
+				return
+			}
+			if pointer := v.Pointer(); pointer != 0 {
+				current := visit{kind: v.Kind(), type_: v.Type(), ptr: pointer}
+				if _, ok := visited[current]; ok {
+					return
+				}
+				visited[current] = struct{}{}
+			}
+			for i := 0; i < v.Len(); i++ {
+				initialize(v.Index(i))
+			}
+		case reflect.Array:
+			for i := 0; i < v.Len(); i++ {
+				initialize(v.Index(i))
+			}
+		}
+	}
+	initialize(reflect.ValueOf(value))
 }
 
 // newV2List creates a new V2List with the given path and fetch function.
