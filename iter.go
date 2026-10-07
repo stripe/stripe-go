@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v87/form"
@@ -465,7 +466,8 @@ func (l *V2SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 }
 
 func (l *V2SearchList[T]) fetchPage(ctx context.Context, path string) {
-	next, err := l.fetch(ctx, path, l.params)
+	path, params := splitV2SearchLimit(path, l.params)
+	next, err := l.fetch(ctx, path, params)
 	l.page = next
 	if err != nil {
 		l.err = err
@@ -507,6 +509,33 @@ func cloneV2SearchParams(p ParamsContainer) ParamsContainer {
 		}
 	}
 	return clone
+}
+
+func splitV2SearchLimit(path string, p ParamsContainer) (string, ParamsContainer) {
+	params := cloneV2SearchParams(p)
+	if params == nil {
+		return path, params
+	}
+	value := reflect.ValueOf(params)
+	if value.Kind() != reflect.Ptr || value.IsNil() {
+		return path, params
+	}
+	limit := value.Elem().FieldByName("Limit")
+	if !limit.IsValid() || limit.Kind() != reflect.Ptr || limit.IsNil() {
+		return path, params
+	}
+	parsed, err := url.Parse(path)
+	if err != nil {
+		return path, params
+	}
+	query := parsed.Query()
+	if !query.Has("limit") {
+		query.Set("limit", fmt.Sprint(limit.Elem().Interface()))
+		parsed.RawQuery = query.Encode()
+		path = parsed.String()
+	}
+	limit.Set(reflect.Zero(limit.Type()))
+	return path, params
 }
 
 func newV2SearchList[T any](ctx context.Context, path string, p ParamsContainer, fetch v2SearchQuery[T]) *V2SearchList[T] {

@@ -346,7 +346,10 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 }
 
 func TestV2SearchReplaysOriginalParams(t *testing.T) {
-	params := &testParams{Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}}}
+	params := &testV2SearchParams{
+		testParams: testParams{Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}},
+		Limit:      Int64(2),
+	}
 	var paths []string
 	var seen []ParamsContainer
 	pages := []*V2SearchPage[*item]{
@@ -364,14 +367,21 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	got, err := collectV2SearchList(list)
 	assert.NoError(t, err)
 	assert.Equal(t, []*item{{"x"}, {"y"}}, got)
-	assert.Equal(t, []string{"/test", "/test?page=2"}, paths)
+	assert.Equal(t, []string{"/test?limit=2", "/test?limit=2&page=2"}, paths)
 	assert.NotSame(t, params, seen[0])
-	assert.Same(t, seen[0], seen[1])
+	assert.NotSame(t, seen[0], seen[1])
+	assert.Nil(t, seen[0].(*testV2SearchParams).Limit)
+	assert.Nil(t, seen[1].(*testV2SearchParams).Limit)
 	assert.Equal(t, "value", seen[0].GetParams().Extra.Values.Get("future"))
 	assert.Equal(t, int64(2), list.TotalCount())
 }
 
 type testParams struct{ Params }
+
+type testV2SearchParams struct {
+	testParams
+	Limit *int64 `form:"limit"`
+}
 
 func (p *testParams) GetParams() *Params { return &p.Params }
 
