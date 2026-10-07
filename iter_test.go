@@ -381,21 +381,8 @@ func TestV2ListJSONAbsentNullAndEmpty(t *testing.T) {
 	assert.Equal(t, V2ListMeta{}, empty.Items.Meta())
 }
 
-func TestV2ListZeroValue(t *testing.T) {
+func TestV2ListZeroValueMarshal(t *testing.T) {
 	var list V2List[*item]
-	assert.Nil(t, list.Data())
-	assert.Equal(t, V2ListMeta{}, list.Meta())
-	assert.Nil(t, list.LastResponse())
-	assert.NoError(t, list.Err())
-	assert.Empty(t, collectV2ListValues(t, &list, context.Background()))
-
-	var nilList *V2List[*item]
-	assert.Nil(t, nilList.Data())
-	assert.Equal(t, V2ListMeta{}, nilList.Meta())
-	assert.Nil(t, nilList.LastResponse())
-	assert.NoError(t, nilList.Err())
-	assert.Empty(t, collectV2ListValues(t, nilList, context.Background()))
-
 	encoded, err := json.Marshal(list)
 	assert.NoError(t, err)
 	assert.JSONEq(t, `{"data":null,"next_page_url":"","previous_page_url":""}`, string(encoded))

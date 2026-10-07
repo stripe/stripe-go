@@ -377,33 +377,21 @@ func (l V2List[T]) MarshalJSON() ([]byte, error) {
 
 // Data returns the data for the current page.
 func (l *V2List[T]) Data() []T {
-	if l == nil || l.v2Page == nil {
-		return nil
-	}
 	return l.v2Page.Data
 }
 
 // Err returns the error for the current page.
 func (l *V2List[T]) Err() error {
-	if l == nil {
-		return nil
-	}
 	return l.err
 }
 
 // Meta returns the metadata for the current page.
 func (l *V2List[T]) Meta() V2ListMeta {
-	if l == nil || l.v2Page == nil {
-		return V2ListMeta{}
-	}
 	return l.v2Page.V2ListMeta
 }
 
 // LastResponse returns the last response for the current page.
 func (l *V2List[T]) LastResponse() *APIResponse {
-	if l == nil || l.v2Page == nil {
-		return nil
-	}
 	return l.v2Page.LastResponse
 }
 
@@ -411,9 +399,6 @@ func (l *V2List[T]) LastResponse() *APIResponse {
 // The All function will continue to fetch pages of items as needed.
 func (l *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
-		if l == nil {
-			return
-		}
 		for {
 			for _, item := range l.Data() {
 				if !yield(item, nil) {
@@ -506,7 +491,7 @@ func maybeAddLastResponseV2[T any](page *V2Page[T]) error {
 
 // hasMore returns true if there is another page of items to fetch.
 func (l *V2List[T]) hasMore() bool {
-	if l == nil || l.v2Page == nil {
+	if l == nil {
 		return false
 	}
 	return l.v2Page.NextPageURL != ""
