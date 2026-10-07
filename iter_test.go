@@ -353,7 +353,7 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	var paths []string
 	var seen []ParamsContainer
 	pages := []*V2SearchPage[*item]{
-		{Data: []*item{{"x"}}, TotalCount: 2, V2ListMeta: V2ListMeta{NextPageURL: "/test?page=2"}},
+		{Data: []*item{{"x"}}, TotalCount: 2, V2ListMeta: V2ListMeta{NextPageURL: "/test?limit=2&page=2"}},
 		{Data: []*item{{"y"}}, TotalCount: 2},
 	}
 	fetch := func(_ context.Context, path string, p ParamsContainer) (*V2SearchPage[*item], error) {

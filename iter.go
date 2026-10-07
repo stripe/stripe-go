@@ -425,10 +425,11 @@ func (l *V2List[T]) page(ctx context.Context) {
 
 // V2SearchList contains API v2 search results and replays the original body when paging.
 type V2SearchList[T any] struct {
-	fetch  v2SearchQuery[T]
-	params ParamsContainer
-	err    error
-	page   *V2SearchPage[T]
+	fetch       v2SearchQuery[T]
+	params      ParamsContainer
+	err         error
+	page        *V2SearchPage[T]
+	initialized bool
 }
 
 // V2SearchPage is a single API v2 search result page.
@@ -466,8 +467,9 @@ func (l *V2SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 }
 
 func (l *V2SearchList[T]) fetchPage(ctx context.Context, path string) {
-	path, params := splitV2SearchLimit(path, l.params)
+	path, params := splitV2SearchLimit(path, l.params, !l.initialized)
 	next, err := l.fetch(ctx, path, params)
+	l.initialized = true
 	l.page = next
 	if err != nil {
 		l.err = err
@@ -511,7 +513,7 @@ func cloneV2SearchParams(p ParamsContainer) ParamsContainer {
 	return clone
 }
 
-func splitV2SearchLimit(path string, p ParamsContainer) (string, ParamsContainer) {
+func splitV2SearchLimit(path string, p ParamsContainer, addToPath bool) (string, ParamsContainer) {
 	params := cloneV2SearchParams(p)
 	if params == nil {
 		return path, params
@@ -524,12 +526,12 @@ func splitV2SearchLimit(path string, p ParamsContainer) (string, ParamsContainer
 	if !limit.IsValid() || limit.Kind() != reflect.Ptr || limit.IsNil() {
 		return path, params
 	}
-	parsed, err := url.Parse(path)
-	if err != nil {
-		return path, params
-	}
-	query := parsed.Query()
-	if !query.Has("limit") {
+	if addToPath {
+		parsed, err := url.Parse(path)
+		if err != nil {
+			return path, params
+		}
+		query := parsed.Query()
 		query.Set("limit", fmt.Sprint(limit.Elem().Interface()))
 		parsed.RawQuery = query.Encode()
 		path = parsed.String()
