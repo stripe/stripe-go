@@ -20,6 +20,16 @@ const (
 	SubscriptionAutomaticTaxDisabledReasonRequiresLocationInputs SubscriptionAutomaticTaxDisabledReason = "requires_location_inputs"
 )
 
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type SubscriptionAutomaticTaxEnablementDetailsSource string
+
+// List of values that SubscriptionAutomaticTaxEnablementDetailsSource can take
+const (
+	SubscriptionAutomaticTaxEnablementDetailsSourceExplicit                    SubscriptionAutomaticTaxEnablementDetailsSource = "explicit"
+	SubscriptionAutomaticTaxEnablementDetailsSourceManagedPayments             SubscriptionAutomaticTaxEnablementDetailsSource = "managed_payments"
+	SubscriptionAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration SubscriptionAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
+)
+
 // Type of the account referenced.
 type SubscriptionAutomaticTaxLiabilityType string
 
@@ -1244,7 +1254,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams stru
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPixParams struct {
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -2279,7 +2289,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -3253,7 +3263,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -3590,6 +3600,20 @@ func (p *SubscriptionCreateParams) AppendTo(body *form.Values, keyParts []string
 	}
 }
 
+// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+type SubscriptionAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type SubscriptionAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+	IntegrationConfigurationDisabledReason *SubscriptionAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source SubscriptionAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -3602,6 +3626,8 @@ type SubscriptionAutomaticTax struct {
 	DisabledReason SubscriptionAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this subscription.
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *SubscriptionAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *SubscriptionAutomaticTaxLiability `json:"liability"`
 }
@@ -3878,7 +3904,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions struct {
 
 // This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPix struct {
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds int64                                                             `json:"expires_after_seconds,omitempty"`
 	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
 }

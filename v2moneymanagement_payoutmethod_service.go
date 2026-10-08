@@ -29,8 +29,9 @@ func (c v2MoneyManagementPayoutMethodService) Retrieve(ctx context.Context, id s
 	return payoutmethod, err
 }
 
-// Archive a PayoutMethod object. Archived objects cannot be used as payout methods
-// and will not appear in the payout method list.
+// Archive a `PayoutMethod`. Archiving prevents the Payout Method from being used for outbound payments
+// or transfers and omits it from normal list results. To restore list visibility, use the
+// [unarchive endpoint](https://docs.stripe.com/api/v2/money-management/payout-methods/unarchive).
 func (c v2MoneyManagementPayoutMethodService) Archive(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodArchiveParams) (*V2MoneyManagementPayoutMethod, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutMethodArchiveParams{}
@@ -42,9 +43,9 @@ func (c v2MoneyManagementPayoutMethodService) Archive(ctx context.Context, id st
 	return payoutmethod, err
 }
 
-// Disable a PayoutMethod object. The payout method will not be available for use in outbound money movement.
-// To re-enable the payout method, create an OutboundSetupIntent
-// using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
+// Disable a `PayoutMethod`. Disabling temporarily prevents the Payout Method from being used for outbound
+// payments or transfers while keeping it in normal list results. To re-enable it, complete setup again by
+// [creating an Outbound Setup Intent](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 func (c v2MoneyManagementPayoutMethodService) Disable(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodDisableParams) (*V2MoneyManagementPayoutMethod, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutMethodDisableParams{}
@@ -56,7 +57,8 @@ func (c v2MoneyManagementPayoutMethodService) Disable(ctx context.Context, id st
 	return payoutmethod, err
 }
 
-// Unarchive an PayoutMethod object.
+// Unarchive a `PayoutMethod`. Unarchiving restores the Payout Method to normal list results and clears
+// only its archived state. It doesn't guarantee that the Payout Method can be used.
 func (c v2MoneyManagementPayoutMethodService) Unarchive(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodUnarchiveParams) (*V2MoneyManagementPayoutMethod, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutMethodUnarchiveParams{}

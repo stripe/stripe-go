@@ -53,7 +53,7 @@ func (c v2PaymentsOffSessionPaymentService) Cancel(ctx context.Context, id strin
 	return offsessionpayment, err
 }
 
-// Captures an OffSessionPayment that has previously been created.
+// Deprecated. Captures an OffSessionPayment that has previously been created.
 func (c v2PaymentsOffSessionPaymentService) Capture(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentCaptureParams) (*V2PaymentsOffSessionPayment, error) {
 	if params == nil {
 		params = &V2PaymentsOffSessionPaymentCaptureParams{}

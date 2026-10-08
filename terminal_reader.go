@@ -215,6 +215,8 @@ type TerminalReaderActivateGiftCardParams struct {
 	Balance *TerminalReaderActivateGiftCardBalanceParams `form:"balance" json:"balance,omitempty"`
 	// The brand of the gift card.
 	Brand *string `form:"brand" json:"brand"`
+	// Enables cancel button on gift card operation screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Stripe account ID to process the gift card operation on behalf of.
@@ -243,6 +245,8 @@ type TerminalReaderCashoutGiftCardParams struct {
 	Params `form:"*"`
 	// The brand of the gift card.
 	Brand *string `form:"brand" json:"brand"`
+	// Enables cancel button on gift card operation screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Stripe account ID to process the gift card operation on behalf of.
@@ -259,6 +263,8 @@ type TerminalReaderCheckGiftCardBalanceParams struct {
 	Params `form:"*"`
 	// The brand of the gift card.
 	Brand *string `form:"brand" json:"brand"`
+	// Enables cancel button on gift card operation screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Stripe account ID to process the gift card operation on behalf of.
@@ -517,6 +523,8 @@ type TerminalReaderReloadGiftCardParams struct {
 	Brand *string `form:"brand" json:"brand"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
+	// Enables cancel button on gift card operation screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Stripe account ID to process the gift card operation on behalf of.

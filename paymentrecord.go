@@ -305,6 +305,7 @@ type PaymentRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyOusd        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -977,6 +978,12 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
+// Details about the US bank account payment method.
+type PaymentRecordReportPaymentAttemptPaymentMethodDetailsUSBankAccountParams struct {
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode *string `form:"return_code" json:"return_code,omitempty"`
+}
+
 // Information about the Payment Method debited for this payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
@@ -989,6 +996,8 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams struct {
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
 	Type *string `form:"type" json:"type,omitempty"`
+	// Details about the US bank account payment method.
+	USBankAccount *PaymentRecordReportPaymentAttemptPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
 // Shipping information for this payment.
@@ -1073,12 +1082,20 @@ type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardParams struc
 	NetworkDeclineCode *string `form:"network_decline_code" json:"network_decline_code,omitempty"`
 }
 
+// Details about the US bank account payment method.
+type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsUSBankAccountParams struct {
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode *string `form:"return_code" json:"return_code,omitempty"`
+}
+
 // Information about the Payment Method debited for this payment.
 type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsParams struct {
 	// Information about the card payment method used to make this payment.
 	Card *PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
 	Type *string `form:"type" json:"type"`
+	// Details about the US bank account payment method.
+	USBankAccount *PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
 // Verification checks performed on the card.
@@ -1377,6 +1394,12 @@ type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
+// Details about the US bank account payment method.
+type PaymentRecordReportPaymentPaymentMethodDetailsUSBankAccountParams struct {
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode *string `form:"return_code" json:"return_code,omitempty"`
+}
+
 // Information about the Payment Method debited for this payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
@@ -1389,6 +1412,8 @@ type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
 	Type *string `form:"type" json:"type,omitempty"`
+	// Details about the US bank account payment method.
+	USBankAccount *PaymentRecordReportPaymentPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
 // Information about the custom processor used to make this payment.
@@ -2440,8 +2465,12 @@ type PaymentRecordPaymentMethodDetailsSunbit struct {
 type PaymentRecordPaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
 	// Payer bank reference number for the payment
 	PaymentReference string `json:"payment_reference"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// The last four digits of the Swish account phone number
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }

@@ -93,7 +93,7 @@ type V2BaseEvent struct {
 	Object string `json:"object"`
 	// Reason for the event.
 	Reason *V2CoreEventReason `json:"reason,omitempty"`
-	// For interop events, this is the snapshot event ID.
+	// For thin events with a corresponding snapshot event, this is the snapshot event ID.
 	SnapshotEvent string `json:"snapshot_event,omitempty"`
 	// The type of the event.
 	Type string `json:"type"`

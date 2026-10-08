@@ -258,7 +258,7 @@ type V2SignalsAccountEvaluationCreateParams struct {
 	RequestedSignals []*string `form:"requested_signals" json:"requested_signals"`
 }
 
-// Retrieves an AccountEvaluation by its ID for up to 90 days after creation. Evaluations more than 90 days old are inaccessible.
+// Retrieves an AccountEvaluation by its ID when its created timestamp is no more than 90 days old.
 type V2SignalsAccountEvaluationRetrieveParams struct {
 	Params `form:"*"`
 }

@@ -2252,6 +2252,36 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferBankDeb
 		h, "v2.money_management.inbound_transfer.bank_debit_succeeded", callback)
 }
 
+// OnV2MoneyManagementInboundTransferMandateActivated registers a callback to handle notifications about the "v2.money_management.inbound_transfer_mandate.activated" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferMandateActivated(callback func(ctx context.Context, notif *V2MoneyManagementInboundTransferMandateActivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.inbound_transfer_mandate.activated", callback)
+}
+
+// OnV2MoneyManagementInboundTransferMandateCreated registers a callback to handle notifications about the "v2.money_management.inbound_transfer_mandate.created" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferMandateCreated(callback func(ctx context.Context, notif *V2MoneyManagementInboundTransferMandateCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.inbound_transfer_mandate.created", callback)
+}
+
+// OnV2MoneyManagementInboundTransferMandateExpired registers a callback to handle notifications about the "v2.money_management.inbound_transfer_mandate.expired" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferMandateExpired(callback func(ctx context.Context, notif *V2MoneyManagementInboundTransferMandateExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.inbound_transfer_mandate.expired", callback)
+}
+
+// OnV2MoneyManagementInboundTransferMandateRefused registers a callback to handle notifications about the "v2.money_management.inbound_transfer_mandate.refused" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferMandateRefused(callback func(ctx context.Context, notif *V2MoneyManagementInboundTransferMandateRefusedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.inbound_transfer_mandate.refused", callback)
+}
+
+// OnV2MoneyManagementInboundTransferMandateRevoked registers a callback to handle notifications about the "v2.money_management.inbound_transfer_mandate.revoked" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementInboundTransferMandateRevoked(callback func(ctx context.Context, notif *V2MoneyManagementInboundTransferMandateRevokedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.inbound_transfer_mandate.revoked", callback)
+}
+
 // OnV2MoneyManagementOutboundPaymentCanceled registers a callback to handle notifications about the "v2.money_management.outbound_payment.canceled" event.
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementOutboundPaymentCanceled(callback func(ctx context.Context, notif *V2MoneyManagementOutboundPaymentCanceledEventNotification, client *Client) error) error {
 	return registerTypedHandler(

@@ -78,6 +78,16 @@ const (
 	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReasonRequiresLocationInputs QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason = "requires_location_inputs"
 )
 
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource string
+
+// List of values that QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource can take
+const (
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSourceExplicit                    QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource = "explicit"
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSourceManagedPayments             QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource = "managed_payments"
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
+)
+
 // Type of the account referenced.
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType string
 
@@ -264,6 +274,16 @@ type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason string
 // List of values that QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason can take
 const (
 	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReasonRequiresLocationInputs QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason = "requires_location_inputs"
+)
+
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource string
+
+// List of values that QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource can take
+const (
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSourceExplicit                    QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource = "explicit"
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSourceManagedPayments             QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource = "managed_payments"
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
 )
 
 // Type of the account referenced.
@@ -519,6 +539,20 @@ type QuotePreviewSubscriptionScheduleCurrentPhase struct {
 	StartDate int64 `json:"start_date"`
 }
 
+// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+	IntegrationConfigurationDisabledReason *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -531,6 +565,8 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax struct {
 	DisabledReason QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability `json:"liability"`
 }
@@ -746,6 +782,20 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem struct {
 	TaxRates []*TaxRate `json:"tax_rates,omitempty"`
 }
 
+// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
+	IntegrationConfigurationDisabledReason *QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -758,6 +808,8 @@ type QuotePreviewSubscriptionSchedulePhaseAutomaticTax struct {
 	DisabledReason QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *QuotePreviewSubscriptionSchedulePhaseAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability `json:"liability"`
 }

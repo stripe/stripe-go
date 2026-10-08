@@ -1499,6 +1499,26 @@ type V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams 
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Vipps payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1614,6 +1634,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	TWINTPayments *V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process US bank transfer payments.
 	USBankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// Allow the merchant to process Vipps payments.
+	VippsPayments *V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -1770,6 +1792,110 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business custodial storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams struct {
+	// Can receive business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business custodial storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams struct {
+	// Can send business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Can send or receive business custodial storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams struct {
+	// Can receive business custodial storage-type funds on Stripe.
+	Inbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business custodial storage-type funds on Stripe.
+	Outbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -2307,6 +2433,290 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancial
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2336,6 +2746,10 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams st
 	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account.
+	Offramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet.
+	Onramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 	// Can send funds from a FinancialAccount to someone else via paper check.
 	PaperChecks *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
@@ -2400,6 +2814,290 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancia
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account belonging to the same user.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account belonging to the same user.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account belonging to the same user.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account belonging to the same user.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account belonging to the same user.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account belonging to the same user.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by yourself.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
@@ -2408,6 +3106,10 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersParams s
 	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account belonging to the same user.
+	Offramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+	Onramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -2450,12 +3152,300 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsCryptoWall
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive BRL converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive COP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive EUR converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive GBP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive MXN converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive USD converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams struct {
+	// Can receive BRL converted from crypto through a bank-account-like financial address.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive COP converted from crypto through a bank-account-like financial address.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive EUR converted from crypto through a bank-account-like financial address.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive GBP converted from crypto through a bank-account-like financial address.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive MXN converted from crypto through a bank-account-like financial address.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive USD converted from crypto through a bank-account-like financial address.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive fiat converted from crypto through a bank-account-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams struct {
+	// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+	Brl *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+	Cop *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+	Mxn *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can receive funds into a FinancialAccount.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
 	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
 	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can receive funds on a crypto wallet like financial address to credit a FinancialAccount.
 	CryptoWallets *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Can receive fiat converted from crypto through a bank-account-like financial address.
+	Offramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+	Onramp *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -2486,6 +3476,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsParams stru
 
 // Capabilities to request on the Money Manager Configuration.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business custodial storage-type funds on Stripe.
+	BusinessCustodialStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -2893,6 +3885,26 @@ type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksParams struct {
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationRecipientCapabilitiesPixProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Capabilities that enable OutboundPayments to a Pix account.
+type V2CoreAccountConfigurationRecipientCapabilitiesPixParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationRecipientCapabilitiesPixProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2928,6 +3940,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable OutboundPayments via paper check.
 	PaperChecks *V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
+	// Capabilities that enable OutboundPayments to a Pix account.
+	Pix *V2CoreAccountConfigurationRecipientCapabilitiesPixParams `form:"pix" json:"pix,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -5791,6 +6805,26 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesUSBankTransferPaymentsP
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Vipps payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -5906,6 +6940,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	TWINTPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process US bank transfer payments.
 	USBankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// Allow the merchant to process Vipps payments.
+	VippsPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -6060,6 +7096,110 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	StatementDescriptor *V2CoreAccountCreateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountCreateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business custodial storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams struct {
+	// Can receive business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business custodial storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams struct {
+	// Can send business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Can send or receive business custodial storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams struct {
+	// Can receive business custodial storage-type funds on Stripe.
+	Inbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business custodial storage-type funds on Stripe.
+	Outbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -6597,6 +7737,290 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFin
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -6626,6 +8050,10 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPar
 	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account.
+	Offramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet.
+	Onramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 	// Can send funds from a FinancialAccount to someone else via paper check.
 	PaperChecks *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
@@ -6690,6 +8118,290 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersFi
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account belonging to the same user.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account belonging to the same user.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account belonging to the same user.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account belonging to the same user.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account belonging to the same user.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account belonging to the same user.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by yourself.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
@@ -6698,6 +8410,10 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersPa
 	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account belonging to the same user.
+	Offramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+	Onramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -6740,12 +8456,300 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsCryp
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive BRL converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive COP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive EUR converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive GBP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive MXN converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive USD converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams struct {
+	// Can receive BRL converted from crypto through a bank-account-like financial address.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive COP converted from crypto through a bank-account-like financial address.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive EUR converted from crypto through a bank-account-like financial address.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive GBP converted from crypto through a bank-account-like financial address.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive MXN converted from crypto through a bank-account-like financial address.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive USD converted from crypto through a bank-account-like financial address.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive fiat converted from crypto through a bank-account-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams struct {
+	// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+	Brl *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+	Cop *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+	Mxn *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can receive funds into a FinancialAccount.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
 	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
 	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can receive funds on a crypto wallet like financial address to credit a FinancialAccount.
 	CryptoWallets *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Can receive fiat converted from crypto through a bank-account-like financial address.
+	Offramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+	Onramp *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -6776,6 +8780,8 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsParam
 
 // Capabilities to request on the Money Manager Configuration.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business custodial storage-type funds on Stripe.
+	BusinessCustodialStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -7181,6 +9187,26 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesPaperChecksParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesPixProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Capabilities that enable OutboundPayments to a Pix account.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesPixParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationRecipientCapabilitiesPixProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7216,6 +9242,8 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	CryptoWallets *V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable OutboundPayments via paper check.
 	PaperChecks *V2CoreAccountCreateConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
+	// Capabilities that enable OutboundPayments to a Pix account.
+	Pix *V2CoreAccountCreateConfigurationRecipientCapabilitiesPixParams `form:"pix" json:"pix,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -10071,6 +12099,26 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesUSBankTransferPaymentsP
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Vipps payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -10186,6 +12234,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	TWINTPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process US bank transfer payments.
 	USBankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// Allow the merchant to process Vipps payments.
+	VippsPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -10342,6 +12392,110 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	StatementDescriptor *V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountUpdateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business custodial storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams struct {
+	// Can receive business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in OUSD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business custodial storage-type funds on Stripe in USDC.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business custodial storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams struct {
+	// Can send business custodial storage-type funds on Stripe in OUSD.
+	Ousd *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business custodial storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundUsdcParams `form:"usdc" json:"usdc,omitempty"`
+}
+
+// Can send or receive business custodial storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams struct {
+	// Can receive business custodial storage-type funds on Stripe.
+	Inbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business custodial storage-type funds on Stripe.
+	Outbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -10879,6 +13033,290 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFin
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -10908,6 +13346,10 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPar
 	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account.
+	Offramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet.
+	Onramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 	// Can send funds from a FinancialAccount to someone else via paper check.
 	PaperChecks *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
@@ -10972,6 +13414,290 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersFi
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into BRL to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into COP to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into EUR to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into GBP to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into MXN to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send crypto converted into USD to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams struct {
+	// Can send crypto converted into BRL to a bank account belonging to the same user.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send crypto converted into COP to a bank account belonging to the same user.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send crypto converted into EUR to a bank account belonging to the same user.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send crypto converted into GBP to a bank account belonging to the same user.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send crypto converted into MXN to a bank account belonging to the same user.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send crypto converted into USD to a bank account belonging to the same user.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send crypto converted into fiat to a bank account belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams struct {
+	// Can send BRL converted into crypto to a crypto wallet belonging to the same user.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can send COP converted into crypto to a crypto wallet belonging to the same user.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can send EUR converted into crypto to a crypto wallet belonging to the same user.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send GBP converted into crypto to a crypto wallet belonging to the same user.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send MXN converted into crypto to a crypto wallet belonging to the same user.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can send USD converted into crypto to a crypto wallet belonging to the same user.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by yourself.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
@@ -10980,6 +13706,10 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersPa
 	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send crypto converted into fiat to a bank account belonging to the same user.
+	Offramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can send fiat converted into crypto to a crypto wallet belonging to the same user.
+	Onramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -11022,12 +13752,300 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsCryp
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive BRL converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive COP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive EUR converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive GBP converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive MXN converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive USD converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Bank accounts for crypto converted into fiat.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams struct {
+	// Can receive BRL converted from crypto through a bank-account-like financial address.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive COP converted from crypto through a bank-account-like financial address.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive EUR converted from crypto through a bank-account-like financial address.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive GBP converted from crypto through a bank-account-like financial address.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive MXN converted from crypto through a bank-account-like financial address.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive USD converted from crypto through a bank-account-like financial address.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive fiat converted from crypto through a bank-account-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams struct {
+	// Bank accounts for crypto converted into fiat.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Crypto wallets for fiat converted into crypto.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams struct {
+	// Can receive crypto converted from BRL through a crypto-wallet-like financial address.
+	Brl *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsBrlParams `form:"brl" json:"brl,omitempty"`
+	// Can receive crypto converted from COP through a crypto-wallet-like financial address.
+	Cop *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsCopParams `form:"cop" json:"cop,omitempty"`
+	// Can receive crypto converted from EUR through a crypto-wallet-like financial address.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive crypto converted from GBP through a crypto-wallet-like financial address.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive crypto converted from MXN through a crypto-wallet-like financial address.
+	Mxn *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsMxnParams `form:"mxn" json:"mxn,omitempty"`
+	// Can receive crypto converted from USD through a crypto-wallet-like financial address.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams struct {
+	// Crypto wallets for fiat converted into crypto.
+	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+}
+
 // Can receive funds on a financial address to credit a FinancialAccount.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
 	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
 	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can receive funds on a crypto wallet like financial address to credit a FinancialAccount.
 	CryptoWallets *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Can receive fiat converted from crypto through a bank-account-like financial address.
+	Offramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOfframpParams `form:"offramp" json:"offramp,omitempty"`
+	// Can receive crypto converted from fiat through a crypto-wallet-like financial address.
+	Onramp *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsOnrampParams `form:"onramp" json:"onramp,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -11058,6 +14076,8 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsParam
 
 // Capabilities to request on the Money Manager Configuration.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business custodial storage-type funds on Stripe.
+	BusinessCustodialStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -11465,6 +14485,26 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesPaperChecksParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Capabilities that enable OutboundPayments to a Pix account.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -11500,6 +14540,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	CryptoWallets *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable OutboundPayments via paper check.
 	PaperChecks *V2CoreAccountUpdateConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
+	// Capabilities that enable OutboundPayments to a Pix account.
+	Pix *V2CoreAccountUpdateConfigurationRecipientCapabilitiesPixParams `form:"pix" json:"pix,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }

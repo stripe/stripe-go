@@ -38,6 +38,8 @@ type CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork strin
 const (
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkACH            CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "ach"
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkDomesticWireUS CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "domestic_wire_us"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkFednow         CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "fednow"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkRTP            CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "rtp"
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkSwift          CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "swift"
 )
 

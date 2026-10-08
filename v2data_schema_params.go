@@ -13,7 +13,7 @@ type V2DataSchemaListParams struct {
 	Dataset *string `form:"dataset" json:"dataset,omitempty"`
 	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
 	Include []*string `form:"include" json:"include,omitempty"`
-	// The maximum number of results per page. Defaults to 10. Maximum is 100.
+	// The maximum number of results per page. Defaults to 10. Maximum is 1,000.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// If supplied, only return schemas with this name.
 	Name *string `form:"name" json:"name,omitempty"`

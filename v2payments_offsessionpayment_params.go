@@ -70,7 +70,7 @@ type V2PaymentsOffSessionPaymentAmountDetailsParams struct {
 	Tax *V2PaymentsOffSessionPaymentAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// Details about the capture configuration for the OffSessionPayment.
+// Deprecated. Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCaptureParams struct {
 	Params `form:"*"`
 	// Provides industry-specific information about the amount.
@@ -211,7 +211,7 @@ type V2PaymentsOffSessionPaymentParams struct {
 	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Details about the capture configuration for the OffSessionPayment.
+	// Deprecated. Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCaptureParams `form:"capture" json:"capture,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer,omitempty"`
@@ -414,7 +414,7 @@ type V2PaymentsOffSessionPaymentCreateAmountDetailsParams struct {
 	Tax *V2PaymentsOffSessionPaymentCreateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// Details about the capture configuration for the OffSessionPayment.
+// Deprecated. Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCreateCaptureParams struct {
 	// The method to use to capture the payment.
 	CaptureMethod *string `form:"capture_method" json:"capture_method"`
@@ -521,7 +521,7 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
-	// Details about the capture configuration for the OffSessionPayment.
+	// Deprecated. Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCreateCaptureParams `form:"capture" json:"capture,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer"`

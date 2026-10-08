@@ -27,7 +27,7 @@ type V2DataQueryRunParams struct {
 	Dataset *string `form:"dataset" json:"dataset,omitempty"`
 	// The file format for the result.
 	Format *string `form:"format" json:"format,omitempty"`
-	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
+	// Any optional includes (see [include-dependent response values](https://docs.stripe.com/api-includable-response-values)).
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The maximum number of inline `QueryRun` result rows to return. Defaults to 10. Maximum is 1000.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -69,7 +69,7 @@ type V2DataQueryRunCreateParams struct {
 // Retrieves the status and results of a previously created `QueryRun`.
 type V2DataQueryRunRetrieveParams struct {
 	Params `form:"*"`
-	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
+	// Any optional includes (see [include-dependent response values](https://docs.stripe.com/api-includable-response-values)).
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The maximum number of inline `QueryRun` result rows to return. Defaults to 10. Maximum is 1000.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
