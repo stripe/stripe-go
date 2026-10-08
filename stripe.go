@@ -1404,10 +1404,27 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		}
 	}
 
+	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
+	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
+	// instructions if given.
+	if resp != nil {
+		if resp.Header.Get("Stripe-Should-Retry") == "false" {
+			return false, "`Stripe-Should-Retry` header returned `false`"
+		}
+		if resp.Header.Get("Stripe-Should-Retry") == "true" {
+			return true, ""
+		}
+	}
+
 	// All errors from the Stripe API should implement the `retrier` interface.
-	// Any other error comes from a different layer
-	if err, ok := err.(retrier); ok {
-		return err.canRetry(), "not retriable error"
+	// A retrier can independently opt in to a retry, but a false result should
+	// still allow the response status to be evaluated below.
+	isStripeError := false
+	if retryError, ok := err.(retrier); ok {
+		isStripeError = true
+		if retryError.canRetry() {
+			return true, ""
+		}
 	}
 
 	// We retry most errors that come out of HTTP requests except for a curated
@@ -1416,7 +1433,7 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 	// flip this to an inverted strategy of retrying only errors that we know
 	// to be retryable in a future refactor, if a good methodology is found for
 	// identifying that full set of errors.
-	if err != nil {
+	if err != nil && !isStripeError {
 		if urlErr, ok := err.(*url.Error); ok {
 			// Don't retry too many redirects.
 			if redirectsErrorRE.MatchString(urlErr.Error()) {
@@ -1438,28 +1455,20 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		return true, ""
 	}
 
-	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
-	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
-	// instructions if given.
-	if resp.Header.Get("Stripe-Should-Retry") == "false" {
-		return false, "`Stripe-Should-Retry` header returned `false`"
-	}
-	if resp.Header.Get("Stripe-Should-Retry") == "true" {
-		return true, ""
-	}
+	if resp != nil {
+		// 409 Conflict
+		if resp.StatusCode == http.StatusConflict {
+			return true, ""
+		}
 
-	// 409 Conflict
-	if resp.StatusCode == http.StatusConflict {
-		return true, ""
-	}
-
-	// Retry on 500, 503, and other internal errors.
-	//
-	// Note that we expect the stripe-should-retry header to be false
-	// in most cases when a 500 is returned, since our idempotency framework
-	// would typically replay it anyway.
-	if resp.StatusCode >= http.StatusInternalServerError {
-		return true, ""
+		// Retry on 500, 503, and other internal errors.
+		//
+		// Note that we expect the stripe-should-retry header to be false
+		// in most cases when a 500 is returned, since our idempotency framework
+		// would typically replay it anyway.
+		if resp.StatusCode >= http.StatusInternalServerError {
+			return true, ""
+		}
 	}
 
 	return false, "response not known to be safe for retry"
