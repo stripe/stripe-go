@@ -347,7 +347,7 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 
 func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	params := &testV2SearchParams{
-		testParams: testParams{Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}},
+		testParams: testParams{Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}}},
 		Limit:      Int64(2),
 	}
 	var paths []string
