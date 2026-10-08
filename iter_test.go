@@ -25,6 +25,14 @@ func TestIterEmptyErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestIterEmptyWithHasMore(t *testing.T) {
+	tq := testQuery{{nil, &ListMeta{HasMore: true}, nil}}
+	g, gerr := collect(GetIter(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
+}
+
 func TestIterOne(t *testing.T) {
 	tq := testQuery{{[]interface{}{1}, &ListMeta{}, nil}}
 	want := []interface{}{1}
@@ -65,6 +73,18 @@ func TestIterPage2EmptyErr(t *testing.T) {
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
+}
+
+func TestIterPage2EmptyWithHasMore(t *testing.T) {
+	tq := testQuery{
+		{[]interface{}{&item{"x"}}, &ListMeta{HasMore: true}, nil},
+		{nil, &ListMeta{HasMore: true}, nil},
+	}
+	want := []interface{}{&item{"x"}}
+	g, gerr := collect(GetIter(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
 }
 
 func TestIterTwoPages(t *testing.T) {
@@ -160,6 +180,14 @@ func TestV1ListEmptyErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestV1ListEmptyWithHasMore(t *testing.T) {
+	tq := testV1Query[*item]{{v: &v1Page[*item]{ListMeta: ListMeta{HasMore: true}}, e: nil}}
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
+}
+
 func TestV1ListOne(t *testing.T) {
 	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
 	want := []*item{{"1"}}
@@ -188,6 +216,18 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListPage2EmptyWithHasMore(t *testing.T) {
+	tq := testV1Query[*item]{
+		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{ListMeta: ListMeta{HasMore: true}}, e: nil},
+	}
+	want := []*item{{"x"}}
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
 }
 
 func TestV1ListTwoPages(t *testing.T) {
