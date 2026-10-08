@@ -8,6 +8,7 @@ package stripe
 
 import "time"
 
+// Whether the target service appears in upgrade flows, downgrade flows, or both.
 type V2ProvisioningProviderServiceDetailAllowedUpdateDirection string
 
 // List of values that V2ProvisioningProviderServiceDetailAllowedUpdateDirection can take
@@ -27,6 +28,7 @@ const (
 	V2ProvisioningProviderServiceDetailAvailabilityUnavailable  V2ProvisioningProviderServiceDetailAvailability = "unavailable"
 )
 
+// Kind of constraint represented by this entry.
 type V2ProvisioningProviderServiceDetailConstraintType string
 
 // List of values that V2ProvisioningProviderServiceDetailConstraintType can take
@@ -44,6 +46,7 @@ const (
 	V2ProvisioningProviderServiceDetailKindPlan       V2ProvisioningProviderServiceDetailKind = "plan"
 )
 
+// Kind of pricing represented by this entry.
 type V2ProvisioningProviderServiceDetailPricingComponentOptionPaidType string
 
 // List of values that V2ProvisioningProviderServiceDetailPricingComponentOptionPaidType can take
@@ -52,6 +55,7 @@ const (
 	V2ProvisioningProviderServiceDetailPricingComponentOptionPaidTypeFreeform V2ProvisioningProviderServiceDetailPricingComponentOptionPaidType = "freeform"
 )
 
+// Whether the component is free or paid when this option applies.
 type V2ProvisioningProviderServiceDetailPricingComponentOptionType string
 
 // List of values that V2ProvisioningProviderServiceDetailPricingComponentOptionType can take
@@ -60,6 +64,7 @@ const (
 	V2ProvisioningProviderServiceDetailPricingComponentOptionTypePaid V2ProvisioningProviderServiceDetailPricingComponentOptionType = "paid"
 )
 
+// Kind of pricing represented by this entry.
 type V2ProvisioningProviderServiceDetailPricingPaidType string
 
 // List of values that V2ProvisioningProviderServiceDetailPricingPaidType can take
@@ -68,6 +73,7 @@ const (
 	V2ProvisioningProviderServiceDetailPricingPaidTypeFreeform V2ProvisioningProviderServiceDetailPricingPaidType = "freeform"
 )
 
+// Kind of pricing represented by this entry.
 type V2ProvisioningProviderServiceDetailPricingPaidPricingType string
 
 // List of values that V2ProvisioningProviderServiceDetailPricingPaidPricingType can take
@@ -76,6 +82,7 @@ const (
 	V2ProvisioningProviderServiceDetailPricingPaidPricingTypeFreeform V2ProvisioningProviderServiceDetailPricingPaidPricingType = "freeform"
 )
 
+// Pricing model for the service: free, paid, or dependent on a parent service.
 type V2ProvisioningProviderServiceDetailPricingType string
 
 // List of values that V2ProvisioningProviderServiceDetailPricingType can take
@@ -96,31 +103,53 @@ const (
 
 // Updates allowed for resources using this service.
 type V2ProvisioningProviderServiceDetailAllowedUpdate struct {
+	// Whether the target service appears in upgrade flows, downgrade flows, or both.
 	Direction V2ProvisioningProviderServiceDetailAllowedUpdateDirection `json:"direction"`
-	Service   string                                                    `json:"service"`
+	// Identifier of a service to which a resource can be updated.
+	Service string `json:"service"`
 }
+
+// Limit on the number of active resources for the service.
 type V2ProvisioningProviderServiceDetailConstraintCount struct {
+	// Maximum number of active resources for the service within its scope.
 	AtMost int64 `json:"at_most"`
 }
 
 // Constraints on resources using this service.
 type V2ProvisioningProviderServiceDetailConstraint struct {
-	Count                         *V2ProvisioningProviderServiceDetailConstraintCount `json:"count,omitempty"`
-	MutualExclusionAllowedUpdates bool                                                `json:"mutual_exclusion_allowed_updates,omitempty"`
-	Type                          V2ProvisioningProviderServiceDetailConstraintType   `json:"type"`
+	// Limit on the number of active resources for the service.
+	Count *V2ProvisioningProviderServiceDetailConstraintCount `json:"count,omitempty"`
+	// Whether provisioning is blocked when an allowed-update target is active in the same scope.
+	MutualExclusionAllowedUpdates bool `json:"mutual_exclusion_allowed_updates,omitempty"`
+	// Kind of constraint represented by this entry.
+	Type V2ProvisioningProviderServiceDetailConstraintType `json:"type"`
 }
+
+// Pricing details for this option, set when `type` is `paid`.
 type V2ProvisioningProviderServiceDetailPricingComponentOptionPaid struct {
-	Description string                                                            `json:"description,omitempty"`
-	Freeform    string                                                            `json:"freeform,omitempty"`
-	Type        V2ProvisioningProviderServiceDetailPricingComponentOptionPaidType `json:"type"`
+	// Additional display information about the price.
+	Description string `json:"description,omitempty"`
+	// Provider-supplied pricing terms, set when `type` is `freeform`.
+	Freeform string `json:"freeform,omitempty"`
+	// Kind of pricing represented by this entry.
+	Type V2ProvisioningProviderServiceDetailPricingComponentOptionPaidType `json:"type"`
 }
+
+// Pricing options selected according to the resource's active parent services.
 type V2ProvisioningProviderServiceDetailPricingComponentOption struct {
-	IsDefault      bool                                                           `json:"is_default,omitempty"`
-	Paid           *V2ProvisioningProviderServiceDetailPricingComponentOptionPaid `json:"paid"`
-	ParentServices []string                                                       `json:"parent_services"`
-	Type           V2ProvisioningProviderServiceDetailPricingComponentOptionType  `json:"type"`
+	// Whether this option applies when no parent-service-specific option matches.
+	IsDefault bool `json:"is_default,omitempty"`
+	// Pricing details for this option, set when `type` is `paid`.
+	Paid *V2ProvisioningProviderServiceDetailPricingComponentOptionPaid `json:"paid"`
+	// Identifiers of active parent services for which this option applies.
+	ParentServices []string `json:"parent_services"`
+	// Whether the component is free or paid when this option applies.
+	Type V2ProvisioningProviderServiceDetailPricingComponentOptionType `json:"type"`
 }
+
+// Parent-service-dependent pricing details, set when `type` is `component`.
 type V2ProvisioningProviderServiceDetailPricingComponent struct {
+	// Pricing options selected according to the resource's active parent services.
 	Options []*V2ProvisioningProviderServiceDetailPricingComponentOption `json:"options"`
 }
 
@@ -129,23 +158,32 @@ type V2ProvisioningProviderServiceDetailPricingComponent struct {
 // `is_default`. If multiple paid pricing entries exist and none is default, this field
 // is unset.
 type V2ProvisioningProviderServiceDetailPricingPaid struct {
-	Description string                                             `json:"description,omitempty"`
-	Freeform    string                                             `json:"freeform,omitempty"`
-	Type        V2ProvisioningProviderServiceDetailPricingPaidType `json:"type"`
+	// Additional display information about the price.
+	Description string `json:"description,omitempty"`
+	// Provider-supplied pricing terms, set when `type` is `freeform`.
+	Freeform string `json:"freeform,omitempty"`
+	// Kind of pricing represented by this entry.
+	Type V2ProvisioningProviderServiceDetailPricingPaidType `json:"type"`
 }
 
 // Canonical top-level paid pricing entries for this service.
 // When multiple entries are present, callers should read this field instead of `paid`.
 type V2ProvisioningProviderServiceDetailPricingPaidPricing struct {
-	Configuration map[string]any                                            `json:"configuration"`
-	Description   string                                                    `json:"description,omitempty"`
-	Freeform      string                                                    `json:"freeform,omitempty"`
-	IsDefault     bool                                                      `json:"is_default,omitempty"`
-	Type          V2ProvisioningProviderServiceDetailPricingPaidPricingType `json:"type"`
+	// Service configuration values for which this pricing entry applies.
+	Configuration map[string]any `json:"configuration"`
+	// Additional display information about the price.
+	Description string `json:"description,omitempty"`
+	// Provider-supplied pricing terms, set when `type` is `freeform`.
+	Freeform string `json:"freeform,omitempty"`
+	// Whether this entry is the fallback when no configuration-specific entry matches.
+	IsDefault bool `json:"is_default,omitempty"`
+	// Kind of pricing represented by this entry.
+	Type V2ProvisioningProviderServiceDetailPricingPaidPricingType `json:"type"`
 }
 
 // Pricing details for the service.
 type V2ProvisioningProviderServiceDetailPricing struct {
+	// Parent-service-dependent pricing details, set when `type` is `component`.
 	Component *V2ProvisioningProviderServiceDetailPricingComponent `json:"component"`
 	// Legacy compatibility field for top-level paid pricing.
 	// Mirrors the single paid pricing entry when only one exists, or the entry marked
@@ -155,7 +193,8 @@ type V2ProvisioningProviderServiceDetailPricing struct {
 	// Canonical top-level paid pricing entries for this service.
 	// When multiple entries are present, callers should read this field instead of `paid`.
 	PaidPricing []*V2ProvisioningProviderServiceDetailPricingPaidPricing `json:"paid_pricing"`
-	Type        V2ProvisioningProviderServiceDetailPricingType           `json:"type"`
+	// Pricing model for the service: free, paid, or dependent on a parent service.
+	Type V2ProvisioningProviderServiceDetailPricingType `json:"type"`
 }
 
 // The `ProviderServiceDetail` resource represents a service offered by a

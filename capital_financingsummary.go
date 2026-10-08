@@ -87,7 +87,7 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 type CapitalFinancingSummaryDetails struct {
 	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
-	// The time at which the funds were paid out to the connected account's Stripe balance. Given in milliseconds since unix epoch.
+	// The time at which the funds were paid out to the connected account's Stripe balance. Given in seconds since unix epoch.
 	AdvancePaidOutAt float64 `json:"advance_paid_out_at"`
 	// Currency that the financing offer is transacted in. For example, `usd`.
 	Currency Currency `json:"currency"`

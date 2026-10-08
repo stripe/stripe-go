@@ -46,7 +46,9 @@ const (
 
 // The Payment Method object used to create the InboundTransfer.
 type V2MoneyManagementInboundTransferFromPaymentMethod struct {
-	// The type of object this destination represents. For a us bank account, we expect us_bank_account.
+	// The Bacs Direct Debit PaymentMethod identifier.
+	BACSDebit string `json:"bacs_debit,omitempty"`
+	// The type of PaymentMethod used to create the InboundTransfer. Clients should tolerate future values.
 	Type string `json:"type"`
 	// The destination US bank account identifier. eg "usba_***".
 	USBankAccount string `json:"us_bank_account,omitempty"`
@@ -58,6 +60,18 @@ type V2MoneyManagementInboundTransferFrom struct {
 	Debited Amount `json:"debited"`
 	// The Payment Method object used to create the InboundTransfer.
 	PaymentMethod *V2MoneyManagementInboundTransferFromPaymentMethod `json:"payment_method"`
+}
+
+// ACH-specific network details.
+type V2MoneyManagementInboundTransferNetworkDetailsACH struct {
+	// Freeform payment-related information from the type-7 ACH addenda record. Echoes the submitted value.
+	Addenda string `json:"addenda,omitempty"`
+}
+
+// Network-specific details for the InboundTransfer. Present only when supplied at creation.
+type V2MoneyManagementInboundTransferNetworkDetails struct {
+	// ACH-specific network details.
+	ACH *V2MoneyManagementInboundTransferNetworkDetailsACH `json:"ach"`
 }
 
 // A nested object containing information about the destination of the InboundTransfer.
@@ -127,6 +141,8 @@ type V2MoneyManagementInboundTransfer struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Network-specific details for the InboundTransfer. Present only when supplied at creation.
+	NetworkDetails *V2MoneyManagementInboundTransferNetworkDetails `json:"network_details,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.

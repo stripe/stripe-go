@@ -1717,7 +1717,7 @@ type SetupIntentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -2356,7 +2356,7 @@ type SetupIntentConfirmParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand      []*string                     `form:"expand" json:"expand,omitempty"`
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
@@ -3543,7 +3543,7 @@ type SetupIntentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -4683,7 +4683,7 @@ type SetupIntentUpdateParams struct {
 	FlowDirections []*string `form:"flow_directions" json:"flow_directions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`

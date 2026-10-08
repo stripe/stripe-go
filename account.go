@@ -1500,10 +1500,25 @@ type AccountSettingsBrandingParams struct {
 
 // Settings specific to the account's use of the Capital product.
 type AccountSettingsCapitalParams struct {
+	// The payout destinations excluded from Capital financing payouts.
+	ExcludedPayoutDestinations []*string `form:"excluded_payout_destinations" json:"excluded_payout_destinations,omitempty"`
 	// Per-currency mapping of user-selected destination accounts used to pay out loans.
 	PayoutDestination map[string]string `form:"payout_destination" json:"payout_destination,omitempty"`
 	// Per-currency mapping of all destination accounts eligible to receive Capital financing payouts.
-	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector" json:"payout_destination_selector,omitempty"`
+	PayoutDestinationSelector map[string][]*string                     `form:"payout_destination_selector" json:"payout_destination_selector,omitempty"`
+	UnsetFields               []AccountSettingsCapitalParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSettingsCapitalParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsCapitalParams.
+type AccountSettingsCapitalParamsUnsetField string
+
+const (
+	AccountSettingsCapitalParamsUnsetFieldExcludedPayoutDestinations AccountSettingsCapitalParamsUnsetField = "excluded_payout_destinations"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSettingsCapitalParams) AddUnsetField(field AccountSettingsCapitalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
@@ -3013,10 +3028,25 @@ type AccountUpdateSettingsBrandingParams struct {
 
 // Settings specific to the account's use of the Capital product.
 type AccountUpdateSettingsCapitalParams struct {
+	// The payout destinations excluded from Capital financing payouts.
+	ExcludedPayoutDestinations []*string `form:"excluded_payout_destinations" json:"excluded_payout_destinations,omitempty"`
 	// Per-currency mapping of user-selected destination accounts used to pay out loans.
 	PayoutDestination map[string]string `form:"payout_destination" json:"payout_destination,omitempty"`
 	// Per-currency mapping of all destination accounts eligible to receive Capital financing payouts.
-	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector" json:"payout_destination_selector,omitempty"`
+	PayoutDestinationSelector map[string][]*string                           `form:"payout_destination_selector" json:"payout_destination_selector,omitempty"`
+	UnsetFields               []AccountUpdateSettingsCapitalParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountUpdateSettingsCapitalParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsCapitalParams.
+type AccountUpdateSettingsCapitalParamsUnsetField string
+
+const (
+	AccountUpdateSettingsCapitalParamsUnsetFieldExcludedPayoutDestinations AccountUpdateSettingsCapitalParamsUnsetField = "excluded_payout_destinations"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountUpdateSettingsCapitalParams) AddUnsetField(field AccountUpdateSettingsCapitalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
@@ -5094,6 +5124,8 @@ type AccountCapabilities struct {
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments,omitempty"`
 	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.
 	USBankTransferPayments AccountCapabilityStatus `json:"us_bank_transfer_payments,omitempty"`
+	// The status of the Wero capability of the account, or whether the account can directly process Wero payments.
+	WeroPayments AccountCapabilityStatus `json:"wero_payments,omitempty"`
 	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.
 	ZipPayments AccountCapabilityStatus `json:"zip_payments,omitempty"`
 }

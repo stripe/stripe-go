@@ -15,7 +15,7 @@ type V2SignalsAccountSignalListAccountDetailsParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 }
 
-// Lists AccountSignals for a given account or customer. Signals more than 90 days old are omitted. Returns only the latest AccountSignal for each requested signal type.
+// Lists AccountSignals whose created timestamps are no more than 90 days old for a given account or customer. Returns only the latest AccountSignal for each requested signal type.
 type V2SignalsAccountSignalListParams struct {
 	Params `form:"*"`
 	// The account or customer to list signals for. Exactly one of account_details.account or
@@ -27,12 +27,12 @@ type V2SignalsAccountSignalListParams struct {
 	Type []*string `form:"type" json:"type"`
 }
 
-// Retrieves an AccountSignal by its ID for up to 90 days after creation. Signals more than 90 days old are inaccessible.
+// Retrieves an AccountSignal by its ID when its created timestamp is no more than 90 days old.
 type V2SignalsAccountSignalParams struct {
 	Params `form:"*"`
 }
 
-// Retrieves an AccountSignal by its ID for up to 90 days after creation. Signals more than 90 days old are inaccessible.
+// Retrieves an AccountSignal by its ID when its created timestamp is no more than 90 days old.
 type V2SignalsAccountSignalRetrieveParams struct {
 	Params `form:"*"`
 }

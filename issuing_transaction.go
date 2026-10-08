@@ -409,6 +409,20 @@ type IssuingTransactionPurchaseDetailsFuel struct {
 	UnitCostDecimal decimal.Decimal `json:"unit_cost_decimal"`
 }
 
+// Information about the list of fuel items that were purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
+type IssuingTransactionPurchaseDetailsFuels struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode string `json:"industry_product_code"`
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal decimal.Decimal `json:"quantity_decimal"`
+	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
+	Type string `json:"type"`
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
+	Unit string `json:"unit"`
+	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
+	UnitCostDecimal decimal.Decimal `json:"unit_cost_decimal"`
+}
+
 // Information about lodging that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsLodging struct {
 	// The time of checking into the lodging.
@@ -437,6 +451,8 @@ type IssuingTransactionPurchaseDetails struct {
 	Flight *IssuingTransactionPurchaseDetailsFlight `json:"flight"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *IssuingTransactionPurchaseDetailsFuel `json:"fuel"`
+	// Information about the list of fuel items that were purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
+	Fuels []*IssuingTransactionPurchaseDetailsFuels `json:"fuels,omitempty"`
 	// Information about lodging that was purchased with this transaction.
 	Lodging *IssuingTransactionPurchaseDetailsLodging `json:"lodging"`
 	// The line items in the purchase.

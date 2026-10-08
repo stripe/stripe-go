@@ -283,7 +283,9 @@ import (
 	v2moneymanagementfinancialaccountsstatement "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccounts/statement"
 	v2moneymanagementfinancialaccountswalletexport "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccounts/walletexport"
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaddress"
+	v2moneymanagementfundingsession "github.com/stripe/stripe-go/v87/v2/moneymanagement/fundingsession"
 	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundtransfer"
+	v2moneymanagementinboundtransfermandate "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundtransfermandate"
 	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundpayment"
 	v2moneymanagementoutboundpaymentquote "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundpaymentquote"
 	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundsetupintent"
@@ -874,6 +876,10 @@ type API struct {
 	V2MoneyManagementFinancialAccountsWalletExports *v2moneymanagementfinancialaccountswalletexport.Client
 	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
+	// V2MoneyManagementFundingSessions is the client used to invoke /v2/money_management/funding_sessions APIs.
+	V2MoneyManagementFundingSessions *v2moneymanagementfundingsession.Client
+	// V2MoneyManagementInboundTransferMandates is the client used to invoke /v2/money_management/inbound_transfer_mandates APIs.
+	V2MoneyManagementInboundTransferMandates *v2moneymanagementinboundtransfermandate.Client
 	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
 	V2MoneyManagementInboundTransfers *v2moneymanagementinboundtransfer.Client
 	// V2MoneyManagementOutboundPaymentQuotes is the client used to invoke /v2/money_management/outbound_payment_quotes APIs.
@@ -1246,6 +1252,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementFinancialAccountsStatements = &v2moneymanagementfinancialaccountsstatement.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsWalletExports = &v2moneymanagementfinancialaccountswalletexport.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFundingSessions = &v2moneymanagementfundingsession.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementInboundTransferMandates = &v2moneymanagementinboundtransfermandate.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundPaymentQuotes = &v2moneymanagementoutboundpaymentquote.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}

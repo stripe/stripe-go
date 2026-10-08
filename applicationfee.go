@@ -90,6 +90,12 @@ type ApplicationFeeFundingSource struct {
 	// The type of funding source.
 	Type string `json:"type"`
 }
+
+// When you collect a transaction fee on top of a charge made for your user
+// (using [Connect](https://docs.stripe.com/connect)), an `Application Fee` object is created in
+// your account. You can list, retrieve, and refund application fees.
+//
+// Related guide: [Collecting application fees](https://docs.stripe.com/connect/direct-charges#collect-fees)
 type ApplicationFee struct {
 	APIResource
 	// ID of the Stripe account this fee was taken from.

@@ -303,6 +303,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyOusd        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -884,12 +885,20 @@ type PaymentAttemptRecordReportFailedPaymentMethodDetailsCardParams struct {
 	NetworkDeclineCode *string `form:"network_decline_code" json:"network_decline_code,omitempty"`
 }
 
+// Details about the US bank account payment method.
+type PaymentAttemptRecordReportFailedPaymentMethodDetailsUSBankAccountParams struct {
+	// NACHA ACH return code for a failed US bank account payment.
+	ReturnCode *string `form:"return_code" json:"return_code,omitempty"`
+}
+
 // Information about the Payment Method debited for this payment.
 type PaymentAttemptRecordReportFailedPaymentMethodDetailsParams struct {
 	// Information about the card payment method used to make this payment.
 	Card *PaymentAttemptRecordReportFailedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
 	Type *string `form:"type" json:"type"`
+	// Details about the US bank account payment method.
+	USBankAccount *PaymentAttemptRecordReportFailedPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
 // Information about the custom processor used to make this payment.
@@ -2152,8 +2161,12 @@ type PaymentAttemptRecordPaymentMethodDetailsSunbit struct {
 type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
 	// Payer bank reference number for the payment
 	PaymentReference string `json:"payment_reference"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// The last four digits of the Swish account phone number
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }

@@ -157,12 +157,46 @@ const (
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkArbitrum        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "arbitrum"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkAvalancheCChain V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "avalanche_c_chain"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkBase            V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "base"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkBitcoin         V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "bitcoin"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkEthereum        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "ethereum"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkOptimism        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "optimism"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkPolygon         V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "polygon"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkSolana          V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "solana"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkStellar         V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "stellar"
 	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkTempo           V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "tempo"
+)
+
+// The network the crypto was received from.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork can take
+const (
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkArbitrum        V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkAvalancheCChain V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkBase            V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "base"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkBitcoin         V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "bitcoin"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkEthereum        V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkOptimism        V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "optimism"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkPolygon         V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "polygon"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkSolana          V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "solana"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkStellar         V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "stellar"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetworkTempo           V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork = "tempo"
+)
+
+// Open Enum. The currency of the crypto tokens received.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency string
+
+// List of values that V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency can take
+const (
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyBtc    V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "btc"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyCash   V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "cash"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyEth    V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "eth"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyOusd   V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "ousd"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencySol    V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "sol"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyUsdc   V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "usdc"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyUsdg   V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "usdg"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyUsdsui V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "usdsui"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrencyUsdt   V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency = "usdt"
 )
 
 // Open Enum. The type of crypto wallet transfer that originated this ReceivedCredit.
@@ -326,6 +360,8 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABA struct
 	AccountHolderName string `json:"account_holder_name,omitempty"`
 	// The bank name the transfer was received from.
 	BankName string `json:"bank_name,omitempty"`
+	// The BIC/SWIFT code of the account that originated the transfer.
+	BIC string `json:"bic,omitempty"`
 	// The last 4 digits of the account number that originated the transfer.
 	Last4 string `json:"last4,omitempty"`
 	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -384,6 +420,8 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCode s
 	AccountHolderName string `json:"account_holder_name,omitempty"`
 	// The bank name the transfer was received from.
 	BankName string `json:"bank_name,omitempty"`
+	// The BIC/SWIFT code of the account that originated the transfer.
+	BIC string `json:"bic,omitempty"`
 	// The last 4 digits of the account number that originated the transfer.
 	Last4 string `json:"last4,omitempty"`
 	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -494,14 +532,30 @@ type V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWallet struct {
 	Network V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork `json:"network"`
 }
 
+// Hash containing details about the crypto wallet that originated this ReceivedCredit.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWallet struct {
+	// The address of the wallet the crypto was received from.
+	Address string `json:"address"`
+	// A memo also for identifying the recipient for memo-based blockchains (e.g., Stellar),.
+	Memo string `json:"memo"`
+	// The network the crypto was received from.
+	Network V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWalletNetwork `json:"network"`
+}
+
 // This object stores details about the originating crypto transaction that resulted in the ReceivedCredit. Present if `type` field value is `crypto_wallet_transfer`.
 type V2MoneyManagementReceivedCreditCryptoWalletTransfer struct {
 	// Hash containing the transaction crypto wallet details.
 	CryptoWallet *V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWallet `json:"crypto_wallet"`
 	// Financial Address on which funds for ReceivedCredit were received.
 	FinancialAddress string `json:"financial_address"`
+	// Hash containing details about the crypto wallet that originated this ReceivedCredit.
+	OriginatingCryptoWallet *V2MoneyManagementReceivedCreditCryptoWalletTransferOriginatingCryptoWallet `json:"originating_crypto_wallet,omitempty"`
 	// Freeform string set by originator of the external ReceivedCredit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+	// Open Enum. The currency of the crypto tokens received.
+	TokenCurrency V2MoneyManagementReceivedCreditCryptoWalletTransferTokenCurrency `json:"token_currency,omitempty"`
+	// Hash of the deposit transaction on-chain (incoming to Stripe).
+	TransactionHash string `json:"transaction_hash,omitempty"`
 	// Open Enum. The type of crypto wallet transfer that originated this ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditCryptoWalletTransferType `json:"type"`
 }

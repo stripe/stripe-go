@@ -14,13 +14,15 @@ type V2MoneyManagementFinancialAddressBankAccountType string
 // List of values that V2MoneyManagementFinancialAddressBankAccountType can take
 const (
 	V2MoneyManagementFinancialAddressBankAccountTypeABA      V2MoneyManagementFinancialAddressBankAccountType = "aba"
+	V2MoneyManagementFinancialAddressBankAccountTypeBreB     V2MoneyManagementFinancialAddressBankAccountType = "bre_b"
 	V2MoneyManagementFinancialAddressBankAccountTypeClabe    V2MoneyManagementFinancialAddressBankAccountType = "clabe"
 	V2MoneyManagementFinancialAddressBankAccountTypeCpa      V2MoneyManagementFinancialAddressBankAccountType = "cpa"
 	V2MoneyManagementFinancialAddressBankAccountTypeIBAN     V2MoneyManagementFinancialAddressBankAccountType = "iban"
+	V2MoneyManagementFinancialAddressBankAccountTypeNip      V2MoneyManagementFinancialAddressBankAccountType = "nip"
+	V2MoneyManagementFinancialAddressBankAccountTypePix      V2MoneyManagementFinancialAddressBankAccountType = "pix"
 	V2MoneyManagementFinancialAddressBankAccountTypeSortCode V2MoneyManagementFinancialAddressBankAccountType = "sort_code"
 )
 
-// Open Enum. The blockchain network of the crypto wallet.
 type V2MoneyManagementFinancialAddressCryptoWalletNetwork string
 
 // List of values that V2MoneyManagementFinancialAddressCryptoWalletNetwork can take
@@ -28,12 +30,25 @@ const (
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkArbitrum        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "arbitrum"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkAvalancheCChain V2MoneyManagementFinancialAddressCryptoWalletNetwork = "avalanche_c_chain"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkBase            V2MoneyManagementFinancialAddressCryptoWalletNetwork = "base"
+	V2MoneyManagementFinancialAddressCryptoWalletNetworkBitcoin         V2MoneyManagementFinancialAddressCryptoWalletNetwork = "bitcoin"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkEthereum        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "ethereum"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkOptimism        V2MoneyManagementFinancialAddressCryptoWalletNetwork = "optimism"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkPolygon         V2MoneyManagementFinancialAddressCryptoWalletNetwork = "polygon"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkSolana          V2MoneyManagementFinancialAddressCryptoWalletNetwork = "solana"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkStellar         V2MoneyManagementFinancialAddressCryptoWalletNetwork = "stellar"
 	V2MoneyManagementFinancialAddressCryptoWalletNetworkTempo           V2MoneyManagementFinancialAddressCryptoWalletNetwork = "tempo"
+)
+
+// The token currencies supported on this network.
+type V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency string
+
+// List of values that V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency can take
+const (
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyBtc  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "btc"
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyEth  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "eth"
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencySol  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "sol"
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyUsdc V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "usdc"
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyUsdt V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "usdt"
 )
 
 // Closed Enum. The status of the FinancialAddress.
@@ -91,31 +106,18 @@ type V2MoneyManagementFinancialAddressBankAccountABA struct {
 	// The ABA routing number.
 	RoutingNumber string `json:"routing_number"`
 }
-
-// CLABE bank account details (Mexico).
 type V2MoneyManagementFinancialAddressBankAccountClabe struct {
-	// The name of the account holder.
 	AccountHolderName string `json:"account_holder_name"`
-	// The CLABE interbank code.
-	Clabe string `json:"clabe"`
+	Clabe             string `json:"clabe"`
 }
-
-// CPA bank account details (Canada).
 type V2MoneyManagementFinancialAddressBankAccountCpa struct {
-	// The name of the account holder.
 	AccountHolderName string `json:"account_holder_name"`
-	// The full account number.
-	AccountNumber string `json:"account_number,omitempty"`
-	// The name of the bank.
-	BankName string `json:"bank_name"`
-	// The SWIFT/BIC code.
-	BIC string `json:"bic,omitempty"`
-	// The institution number.
+	AccountNumber     string `json:"account_number,omitempty"`
+	BankName          string `json:"bank_name"`
+	BIC               string `json:"bic,omitempty"`
 	InstitutionNumber string `json:"institution_number"`
-	// The last four digits of the account number.
-	Last4 string `json:"last4"`
-	// The transit number.
-	TransitNumber string `json:"transit_number"`
+	Last4             string `json:"last4"`
+	TransitNumber     string `json:"transit_number"`
 }
 
 // IBAN bank account details.
@@ -153,13 +155,11 @@ type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 // Bank account details for this FinancialAddress.
 type V2MoneyManagementFinancialAddressBankAccount struct {
 	// ABA bank account details (US).
-	ABA *V2MoneyManagementFinancialAddressBankAccountABA `json:"aba,omitempty"`
-	// CLABE bank account details (Mexico).
+	ABA   *V2MoneyManagementFinancialAddressBankAccountABA   `json:"aba,omitempty"`
 	Clabe *V2MoneyManagementFinancialAddressBankAccountClabe `json:"clabe,omitempty"`
 	// The country of the bank account.
-	Country string `json:"country,omitempty"`
-	// CPA bank account details (Canada).
-	Cpa *V2MoneyManagementFinancialAddressBankAccountCpa `json:"cpa,omitempty"`
+	Country string                                           `json:"country,omitempty"`
+	Cpa     *V2MoneyManagementFinancialAddressBankAccountCpa `json:"cpa,omitempty"`
 	// Open Enum. The currency of the bank account.
 	Currency Currency `json:"currency"`
 	// IBAN bank account details.
@@ -170,24 +170,28 @@ type V2MoneyManagementFinancialAddressBankAccount struct {
 	Type V2MoneyManagementFinancialAddressBankAccountType `json:"type"`
 }
 
-// Crypto wallet details for this FinancialAddress.
+// A map of supported network names to their details, including supported token currencies.
+type V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetails struct {
+	// The token currencies supported on this network.
+	SupportedTokenCurrencies []V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency `json:"supported_token_currencies"`
+}
 type V2MoneyManagementFinancialAddressCryptoWallet struct {
-	// The blockchain wallet address.
-	Address string `json:"address"`
-	// An optional memo or tag required by some networks to identify the recipient.
-	Memo string `json:"memo,omitempty"`
-	// Open Enum. The blockchain network of the crypto wallet.
+	Address string                                               `json:"address"`
+	Memo    string                                               `json:"memo,omitempty"`
 	Network V2MoneyManagementFinancialAddressCryptoWalletNetwork `json:"network"`
+	// A map of supported network names to their details, including supported token currencies.
+	SupportedNetworkDetails map[string]*V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetails `json:"supported_network_details"`
 }
 
 // A FinancialAddress contains information needed to transfer money to a Financial Account. A Financial Account can have more than one Financial Address.
 type V2MoneyManagementFinancialAddress struct {
 	APIResource
+	// The ID of the Account that owns this FinancialAddress.
+	Account string `json:"account,omitempty"`
 	// Bank account details for this FinancialAddress.
 	BankAccount *V2MoneyManagementFinancialAddressBankAccount `json:"bank_account,omitempty"`
 	// The creation timestamp of the FinancialAddress.
-	Created time.Time `json:"created"`
-	// Crypto wallet details for this FinancialAddress.
+	Created      time.Time                                      `json:"created"`
 	CryptoWallet *V2MoneyManagementFinancialAddressCryptoWallet `json:"crypto_wallet,omitempty"`
 	// The ID of the FinancialAccount this FinancialAddress corresponds to.
 	FinancialAccount string `json:"financial_account"`
@@ -196,8 +200,7 @@ type V2MoneyManagementFinancialAddress struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
-	Object string `json:"object"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
+	Object             string   `json:"object"`
 	SettlementCurrency Currency `json:"settlement_currency,omitempty"`
 	// Closed Enum. The status of the FinancialAddress.
 	Status V2MoneyManagementFinancialAddressStatus `json:"status"`

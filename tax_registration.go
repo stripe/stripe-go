@@ -1212,6 +1212,7 @@ type TaxRegistrationCountryOptionsUSType string
 const (
 	TaxRegistrationCountryOptionsUSTypeAdmissionsTax          TaxRegistrationCountryOptionsUSType = "admissions_tax"
 	TaxRegistrationCountryOptionsUSTypeAttendanceTax          TaxRegistrationCountryOptionsUSType = "attendance_tax"
+	TaxRegistrationCountryOptionsUSTypeDigitalExciseTax       TaxRegistrationCountryOptionsUSType = "digital_excise_tax"
 	TaxRegistrationCountryOptionsUSTypeEntertainmentTax       TaxRegistrationCountryOptionsUSType = "entertainment_tax"
 	TaxRegistrationCountryOptionsUSTypeGrossReceiptsTax       TaxRegistrationCountryOptionsUSType = "gross_receipts_tax"
 	TaxRegistrationCountryOptionsUSTypeHomeRuleTax            TaxRegistrationCountryOptionsUSType = "home_rule_tax"
@@ -1226,6 +1227,7 @@ const (
 	TaxRegistrationCountryOptionsUSTypeStateRetailDeliveryFee TaxRegistrationCountryOptionsUSType = "state_retail_delivery_fee"
 	TaxRegistrationCountryOptionsUSTypeStateSalesTax          TaxRegistrationCountryOptionsUSType = "state_sales_tax"
 	TaxRegistrationCountryOptionsUSTypeTourismTax             TaxRegistrationCountryOptionsUSType = "tourism_tax"
+	TaxRegistrationCountryOptionsUSTypeUtilityUsersTax        TaxRegistrationCountryOptionsUSType = "utility_users_tax"
 )
 
 // Type of registration in `country`.
@@ -2386,7 +2388,7 @@ type TaxRegistrationCountryOptionsUSResortTaxParams struct {
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
 	Type *string `form:"type" json:"type"`
@@ -3837,7 +3839,7 @@ type TaxRegistrationCreateCountryOptionsUSResortTaxParams struct {
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
 	Type *string `form:"type" json:"type"`
@@ -4865,6 +4867,10 @@ type TaxRegistrationCountryOptionsUSTourismTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSUtilityUsersTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=utility_users_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUS struct {
 	AdmissionsTax         *TaxRegistrationCountryOptionsUSAdmissionsTax         `json:"admissions_tax,omitempty"`
 	AttendanceTax         *TaxRegistrationCountryOptionsUSAttendanceTax         `json:"attendance_tax,omitempty"`
@@ -4883,7 +4889,8 @@ type TaxRegistrationCountryOptionsUS struct {
 	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax,omitempty"`
 	TourismTax    *TaxRegistrationCountryOptionsUSTourismTax    `json:"tourism_tax,omitempty"`
 	// Type of registration in the US.
-	Type TaxRegistrationCountryOptionsUSType `json:"type"`
+	Type            TaxRegistrationCountryOptionsUSType             `json:"type"`
+	UtilityUsersTax *TaxRegistrationCountryOptionsUSUtilityUsersTax `json:"utility_users_tax,omitempty"`
 }
 type TaxRegistrationCountryOptionsUy struct {
 	// Type of registration in `country`.

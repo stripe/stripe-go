@@ -19,7 +19,7 @@ type V2ReportingReportRunResultOptionsParams struct {
 // the results of the report.
 type V2ReportingReportRunParams struct {
 	Params `form:"*"`
-	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
+	// Any optional includes (see [include-dependent response values](https://docs.stripe.com/api-includable-response-values)).
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The unique identifier of the `Report` being requested.
 	Report *string `form:"report" json:"report,omitempty"`
@@ -56,6 +56,6 @@ type V2ReportingReportRunCreateParams struct {
 // has succeeded, the endpoint will provide details for how to retrieve the results.
 type V2ReportingReportRunRetrieveParams struct {
 	Params `form:"*"`
-	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
+	// Any optional includes (see [include-dependent response values](https://docs.stripe.com/api-includable-response-values)).
 	Include []*string `form:"include" json:"include,omitempty"`
 }

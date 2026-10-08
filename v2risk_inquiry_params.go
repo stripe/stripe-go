@@ -11,8 +11,6 @@ import "time"
 // Lists risk inquiries for a connected account.
 type V2RiskInquiryListParams struct {
 	Params `form:"*"`
-	// The account to list inquiries for.
-	Account *string `form:"account" json:"account"`
 	// Maximum number of results to return. Default: 10. Valid range: 1-100.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }

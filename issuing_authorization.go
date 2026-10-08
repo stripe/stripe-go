@@ -373,6 +373,14 @@ const (
 	IssuingAuthorizationFleetServiceTypeSelfService        IssuingAuthorizationFleetServiceType = "self_service"
 )
 
+// The funding source that this credential can support.
+type IssuingAuthorizationFlexibleCredentialSecondaryCredentialFunding string
+
+// List of values that IssuingAuthorizationFlexibleCredentialSecondaryCredentialFunding can take
+const (
+	IssuingAuthorizationFlexibleCredentialSecondaryCredentialFundingCredit IssuingAuthorizationFlexibleCredentialSecondaryCredentialFunding = "credit"
+)
+
 // The method by which the fraud challenge was delivered to the cardholder.
 type IssuingAuthorizationFraudChallengeChannel string
 
@@ -1305,6 +1313,24 @@ type IssuingAuthorizationFleet struct {
 	ServiceType IssuingAuthorizationFleetServiceType `json:"service_type"`
 }
 
+// Details about the eligible secondary credentials for this authorization.
+type IssuingAuthorizationFlexibleCredentialSecondaryCredential struct {
+	// The funding source that this credential can support.
+	Funding IssuingAuthorizationFlexibleCredentialSecondaryCredentialFunding `json:"funding,omitempty"`
+	// Unique reference of this credential within this array.
+	Key string `json:"key,omitempty"`
+}
+
+// Details about the flexible credential options for this authorization. This is only populated when enrolled to flex credentials
+type IssuingAuthorizationFlexibleCredential struct {
+	// The authorization identifier of a prior product eligibility inquiry that selected the credential for this authorization, if exists.
+	ProductEligibilityInquiry string `json:"product_eligibility_inquiry,omitempty"`
+	// Details about the eligible secondary credentials for this authorization.
+	SecondaryCredentials []*IssuingAuthorizationFlexibleCredentialSecondaryCredential `json:"secondary_credentials,omitempty"`
+	// The `key` of the selected secondary credential for this authorization. Null if the card's primary credential was selected.
+	SelectedSecondary string `json:"selected_secondary,omitempty"`
+}
+
 // Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
 type IssuingAuthorizationFraudChallenge struct {
 	// The method by which the fraud challenge was delivered to the cardholder.
@@ -1762,6 +1788,8 @@ type IssuingAuthorization struct {
 	EnrichedMerchantData *IssuingAuthorizationEnrichedMerchantData `json:"enriched_merchant_data,omitempty"`
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *IssuingAuthorizationFleet `json:"fleet"`
+	// Details about the flexible credential options for this authorization. This is only populated when enrolled to flex credentials
+	FlexibleCredential *IssuingAuthorizationFlexibleCredential `json:"flexible_credential,omitempty"`
 	// Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
 	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges,omitempty"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.

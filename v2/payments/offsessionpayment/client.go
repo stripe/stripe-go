@@ -59,7 +59,7 @@ func (c Client) Cancel(id string, params *stripe.V2PaymentsOffSessionPaymentCanc
 	return offsessionpayment, err
 }
 
-// Captures an OffSessionPayment that has previously been created.
+// Deprecated. Captures an OffSessionPayment that has previously been created.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

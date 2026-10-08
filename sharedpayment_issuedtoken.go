@@ -52,6 +52,7 @@ type SharedPaymentIssuedTokenUsageLimitsRecurringInterval string
 // List of values that SharedPaymentIssuedTokenUsageLimitsRecurringInterval can take
 const (
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalDay   SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "day"
+	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalHour  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "hour"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalMonth SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "month"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "week"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalYear  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "year"
