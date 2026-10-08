@@ -426,7 +426,7 @@ func (l *V2List[T]) page(ctx context.Context) {
 // V2SearchList contains API v2 search results and replays the original body when paging.
 type V2SearchList[T any] struct {
 	fetch       v2SearchQuery[T]
-	params      ParamsContainer
+	params      V2SearchParamsContainer
 	err         error
 	page        *V2SearchPage[T]
 	initialized bool
@@ -467,9 +467,20 @@ func (l *V2SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 }
 
 func (l *V2SearchList[T]) fetchPage(ctx context.Context, path string) {
-	path, params := splitV2SearchLimit(path, l.params, !l.initialized)
+	path, params, err := splitV2SearchLimit(path, l.params, !l.initialized)
+	if err != nil {
+		l.page = &V2SearchPage[T]{}
+		l.err = err
+		return
+	}
 	next, err := l.fetch(ctx, path, params)
 	l.initialized = true
+	if next == nil {
+		next = &V2SearchPage[T]{}
+		if err == nil {
+			err = errors.New("invalid v2 search response: nil page")
+		}
+	}
 	l.page = next
 	if err != nil {
 		l.err = err
@@ -482,66 +493,79 @@ func (l *V2SearchList[T]) fetchPage(ctx context.Context, path string) {
 
 type v2SearchQuery[T any] func(context.Context, string, ParamsContainer) (*V2SearchPage[T], error)
 
-func cloneV2SearchParams(p ParamsContainer) ParamsContainer {
+func cloneV2SearchParams(p V2SearchParamsContainer) (V2SearchParamsContainer, error) {
 	if p == nil {
-		return nil
+		return nil, nil
 	}
 	value := reflect.ValueOf(p)
-	if value.Kind() != reflect.Ptr || value.IsNil() {
-		return p
+	if value.Kind() != reflect.Ptr || value.IsNil() || value.Elem().Kind() != reflect.Struct {
+		return nil, fmt.Errorf("v2 search params must be a non-nil pointer to a struct, got %T", p)
 	}
 	cloneValue := reflect.New(value.Elem().Type())
-	encoded, err := json.Marshal(p)
-	if err != nil || json.Unmarshal(encoded, cloneValue.Interface()) != nil {
-		return p
+	cloneValue.Elem().Set(value.Elem())
+	clone, ok := cloneValue.Interface().(V2SearchParamsContainer)
+	if !ok || p.GetV2SearchParams() == nil || clone.GetV2SearchParams() == nil {
+		return nil, fmt.Errorf("v2 search params %T do not expose V2SearchParams", p)
 	}
-	clone, ok := cloneValue.Interface().(ParamsContainer)
-	if !ok {
-		return p
+	originalSearch, clonedSearch := p.GetV2SearchParams(), clone.GetV2SearchParams()
+	if originalSearch.Limit != nil {
+		limit := *originalSearch.Limit
+		clonedSearch.Limit = &limit
 	}
-	if originalBase, cloneBase := p.GetParams(), clone.GetParams(); originalBase != nil && cloneBase != nil {
-		*cloneBase = *originalBase
-		cloneBase.Headers = originalBase.Headers.Clone()
-		if originalBase.Extra != nil {
-			extra := make(map[string][]string, len(originalBase.Extra.Values))
-			for key, values := range originalBase.Extra.Values {
-				extra[key] = append([]string(nil), values...)
-			}
-			cloneBase.Extra = &ExtraValues{Values: extra}
+	originalBase, cloneBase := &originalSearch.Params, &clonedSearch.Params
+	cloneBase.Headers = originalBase.Headers.Clone()
+	if originalBase.Extra != nil {
+		extra := make(map[string][]string, len(originalBase.Extra.Values))
+		for key, values := range originalBase.Extra.Values {
+			extra[key] = append([]string(nil), values...)
+		}
+		cloneBase.Extra = &ExtraValues{Values: extra}
+	}
+	if originalBase.Metadata != nil {
+		cloneBase.Metadata = make(map[string]string, len(originalBase.Metadata))
+		for key, value := range originalBase.Metadata {
+			cloneBase.Metadata[key] = value
 		}
 	}
-	return clone
+	cloneBase.Expand = append([]*string(nil), originalBase.Expand...)
+	cloneBase.usage = append([]string(nil), originalBase.usage...)
+	return clone, nil
 }
 
-func splitV2SearchLimit(path string, p ParamsContainer, addToPath bool) (string, ParamsContainer) {
-	params := cloneV2SearchParams(p)
+func splitV2SearchLimit(path string, p V2SearchParamsContainer, addToPath bool) (string, V2SearchParamsContainer, error) {
+	params, err := cloneV2SearchParams(p)
+	if err != nil {
+		return "", nil, err
+	}
 	if params == nil {
-		return path, params
+		return path, nil, nil
 	}
-	value := reflect.ValueOf(params)
-	if value.Kind() != reflect.Ptr || value.IsNil() {
-		return path, params
-	}
-	limit := value.Elem().FieldByName("Limit")
-	if !limit.IsValid() || limit.Kind() != reflect.Ptr || limit.IsNil() {
-		return path, params
+	searchParams := params.GetV2SearchParams()
+	if searchParams.Limit == nil {
+		return path, params, nil
 	}
 	if addToPath {
 		parsed, err := url.Parse(path)
 		if err != nil {
-			return path, params
+			return "", nil, err
 		}
 		query := parsed.Query()
-		query.Set("limit", fmt.Sprint(limit.Elem().Interface()))
+		query.Set("limit", fmt.Sprint(*searchParams.Limit))
 		parsed.RawQuery = query.Encode()
 		path = parsed.String()
 	}
-	limit.Set(reflect.Zero(limit.Type()))
-	return path, params
+	searchParams.Limit = nil
+	return path, params, nil
 }
 
-func newV2SearchList[T any](ctx context.Context, path string, p ParamsContainer, fetch v2SearchQuery[T]) *V2SearchList[T] {
-	list := &V2SearchList[T]{fetch: fetch, params: cloneV2SearchParams(p), page: &V2SearchPage[T]{V2ListMeta: V2ListMeta{NextPageURL: path}}}
+func newV2SearchList[T any](ctx context.Context, path string, p V2SearchParamsContainer, fetch v2SearchQuery[T]) *V2SearchList[T] {
+	list := &V2SearchList[T]{fetch: fetch, page: &V2SearchPage[T]{V2ListMeta: V2ListMeta{NextPageURL: path}}}
+	var err error
+	list.params, err = cloneV2SearchParams(p)
+	if err != nil {
+		list.err = err
+		return list
+	}
 	list.fetchPage(ctx, path)
 	return list
 }
@@ -550,9 +574,9 @@ func newV2SearchList[T any](ctx context.Context, path string, p ParamsContainer,
 type SearchFetch[T any] func(string, ParamsContainer) (*V2SearchPage[T], error)
 
 // NewV2SearchList creates an API v2 search iterator.
-func NewV2SearchList[T any](path string, p ParamsContainer, fetch SearchFetch[T]) *V2SearchList[T] {
+func NewV2SearchList[T any](path string, p V2SearchParamsContainer, fetch SearchFetch[T]) *V2SearchList[T] {
 	ctx := context.Background()
-	if p != nil && p.GetParams() != nil && p.GetParams().Context != nil {
+	if p != nil && reflect.ValueOf(p).Kind() == reflect.Ptr && !reflect.ValueOf(p).IsNil() && p.GetParams() != nil && p.GetParams().Context != nil {
 		ctx = p.GetParams().Context
 	}
 	return newV2SearchList(ctx, path, p, func(ctx context.Context, path string, p ParamsContainer) (*V2SearchPage[T], error) {
