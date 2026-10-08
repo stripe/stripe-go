@@ -372,7 +372,7 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	assert.NotSame(t, seen[0], seen[1])
 	assert.Nil(t, seen[0].(*testV2SearchParams).Limit)
 	assert.Nil(t, seen[1].(*testV2SearchParams).Limit)
-	assert.Equal(t, "value", seen[0].GetParams().Extra.Values.Get("future"))
+	assert.Equal(t, "value", seen[0].GetParams().Extra.Get("future"))
 	assert.Equal(t, int64(2), list.TotalCount())
 }
 
