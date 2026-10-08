@@ -125,3 +125,21 @@ func (p *SearchParams) ToParams() *Params {
 type SearchParamsContainer interface {
 	GetSearchParams() *SearchParams
 }
+
+// V2SearchParams contains the common parameters for API v2 search requests.
+// Limit is sent in the URL; Query and Sort are sent in the JSON request body.
+type V2SearchParams struct {
+	Params `form:"*"`
+	Query  string `form:"query" json:"query"`
+	Sort   string `form:"sort" json:"sort"`
+	Limit  *int64 `form:"limit" json:"-"`
+}
+
+// GetV2SearchParams returns the embedded API v2 search parameters.
+func (p *V2SearchParams) GetV2SearchParams() *V2SearchParams { return p }
+
+// V2SearchParamsContainer is implemented by API v2 search parameter structs.
+type V2SearchParamsContainer interface {
+	ParamsContainer
+	GetV2SearchParams() *V2SearchParams
+}

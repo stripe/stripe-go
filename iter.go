@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v87/form"
@@ -420,6 +421,194 @@ func (l *V2List[T]) page(ctx context.Context) {
 		l.err = err
 		return
 	}
+}
+
+// V2SearchList contains API v2 search results and replays the original body when paging.
+type V2SearchList[T any] struct {
+	fetch       v2SearchQuery[T]
+	params      V2SearchParamsContainer
+	err         error
+	page        *V2SearchPage[T]
+	initialized bool
+}
+
+// V2SearchPage is a single API v2 search result page.
+type V2SearchPage[T any] struct {
+	APIResource
+	V2ListMeta
+	Data       []T   `json:"data"`
+	TotalCount int64 `json:"total_count"`
+}
+
+func (l *V2SearchList[T]) Data() []T                  { return l.page.Data }
+func (l *V2SearchList[T]) Err() error                 { return l.err }
+func (l *V2SearchList[T]) Meta() V2ListMeta           { return l.page.V2ListMeta }
+func (l *V2SearchList[T]) TotalCount() int64          { return l.page.TotalCount }
+func (l *V2SearchList[T]) LastResponse() *APIResponse { return l.page.LastResponse }
+
+func (l *V2SearchList[T]) All(ctx context.Context) Seq2[T, error] {
+	return func(yield func(T, error) bool) {
+		for {
+			for _, item := range l.Data() {
+				if !yield(item, nil) {
+					return
+				}
+			}
+			if l.err != nil {
+				yield(*new(T), l.err)
+				return
+			}
+			if l.page.NextPageURL == "" {
+				return
+			}
+			l.fetchPage(ctx, l.page.NextPageURL)
+		}
+	}
+}
+
+func (l *V2SearchList[T]) fetchPage(ctx context.Context, path string) {
+	path, params, err := splitV2SearchLimit(path, l.params, !l.initialized)
+	if err != nil {
+		l.page = &V2SearchPage[T]{}
+		l.err = err
+		return
+	}
+	next, err := l.fetch(ctx, path, params)
+	l.initialized = true
+	if next == nil {
+		next = &V2SearchPage[T]{}
+		if err == nil {
+			err = errors.New("invalid v2 search response: nil page")
+		}
+	}
+	l.page = next
+	if err != nil {
+		l.err = err
+		return
+	}
+	if err := maybeAddLastResponseV2Search(next); err != nil {
+		l.err = err
+	}
+}
+
+type v2SearchQuery[T any] func(context.Context, string, ParamsContainer) (*V2SearchPage[T], error)
+
+func cloneV2SearchParams(p V2SearchParamsContainer) (V2SearchParamsContainer, error) {
+	if p == nil {
+		return nil, nil
+	}
+	value := reflect.ValueOf(p)
+	if value.Kind() != reflect.Ptr || value.IsNil() || value.Elem().Kind() != reflect.Struct {
+		return nil, fmt.Errorf("v2 search params must be a non-nil pointer to a struct, got %T", p)
+	}
+	cloneValue := reflect.New(value.Elem().Type())
+	cloneValue.Elem().Set(value.Elem())
+	clone, ok := cloneValue.Interface().(V2SearchParamsContainer)
+	if !ok || p.GetV2SearchParams() == nil || clone.GetV2SearchParams() == nil {
+		return nil, fmt.Errorf("v2 search params %T do not expose V2SearchParams", p)
+	}
+	originalSearch, clonedSearch := p.GetV2SearchParams(), clone.GetV2SearchParams()
+	if originalSearch.Limit != nil {
+		limit := *originalSearch.Limit
+		clonedSearch.Limit = &limit
+	}
+	originalBase, cloneBase := &originalSearch.Params, &clonedSearch.Params
+	cloneBase.Headers = originalBase.Headers.Clone()
+	if originalBase.Extra != nil {
+		extra := make(map[string][]string, len(originalBase.Extra.Values))
+		for key, values := range originalBase.Extra.Values {
+			extra[key] = append([]string(nil), values...)
+		}
+		cloneBase.Extra = &ExtraValues{Values: extra}
+	}
+	if originalBase.Metadata != nil {
+		cloneBase.Metadata = make(map[string]string, len(originalBase.Metadata))
+		for key, value := range originalBase.Metadata {
+			cloneBase.Metadata[key] = value
+		}
+	}
+	cloneBase.Expand = append([]*string(nil), originalBase.Expand...)
+	cloneBase.usage = append([]string(nil), originalBase.usage...)
+	return clone, nil
+}
+
+func splitV2SearchLimit(path string, p V2SearchParamsContainer, addToPath bool) (string, V2SearchParamsContainer, error) {
+	params, err := cloneV2SearchParams(p)
+	if err != nil {
+		return "", nil, err
+	}
+	if params == nil {
+		return path, nil, nil
+	}
+	searchParams := params.GetV2SearchParams()
+	if searchParams.Limit == nil {
+		return path, params, nil
+	}
+	if addToPath {
+		parsed, err := url.Parse(path)
+		if err != nil {
+			return "", nil, err
+		}
+		query := parsed.Query()
+		query.Set("limit", fmt.Sprint(*searchParams.Limit))
+		parsed.RawQuery = query.Encode()
+		path = parsed.String()
+	}
+	searchParams.Limit = nil
+	return path, params, nil
+}
+
+func newV2SearchList[T any](ctx context.Context, path string, p V2SearchParamsContainer, fetch v2SearchQuery[T]) *V2SearchList[T] {
+	list := &V2SearchList[T]{fetch: fetch, page: &V2SearchPage[T]{V2ListMeta: V2ListMeta{NextPageURL: path}}}
+	var err error
+	list.params, err = cloneV2SearchParams(p)
+	if err != nil {
+		list.err = err
+		return list
+	}
+	list.fetchPage(ctx, path)
+	return list
+}
+
+// SearchFetch fetches an API v2 search result page.
+type SearchFetch[T any] func(string, ParamsContainer) (*V2SearchPage[T], error)
+
+// NewV2SearchList creates an API v2 search iterator.
+func NewV2SearchList[T any](path string, p V2SearchParamsContainer, fetch SearchFetch[T]) *V2SearchList[T] {
+	ctx := context.Background()
+	if p != nil && reflect.ValueOf(p).Kind() == reflect.Ptr && !reflect.ValueOf(p).IsNil() && p.GetParams() != nil && p.GetParams().Context != nil {
+		ctx = p.GetParams().Context
+	}
+	return newV2SearchList(ctx, path, p, func(ctx context.Context, path string, p ParamsContainer) (*V2SearchPage[T], error) {
+		if p != nil && p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		return fetch(path, p)
+	})
+}
+
+func maybeAddLastResponseV2Search[T any](page *V2SearchPage[T]) error {
+	if page.LastResponse == nil {
+		return nil
+	}
+	lastResponse := page.LastResponse
+	var pageData struct {
+		Data []json.RawMessage `json:"data"`
+	}
+	if err := json.Unmarshal(lastResponse.RawJSON, &pageData); err != nil {
+		return err
+	}
+	if len(pageData.Data) != len(page.Data) {
+		return fmt.Errorf("mismatch in data length for requestID %s", lastResponse.RequestID)
+	}
+	for i, item := range page.Data {
+		if item, ok := any(item).(LastResponseSetter); ok {
+			response := *lastResponse
+			response.RawJSON = pageData.Data[i]
+			item.SetLastResponse(&response)
+		}
+	}
+	return nil
 }
 
 // maybeAddLastResponseV2 adds the LastResponse to the items in the page.
