@@ -594,6 +594,7 @@ type CheckoutSessionPaymentMethodCollection string
 // List of values that CheckoutSessionPaymentMethodCollection can take
 const (
 	CheckoutSessionPaymentMethodCollectionAlways     CheckoutSessionPaymentMethodCollection = "always"
+	CheckoutSessionPaymentMethodCollectionAuto       CheckoutSessionPaymentMethodCollection = "auto"
 	CheckoutSessionPaymentMethodCollectionIfRequired CheckoutSessionPaymentMethodCollection = "if_required"
 )
 
@@ -3008,6 +3009,30 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Configuration options for setting up an eMandate for cards issued in India.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsParams struct {
+	// Maximum or fixed amount for future payments, specified in the Checkout Session's integration currency.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval *string `form:"interval" json:"interval,omitempty"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+	// Unique identifier for the mandate or subscription.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate *int64 `form:"start_date" json:"start_date,omitempty"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
+}
+
 // Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
@@ -3022,6 +3047,8 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Installment options for card payments
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallmentsParams `form:"installments" json:"installments,omitempty"`
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization" json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -5650,6 +5677,30 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Configuration options for setting up an eMandate for cards issued in India.
+type CheckoutSessionCreatePaymentMethodOptionsCardMandateOptionsParams struct {
+	// Maximum or fixed amount for future payments, specified in the Checkout Session's integration currency.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval *string `form:"interval" json:"interval,omitempty"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+	// Unique identifier for the mandate or subscription.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate *int64 `form:"start_date" json:"start_date,omitempty"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
+}
+
 // Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
@@ -5664,6 +5715,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Installment options for card payments
 	Installments *CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments" json:"installments,omitempty"`
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization" json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -8114,7 +8167,7 @@ type CheckoutSessionItemSubscriptionTrialSettings struct {
 }
 type CheckoutSessionItemSubscription struct {
 	// The Unix timestamp marking the subscription's backdated start date.
-	BackdateStartDate int64 `json:"backdate_start_date,omitempty"`
+	BackdateStartDate int64 `json:"backdate_start_date"`
 	// The description for the subscription.
 	Description string `json:"description"`
 	// The items in the subscription.

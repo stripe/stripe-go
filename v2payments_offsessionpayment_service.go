@@ -53,18 +53,6 @@ func (c v2PaymentsOffSessionPaymentService) Cancel(ctx context.Context, id strin
 	return offsessionpayment, err
 }
 
-// Deprecated. Captures an OffSessionPayment that has previously been created.
-func (c v2PaymentsOffSessionPaymentService) Capture(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentCaptureParams) (*V2PaymentsOffSessionPayment, error) {
-	if params == nil {
-		params = &V2PaymentsOffSessionPaymentCaptureParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v2/payments/off_session_payments/%s/capture", id)
-	offsessionpayment := &V2PaymentsOffSessionPayment{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, offsessionpayment)
-	return offsessionpayment, err
-}
-
 // Pauses an OffSessionPayment that has previously been created.
 func (c v2PaymentsOffSessionPaymentService) Pause(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentPauseParams) (*V2PaymentsOffSessionPayment, error) {
 	if params == nil {

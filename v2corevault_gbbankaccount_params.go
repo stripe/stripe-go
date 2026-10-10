@@ -45,30 +45,10 @@ type V2CoreVaultGBBankAccountParams struct {
 	SortCode *string `form:"sort_code" json:"sort_code,omitempty"`
 }
 
-// Confirm that you have received the result of the Confirmation of Payee request, and that you are okay with
-// proceeding to pay out to this bank account despite the account not matching, partially matching, or the service
-// being unavailable. Once you confirm this, you will be able to send OutboundPayments, but this may lead to
-// funds being sent to the wrong account, which we might not be able to recover.
-type V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams struct {
-	Params `form:"*"`
-}
-
 // Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
 type V2CoreVaultGBBankAccountArchiveParams struct {
 	Params `form:"*"`
-}
-
-// Initiate Confirmation of Payee (CoP) in order to verify that the owner of a UK bank account matches
-// who you expect. This must be done on all UK bank accounts before sending domestic OutboundPayments. If
-// the result is a partial match or a non match, explicit acknowledgement using AcknowledgeConfirmationOfPayee
-// is required before sending funds.
-type V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams struct {
-	Params `form:"*"`
-	// The business type to be checked against. Legal entity information will be used if unspecified.
-	BusinessType *string `form:"business_type" json:"business_type,omitempty"`
-	// The name of the user to be checked against. Legal entity information will be used if unspecified.
-	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // Whether or not to automatically perform Confirmation of Payee to verify the users information

@@ -36,6 +36,8 @@ type V2CoreAccountEvaluationAccountDataIdentityParams struct {
 
 // Account data for entity-less evaluation. Exactly one of account or account_data must be provided.
 type V2CoreAccountEvaluationAccountDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2CoreAccountEvaluationAccountDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.
@@ -83,6 +85,8 @@ type V2CoreAccountEvaluationCreateAccountDataIdentityParams struct {
 
 // Account data for entity-less evaluation. Exactly one of account or account_data must be provided.
 type V2CoreAccountEvaluationCreateAccountDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2CoreAccountEvaluationCreateAccountDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.

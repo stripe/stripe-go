@@ -20,7 +20,9 @@ type V2CoreAccountListParams struct {
 	Closed *bool `form:"closed" json:"closed,omitempty"`
 	// The upper limit on the number of accounts returned by the List Account request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Filter by the network object related to the account. If omitted, returns all Accounts regardless of the network object they have.
+	// The ID of a [Business Profile](https://docs.stripe.com/api/v2/network/business-profiles) to filter Accounts by.
+	// A Business Profile represents a business's public identity on the Stripe network.
+	// Returns only Accounts associated with that profile. If omitted, no profile filter is applied.
 	RelatedNetworkObject *string `form:"related_network_object" json:"related_network_object,omitempty"`
 }
 

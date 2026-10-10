@@ -17,7 +17,7 @@ type v1TestHelpersSharedPaymentGrantedTokenService struct {
 	Key string
 }
 
-// Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
+// Creates a new test SharedPaymentGrantedToken object. This test helper allows sellers to create SharedPaymentGrantedTokens for testing their integration.
 func (c v1TestHelpersSharedPaymentGrantedTokenService) Create(ctx context.Context, params *TestHelpersSharedPaymentGrantedTokenCreateParams) (*SharedPaymentGrantedToken, error) {
 	if params == nil {
 		params = &TestHelpersSharedPaymentGrantedTokenCreateParams{}
@@ -29,7 +29,7 @@ func (c v1TestHelpersSharedPaymentGrantedTokenService) Create(ctx context.Contex
 	return grantedtoken, err
 }
 
-// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
+// Revokes a test SharedPaymentGrantedToken object. This test helper allows sellers to revoke SharedPaymentGrantedTokens for testing their integration.
 func (c v1TestHelpersSharedPaymentGrantedTokenService) Revoke(ctx context.Context, id string, params *TestHelpersSharedPaymentGrantedTokenRevokeParams) (*SharedPaymentGrantedToken, error) {
 	if params == nil {
 		params = &TestHelpersSharedPaymentGrantedTokenRevokeParams{}

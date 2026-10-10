@@ -28,7 +28,7 @@ type TestHelpersSharedPaymentGrantedTokenUsageLimitsParams struct {
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }
 
-// Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
+// Creates a new test SharedPaymentGrantedToken object. This test helper allows sellers to create SharedPaymentGrantedTokens for testing their integration.
 type TestHelpersSharedPaymentGrantedTokenParams struct {
 	Params `form:"*"`
 	// The Customer that the SharedPaymentGrantedToken belongs to. Should match the Customer that the PaymentMethod is attached to if any.
@@ -61,7 +61,7 @@ func (p *TestHelpersSharedPaymentGrantedTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
+// Revokes a test SharedPaymentGrantedToken object. This test helper allows sellers to revoke SharedPaymentGrantedTokens for testing their integration.
 type TestHelpersSharedPaymentGrantedTokenRevokeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -95,7 +95,7 @@ type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams struct {
 	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
 }
 
-// Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
+// Creates a new test SharedPaymentGrantedToken object. This test helper allows sellers to create SharedPaymentGrantedTokens for testing their integration.
 type TestHelpersSharedPaymentGrantedTokenCreateParams struct {
 	Params `form:"*"`
 	// The Customer that the SharedPaymentGrantedToken belongs to. Should match the Customer that the PaymentMethod is attached to if any.

@@ -65,7 +65,7 @@ func (c v2MoneyManagementFinancialAccountService) Close(ctx context.Context, id 
 	return financialaccount, err
 }
 
-// Lists FinancialAccounts in this compartment.
+// Lists FinancialAccounts in this account.
 func (c v2MoneyManagementFinancialAccountService) List(ctx context.Context, listParams *V2MoneyManagementFinancialAccountListParams) *V2List[*V2MoneyManagementFinancialAccount] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementFinancialAccountListParams{}

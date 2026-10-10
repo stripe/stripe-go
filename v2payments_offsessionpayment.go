@@ -26,15 +26,6 @@ const (
 	V2PaymentsOffSessionPaymentCadenceUnscheduled V2PaymentsOffSessionPaymentCadence = "unscheduled"
 )
 
-// The method to use to capture the payment.
-type V2PaymentsOffSessionPaymentCaptureCaptureMethod string
-
-// List of values that V2PaymentsOffSessionPaymentCaptureCaptureMethod can take
-const (
-	V2PaymentsOffSessionPaymentCaptureCaptureMethodAutomatic V2PaymentsOffSessionPaymentCaptureCaptureMethod = "automatic"
-	V2PaymentsOffSessionPaymentCaptureCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureCaptureMethod = "manual"
-)
-
 // The reason why the OffSessionPayment failed.
 type V2PaymentsOffSessionPaymentFailureReason string
 
@@ -138,14 +129,6 @@ type V2PaymentsOffSessionPaymentAmountDetails struct {
 	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
 }
 
-// Details about the capture configuration for the OffSessionPayment.
-type V2PaymentsOffSessionPaymentCapture struct {
-	// The timestamp when this payment is no longer eligible to be captured.
-	CaptureBefore time.Time `json:"capture_before,omitempty"`
-	// The method to use to capture the payment.
-	CaptureMethod V2PaymentsOffSessionPaymentCaptureCaptureMethod `json:"capture_method"`
-}
-
 // Details about the failure for the latest payment attempt.
 type V2PaymentsOffSessionPaymentLatestPaymentAttemptRecordDetailsFailureDetails struct {
 	// Code for the failure.
@@ -242,8 +225,6 @@ type V2PaymentsOffSessionPaymentTransferData struct {
 // Related guide: [Off-Session Payments API](https://docs.stripe.com/payments/off-session-payments).
 type V2PaymentsOffSessionPayment struct {
 	APIResource
-	// The amount available to be captured.
-	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// Amount intended to be collected by this payment.
@@ -254,8 +235,6 @@ type V2PaymentsOffSessionPayment struct {
 	ApplicationFeeAmountRequested Amount `json:"application_fee_amount_requested,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
-	// Details about the capture configuration for the OffSessionPayment.
-	Capture *V2PaymentsOffSessionPaymentCapture `json:"capture,omitempty"`
 	// Creation time of the OffSessionPayment. Represented as a RFC 3339 date & time UTC
 	// value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
