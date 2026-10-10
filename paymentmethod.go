@@ -330,12 +330,14 @@ const (
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
+	PaymentMethodTypeCarecredit       PaymentMethodType = "carecredit"
 	PaymentMethodTypeCashApp          PaymentMethodType = "cashapp"
 	PaymentMethodTypeCrypto           PaymentMethodType = "crypto"
 	PaymentMethodTypeCustom           PaymentMethodType = "custom"
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
+	PaymentMethodTypeGetflex          PaymentMethodType = "getflex"
 	PaymentMethodTypeGiftCard         PaymentMethodType = "gift_card"
 	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
 	PaymentMethodTypeGopay            PaymentMethodType = "gopay"
@@ -371,6 +373,7 @@ const (
 	PaymentMethodTypeScalapay         PaymentMethodType = "scalapay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSequra           PaymentMethodType = "sequra"
+	PaymentMethodTypeSezzle           PaymentMethodType = "sezzle"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
@@ -589,6 +592,9 @@ type PaymentMethodCardParams struct {
 	Token *string `form:"token" json:"token,omitempty"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type PaymentMethodCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type PaymentMethodCashAppParams struct{}
 
@@ -621,6 +627,9 @@ type PaymentMethodFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type PaymentMethodGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type PaymentMethodGiftCardParams struct {
@@ -796,6 +805,9 @@ type PaymentMethodSEPADebitParams struct {
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type PaymentMethodSequraParams struct{}
 
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type PaymentMethodSezzleParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type PaymentMethodShopeepayParams struct{}
 
@@ -901,6 +913,8 @@ type PaymentMethodParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 	Card *PaymentMethodCardParams `form:"card" json:"card,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *PaymentMethodCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -915,6 +929,8 @@ type PaymentMethodParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *PaymentMethodGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *PaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -989,6 +1005,8 @@ type PaymentMethodParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *PaymentMethodSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *PaymentMethodSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1212,6 +1230,9 @@ type PaymentMethodCreateCardParams struct {
 	Token *string `form:"token" json:"token,omitempty"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type PaymentMethodCreateCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type PaymentMethodCreateCashAppParams struct{}
 
@@ -1240,6 +1261,9 @@ type PaymentMethodCreateFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type PaymentMethodCreateGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type PaymentMethodCreateGiftCardParams struct {
@@ -1415,6 +1439,9 @@ type PaymentMethodCreateSEPADebitParams struct {
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type PaymentMethodCreateSequraParams struct{}
 
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type PaymentMethodCreateSezzleParams struct{}
+
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type PaymentMethodCreateShopeepayParams struct{}
 
@@ -1520,6 +1547,8 @@ type PaymentMethodCreateParams struct {
 	Boleto *PaymentMethodCreateBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 	Card *PaymentMethodCreateCardParams `form:"card" json:"card,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *PaymentMethodCreateCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCreateCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -1536,6 +1565,8 @@ type PaymentMethodCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodCreateFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *PaymentMethodCreateGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *PaymentMethodCreateGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -1612,6 +1643,8 @@ type PaymentMethodCreateParams struct {
 	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *PaymentMethodCreateSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *PaymentMethodCreateSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodCreateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -2141,6 +2174,7 @@ type PaymentMethodCardPresent struct {
 	ReadMethod PaymentMethodCardPresentReadMethod `json:"read_method"`
 	Wallet     *PaymentMethodCardPresentWallet    `json:"wallet,omitempty"`
 }
+type PaymentMethodCarecredit struct{}
 type PaymentMethodCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -2179,6 +2213,7 @@ type PaymentMethodFPX struct {
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank string `json:"bank"`
 }
+type PaymentMethodGetflex struct{}
 type PaymentMethodGiftCard struct {
 	// The brand of the gift card.
 	Brand PaymentMethodGiftCardBrand `json:"brand"`
@@ -2387,6 +2422,7 @@ type PaymentMethodSEPADebit struct {
 	Last4 string `json:"last4"`
 }
 type PaymentMethodSequra struct{}
+type PaymentMethodSezzle struct{}
 type PaymentMethodShopeepay struct{}
 type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -2474,6 +2510,7 @@ type PaymentMethod struct {
 	Boleto         *PaymentMethodBoleto         `json:"boleto,omitempty"`
 	Card           *PaymentMethodCard           `json:"card,omitempty"`
 	CardPresent    *PaymentMethodCardPresent    `json:"card_present,omitempty"`
+	Carecredit     *PaymentMethodCarecredit     `json:"carecredit,omitempty"`
 	CashApp        *PaymentMethodCashApp        `json:"cashapp,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64                `json:"created"`
@@ -2485,6 +2522,7 @@ type PaymentMethod struct {
 	CustomerBalance *PaymentMethodCustomerBalance `json:"customer_balance,omitempty"`
 	EPS             *PaymentMethodEPS             `json:"eps,omitempty"`
 	FPX             *PaymentMethodFPX             `json:"fpx,omitempty"`
+	Getflex         *PaymentMethodGetflex         `json:"getflex,omitempty"`
 	GiftCard        *PaymentMethodGiftCard        `json:"gift_card,omitempty"`
 	Giropay         *PaymentMethodGiropay         `json:"giropay,omitempty"`
 	Gopay           *PaymentMethodGopay           `json:"gopay,omitempty"`
@@ -2534,6 +2572,7 @@ type PaymentMethod struct {
 	Scalapay   *PaymentMethodScalapay   `json:"scalapay,omitempty"`
 	SEPADebit  *PaymentMethodSEPADebit  `json:"sepa_debit,omitempty"`
 	Sequra     *PaymentMethodSequra     `json:"sequra,omitempty"`
+	Sezzle     *PaymentMethodSezzle     `json:"sezzle,omitempty"`
 	// ID of the shared payment granted token used in the creation of this PaymentMethod.
 	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`
 	Shopeepay                 *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`

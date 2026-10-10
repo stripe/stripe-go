@@ -48,6 +48,8 @@ type V2CoreAccountEvaluationAccountDataIdentity struct {
 
 // Account data if this evaluation is for an account without an existing Stripe entity.
 type V2CoreAccountEvaluationAccountData struct {
+	// The account's contact email.
+	ContactEmail string `json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2CoreAccountEvaluationAccountDataDefaults `json:"defaults,omitempty"`
 	// Identity data.

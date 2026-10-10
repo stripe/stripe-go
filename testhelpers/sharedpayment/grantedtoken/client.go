@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
+// Creates a new test SharedPaymentGrantedToken object. This test helper allows sellers to create SharedPaymentGrantedTokens for testing their integration.
 func New(params *stripe.TestHelpersSharedPaymentGrantedTokenParams) (*stripe.SharedPaymentGrantedToken, error) {
 	return getC().New(params)
 }
 
-// Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
+// Creates a new test SharedPaymentGrantedToken object. This test helper allows sellers to create SharedPaymentGrantedTokens for testing their integration.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -39,12 +39,12 @@ func (c Client) New(params *stripe.TestHelpersSharedPaymentGrantedTokenParams) (
 	return grantedtoken, err
 }
 
-// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
+// Revokes a test SharedPaymentGrantedToken object. This test helper allows sellers to revoke SharedPaymentGrantedTokens for testing their integration.
 func Revoke(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenRevokeParams) (*stripe.SharedPaymentGrantedToken, error) {
 	return getC().Revoke(id, params)
 }
 
-// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
+// Revokes a test SharedPaymentGrantedToken object. This test helper allows sellers to revoke SharedPaymentGrantedTokens for testing their integration.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

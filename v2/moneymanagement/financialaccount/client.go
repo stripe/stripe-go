@@ -71,7 +71,7 @@ func (c Client) Close(id string, params *stripe.V2MoneyManagementFinancialAccoun
 	return financialaccount, err
 }
 
-// Lists FinancialAccounts in this compartment.
+// Lists FinancialAccounts in this account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

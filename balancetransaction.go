@@ -18,6 +18,7 @@ const (
 	BalanceTransactionBalanceTypePayments                   BalanceTransactionBalanceType = "payments"
 	BalanceTransactionBalanceTypeRefundAndDisputePrefunding BalanceTransactionBalanceType = "refund_and_dispute_prefunding"
 	BalanceTransactionBalanceTypeRiskReserved               BalanceTransactionBalanceType = "risk_reserved"
+	BalanceTransactionBalanceTypeSettlementReserved         BalanceTransactionBalanceType = "settlement_reserved"
 	BalanceTransactionBalanceTypeTransit                    BalanceTransactionBalanceType = "transit"
 )
 

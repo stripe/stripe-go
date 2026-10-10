@@ -402,12 +402,14 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeBoleto           ConfirmationTokenPaymentMethodPreviewType = "boleto"
 	ConfirmationTokenPaymentMethodPreviewTypeCard             ConfirmationTokenPaymentMethodPreviewType = "card"
 	ConfirmationTokenPaymentMethodPreviewTypeCardPresent      ConfirmationTokenPaymentMethodPreviewType = "card_present"
+	ConfirmationTokenPaymentMethodPreviewTypeCarecredit       ConfirmationTokenPaymentMethodPreviewType = "carecredit"
 	ConfirmationTokenPaymentMethodPreviewTypeCashApp          ConfirmationTokenPaymentMethodPreviewType = "cashapp"
 	ConfirmationTokenPaymentMethodPreviewTypeCrypto           ConfirmationTokenPaymentMethodPreviewType = "crypto"
 	ConfirmationTokenPaymentMethodPreviewTypeCustom           ConfirmationTokenPaymentMethodPreviewType = "custom"
 	ConfirmationTokenPaymentMethodPreviewTypeCustomerBalance  ConfirmationTokenPaymentMethodPreviewType = "customer_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"
+	ConfirmationTokenPaymentMethodPreviewTypeGetflex          ConfirmationTokenPaymentMethodPreviewType = "getflex"
 	ConfirmationTokenPaymentMethodPreviewTypeGiftCard         ConfirmationTokenPaymentMethodPreviewType = "gift_card"
 	ConfirmationTokenPaymentMethodPreviewTypeGiropay          ConfirmationTokenPaymentMethodPreviewType = "giropay"
 	ConfirmationTokenPaymentMethodPreviewTypeGopay            ConfirmationTokenPaymentMethodPreviewType = "gopay"
@@ -443,6 +445,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeScalapay         ConfirmationTokenPaymentMethodPreviewType = "scalapay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSequra           ConfirmationTokenPaymentMethodPreviewType = "sequra"
+	ConfirmationTokenPaymentMethodPreviewTypeSezzle           ConfirmationTokenPaymentMethodPreviewType = "sezzle"
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
@@ -953,6 +956,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod `json:"read_method"`
 	Wallet     *ConfirmationTokenPaymentMethodPreviewCardPresentWallet    `json:"wallet,omitempty"`
 }
+type ConfirmationTokenPaymentMethodPreviewCarecredit struct{}
 type ConfirmationTokenPaymentMethodPreviewCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -971,6 +975,7 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank ConfirmationTokenPaymentMethodPreviewFPXBank `json:"bank"`
 }
+type ConfirmationTokenPaymentMethodPreviewGetflex struct{}
 type ConfirmationTokenPaymentMethodPreviewGiftCard struct {
 	// The brand of the gift card.
 	Brand ConfirmationTokenPaymentMethodPreviewGiftCardBrand `json:"brand"`
@@ -1167,6 +1172,7 @@ type ConfirmationTokenPaymentMethodPreviewSEPADebit struct {
 	Last4 string `json:"last4"`
 }
 type ConfirmationTokenPaymentMethodPreviewSequra struct{}
+type ConfirmationTokenPaymentMethodPreviewSezzle struct{}
 type ConfirmationTokenPaymentMethodPreviewShopeepay struct{}
 type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -1249,6 +1255,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Boleto         *ConfirmationTokenPaymentMethodPreviewBoleto         `json:"boleto,omitempty"`
 	Card           *ConfirmationTokenPaymentMethodPreviewCard           `json:"card,omitempty"`
 	CardPresent    *ConfirmationTokenPaymentMethodPreviewCardPresent    `json:"card_present,omitempty"`
+	Carecredit     *ConfirmationTokenPaymentMethodPreviewCarecredit     `json:"carecredit,omitempty"`
 	CashApp        *ConfirmationTokenPaymentMethodPreviewCashApp        `json:"cashapp,omitempty"`
 	Crypto         *ConfirmationTokenPaymentMethodPreviewCrypto         `json:"crypto,omitempty"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
@@ -1257,6 +1264,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance,omitempty"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps,omitempty"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx,omitempty"`
+	Getflex         *ConfirmationTokenPaymentMethodPreviewGetflex         `json:"getflex,omitempty"`
 	GiftCard        *ConfirmationTokenPaymentMethodPreviewGiftCard        `json:"gift_card,omitempty"`
 	Giropay         *ConfirmationTokenPaymentMethodPreviewGiropay         `json:"giropay,omitempty"`
 	Gopay           *ConfirmationTokenPaymentMethodPreviewGopay           `json:"gopay,omitempty"`
@@ -1292,6 +1300,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Scalapay        *ConfirmationTokenPaymentMethodPreviewScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
 	Sequra          *ConfirmationTokenPaymentMethodPreviewSequra          `json:"sequra,omitempty"`
+	Sezzle          *ConfirmationTokenPaymentMethodPreviewSezzle          `json:"sezzle,omitempty"`
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance,omitempty"`
