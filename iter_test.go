@@ -387,7 +387,7 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 		assert.Nil(t, p.(*testV2SearchParams).Limit)
 		assert.Equal(t, "acct_123", *p.(*testV2SearchParams).URLOnly)
 		assert.Equal(t, "value", p.GetParams().Extra.Get("future"))
-		assert.JSONEq(t, `{"query":"status:'active'","sort":"-created"}`, bodies[i])
+		assert.JSONEq(t, `{"future":"value","query":"status:'active'","sort":"-created"}`, bodies[i])
 	}
 	assert.Equal(t, int64(2), list.TotalCount())
 }
