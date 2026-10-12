@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -162,9 +163,23 @@ type signedHeader struct {
 	signatures [][]byte
 }
 
+type signatureDebugMetadata struct {
+	secret      string
+	destination string
+	payload     string
+}
+
+type webhookSignatureError struct {
+	message string
+}
+
 //
 // Private functions
 //
+
+func (e *webhookSignatureError) Error() string { return e.message }
+
+func (e *webhookSignatureError) Unwrap() error { return ErrWebhookNoValidSignature }
 
 func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
 	// If the event api version is from before we started adding
@@ -286,7 +301,75 @@ func validatePayload(payload []byte, sigHeader string, secret string, cfg webhoo
 		}
 	}
 
+	return signatureVerificationError(sigHeader, payload, secret)
+}
+
+// signatureVerificationError builds an HMAC-mismatch error using optional header metadata.
+func signatureVerificationError(header string, payload []byte, secret string) error {
+	metadata := parseSignatureDebugMetadata(header)
+
+	// If metadata has an asterisk-masked secret, compare against its length and last four characters
+	maskedSecret := metadata.secret
+	secretSuffix := secret[max(0, len(secret)-4):]
+	maskedSuffix := maskedSecret[max(0, len(maskedSecret)-4):]
+	if strings.Contains(maskedSecret, "*") && (len(secret) != len(maskedSecret) || secretSuffix != maskedSuffix) {
+		dashboardURL := "https://dashboard.stripe.com/webhooks"
+		if metadata.destination != "" {
+			dashboardURL += "/" + url.PathEscape(metadata.destination)
+		}
+		return &webhookSignatureError{message: fmt.Sprintf(
+			"Webhook signature verification failed. This request may not have originated from Stripe.\n\n"+
+				"The signing secret you provided is %d characters long and ends in `%s`. "+
+				"However, the signing secret for this destination is %d characters long and looks like `%s`. "+
+				"Ensure you're using the signing secret for this destination, as shown on the Dashboard: %s\n\n"+
+				"Learn more: https://docs.stripe.com/webhooks/signature",
+			len(secret), secretSuffix, len(maskedSecret), maskedSecret, dashboardURL,
+		)}
+	}
+
+	// If metadata includes the truncated payload hash, compare with the payload passed in
+	if len(metadata.payload) == 8 {
+		if _, err := hex.DecodeString(metadata.payload); err == nil {
+			expectedHash := strings.ToLower(metadata.payload)
+			hash := sha256.Sum256(payload)
+			actualHash := hex.EncodeToString(hash[len(hash)-4:])
+			if expectedHash != actualHash {
+				return &webhookSignatureError{message: fmt.Sprintf(
+					"Webhook signature verification failed.\n\n"+
+						"The request body you passed to this function differs from the request body sent by Stripe to this webhook destination.\n"+
+						"The SHA-256 hash of the body should end in `%s`. However, the SHA-256 hash of the body you provided ends in `%s`.\n\n"+
+						"Make sure your code does not reformat or otherwise alter the raw HTTP request body before passing it to this function.\n\n"+
+						"Learn more: https://docs.stripe.com/webhooks/signature",
+					expectedHash, actualHash,
+				)}
+			}
+		}
+	}
+
+	// Fall back to the generic error if no debug metadata available
 	return ErrWebhookNoValidSignature
+}
+
+// parseSignatureDebugMetadata extracts metadata from the stripe-signature header value to help debug verification failures.
+func parseSignatureDebugMetadata(header string) signatureDebugMetadata {
+	// For each metadata key, extract the first value found in the header
+	metadata := signatureDebugMetadata{}
+	values := map[string]*string{"secret": &metadata.secret, "destination": &metadata.destination, "payload": &metadata.payload}
+	for _, item := range strings.Split(header, ",") {
+		key, value, _ := strings.Cut(strings.TrimSpace(item), "=")
+		if field, ok := values[key]; ok {
+			if safeSignatureMetadataValue(value) {
+				*field = strings.TrimSpace(value)
+			}
+			delete(values, key)
+		}
+	}
+	return metadata
+}
+
+func safeSignatureMetadataValue(value string) bool {
+	// Ignore overly long, potentially attacker-provided metadata values
+	return len(value) <= 100
 }
 
 // For mocking webhook events

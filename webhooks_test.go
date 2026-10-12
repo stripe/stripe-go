@@ -1,7 +1,9 @@
 package stripe
 
 import (
+	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"strings"
 	"testing"
@@ -58,6 +60,99 @@ func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	}
 	signedPayload.Header = generateHeader(*signedPayload)
 	return signedPayload
+}
+
+func newSignedPayloadWithDebugMetadata(metadata map[string]string, options ...func(*SignedPayload)) *SignedPayload {
+	payload := newSignedPayload(options...)
+	for key, value := range metadata {
+		payload.Header += "," + key + "=" + value
+	}
+	return payload
+}
+
+func TestWebhookDiagnoseSecretMismatch(t *testing.T) {
+	secret := "whsec_abcdefghijklmnopqrstuvwxyz"
+	masked := "whsec_****************************1q84"
+	cases := []struct {
+		secret        string
+		masked        string
+		destination   string
+		suffix        string
+		dashboardPath string
+	}{
+		// A mismatched secret links to the supplied destination.
+		{secret, masked, "we_example", "wxyz", "/we_example"},
+		// A missing destination uses the bare Dashboard URL.
+		{secret, masked, "", "wxyz", ""},
+		// Suffix matches but length differs compared to masked secret
+		{"whsec_short1q84", masked, "", "1q84", ""},
+		// A mostly unmasked value still reveals only the last four secret characters.
+		{secret, "whsec_*bcdefghijklmnopqrstuvwxyZ", "", "wxyz", ""},
+		// A secret shorter than four characters is shown in full.
+		{"abc", "*", "", "abc", ""},
+	}
+	for _, tc := range cases {
+		p := newSignedPayloadWithDebugMetadata(map[string]string{
+			"secret": tc.masked, "destination": tc.destination, "payload": "00000000",
+		}, func(p *SignedPayload) { p.Signature = []byte("bad_signature") })
+		err := ValidatePayload(p.Payload, p.Header, tc.secret)
+		assert.Error(t, err)
+		assert.Equal(t, fmt.Sprintf(
+			"Webhook signature verification failed. This request may not have originated from Stripe.\n\n"+
+				"The signing secret you provided is %d characters long and ends in `%s`. However, the signing secret for this destination is %d characters long and looks like `%s`. Ensure you're using the signing secret for this destination, as shown on the Dashboard: %s\n\n"+
+				"Learn more: https://docs.stripe.com/webhooks/signature",
+			len(tc.secret), tc.suffix, len(tc.masked), tc.masked, "https://dashboard.stripe.com/webhooks"+tc.dashboardPath,
+		), err.Error())
+		assert.True(t, errors.Is(err, ErrWebhookNoValidSignature))
+	}
+}
+
+func TestWebhookDiagnosePayloadMismatch(t *testing.T) {
+	// User supplies the original body with an errant trailing space.
+	userPayload := append(append([]byte{}, testPayload...), ' ')
+
+	originalHash := sha256.Sum256(testPayload)
+	userHash := sha256.Sum256(userPayload)
+	expectedHash := hex.EncodeToString(originalHash[len(originalHash)-4:])
+	actualHash := hex.EncodeToString(userHash[len(userHash)-4:])
+	p := newSignedPayloadWithDebugMetadata(map[string]string{
+		"secret": "whsec_*******cret", "payload": strings.ToUpper(expectedHash),
+	})
+
+	err := ValidatePayload(userPayload, p.Header, testSecret)
+	assert.Error(t, err)
+	assert.Equal(t, fmt.Sprintf(
+		"Webhook signature verification failed.\n\n"+
+			"The request body you passed to this function differs from the request body sent by Stripe to this webhook destination.\n"+
+			"The SHA-256 hash of the body should end in `%s`. However, the SHA-256 hash of the body you provided ends in `%s`.\n\n"+
+			"Make sure your code does not reformat or otherwise alter the raw HTTP request body before passing it to this function.\n\n"+
+			"Learn more: https://docs.stripe.com/webhooks/signature", expectedHash, actualHash,
+	), err.Error())
+	assert.True(t, errors.Is(err, ErrWebhookNoValidSignature))
+}
+
+func TestWebhookInvalidSecretMetadataFallsBackToGenericError(t *testing.T) {
+	hash := sha256.Sum256(testPayload)
+	payloadHash := hex.EncodeToString(hash[len(hash)-4:])
+	for _, mask := range []string{"unmasked", strings.Repeat("*", 101)} {
+		p := newSignedPayloadWithDebugMetadata(map[string]string{"secret": mask, "payload": payloadHash}, func(p *SignedPayload) { p.Signature = []byte("bad_signature") })
+		assert.Equal(t, ErrWebhookNoValidSignature, ValidatePayload(p.Payload, p.Header, testSecret))
+	}
+}
+
+func TestWebhookInvalidPayloadMetadataFallsBackToGenericError(t *testing.T) {
+	for _, payloadHash := range []string{"1234567", "not-hex!", strings.Repeat("a", 101)} {
+		p := newSignedPayloadWithDebugMetadata(map[string]string{"secret": "whsec_*******cret", "payload": payloadHash}, func(p *SignedPayload) { p.Signature = []byte("bad_signature") })
+		assert.Equal(t, ErrWebhookNoValidSignature, ValidatePayload(p.Payload, p.Header, testSecret))
+	}
+}
+
+func TestWebhookMalformedMetadataReturnsInvalidHeader(t *testing.T) {
+	p := newSignedPayload()
+	for _, key := range []string{"secret", "destination", "payload"} {
+		// Metadata entries must have an equals sign, like any other header entry.
+		assert.Equal(t, ErrWebhookInvalidHeader, ValidatePayload(p.Payload, p.Header+","+key, p.Secret))
+	}
 }
 
 func (p *SignedPayload) hexSignature() string {
