@@ -70,46 +70,6 @@ type V2PaymentsOffSessionPaymentAmountDetailsParams struct {
 	Tax *V2PaymentsOffSessionPaymentAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// Deprecated. Details about the capture configuration for the OffSessionPayment.
-type V2PaymentsOffSessionPaymentCaptureParams struct {
-	Params `form:"*"`
-	// Provides industry-specific information about the amount.
-	AmountDetails *V2PaymentsOffSessionPaymentCaptureAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
-	// The amount to capture.
-	AmountToCapture *int64 `form:"amount_to_capture" json:"amount_to_capture,omitempty"`
-	// The amount of the application fee for this capture.
-	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
-	// The method to use to capture the payment.
-	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can
-	// attach to an object. This can be useful for storing additional information about
-	// the object in a structured format. Learn more about
-	// [storing information in metadata](https://docs.stripe.com/payments/payment-intents#storing-information-in-metadata).
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Provides industry-specific information about the payment.
-	PaymentDetails *V2PaymentsOffSessionPaymentCapturePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// Text that appears on the customer's statement as the statement descriptor for a
-	// non-card charge. This value overrides the account's default statement descriptor.
-	// For information about requirements, including the 22-character limit, see the
-	// [Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
-	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's
-	// [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static)
-	// to form the complete statement descriptor that appears on the customer's statement.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
-	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
-	TransferData *V2PaymentsOffSessionPaymentCaptureTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2PaymentsOffSessionPaymentCaptureParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
 // Provides industry-specific information about the payment.
 type V2PaymentsOffSessionPaymentPaymentDetailsParams struct {
 	// A unique value to identify the customer. This field is applicable only for card payments. For card payments, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -211,8 +171,6 @@ type V2PaymentsOffSessionPaymentParams struct {
 	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Deprecated. Details about the capture configuration for the OffSessionPayment.
-	Capture *V2PaymentsOffSessionPaymentCaptureParams `form:"capture" json:"capture,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -267,84 +225,6 @@ func (p *V2PaymentsOffSessionPaymentParams) AddMetadata(key string, value string
 // Cancel an OffSessionPayment that has previously been created.
 type V2PaymentsOffSessionPaymentCancelParams struct {
 	Params `form:"*"`
-}
-
-// Contains information about the tax on the item.
-type V2PaymentsOffSessionPaymentCaptureAmountDetailsLineItemTaxParams struct {
-	// Total portion of the amount that is for tax.
-	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
-}
-
-// A list of line items, each containing information about a product in the OffSessionPayment. There is a maximum of 10 line items.
-type V2PaymentsOffSessionPaymentCaptureAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
-	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
-	// Unique identifier of the product. At most 12 characters long.
-	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
-	// Name of the product. At most 100 characters long.
-	ProductName *string `form:"product_name" json:"product_name"`
-	// Number of items of the product. Positive integer.
-	Quantity *int64 `form:"quantity" json:"quantity"`
-	// Contains information about the tax on the item.
-	Tax *V2PaymentsOffSessionPaymentCaptureAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
-	// Cost of the product. Positive integer.
-	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
-	// A unit of measure for the line item, such as gallons, feet, meters, etc.
-	// The maximum length is 12 characters.
-	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
-}
-
-// Contains information about the shipping portion of the amount.
-type V2PaymentsOffSessionPaymentCaptureAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
-	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// The postal code that represents the shipping source.
-	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// The postal code that represents the shipping destination.
-	ToPostalCode *string `form:"to_postal_code" json:"to_postal_code,omitempty"`
-}
-
-// Contains information about the tax portion of the amount.
-type V2PaymentsOffSessionPaymentCaptureAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
-	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
-}
-
-// Provides industry-specific information about the amount.
-type V2PaymentsOffSessionPaymentCaptureAmountDetailsParams struct {
-	// The amount the total transaction was discounted for.
-	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
-	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
-	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
-	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
-	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation" json:"enforce_arithmetic_validation,omitempty"`
-	// A list of line items, each containing information about a product in the OffSessionPayment. There is a maximum of 10 line items.
-	LineItems []*V2PaymentsOffSessionPaymentCaptureAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
-	// Contains information about the shipping portion of the amount.
-	Shipping *V2PaymentsOffSessionPaymentCaptureAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
-	// Contains information about the tax portion of the amount.
-	Tax *V2PaymentsOffSessionPaymentCaptureAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
-}
-
-// Provides industry-specific information about the payment.
-type V2PaymentsOffSessionPaymentCapturePaymentDetailsParams struct {
-	// A unique value to identify the customer. This field is applicable only for card payments. For card payments, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
-	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
-	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
-}
-
-// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
-type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
-	// The amount transferred to the destination account. This transfer will occur
-	// automatically after the payment succeeds. If no amount is specified, by default
-	// the entire payment amount is transferred to the destination account. The amount
-	// must be less than or equal to the
-	// [amount_requested](https://docs.stripe.com/api/v2/off-session-payments/object?api-version=2025-05-28.preview#v2_off_session_payment_object-amount_requested),
-	// and must be a positive integer representing how much to transfer in the smallest
-	// currency unit (e.g., 100 cents to charge $1.00).
-	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Pauses an OffSessionPayment that has previously been created.
@@ -412,12 +292,6 @@ type V2PaymentsOffSessionPaymentCreateAmountDetailsParams struct {
 	Shipping *V2PaymentsOffSessionPaymentCreateAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax *V2PaymentsOffSessionPaymentCreateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
-}
-
-// Deprecated. Details about the capture configuration for the OffSessionPayment.
-type V2PaymentsOffSessionPaymentCreateCaptureParams struct {
-	// The method to use to capture the payment.
-	CaptureMethod *string `form:"capture_method" json:"capture_method"`
 }
 
 // Provides industry-specific information about the payment.
@@ -521,8 +395,6 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
-	// Deprecated. Details about the capture configuration for the OffSessionPayment.
-	Capture *V2PaymentsOffSessionPaymentCreateCaptureParams `form:"capture" json:"capture,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.

@@ -6,7 +6,7 @@
 
 package stripe
 
-// Lists FinancialAccounts in this compartment.
+// Lists FinancialAccounts in this account.
 type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.

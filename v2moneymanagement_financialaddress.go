@@ -46,6 +46,7 @@ type V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupport
 const (
 	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyBtc  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "btc"
 	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyEth  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "eth"
+	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyOusd V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "ousd"
 	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencySol  V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "sol"
 	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyUsdc V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "usdc"
 	V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrencyUsdt V2MoneyManagementFinancialAddressCryptoWalletSupportedNetworkDetailsSupportedTokenCurrency = "usdt"
@@ -106,6 +107,14 @@ type V2MoneyManagementFinancialAddressBankAccountABA struct {
 	// The ABA routing number.
 	RoutingNumber string `json:"routing_number"`
 }
+
+// BRE-B bank account details (Colombia).
+type V2MoneyManagementFinancialAddressBankAccountBreB struct {
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name"`
+	// The BRE-B payment key.
+	BreBKey string `json:"bre_b_key"`
+}
 type V2MoneyManagementFinancialAddressBankAccountClabe struct {
 	AccountHolderName string `json:"account_holder_name"`
 	Clabe             string `json:"clabe"`
@@ -136,6 +145,26 @@ type V2MoneyManagementFinancialAddressBankAccountIBAN struct {
 	Last4 string `json:"last4"`
 }
 
+// NIP bank account details (Nigeria).
+type V2MoneyManagementFinancialAddressBankAccountNip struct {
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name"`
+	// The NIP bank code.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The NUBAN account number.
+	Nuban string `json:"nuban"`
+}
+
+// Pix bank account details (Brazil).
+type V2MoneyManagementFinancialAddressBankAccountPix struct {
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name"`
+	// The Pix BR code.
+	BrCode string `json:"br_code"`
+}
+
 // Sort code bank account details (UK).
 type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 	// The name of the account holder.
@@ -155,7 +184,9 @@ type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 // Bank account details for this FinancialAddress.
 type V2MoneyManagementFinancialAddressBankAccount struct {
 	// ABA bank account details (US).
-	ABA   *V2MoneyManagementFinancialAddressBankAccountABA   `json:"aba,omitempty"`
+	ABA *V2MoneyManagementFinancialAddressBankAccountABA `json:"aba,omitempty"`
+	// BRE-B bank account details (Colombia).
+	BreB  *V2MoneyManagementFinancialAddressBankAccountBreB  `json:"bre_b,omitempty"`
 	Clabe *V2MoneyManagementFinancialAddressBankAccountClabe `json:"clabe,omitempty"`
 	// The country of the bank account.
 	Country string                                           `json:"country,omitempty"`
@@ -164,6 +195,10 @@ type V2MoneyManagementFinancialAddressBankAccount struct {
 	Currency Currency `json:"currency"`
 	// IBAN bank account details.
 	IBAN *V2MoneyManagementFinancialAddressBankAccountIBAN `json:"iban,omitempty"`
+	// NIP bank account details (Nigeria).
+	Nip *V2MoneyManagementFinancialAddressBankAccountNip `json:"nip,omitempty"`
+	// Pix bank account details (Brazil).
+	Pix *V2MoneyManagementFinancialAddressBankAccountPix `json:"pix,omitempty"`
 	// Sort code bank account details (UK).
 	SortCode *V2MoneyManagementFinancialAddressBankAccountSortCode `json:"sort_code,omitempty"`
 	// Open Enum. The type of bank account details.

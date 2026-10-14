@@ -118,6 +118,7 @@ const (
 	V2SignalsAccountSignalTypeMerchantDelinquency        V2SignalsAccountSignalType = "merchant_delinquency"
 	V2SignalsAccountSignalTypePaymentDelinquencyExposure V2SignalsAccountSignalType = "payment_delinquency_exposure"
 	V2SignalsAccountSignalTypeUserAccountSharing         V2SignalsAccountSignalType = "user_account_sharing"
+	V2SignalsAccountSignalTypeUserMerchantFit            V2SignalsAccountSignalType = "user_merchant_fit"
 	V2SignalsAccountSignalTypeUserMultiAccounting        V2SignalsAccountSignalType = "user_multi_accounting"
 )
 
@@ -131,6 +132,17 @@ const (
 	V2SignalsAccountSignalUserAccountSharingRiskLevelLow      V2SignalsAccountSignalUserAccountSharingRiskLevel = "low"
 	V2SignalsAccountSignalUserAccountSharingRiskLevelNormal   V2SignalsAccountSignalUserAccountSharingRiskLevel = "normal"
 	V2SignalsAccountSignalUserAccountSharingRiskLevelUnknown  V2SignalsAccountSignalUserAccountSharingRiskLevel = "unknown"
+)
+
+// Categorical assessment of the user-merchant fit.
+type V2SignalsAccountSignalUserMerchantFitFitLevel string
+
+// List of values that V2SignalsAccountSignalUserMerchantFitFitLevel can take
+const (
+	V2SignalsAccountSignalUserMerchantFitFitLevelStandard   V2SignalsAccountSignalUserMerchantFitFitLevel = "standard"
+	V2SignalsAccountSignalUserMerchantFitFitLevelStrong     V2SignalsAccountSignalUserMerchantFitFitLevel = "strong"
+	V2SignalsAccountSignalUserMerchantFitFitLevelUnknown    V2SignalsAccountSignalUserMerchantFitFitLevel = "unknown"
+	V2SignalsAccountSignalUserMerchantFitFitLevelVeryStrong V2SignalsAccountSignalUserMerchantFitFitLevel = "very_strong"
 )
 
 // Categorical assessment of the multi-accounting risk.
@@ -262,6 +274,14 @@ type V2SignalsAccountSignalUserAccountSharing struct {
 	Score decimal.Decimal `json:"score,omitempty"`
 }
 
+// Data for the user-merchant fit signal. Present only when type is user_merchant_fit.
+type V2SignalsAccountSignalUserMerchantFit struct {
+	// Categorical assessment of the user-merchant fit.
+	FitLevel V2SignalsAccountSignalUserMerchantFitFitLevel `json:"fit_level"`
+	// The specific fit score for the user, between 0.00 and 100.00. Absent when fit_level is unknown.
+	Score decimal.Decimal `json:"score,omitempty"`
+}
+
 // Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
 type V2SignalsAccountSignalUserMultiAccounting struct {
 	// Categorical assessment of the multi-accounting risk.
@@ -301,6 +321,8 @@ type V2SignalsAccountSignal struct {
 	Type V2SignalsAccountSignalType `json:"type"`
 	// Data for the user account-sharing signal. Present only when type is user_account_sharing.
 	UserAccountSharing *V2SignalsAccountSignalUserAccountSharing `json:"user_account_sharing,omitempty"`
+	// Data for the user-merchant fit signal. Present only when type is user_merchant_fit.
+	UserMerchantFit *V2SignalsAccountSignalUserMerchantFit `json:"user_merchant_fit,omitempty"`
 	// Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
 	UserMultiAccounting *V2SignalsAccountSignalUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }

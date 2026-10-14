@@ -16,6 +16,7 @@ type V2CoreAccountPersonAdditionalAddressPurpose string
 
 // List of values that V2CoreAccountPersonAdditionalAddressPurpose can take
 const (
+	V2CoreAccountPersonAdditionalAddressPurposeBirthplace V2CoreAccountPersonAdditionalAddressPurpose = "birthplace"
 	V2CoreAccountPersonAdditionalAddressPurposeRegistered V2CoreAccountPersonAdditionalAddressPurpose = "registered"
 )
 
