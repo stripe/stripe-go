@@ -16862,7 +16862,7 @@ func TestV2CoreAccountsPersonTokenGetClient(t *testing.T) {
 
 func TestV2CoreAccountEvaluationPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountEvaluationParams{
-		Signals: []*string{stripe.String("fraudulent_website")},
+		Signals: []*string{stripe.String("user_multi_accounting")},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_multi_accounting\"],\"id\":\"obj_123\",\"livemode\":true}")
@@ -16877,7 +16877,7 @@ func TestV2CoreAccountEvaluationPostService(t *testing.T) {
 
 func TestV2CoreAccountEvaluationPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountEvaluationCreateParams{
-		Signals: []*string{stripe.String("fraudulent_website")},
+		Signals: []*string{stripe.String("user_multi_accounting")},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_multi_accounting\"],\"id\":\"obj_123\",\"livemode\":true}")
@@ -17929,34 +17929,6 @@ func TestV2CoreVaultGbBankAccountGet2Client(t *testing.T) {
 }
 
 func TestV2CoreVaultGbBankAccountPost2Service(t *testing.T) {
-	params := &stripe.V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreVaultGBBankAccounts.AcknowledgeConfirmationOfPayee(
-		"id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
-	params := &stripe.V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreVaultGBBankAccounts.AcknowledgeConfirmationOfPayee(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountArchiveParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
@@ -17969,7 +17941,7 @@ func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
+func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountArchiveParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
@@ -17978,34 +17950,6 @@ func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultGBBankAccounts.Archive(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2CoreVaultGbBankAccountPost4Service(t *testing.T) {
-	params := &stripe.V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreVaultGBBankAccounts.InitiateConfirmationOfPayee(
-		"id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2CoreVaultGbBankAccountPost4Client(t *testing.T) {
-	params := &stripe.V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"restricted\":true,\"supported_currencies\":[\"supported_currencies\"]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreVaultGBBankAccounts.InitiateConfirmationOfPayee(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -21141,7 +21085,7 @@ func TestV2MoneyManagementTestHelperPostClient(t *testing.T) {
 func TestV2MoneyManagementTestHelpersFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2MoneyManagementTestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("swift"),
+		Network: stripe.String("ach"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"v2.money_management.financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")
@@ -21158,7 +21102,7 @@ func TestV2MoneyManagementTestHelpersFinancialAddressPostService(t *testing.T) {
 func TestV2MoneyManagementTestHelpersFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementTestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("swift"),
+		Network: stripe.String("ach"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"v2.money_management.financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")
@@ -21697,33 +21641,6 @@ func TestV2PaymentsOffSessionPaymentPost2Client(t *testing.T) {
 }
 
 func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2PaymentsOffSessionPayments.Capture("id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2PaymentsOffSessionPayments.Capture(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.NoError(t, err)
-}
-
-func TestV2PaymentsOffSessionPaymentPost4Service(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentPauseParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/pause", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
@@ -21736,7 +21653,7 @@ func TestV2PaymentsOffSessionPaymentPost4Service(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2PaymentsOffSessionPaymentPost4Client(t *testing.T) {
+func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentPauseParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/pause", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
@@ -21750,7 +21667,7 @@ func TestV2PaymentsOffSessionPaymentPost4Client(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2PaymentsOffSessionPaymentPost5Service(t *testing.T) {
+func TestV2PaymentsOffSessionPaymentPost4Service(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentResumeParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/resume", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
@@ -21763,7 +21680,7 @@ func TestV2PaymentsOffSessionPaymentPost5Service(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2PaymentsOffSessionPaymentPost5Client(t *testing.T) {
+func TestV2PaymentsOffSessionPaymentPost4Client(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentResumeParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/resume", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
@@ -23029,6 +22946,7 @@ func TestV2SignalsAccountEvaluationPostService(t *testing.T) {
 			Account:  stripe.String("account"),
 			Customer: stripe.String("customer"),
 			Data: &stripe.V2SignalsAccountEvaluationAccountDetailsDataParams{
+				ContactEmail: stripe.String("contact_email"),
 				Defaults: &stripe.V2SignalsAccountEvaluationAccountDetailsDataDefaultsParams{
 					Profile: &stripe.V2SignalsAccountEvaluationAccountDetailsDataDefaultsProfileParams{
 						BusinessURL:        stripe.String("business_url"),
@@ -23043,10 +22961,10 @@ func TestV2SignalsAccountEvaluationPostService(t *testing.T) {
 				},
 			},
 		},
-		RequestedSignals: []*string{stripe.String("user_multi_accounting")},
+		RequestedSignals: []*string{stripe.String("user_merchant_fit")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"fraudulent_website\"],\"requested_signals\":[\"user_multi_accounting\"]}")
+		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23062,6 +22980,7 @@ func TestV2SignalsAccountEvaluationPostClient(t *testing.T) {
 			Account:  stripe.String("account"),
 			Customer: stripe.String("customer"),
 			Data: &stripe.V2SignalsAccountEvaluationCreateAccountDetailsDataParams{
+				ContactEmail: stripe.String("contact_email"),
 				Defaults: &stripe.V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsParams{
 					Profile: &stripe.V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsProfileParams{
 						BusinessURL:        stripe.String("business_url"),
@@ -23076,10 +22995,10 @@ func TestV2SignalsAccountEvaluationPostClient(t *testing.T) {
 				},
 			},
 		},
-		RequestedSignals: []*string{stripe.String("user_multi_accounting")},
+		RequestedSignals: []*string{stripe.String("user_merchant_fit")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"fraudulent_website\"],\"requested_signals\":[\"user_multi_accounting\"]}")
+		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23092,7 +23011,7 @@ func TestV2SignalsAccountEvaluationPostClient(t *testing.T) {
 func TestV2SignalsAccountEvaluationGetService(t *testing.T) {
 	params := &stripe.V2SignalsAccountEvaluationParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"fraudulent_website\"],\"requested_signals\":[\"user_multi_accounting\"]}")
+		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23105,7 +23024,7 @@ func TestV2SignalsAccountEvaluationGetService(t *testing.T) {
 func TestV2SignalsAccountEvaluationGetClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountEvaluationRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"fraudulent_website\"],\"requested_signals\":[\"user_multi_accounting\"]}")
+		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23118,10 +23037,10 @@ func TestV2SignalsAccountEvaluationGetClient(t *testing.T) {
 
 func TestV2SignalsAccountSignalGetService(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalListParams{
-		Type: []*string{stripe.String("fraudulent_merchant")},
+		Type: []*string{stripe.String("payment_delinquency_exposure")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"fraudulent_merchant\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23132,10 +23051,10 @@ func TestV2SignalsAccountSignalGetService(t *testing.T) {
 
 func TestV2SignalsAccountSignalGetClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalListParams{
-		Type: []*string{stripe.String("fraudulent_merchant")},
+		Type: []*string{stripe.String("payment_delinquency_exposure")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"fraudulent_merchant\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23147,7 +23066,7 @@ func TestV2SignalsAccountSignalGetClient(t *testing.T) {
 func TestV2SignalsAccountSignalGet2Service(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"fraudulent_merchant\"}")
+		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23160,7 +23079,7 @@ func TestV2SignalsAccountSignalGet2Service(t *testing.T) {
 func TestV2SignalsAccountSignalGet2Client(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"fraudulent_merchant\"}")
+		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

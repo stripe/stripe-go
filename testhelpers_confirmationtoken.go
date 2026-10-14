@@ -95,6 +95,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataCashAppParams struct{}
 
@@ -117,6 +120,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataGiftCardParams struct {
@@ -255,6 +261,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type TestHelpersConfirmationTokenPaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -291,6 +300,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams struct{}
@@ -392,6 +404,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	BLIK *TestHelpersConfirmationTokenPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *TestHelpersConfirmationTokenPaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *TestHelpersConfirmationTokenPaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *TestHelpersConfirmationTokenPaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -402,6 +416,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	EPS *TestHelpersConfirmationTokenPaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *TestHelpersConfirmationTokenPaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *TestHelpersConfirmationTokenPaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *TestHelpersConfirmationTokenPaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -462,6 +478,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Qris *TestHelpersConfirmationTokenPaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *TestHelpersConfirmationTokenPaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *TestHelpersConfirmationTokenPaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -476,6 +494,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *TestHelpersConfirmationTokenPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *TestHelpersConfirmationTokenPaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -684,6 +704,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataCashAppParams struct{}
 
@@ -706,6 +729,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataGiftCardParams struct {
@@ -844,6 +870,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams struc
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -880,6 +909,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams struct{}
@@ -981,6 +1013,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	BLIK *TestHelpersConfirmationTokenCreatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *TestHelpersConfirmationTokenCreatePaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *TestHelpersConfirmationTokenCreatePaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *TestHelpersConfirmationTokenCreatePaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -991,6 +1025,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	EPS *TestHelpersConfirmationTokenCreatePaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *TestHelpersConfirmationTokenCreatePaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *TestHelpersConfirmationTokenCreatePaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -1051,6 +1087,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Qris *TestHelpersConfirmationTokenCreatePaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *TestHelpersConfirmationTokenCreatePaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -1065,6 +1103,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *TestHelpersConfirmationTokenCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *TestHelpersConfirmationTokenCreatePaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

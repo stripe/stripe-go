@@ -232,6 +232,42 @@ const (
 )
 
 // The effect this indicator had on the overall risk level.
+type IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact string
+
+// List of values that IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact can take
+const (
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpactDecrease       IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact = "decrease"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpactNeutral        IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact = "neutral"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpactSlightIncrease IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact = "slight_increase"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpactStrongIncrease IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact = "strong_increase"
+)
+
+// The name of the specific indicator used in the risk assessment.
+type IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator string
+
+// List of values that IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator can take
+const (
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicatorDOBMismatch    IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator = "dob_mismatch"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicatorForgedDocument IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator = "forged_document"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicatorNameMismatch   IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator = "name_mismatch"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicatorOther          IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator = "other"
+	IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicatorStaticDocument IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator = "static_document"
+)
+
+// Categorical assessment of the document risk.
+type IdentityVerificationReportSignalsFraudulentDocumentRiskLevel string
+
+// List of values that IdentityVerificationReportSignalsFraudulentDocumentRiskLevel can take
+const (
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelElevated    IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "elevated"
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelHighest     IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "highest"
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelLow         IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "low"
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelNormal      IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "normal"
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelNotAssessed IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "not_assessed"
+	IdentityVerificationReportSignalsFraudulentDocumentRiskLevelUnknown     IdentityVerificationReportSignalsFraudulentDocumentRiskLevel = "unknown"
+)
+
+// The effect this indicator had on the overall risk level.
 type IdentityVerificationReportSignalsFraudulentEmailIndicatorImpact string
 
 // List of values that IdentityVerificationReportSignalsFraudulentEmailIndicatorImpact can take
@@ -624,6 +660,22 @@ type IdentityVerificationReportSelfie struct {
 }
 
 // Array of objects representing individual factors that contributed to the calculated risk level.
+type IdentityVerificationReportSignalsFraudulentDocumentIndicator struct {
+	// A brief explanation of how this indicator contributed to the risk level.
+	Explanation string `json:"explanation"`
+	// The effect this indicator had on the overall risk level.
+	Impact IdentityVerificationReportSignalsFraudulentDocumentIndicatorImpact `json:"impact"`
+	// The name of the specific indicator used in the risk assessment.
+	Indicator IdentityVerificationReportSignalsFraudulentDocumentIndicatorIndicator `json:"indicator"`
+}
+type IdentityVerificationReportSignalsFraudulentDocument struct {
+	// Array of objects representing individual factors that contributed to the calculated risk level.
+	Indicators []*IdentityVerificationReportSignalsFraudulentDocumentIndicator `json:"indicators"`
+	// Categorical assessment of the document risk.
+	RiskLevel IdentityVerificationReportSignalsFraudulentDocumentRiskLevel `json:"risk_level"`
+}
+
+// Array of objects representing individual factors that contributed to the calculated risk level.
 type IdentityVerificationReportSignalsFraudulentEmailIndicator struct {
 	// A brief explanation of how this indicator contributed to the risk level
 	Explanation string `json:"explanation"`
@@ -671,9 +723,10 @@ type IdentityVerificationReportSignalsFraudulentPhone struct {
 	RiskLevel IdentityVerificationReportSignalsFraudulentPhoneRiskLevel `json:"risk_level"`
 }
 type IdentityVerificationReportSignals struct {
-	FraudulentEmail  *IdentityVerificationReportSignalsFraudulentEmail  `json:"fraudulent_email,omitempty"`
-	FraudulentPerson *IdentityVerificationReportSignalsFraudulentPerson `json:"fraudulent_person,omitempty"`
-	FraudulentPhone  *IdentityVerificationReportSignalsFraudulentPhone  `json:"fraudulent_phone,omitempty"`
+	FraudulentDocument *IdentityVerificationReportSignalsFraudulentDocument `json:"fraudulent_document,omitempty"`
+	FraudulentEmail    *IdentityVerificationReportSignalsFraudulentEmail    `json:"fraudulent_email,omitempty"`
+	FraudulentPerson   *IdentityVerificationReportSignalsFraudulentPerson   `json:"fraudulent_person,omitempty"`
+	FraudulentPhone    *IdentityVerificationReportSignalsFraudulentPhone    `json:"fraudulent_phone,omitempty"`
 }
 
 // A VerificationReport is the result of an attempt to collect and verify data from a user.

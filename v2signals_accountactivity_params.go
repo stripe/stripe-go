@@ -38,6 +38,8 @@ type V2SignalsAccountActivityAccountDetailsDataIdentityParams struct {
 
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountActivityAccountDetailsDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2SignalsAccountActivityAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.
@@ -48,7 +50,7 @@ type V2SignalsAccountActivityAccountDetailsDataParams struct {
 type V2SignalsAccountActivityAccountDetailsParams struct {
 	// The v2 account ID of the account.
 	Account *string `form:"account" json:"account,omitempty"`
-	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
+	// The v1 customer ID of the account, for users not yet migrated to v2 accounts.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountActivityAccountDetailsDataParams `form:"data" json:"data,omitempty"`
@@ -206,6 +208,8 @@ type V2SignalsAccountActivityCreateAccountDetailsDataIdentityParams struct {
 
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountActivityCreateAccountDetailsDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2SignalsAccountActivityCreateAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.
@@ -216,7 +220,7 @@ type V2SignalsAccountActivityCreateAccountDetailsDataParams struct {
 type V2SignalsAccountActivityCreateAccountDetailsParams struct {
 	// The v2 account ID of the account.
 	Account *string `form:"account" json:"account,omitempty"`
-	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
+	// The v1 customer ID of the account, for users not yet migrated to v2 accounts.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountActivityCreateAccountDetailsDataParams `form:"data" json:"data,omitempty"`

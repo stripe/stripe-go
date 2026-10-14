@@ -9418,6 +9418,7 @@ type V2CoreAccountIdentityIndividualAdditionalAddressPurpose string
 
 // List of values that V2CoreAccountIdentityIndividualAdditionalAddressPurpose can take
 const (
+	V2CoreAccountIdentityIndividualAdditionalAddressPurposeBirthplace V2CoreAccountIdentityIndividualAdditionalAddressPurpose = "birthplace"
 	V2CoreAccountIdentityIndividualAdditionalAddressPurposeRegistered V2CoreAccountIdentityIndividualAdditionalAddressPurpose = "registered"
 )
 

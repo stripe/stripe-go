@@ -620,7 +620,7 @@ type InvoiceItemProrationDetailsCreditedItemsInvoiceLineItemDetails struct {
 	InvoiceLineItems []string `json:"invoice_line_items"`
 }
 
-// For a credit proration, links to the debit invoice line items or invoice item that the credit applies to.
+// For a credit proration, links to the debit that the credit applies to. The reference is to an invoice item if the debit was pending when the credit was created, and to invoice line items if the debit was already invoiced.
 type InvoiceItemProrationDetailsCreditedItems struct {
 	// When `type` is `invoice_item`, the invoice item id for the debited invoice item corresponding to this credit proration.
 	InvoiceItem            string                                                          `json:"invoice_item,omitempty"`
@@ -637,7 +637,7 @@ type InvoiceItemProrationDetailsDiscountAmount struct {
 	Discount *Discount `json:"discount"`
 }
 type InvoiceItemProrationDetails struct {
-	// For a credit proration, links to the debit invoice line items or invoice item that the credit applies to.
+	// For a credit proration, links to the debit that the credit applies to. The reference is to an invoice item if the debit was pending when the credit was created, and to invoice line items if the debit was already invoiced.
 	CreditedItems *InvoiceItemProrationDetailsCreditedItems `json:"credited_items"`
 	// Discount amounts applied when the proration was created. This field is only populated for prorations created from subscriptions with `billing_mode=flexible`.
 	DiscountAmounts []*InvoiceItemProrationDetailsDiscountAmount `json:"discount_amounts"`

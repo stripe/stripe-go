@@ -30,6 +30,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeCapchasePay          SetupIntentAllowedPaymentMethodType = "capchase_pay"
 	SetupIntentAllowedPaymentMethodTypeCard                 SetupIntentAllowedPaymentMethodType = "card"
 	SetupIntentAllowedPaymentMethodTypeCardPresent          SetupIntentAllowedPaymentMethodType = "card_present"
+	SetupIntentAllowedPaymentMethodTypeCarecredit           SetupIntentAllowedPaymentMethodType = "carecredit"
 	SetupIntentAllowedPaymentMethodTypeCashApp              SetupIntentAllowedPaymentMethodType = "cashapp"
 	SetupIntentAllowedPaymentMethodTypeCheckScan            SetupIntentAllowedPaymentMethodType = "check_scan"
 	SetupIntentAllowedPaymentMethodTypeClickToPay           SetupIntentAllowedPaymentMethodType = "click_to_pay"
@@ -44,6 +45,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeFPX                  SetupIntentAllowedPaymentMethodType = "fpx"
 	SetupIntentAllowedPaymentMethodTypeGcash                SetupIntentAllowedPaymentMethodType = "gcash"
 	SetupIntentAllowedPaymentMethodTypeGetbalance           SetupIntentAllowedPaymentMethodType = "getbalance"
+	SetupIntentAllowedPaymentMethodTypeGetflex              SetupIntentAllowedPaymentMethodType = "getflex"
 	SetupIntentAllowedPaymentMethodTypeGiftCard             SetupIntentAllowedPaymentMethodType = "gift_card"
 	SetupIntentAllowedPaymentMethodTypeGiropay              SetupIntentAllowedPaymentMethodType = "giropay"
 	SetupIntentAllowedPaymentMethodTypeGopay                SetupIntentAllowedPaymentMethodType = "gopay"
@@ -86,6 +88,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypePix                  SetupIntentAllowedPaymentMethodType = "pix"
 	SetupIntentAllowedPaymentMethodTypePromptPay            SetupIntentAllowedPaymentMethodType = "promptpay"
 	SetupIntentAllowedPaymentMethodTypeQris                 SetupIntentAllowedPaymentMethodType = "qris"
+	SetupIntentAllowedPaymentMethodTypeRakutenPay           SetupIntentAllowedPaymentMethodType = "rakuten_pay"
 	SetupIntentAllowedPaymentMethodTypeRechnung             SetupIntentAllowedPaymentMethodType = "rechnung"
 	SetupIntentAllowedPaymentMethodTypeRevolutPay           SetupIntentAllowedPaymentMethodType = "revolut_pay"
 	SetupIntentAllowedPaymentMethodTypeSamsungPay           SetupIntentAllowedPaymentMethodType = "samsung_pay"
@@ -93,6 +96,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeScalapay             SetupIntentAllowedPaymentMethodType = "scalapay"
 	SetupIntentAllowedPaymentMethodTypeSEPADebit            SetupIntentAllowedPaymentMethodType = "sepa_debit"
 	SetupIntentAllowedPaymentMethodTypeSequra               SetupIntentAllowedPaymentMethodType = "sequra"
+	SetupIntentAllowedPaymentMethodTypeSezzle               SetupIntentAllowedPaymentMethodType = "sezzle"
 	SetupIntentAllowedPaymentMethodTypeShopPay              SetupIntentAllowedPaymentMethodType = "shop_pay"
 	SetupIntentAllowedPaymentMethodTypeShopeepay            SetupIntentAllowedPaymentMethodType = "shopeepay"
 	SetupIntentAllowedPaymentMethodTypeSofort               SetupIntentAllowedPaymentMethodType = "sofort"
@@ -154,11 +158,13 @@ const (
 	SetupIntentExcludedPaymentMethodTypeBLIK             SetupIntentExcludedPaymentMethodType = "blik"
 	SetupIntentExcludedPaymentMethodTypeBoleto           SetupIntentExcludedPaymentMethodType = "boleto"
 	SetupIntentExcludedPaymentMethodTypeCard             SetupIntentExcludedPaymentMethodType = "card"
+	SetupIntentExcludedPaymentMethodTypeCarecredit       SetupIntentExcludedPaymentMethodType = "carecredit"
 	SetupIntentExcludedPaymentMethodTypeCashApp          SetupIntentExcludedPaymentMethodType = "cashapp"
 	SetupIntentExcludedPaymentMethodTypeCrypto           SetupIntentExcludedPaymentMethodType = "crypto"
 	SetupIntentExcludedPaymentMethodTypeCustomerBalance  SetupIntentExcludedPaymentMethodType = "customer_balance"
 	SetupIntentExcludedPaymentMethodTypeEPS              SetupIntentExcludedPaymentMethodType = "eps"
 	SetupIntentExcludedPaymentMethodTypeFPX              SetupIntentExcludedPaymentMethodType = "fpx"
+	SetupIntentExcludedPaymentMethodTypeGetflex          SetupIntentExcludedPaymentMethodType = "getflex"
 	SetupIntentExcludedPaymentMethodTypeGiftCard         SetupIntentExcludedPaymentMethodType = "gift_card"
 	SetupIntentExcludedPaymentMethodTypeGiropay          SetupIntentExcludedPaymentMethodType = "giropay"
 	SetupIntentExcludedPaymentMethodTypeGopay            SetupIntentExcludedPaymentMethodType = "gopay"
@@ -185,6 +191,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypePix              SetupIntentExcludedPaymentMethodType = "pix"
 	SetupIntentExcludedPaymentMethodTypePromptPay        SetupIntentExcludedPaymentMethodType = "promptpay"
 	SetupIntentExcludedPaymentMethodTypeQris             SetupIntentExcludedPaymentMethodType = "qris"
+	SetupIntentExcludedPaymentMethodTypeRakutenPay       SetupIntentExcludedPaymentMethodType = "rakuten_pay"
 	SetupIntentExcludedPaymentMethodTypeRechnung         SetupIntentExcludedPaymentMethodType = "rechnung"
 	SetupIntentExcludedPaymentMethodTypeRevolutPay       SetupIntentExcludedPaymentMethodType = "revolut_pay"
 	SetupIntentExcludedPaymentMethodTypeSamsungPay       SetupIntentExcludedPaymentMethodType = "samsung_pay"
@@ -192,6 +199,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeScalapay         SetupIntentExcludedPaymentMethodType = "scalapay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
 	SetupIntentExcludedPaymentMethodTypeSequra           SetupIntentExcludedPaymentMethodType = "sequra"
+	SetupIntentExcludedPaymentMethodTypeSezzle           SetupIntentExcludedPaymentMethodType = "sezzle"
 	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
 	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
@@ -707,6 +715,9 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type SetupIntentPaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentPaymentMethodDataCashAppParams struct{}
 
@@ -729,6 +740,9 @@ type SetupIntentPaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type SetupIntentPaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type SetupIntentPaymentMethodDataGiftCardParams struct {
@@ -867,6 +881,9 @@ type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type SetupIntentPaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentPaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -903,6 +920,9 @@ type SetupIntentPaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type SetupIntentPaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type SetupIntentPaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentPaymentMethodDataShopeepayParams struct{}
@@ -1005,6 +1025,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	BLIK *SetupIntentPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *SetupIntentPaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentPaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -1015,6 +1037,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	EPS *SetupIntentPaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *SetupIntentPaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *SetupIntentPaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *SetupIntentPaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -1075,6 +1099,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Qris *SetupIntentPaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *SetupIntentPaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentPaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -1089,6 +1115,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *SetupIntentPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *SetupIntentPaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -1875,6 +1903,9 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type SetupIntentConfirmPaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentConfirmPaymentMethodDataCashAppParams struct{}
 
@@ -1897,6 +1928,9 @@ type SetupIntentConfirmPaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type SetupIntentConfirmPaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type SetupIntentConfirmPaymentMethodDataGiftCardParams struct {
@@ -2035,6 +2069,9 @@ type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type SetupIntentConfirmPaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentConfirmPaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -2071,6 +2108,9 @@ type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type SetupIntentConfirmPaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type SetupIntentConfirmPaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentConfirmPaymentMethodDataShopeepayParams struct{}
@@ -2173,6 +2213,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	BLIK *SetupIntentConfirmPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *SetupIntentConfirmPaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentConfirmPaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -2183,6 +2225,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	EPS *SetupIntentConfirmPaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *SetupIntentConfirmPaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *SetupIntentConfirmPaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *SetupIntentConfirmPaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -2243,6 +2287,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Qris *SetupIntentConfirmPaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *SetupIntentConfirmPaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentConfirmPaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -2257,6 +2303,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *SetupIntentConfirmPaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *SetupIntentConfirmPaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -2535,6 +2583,9 @@ type SetupIntentCreatePaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type SetupIntentCreatePaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentCreatePaymentMethodDataCashAppParams struct{}
 
@@ -2557,6 +2608,9 @@ type SetupIntentCreatePaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type SetupIntentCreatePaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type SetupIntentCreatePaymentMethodDataGiftCardParams struct {
@@ -2695,6 +2749,9 @@ type SetupIntentCreatePaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type SetupIntentCreatePaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentCreatePaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -2731,6 +2788,9 @@ type SetupIntentCreatePaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type SetupIntentCreatePaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type SetupIntentCreatePaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentCreatePaymentMethodDataShopeepayParams struct{}
@@ -2833,6 +2893,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	BLIK *SetupIntentCreatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentCreatePaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *SetupIntentCreatePaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentCreatePaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -2843,6 +2905,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	EPS *SetupIntentCreatePaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *SetupIntentCreatePaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *SetupIntentCreatePaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *SetupIntentCreatePaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -2903,6 +2967,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Qris *SetupIntentCreatePaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *SetupIntentCreatePaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *SetupIntentCreatePaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentCreatePaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -2917,6 +2983,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *SetupIntentCreatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *SetupIntentCreatePaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -3700,6 +3768,9 @@ type SetupIntentUpdatePaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id"`
 }
 
+// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+type SetupIntentUpdatePaymentMethodDataCarecreditParams struct{}
+
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentUpdatePaymentMethodDataCashAppParams struct{}
 
@@ -3722,6 +3793,9 @@ type SetupIntentUpdatePaymentMethodDataFPXParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank" json:"bank"`
 }
+
+// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+type SetupIntentUpdatePaymentMethodDataGetflexParams struct{}
 
 // If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 type SetupIntentUpdatePaymentMethodDataGiftCardParams struct {
@@ -3860,6 +3934,9 @@ type SetupIntentUpdatePaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+type SetupIntentUpdatePaymentMethodDataRakutenPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentUpdatePaymentMethodDataRechnungDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -3896,6 +3973,9 @@ type SetupIntentUpdatePaymentMethodDataSEPADebitParams struct {
 
 // If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 type SetupIntentUpdatePaymentMethodDataSequraParams struct{}
+
+// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+type SetupIntentUpdatePaymentMethodDataSezzleParams struct{}
 
 // If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 type SetupIntentUpdatePaymentMethodDataShopeepayParams struct{}
@@ -3998,6 +4078,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	BLIK *SetupIntentUpdatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentUpdatePaymentMethodDataBoletoParams `form:"boleto" json:"boleto,omitempty"`
+	// If this is a `carecredit` PaymentMethod, this hash contains details about the CareCredit payment method.
+	Carecredit *SetupIntentUpdatePaymentMethodDataCarecreditParams `form:"carecredit" json:"carecredit,omitempty"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentUpdatePaymentMethodDataCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
@@ -4008,6 +4090,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	EPS *SetupIntentUpdatePaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *SetupIntentUpdatePaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `getflex` PaymentMethod, this hash contains details about the GetFlex payment method.
+	Getflex *SetupIntentUpdatePaymentMethodDataGetflexParams `form:"getflex" json:"getflex,omitempty"`
 	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
 	GiftCard *SetupIntentUpdatePaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -4068,6 +4152,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Qris *SetupIntentUpdatePaymentMethodDataQrisParams `form:"qris" json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *SetupIntentUpdatePaymentMethodDataRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this hash contains details about the Rakuten Pay payment method.
+	RakutenPay *SetupIntentUpdatePaymentMethodDataRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentUpdatePaymentMethodDataRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
@@ -4082,6 +4168,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
 	Sequra *SetupIntentUpdatePaymentMethodDataSequraParams `form:"sequra" json:"sequra,omitempty"`
+	// If this is a `sezzle` PaymentMethod, this hash contains details about the Sezzle payment method.
+	Sezzle *SetupIntentUpdatePaymentMethodDataSezzleParams `form:"sezzle" json:"sezzle,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
 	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

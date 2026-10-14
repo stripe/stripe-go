@@ -18318,47 +18318,6 @@ func (n *V2PaymentsOffSessionPaymentPausedEventNotification) FetchRelatedObject(
 	return relatedObj, err
 }
 
-// V2PaymentsOffSessionPaymentRequiresCaptureEvent is the Go struct for the "v2.payments.off_session_payment.requires_capture" event.
-// Deprecated. Sent when the off-session payment becomes available for capture.
-type V2PaymentsOffSessionPaymentRequiresCaptureEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (e *V2PaymentsOffSessionPaymentRequiresCaptureEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentRequiresCaptureEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.requires_capture"
-// Deprecated. Sent when the off-session payment becomes available for capture.
-type V2PaymentsOffSessionPaymentRequiresCaptureEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2PaymentsOffSessionPaymentRequiresCaptureEvent that created this Notification
-func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentRequiresCaptureEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2PaymentsOffSessionPaymentRequiresCaptureEvent), nil
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V2PaymentsOffSessionPaymentResumedEvent is the Go struct for the "v2.payments.off_session_payment.resumed" event.
 // Sent immediately following a user's call to the Off-Session Payments resume endpoint.
 type V2PaymentsOffSessionPaymentResumedEvent struct {
@@ -27097,21 +27056,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v2.payments.off_session_payment.requires_capture":
-		result := &V2PaymentsOffSessionPaymentRequiresCaptureEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v2.payments.off_session_payment.resumed":
 		result := &V2PaymentsOffSessionPaymentResumedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -30633,13 +30577,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.payments.off_session_payment.paused":
 		evt := V2PaymentsOffSessionPaymentPausedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.payments.off_session_payment.requires_capture":
-		evt := V2PaymentsOffSessionPaymentRequiresCaptureEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

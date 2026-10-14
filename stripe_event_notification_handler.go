@@ -2600,12 +2600,6 @@ func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentPaused(callb
 		h, "v2.payments.off_session_payment.paused", callback)
 }
 
-// OnV2PaymentsOffSessionPaymentRequiresCapture registers a callback to handle notifications about the "v2.payments.off_session_payment.requires_capture" event.
-func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentRequiresCapture(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification, client *Client) error) error {
-	return registerTypedHandler(
-		h, "v2.payments.off_session_payment.requires_capture", callback)
-}
-
 // OnV2PaymentsOffSessionPaymentResumed registers a callback to handle notifications about the "v2.payments.off_session_payment.resumed" event.
 func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentResumed(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentResumedEventNotification, client *Client) error) error {
 	return registerTypedHandler(

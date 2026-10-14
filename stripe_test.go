@@ -232,6 +232,46 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
+func TestDo_RetryOnAPIError(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+	}
+
+	requestNum := 0
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestNum++
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, err := w.Write([]byte(`{"error":{"type":"api_error","message":"try again"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     nullLeveledLogger,
+			MaxNetworkRetries: Int64(2),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+	backend.SetNetworkRetriesSleep(false)
+
+	request, err := backend.NewRequest(http.MethodPost, "/v1/hello", "sk_test_123", "", nil)
+	assert.NoError(t, err)
+
+	var response testServerResponse
+	err = backend.Do(request, nil, &response)
+
+	var stripeErr *Error
+	assert.ErrorAs(t, err, &stripeErr)
+	assert.Equal(t, http.StatusServiceUnavailable, stripeErr.HTTPStatusCode)
+	assert.Equal(t, "try again", stripeErr.Msg)
+	assert.NotNil(t, stripeErr.LastResponse)
+	assert.Equal(t, http.StatusServiceUnavailable, stripeErr.LastResponse.StatusCode)
+	assert.Equal(t, 3, requestNum)
+}
+
 func TestShouldRetry(t *testing.T) {
 	MaxNetworkRetries := int64(3)
 
@@ -328,14 +368,14 @@ func TestShouldRetry(t *testing.T) {
 	// `Stripe-Should-Retry: false`
 	t.Run("DontRetryOnStripeRetryHeaderFalse", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			nil,
+			&Error{Msg: "An error from Stripe"},
 			&http.Request{},
 			&http.Response{
 				Header: http.Header(map[string][]string{
 					"Stripe-Should-Retry": {"false"},
 				}),
-				// Note we send status 409 here, which would normally be retried
-				StatusCode: http.StatusConflict,
+				// Note we send status 500 here, which would normally be retried
+				StatusCode: http.StatusInternalServerError,
 			},
 			0,
 		)
@@ -345,7 +385,7 @@ func TestShouldRetry(t *testing.T) {
 	// `Stripe-Should-Retry: true`
 	t.Run("RetryOnStripeRetryHeaderTrue", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			nil,
+			&Error{Msg: "An error from Stripe"},
 			&http.Request{},
 			&http.Response{
 				Header: http.Header(map[string][]string{
@@ -363,7 +403,7 @@ func TestShouldRetry(t *testing.T) {
 	// 409 Conflict
 	t.Run("RetryOn409Conflict", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			nil,
+			&Error{Msg: "An error from Stripe"},
 			&http.Request{},
 			&http.Response{StatusCode: http.StatusConflict},
 			0,
@@ -376,16 +416,32 @@ func TestShouldRetry(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
 			&Error{Code: ErrorCodeLockTimeout, HTTPStatusCode: http.StatusTooManyRequests},
 			&http.Request{},
-			&http.Response{},
+			&http.Response{StatusCode: http.StatusTooManyRequests},
 			0,
 		)
 		assert.True(t, shouldRetry)
 	})
 
+	// `Stripe-Should-Retry: false` takes precedence over a lock timeout.
+	t.Run("DontRetryOn429LockTimeoutWithRetryHeaderFalse", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&Error{Code: ErrorCodeLockTimeout, HTTPStatusCode: http.StatusTooManyRequests},
+			&http.Request{},
+			&http.Response{
+				Header: http.Header(map[string][]string{
+					"Stripe-Should-Retry": {"false"},
+				}),
+				StatusCode: http.StatusTooManyRequests,
+			},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
+
 	// 429 Too Many Requests -- don't retry normally
 	t.Run("DontRetryOn429TooManyRequests", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			nil,
+			&Error{Code: ErrorCodeRateLimit, HTTPStatusCode: http.StatusTooManyRequests},
 			&http.Request{},
 			&http.Response{StatusCode: http.StatusTooManyRequests},
 			0,
@@ -404,10 +460,21 @@ func TestShouldRetry(t *testing.T) {
 		assert.True(t, shouldRetry)
 	})
 
-	// 503 Service Unavailable
-	t.Run("RetryOn503ServiceUnavailable", func(t *testing.T) {
+	// 503 Service Unavailable with a V1 API error
+	t.Run("RetryOn503ServiceUnavailableV1Error", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			nil,
+			&Error{HTTPStatusCode: http.StatusServiceUnavailable},
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusServiceUnavailable},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
+
+	// 503 Service Unavailable with a V2 API error
+	t.Run("RetryOn503ServiceUnavailableV2Error", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&V2RawError{HTTPStatusCode: http.StatusServiceUnavailable},
 			&http.Request{},
 			&http.Response{StatusCode: http.StatusServiceUnavailable},
 			0,
