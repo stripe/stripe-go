@@ -84,7 +84,7 @@ func (p *SearchParams) GetSearchParams() *SearchParams {
 }
 
 // GetParams returns SearchParams as a Params struct. It exists because any
-// structs that embed Params will inherit it, and thus implement the
+// structs that embed SearchParams will inherit it, and thus implement the
 // ParamsContainer interface.
 func (p *SearchParams) GetParams() *Params {
 	return p.ToParams()
@@ -123,5 +123,6 @@ func (p *SearchParams) ToParams() *Params {
 // structs should comply. They achieve this by embedding a SearchParams struct
 // and inheriting its implementation of this interface.
 type SearchParamsContainer interface {
+	ParamsContainer
 	GetSearchParams() *SearchParams
 }
