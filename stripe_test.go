@@ -1938,6 +1938,22 @@ func TestStripeAccount(t *testing.T) {
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
 }
 
+func TestExtractParamsWithoutMetadataField(t *testing.T) {
+	type searchParams struct {
+		SearchParams `form:"*"`
+		Sort         string `form:"sort" json:"sort"`
+	}
+
+	formValues, commonParams, err := extractParams(&searchParams{
+		SearchParams: SearchParams{Query: "status:'active'"},
+		Sort:         "-created",
+	})
+
+	assert.NoError(t, err)
+	assert.NotNil(t, formValues)
+	assert.NotNil(t, commonParams)
+}
+
 func TestErrorOnDuplicateMetadata(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	type myParams struct {
