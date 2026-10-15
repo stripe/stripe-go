@@ -524,6 +524,12 @@ func InitializeV2Lists(value any, backend Backend, key string) {
 		if !v.IsValid() {
 			return
 		}
+		// A nil *V2List[T] still satisfies v2ListInitializer, so this must be checked
+		// before the interface assertion below rather than relying on the switch's
+		// pointer case.
+		if v.Kind() == reflect.Pointer && v.IsNil() {
+			return
+		}
 		if v.CanInterface() {
 			if list, ok := v.Interface().(v2ListInitializer); ok {
 				list.initializeV2List(backend, key)

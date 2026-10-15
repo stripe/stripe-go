@@ -469,6 +469,33 @@ func TestInitializeV2ListsHandlesCyclesAndInaccessibleFields(t *testing.T) {
 	assert.Equal(t, []string{"/items?page=2"}, backend.paths)
 }
 
+// A page item can decode with its own nested V2List field left nil;
+// InitializeV2Lists must not panic on it.
+func TestInitializeV2ListsSkipsNilNestedList(t *testing.T) {
+	type resource struct {
+		Children *V2List[*resource] `json:"children"`
+		Items    *V2List[*item]     `json:"items"`
+	}
+	var list V2List[*resource]
+	assert.NoError(t, json.Unmarshal([]byte(`{"data":[{}],"next_page_url":null}`), &list))
+	backend := &v2ListTestBackend{}
+
+	InitializeV2Lists(&list, backend, "key")
+}
+
+// Covers the common case: an ordinary optional embedded V2List field explicitly
+// null, which InitializeV2Lists must not panic on either.
+func TestInitializeV2ListsSkipsNilOptionalField(t *testing.T) {
+	type resource struct {
+		Items *V2List[*item] `json:"items"`
+	}
+	var widget resource
+	assert.NoError(t, json.Unmarshal([]byte(`{"items":null}`), &widget))
+	assert.Nil(t, widget.Items)
+
+	InitializeV2Lists(&widget, &v2ListTestBackend{}, "key")
+}
+
 //
 // ---
 //
