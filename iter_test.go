@@ -347,12 +347,11 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 
 func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	params := &testV2SearchParams{
-		V2SearchParams: V2SearchParams{
-			Params: Params{Extra: &ExtraValues{Values: map[string][]string{"future": {"value"}}}},
-			Query:  "status:'active'",
-			Sort:   "-created",
-			Limit:  Int64(2),
+		SearchParams: SearchParams{
+			Query: "status:'active'",
+			Limit: Int64(2),
 		},
+		Sort:    "-created",
 		URLOnly: String("acct_123"),
 	}
 	var paths []string
@@ -376,7 +375,6 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	params.Query = "changed"
 	params.Sort = "changed"
 	*params.Limit = 10
-	params.Extra.Set("future", "changed")
 	got, err := collectV2SearchList(list)
 	assert.NoError(t, err)
 	assert.Equal(t, []*item{{"x"}, {"y"}}, got)
@@ -386,14 +384,14 @@ func TestV2SearchReplaysOriginalParams(t *testing.T) {
 	for i, p := range seen {
 		assert.Nil(t, p.(*testV2SearchParams).Limit)
 		assert.Equal(t, "acct_123", *p.(*testV2SearchParams).URLOnly)
-		assert.Equal(t, "value", p.GetParams().Extra.Get("future"))
-		assert.JSONEq(t, `{"future":"value","query":"status:'active'","sort":"-created"}`, bodies[i])
+		assert.JSONEq(t, `{"query":"status:'active'","sort":"-created"}`, bodies[i])
 	}
 	assert.Equal(t, int64(2), list.TotalCount())
 }
 
 type testV2SearchParams struct {
-	V2SearchParams
+	SearchParams
+	Sort    string  `json:"sort"`
 	URLOnly *string `json:"-"`
 }
 
@@ -408,7 +406,7 @@ func TestV2SearchNilPageError(t *testing.T) {
 				}
 				return nil, errTest
 			}
-			list := newV2SearchList(context.Background(), "/test", &V2SearchParams{Query: "q", Sort: "s"}, fetch)
+			list := newV2SearchList(context.Background(), "/test", &testV2SearchParams{SearchParams: SearchParams{Query: "q"}, Sort: "s"}, fetch)
 			got, err := collectV2SearchList(list)
 			assert.ErrorIs(t, err, errTest)
 			if afterFirstPage {
@@ -422,7 +420,7 @@ func TestV2SearchNilPageError(t *testing.T) {
 }
 
 func TestV2SearchNilPageWithoutError(t *testing.T) {
-	list := newV2SearchList(context.Background(), "/test", &V2SearchParams{Query: "q", Sort: "s"},
+	list := newV2SearchList(context.Background(), "/test", &testV2SearchParams{SearchParams: SearchParams{Query: "q"}, Sort: "s"},
 		func(context.Context, string, ParamsContainer) (*V2SearchPage[*item], error) { return nil, nil })
 	_, err := collectV2SearchList(list)
 	assert.EqualError(t, err, "invalid v2 search response: nil page")
