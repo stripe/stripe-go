@@ -50,7 +50,7 @@ type SearchParams struct {
 	Limit *int64  `form:"limit" json:"-"`
 	Page  *string `form:"page" json:"-"`
 	// Deprecated: Please use Expand in the surrounding struct instead.
-	Expand []*string `form:"expand" json:"-"`
+	Expand []*string `form:"expand"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as
