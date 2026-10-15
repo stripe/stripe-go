@@ -504,10 +504,10 @@ func cloneV2SearchParams(p SearchParamsContainer) (SearchParamsContainer, error)
 	cloneValue := reflect.New(value.Elem().Type())
 	cloneValue.Elem().Set(value.Elem())
 	clone, ok := cloneValue.Interface().(SearchParamsContainer)
-	if !ok || p.GetV2SearchParams() == nil || clone.GetV2SearchParams() == nil {
+	if !ok || p.GetSearchParams() == nil || clone.GetSearchParams() == nil {
 		return nil, fmt.Errorf("v2 search params %T do not expose V2SearchParams", p)
 	}
-	originalSearch, clonedSearch := p.GetV2SearchParams(), clone.GetV2SearchParams()
+	originalSearch, clonedSearch := p.GetSearchParams(), clone.GetSearchParams()
 	if originalSearch.Limit != nil {
 		limit := *originalSearch.Limit
 		clonedSearch.Limit = &limit
@@ -540,7 +540,7 @@ func splitV2SearchLimit(path string, p SearchParamsContainer, addToPath bool) (s
 	if params == nil {
 		return path, nil, nil
 	}
-	searchParams := params.GetV2SearchParams()
+	searchParams := params.GetSearchParams()
 	if searchParams.Limit == nil {
 		return path, params, nil
 	}
