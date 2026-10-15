@@ -342,13 +342,15 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
 
-			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
+			metadataField := reflectValue.Elem().FieldByName("Metadata")
+			if metadataField.IsValid() && !metadataField.IsZero() {
 				if commonParams.Metadata != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
-			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
+			expandField := reflectValue.Elem().FieldByName("Expand")
+			if expandField.IsValid() && !expandField.IsZero() {
 				if commonParams.Expand != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
@@ -585,7 +587,11 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	paramsValue := reflect.ValueOf(params)
 	unsetFieldPaths := collectAllUnsetFields(paramsValue)
 	decimalFields := collectDecimalJSONFields(paramsValue, nil)
-	if len(unsetFieldPaths) == 0 && len(decimalFields) == 0 {
+	var extraValues url.Values
+	if baseParams := params.GetParams(); baseParams != nil && baseParams.Extra != nil {
+		extraValues = baseParams.Extra.Values
+	}
+	if len(unsetFieldPaths) == 0 && len(decimalFields) == 0 && len(extraValues) == 0 {
 		return data, nil
 	}
 
@@ -603,6 +609,19 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	}
 	for _, path := range unsetFieldPaths {
 		setNestedNull(m, path)
+	}
+	for key, values := range extraValues {
+		var value interface{}
+		if len(values) == 1 {
+			value = values[0]
+		} else {
+			value = values
+		}
+		encoded, err := json.Marshal(value)
+		if err != nil {
+			return nil, err
+		}
+		m[key] = encoded
 	}
 
 	return json.Marshal(m)

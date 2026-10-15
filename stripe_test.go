@@ -1154,6 +1154,21 @@ func TestMarshalV2JSON(t *testing.T) {
 		assert.False(t, hasDesc, "description should not be present")
 	})
 
+	t.Run("with extra values", func(t *testing.T) {
+		params := &testParams{Name: String("test")}
+		params.AddExtra("future", "value")
+		params.AddExtra("repeated", "one")
+		params.AddExtra("repeated", "two")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+		assert.JSONEq(t, `{
+			"name": "test",
+			"future": "value",
+			"repeated": ["one", "two"]
+		}`, string(data))
+	})
+
 	t.Run("with UnsetFields", func(t *testing.T) {
 		params := &testParams{
 			Name: String("test"),
@@ -1921,6 +1936,22 @@ func TestStripeAccount(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
+}
+
+func TestExtractParamsWithoutMetadataField(t *testing.T) {
+	type searchParams struct {
+		SearchParams `form:"*"`
+		Sort         string `form:"sort" json:"sort"`
+	}
+
+	formValues, commonParams, err := extractParams(&searchParams{
+		SearchParams: SearchParams{Query: "status:'active'"},
+		Sort:         "-created",
+	})
+
+	assert.NoError(t, err)
+	assert.NotNil(t, formValues)
+	assert.NotNil(t, commonParams)
 }
 
 func TestErrorOnDuplicateMetadata(t *testing.T) {
