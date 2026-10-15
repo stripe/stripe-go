@@ -123,6 +123,5 @@ func (p *SearchParams) ToParams() *Params {
 // structs should comply. They achieve this by embedding a SearchParams struct
 // and inheriting its implementation of this interface.
 type SearchParamsContainer interface {
-	ParamsContainer
 	GetSearchParams() *SearchParams
 }
