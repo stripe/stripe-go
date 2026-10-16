@@ -496,6 +496,14 @@ func TestInitializeV2ListsSkipsNilOptionalField(t *testing.T) {
 	InitializeV2Lists(&widget, &v2ListTestBackend{}, "key")
 }
 
+// Nesting is incidental, not essential, to the bug the two tests above cover: a bare
+// nil *V2List[T] passed as the top-level value reproduces the identical panic, with
+// no struct or field involved at all.
+func TestInitializeV2ListsSkipsNilTopLevelValue(t *testing.T) {
+	var list *V2List[*item]
+	InitializeV2Lists(list, &v2ListTestBackend{}, "key")
+}
+
 //
 // ---
 //
