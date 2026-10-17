@@ -77,6 +77,24 @@ type V2SignalsAccountActivityAccountSuspendedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Required when type is account_takeover_confirmation. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityAccountTakeoverConfirmationParams struct {
+	// The type of credential involved in the confirmed takeover.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
+// Required when type is account_takeover_report. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityAccountTakeoverReportParams struct {
+	// The type of credential involved in the reported takeover.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
+// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCredentialChangeParams struct {
+	// The type of credential that changed.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityLoginAttemptClientDetailsDataParams struct {
 	// The IP address associated with the activity.
@@ -105,6 +123,18 @@ type V2SignalsAccountActivityLoginAttemptParams struct {
 type V2SignalsAccountActivityLoginDecisionParams struct {
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
+}
+
+// Required when type is mfa_addition. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityMfaAdditionParams struct {
+	// The authentication method added to the account.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+}
+
+// Required when type is mfa_removal. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityMfaRemovalParams struct {
+	// The authentication method removed from the account.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
 }
 
 // Raw client details for the activity, when a Radar session is not available.
@@ -153,12 +183,22 @@ type V2SignalsAccountActivityParams struct {
 	// Details for the account suspension. Provide only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`
+	// Required when type is account_takeover_confirmation. Requires an existing customer or account with a customer configuration.
+	AccountTakeoverConfirmation *V2SignalsAccountActivityAccountTakeoverConfirmationParams `form:"account_takeover_confirmation" json:"account_takeover_confirmation,omitempty"`
+	// Required when type is account_takeover_report. Requires an existing customer or account with a customer configuration.
+	AccountTakeoverReport *V2SignalsAccountActivityAccountTakeoverReportParams `form:"account_takeover_report" json:"account_takeover_report,omitempty"`
+	// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
+	CredentialChange *V2SignalsAccountActivityCredentialChangeParams `form:"credential_change" json:"credential_change,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
 	LoginDecision *V2SignalsAccountActivityLoginDecisionParams `form:"login_decision" json:"login_decision,omitempty"`
 	// Additional information about the activity.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Required when type is mfa_addition. Requires an existing customer or account with a customer configuration.
+	MfaAddition *V2SignalsAccountActivityMfaAdditionParams `form:"mfa_addition" json:"mfa_addition,omitempty"`
+	// Required when type is mfa_removal. Requires an existing customer or account with a customer configuration.
+	MfaRemoval *V2SignalsAccountActivityMfaRemovalParams `form:"mfa_removal" json:"mfa_removal,omitempty"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.
@@ -247,6 +287,24 @@ type V2SignalsAccountActivityCreateAccountSuspendedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Required when type is account_takeover_confirmation. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCreateAccountTakeoverConfirmationParams struct {
+	// The type of credential involved in the confirmed takeover.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
+// Required when type is account_takeover_report. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCreateAccountTakeoverReportParams struct {
+	// The type of credential involved in the reported takeover.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
+// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCreateCredentialChangeParams struct {
+	// The type of credential that changed.
+	CredentialType *string `form:"credential_type" json:"credential_type"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityCreateLoginAttemptClientDetailsDataParams struct {
 	// The IP address associated with the activity.
@@ -275,6 +333,18 @@ type V2SignalsAccountActivityCreateLoginAttemptParams struct {
 type V2SignalsAccountActivityCreateLoginDecisionParams struct {
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
+}
+
+// Required when type is mfa_addition. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCreateMfaAdditionParams struct {
+	// The authentication method added to the account.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+}
+
+// Required when type is mfa_removal. Requires an existing customer or account with a customer configuration.
+type V2SignalsAccountActivityCreateMfaRemovalParams struct {
+	// The authentication method removed from the account.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
 }
 
 // Raw client details for the activity, when a Radar session is not available.
@@ -323,12 +393,22 @@ type V2SignalsAccountActivityCreateParams struct {
 	// Details for the account suspension. Provide only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityCreateAccountSuspendedParams `form:"account_suspended" json:"account_suspended,omitempty"`
+	// Required when type is account_takeover_confirmation. Requires an existing customer or account with a customer configuration.
+	AccountTakeoverConfirmation *V2SignalsAccountActivityCreateAccountTakeoverConfirmationParams `form:"account_takeover_confirmation" json:"account_takeover_confirmation,omitempty"`
+	// Required when type is account_takeover_report. Requires an existing customer or account with a customer configuration.
+	AccountTakeoverReport *V2SignalsAccountActivityCreateAccountTakeoverReportParams `form:"account_takeover_report" json:"account_takeover_report,omitempty"`
+	// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
+	CredentialChange *V2SignalsAccountActivityCreateCredentialChangeParams `form:"credential_change" json:"credential_change,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityCreateLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
 	LoginDecision *V2SignalsAccountActivityCreateLoginDecisionParams `form:"login_decision" json:"login_decision,omitempty"`
 	// Additional information about the activity.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Required when type is mfa_addition. Requires an existing customer or account with a customer configuration.
+	MfaAddition *V2SignalsAccountActivityCreateMfaAdditionParams `form:"mfa_addition" json:"mfa_addition,omitempty"`
+	// Required when type is mfa_removal. Requires an existing customer or account with a customer configuration.
+	MfaRemoval *V2SignalsAccountActivityCreateMfaRemovalParams `form:"mfa_removal" json:"mfa_removal,omitempty"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.

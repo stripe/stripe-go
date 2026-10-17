@@ -6,7 +6,7 @@
 
 package stripe
 
-// Create an incoming testmode bank transfer
+// Create a test incoming bank transfer
 type TestHelpersCustomerFundCashBalanceParams struct {
 	Params `form:"*"`
 	// Amount to be used for this test cash balance transaction. A positive integer representing how much to fund in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to fund $1.00 or 100 to fund ¥100, a zero-decimal currency).

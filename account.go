@@ -347,7 +347,7 @@ type AccountParams struct {
 	Capabilities *AccountCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCompanyParams `form:"company" json:"company,omitempty"`
-	// A hash of configuration describing the account controller's attributes.
+	// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 	Controller *AccountControllerParams `form:"controller" json:"controller,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country" json:"country,omitempty"`
@@ -1842,13 +1842,13 @@ type AccountControllerDashboardParams struct {
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountControllerFeesParams struct {
-	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. Setting `controller.losses.payments=application` requires `controller.fees.payer=application`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	Payer *string `form:"payer" json:"payer,omitempty"`
 }
 
 // A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
 type AccountControllerLossesParams struct {
-	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Defaults to `stripe`.
 	Payments *string `form:"payments" json:"payments,omitempty"`
 }
 
@@ -1858,7 +1858,7 @@ type AccountControllerStripeDashboardParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// A hash of configuration describing the account controller's attributes.
+// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 type AccountControllerParams struct {
 	// A hash of configuration describing the Connect application that controls the account.
 	Application *AccountControllerApplicationParams `form:"application" json:"application,omitempty"`
@@ -4337,13 +4337,13 @@ type AccountCreateControllerDashboardParams struct {
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountCreateControllerFeesParams struct {
-	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. Setting `controller.losses.payments=application` requires `controller.fees.payer=application`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	Payer *string `form:"payer" json:"payer,omitempty"`
 }
 
 // A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
 type AccountCreateControllerLossesParams struct {
-	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Defaults to `stripe`.
 	Payments *string `form:"payments" json:"payments,omitempty"`
 }
 
@@ -4353,7 +4353,7 @@ type AccountCreateControllerStripeDashboardParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// A hash of configuration describing the account controller's attributes.
+// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 type AccountCreateControllerParams struct {
 	// A hash of configuration describing the Connect application that controls the account.
 	Application *AccountCreateControllerApplicationParams `form:"application" json:"application,omitempty"`
@@ -4860,7 +4860,7 @@ type AccountCreateParams struct {
 	Capabilities *AccountCreateCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCreateCompanyParams `form:"company" json:"company,omitempty"`
-	// A hash of configuration describing the account controller's attributes.
+	// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 	Controller *AccountCreateControllerParams `form:"controller" json:"controller,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country" json:"country,omitempty"`

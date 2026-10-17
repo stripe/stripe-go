@@ -276,7 +276,7 @@ type V2MoneyManagementReceivedDebitStripeBalancePayment struct {
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 }
 
-// ReceivedDebit resource
+// Use ReceivedDebits API to retrieve information on when, where, and how funds are debited from your FinancialAccount.
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.

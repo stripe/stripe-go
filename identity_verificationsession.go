@@ -101,7 +101,6 @@ type IdentityVerificationSessionType string
 // List of values that IdentityVerificationSessionType can take
 const (
 	IdentityVerificationSessionTypeDocument         IdentityVerificationSessionType = "document"
-	IdentityVerificationSessionTypeEmail            IdentityVerificationSessionType = "email"
 	IdentityVerificationSessionTypeIDNumber         IdentityVerificationSessionType = "id_number"
 	IdentityVerificationSessionTypeVerificationFlow IdentityVerificationSessionType = "verification_flow"
 )
