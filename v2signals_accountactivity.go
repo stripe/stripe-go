@@ -34,6 +34,36 @@ const (
 	V2SignalsAccountActivityAccountSuspendedReasonOther V2SignalsAccountActivityAccountSuspendedReason = "other"
 )
 
+// The type of credential involved in the confirmed takeover.
+type V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType string
+
+// List of values that V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType can take
+const (
+	V2SignalsAccountActivityAccountTakeoverConfirmationCredentialTypeAPIKey        V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType = "api_key"
+	V2SignalsAccountActivityAccountTakeoverConfirmationCredentialTypeLoginPassword V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType = "login_password"
+	V2SignalsAccountActivityAccountTakeoverConfirmationCredentialTypeOther         V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType = "other"
+)
+
+// The type of credential involved in the reported takeover.
+type V2SignalsAccountActivityAccountTakeoverReportCredentialType string
+
+// List of values that V2SignalsAccountActivityAccountTakeoverReportCredentialType can take
+const (
+	V2SignalsAccountActivityAccountTakeoverReportCredentialTypeAPIKey        V2SignalsAccountActivityAccountTakeoverReportCredentialType = "api_key"
+	V2SignalsAccountActivityAccountTakeoverReportCredentialTypeLoginPassword V2SignalsAccountActivityAccountTakeoverReportCredentialType = "login_password"
+	V2SignalsAccountActivityAccountTakeoverReportCredentialTypeOther         V2SignalsAccountActivityAccountTakeoverReportCredentialType = "other"
+)
+
+// The type of credential that changed.
+type V2SignalsAccountActivityCredentialChangeCredentialType string
+
+// List of values that V2SignalsAccountActivityCredentialChangeCredentialType can take
+const (
+	V2SignalsAccountActivityCredentialChangeCredentialTypeAPIKey        V2SignalsAccountActivityCredentialChangeCredentialType = "api_key"
+	V2SignalsAccountActivityCredentialChangeCredentialTypeLoginPassword V2SignalsAccountActivityCredentialChangeCredentialType = "login_password"
+	V2SignalsAccountActivityCredentialChangeCredentialTypeOther         V2SignalsAccountActivityCredentialChangeCredentialType = "other"
+)
+
 // The action the merchant took following the evaluation.
 type V2SignalsAccountActivityLoginDecisionStatus string
 
@@ -42,6 +72,30 @@ const (
 	V2SignalsAccountActivityLoginDecisionStatusAllowed    V2SignalsAccountActivityLoginDecisionStatus = "allowed"
 	V2SignalsAccountActivityLoginDecisionStatusBlocked    V2SignalsAccountActivityLoginDecisionStatus = "blocked"
 	V2SignalsAccountActivityLoginDecisionStatusRestricted V2SignalsAccountActivityLoginDecisionStatus = "restricted"
+)
+
+// The authentication method added to the account.
+type V2SignalsAccountActivityMfaAdditionMfaType string
+
+// List of values that V2SignalsAccountActivityMfaAdditionMfaType can take
+const (
+	V2SignalsAccountActivityMfaAdditionMfaTypeAuthenticatorApp V2SignalsAccountActivityMfaAdditionMfaType = "authenticator_app"
+	V2SignalsAccountActivityMfaAdditionMfaTypeEmail            V2SignalsAccountActivityMfaAdditionMfaType = "email"
+	V2SignalsAccountActivityMfaAdditionMfaTypeHardwareKey      V2SignalsAccountActivityMfaAdditionMfaType = "hardware_key"
+	V2SignalsAccountActivityMfaAdditionMfaTypeOther            V2SignalsAccountActivityMfaAdditionMfaType = "other"
+	V2SignalsAccountActivityMfaAdditionMfaTypeSms              V2SignalsAccountActivityMfaAdditionMfaType = "sms"
+)
+
+// The authentication method removed from the account.
+type V2SignalsAccountActivityMfaRemovalMfaType string
+
+// List of values that V2SignalsAccountActivityMfaRemovalMfaType can take
+const (
+	V2SignalsAccountActivityMfaRemovalMfaTypeAuthenticatorApp V2SignalsAccountActivityMfaRemovalMfaType = "authenticator_app"
+	V2SignalsAccountActivityMfaRemovalMfaTypeEmail            V2SignalsAccountActivityMfaRemovalMfaType = "email"
+	V2SignalsAccountActivityMfaRemovalMfaTypeHardwareKey      V2SignalsAccountActivityMfaRemovalMfaType = "hardware_key"
+	V2SignalsAccountActivityMfaRemovalMfaTypeOther            V2SignalsAccountActivityMfaRemovalMfaType = "other"
+	V2SignalsAccountActivityMfaRemovalMfaTypeSms              V2SignalsAccountActivityMfaRemovalMfaType = "sms"
 )
 
 // The action the merchant took following the evaluation.
@@ -59,13 +113,19 @@ type V2SignalsAccountActivityType string
 
 // List of values that V2SignalsAccountActivityType can take
 const (
-	V2SignalsAccountActivityTypeAccountRestricted    V2SignalsAccountActivityType = "account_restricted"
-	V2SignalsAccountActivityTypeAccountReviewed      V2SignalsAccountActivityType = "account_reviewed"
-	V2SignalsAccountActivityTypeAccountSuspended     V2SignalsAccountActivityType = "account_suspended"
-	V2SignalsAccountActivityTypeLoginAttempt         V2SignalsAccountActivityType = "login_attempt"
-	V2SignalsAccountActivityTypeLoginDecision        V2SignalsAccountActivityType = "login_decision"
-	V2SignalsAccountActivityTypeRegistrationAttempt  V2SignalsAccountActivityType = "registration_attempt"
-	V2SignalsAccountActivityTypeRegistrationDecision V2SignalsAccountActivityType = "registration_decision"
+	V2SignalsAccountActivityTypeAccountRestricted           V2SignalsAccountActivityType = "account_restricted"
+	V2SignalsAccountActivityTypeAccountReviewed             V2SignalsAccountActivityType = "account_reviewed"
+	V2SignalsAccountActivityTypeAccountSuspended            V2SignalsAccountActivityType = "account_suspended"
+	V2SignalsAccountActivityTypeAccountTakeoverConfirmation V2SignalsAccountActivityType = "account_takeover_confirmation"
+	V2SignalsAccountActivityTypeAccountTakeoverMitigation   V2SignalsAccountActivityType = "account_takeover_mitigation"
+	V2SignalsAccountActivityTypeAccountTakeoverReport       V2SignalsAccountActivityType = "account_takeover_report"
+	V2SignalsAccountActivityTypeCredentialChange            V2SignalsAccountActivityType = "credential_change"
+	V2SignalsAccountActivityTypeLoginAttempt                V2SignalsAccountActivityType = "login_attempt"
+	V2SignalsAccountActivityTypeLoginDecision               V2SignalsAccountActivityType = "login_decision"
+	V2SignalsAccountActivityTypeMfaAddition                 V2SignalsAccountActivityType = "mfa_addition"
+	V2SignalsAccountActivityTypeMfaRemoval                  V2SignalsAccountActivityType = "mfa_removal"
+	V2SignalsAccountActivityTypeRegistrationAttempt         V2SignalsAccountActivityType = "registration_attempt"
+	V2SignalsAccountActivityTypeRegistrationDecision        V2SignalsAccountActivityType = "registration_decision"
 )
 
 // Account profile data.
@@ -137,6 +197,24 @@ type V2SignalsAccountActivityAccountSuspended struct {
 	Reason V2SignalsAccountActivityAccountSuspendedReason `json:"reason"`
 }
 
+// Details for the merchant's takeover confirmation. Present only when type is account_takeover_confirmation.
+type V2SignalsAccountActivityAccountTakeoverConfirmation struct {
+	// The type of credential involved in the confirmed takeover.
+	CredentialType V2SignalsAccountActivityAccountTakeoverConfirmationCredentialType `json:"credential_type"`
+}
+
+// Details for the account holder's takeover report. Present only when type is account_takeover_report.
+type V2SignalsAccountActivityAccountTakeoverReport struct {
+	// The type of credential involved in the reported takeover.
+	CredentialType V2SignalsAccountActivityAccountTakeoverReportCredentialType `json:"credential_type"`
+}
+
+// Details for the credential change. Present only when type is credential_change.
+type V2SignalsAccountActivityCredentialChange struct {
+	// The type of credential that changed.
+	CredentialType V2SignalsAccountActivityCredentialChangeCredentialType `json:"credential_type"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityLoginAttemptClientDetailsData struct {
 	// The IP address associated with the activity.
@@ -165,6 +243,18 @@ type V2SignalsAccountActivityLoginAttempt struct {
 type V2SignalsAccountActivityLoginDecision struct {
 	// The action the merchant took following the evaluation.
 	Status V2SignalsAccountActivityLoginDecisionStatus `json:"status"`
+}
+
+// Details for the MFA addition. Present only when type is mfa_addition.
+type V2SignalsAccountActivityMfaAddition struct {
+	// The authentication method added to the account.
+	MfaType V2SignalsAccountActivityMfaAdditionMfaType `json:"mfa_type"`
+}
+
+// Details for the MFA removal. Present only when type is mfa_removal.
+type V2SignalsAccountActivityMfaRemoval struct {
+	// The authentication method removed from the account.
+	MfaType V2SignalsAccountActivityMfaRemovalMfaType `json:"mfa_type"`
 }
 
 // Raw client details for the activity, when a Radar session is not available.
@@ -213,8 +303,14 @@ type V2SignalsAccountActivity struct {
 	// Details for the account suspension. Present only when type is account_suspended. The activity
 	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
 	AccountSuspended *V2SignalsAccountActivityAccountSuspended `json:"account_suspended,omitempty"`
+	// Details for the merchant's takeover confirmation. Present only when type is account_takeover_confirmation.
+	AccountTakeoverConfirmation *V2SignalsAccountActivityAccountTakeoverConfirmation `json:"account_takeover_confirmation,omitempty"`
+	// Details for the account holder's takeover report. Present only when type is account_takeover_report.
+	AccountTakeoverReport *V2SignalsAccountActivityAccountTakeoverReport `json:"account_takeover_report,omitempty"`
 	// Timestamp at which the account activity was created.
 	Created time.Time `json:"created"`
+	// Details for the credential change. Present only when type is credential_change.
+	CredentialChange *V2SignalsAccountActivityCredentialChange `json:"credential_change,omitempty"`
 	// Unique identifier for the account activity.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -225,6 +321,10 @@ type V2SignalsAccountActivity struct {
 	LoginDecision *V2SignalsAccountActivityLoginDecision `json:"login_decision,omitempty"`
 	// Additional information about the activity.
 	Metadata map[string]string `json:"metadata,omitempty"`
+	// Details for the MFA addition. Present only when type is mfa_addition.
+	MfaAddition *V2SignalsAccountActivityMfaAddition `json:"mfa_addition,omitempty"`
+	// Details for the MFA removal. Present only when type is mfa_removal.
+	MfaRemoval *V2SignalsAccountActivityMfaRemoval `json:"mfa_removal,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.

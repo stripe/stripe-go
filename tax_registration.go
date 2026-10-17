@@ -202,6 +202,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsBwType string
+
+// List of values that TaxRegistrationCountryOptionsBwType can take
+const (
+	TaxRegistrationCountryOptionsBwTypeSimplified TaxRegistrationCountryOptionsBwType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsByType string
 
 // List of values that TaxRegistrationCountryOptionsByType can take
@@ -242,6 +250,14 @@ type TaxRegistrationCountryOptionsChType string
 // List of values that TaxRegistrationCountryOptionsChType can take
 const (
 	TaxRegistrationCountryOptionsChTypeStandard TaxRegistrationCountryOptionsChType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsCiType string
+
+// List of values that TaxRegistrationCountryOptionsCiType can take
+const (
+	TaxRegistrationCountryOptionsCiTypeSimplified TaxRegistrationCountryOptionsCiType = "simplified"
 )
 
 // Type of registration in `country`.
@@ -509,6 +525,14 @@ type TaxRegistrationCountryOptionsGeType string
 // List of values that TaxRegistrationCountryOptionsGeType can take
 const (
 	TaxRegistrationCountryOptionsGeTypeSimplified TaxRegistrationCountryOptionsGeType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsGhType string
+
+// List of values that TaxRegistrationCountryOptionsGhType can take
+const (
+	TaxRegistrationCountryOptionsGhTypeSimplified TaxRegistrationCountryOptionsGhType = "simplified"
 )
 
 // Type of registration in `country`.
@@ -843,6 +867,14 @@ const (
 	TaxRegistrationCountryOptionsMTTypeOssNonUnion TaxRegistrationCountryOptionsMTType = "oss_non_union"
 	TaxRegistrationCountryOptionsMTTypeOssUnion    TaxRegistrationCountryOptionsMTType = "oss_union"
 	TaxRegistrationCountryOptionsMTTypeStandard    TaxRegistrationCountryOptionsMTType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsMuType string
+
+// List of values that TaxRegistrationCountryOptionsMuType can take
+const (
+	TaxRegistrationCountryOptionsMuTypeSimplified TaxRegistrationCountryOptionsMuType = "simplified"
 )
 
 // Type of registration in `country`.
@@ -4335,6 +4367,10 @@ type TaxRegistrationCountryOptionsBs struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsBsType `json:"type"`
 }
+type TaxRegistrationCountryOptionsBw struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsBwType `json:"type"`
+}
 type TaxRegistrationCountryOptionsBy struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsByType `json:"type"`
@@ -4360,6 +4396,10 @@ type TaxRegistrationCountryOptionsCh struct {
 	Standard *TaxRegistrationCountryOptionsChStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsChType `json:"type"`
+}
+type TaxRegistrationCountryOptionsCi struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsCiType `json:"type"`
 }
 type TaxRegistrationCountryOptionsCl struct {
 	// Type of registration in `country`.
@@ -4482,6 +4522,10 @@ type TaxRegistrationCountryOptionsGB struct {
 type TaxRegistrationCountryOptionsGe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsGeType `json:"type"`
+}
+type TaxRegistrationCountryOptionsGh struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsGhType `json:"type"`
 }
 type TaxRegistrationCountryOptionsGn struct {
 	// Type of registration in `country`.
@@ -4636,6 +4680,10 @@ type TaxRegistrationCountryOptionsMT struct {
 	Standard *TaxRegistrationCountryOptionsMTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsMTType `json:"type"`
+}
+type TaxRegistrationCountryOptionsMu struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsMuType `json:"type"`
 }
 type TaxRegistrationCountryOptionsMX struct {
 	// Type of registration in `country`.
@@ -4934,10 +4982,12 @@ type TaxRegistrationCountryOptions struct {
 	Bh *TaxRegistrationCountryOptionsBh `json:"bh,omitempty"`
 	Bj *TaxRegistrationCountryOptionsBj `json:"bj,omitempty"`
 	Bs *TaxRegistrationCountryOptionsBs `json:"bs,omitempty"`
+	Bw *TaxRegistrationCountryOptionsBw `json:"bw,omitempty"`
 	By *TaxRegistrationCountryOptionsBy `json:"by,omitempty"`
 	Ca *TaxRegistrationCountryOptionsCa `json:"ca,omitempty"`
 	Cd *TaxRegistrationCountryOptionsCd `json:"cd,omitempty"`
 	Ch *TaxRegistrationCountryOptionsCh `json:"ch,omitempty"`
+	Ci *TaxRegistrationCountryOptionsCi `json:"ci,omitempty"`
 	Cl *TaxRegistrationCountryOptionsCl `json:"cl,omitempty"`
 	Cm *TaxRegistrationCountryOptionsCm `json:"cm,omitempty"`
 	Co *TaxRegistrationCountryOptionsCo `json:"co,omitempty"`
@@ -4956,6 +5006,7 @@ type TaxRegistrationCountryOptions struct {
 	FR *TaxRegistrationCountryOptionsFR `json:"fr,omitempty"`
 	GB *TaxRegistrationCountryOptionsGB `json:"gb,omitempty"`
 	Ge *TaxRegistrationCountryOptionsGe `json:"ge,omitempty"`
+	Gh *TaxRegistrationCountryOptionsGh `json:"gh,omitempty"`
 	Gn *TaxRegistrationCountryOptionsGn `json:"gn,omitempty"`
 	Gr *TaxRegistrationCountryOptionsGr `json:"gr,omitempty"`
 	HR *TaxRegistrationCountryOptionsHR `json:"hr,omitempty"`
@@ -4982,6 +5033,7 @@ type TaxRegistrationCountryOptions struct {
 	Mk *TaxRegistrationCountryOptionsMk `json:"mk,omitempty"`
 	Mr *TaxRegistrationCountryOptionsMr `json:"mr,omitempty"`
 	MT *TaxRegistrationCountryOptionsMT `json:"mt,omitempty"`
+	Mu *TaxRegistrationCountryOptionsMu `json:"mu,omitempty"`
 	MX *TaxRegistrationCountryOptionsMX `json:"mx,omitempty"`
 	My *TaxRegistrationCountryOptionsMy `json:"my,omitempty"`
 	Ng *TaxRegistrationCountryOptionsNg `json:"ng,omitempty"`

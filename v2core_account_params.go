@@ -1941,6 +1941,26 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCAD
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in CZK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1981,6 +2001,26 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBP
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in NOK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1996,6 +2036,46 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOus
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in PLN.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in SEK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -2046,12 +2126,20 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPar
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can receive business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can receive business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can receive business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can receive business storage-type funds on Stripe in USDC.
@@ -2099,6 +2187,26 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCA
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in CZK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2139,6 +2247,26 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGB
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in NOK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2154,6 +2282,46 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOu
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in PLN.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in SEK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -2204,12 +2372,20 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPa
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can send business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can send business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can send business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can send business storage-type funds on Stripe in USDC.
@@ -7245,6 +7421,26 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in CZK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7285,6 +7481,26 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in NOK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7300,6 +7516,46 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in PLN.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in SEK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -7350,12 +7606,20 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can receive business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can receive business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can receive business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can receive business storage-type funds on Stripe in USDC.
@@ -7403,6 +7667,26 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in CZK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7443,6 +7727,26 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in NOK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7458,6 +7762,46 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in PLN.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in SEK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -7508,12 +7852,20 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can send business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can send business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can send business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can send business storage-type funds on Stripe in USDC.
@@ -12541,6 +12893,26 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in CZK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12581,6 +12953,26 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in NOK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12596,6 +12988,46 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in PLN.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive business storage-type funds on Stripe in SEK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -12646,12 +13078,20 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can receive business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can receive business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can receive business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can receive business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can receive business storage-type funds on Stripe in USDC.
@@ -12699,6 +13139,26 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in CZK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12739,6 +13199,26 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in NOK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12754,6 +13234,46 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in PLN.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send business storage-type funds on Stripe in SEK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -12804,12 +13324,20 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in CZK.
+	CZK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCZKParams `form:"czk" json:"czk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in NOK.
+	NOK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundNOKParams `form:"nok" json:"nok,omitempty"`
 	// Can send business storage-type funds on Stripe in OUSD.
 	Ousd *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundOusdParams `form:"ousd" json:"ousd,omitempty"`
+	// Can send business storage-type funds on Stripe in PLN.
+	PLN *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPLNParams `form:"pln" json:"pln,omitempty"`
+	// Can send business storage-type funds on Stripe in SEK.
+	SEK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundSEKParams `form:"sek" json:"sek,omitempty"`
 	// Can send business storage-type funds on Stripe in USD.
 	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
 	// Can send business storage-type funds on Stripe in USDC.

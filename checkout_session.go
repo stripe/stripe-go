@@ -140,7 +140,7 @@ const (
 	CheckoutSessionBrandingSettingsLogoTypeURL  CheckoutSessionBrandingSettingsLogoType = "url"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
 // List of values that CheckoutSessionCollectedInformationTaxIDType can take
@@ -152,7 +152,9 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeAoTin    CheckoutSessionCollectedInformationTaxIDType = "ao_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeARCUIT   CheckoutSessionCollectedInformationTaxIDType = "ar_cuit"
 	CheckoutSessionCollectedInformationTaxIDTypeAUABN    CheckoutSessionCollectedInformationTaxIDType = "au_abn"
+	CheckoutSessionCollectedInformationTaxIDTypeAuAcn    CheckoutSessionCollectedInformationTaxIDType = "au_acn"
 	CheckoutSessionCollectedInformationTaxIDTypeAUARN    CheckoutSessionCollectedInformationTaxIDType = "au_arn"
+	CheckoutSessionCollectedInformationTaxIDTypeAuWpn    CheckoutSessionCollectedInformationTaxIDType = "au_wpn"
 	CheckoutSessionCollectedInformationTaxIDTypeAwTin    CheckoutSessionCollectedInformationTaxIDType = "aw_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeAzTin    CheckoutSessionCollectedInformationTaxIDType = "az_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeBaTin    CheckoutSessionCollectedInformationTaxIDType = "ba_tin"
@@ -182,6 +184,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeCONIT    CheckoutSessionCollectedInformationTaxIDType = "co_nit"
 	CheckoutSessionCollectedInformationTaxIDTypeCRTIN    CheckoutSessionCollectedInformationTaxIDType = "cr_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeCvNif    CheckoutSessionCollectedInformationTaxIDType = "cv_nif"
+	CheckoutSessionCollectedInformationTaxIDTypeCzDic    CheckoutSessionCollectedInformationTaxIDType = "cz_dic"
 	CheckoutSessionCollectedInformationTaxIDTypeDEStn    CheckoutSessionCollectedInformationTaxIDType = "de_stn"
 	CheckoutSessionCollectedInformationTaxIDTypeDORCN    CheckoutSessionCollectedInformationTaxIDType = "do_rcn"
 	CheckoutSessionCollectedInformationTaxIDTypeECRUC    CheckoutSessionCollectedInformationTaxIDType = "ec_ruc"
@@ -191,6 +194,9 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeEUOSSVAT CheckoutSessionCollectedInformationTaxIDType = "eu_oss_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeEUVAT    CheckoutSessionCollectedInformationTaxIDType = "eu_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeFoVAT    CheckoutSessionCollectedInformationTaxIDType = "fo_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSiren  CheckoutSessionCollectedInformationTaxIDType = "fr_siren"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSiret  CheckoutSessionCollectedInformationTaxIDType = "fr_siret"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSpi    CheckoutSessionCollectedInformationTaxIDType = "fr_spi"
 	CheckoutSessionCollectedInformationTaxIDTypeGBVAT    CheckoutSessionCollectedInformationTaxIDType = "gb_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeGEVAT    CheckoutSessionCollectedInformationTaxIDType = "ge_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeGiTin    CheckoutSessionCollectedInformationTaxIDType = "gi_tin"
@@ -202,6 +208,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeIDNPWP   CheckoutSessionCollectedInformationTaxIDType = "id_npwp"
 	CheckoutSessionCollectedInformationTaxIDTypeILVAT    CheckoutSessionCollectedInformationTaxIDType = "il_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeINGST    CheckoutSessionCollectedInformationTaxIDType = "in_gst"
+	CheckoutSessionCollectedInformationTaxIDTypeIsKt     CheckoutSessionCollectedInformationTaxIDType = "is_kt"
 	CheckoutSessionCollectedInformationTaxIDTypeISVAT    CheckoutSessionCollectedInformationTaxIDType = "is_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeITCf     CheckoutSessionCollectedInformationTaxIDType = "it_cf"
 	CheckoutSessionCollectedInformationTaxIDTypeJPCN     CheckoutSessionCollectedInformationTaxIDType = "jp_cn"
@@ -217,23 +224,28 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeLiVAT    CheckoutSessionCollectedInformationTaxIDType = "li_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeLkVAT    CheckoutSessionCollectedInformationTaxIDType = "lk_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMaVAT    CheckoutSessionCollectedInformationTaxIDType = "ma_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeMdCf     CheckoutSessionCollectedInformationTaxIDType = "md_cf"
 	CheckoutSessionCollectedInformationTaxIDTypeMdVAT    CheckoutSessionCollectedInformationTaxIDType = "md_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMePib    CheckoutSessionCollectedInformationTaxIDType = "me_pib"
 	CheckoutSessionCollectedInformationTaxIDTypeMkVAT    CheckoutSessionCollectedInformationTaxIDType = "mk_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMrNif    CheckoutSessionCollectedInformationTaxIDType = "mr_nif"
+	CheckoutSessionCollectedInformationTaxIDTypeMuVAT    CheckoutSessionCollectedInformationTaxIDType = "mu_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMXRFC    CheckoutSessionCollectedInformationTaxIDType = "mx_rfc"
 	CheckoutSessionCollectedInformationTaxIDTypeMYFRP    CheckoutSessionCollectedInformationTaxIDType = "my_frp"
 	CheckoutSessionCollectedInformationTaxIDTypeMYITN    CheckoutSessionCollectedInformationTaxIDType = "my_itn"
 	CheckoutSessionCollectedInformationTaxIDTypeMYSST    CheckoutSessionCollectedInformationTaxIDType = "my_sst"
+	CheckoutSessionCollectedInformationTaxIDTypeMzNuit   CheckoutSessionCollectedInformationTaxIDType = "mz_nuit"
 	CheckoutSessionCollectedInformationTaxIDTypeNgTin    CheckoutSessionCollectedInformationTaxIDType = "ng_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeNOVAT    CheckoutSessionCollectedInformationTaxIDType = "no_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeNOVOEC   CheckoutSessionCollectedInformationTaxIDType = "no_voec"
 	CheckoutSessionCollectedInformationTaxIDTypeNpPan    CheckoutSessionCollectedInformationTaxIDType = "np_pan"
+	CheckoutSessionCollectedInformationTaxIDTypeNzBn     CheckoutSessionCollectedInformationTaxIDType = "nz_bn"
 	CheckoutSessionCollectedInformationTaxIDTypeNZGST    CheckoutSessionCollectedInformationTaxIDType = "nz_gst"
 	CheckoutSessionCollectedInformationTaxIDTypeOmVAT    CheckoutSessionCollectedInformationTaxIDType = "om_vat"
 	CheckoutSessionCollectedInformationTaxIDTypePERUC    CheckoutSessionCollectedInformationTaxIDType = "pe_ruc"
 	CheckoutSessionCollectedInformationTaxIDTypePHTIN    CheckoutSessionCollectedInformationTaxIDType = "ph_tin"
 	CheckoutSessionCollectedInformationTaxIDTypePLNip    CheckoutSessionCollectedInformationTaxIDType = "pl_nip"
+	CheckoutSessionCollectedInformationTaxIDTypePTNif    CheckoutSessionCollectedInformationTaxIDType = "pt_nif"
 	CheckoutSessionCollectedInformationTaxIDTypePyRuc    CheckoutSessionCollectedInformationTaxIDType = "py_ruc"
 	CheckoutSessionCollectedInformationTaxIDTypeROTIN    CheckoutSessionCollectedInformationTaxIDType = "ro_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeRSPIB    CheckoutSessionCollectedInformationTaxIDType = "rs_pib"
@@ -243,12 +255,15 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeSGGST    CheckoutSessionCollectedInformationTaxIDType = "sg_gst"
 	CheckoutSessionCollectedInformationTaxIDTypeSGUEN    CheckoutSessionCollectedInformationTaxIDType = "sg_uen"
 	CheckoutSessionCollectedInformationTaxIDTypeSITIN    CheckoutSessionCollectedInformationTaxIDType = "si_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeSmCoe    CheckoutSessionCollectedInformationTaxIDType = "sm_coe"
 	CheckoutSessionCollectedInformationTaxIDTypeSnNinea  CheckoutSessionCollectedInformationTaxIDType = "sn_ninea"
 	CheckoutSessionCollectedInformationTaxIDTypeSrFin    CheckoutSessionCollectedInformationTaxIDType = "sr_fin"
 	CheckoutSessionCollectedInformationTaxIDTypeSVNIT    CheckoutSessionCollectedInformationTaxIDType = "sv_nit"
 	CheckoutSessionCollectedInformationTaxIDTypeTHVAT    CheckoutSessionCollectedInformationTaxIDType = "th_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTjTin    CheckoutSessionCollectedInformationTaxIDType = "tj_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeTRTIN    CheckoutSessionCollectedInformationTaxIDType = "tr_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeTtBir    CheckoutSessionCollectedInformationTaxIDType = "tt_bir"
+	CheckoutSessionCollectedInformationTaxIDTypeTtVAT    CheckoutSessionCollectedInformationTaxIDType = "tt_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTWVAT    CheckoutSessionCollectedInformationTaxIDType = "tw_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTzVAT    CheckoutSessionCollectedInformationTaxIDType = "tz_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeUAVAT    CheckoutSessionCollectedInformationTaxIDType = "ua_vat"
@@ -387,7 +402,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -399,7 +414,9 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeAoTin    CheckoutSessionCustomerDetailsTaxIDType = "ao_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeARCUIT   CheckoutSessionCustomerDetailsTaxIDType = "ar_cuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUABN    CheckoutSessionCustomerDetailsTaxIDType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuAcn    CheckoutSessionCustomerDetailsTaxIDType = "au_acn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUARN    CheckoutSessionCustomerDetailsTaxIDType = "au_arn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuWpn    CheckoutSessionCustomerDetailsTaxIDType = "au_wpn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAwTin    CheckoutSessionCustomerDetailsTaxIDType = "aw_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeAzTin    CheckoutSessionCustomerDetailsTaxIDType = "az_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeBaTin    CheckoutSessionCustomerDetailsTaxIDType = "ba_tin"
@@ -429,6 +446,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCONIT    CheckoutSessionCustomerDetailsTaxIDType = "co_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeCRTIN    CheckoutSessionCustomerDetailsTaxIDType = "cr_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCvNif    CheckoutSessionCustomerDetailsTaxIDType = "cv_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeCzDic    CheckoutSessionCustomerDetailsTaxIDType = "cz_dic"
 	CheckoutSessionCustomerDetailsTaxIDTypeDEStn    CheckoutSessionCustomerDetailsTaxIDType = "de_stn"
 	CheckoutSessionCustomerDetailsTaxIDTypeDORCN    CheckoutSessionCustomerDetailsTaxIDType = "do_rcn"
 	CheckoutSessionCustomerDetailsTaxIDTypeECRUC    CheckoutSessionCustomerDetailsTaxIDType = "ec_ruc"
@@ -438,6 +456,9 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDType = "eu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeFoVAT    CheckoutSessionCustomerDetailsTaxIDType = "fo_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiren  CheckoutSessionCustomerDetailsTaxIDType = "fr_siren"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiret  CheckoutSessionCustomerDetailsTaxIDType = "fr_siret"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSpi    CheckoutSessionCustomerDetailsTaxIDType = "fr_spi"
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGiTin    CheckoutSessionCustomerDetailsTaxIDType = "gi_tin"
@@ -449,6 +470,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeINGST    CheckoutSessionCustomerDetailsTaxIDType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeIsKt     CheckoutSessionCustomerDetailsTaxIDType = "is_kt"
 	CheckoutSessionCustomerDetailsTaxIDTypeISVAT    CheckoutSessionCustomerDetailsTaxIDType = "is_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeITCf     CheckoutSessionCustomerDetailsTaxIDType = "it_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPCN     CheckoutSessionCustomerDetailsTaxIDType = "jp_cn"
@@ -464,23 +486,28 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeLiVAT    CheckoutSessionCustomerDetailsTaxIDType = "li_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeLkVAT    CheckoutSessionCustomerDetailsTaxIDType = "lk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMaVAT    CheckoutSessionCustomerDetailsTaxIDType = "ma_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeMdCf     CheckoutSessionCustomerDetailsTaxIDType = "md_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeMdVAT    CheckoutSessionCustomerDetailsTaxIDType = "md_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMePib    CheckoutSessionCustomerDetailsTaxIDType = "me_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeMkVAT    CheckoutSessionCustomerDetailsTaxIDType = "mk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMrNif    CheckoutSessionCustomerDetailsTaxIDType = "mr_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeMuVAT    CheckoutSessionCustomerDetailsTaxIDType = "mu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDType = "mx_rfc"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYFRP    CheckoutSessionCustomerDetailsTaxIDType = "my_frp"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYITN    CheckoutSessionCustomerDetailsTaxIDType = "my_itn"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIDTypeMzNuit   CheckoutSessionCustomerDetailsTaxIDType = "mz_nuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeNgTin    CheckoutSessionCustomerDetailsTaxIDType = "ng_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVOEC   CheckoutSessionCustomerDetailsTaxIDType = "no_voec"
 	CheckoutSessionCustomerDetailsTaxIDTypeNpPan    CheckoutSessionCustomerDetailsTaxIDType = "np_pan"
+	CheckoutSessionCustomerDetailsTaxIDTypeNzBn     CheckoutSessionCustomerDetailsTaxIDType = "nz_bn"
 	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeOmVAT    CheckoutSessionCustomerDetailsTaxIDType = "om_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypePLNip    CheckoutSessionCustomerDetailsTaxIDType = "pl_nip"
+	CheckoutSessionCustomerDetailsTaxIDTypePTNif    CheckoutSessionCustomerDetailsTaxIDType = "pt_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypePyRuc    CheckoutSessionCustomerDetailsTaxIDType = "py_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypeROTIN    CheckoutSessionCustomerDetailsTaxIDType = "ro_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
@@ -490,12 +517,15 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeSGGST    CheckoutSessionCustomerDetailsTaxIDType = "sg_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDType = "sg_uen"
 	CheckoutSessionCustomerDetailsTaxIDTypeSITIN    CheckoutSessionCustomerDetailsTaxIDType = "si_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeSmCoe    CheckoutSessionCustomerDetailsTaxIDType = "sm_coe"
 	CheckoutSessionCustomerDetailsTaxIDTypeSnNinea  CheckoutSessionCustomerDetailsTaxIDType = "sn_ninea"
 	CheckoutSessionCustomerDetailsTaxIDTypeSrFin    CheckoutSessionCustomerDetailsTaxIDType = "sr_fin"
 	CheckoutSessionCustomerDetailsTaxIDTypeSVNIT    CheckoutSessionCustomerDetailsTaxIDType = "sv_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDType = "th_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTjTin    CheckoutSessionCustomerDetailsTaxIDType = "tj_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeTRTIN    CheckoutSessionCustomerDetailsTaxIDType = "tr_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtBir    CheckoutSessionCustomerDetailsTaxIDType = "tt_bir"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtVAT    CheckoutSessionCustomerDetailsTaxIDType = "tt_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDType = "tw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTzVAT    CheckoutSessionCustomerDetailsTaxIDType = "tz_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDType = "ua_vat"
@@ -588,7 +618,7 @@ const (
 	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
 )
 
-// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
 // List of values that CheckoutSessionPaymentMethodCollection can take
@@ -824,6 +854,35 @@ type CheckoutSessionPaymentMethodOptionsCardCaptureMethod string
 // List of values that CheckoutSessionPaymentMethodOptionsCardCaptureMethod can take
 const (
 	CheckoutSessionPaymentMethodOptionsCardCaptureMethodManual CheckoutSessionPaymentMethodOptionsCardCaptureMethod = "manual"
+)
+
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType = "maximum"
+)
+
+// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalDay      CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "day"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalMonth    CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "month"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalSporadic CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "sporadic"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalWeek     CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "week"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalYear     CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "year"
+)
+
+// Specifies the type of mandates supported. Possible values are `india`.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedTypeIndia CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType = "india"
 )
 
 // Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -2558,7 +2617,7 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2590,7 +2649,7 @@ type CheckoutSessionLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2625,6 +2684,34 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 type CheckoutSessionManagedPaymentsParams struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
+// Information used when sending conversions to an advertising platform.
+type CheckoutSessionMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+type CheckoutSessionMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CheckoutSessionMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name on the session.
@@ -4411,6 +4498,8 @@ type CheckoutSessionParams struct {
 	Locale *string `form:"locale" json:"locale,omitempty"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
+	// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+	MarketingAttributions []*CheckoutSessionMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -5265,7 +5354,7 @@ type CheckoutSessionCreateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -5295,7 +5384,7 @@ type CheckoutSessionCreateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -5316,6 +5405,34 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 type CheckoutSessionCreateManagedPaymentsParams struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
+// Information used when sending conversions to an advertising platform.
+type CheckoutSessionCreateMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+type CheckoutSessionCreateMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CheckoutSessionCreateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name on the session.
@@ -7050,6 +7167,8 @@ type CheckoutSessionCreateParams struct {
 	Locale *string `form:"locale" json:"locale,omitempty"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
+	// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+	MarketingAttributions []*CheckoutSessionCreateMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -7322,7 +7441,7 @@ type CheckoutSessionUpdateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -7362,7 +7481,7 @@ type CheckoutSessionUpdateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required when creating a new line item.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -7784,7 +7903,7 @@ type CheckoutSessionCollectedInformationShippingDetails struct {
 
 // Customer's tax id for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8046,7 +8165,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8201,6 +8320,31 @@ type CheckoutSessionItem struct {
 type CheckoutSessionManagedPayments struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled bool `json:"enabled"`
+}
+type CheckoutSessionMarketingAttributionAdConversion struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected bool `json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session.
+type CheckoutSessionMarketingAttribution struct {
+	AdConversion *CheckoutSessionMarketingAttributionAdConversion `json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID string `json:"click_id"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt int64 `json:"occurred_at"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup string `json:"utm_adgroup"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent string `json:"utm_content"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID string `json:"utm_id"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium string `json:"utm_medium"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource string `json:"utm_source"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm string `json:"utm_term"`
 }
 type CheckoutSessionNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the session
@@ -8383,6 +8527,28 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 	// Indicates if installments are enabled
 	Enabled bool `json:"enabled,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsCardMandateOptions struct {
+	// Maximum or fixed amount for future payments, in the mandate's currency.
+	Amount int64 `json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description,omitempty"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate int64 `json:"end_date,omitempty"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval `json:"interval,omitempty"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount int64 `json:"interval_count,omitempty"`
+	// Unique identifier for the mandate or subscription.
+	Reference string `json:"reference,omitempty"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate int64 `json:"start_date,omitempty"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked,omitempty"`
@@ -8391,8 +8557,9 @@ type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod CheckoutSessionPaymentMethodOptionsCardCaptureMethod `json:"capture_method,omitempty"`
-	Installments  *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments,omitempty"`
+	CaptureMethod  CheckoutSessionPaymentMethodOptionsCardCaptureMethod   `json:"capture_method,omitempty"`
+	Installments   *CheckoutSessionPaymentMethodOptionsCardInstallments   `json:"installments,omitempty"`
+	MandateOptions *CheckoutSessionPaymentMethodOptionsCardMandateOptions `json:"mandate_options,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestDecrementalAuthorization CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -9291,6 +9458,8 @@ type CheckoutSession struct {
 	Locale string `json:"locale"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionManagedPayments `json:"managed_payments"`
+	// Advertising attribution information for this Checkout Session.
+	MarketingAttributions []*CheckoutSessionMarketingAttribution `json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
@@ -9308,7 +9477,7 @@ type CheckoutSession struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
-	// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+	// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
 	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`

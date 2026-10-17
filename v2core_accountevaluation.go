@@ -13,6 +13,7 @@ type V2CoreAccountEvaluationEvaluationsTriggered string
 
 // List of values that V2CoreAccountEvaluationEvaluationsTriggered can take
 const (
+	V2CoreAccountEvaluationEvaluationsTriggeredAccountTakeover     V2CoreAccountEvaluationEvaluationsTriggered = "account_takeover"
 	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite   V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
 	V2CoreAccountEvaluationEvaluationsTriggeredUserAccountSharing  V2CoreAccountEvaluationEvaluationsTriggered = "user_account_sharing"
 	V2CoreAccountEvaluationEvaluationsTriggeredUserMerchantFit     V2CoreAccountEvaluationEvaluationsTriggered = "user_merchant_fit"

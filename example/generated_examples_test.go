@@ -16865,7 +16865,7 @@ func TestV2CoreAccountEvaluationPostService(t *testing.T) {
 		Signals: []*string{stripe.String("user_multi_accounting")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_multi_accounting\"],\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_account_sharing\"],\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16880,7 +16880,7 @@ func TestV2CoreAccountEvaluationPostClient(t *testing.T) {
 		Signals: []*string{stripe.String("user_multi_accounting")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_multi_accounting\"],\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_evaluations", params, "{\"object\":\"v2.core.account_evaluation\",\"created\":\"1970-01-12T21:42:34.472Z\",\"evaluations_triggered\":[\"user_account_sharing\"],\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22858,10 +22858,10 @@ func TestV2RiskInquiryPostClient(t *testing.T) {
 
 func TestV2SignalsAccountActivityPostService(t *testing.T) {
 	params := &stripe.V2SignalsAccountActivityParams{
-		Type: stripe.String("login_attempt"),
+		Type: stripe.String("registration_decision"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_activities", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"login_attempt\"}")
+		t, http.MethodPost, "/v2/signals/account_activities", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"registration_decision\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22873,10 +22873,10 @@ func TestV2SignalsAccountActivityPostService(t *testing.T) {
 
 func TestV2SignalsAccountActivityPostClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountActivityCreateParams{
-		Type: stripe.String("login_attempt"),
+		Type: stripe.String("registration_decision"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_activities", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"login_attempt\"}")
+		t, http.MethodPost, "/v2/signals/account_activities", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"registration_decision\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22916,7 +22916,7 @@ func TestV2SignalsAccountActivityDeleteClient(t *testing.T) {
 func TestV2SignalsAccountActivityGetService(t *testing.T) {
 	params := &stripe.V2SignalsAccountActivityParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_activities/id_123", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"login_attempt\"}")
+		t, http.MethodGet, "/v2/signals/account_activities/id_123", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"registration_decision\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22929,7 +22929,7 @@ func TestV2SignalsAccountActivityGetService(t *testing.T) {
 func TestV2SignalsAccountActivityGetClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountActivityRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_activities/id_123", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"login_attempt\"}")
+		t, http.MethodGet, "/v2/signals/account_activities/id_123", params, "{\"object\":\"v2.signals.account_activity\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"occurred_at\":\"1970-01-10T01:49:44.717Z\",\"type\":\"registration_decision\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22961,10 +22961,10 @@ func TestV2SignalsAccountEvaluationPostService(t *testing.T) {
 				},
 			},
 		},
-		RequestedSignals: []*string{stripe.String("user_merchant_fit")},
+		RequestedSignals: []*string{stripe.String("fraudulent_website")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
+		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"fraudulent_website\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -22995,10 +22995,10 @@ func TestV2SignalsAccountEvaluationPostClient(t *testing.T) {
 				},
 			},
 		},
-		RequestedSignals: []*string{stripe.String("user_merchant_fit")},
+		RequestedSignals: []*string{stripe.String("fraudulent_website")},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
+		t, http.MethodPost, "/v2/signals/account_evaluations", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"fraudulent_website\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23011,7 +23011,7 @@ func TestV2SignalsAccountEvaluationPostClient(t *testing.T) {
 func TestV2SignalsAccountEvaluationGetService(t *testing.T) {
 	params := &stripe.V2SignalsAccountEvaluationParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
+		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"fraudulent_website\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23024,7 +23024,7 @@ func TestV2SignalsAccountEvaluationGetService(t *testing.T) {
 func TestV2SignalsAccountEvaluationGetClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountEvaluationRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"user_merchant_fit\"]}")
+		t, http.MethodGet, "/v2/signals/account_evaluations/id_123", params, "{\"object\":\"v2.signals.account_evaluation\",\"account_details\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"pending_signals\":[\"user_account_sharing\"],\"requested_signals\":[\"fraudulent_website\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23037,10 +23037,10 @@ func TestV2SignalsAccountEvaluationGetClient(t *testing.T) {
 
 func TestV2SignalsAccountSignalGetService(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalListParams{
-		Type: []*string{stripe.String("payment_delinquency_exposure")},
+		Type: []*string{stripe.String("account_takeover")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"account_takeover\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23051,10 +23051,10 @@ func TestV2SignalsAccountSignalGetService(t *testing.T) {
 
 func TestV2SignalsAccountSignalGetClient(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalListParams{
-		Type: []*string{stripe.String("payment_delinquency_exposure")},
+		Type: []*string{stripe.String("account_takeover")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/signals/account_signals", params, "{\"data\":[{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"account_takeover\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23066,7 +23066,7 @@ func TestV2SignalsAccountSignalGetClient(t *testing.T) {
 func TestV2SignalsAccountSignalGet2Service(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}")
+		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"account_takeover\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -23079,7 +23079,7 @@ func TestV2SignalsAccountSignalGet2Service(t *testing.T) {
 func TestV2SignalsAccountSignalGet2Client(t *testing.T) {
 	params := &stripe.V2SignalsAccountSignalRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"payment_delinquency_exposure\"}")
+		t, http.MethodGet, "/v2/signals/account_signals/id_123", params, "{\"object\":\"v2.signals.account_signal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"account_takeover\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

@@ -2704,6 +2704,12 @@ func (h *eventNotificationHandlerBase) OnV2SignalsAccountEvaluationComplete(call
 		h, "v2.signals.account_evaluation.complete", callback)
 }
 
+// OnV2SignalsAccountSignalCustomerRiskReady registers a callback to handle notifications about the "v2.signals.account_signal.customer_risk_ready" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalCustomerRiskReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalCustomerRiskReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_signal.customer_risk_ready", callback)
+}
+
 // OnV2SignalsAccountSignalFraudulentMerchantReady registers a callback to handle notifications about the "v2.signals.account_signal.fraudulent_merchant_ready" event.
 func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalFraudulentMerchantReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification, client *Client) error) error {
 	return registerTypedHandler(

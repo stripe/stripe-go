@@ -11,6 +11,18 @@ import (
 	"time"
 )
 
+// Categorical assessment of the account takeover risk.
+type V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel string
+
+// List of values that V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel can take
+const (
+	V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevelElevated V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel = "elevated"
+	V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevelHighest  V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel = "highest"
+	V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevelLow      V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel = "low"
+	V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevelNormal   V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel = "normal"
+	V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevelUnknown  V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel = "unknown"
+)
+
 // Categorical assessment of the fraudulent website risk.
 type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteRiskLevel string
 
@@ -63,6 +75,7 @@ type V2SignalsAccountEvaluationPendingSignal string
 
 // List of values that V2SignalsAccountEvaluationPendingSignal can take
 const (
+	V2SignalsAccountEvaluationPendingSignalAccountTakeover     V2SignalsAccountEvaluationPendingSignal = "account_takeover"
 	V2SignalsAccountEvaluationPendingSignalFraudulentWebsite   V2SignalsAccountEvaluationPendingSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationPendingSignalUserAccountSharing  V2SignalsAccountEvaluationPendingSignal = "user_account_sharing"
 	V2SignalsAccountEvaluationPendingSignalUserMerchantFit     V2SignalsAccountEvaluationPendingSignal = "user_merchant_fit"
@@ -74,6 +87,7 @@ type V2SignalsAccountEvaluationRequestedSignal string
 
 // List of values that V2SignalsAccountEvaluationRequestedSignal can take
 const (
+	V2SignalsAccountEvaluationRequestedSignalAccountTakeover     V2SignalsAccountEvaluationRequestedSignal = "account_takeover"
 	V2SignalsAccountEvaluationRequestedSignalFraudulentWebsite   V2SignalsAccountEvaluationRequestedSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationRequestedSignalUserAccountSharing  V2SignalsAccountEvaluationRequestedSignal = "user_account_sharing"
 	V2SignalsAccountEvaluationRequestedSignalUserMerchantFit     V2SignalsAccountEvaluationRequestedSignal = "user_merchant_fit"
@@ -134,6 +148,16 @@ type V2SignalsAccountEvaluationAccountDetails struct {
 	Data *V2SignalsAccountEvaluationAccountDetailsData `json:"data,omitempty"`
 }
 
+// Synchronous account takeover result for the evaluation, when requested.
+type V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeover struct {
+	// Timestamp at which the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at,omitempty"`
+	// Categorical assessment of the account takeover risk.
+	RiskLevel V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeoverRiskLevel `json:"risk_level"`
+	// The account signal ID containing the full account takeover signal result.
+	Signal string `json:"signal,omitempty"`
+}
+
 // Fraudulent website result for the evaluation, when available.
 type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite struct {
 	// Human-readable details about the fraudulent website evaluation, when available.
@@ -184,6 +208,8 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting struct {
 
 // Signal results that are available for the evaluation.
 type V2SignalsAccountEvaluationEvaluatedSignals struct {
+	// Synchronous account takeover result for the evaluation, when requested.
+	AccountTakeover *V2SignalsAccountEvaluationEvaluatedSignalsAccountTakeover `json:"account_takeover,omitempty"`
 	// Fraudulent website result for the evaluation, when available.
 	FraudulentWebsite *V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite `json:"fraudulent_website,omitempty"`
 	// User account-sharing result for the evaluation, when available.

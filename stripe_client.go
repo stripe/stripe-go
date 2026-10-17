@@ -286,6 +286,8 @@ type Client struct {
 	V1ReserveReleases *v1ReserveReleaseService
 	// V1Reviews is the service used to invoke /v1/reviews APIs.
 	V1Reviews *v1ReviewService
+	// V1RiskForms is the service used to invoke /v1/risk/forms APIs.
+	V1RiskForms *v1RiskFormService
 	// V1SetupAttempts is the service used to invoke /v1/setup_attempts APIs.
 	V1SetupAttempts *v1SetupAttemptService
 	// V1SetupIntents is the service used to invoke /v1/setup_intents APIs.
@@ -814,6 +816,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1ReservePlans = &v1ReservePlanService{B: backends.API, Key: key}
 	client.V1ReserveReleases = &v1ReserveReleaseService{B: backends.API, Key: key}
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
+	client.V1RiskForms = &v1RiskFormService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
 	client.V1SharedPaymentGrantedTokens = &v1SharedPaymentGrantedTokenService{B: backends.API, Key: key}

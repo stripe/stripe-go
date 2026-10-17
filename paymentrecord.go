@@ -409,6 +409,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankBni     PaymentRecordPaymentMethodDetailsIDBankTransferBank = "bni"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankBri     PaymentRecordPaymentMethodDetailsIDBankTransferBank = "bri"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankCimb    PaymentRecordPaymentMethodDetailsIDBankTransferBank = "cimb"
+	PaymentRecordPaymentMethodDetailsIDBankTransferBankMandiri PaymentRecordPaymentMethodDetailsIDBankTransferBank = "mandiri"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 

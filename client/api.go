@@ -154,6 +154,7 @@ import (
 	reserveplan "github.com/stripe/stripe-go/v87/reserve/plan"
 	reserverelease "github.com/stripe/stripe-go/v87/reserve/release"
 	"github.com/stripe/stripe-go/v87/review"
+	riskform "github.com/stripe/stripe-go/v87/risk/form"
 	"github.com/stripe/stripe-go/v87/setupattempt"
 	"github.com/stripe/stripe-go/v87/setupintent"
 	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v87/sharedpayment/grantedtoken"
@@ -618,6 +619,8 @@ type API struct {
 	ReserveReleases *reserverelease.Client
 	// Reviews is the client used to invoke /v1/reviews APIs.
 	Reviews *review.Client
+	// RiskForms is the client used to invoke /v1/risk/forms APIs.
+	RiskForms *riskform.Client
 	// SetupAttempts is the client used to invoke /v1/setup_attempts APIs.
 	SetupAttempts *setupattempt.Client
 	// SetupIntents is the client used to invoke /v1/setup_intents APIs.
@@ -1123,6 +1126,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ReservePlans = &reserveplan.Client{B: backends.API, Key: key}
 	a.ReserveReleases = &reserverelease.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
+	a.RiskForms = &riskform.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}

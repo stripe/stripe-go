@@ -187,15 +187,23 @@ const (
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessCustodialStorageOutboundOusd    V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_custodial_storage.outbound.ousd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessCustodialStorageOutboundUsdc    V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_custodial_storage.outbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCAD               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.cad"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCZK               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.czk"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundEUR               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundGBP               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundNOK               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.nok"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundOusd              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.ousd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundPLN               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.pln"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundSEK               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.sek"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUSD               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUsdc              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCAD              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.cad"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCZK              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.czk"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundEUR              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundGBP              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundNOK              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.nok"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundOusd             V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.ousd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundPLN              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.pln"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundSEK              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.sek"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUSD              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUsdc             V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageInboundUSD               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.inbound.usd"
@@ -19041,6 +19049,47 @@ func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchRelatedObject
 	return relatedObj, err
 }
 
+// V2SignalsAccountSignalCustomerRiskReadyEvent is the Go struct for the "v2.signals.account_signal.customer_risk_ready" event.
+// Occurs when a customer's risk level changes and a new customer risk signal is ready.
+type V2SignalsAccountSignalCustomerRiskReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountSignal, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (e *V2SignalsAccountSignalCustomerRiskReadyEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2SignalsAccountSignalCustomerRiskReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_signal.customer_risk_ready"
+// Occurs when a customer's risk level changes and a new customer risk signal is ready.
+type V2SignalsAccountSignalCustomerRiskReadyEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2SignalsAccountSignalCustomerRiskReadyEvent that created this Notification
+func (n *V2SignalsAccountSignalCustomerRiskReadyEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountSignalCustomerRiskReadyEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountSignalCustomerRiskReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (n *V2SignalsAccountSignalCustomerRiskReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountSignal{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2SignalsAccountSignalFraudulentMerchantReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_merchant_ready" event.
 // Occurs when a fraudulent merchant signal is ready for an account.
 type V2SignalsAccountSignalFraudulentMerchantReadyEvent struct {
@@ -27330,6 +27379,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.signals.account_signal.customer_risk_ready":
+		result := &V2SignalsAccountSignalCustomerRiskReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
+			v := &V2SignalsAccountSignal{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.signals.account_signal.fraudulent_merchant_ready":
 		result := &V2SignalsAccountSignalFraudulentMerchantReadyEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -30703,6 +30767,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.signals.account_evaluation.complete":
 		evt := V2SignalsAccountEvaluationCompleteEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.signals.account_signal.customer_risk_ready":
+		evt := V2SignalsAccountSignalCustomerRiskReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
