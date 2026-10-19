@@ -342,13 +342,15 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
 
-			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
+			metadataField := reflectValue.Elem().FieldByName("Metadata")
+			if metadataField.IsValid() && !metadataField.IsZero() {
 				if commonParams.Metadata != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
-			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
+			expandField := reflectValue.Elem().FieldByName("Expand")
+			if expandField.IsValid() && !expandField.IsZero() {
 				if commonParams.Expand != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
