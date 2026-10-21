@@ -154,6 +154,7 @@ import (
 	reserveplan "github.com/stripe/stripe-go/v87/reserve/plan"
 	reserverelease "github.com/stripe/stripe-go/v87/reserve/release"
 	"github.com/stripe/stripe-go/v87/review"
+	riskform "github.com/stripe/stripe-go/v87/risk/form"
 	"github.com/stripe/stripe-go/v87/setupattempt"
 	"github.com/stripe/stripe-go/v87/setupintent"
 	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v87/sharedpayment/grantedtoken"
@@ -266,6 +267,7 @@ import (
 	v2corevaultnetworktoken "github.com/stripe/stripe-go/v87/v2/core/vault/networktoken"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/usbankaccount"
 	v2dataanalyticsmetricquery "github.com/stripe/stripe-go/v87/v2/data/analytics/metricquery"
+	v2dataoperation "github.com/stripe/stripe-go/v87/v2/data/operation"
 	v2dataqueryrun "github.com/stripe/stripe-go/v87/v2/data/queryrun"
 	v2datareport "github.com/stripe/stripe-go/v87/v2/data/report"
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v87/v2/data/reporting/queryrun"
@@ -618,6 +620,8 @@ type API struct {
 	ReserveReleases *reserverelease.Client
 	// Reviews is the client used to invoke /v1/reviews APIs.
 	Reviews *review.Client
+	// RiskForms is the client used to invoke /v1/risk/forms APIs.
+	RiskForms *riskform.Client
 	// SetupAttempts is the client used to invoke /v1/setup_attempts APIs.
 	SetupAttempts *setupattempt.Client
 	// SetupIntents is the client used to invoke /v1/setup_intents APIs.
@@ -842,6 +846,8 @@ type API struct {
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
 	// V2DataAnalyticsMetricQueries is the client used to invoke /v2/data/analytics/metric_query APIs.
 	V2DataAnalyticsMetricQueries *v2dataanalyticsmetricquery.Client
+	// V2DataOperations is the client used to invoke operation related APIs.
+	V2DataOperations *v2dataoperation.Client
 	// V2DataQueryRuns is the client used to invoke /v2/data/query_runs APIs.
 	V2DataQueryRuns *v2dataqueryrun.Client
 	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
@@ -1123,6 +1129,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ReservePlans = &reserveplan.Client{B: backends.API, Key: key}
 	a.ReserveReleases = &reserverelease.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
+	a.RiskForms = &riskform.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
@@ -1235,6 +1242,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreVaultNetworkTokens = &v2corevaultnetworktoken.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
 	a.V2DataAnalyticsMetricQueries = &v2dataanalyticsmetricquery.Client{B: backends.API, Key: key}
+	a.V2DataOperations = &v2dataoperation.Client{B: backends.API, Key: key}
 	a.V2DataQueryRuns = &v2dataqueryrun.Client{B: backends.API, Key: key}
 	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
 	a.V2DataReportRuns = &v2datareportrun.Client{B: backends.API, Key: key}

@@ -247,6 +247,7 @@ const (
 	PaymentMethodIDBankTransferBankBni     PaymentMethodIDBankTransferBank = "bni"
 	PaymentMethodIDBankTransferBankBri     PaymentMethodIDBankTransferBank = "bri"
 	PaymentMethodIDBankTransferBankCimb    PaymentMethodIDBankTransferBank = "cimb"
+	PaymentMethodIDBankTransferBankMandiri PaymentMethodIDBankTransferBank = "mandiri"
 	PaymentMethodIDBankTransferBankPermata PaymentMethodIDBankTransferBank = "permata"
 )
 

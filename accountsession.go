@@ -1412,6 +1412,14 @@ type AccountSessionComponentsBills struct {
 	Enabled  bool                                   `json:"enabled"`
 	Features *AccountSessionComponentsBillsFeatures `json:"features"`
 }
+type AccountSessionComponentsBusinessProfileManagementFeatures struct{}
+
+// Configuration for the [Business profile management](https://docs.stripe.com/connect/supported-embedded-components/business-profile-management/) embedded component.
+type AccountSessionComponentsBusinessProfileManagement struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                       `json:"enabled"`
+	Features *AccountSessionComponentsBusinessProfileManagementFeatures `json:"features"`
+}
 type AccountSessionComponentsCapitalFinancingFeatures struct{}
 type AccountSessionComponentsCapitalFinancing struct {
 	// Whether the embedded component is enabled.
@@ -1711,6 +1719,12 @@ type AccountSessionComponentsRecipientsList struct {
 	Enabled  bool                                            `json:"enabled"`
 	Features *AccountSessionComponentsRecipientsListFeatures `json:"features"`
 }
+type AccountSessionComponentsReportingChartFeatures struct{}
+type AccountSessionComponentsReportingChart struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                            `json:"enabled"`
+	Features *AccountSessionComponentsReportingChartFeatures `json:"features"`
+}
 type AccountSessionComponentsTaxRegistrationsFeatures struct{}
 type AccountSessionComponentsTaxRegistrations struct {
 	// Whether the embedded component is enabled.
@@ -1724,16 +1738,12 @@ type AccountSessionComponentsTaxSettings struct {
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
 type AccountSessionComponentsTerminalHardwareOrdersFeatures struct{}
-
-// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
 type AccountSessionComponentsTerminalHardwareOrders struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                                    `json:"enabled"`
 	Features *AccountSessionComponentsTerminalHardwareOrdersFeatures `json:"features"`
 }
 type AccountSessionComponentsTerminalHardwareShopFeatures struct{}
-
-// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
 type AccountSessionComponentsTerminalHardwareShop struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                                  `json:"enabled"`
@@ -1747,7 +1757,9 @@ type AccountSessionComponents struct {
 	BalanceReport           *AccountSessionComponentsBalanceReport           `json:"balance_report"`
 	Balances                *AccountSessionComponentsBalances                `json:"balances"`
 	// Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
-	Bills                       *AccountSessionComponentsBills                       `json:"bills,omitempty"`
+	Bills *AccountSessionComponentsBills `json:"bills,omitempty"`
+	// Configuration for the [Business profile management](https://docs.stripe.com/connect/supported-embedded-components/business-profile-management/) embedded component.
+	BusinessProfileManagement   *AccountSessionComponentsBusinessProfileManagement   `json:"business_profile_management,omitempty"`
 	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing,omitempty"`
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application,omitempty"`
 	// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
@@ -1780,13 +1792,12 @@ type AccountSessionComponents struct {
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
 	// Configuration for the [recipients list](https://docs.stripe.com/connect/supported-embedded-components/recipients-list/) embedded component.
-	RecipientsList   *AccountSessionComponentsRecipientsList   `json:"recipients_list,omitempty"`
-	TaxRegistrations *AccountSessionComponentsTaxRegistrations `json:"tax_registrations"`
-	TaxSettings      *AccountSessionComponentsTaxSettings      `json:"tax_settings"`
-	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
-	TerminalHardwareOrders *AccountSessionComponentsTerminalHardwareOrders `json:"terminal_hardware_orders,omitempty"`
-	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
-	TerminalHardwareShop *AccountSessionComponentsTerminalHardwareShop `json:"terminal_hardware_shop,omitempty"`
+	RecipientsList         *AccountSessionComponentsRecipientsList         `json:"recipients_list,omitempty"`
+	ReportingChart         *AccountSessionComponentsReportingChart         `json:"reporting_chart"`
+	TaxRegistrations       *AccountSessionComponentsTaxRegistrations       `json:"tax_registrations"`
+	TaxSettings            *AccountSessionComponentsTaxSettings            `json:"tax_settings"`
+	TerminalHardwareOrders *AccountSessionComponentsTerminalHardwareOrders `json:"terminal_hardware_orders"`
+	TerminalHardwareShop   *AccountSessionComponentsTerminalHardwareShop   `json:"terminal_hardware_shop"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

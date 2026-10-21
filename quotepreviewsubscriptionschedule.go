@@ -1066,6 +1066,10 @@ type QuotePreviewSubscriptionSchedulePrebilling struct {
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior,omitempty"`
 }
+
+// A subscription schedule allows you to create and manage the lifecycle of a subscription by
+// predefining expected changes. A quote preview subscription schedule shows the subscription schedule
+// that would be created by accepting the quote.
 type QuotePreviewSubscriptionSchedule struct {
 	// ID of the Connect Application that created the schedule.
 	Application *Application                               `json:"application"`

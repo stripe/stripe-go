@@ -15,7 +15,7 @@ const (
 	TaxCalculationCustomerDetailsAddressSourceShipping TaxCalculationCustomerDetailsAddressSource = "shipping"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type TaxCalculationCustomerDetailsTaxIDType string
 
 // List of values that TaxCalculationCustomerDetailsTaxIDType can take
@@ -27,7 +27,9 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeAoTin    TaxCalculationCustomerDetailsTaxIDType = "ao_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeARCUIT   TaxCalculationCustomerDetailsTaxIDType = "ar_cuit"
 	TaxCalculationCustomerDetailsTaxIDTypeAUABN    TaxCalculationCustomerDetailsTaxIDType = "au_abn"
+	TaxCalculationCustomerDetailsTaxIDTypeAuAcn    TaxCalculationCustomerDetailsTaxIDType = "au_acn"
 	TaxCalculationCustomerDetailsTaxIDTypeAUARN    TaxCalculationCustomerDetailsTaxIDType = "au_arn"
+	TaxCalculationCustomerDetailsTaxIDTypeAuWpn    TaxCalculationCustomerDetailsTaxIDType = "au_wpn"
 	TaxCalculationCustomerDetailsTaxIDTypeAwTin    TaxCalculationCustomerDetailsTaxIDType = "aw_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeAzTin    TaxCalculationCustomerDetailsTaxIDType = "az_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeBaTin    TaxCalculationCustomerDetailsTaxIDType = "ba_tin"
@@ -57,6 +59,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeCONIT    TaxCalculationCustomerDetailsTaxIDType = "co_nit"
 	TaxCalculationCustomerDetailsTaxIDTypeCRTIN    TaxCalculationCustomerDetailsTaxIDType = "cr_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeCvNif    TaxCalculationCustomerDetailsTaxIDType = "cv_nif"
+	TaxCalculationCustomerDetailsTaxIDTypeCzDic    TaxCalculationCustomerDetailsTaxIDType = "cz_dic"
 	TaxCalculationCustomerDetailsTaxIDTypeDEStn    TaxCalculationCustomerDetailsTaxIDType = "de_stn"
 	TaxCalculationCustomerDetailsTaxIDTypeDORCN    TaxCalculationCustomerDetailsTaxIDType = "do_rcn"
 	TaxCalculationCustomerDetailsTaxIDTypeECRUC    TaxCalculationCustomerDetailsTaxIDType = "ec_ruc"
@@ -66,6 +69,9 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeEUOSSVAT TaxCalculationCustomerDetailsTaxIDType = "eu_oss_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeEUVAT    TaxCalculationCustomerDetailsTaxIDType = "eu_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeFoVAT    TaxCalculationCustomerDetailsTaxIDType = "fo_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeFRSiren  TaxCalculationCustomerDetailsTaxIDType = "fr_siren"
+	TaxCalculationCustomerDetailsTaxIDTypeFRSiret  TaxCalculationCustomerDetailsTaxIDType = "fr_siret"
+	TaxCalculationCustomerDetailsTaxIDTypeFRSpi    TaxCalculationCustomerDetailsTaxIDType = "fr_spi"
 	TaxCalculationCustomerDetailsTaxIDTypeGBVAT    TaxCalculationCustomerDetailsTaxIDType = "gb_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeGEVAT    TaxCalculationCustomerDetailsTaxIDType = "ge_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeGiTin    TaxCalculationCustomerDetailsTaxIDType = "gi_tin"
@@ -77,6 +83,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeIDNPWP   TaxCalculationCustomerDetailsTaxIDType = "id_npwp"
 	TaxCalculationCustomerDetailsTaxIDTypeILVAT    TaxCalculationCustomerDetailsTaxIDType = "il_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeINGST    TaxCalculationCustomerDetailsTaxIDType = "in_gst"
+	TaxCalculationCustomerDetailsTaxIDTypeIsKt     TaxCalculationCustomerDetailsTaxIDType = "is_kt"
 	TaxCalculationCustomerDetailsTaxIDTypeISVAT    TaxCalculationCustomerDetailsTaxIDType = "is_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeITCf     TaxCalculationCustomerDetailsTaxIDType = "it_cf"
 	TaxCalculationCustomerDetailsTaxIDTypeJPCN     TaxCalculationCustomerDetailsTaxIDType = "jp_cn"
@@ -92,23 +99,28 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeLiVAT    TaxCalculationCustomerDetailsTaxIDType = "li_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeLkVAT    TaxCalculationCustomerDetailsTaxIDType = "lk_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeMaVAT    TaxCalculationCustomerDetailsTaxIDType = "ma_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeMdCf     TaxCalculationCustomerDetailsTaxIDType = "md_cf"
 	TaxCalculationCustomerDetailsTaxIDTypeMdVAT    TaxCalculationCustomerDetailsTaxIDType = "md_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeMePib    TaxCalculationCustomerDetailsTaxIDType = "me_pib"
 	TaxCalculationCustomerDetailsTaxIDTypeMkVAT    TaxCalculationCustomerDetailsTaxIDType = "mk_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeMrNif    TaxCalculationCustomerDetailsTaxIDType = "mr_nif"
+	TaxCalculationCustomerDetailsTaxIDTypeMuVAT    TaxCalculationCustomerDetailsTaxIDType = "mu_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeMXRFC    TaxCalculationCustomerDetailsTaxIDType = "mx_rfc"
 	TaxCalculationCustomerDetailsTaxIDTypeMYFRP    TaxCalculationCustomerDetailsTaxIDType = "my_frp"
 	TaxCalculationCustomerDetailsTaxIDTypeMYITN    TaxCalculationCustomerDetailsTaxIDType = "my_itn"
 	TaxCalculationCustomerDetailsTaxIDTypeMYSST    TaxCalculationCustomerDetailsTaxIDType = "my_sst"
+	TaxCalculationCustomerDetailsTaxIDTypeMzNuit   TaxCalculationCustomerDetailsTaxIDType = "mz_nuit"
 	TaxCalculationCustomerDetailsTaxIDTypeNgTin    TaxCalculationCustomerDetailsTaxIDType = "ng_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeNOVAT    TaxCalculationCustomerDetailsTaxIDType = "no_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeNOVOEC   TaxCalculationCustomerDetailsTaxIDType = "no_voec"
 	TaxCalculationCustomerDetailsTaxIDTypeNpPan    TaxCalculationCustomerDetailsTaxIDType = "np_pan"
+	TaxCalculationCustomerDetailsTaxIDTypeNzBn     TaxCalculationCustomerDetailsTaxIDType = "nz_bn"
 	TaxCalculationCustomerDetailsTaxIDTypeNZGST    TaxCalculationCustomerDetailsTaxIDType = "nz_gst"
 	TaxCalculationCustomerDetailsTaxIDTypeOmVAT    TaxCalculationCustomerDetailsTaxIDType = "om_vat"
 	TaxCalculationCustomerDetailsTaxIDTypePERUC    TaxCalculationCustomerDetailsTaxIDType = "pe_ruc"
 	TaxCalculationCustomerDetailsTaxIDTypePHTIN    TaxCalculationCustomerDetailsTaxIDType = "ph_tin"
 	TaxCalculationCustomerDetailsTaxIDTypePLNip    TaxCalculationCustomerDetailsTaxIDType = "pl_nip"
+	TaxCalculationCustomerDetailsTaxIDTypePTNif    TaxCalculationCustomerDetailsTaxIDType = "pt_nif"
 	TaxCalculationCustomerDetailsTaxIDTypePyRuc    TaxCalculationCustomerDetailsTaxIDType = "py_ruc"
 	TaxCalculationCustomerDetailsTaxIDTypeROTIN    TaxCalculationCustomerDetailsTaxIDType = "ro_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeRSPIB    TaxCalculationCustomerDetailsTaxIDType = "rs_pib"
@@ -118,12 +130,15 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeSGGST    TaxCalculationCustomerDetailsTaxIDType = "sg_gst"
 	TaxCalculationCustomerDetailsTaxIDTypeSGUEN    TaxCalculationCustomerDetailsTaxIDType = "sg_uen"
 	TaxCalculationCustomerDetailsTaxIDTypeSITIN    TaxCalculationCustomerDetailsTaxIDType = "si_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeSmCoe    TaxCalculationCustomerDetailsTaxIDType = "sm_coe"
 	TaxCalculationCustomerDetailsTaxIDTypeSnNinea  TaxCalculationCustomerDetailsTaxIDType = "sn_ninea"
 	TaxCalculationCustomerDetailsTaxIDTypeSrFin    TaxCalculationCustomerDetailsTaxIDType = "sr_fin"
 	TaxCalculationCustomerDetailsTaxIDTypeSVNIT    TaxCalculationCustomerDetailsTaxIDType = "sv_nit"
 	TaxCalculationCustomerDetailsTaxIDTypeTHVAT    TaxCalculationCustomerDetailsTaxIDType = "th_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeTjTin    TaxCalculationCustomerDetailsTaxIDType = "tj_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeTRTIN    TaxCalculationCustomerDetailsTaxIDType = "tr_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeTtBir    TaxCalculationCustomerDetailsTaxIDType = "tt_bir"
+	TaxCalculationCustomerDetailsTaxIDTypeTtVAT    TaxCalculationCustomerDetailsTaxIDType = "tt_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeTWVAT    TaxCalculationCustomerDetailsTaxIDType = "tw_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeTzVAT    TaxCalculationCustomerDetailsTaxIDType = "tz_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeUAVAT    TaxCalculationCustomerDetailsTaxIDType = "ua_vat"
@@ -537,7 +552,7 @@ func (p *TaxCalculationCreateParams) AddExpand(f string) {
 
 // The customer's tax IDs (for example, EU VAT numbers).
 type TaxCalculationCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type TaxCalculationCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

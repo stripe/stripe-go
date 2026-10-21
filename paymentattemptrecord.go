@@ -407,6 +407,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBni     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bni"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBri     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bri"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankCimb    PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "cimb"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankMandiri PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "mandiri"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 

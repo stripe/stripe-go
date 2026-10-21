@@ -375,22 +375,65 @@ func TestValidatePayload_BadSignature(t *testing.T) {
 // without this an attacker could forge a payload signed with an empty secret and
 // have it verify successfully.
 func TestValidatePayload_EmptySecret(t *testing.T) {
-	p := newSignedPayload(func(p *SignedPayload) {
-		p.Secret = ""
-	})
-	err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
-	if err != ErrWebhookEmptySecret {
-		t.Errorf("expected ErrWebhookEmptySecret for empty secret, got: %v", err)
+	tests := map[string]string{
+		"empty":           "",
+		"space":           " ",
+		"tab":             "\t",
+		"carriage return": "\r",
+		"line feed":       "\n",
+		"form feed":       "\f",
+		"vertical tab":    "\v",
+		"mixed":           " \t\r\n\f\v",
+	}
+	for name, secret := range tests {
+		t.Run(name, func(t *testing.T) {
+			p := newSignedPayload(func(p *SignedPayload) {
+				p.Secret = secret
+			})
+			err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+			if err != ErrWebhookEmptySecret {
+				t.Errorf("expected ErrWebhookEmptySecret for blank secret, got: %v", err)
+			}
+		})
 	}
 }
 
 func TestConstructEvent_EmptySecret(t *testing.T) {
-	p := newSignedPayload(func(p *SignedPayload) {
-		p.Secret = ""
-	})
-	_, err := ConstructEvent(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
-	if err != ErrWebhookEmptySecret {
-		t.Errorf("expected ErrWebhookEmptySecret for empty secret, got: %v", err)
+	for name, secret := range map[string]string{
+		"empty":           "",
+		"space":           " ",
+		"tab":             "\t",
+		"carriage return": "\r",
+		"line feed":       "\n",
+		"form feed":       "\f",
+		"vertical tab":    "\v",
+		"mixed":           " \t\r\n\f\v",
+	} {
+		t.Run(name, func(t *testing.T) {
+			p := newSignedPayload(func(p *SignedPayload) {
+				p.Secret = secret
+			})
+			_, err := ConstructEvent(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+			if err != ErrWebhookEmptySecret {
+				t.Errorf("expected ErrWebhookEmptySecret for blank secret, got: %v", err)
+			}
+		})
+	}
+}
+
+func TestValidatePayload_NonBlankSecret(t *testing.T) {
+	for name, secret := range map[string]string{
+		"surrounded by ASCII whitespace": " \tsecret\r\n",
+		"non-breaking space only":        "\u00a0",
+	} {
+		t.Run(name, func(t *testing.T) {
+			p := newSignedPayload(func(p *SignedPayload) {
+				p.Secret = secret
+			})
+			if err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance()); err != nil {
+				t.Errorf("expected exact non-blank secret to verify, got: %v", err)
+			}
+		})
 	}
 }
 

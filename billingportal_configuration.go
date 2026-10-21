@@ -55,6 +55,26 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )
 
+// Specifies the pause duration unit. Either `day`, `week`, `month`, or `year`.
+type BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval string
+
+// List of values that BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval can take
+const (
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionIntervalDay   BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval = "day"
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionIntervalMonth BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval = "month"
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionIntervalWeek  BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval = "week"
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionIntervalYear  BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval = "year"
+)
+
+// Whether subscriptions can be paused indefinitely or for a preset duration.
+type BillingPortalConfigurationFeaturesSubscriptionPauseDurationType string
+
+// List of values that BillingPortalConfigurationFeaturesSubscriptionPauseDurationType can take
+const (
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationTypeIndefinite      BillingPortalConfigurationFeaturesSubscriptionPauseDurationType = "indefinite"
+	BillingPortalConfigurationFeaturesSubscriptionPauseDurationTypeIntervalOptions BillingPortalConfigurationFeaturesSubscriptionPauseDurationType = "interval_options"
+)
+
 // Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 type BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor string
 
@@ -925,6 +945,25 @@ type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
+
+// The preset pause durations customers can choose from.
+type BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOption struct {
+	// Specifies the pause duration unit. Either `day`, `week`, `month`, or `year`.
+	Interval BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOptionInterval `json:"interval"`
+	// The number of intervals in the pause duration. The maximum duration is three years.
+	IntervalCount int64 `json:"interval_count"`
+}
+type BillingPortalConfigurationFeaturesSubscriptionPauseDuration struct {
+	// The preset pause durations customers can choose from.
+	IntervalOptions []*BillingPortalConfigurationFeaturesSubscriptionPauseDurationIntervalOption `json:"interval_options"`
+	// Whether subscriptions can be paused indefinitely or for a preset duration.
+	Type BillingPortalConfigurationFeaturesSubscriptionPauseDurationType `json:"type"`
+}
+type BillingPortalConfigurationFeaturesSubscriptionPause struct {
+	Duration *BillingPortalConfigurationFeaturesSubscriptionPauseDuration `json:"duration"`
+	// Whether the feature is enabled. Customers can only pause subscriptions in the [redesigned customer portal](https://docs.stripe.com/customer-management).
+	Enabled bool `json:"enabled"`
+}
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductAdjustableQuantity struct {
 	// If true, the quantity can be adjusted to any non-negative integer.
 	Enabled bool `json:"enabled"`
@@ -972,6 +1011,7 @@ type BillingPortalConfigurationFeatures struct {
 	InvoiceHistory      *BillingPortalConfigurationFeaturesInvoiceHistory      `json:"invoice_history"`
 	PaymentMethodUpdate *BillingPortalConfigurationFeaturesPaymentMethodUpdate `json:"payment_method_update"`
 	SubscriptionCancel  *BillingPortalConfigurationFeaturesSubscriptionCancel  `json:"subscription_cancel"`
+	SubscriptionPause   *BillingPortalConfigurationFeaturesSubscriptionPause   `json:"subscription_pause"`
 	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
 }
 type BillingPortalConfigurationLoginPage struct {

@@ -387,7 +387,6 @@ type IdentityVerificationReportType string
 // List of values that IdentityVerificationReportType can take
 const (
 	IdentityVerificationReportTypeDocument         IdentityVerificationReportType = "document"
-	IdentityVerificationReportTypeEmail            IdentityVerificationReportType = "email"
 	IdentityVerificationReportTypeIDNumber         IdentityVerificationReportType = "id_number"
 	IdentityVerificationReportTypeVerificationFlow IdentityVerificationReportType = "verification_flow"
 )
@@ -514,16 +513,6 @@ type IdentityVerificationReportDocument struct {
 	UnparsedSex string `json:"unparsed_sex,omitempty"`
 }
 
-// Additional email verification details
-type IdentityVerificationReportEmailDetails struct {
-	// Number of days from the time when the email domain was first observed to the time of verification.
-	DaysSinceDomainCreation float64 `json:"days_since_domain_creation,omitempty"`
-	// Number of days from the time when the email address was first observed to the time of verification.
-	DaysSinceOwnershipStarted float64 `json:"days_since_ownership_started,omitempty"`
-	// Two-letter ISO 3166-1 alpha-2 country code of the email domain's country.
-	DomainCountry string `json:"domain_country,omitempty"`
-}
-
 // Details on the verification error. Present when status is `unverified`.
 type IdentityVerificationReportEmailError struct {
 	// A short machine-readable string giving the reason for the verification failure.
@@ -536,8 +525,6 @@ type IdentityVerificationReportEmailError struct {
 type IdentityVerificationReportEmail struct {
 	// Confidence that the provided address matches the email records.
 	AddressMatchConfidence IdentityVerificationReportEmailAddressMatchConfidence `json:"address_match_confidence,omitempty"`
-	// Additional email verification details
-	Details *IdentityVerificationReportEmailDetails `json:"details,omitempty"`
 	// Two-letter country code of the email domain's country.
 	DomainCountry string `json:"domain_country,omitempty"`
 	// Email to be verified.

@@ -11,6 +11,30 @@ import (
 	"time"
 )
 
+// Categorical assessment of the account takeover risk.
+type V2SignalsAccountSignalAccountTakeoverRiskLevel string
+
+// List of values that V2SignalsAccountSignalAccountTakeoverRiskLevel can take
+const (
+	V2SignalsAccountSignalAccountTakeoverRiskLevelElevated V2SignalsAccountSignalAccountTakeoverRiskLevel = "elevated"
+	V2SignalsAccountSignalAccountTakeoverRiskLevelHighest  V2SignalsAccountSignalAccountTakeoverRiskLevel = "highest"
+	V2SignalsAccountSignalAccountTakeoverRiskLevelLow      V2SignalsAccountSignalAccountTakeoverRiskLevel = "low"
+	V2SignalsAccountSignalAccountTakeoverRiskLevelNormal   V2SignalsAccountSignalAccountTakeoverRiskLevel = "normal"
+	V2SignalsAccountSignalAccountTakeoverRiskLevelUnknown  V2SignalsAccountSignalAccountTakeoverRiskLevel = "unknown"
+)
+
+// Categorical assessment of the customer's risk of fraudulent or abusive activity.
+type V2SignalsAccountSignalCustomerRiskRiskLevel string
+
+// List of values that V2SignalsAccountSignalCustomerRiskRiskLevel can take
+const (
+	V2SignalsAccountSignalCustomerRiskRiskLevelElevated V2SignalsAccountSignalCustomerRiskRiskLevel = "elevated"
+	V2SignalsAccountSignalCustomerRiskRiskLevelHighest  V2SignalsAccountSignalCustomerRiskRiskLevel = "highest"
+	V2SignalsAccountSignalCustomerRiskRiskLevelLow      V2SignalsAccountSignalCustomerRiskRiskLevel = "low"
+	V2SignalsAccountSignalCustomerRiskRiskLevelNormal   V2SignalsAccountSignalCustomerRiskRiskLevel = "normal"
+	V2SignalsAccountSignalCustomerRiskRiskLevelUnknown  V2SignalsAccountSignalCustomerRiskRiskLevel = "unknown"
+)
+
 // The effect this indicator had on the overall risk level.
 type V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact string
 
@@ -113,6 +137,8 @@ type V2SignalsAccountSignalType string
 
 // List of values that V2SignalsAccountSignalType can take
 const (
+	V2SignalsAccountSignalTypeAccountTakeover            V2SignalsAccountSignalType = "account_takeover"
+	V2SignalsAccountSignalTypeCustomerRisk               V2SignalsAccountSignalType = "customer_risk"
 	V2SignalsAccountSignalTypeFraudulentMerchant         V2SignalsAccountSignalType = "fraudulent_merchant"
 	V2SignalsAccountSignalTypeFraudulentWebsite          V2SignalsAccountSignalType = "fraudulent_website"
 	V2SignalsAccountSignalTypeMerchantDelinquency        V2SignalsAccountSignalType = "merchant_delinquency"
@@ -163,6 +189,18 @@ type V2SignalsAccountSignalAccountDetails struct {
 	Account string `json:"account,omitempty"`
 	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
 	Customer string `json:"customer,omitempty"`
+}
+
+// Data for the account takeover signal. Present only when type is account_takeover.
+type V2SignalsAccountSignalAccountTakeover struct {
+	// Categorical assessment of the account takeover risk.
+	RiskLevel V2SignalsAccountSignalAccountTakeoverRiskLevel `json:"risk_level"`
+}
+
+// Data for the customer risk signal. Present only when type is customer_risk.
+type V2SignalsAccountSignalCustomerRisk struct {
+	// Categorical assessment of the customer's risk of fraudulent or abusive activity.
+	RiskLevel V2SignalsAccountSignalCustomerRiskRiskLevel `json:"risk_level"`
 }
 
 // Array of objects representing individual factors that contributed to the calculated probability. Absent when risk level is unknown,
@@ -301,8 +339,12 @@ type V2SignalsAccountSignal struct {
 	AccountDetails *V2SignalsAccountSignalAccountDetails `json:"account_details,omitempty"`
 	// The account evaluation that produced this signal, if applicable.
 	AccountEvaluation string `json:"account_evaluation,omitempty"`
+	// Data for the account takeover signal. Present only when type is account_takeover.
+	AccountTakeover *V2SignalsAccountSignalAccountTakeover `json:"account_takeover,omitempty"`
 	// Timestamp at which the signal was created.
 	Created time.Time `json:"created"`
+	// Data for the customer risk signal. Present only when type is customer_risk.
+	CustomerRisk *V2SignalsAccountSignalCustomerRisk `json:"customer_risk,omitempty"`
 	// Data for the fraudulent merchant signal. Present only when type is fraudulent_merchant.
 	FraudulentMerchant *V2SignalsAccountSignalFraudulentMerchant `json:"fraudulent_merchant,omitempty"`
 	// Data for the fraudulent website signal. Present only when type is fraudulent_website.

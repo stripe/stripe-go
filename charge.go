@@ -377,6 +377,7 @@ const (
 	ChargePaymentMethodDetailsIDBankTransferBankBni     ChargePaymentMethodDetailsIDBankTransferBank = "bni"
 	ChargePaymentMethodDetailsIDBankTransferBankBri     ChargePaymentMethodDetailsIDBankTransferBank = "bri"
 	ChargePaymentMethodDetailsIDBankTransferBankCimb    ChargePaymentMethodDetailsIDBankTransferBank = "cimb"
+	ChargePaymentMethodDetailsIDBankTransferBankMandiri ChargePaymentMethodDetailsIDBankTransferBank = "mandiri"
 	ChargePaymentMethodDetailsIDBankTransferBankPermata ChargePaymentMethodDetailsIDBankTransferBank = "permata"
 )
 

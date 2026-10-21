@@ -9,6 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/shopspring/decimal"
+	"github.com/stripe/stripe-go/v87/form"
 )
 
 // Determines whether the customer's attempt to pay must be manually approved.
@@ -140,7 +141,7 @@ const (
 	CheckoutSessionBrandingSettingsLogoTypeURL  CheckoutSessionBrandingSettingsLogoType = "url"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
 // List of values that CheckoutSessionCollectedInformationTaxIDType can take
@@ -152,7 +153,9 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeAoTin    CheckoutSessionCollectedInformationTaxIDType = "ao_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeARCUIT   CheckoutSessionCollectedInformationTaxIDType = "ar_cuit"
 	CheckoutSessionCollectedInformationTaxIDTypeAUABN    CheckoutSessionCollectedInformationTaxIDType = "au_abn"
+	CheckoutSessionCollectedInformationTaxIDTypeAuAcn    CheckoutSessionCollectedInformationTaxIDType = "au_acn"
 	CheckoutSessionCollectedInformationTaxIDTypeAUARN    CheckoutSessionCollectedInformationTaxIDType = "au_arn"
+	CheckoutSessionCollectedInformationTaxIDTypeAuWpn    CheckoutSessionCollectedInformationTaxIDType = "au_wpn"
 	CheckoutSessionCollectedInformationTaxIDTypeAwTin    CheckoutSessionCollectedInformationTaxIDType = "aw_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeAzTin    CheckoutSessionCollectedInformationTaxIDType = "az_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeBaTin    CheckoutSessionCollectedInformationTaxIDType = "ba_tin"
@@ -182,6 +185,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeCONIT    CheckoutSessionCollectedInformationTaxIDType = "co_nit"
 	CheckoutSessionCollectedInformationTaxIDTypeCRTIN    CheckoutSessionCollectedInformationTaxIDType = "cr_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeCvNif    CheckoutSessionCollectedInformationTaxIDType = "cv_nif"
+	CheckoutSessionCollectedInformationTaxIDTypeCzDic    CheckoutSessionCollectedInformationTaxIDType = "cz_dic"
 	CheckoutSessionCollectedInformationTaxIDTypeDEStn    CheckoutSessionCollectedInformationTaxIDType = "de_stn"
 	CheckoutSessionCollectedInformationTaxIDTypeDORCN    CheckoutSessionCollectedInformationTaxIDType = "do_rcn"
 	CheckoutSessionCollectedInformationTaxIDTypeECRUC    CheckoutSessionCollectedInformationTaxIDType = "ec_ruc"
@@ -191,6 +195,9 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeEUOSSVAT CheckoutSessionCollectedInformationTaxIDType = "eu_oss_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeEUVAT    CheckoutSessionCollectedInformationTaxIDType = "eu_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeFoVAT    CheckoutSessionCollectedInformationTaxIDType = "fo_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSiren  CheckoutSessionCollectedInformationTaxIDType = "fr_siren"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSiret  CheckoutSessionCollectedInformationTaxIDType = "fr_siret"
+	CheckoutSessionCollectedInformationTaxIDTypeFRSpi    CheckoutSessionCollectedInformationTaxIDType = "fr_spi"
 	CheckoutSessionCollectedInformationTaxIDTypeGBVAT    CheckoutSessionCollectedInformationTaxIDType = "gb_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeGEVAT    CheckoutSessionCollectedInformationTaxIDType = "ge_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeGiTin    CheckoutSessionCollectedInformationTaxIDType = "gi_tin"
@@ -202,6 +209,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeIDNPWP   CheckoutSessionCollectedInformationTaxIDType = "id_npwp"
 	CheckoutSessionCollectedInformationTaxIDTypeILVAT    CheckoutSessionCollectedInformationTaxIDType = "il_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeINGST    CheckoutSessionCollectedInformationTaxIDType = "in_gst"
+	CheckoutSessionCollectedInformationTaxIDTypeIsKt     CheckoutSessionCollectedInformationTaxIDType = "is_kt"
 	CheckoutSessionCollectedInformationTaxIDTypeISVAT    CheckoutSessionCollectedInformationTaxIDType = "is_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeITCf     CheckoutSessionCollectedInformationTaxIDType = "it_cf"
 	CheckoutSessionCollectedInformationTaxIDTypeJPCN     CheckoutSessionCollectedInformationTaxIDType = "jp_cn"
@@ -217,23 +225,28 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeLiVAT    CheckoutSessionCollectedInformationTaxIDType = "li_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeLkVAT    CheckoutSessionCollectedInformationTaxIDType = "lk_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMaVAT    CheckoutSessionCollectedInformationTaxIDType = "ma_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeMdCf     CheckoutSessionCollectedInformationTaxIDType = "md_cf"
 	CheckoutSessionCollectedInformationTaxIDTypeMdVAT    CheckoutSessionCollectedInformationTaxIDType = "md_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMePib    CheckoutSessionCollectedInformationTaxIDType = "me_pib"
 	CheckoutSessionCollectedInformationTaxIDTypeMkVAT    CheckoutSessionCollectedInformationTaxIDType = "mk_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMrNif    CheckoutSessionCollectedInformationTaxIDType = "mr_nif"
+	CheckoutSessionCollectedInformationTaxIDTypeMuVAT    CheckoutSessionCollectedInformationTaxIDType = "mu_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMXRFC    CheckoutSessionCollectedInformationTaxIDType = "mx_rfc"
 	CheckoutSessionCollectedInformationTaxIDTypeMYFRP    CheckoutSessionCollectedInformationTaxIDType = "my_frp"
 	CheckoutSessionCollectedInformationTaxIDTypeMYITN    CheckoutSessionCollectedInformationTaxIDType = "my_itn"
 	CheckoutSessionCollectedInformationTaxIDTypeMYSST    CheckoutSessionCollectedInformationTaxIDType = "my_sst"
+	CheckoutSessionCollectedInformationTaxIDTypeMzNuit   CheckoutSessionCollectedInformationTaxIDType = "mz_nuit"
 	CheckoutSessionCollectedInformationTaxIDTypeNgTin    CheckoutSessionCollectedInformationTaxIDType = "ng_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeNOVAT    CheckoutSessionCollectedInformationTaxIDType = "no_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeNOVOEC   CheckoutSessionCollectedInformationTaxIDType = "no_voec"
 	CheckoutSessionCollectedInformationTaxIDTypeNpPan    CheckoutSessionCollectedInformationTaxIDType = "np_pan"
+	CheckoutSessionCollectedInformationTaxIDTypeNzBn     CheckoutSessionCollectedInformationTaxIDType = "nz_bn"
 	CheckoutSessionCollectedInformationTaxIDTypeNZGST    CheckoutSessionCollectedInformationTaxIDType = "nz_gst"
 	CheckoutSessionCollectedInformationTaxIDTypeOmVAT    CheckoutSessionCollectedInformationTaxIDType = "om_vat"
 	CheckoutSessionCollectedInformationTaxIDTypePERUC    CheckoutSessionCollectedInformationTaxIDType = "pe_ruc"
 	CheckoutSessionCollectedInformationTaxIDTypePHTIN    CheckoutSessionCollectedInformationTaxIDType = "ph_tin"
 	CheckoutSessionCollectedInformationTaxIDTypePLNip    CheckoutSessionCollectedInformationTaxIDType = "pl_nip"
+	CheckoutSessionCollectedInformationTaxIDTypePTNif    CheckoutSessionCollectedInformationTaxIDType = "pt_nif"
 	CheckoutSessionCollectedInformationTaxIDTypePyRuc    CheckoutSessionCollectedInformationTaxIDType = "py_ruc"
 	CheckoutSessionCollectedInformationTaxIDTypeROTIN    CheckoutSessionCollectedInformationTaxIDType = "ro_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeRSPIB    CheckoutSessionCollectedInformationTaxIDType = "rs_pib"
@@ -243,12 +256,15 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeSGGST    CheckoutSessionCollectedInformationTaxIDType = "sg_gst"
 	CheckoutSessionCollectedInformationTaxIDTypeSGUEN    CheckoutSessionCollectedInformationTaxIDType = "sg_uen"
 	CheckoutSessionCollectedInformationTaxIDTypeSITIN    CheckoutSessionCollectedInformationTaxIDType = "si_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeSmCoe    CheckoutSessionCollectedInformationTaxIDType = "sm_coe"
 	CheckoutSessionCollectedInformationTaxIDTypeSnNinea  CheckoutSessionCollectedInformationTaxIDType = "sn_ninea"
 	CheckoutSessionCollectedInformationTaxIDTypeSrFin    CheckoutSessionCollectedInformationTaxIDType = "sr_fin"
 	CheckoutSessionCollectedInformationTaxIDTypeSVNIT    CheckoutSessionCollectedInformationTaxIDType = "sv_nit"
 	CheckoutSessionCollectedInformationTaxIDTypeTHVAT    CheckoutSessionCollectedInformationTaxIDType = "th_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTjTin    CheckoutSessionCollectedInformationTaxIDType = "tj_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeTRTIN    CheckoutSessionCollectedInformationTaxIDType = "tr_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeTtBir    CheckoutSessionCollectedInformationTaxIDType = "tt_bir"
+	CheckoutSessionCollectedInformationTaxIDTypeTtVAT    CheckoutSessionCollectedInformationTaxIDType = "tt_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTWVAT    CheckoutSessionCollectedInformationTaxIDType = "tw_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeTzVAT    CheckoutSessionCollectedInformationTaxIDType = "tz_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeUAVAT    CheckoutSessionCollectedInformationTaxIDType = "ua_vat"
@@ -387,7 +403,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -399,7 +415,9 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeAoTin    CheckoutSessionCustomerDetailsTaxIDType = "ao_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeARCUIT   CheckoutSessionCustomerDetailsTaxIDType = "ar_cuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUABN    CheckoutSessionCustomerDetailsTaxIDType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuAcn    CheckoutSessionCustomerDetailsTaxIDType = "au_acn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUARN    CheckoutSessionCustomerDetailsTaxIDType = "au_arn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuWpn    CheckoutSessionCustomerDetailsTaxIDType = "au_wpn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAwTin    CheckoutSessionCustomerDetailsTaxIDType = "aw_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeAzTin    CheckoutSessionCustomerDetailsTaxIDType = "az_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeBaTin    CheckoutSessionCustomerDetailsTaxIDType = "ba_tin"
@@ -429,6 +447,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCONIT    CheckoutSessionCustomerDetailsTaxIDType = "co_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeCRTIN    CheckoutSessionCustomerDetailsTaxIDType = "cr_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCvNif    CheckoutSessionCustomerDetailsTaxIDType = "cv_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeCzDic    CheckoutSessionCustomerDetailsTaxIDType = "cz_dic"
 	CheckoutSessionCustomerDetailsTaxIDTypeDEStn    CheckoutSessionCustomerDetailsTaxIDType = "de_stn"
 	CheckoutSessionCustomerDetailsTaxIDTypeDORCN    CheckoutSessionCustomerDetailsTaxIDType = "do_rcn"
 	CheckoutSessionCustomerDetailsTaxIDTypeECRUC    CheckoutSessionCustomerDetailsTaxIDType = "ec_ruc"
@@ -438,6 +457,9 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDType = "eu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeFoVAT    CheckoutSessionCustomerDetailsTaxIDType = "fo_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiren  CheckoutSessionCustomerDetailsTaxIDType = "fr_siren"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiret  CheckoutSessionCustomerDetailsTaxIDType = "fr_siret"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSpi    CheckoutSessionCustomerDetailsTaxIDType = "fr_spi"
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGiTin    CheckoutSessionCustomerDetailsTaxIDType = "gi_tin"
@@ -449,6 +471,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeINGST    CheckoutSessionCustomerDetailsTaxIDType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeIsKt     CheckoutSessionCustomerDetailsTaxIDType = "is_kt"
 	CheckoutSessionCustomerDetailsTaxIDTypeISVAT    CheckoutSessionCustomerDetailsTaxIDType = "is_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeITCf     CheckoutSessionCustomerDetailsTaxIDType = "it_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPCN     CheckoutSessionCustomerDetailsTaxIDType = "jp_cn"
@@ -464,23 +487,28 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeLiVAT    CheckoutSessionCustomerDetailsTaxIDType = "li_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeLkVAT    CheckoutSessionCustomerDetailsTaxIDType = "lk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMaVAT    CheckoutSessionCustomerDetailsTaxIDType = "ma_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeMdCf     CheckoutSessionCustomerDetailsTaxIDType = "md_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeMdVAT    CheckoutSessionCustomerDetailsTaxIDType = "md_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMePib    CheckoutSessionCustomerDetailsTaxIDType = "me_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeMkVAT    CheckoutSessionCustomerDetailsTaxIDType = "mk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMrNif    CheckoutSessionCustomerDetailsTaxIDType = "mr_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeMuVAT    CheckoutSessionCustomerDetailsTaxIDType = "mu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDType = "mx_rfc"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYFRP    CheckoutSessionCustomerDetailsTaxIDType = "my_frp"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYITN    CheckoutSessionCustomerDetailsTaxIDType = "my_itn"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIDTypeMzNuit   CheckoutSessionCustomerDetailsTaxIDType = "mz_nuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeNgTin    CheckoutSessionCustomerDetailsTaxIDType = "ng_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVOEC   CheckoutSessionCustomerDetailsTaxIDType = "no_voec"
 	CheckoutSessionCustomerDetailsTaxIDTypeNpPan    CheckoutSessionCustomerDetailsTaxIDType = "np_pan"
+	CheckoutSessionCustomerDetailsTaxIDTypeNzBn     CheckoutSessionCustomerDetailsTaxIDType = "nz_bn"
 	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeOmVAT    CheckoutSessionCustomerDetailsTaxIDType = "om_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypePLNip    CheckoutSessionCustomerDetailsTaxIDType = "pl_nip"
+	CheckoutSessionCustomerDetailsTaxIDTypePTNif    CheckoutSessionCustomerDetailsTaxIDType = "pt_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypePyRuc    CheckoutSessionCustomerDetailsTaxIDType = "py_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypeROTIN    CheckoutSessionCustomerDetailsTaxIDType = "ro_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
@@ -490,12 +518,15 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeSGGST    CheckoutSessionCustomerDetailsTaxIDType = "sg_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDType = "sg_uen"
 	CheckoutSessionCustomerDetailsTaxIDTypeSITIN    CheckoutSessionCustomerDetailsTaxIDType = "si_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeSmCoe    CheckoutSessionCustomerDetailsTaxIDType = "sm_coe"
 	CheckoutSessionCustomerDetailsTaxIDTypeSnNinea  CheckoutSessionCustomerDetailsTaxIDType = "sn_ninea"
 	CheckoutSessionCustomerDetailsTaxIDTypeSrFin    CheckoutSessionCustomerDetailsTaxIDType = "sr_fin"
 	CheckoutSessionCustomerDetailsTaxIDTypeSVNIT    CheckoutSessionCustomerDetailsTaxIDType = "sv_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDType = "th_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTjTin    CheckoutSessionCustomerDetailsTaxIDType = "tj_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeTRTIN    CheckoutSessionCustomerDetailsTaxIDType = "tr_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtBir    CheckoutSessionCustomerDetailsTaxIDType = "tt_bir"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtVAT    CheckoutSessionCustomerDetailsTaxIDType = "tt_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDType = "tw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTzVAT    CheckoutSessionCustomerDetailsTaxIDType = "tz_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDType = "ua_vat"
@@ -520,6 +551,15 @@ const (
 	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeAccount     CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "account"
 	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeApplication CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "application"
 	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeSelf        CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "self"
+)
+
+// Specifies whether the price is considered inclusive or exclusive of taxes. When omitted and automatic tax is enabled, uses `tax_settings.defaults.tax_behavior`. If no default is set, the request returns an error.
+type CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehavior string
+
+// List of values that CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehavior can take
+const (
+	CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehaviorExclusive CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehavior = "exclusive"
+	CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehaviorInclusive CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehavior = "inclusive"
 )
 
 // Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
@@ -566,7 +606,8 @@ type CheckoutSessionItemType string
 
 // List of values that CheckoutSessionItemType can take
 const (
-	CheckoutSessionItemTypeSubscription CheckoutSessionItemType = "subscription"
+	CheckoutSessionItemTypeMetronomeCommit CheckoutSessionItemType = "metronome_commit"
+	CheckoutSessionItemTypeSubscription    CheckoutSessionItemType = "subscription"
 )
 
 // The mode of the Checkout Session.
@@ -588,7 +629,7 @@ const (
 	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
 )
 
-// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
 // List of values that CheckoutSessionPaymentMethodCollection can take
@@ -824,6 +865,35 @@ type CheckoutSessionPaymentMethodOptionsCardCaptureMethod string
 // List of values that CheckoutSessionPaymentMethodOptionsCardCaptureMethod can take
 const (
 	CheckoutSessionPaymentMethodOptionsCardCaptureMethodManual CheckoutSessionPaymentMethodOptionsCardCaptureMethod = "manual"
+)
+
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType = "maximum"
+)
+
+// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalDay      CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "day"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalMonth    CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "month"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalSporadic CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "sporadic"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalWeek     CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "week"
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsIntervalYear     CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval = "year"
+)
+
+// Specifies the type of mandates supported. Possible values are `india`.
+type CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedTypeIndia CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType = "india"
 )
 
 // Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -2307,6 +2377,140 @@ type CheckoutSessionInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// When and how many credits become available.
+type CheckoutSessionItemMetronomeCommitCommitAccessScheduleScheduleItemParams struct {
+	// The access amount in credit_type_id units.
+	Amount *decimal.Decimal `form:"amount" json:"amount"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount ends (exclusive).
+	EndingBefore *string `form:"ending_before" json:"ending_before"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount starts (inclusive).
+	StartingAt *string `form:"starting_at" json:"starting_at"`
+}
+
+// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+type CheckoutSessionItemMetronomeCommitCommitAccessScheduleParams struct {
+	// The fixed price the buyer pays, in minor currency units.
+	PriceAmount *int64 `form:"price_amount" json:"price_amount"`
+	// When and how many credits become available.
+	ScheduleItems []*CheckoutSessionItemMetronomeCommitCommitAccessScheduleScheduleItemParams `form:"schedule_items" json:"schedule_items"`
+}
+
+// Optionally let the buyer enter a custom access amount.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsCustomAmountParams struct {
+	// Must be `true` when `custom_amount` is present. Omit `custom_amount` to disable custom amounts.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Maximum `access_amount` the customer can enter. Defaults to `999999999999999` when omitted.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// Minimum `access_amount` the customer can enter. Defaults to `1` when omitted.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
+}
+
+// Volume-based discount tiers.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTierParams struct {
+	// Percentage discount applied to the full access_amount when it falls in this tier.
+	DiscountPercentage *int64 `form:"discount_percentage" json:"discount_percentage"`
+	// Upper bound (inclusive) in credit_type_id units. Use `inf` to define an unbounded tier.
+	UpTo    *int64 `form:"up_to" json:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTierParams.
+func (p *CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Access-amount presets for the buyer to choose from.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsOptionParams struct {
+	// The access amount for this option, in credit_type_id units.
+	AccessAmount *int64 `form:"access_amount" json:"access_amount"`
+	// Whether this option is pre-selected in the Checkout UI. At most one option may be marked true.
+	DefaultOption *bool `form:"default_option" json:"default_option,omitempty"`
+}
+
+// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsParams struct {
+	// Optionally let the buyer enter a custom access amount.
+	CustomAmount *CheckoutSessionItemMetronomeCommitCommitCommitOptionsCustomAmountParams `form:"custom_amount" json:"custom_amount,omitempty"`
+	// Volume-based discount tiers.
+	DiscountTiers []*CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTierParams `form:"discount_tiers" json:"discount_tiers,omitempty"`
+	// When access for the purchased credits ends. Hour-aligned UTC timestamp.
+	EndingBefore *string `form:"ending_before" json:"ending_before"`
+	// Access-amount presets for the buyer to choose from.
+	Options []*CheckoutSessionItemMetronomeCommitCommitCommitOptionsOptionParams `form:"options" json:"options"`
+	// When access for the purchased credits starts. Hour-aligned UTC timestamp.
+	StartingAt *string `form:"starting_at" json:"starting_at"`
+}
+
+// Usage filters that determine what draws down the commit. If multiple specifiers are provided, a product only needs to match one. Mutually exclusive with `applicable_metronome_products` and `applicable_metronome_product_tags`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+type CheckoutSessionItemMetronomeCommitCommitSpecifierParams struct {
+	// Key-value pairs for presentation group filters.
+	PresentationGroupValues map[string]string `form:"presentation_group_values" json:"presentation_group_values,omitempty"`
+	// Key-value pairs for pricing group filters.
+	PricingGroupValues map[string]string `form:"pricing_group_values" json:"pricing_group_values,omitempty"`
+	// Metronome product ID to scope this specifier to.
+	ProductID *string `form:"product_id" json:"product_id,omitempty"`
+	// Metronome product tags to scope this specifier to. A product matches this filter only if it has all specified tags.
+	ProductTags []*string `form:"product_tags" json:"product_tags,omitempty"`
+}
+
+// Tax details for this commit. If omitted, Stripe uses the tax code from the Stripe product linked to the Metronome commit product. If there is no linked Stripe product or the Stripe product has no tax code configured, the [preset tax rate on your account](https://docs.stripe.com/api/tax/settings/object#tax_settings_object-defaults-tax_code) will be used. If provided, `tax_code` is required.
+type CheckoutSessionItemMetronomeCommitCommitTaxDetailsParams struct {
+	// Stripe [tax code](https://docs.stripe.com/tax/tax-codes) for this commit (for example, `txcd_10103000`). If the linked Stripe Product has a tax code, this value must match it.
+	TaxCode *string `form:"tax_code" json:"tax_code"`
+}
+
+// The list of commits to create for this Metronome contract.
+type CheckoutSessionItemMetronomeCommitCommitParams struct {
+	// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+	AccessSchedule *CheckoutSessionItemMetronomeCommitCommitAccessScheduleParams `form:"access_schedule" json:"access_schedule,omitempty"`
+	// Metronome product IDs this commit can be drawn down against. Mutually exclusive with `specifiers`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [applicable_product_ids](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-ids).
+	ApplicableMetronomeProducts []*string `form:"applicable_metronome_products" json:"applicable_metronome_products,omitempty"`
+	// Metronome product tags this commit can be drawn down against. A product matches if it has at least one of the specified tags. Mutually exclusive with `specifiers`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [applicable_product_tags](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-tags).
+	ApplicableMetronomeProductTags []*string `form:"applicable_metronome_product_tags" json:"applicable_metronome_product_tags,omitempty"`
+	// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+	CommitOptions *CheckoutSessionItemMetronomeCommitCommitCommitOptionsParams `form:"commit_options" json:"commit_options,omitempty"`
+	// The Metronome Custom Pricing Unit credit type ID for this commit, whose access amounts are credit counts. Omit it to price in fiat, where access amounts are in the smallest unit of `price_configuration[currency]`. Fiat credit type IDs are not accepted.
+	CreditTypeID *string `form:"credit_type_id" json:"credit_type_id,omitempty"`
+	// Key-value pairs forwarded to the Metronome commit's [custom_fields](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-custom-fields).
+	CustomFields map[string]string `form:"custom_fields" json:"custom_fields,omitempty"`
+	// Free-form description. Forwarded to the Metronome commit's description.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The Metronome product ID for this commit.
+	MetronomeProduct *string `form:"metronome_product" json:"metronome_product"`
+	// Display name for the commit. Surfaced on the Metronome commit's name.
+	Name *string `form:"name" json:"name"`
+	// Priority for applying the commit. Lower priority values apply first. Forwarded to Metronome as-is.
+	Priority *decimal.Decimal `form:"priority" json:"priority,omitempty"`
+	// Specifies which rates are used to draw down the commit. Accepts `commit_rate`, `list_rate`, `COMMIT_RATE`, or `LIST_RATE`.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Fraction of unused balance that rolls over on a Metronome contract transition. Must be between `0` and `1`. Forwarded to Metronome as-is.
+	RolloverFraction *decimal.Decimal `form:"rollover_fraction" json:"rollover_fraction,omitempty"`
+	// Usage filters that determine what draws down the commit. If multiple specifiers are provided, a product only needs to match one. Mutually exclusive with `applicable_metronome_products` and `applicable_metronome_product_tags`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+	Specifiers []*CheckoutSessionItemMetronomeCommitCommitSpecifierParams `form:"specifiers" json:"specifiers,omitempty"`
+	// Tax details for this commit. If omitted, Stripe uses the tax code from the Stripe product linked to the Metronome commit product. If there is no linked Stripe product or the Stripe product has no tax code configured, the [preset tax rate on your account](https://docs.stripe.com/api/tax/settings/object#tax_settings_object-defaults-tax_code) will be used. If provided, `tax_code` is required.
+	TaxDetails *CheckoutSessionItemMetronomeCommitCommitTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+}
+
+// The currency and tax behavior configuration for this commit purchase.
+type CheckoutSessionItemMetronomeCommitPriceConfigurationParams struct {
+	// The currency for this commit purchase, as an ISO 4217 lowercase string (for example, `usd`).
+	Currency *string `form:"currency" json:"currency"`
+	// Specifies whether the price is considered inclusive or exclusive of taxes. When omitted and automatic tax is enabled, uses `tax_settings.defaults.tax_behavior`. If no default is set, the request returns an error.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
+
+// Configuration for the Metronome commit item.
+type CheckoutSessionItemMetronomeCommitParams struct {
+	// The list of commits to create for this Metronome contract.
+	Commits []*CheckoutSessionItemMetronomeCommitCommitParams `form:"commits" json:"commits"`
+	// The Metronome contract ID to associate with this checkout item.
+	MetronomeContract *string `form:"metronome_contract" json:"metronome_contract"`
+	// The currency and tax behavior configuration for this commit purchase.
+	PriceConfiguration *CheckoutSessionItemMetronomeCommitPriceConfigurationParams `form:"price_configuration" json:"price_configuration"`
+}
+
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 type CheckoutSessionItemSubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
@@ -2333,6 +2537,16 @@ type CheckoutSessionItemSubscriptionBillingModeParams struct {
 	Flexible *CheckoutSessionItemSubscriptionBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type" json:"type"`
+}
+
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionItemSubscriptionItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
 // The trial offer to apply to this subscription item.
@@ -2417,6 +2631,8 @@ type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionItemSubscriptionItemParams struct {
+	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+	AdjustableQuantity *CheckoutSessionItemSubscriptionItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
 	// The trial offer to apply to this subscription item.
 	CurrentTrial *CheckoutSessionItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
@@ -2486,6 +2702,8 @@ func (p *CheckoutSessionItemSubscriptionParams) AddMetadata(key string, value st
 
 // A list of items the customer will purchase.
 type CheckoutSessionItemParams struct {
+	// Configuration for the Metronome commit item.
+	MetronomeCommit *CheckoutSessionItemMetronomeCommitParams `form:"metronome_commit" json:"metronome_commit,omitempty"`
 	// Configuration for the subscription item.
 	Subscription *CheckoutSessionItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
@@ -2558,7 +2776,7 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2590,7 +2808,7 @@ type CheckoutSessionLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2625,6 +2843,34 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 type CheckoutSessionManagedPaymentsParams struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
+// Information used when sending conversions to an advertising platform.
+type CheckoutSessionMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+type CheckoutSessionMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CheckoutSessionMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name on the session.
@@ -4411,6 +4657,8 @@ type CheckoutSessionParams struct {
 	Locale *string `form:"locale" json:"locale,omitempty"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
+	// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+	MarketingAttributions []*CheckoutSessionMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -5014,6 +5262,140 @@ type CheckoutSessionCreateInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionCreateInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// When and how many credits become available.
+type CheckoutSessionCreateItemMetronomeCommitCommitAccessScheduleScheduleItemParams struct {
+	// The access amount in credit_type_id units.
+	Amount *decimal.Decimal `form:"amount" json:"amount"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount ends (exclusive).
+	EndingBefore *string `form:"ending_before" json:"ending_before"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount starts (inclusive).
+	StartingAt *string `form:"starting_at" json:"starting_at"`
+}
+
+// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+type CheckoutSessionCreateItemMetronomeCommitCommitAccessScheduleParams struct {
+	// The fixed price the buyer pays, in minor currency units.
+	PriceAmount *int64 `form:"price_amount" json:"price_amount"`
+	// When and how many credits become available.
+	ScheduleItems []*CheckoutSessionCreateItemMetronomeCommitCommitAccessScheduleScheduleItemParams `form:"schedule_items" json:"schedule_items"`
+}
+
+// Optionally let the buyer enter a custom access amount.
+type CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsCustomAmountParams struct {
+	// Must be `true` when `custom_amount` is present. Omit `custom_amount` to disable custom amounts.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Maximum `access_amount` the customer can enter. Defaults to `999999999999999` when omitted.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// Minimum `access_amount` the customer can enter. Defaults to `1` when omitted.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
+}
+
+// Volume-based discount tiers.
+type CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsDiscountTierParams struct {
+	// Percentage discount applied to the full access_amount when it falls in this tier.
+	DiscountPercentage *int64 `form:"discount_percentage" json:"discount_percentage"`
+	// Upper bound (inclusive) in credit_type_id units. Use `inf` to define an unbounded tier.
+	UpTo    *int64 `form:"up_to" json:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsDiscountTierParams.
+func (p *CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsDiscountTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Access-amount presets for the buyer to choose from.
+type CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsOptionParams struct {
+	// The access amount for this option, in credit_type_id units.
+	AccessAmount *int64 `form:"access_amount" json:"access_amount"`
+	// Whether this option is pre-selected in the Checkout UI. At most one option may be marked true.
+	DefaultOption *bool `form:"default_option" json:"default_option,omitempty"`
+}
+
+// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+type CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsParams struct {
+	// Optionally let the buyer enter a custom access amount.
+	CustomAmount *CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsCustomAmountParams `form:"custom_amount" json:"custom_amount,omitempty"`
+	// Volume-based discount tiers.
+	DiscountTiers []*CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsDiscountTierParams `form:"discount_tiers" json:"discount_tiers,omitempty"`
+	// When access for the purchased credits ends. Hour-aligned UTC timestamp.
+	EndingBefore *string `form:"ending_before" json:"ending_before"`
+	// Access-amount presets for the buyer to choose from.
+	Options []*CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsOptionParams `form:"options" json:"options"`
+	// When access for the purchased credits starts. Hour-aligned UTC timestamp.
+	StartingAt *string `form:"starting_at" json:"starting_at"`
+}
+
+// Usage filters that determine what draws down the commit. If multiple specifiers are provided, a product only needs to match one. Mutually exclusive with `applicable_metronome_products` and `applicable_metronome_product_tags`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+type CheckoutSessionCreateItemMetronomeCommitCommitSpecifierParams struct {
+	// Key-value pairs for presentation group filters.
+	PresentationGroupValues map[string]string `form:"presentation_group_values" json:"presentation_group_values,omitempty"`
+	// Key-value pairs for pricing group filters.
+	PricingGroupValues map[string]string `form:"pricing_group_values" json:"pricing_group_values,omitempty"`
+	// Metronome product ID to scope this specifier to.
+	ProductID *string `form:"product_id" json:"product_id,omitempty"`
+	// Metronome product tags to scope this specifier to. A product matches this filter only if it has all specified tags.
+	ProductTags []*string `form:"product_tags" json:"product_tags,omitempty"`
+}
+
+// Tax details for this commit. If omitted, Stripe uses the tax code from the Stripe product linked to the Metronome commit product. If there is no linked Stripe product or the Stripe product has no tax code configured, the [preset tax rate on your account](https://docs.stripe.com/api/tax/settings/object#tax_settings_object-defaults-tax_code) will be used. If provided, `tax_code` is required.
+type CheckoutSessionCreateItemMetronomeCommitCommitTaxDetailsParams struct {
+	// Stripe [tax code](https://docs.stripe.com/tax/tax-codes) for this commit (for example, `txcd_10103000`). If the linked Stripe Product has a tax code, this value must match it.
+	TaxCode *string `form:"tax_code" json:"tax_code"`
+}
+
+// The list of commits to create for this Metronome contract.
+type CheckoutSessionCreateItemMetronomeCommitCommitParams struct {
+	// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+	AccessSchedule *CheckoutSessionCreateItemMetronomeCommitCommitAccessScheduleParams `form:"access_schedule" json:"access_schedule,omitempty"`
+	// Metronome product IDs this commit can be drawn down against. Mutually exclusive with `specifiers`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [applicable_product_ids](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-ids).
+	ApplicableMetronomeProducts []*string `form:"applicable_metronome_products" json:"applicable_metronome_products,omitempty"`
+	// Metronome product tags this commit can be drawn down against. A product matches if it has at least one of the specified tags. Mutually exclusive with `specifiers`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [applicable_product_tags](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-tags).
+	ApplicableMetronomeProductTags []*string `form:"applicable_metronome_product_tags" json:"applicable_metronome_product_tags,omitempty"`
+	// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+	CommitOptions *CheckoutSessionCreateItemMetronomeCommitCommitCommitOptionsParams `form:"commit_options" json:"commit_options,omitempty"`
+	// The Metronome Custom Pricing Unit credit type ID for this commit, whose access amounts are credit counts. Omit it to price in fiat, where access amounts are in the smallest unit of `price_configuration[currency]`. Fiat credit type IDs are not accepted.
+	CreditTypeID *string `form:"credit_type_id" json:"credit_type_id,omitempty"`
+	// Key-value pairs forwarded to the Metronome commit's [custom_fields](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-custom-fields).
+	CustomFields map[string]string `form:"custom_fields" json:"custom_fields,omitempty"`
+	// Free-form description. Forwarded to the Metronome commit's description.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The Metronome product ID for this commit.
+	MetronomeProduct *string `form:"metronome_product" json:"metronome_product"`
+	// Display name for the commit. Surfaced on the Metronome commit's name.
+	Name *string `form:"name" json:"name"`
+	// Priority for applying the commit. Lower priority values apply first. Forwarded to Metronome as-is.
+	Priority *decimal.Decimal `form:"priority" json:"priority,omitempty"`
+	// Specifies which rates are used to draw down the commit. Accepts `commit_rate`, `list_rate`, `COMMIT_RATE`, or `LIST_RATE`.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Fraction of unused balance that rolls over on a Metronome contract transition. Must be between `0` and `1`. Forwarded to Metronome as-is.
+	RolloverFraction *decimal.Decimal `form:"rollover_fraction" json:"rollover_fraction,omitempty"`
+	// Usage filters that determine what draws down the commit. If multiple specifiers are provided, a product only needs to match one. Mutually exclusive with `applicable_metronome_products` and `applicable_metronome_product_tags`. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all omitted, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+	Specifiers []*CheckoutSessionCreateItemMetronomeCommitCommitSpecifierParams `form:"specifiers" json:"specifiers,omitempty"`
+	// Tax details for this commit. If omitted, Stripe uses the tax code from the Stripe product linked to the Metronome commit product. If there is no linked Stripe product or the Stripe product has no tax code configured, the [preset tax rate on your account](https://docs.stripe.com/api/tax/settings/object#tax_settings_object-defaults-tax_code) will be used. If provided, `tax_code` is required.
+	TaxDetails *CheckoutSessionCreateItemMetronomeCommitCommitTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+}
+
+// The currency and tax behavior configuration for this commit purchase.
+type CheckoutSessionCreateItemMetronomeCommitPriceConfigurationParams struct {
+	// The currency for this commit purchase, as an ISO 4217 lowercase string (for example, `usd`).
+	Currency *string `form:"currency" json:"currency"`
+	// Specifies whether the price is considered inclusive or exclusive of taxes. When omitted and automatic tax is enabled, uses `tax_settings.defaults.tax_behavior`. If no default is set, the request returns an error.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
+
+// Configuration for the Metronome commit item.
+type CheckoutSessionCreateItemMetronomeCommitParams struct {
+	// The list of commits to create for this Metronome contract.
+	Commits []*CheckoutSessionCreateItemMetronomeCommitCommitParams `form:"commits" json:"commits"`
+	// The Metronome contract ID to associate with this checkout item.
+	MetronomeContract *string `form:"metronome_contract" json:"metronome_contract"`
+	// The currency and tax behavior configuration for this commit purchase.
+	PriceConfiguration *CheckoutSessionCreateItemMetronomeCommitPriceConfigurationParams `form:"price_configuration" json:"price_configuration"`
+}
+
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 type CheckoutSessionCreateItemSubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
@@ -5040,6 +5422,16 @@ type CheckoutSessionCreateItemSubscriptionBillingModeParams struct {
 	Flexible *CheckoutSessionCreateItemSubscriptionBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type" json:"type"`
+}
+
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionCreateItemSubscriptionItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
 // The trial offer to apply to this subscription item.
@@ -5124,6 +5516,8 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionCreateItemSubscriptionItemParams struct {
+	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+	AdjustableQuantity *CheckoutSessionCreateItemSubscriptionItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
 	// The trial offer to apply to this subscription item.
 	CurrentTrial *CheckoutSessionCreateItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
@@ -5193,6 +5587,8 @@ func (p *CheckoutSessionCreateItemSubscriptionParams) AddMetadata(key string, va
 
 // A list of items the customer will purchase.
 type CheckoutSessionCreateItemParams struct {
+	// Configuration for the Metronome commit item.
+	MetronomeCommit *CheckoutSessionCreateItemMetronomeCommitParams `form:"metronome_commit" json:"metronome_commit,omitempty"`
 	// Configuration for the subscription item.
 	Subscription *CheckoutSessionCreateItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
@@ -5265,7 +5661,7 @@ type CheckoutSessionCreateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -5295,7 +5691,7 @@ type CheckoutSessionCreateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -5316,6 +5712,34 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 type CheckoutSessionCreateManagedPaymentsParams struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
+// Information used when sending conversions to an advertising platform.
+type CheckoutSessionCreateMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+type CheckoutSessionCreateMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CheckoutSessionCreateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name on the session.
@@ -7050,6 +7474,8 @@ type CheckoutSessionCreateParams struct {
 	Locale *string `form:"locale" json:"locale,omitempty"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
+	// Advertising attribution information for this Checkout Session. Only one attribution is supported.
+	MarketingAttributions []*CheckoutSessionCreateMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -7322,7 +7748,7 @@ type CheckoutSessionUpdateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -7362,7 +7788,7 @@ type CheckoutSessionUpdateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required when creating a new line item.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -7784,7 +8210,7 @@ type CheckoutSessionCollectedInformationShippingDetails struct {
 
 // Customer's tax id for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8046,7 +8472,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8128,6 +8554,133 @@ type CheckoutSessionInvoiceCreation struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
 
+// When and how many credits become available.
+type CheckoutSessionItemMetronomeCommitCommitAccessScheduleScheduleItem struct {
+	// The access amount in credit_type_id units.
+	Amount decimal.Decimal `json:"amount"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount ends (exclusive).
+	EndingBefore string `json:"ending_before"`
+	// Hour-aligned RFC 3339 timestamp in UTC at which access to the balance amount starts (inclusive).
+	StartingAt string `json:"starting_at"`
+}
+
+// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+type CheckoutSessionItemMetronomeCommitCommitAccessSchedule struct {
+	// The fixed price the buyer pays, in minor currency units.
+	PriceAmount int64 `json:"price_amount"`
+	// When and how many credits become available.
+	ScheduleItems []*CheckoutSessionItemMetronomeCommitCommitAccessScheduleScheduleItem `json:"schedule_items"`
+}
+
+// Custom access amount configuration.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsCustomAmount struct {
+	// Whether custom amount input is enabled.
+	Enabled bool `json:"enabled"`
+	// Maximum `access_amount` the customer can enter. `null` means the effective maximum is `999999999999999`.
+	Maximum int64 `json:"maximum"`
+	// Minimum `access_amount` the customer can enter. `null` means the effective minimum is `1`.
+	Minimum int64 `json:"minimum"`
+}
+
+// Volume-based discount tiers.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTier struct {
+	// Percentage discount applied to the full access_amount.
+	DiscountPercentage int64 `json:"discount_percentage"`
+	// Upper bound (inclusive) in credit_type_id units. Null means unbounded.
+	UpTo int64 `json:"up_to"`
+}
+
+// Access-amount presets for the buyer to choose from.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptionsOption struct {
+	// The access amount for this option.
+	AccessAmount int64 `json:"access_amount"`
+	// Whether this option is pre-selected in the Checkout UI.
+	DefaultOption bool `json:"default_option"`
+}
+
+// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+type CheckoutSessionItemMetronomeCommitCommitCommitOptions struct {
+	// Custom access amount configuration.
+	CustomAmount *CheckoutSessionItemMetronomeCommitCommitCommitOptionsCustomAmount `json:"custom_amount"`
+	// Volume-based discount tiers.
+	DiscountTiers []*CheckoutSessionItemMetronomeCommitCommitCommitOptionsDiscountTier `json:"discount_tiers"`
+	// When access for the purchased credits ends.
+	EndingBefore string `json:"ending_before"`
+	// Access-amount presets for the buyer to choose from.
+	Options []*CheckoutSessionItemMetronomeCommitCommitCommitOptionsOption `json:"options"`
+	// The selected access amount. It matches an `options[].access_amount` for a preset selection, but may be a custom value when `custom_amount` is enabled. New sessions initialize it from the option marked `default_option`, or from the first option when none is marked. It is not necessarily the item's monetary price; use `amount_details` for display and totals.
+	SelectedAccessAmount int64 `json:"selected_access_amount"`
+	// When access for the purchased credits starts.
+	StartingAt string `json:"starting_at"`
+}
+
+// Usage filters that determine what draws down the commit. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all absent, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+type CheckoutSessionItemMetronomeCommitCommitSpecifier struct {
+	// Key-value pairs for presentation group filters.
+	PresentationGroupValues map[string]string `json:"presentation_group_values"`
+	// Key-value pairs for pricing group filters.
+	PricingGroupValues map[string]string `json:"pricing_group_values"`
+	// Metronome product ID to scope this specifier to.
+	ProductID string `json:"product_id"`
+	// Metronome product tags to scope this specifier to. Products must have all specified tags.
+	ProductTags []string `json:"product_tags"`
+}
+
+// Tax details for the Stripe product created for this commit. If provided, `tax_code` is required.
+type CheckoutSessionItemMetronomeCommitCommitTaxDetails struct {
+	// Stripe [tax code](https://docs.stripe.com/tax/tax-codes) for this commit (for example, `txcd_10103000`).
+	TaxCode string `json:"tax_code"`
+}
+
+// The list of commits for this Metronome contract.
+type CheckoutSessionItemMetronomeCommitCommit struct {
+	// Sets the balance amount and release schedule. Mutually exclusive with `commit_options`.
+	AccessSchedule *CheckoutSessionItemMetronomeCommitCommitAccessSchedule `json:"access_schedule"`
+	// Metronome product IDs this commit can be drawn down against. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all absent, the commit applies to all products. See Metronome's [applicable_product_ids](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-ids).
+	ApplicableMetronomeProducts []string `json:"applicable_metronome_products"`
+	// Metronome product tags this commit can be drawn down against. Products must have all specified tags. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all absent, the commit applies to all products. See Metronome's [applicable_product_tags](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-applicable-product-tags).
+	ApplicableMetronomeProductTags []string `json:"applicable_metronome_product_tags"`
+	// Customer selects the balance amount to purchase. Mutually exclusive with `access_schedule`.
+	CommitOptions *CheckoutSessionItemMetronomeCommitCommitCommitOptions `json:"commit_options"`
+	// The Metronome Custom Pricing Unit credit type ID for this commit. Null when the commit prices in fiat.
+	CreditTypeID string `json:"credit_type_id"`
+	// Key-value pairs forwarded to the Metronome commit's [custom_fields](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-custom-fields).
+	CustomFields map[string]string `json:"custom_fields"`
+	// Free-form description. Forwarded to the Metronome commit's description.
+	Description string `json:"description"`
+	// The Metronome commit ID, populated after successful activation.
+	MetronomeCommit string `json:"metronome_commit"`
+	// The Metronome product ID for this commit.
+	MetronomeProduct string `json:"metronome_product"`
+	// Display name for the commit. Surfaced on the Metronome commit's name.
+	Name string `json:"name"`
+	// Priority for applying the commit. Lower priority values apply first. Forwarded to Metronome as-is.
+	Priority decimal.Decimal `json:"priority"`
+	// Specifies which rates are used to draw down the commit. Accepts `commit_rate`, `list_rate`, `COMMIT_RATE`, or `LIST_RATE`.
+	RateType string `json:"rate_type"`
+	// Fraction of unused balance that rolls over on a Metronome contract transition. Must be between `0` and `1`. Forwarded to Metronome as-is.
+	RolloverFraction decimal.Decimal `json:"rollover_fraction"`
+	// Usage filters that determine what draws down the commit. If `applicable_metronome_products`, `applicable_metronome_product_tags`, and `specifiers` are all absent, the commit applies to all products. See Metronome's [specifiers](https://docs.metronome.com/api-reference/contracts/edit-a-contract#body-add-commits-items-specifiers).
+	Specifiers []*CheckoutSessionItemMetronomeCommitCommitSpecifier `json:"specifiers"`
+	// Tax details for the Stripe product created for this commit. If provided, `tax_code` is required.
+	TaxDetails *CheckoutSessionItemMetronomeCommitCommitTaxDetails `json:"tax_details"`
+}
+type CheckoutSessionItemMetronomeCommitPriceConfiguration struct {
+	// The currency for this commit purchase, as an ISO 4217 lowercase string (for example, `usd`).
+	Currency Currency `json:"currency"`
+	// Specifies whether the price is considered inclusive or exclusive of taxes. When omitted and automatic tax is enabled, uses `tax_settings.defaults.tax_behavior`. If no default is set, the request returns an error.
+	TaxBehavior CheckoutSessionItemMetronomeCommitPriceConfigurationTaxBehavior `json:"tax_behavior"`
+}
+type CheckoutSessionItemMetronomeCommit struct {
+	// The list of commits for this Metronome contract.
+	Commits []*CheckoutSessionItemMetronomeCommitCommit `json:"commits"`
+	// The Metronome contract ID associated with this checkout item.
+	MetronomeContract string `json:"metronome_contract"`
+	// The Metronome customer ID associated with this checkout item, resolved during validation.
+	MetronomeCustomer  string                                                `json:"metronome_customer"`
+	PriceConfiguration *CheckoutSessionItemMetronomeCommitPriceConfiguration `json:"price_configuration"`
+}
+
 // The trial offer applied to this subscription item.
 type CheckoutSessionItemSubscriptionItemCurrentTrial struct {
 	// The ID of the trial offer applied to this subscription item.
@@ -8191,8 +8744,9 @@ type CheckoutSessionItemSubscription struct {
 // The items to be purchased by the customer.
 type CheckoutSessionItem struct {
 	// The key of the item. Guaranteed to be a unique ID within this checkout session's items.
-	Key          string                           `json:"key"`
-	Subscription *CheckoutSessionItemSubscription `json:"subscription,omitempty"`
+	Key             string                              `json:"key"`
+	MetronomeCommit *CheckoutSessionItemMetronomeCommit `json:"metronome_commit,omitempty"`
+	Subscription    *CheckoutSessionItemSubscription    `json:"subscription,omitempty"`
 	// The type of the item.
 	Type CheckoutSessionItemType `json:"type"`
 }
@@ -8201,6 +8755,31 @@ type CheckoutSessionItem struct {
 type CheckoutSessionManagedPayments struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled bool `json:"enabled"`
+}
+type CheckoutSessionMarketingAttributionAdConversion struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected bool `json:"consent_collected"`
+}
+
+// Advertising attribution information for this Checkout Session.
+type CheckoutSessionMarketingAttribution struct {
+	AdConversion *CheckoutSessionMarketingAttributionAdConversion `json:"ad_conversion"`
+	// The advertising platform's click identifier.
+	ClickID string `json:"click_id"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt int64 `json:"occurred_at"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup string `json:"utm_adgroup"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent string `json:"utm_content"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID string `json:"utm_id"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium string `json:"utm_medium"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource string `json:"utm_source"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm string `json:"utm_term"`
 }
 type CheckoutSessionNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the session
@@ -8383,6 +8962,28 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 	// Indicates if installments are enabled
 	Enabled bool `json:"enabled,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsCardMandateOptions struct {
+	// Maximum or fixed amount for future payments, in the mandate's currency.
+	Amount int64 `json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType CheckoutSessionPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description,omitempty"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate int64 `json:"end_date,omitempty"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval CheckoutSessionPaymentMethodOptionsCardMandateOptionsInterval `json:"interval,omitempty"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount int64 `json:"interval_count,omitempty"`
+	// Unique identifier for the mandate or subscription.
+	Reference string `json:"reference,omitempty"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate int64 `json:"start_date,omitempty"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []CheckoutSessionPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked,omitempty"`
@@ -8391,8 +8992,9 @@ type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod CheckoutSessionPaymentMethodOptionsCardCaptureMethod `json:"capture_method,omitempty"`
-	Installments  *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments,omitempty"`
+	CaptureMethod  CheckoutSessionPaymentMethodOptionsCardCaptureMethod   `json:"capture_method,omitempty"`
+	Installments   *CheckoutSessionPaymentMethodOptionsCardInstallments   `json:"installments,omitempty"`
+	MandateOptions *CheckoutSessionPaymentMethodOptionsCardMandateOptions `json:"mandate_options,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestDecrementalAuthorization CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -9291,6 +9893,8 @@ type CheckoutSession struct {
 	Locale string `json:"locale"`
 	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
 	ManagedPayments *CheckoutSessionManagedPayments `json:"managed_payments"`
+	// Advertising attribution information for this Checkout Session.
+	MarketingAttributions []*CheckoutSessionMarketingAttribution `json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
@@ -9308,7 +9912,7 @@ type CheckoutSession struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
-	// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+	// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
 	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`

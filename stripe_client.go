@@ -286,6 +286,8 @@ type Client struct {
 	V1ReserveReleases *v1ReserveReleaseService
 	// V1Reviews is the service used to invoke /v1/reviews APIs.
 	V1Reviews *v1ReviewService
+	// V1RiskForms is the service used to invoke /v1/risk/forms APIs.
+	V1RiskForms *v1RiskFormService
 	// V1SetupAttempts is the service used to invoke /v1/setup_attempts APIs.
 	V1SetupAttempts *v1SetupAttemptService
 	// V1SetupIntents is the service used to invoke /v1/setup_intents APIs.
@@ -514,6 +516,8 @@ type Client struct {
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
 	// V2DataAnalyticsMetricQueries is the service used to invoke /v2/data/analytics/metric_query APIs.
 	V2DataAnalyticsMetricQueries *v2DataAnalyticsMetricQueryService
+	// V2DataOperations is the service used to invoke operation related APIs.
+	V2DataOperations *v2DataOperationService
 	// V2DataQueryRuns is the service used to invoke /v2/data/query_runs APIs.
 	V2DataQueryRuns *v2DataQueryRunService
 	// V2DataReportingQueryRuns is the service used to invoke /v2/data/reporting/query_runs APIs.
@@ -814,6 +818,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1ReservePlans = &v1ReservePlanService{B: backends.API, Key: key}
 	client.V1ReserveReleases = &v1ReserveReleaseService{B: backends.API, Key: key}
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
+	client.V1RiskForms = &v1RiskFormService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
 	client.V1SharedPaymentGrantedTokens = &v1SharedPaymentGrantedTokenService{B: backends.API, Key: key}
@@ -928,6 +933,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreVaultNetworkTokens = &v2CoreVaultNetworkTokenService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
 	client.V2DataAnalyticsMetricQueries = &v2DataAnalyticsMetricQueryService{B: backends.API, Key: key}
+	client.V2DataOperations = &v2DataOperationService{B: backends.API, Key: key}
 	client.V2DataQueryRuns = &v2DataQueryRunService{B: backends.API, Key: key}
 	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}
 	client.V2DataReportRuns = &v2DataReportRunService{B: backends.API, Key: key}
