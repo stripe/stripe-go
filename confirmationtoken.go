@@ -241,6 +241,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBni     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bni"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBri     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bri"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankCimb    ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "cimb"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankMandiri ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "mandiri"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankPermata ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "permata"
 )
 

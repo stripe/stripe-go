@@ -436,7 +436,7 @@ type BillingPortalSessionFlow struct {
 	// Configuration when `flow.type=subscription_cancel`.
 	SubscriptionCancel *BillingPortalSessionFlowSubscriptionCancel `json:"subscription_cancel"`
 	// Configuration when `flow.type=subscription_pause`.
-	SubscriptionPause *BillingPortalSessionFlowSubscriptionPause `json:"subscription_pause,omitempty"`
+	SubscriptionPause *BillingPortalSessionFlowSubscriptionPause `json:"subscription_pause"`
 	// Configuration when `flow.type=subscription_update`.
 	SubscriptionUpdate *BillingPortalSessionFlowSubscriptionUpdate `json:"subscription_update"`
 	// Configuration when `flow.type=subscription_update_confirm`.

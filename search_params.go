@@ -44,25 +44,25 @@ type SearchParams struct {
 	// guarantee whether the operation was or was not completed on Stripe's API
 	// servers. For certainty, you must either retry with the same idempotency
 	// key or query the state of the API.
-	Context context.Context `form:"-"`
+	Context context.Context `form:"-" json:"-"`
 
-	Query string  `form:"query"`
-	Limit *int64  `form:"limit"`
-	Page  *string `form:"page"`
+	Query string  `form:"query" json:"query"`
+	Limit *int64  `form:"limit" json:"-"`
+	Page  *string `form:"page" json:"-"`
 	// Deprecated: Please use Expand in the surrounding struct instead.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"-"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as
 	// the query progresses. To change this behavior and just load a single
 	// page, set this to true.
-	Single bool `form:"-"` // Not an API parameter
+	Single bool `form:"-" json:"-"` // Not an API parameter
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
-	StripeAccount *string `form:"-"` // Passed as header
+	StripeAccount *string `form:"-" json:"-"` // Passed as header
 
 	// StripeContext is used to set the Stripe-Context header on a request.
 	// The Stripe-Context header can be used to set the account with which
@@ -84,7 +84,7 @@ func (p *SearchParams) GetSearchParams() *SearchParams {
 }
 
 // GetParams returns SearchParams as a Params struct. It exists because any
-// structs that embed Params will inherit it, and thus implement the
+// structs that embed SearchParams will inherit it, and thus implement the
 // ParamsContainer interface.
 func (p *SearchParams) GetParams() *Params {
 	return p.ToParams()

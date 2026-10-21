@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // CallbackFunc is run when an event of a registered type is received.
@@ -48,7 +49,7 @@ type EventNotificationHandler struct {
 }
 
 func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
-	if webhookSecret == "" {
+	if strings.Trim(webhookSecret, " \t\r\n\f\v") == "" {
 		panic("webhookSecret must be a non-empty string")
 	}
 	return &EventNotificationHandler{
@@ -2702,6 +2703,12 @@ func (h *eventNotificationHandlerBase) OnV2ReportingReportRunUpdated(callback fu
 func (h *eventNotificationHandlerBase) OnV2SignalsAccountEvaluationComplete(callback func(ctx context.Context, notif *V2SignalsAccountEvaluationCompleteEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.signals.account_evaluation.complete", callback)
+}
+
+// OnV2SignalsAccountSignalCustomerRiskReady registers a callback to handle notifications about the "v2.signals.account_signal.customer_risk_ready" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalCustomerRiskReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalCustomerRiskReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_signal.customer_risk_ready", callback)
 }
 
 // OnV2SignalsAccountSignalFraudulentMerchantReady registers a callback to handle notifications about the "v2.signals.account_signal.fraudulent_merchant_ready" event.

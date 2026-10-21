@@ -756,6 +756,8 @@ type DisputeEvidenceAppealCard struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
 	SupportingFiles []string `json:"supporting_files,omitempty"`
 }
+
+// Appeal evidence submitted during the appeal stage.
 type DisputeEvidenceAppeal struct {
 	Card *DisputeEvidenceAppealCard `json:"card,omitempty"`
 }
@@ -820,8 +822,9 @@ type DisputeEvidenceEnhancedEvidence struct {
 }
 type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
-	AccessActivityLog string                 `json:"access_activity_log"`
-	Appeal            *DisputeEvidenceAppeal `json:"appeal,omitempty"`
+	AccessActivityLog string `json:"access_activity_log"`
+	// Appeal evidence submitted during the appeal stage.
+	Appeal *DisputeEvidenceAppeal `json:"appeal,omitempty"`
 	// The billing address provided by the customer.
 	BillingAddress string `json:"billing_address"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
@@ -906,7 +909,7 @@ type DisputeEvidenceDetails struct {
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 	// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
-	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method,omitempty"`
+	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method"`
 }
 type DisputePaymentMethodDetailsAmazonPay struct {
 	// The AmazonPay dispute type, chargeback or claim

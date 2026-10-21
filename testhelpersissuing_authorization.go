@@ -231,6 +231,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	IsAmountControllable *bool `form:"is_amount_controllable" json:"is_amount_controllable,omitempty"`
 	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount *int64 `form:"merchant_amount" json:"merchant_amount,omitempty"`
+	// Exchange rate from merchant amount to cardholder amount, expressed in minor units. Must be finite and positive for different currencies. Matching currencies ignore the supplied numeric rate and use 1.0.
+	MerchantAmountExchangeRate *float64 `form:"merchant_amount_exchange_rate" json:"merchant_amount_exchange_rate,omitempty"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency" json:"merchant_currency,omitempty"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
@@ -241,6 +243,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	PosCondition *string `form:"pos_condition" json:"pos_condition,omitempty"`
 	// Stripe's assessment of the fraud risk for this authorization.
 	RiskAssessment *TestHelpersIssuingAuthorizationRiskAssessmentParams `form:"risk_assessment" json:"risk_assessment,omitempty"`
+	// The type of the authorization object, for example a payment authorization, an original credit authorization, or a refund authorization.
+	Type *string `form:"type" json:"type,omitempty"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
 	VerificationData *TestHelpersIssuingAuthorizationVerificationDataParams `form:"verification_data" json:"verification_data,omitempty"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
@@ -358,26 +362,6 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams struct {
 	UnitCostDecimal *decimal.Decimal `form:"unit_cost_decimal" json:"unit_cost_decimal,omitempty"`
 }
 
-// Healthcare sub-amounts for IIAS-eligible transactions.
-type TestHelpersIssuingAuthorizationCapturePurchaseDetailsHealthcareParams struct {
-	// Clinic and urgent care sub-amount for Visa only.
-	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// Dental care sub-amount for Visa only.
-	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
-	// Prescription drug sub-amount. Null if the merchant did not send this amount.
-	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
-	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
-	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
-	// Total FSA/HSA-eligible amount in the smallest currency unit.
-	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
-	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
-	VerificationStatus *string `form:"verification_status" json:"verification_status"`
-	// Vision/optical sub-amount. Null if the merchant did not send this amount.
-	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
-}
-
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
@@ -402,14 +386,22 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams struct {
 	Flight *TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams `form:"fuel" json:"fuel,omitempty"`
-	// Healthcare sub-amounts for IIAS-eligible transactions.
-	Healthcare *TestHelpersIssuingAuthorizationCapturePurchaseDetailsHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// Information about lodging that was purchased with this transaction.
 	Lodging *TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// The line items in the purchase.
 	Receipt []*TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams `form:"receipt" json:"receipt,omitempty"`
 	// A merchant-specific order number.
 	Reference *string `form:"reference" json:"reference,omitempty"`
+}
+
+// Synthetic settlement values for this purchase capture. If omitted, defaults to the final signed transaction amount, transaction currency, and effective merchant-to-cardholder exchange rate. Supply all three fields to override. This does not create a settlement or change funding.
+type TestHelpersIssuingAuthorizationCaptureSettlementDetailsParams struct {
+	// Positive settlement amount magnitude in the smallest currency unit. Must match the converted merchant amount and, when settlement and cardholder currencies are the same, this capture's finalized transaction amount magnitude. The transaction type determines the output sign.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Settlement currency.
+	Currency *string `form:"currency" json:"currency"`
+	// Exchange rate from merchant amount to settlement amount, expressed in minor units. Must be finite and positive for different currencies. Matching currencies ignore the supplied numeric rate and use 1.0.
+	ExchangeRate *float64 `form:"exchange_rate" json:"exchange_rate"`
 }
 
 // Capture a test-mode authorization.
@@ -421,10 +413,14 @@ type TestHelpersIssuingAuthorizationCaptureParams struct {
 	CloseAuthorization *bool `form:"close_authorization" json:"close_authorization,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Exchange rate from merchant amount to capture amount, expressed in minor units. Must be finite and positive for different currencies. Matching currencies ignore the supplied numeric rate and use 1.0. The capture amount remains authoritative.
+	MerchantAmountExchangeRate *float64 `form:"merchant_amount_exchange_rate" json:"merchant_amount_exchange_rate,omitempty"`
 	// Details about the transaction, such as processing dates, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationCaptureNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams `form:"purchase_details" json:"purchase_details,omitempty"`
+	// Synthetic settlement values for this purchase capture. If omitted, defaults to the final signed transaction amount, transaction currency, and effective merchant-to-cardholder exchange rate. Supply all three fields to override. This does not create a settlement or change funding.
+	SettlementDetails *TestHelpersIssuingAuthorizationCaptureSettlementDetailsParams `form:"settlement_details" json:"settlement_details,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -799,6 +795,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	IsAmountControllable *bool `form:"is_amount_controllable" json:"is_amount_controllable,omitempty"`
 	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount *int64 `form:"merchant_amount" json:"merchant_amount,omitempty"`
+	// Exchange rate from merchant amount to cardholder amount, expressed in minor units. Must be finite and positive for different currencies. Matching currencies ignore the supplied numeric rate and use 1.0.
+	MerchantAmountExchangeRate *float64 `form:"merchant_amount_exchange_rate" json:"merchant_amount_exchange_rate,omitempty"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency" json:"merchant_currency,omitempty"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
@@ -809,6 +807,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	PosCondition *string `form:"pos_condition" json:"pos_condition,omitempty"`
 	// Stripe's assessment of the fraud risk for this authorization.
 	RiskAssessment *TestHelpersIssuingAuthorizationCreateRiskAssessmentParams `form:"risk_assessment" json:"risk_assessment,omitempty"`
+	// The type of the authorization object, for example a payment authorization, an original credit authorization, or a refund authorization.
+	Type *string `form:"type" json:"type,omitempty"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
 	VerificationData *TestHelpersIssuingAuthorizationCreateVerificationDataParams `form:"verification_data" json:"verification_data,omitempty"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.

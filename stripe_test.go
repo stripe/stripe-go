@@ -1234,6 +1234,21 @@ func TestMarshalV2JSON(t *testing.T) {
 		assert.False(t, hasDesc, "description should not be present")
 	})
 
+	t.Run("with extra values", func(t *testing.T) {
+		params := &testParams{Name: String("test")}
+		params.AddExtra("future", "value")
+		params.AddExtra("repeated", "one")
+		params.AddExtra("repeated", "two")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+		assert.JSONEq(t, `{
+			"name": "test",
+			"future": "value",
+			"repeated": ["one", "two"]
+		}`, string(data))
+	})
+
 	t.Run("with UnsetFields", func(t *testing.T) {
 		params := &testParams{
 			Name: String("test"),

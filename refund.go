@@ -292,7 +292,12 @@ func (p *RefundUpdateParams) AddMetadata(key string, value string) {
 }
 
 type RefundDestinationDetailsAffirm struct{}
-type RefundDestinationDetailsAfterpayClearpay struct{}
+type RefundDestinationDetailsAfterpayClearpay struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsAlipay struct{}
 type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
@@ -354,7 +359,12 @@ type RefundDestinationDetailsJPBankTransfer struct {
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
 	ReferenceStatus string `json:"reference_status"`
 }
-type RefundDestinationDetailsKlarna struct{}
+type RefundDestinationDetailsKlarna struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsMbWay struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -384,6 +394,10 @@ type RefundDestinationDetailsPayNow struct{}
 type RefundDestinationDetailsPaypal struct {
 	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
 	NetworkDeclineCode string `json:"network_decline_code"`
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsPix struct{}
 type RefundDestinationDetailsRevolut struct{}

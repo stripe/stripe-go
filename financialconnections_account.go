@@ -517,7 +517,7 @@ type FinancialConnectionsAccount struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The most recent information about the account's owners.
+	// The ID of the [Financial Connections Account Ownership](https://docs.stripe.com/api/financial_connections/ownership) object associated with this account.
 	Ownership *FinancialConnectionsAccountOwnership `json:"ownership"`
 	// The state of the most recent attempt to refresh the account owners.
 	OwnershipRefresh *FinancialConnectionsAccountOwnershipRefresh `json:"ownership_refresh"`

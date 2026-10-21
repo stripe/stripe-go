@@ -52,6 +52,7 @@ func (p *BillingAlertNotificationListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A Billing Alert Notification records a notification sent when a billing alert is triggered or recovered. It identifies the alert, customer, and notification event, along with the observed value and the time the notification was sent.
 type BillingAlertNotification struct {
 	// Whether the alert was triggered or recovered.
 	Action BillingAlertNotificationAction `json:"action"`

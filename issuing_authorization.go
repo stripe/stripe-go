@@ -849,6 +849,16 @@ const (
 	IssuingAuthorizationTokenDetailsTokenTypeStaticCredential         IssuingAuthorizationTokenDetailsTokenType = "static_credential"
 )
 
+// The type of the authorization, whether it is for a payment or another type.
+type IssuingAuthorizationType string
+
+// List of values that IssuingAuthorizationType can take
+const (
+	IssuingAuthorizationTypeBalanceInquiry            IssuingAuthorizationType = "balance_inquiry"
+	IssuingAuthorizationTypePayment                   IssuingAuthorizationType = "payment"
+	IssuingAuthorizationTypeProductEligibilityInquiry IssuingAuthorizationType = "product_eligibility_inquiry"
+)
+
 // Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
 type IssuingAuthorizationVerificationDataCheck string
 
@@ -1520,6 +1530,14 @@ type IssuingAuthorizationPendingRequest struct {
 	NetworkRiskScore int64 `json:"network_risk_score"`
 }
 
+// Details about the authorization specific to product eligibility inquiries. This field is only populated for `product_eligibility_inquiry` type authorizations.
+type IssuingAuthorizationProductEligibilityInquiry struct {
+	// The anticipated amount that merchants can send before a payment authorization, in the smallest currency unit.
+	AnticipatedAmount int64 `json:"anticipated_amount"`
+	// The currency of the anticipated amount that merchants can send before a payment authorization.
+	AnticipatedCurrency Currency `json:"anticipated_currency"`
+}
+
 // Redaction status of this authorization. If the authorization is not redacted, this field will be null.
 type IssuingAuthorizationRedaction struct {
 	// Indicates whether this object and its related objects have been redacted or not.
@@ -1819,6 +1837,8 @@ type IssuingAuthorization struct {
 	PendingRequest *IssuingAuthorizationPendingRequest `json:"pending_request"`
 	// The point-of-sale initiation condition. This is null when the card network did not provide one.
 	PosCondition IssuingAuthorizationPosCondition `json:"pos_condition,omitempty"`
+	// Details about the authorization specific to product eligibility inquiries. This field is only populated for `product_eligibility_inquiry` type authorizations.
+	ProductEligibilityInquiry *IssuingAuthorizationProductEligibilityInquiry `json:"product_eligibility_inquiry,omitempty"`
 	// Redaction status of this authorization. If the authorization is not redacted, this field will be null.
 	Redaction *IssuingAuthorizationRedaction `json:"redaction,omitempty"`
 	// History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
@@ -1833,7 +1853,9 @@ type IssuingAuthorization struct {
 	// List of [transactions](https://docs.stripe.com/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
-	Treasury         *IssuingAuthorizationTreasury         `json:"treasury,omitempty"`
+	Treasury *IssuingAuthorizationTreasury `json:"treasury,omitempty"`
+	// The type of the authorization, whether it is for a payment or another type.
+	Type             IssuingAuthorizationType              `json:"type,omitempty"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
 	// Whether the authorization bypassed fraud risk checks because the cardholder has previously completed a fraud challenge on a similar high-risk authorization from the same merchant.
 	VerifiedByFraudChallenge bool `json:"verified_by_fraud_challenge"`
