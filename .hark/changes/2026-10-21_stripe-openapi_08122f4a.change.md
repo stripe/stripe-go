@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2475
 semver_level: major
 is_stripe_api_change: true
+released_in_version: 87.1.0-alpha.4
 ---
 
 * Add support for new resources `RiskForm` and `V2DataSearchResultList`
