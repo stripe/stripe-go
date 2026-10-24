@@ -5249,6 +5249,7 @@ type AccountCompany struct {
 	OwnersProvided bool `json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone                    string                          `json:"phone,omitempty"`
+	PhysicalAddress          *Address                        `json:"physical_address,omitempty"`
 	PrincipalPlaceOfBusiness *Address                        `json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.

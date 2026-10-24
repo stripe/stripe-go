@@ -792,6 +792,8 @@ type IssuingCardShipping struct {
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
 	// Additional information that may be required for clearing customs.
 	Customs *IssuingCardShippingCustoms `json:"customs"`
+	// The time the card was reported as delivered. Null for undelivered or untracked shipments, or if Stripe has not recorded a delivery time.
+	DeliveredAt int64 `json:"delivered_at,omitempty"`
 	// A unix timestamp representing a best estimate of when the card will be delivered.
 	ETA int64 `json:"eta"`
 	// Recipient name.
@@ -802,6 +804,8 @@ type IssuingCardShipping struct {
 	RequireSignature bool `json:"require_signature"`
 	// Shipment service, such as `standard` or `express`.
 	Service IssuingCardShippingService `json:"service"`
+	// The time the card was reported as shipped. Null if Stripe has not recorded a shipment time.
+	ShippedAt int64 `json:"shipped_at,omitempty"`
 	// The delivery status of the card.
 	Status IssuingCardShippingStatus `json:"status"`
 	// A tracking number for a card shipment.

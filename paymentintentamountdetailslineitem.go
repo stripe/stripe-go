@@ -19,7 +19,8 @@ const (
 // Lists all LineItems of a given PaymentIntent.
 type PaymentIntentAmountDetailsLineItemListParams struct {
 	ListParams `form:"*"`
-	Intent     *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Intent *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

@@ -119,8 +119,18 @@ type V2SignalsAccountActivityLoginAttemptParams struct {
 	ClientDetails *V2SignalsAccountActivityLoginAttemptClientDetailsParams `form:"client_details" json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeParams struct {
+	// The authentication method used for the challenge.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status *string `form:"status" json:"status"`
+}
+
 // Details for the login decision. Provide only when type is login_decision.
 type V2SignalsAccountActivityLoginDecisionParams struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityLoginDecisionMfaChallengeParams `form:"mfa_challenges" json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
 }
@@ -205,6 +215,10 @@ type V2SignalsAccountActivityParams struct {
 	RegistrationAttempt *V2SignalsAccountActivityRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Provide only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
+	// An accessible AccountSignal that prompted this activity. The signal must be within its
+	// 90-day retrieval window and match the existing account or customer in account_details.
+	// Inline data is unsupported. May be supplied together with account_evaluation.
+	TriggeringSignal *string `form:"triggering_signal" json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type,omitempty"`
 }
@@ -329,8 +343,18 @@ type V2SignalsAccountActivityCreateLoginAttemptParams struct {
 	ClientDetails *V2SignalsAccountActivityCreateLoginAttemptClientDetailsParams `form:"client_details" json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityCreateLoginDecisionMfaChallengeParams struct {
+	// The authentication method used for the challenge.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status *string `form:"status" json:"status"`
+}
+
 // Details for the login decision. Provide only when type is login_decision.
 type V2SignalsAccountActivityCreateLoginDecisionParams struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityCreateLoginDecisionMfaChallengeParams `form:"mfa_challenges" json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
 }
@@ -415,6 +439,10 @@ type V2SignalsAccountActivityCreateParams struct {
 	RegistrationAttempt *V2SignalsAccountActivityCreateRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Provide only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityCreateRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
+	// An accessible AccountSignal that prompted this activity. The signal must be within its
+	// 90-day retrieval window and match the existing account or customer in account_details.
+	// Inline data is unsupported. May be supplied together with account_evaluation.
+	TriggeringSignal *string `form:"triggering_signal" json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type"`
 }

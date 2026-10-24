@@ -64,6 +64,28 @@ const (
 	V2SignalsAccountActivityCredentialChangeCredentialTypeOther         V2SignalsAccountActivityCredentialChangeCredentialType = "other"
 )
 
+// The authentication method used for the challenge.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType string
+
+// List of values that V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType can take
+const (
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeAuthenticatorApp V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "authenticator_app"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeEmail            V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "email"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeHardwareKey      V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "hardware_key"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeOther            V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "other"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeSms              V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "sms"
+)
+
+// The outcome of the authentication challenge.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeStatus string
+
+// List of values that V2SignalsAccountActivityLoginDecisionMfaChallengeStatus can take
+const (
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusFailed    V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "failed"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusOther     V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "other"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusSucceeded V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "succeeded"
+)
+
 // The action the merchant took following the evaluation.
 type V2SignalsAccountActivityLoginDecisionStatus string
 
@@ -239,8 +261,18 @@ type V2SignalsAccountActivityLoginAttempt struct {
 	ClientDetails *V2SignalsAccountActivityLoginAttemptClientDetails `json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityLoginDecisionMfaChallenge struct {
+	// The authentication method used for the challenge.
+	MfaType V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType `json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status V2SignalsAccountActivityLoginDecisionMfaChallengeStatus `json:"status"`
+}
+
 // Details for the login decision. Present only when type is login_decision.
 type V2SignalsAccountActivityLoginDecision struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityLoginDecisionMfaChallenge `json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status V2SignalsAccountActivityLoginDecisionStatus `json:"status"`
 }
@@ -333,6 +365,9 @@ type V2SignalsAccountActivity struct {
 	RegistrationAttempt *V2SignalsAccountActivityRegistrationAttempt `json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Present only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityRegistrationDecision `json:"registration_decision,omitempty"`
+	// The AccountSignal that prompted this activity, when applicable. This historical reference
+	// may coexist with account_evaluation and remains present after the signal expires.
+	TriggeringSignal string `json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type V2SignalsAccountActivityType `json:"type"`
 }

@@ -328,6 +328,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
 
@@ -510,6 +513,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *TestHelpersConfirmationTokenPaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *TestHelpersConfirmationTokenPaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -937,6 +942,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams struct{}
 
@@ -1119,6 +1127,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Swish *TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *TestHelpersConfirmationTokenCreatePaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *TestHelpersConfirmationTokenCreatePaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

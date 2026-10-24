@@ -29,6 +29,8 @@ type BillingAlertTriggeredAggregationPeriod struct {
 type BillingAlertTriggeredGroupBy struct {
 	// The billing cadence ID, populated when type is `billing_cadence`
 	BillingCadence string `json:"billing_cadence"`
+	// The billing group ID, populated when type is `billing_group`
+	BillingGroup string `json:"billing_group"`
 	// The pricing plan subscription ID, populated when type is `pricing_plan_subscription`
 	PricingPlanSubscription string `json:"pricing_plan_subscription"`
 	// The type of grouping used for this alert notification

@@ -29,7 +29,8 @@ const (
 // Lists the Consumer Wallets for a Crypto Customer.
 type CryptoCustomerConsumerWalletListParams struct {
 	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

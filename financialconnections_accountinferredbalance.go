@@ -9,7 +9,8 @@ package stripe
 // Lists the recorded inferred balances for a Financial Connections Account.
 type FinancialConnectionsAccountInferredBalanceListParams struct {
 	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
