@@ -157,7 +157,8 @@ const (
 
 // Deletes an existing tax_id object.
 type TaxIDParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -175,7 +176,8 @@ func (p *TaxIDParams) AddExpand(f string) {
 // Returns a list of tax IDs for a customer.
 type TaxIDListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -206,7 +208,8 @@ func (p *TaxIDRetrieveParams) AddExpand(f string) {
 
 // Creates a new tax_id object for a customer.
 type TaxIDCreateParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`

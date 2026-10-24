@@ -188,6 +188,8 @@ type BillingAlertSpendThresholdFiltersParams struct {
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// Filter by billing cadence ID.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Filter by billing group ID.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// Filter by pricing plan ID.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan,omitempty"`
 	// Filter by pricing plan subscription ID.
@@ -394,6 +396,8 @@ type BillingAlertCreateSpendThresholdFiltersParams struct {
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// Filter by billing cadence ID.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Filter by billing group ID.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// Filter by pricing plan ID.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan,omitempty"`
 	// Filter by pricing plan subscription ID.
@@ -552,6 +556,8 @@ type BillingAlertCreditBalanceThreshold struct {
 type BillingAlertSpendThresholdFilters struct {
 	// Filter by billing cadence ID.
 	BillingCadence string `json:"billing_cadence"`
+	// Filter by billing group ID.
+	BillingGroup string `json:"billing_group"`
 	// Filter by pricing plan ID.
 	PricingPlan string `json:"pricing_plan"`
 	// Filter by pricing plan subscription ID.

@@ -28,11 +28,11 @@ type PaymentPlanCollectsOnInvoiceDetailsParams struct {
 	Invoice *string `form:"invoice" json:"invoice"`
 }
 
-// The invoice(s) this payment plan collects on. Currently must contain exactly one invoice entry.
+// The invoices this payment plan collects on. It must contain exactly one invoice entry.
 type PaymentPlanCollectsOnParams struct {
 	// Details of the invoice this payment plan collects on.
 	InvoiceDetails *PaymentPlanCollectsOnInvoiceDetailsParams `form:"invoice_details" json:"invoice_details"`
-	// The type of object this plan collects on. Currently always `invoice_details`.
+	// The type of object this plan collects on. This is always `invoice_details`.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -62,7 +62,7 @@ type PaymentPlanScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries. Must contain at least 2 entries.
+// The list of installment entries. Must contain at least two entries.
 type PaymentPlanScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -78,24 +78,24 @@ type PaymentPlanScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+// Required when type is 'amounts_due'. Must contain at least two installment entries.
 type PaymentPlanScheduleAmountsDueParams struct {
-	// The list of installment entries. Must contain at least 2 entries.
+	// The list of installment entries. Must contain at least two entries.
 	Amounts []*PaymentPlanScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The schedule defining how to split the invoice total into installments.
 type PaymentPlanScheduleParams struct {
-	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+	// Required when type is 'amounts_due'. Must contain at least two installment entries.
 	AmountsDue *PaymentPlanScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
-	// The schedule type. Currently only 'amounts_due' is supported.
+	// The schedule type. It only supports 'amounts_due'.
 	Type *string `form:"type" json:"type"`
 }
 
 // Creates a payment plan that splits a single invoice obligation into installments with their own due dates and amounts.
 type PaymentPlanParams struct {
 	Params `form:"*"`
-	// The invoice(s) this payment plan collects on. Currently must contain exactly one invoice entry.
+	// The invoices this payment plan collects on. It must contain exactly one invoice entry.
 	CollectsOn []*PaymentPlanCollectsOnParams `form:"collects_on" json:"collects_on,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -125,11 +125,11 @@ type PaymentPlanCreateCollectsOnInvoiceDetailsParams struct {
 	Invoice *string `form:"invoice" json:"invoice"`
 }
 
-// The invoice(s) this payment plan collects on. Currently must contain exactly one invoice entry.
+// The invoices this payment plan collects on. It must contain exactly one invoice entry.
 type PaymentPlanCreateCollectsOnParams struct {
 	// Details of the invoice this payment plan collects on.
 	InvoiceDetails *PaymentPlanCreateCollectsOnInvoiceDetailsParams `form:"invoice_details" json:"invoice_details"`
-	// The type of object this plan collects on. Currently always `invoice_details`.
+	// The type of object this plan collects on. This is always `invoice_details`.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -159,7 +159,7 @@ type PaymentPlanCreateScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries. Must contain at least 2 entries.
+// The list of installment entries. Must contain at least two entries.
 type PaymentPlanCreateScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -175,24 +175,24 @@ type PaymentPlanCreateScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+// Required when type is 'amounts_due'. Must contain at least two installment entries.
 type PaymentPlanCreateScheduleAmountsDueParams struct {
-	// The list of installment entries. Must contain at least 2 entries.
+	// The list of installment entries. Must contain at least two entries.
 	Amounts []*PaymentPlanCreateScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The schedule defining how to split the invoice total into installments.
 type PaymentPlanCreateScheduleParams struct {
-	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+	// Required when type is 'amounts_due'. Must contain at least two installment entries.
 	AmountsDue *PaymentPlanCreateScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
-	// The schedule type. Currently only 'amounts_due' is supported.
+	// The schedule type. It only supports 'amounts_due'.
 	Type *string `form:"type" json:"type"`
 }
 
 // Creates a payment plan that splits a single invoice obligation into installments with their own due dates and amounts.
 type PaymentPlanCreateParams struct {
 	Params `form:"*"`
-	// The invoice(s) this payment plan collects on. Currently must contain exactly one invoice entry.
+	// The invoices this payment plan collects on. It must contain exactly one invoice entry.
 	CollectsOn []*PaymentPlanCreateCollectsOnParams `form:"collects_on" json:"collects_on"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -254,7 +254,7 @@ type PaymentPlanUpdateScheduleAmountsDueAmountFixedAmountParams struct {
 	Currency *string `form:"currency" json:"currency"`
 }
 
-// The list of installment entries. Must contain at least 2 entries.
+// The list of installment entries. Must contain at least two entries.
 type PaymentPlanUpdateScheduleAmountsDueAmountParams struct {
 	// Optional description for this installment.
 	Description *string `form:"description" json:"description,omitempty"`
@@ -270,17 +270,17 @@ type PaymentPlanUpdateScheduleAmountsDueAmountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+// Required when type is 'amounts_due'. Must contain at least two installment entries.
 type PaymentPlanUpdateScheduleAmountsDueParams struct {
-	// The list of installment entries. Must contain at least 2 entries.
+	// The list of installment entries. Must contain at least two entries.
 	Amounts []*PaymentPlanUpdateScheduleAmountsDueAmountParams `form:"amounts" json:"amounts"`
 }
 
 // The new schedule for this payment plan.
 type PaymentPlanUpdateScheduleParams struct {
-	// Required when type is 'amounts_due'. Must contain at least 2 installment entries.
+	// Required when type is 'amounts_due'. Must contain at least two installment entries.
 	AmountsDue *PaymentPlanUpdateScheduleAmountsDueParams `form:"amounts_due" json:"amounts_due"`
-	// The schedule type. Currently only 'amounts_due' is supported.
+	// The schedule type. It only supports 'amounts_due'.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -317,7 +317,7 @@ type PaymentPlanCollectsOnInvoiceDetails struct {
 // The list of objects this payment plan collects against.
 type PaymentPlanCollectsOn struct {
 	InvoiceDetails *PaymentPlanCollectsOnInvoiceDetails `json:"invoice_details"`
-	// The type of object this plan collects against. Currently always `invoice_details`.
+	// The type of object this plan collects against. This is always `invoice_details`.
 	Type string `json:"type"`
 }
 
@@ -381,7 +381,7 @@ type PaymentPlanScheduleAmountsDue struct {
 }
 type PaymentPlanSchedule struct {
 	AmountsDue *PaymentPlanScheduleAmountsDue `json:"amounts_due"`
-	// The type of schedule. Currently always `amounts_due`.
+	// The type of schedule. This is always `amounts_due`.
 	Type string `json:"type"`
 }
 

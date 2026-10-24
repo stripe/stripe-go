@@ -463,7 +463,7 @@ const (
 //
 // A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 //
-// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+// A subscription can enter a `paused` status in several ways, including [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment) or when you pause it using the [pause endpoint](https://docs.stripe.com/api/subscriptions/pause). A `paused` subscription doesn't advance to a new billing period or generate invoices until it resumes. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 //
 // If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 //
@@ -1261,7 +1261,10 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -2296,7 +2299,10 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -3270,7 +3276,10 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -3910,7 +3919,10 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPix struct {
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
-type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior string `json:"debit_behavior,omitempty"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
 	// Amount to be charged for future payments.
 	Amount int64 `json:"amount"`
@@ -4193,7 +4205,7 @@ type Subscription struct {
 	//
 	// A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 	//
-	// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+	// A subscription can enter a `paused` status in several ways, including [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment) or when you pause it using the [pause endpoint](https://docs.stripe.com/api/subscriptions/pause). A `paused` subscription doesn't advance to a new billing period or generate invoices until it resumes. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 	//
 	// If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 	//

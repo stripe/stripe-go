@@ -28,10 +28,13 @@ const (
 // Lists sent billing alert triggered and recovered notifications for a billing alert.
 type BillingAlertNotificationListParams struct {
 	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// Filter results to only include triggered or recovered notifications.
 	Action *string `form:"action" json:"action,omitempty"`
-	// Filter results to only include notifications for the given billing cadence.
+	// Filter results to only include notifications for the given billing group.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
+	// Filter results to only include notifications for the given cadence.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// The customer to list notifications for.
 	Customer *string `form:"customer" json:"customer"`
@@ -64,7 +67,9 @@ type BillingAlertNotification struct {
 	Alert string `json:"alert"`
 	// The type of billing alert that generated this notification.
 	AlertType BillingAlertNotificationAlertType `json:"alert_type"`
-	// The billing cadence associated with this notification. Only present for spend threshold alerts grouped by billing cadence.
+	// The billing group associated with this notification. Only present for spend threshold alerts grouped by billing group.
+	BillingGroup string `json:"billing_group"`
+	// The cadence associated with this notification. Only present for spend threshold alerts grouped by cadence.
 	Cadence string `json:"cadence"`
 	// Three-letter ISO currency code for the value, in lowercase. Only present for spend and credit balance threshold alerts.
 	Currency Currency `json:"currency"`
@@ -74,7 +79,7 @@ type BillingAlertNotification struct {
 	CustomPricingUnit string `json:"custom_pricing_unit,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// The value is `true` for objects in live mode and `false` for objects in a sandbox. For accounts that still have access to legacy test mode, the value is also `false` for objects in that mode.
 	Livemode bool `json:"livemode"`
 	// ID of the billing meter associated with this notification. Only present for usage threshold alerts.
 	Meter string `json:"meter"`

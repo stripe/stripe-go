@@ -8,7 +8,8 @@ package stripe
 
 // Delete a location specific tax exemption for a customer.
 type CustomerTaxExemptionParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// Canada-specific exemption details. Required when country is CA; must be absent otherwise.
 	Ca *CustomerTaxExemptionCaParams `form:"ca" json:"ca,omitempty"`
@@ -34,7 +35,8 @@ func (p *CustomerTaxExemptionParams) AddExpand(f string) {
 // List all location specific tax exemptions for a customer.
 type CustomerTaxExemptionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Customer *string `form:"-"` // Included in URL
 	// Filter by two-letter ISO country code (ISO 3166-1 alpha-2).
 	Country *string `form:"country" json:"country,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -107,7 +109,8 @@ type CustomerTaxExemptionCreateUSParams struct {
 
 // Create a location specific tax exemption for a customer.
 type CustomerTaxExemptionCreateParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// Canada-specific exemption details. Required when country is CA; must be absent otherwise.
 	Ca *CustomerTaxExemptionCreateCaParams `form:"ca" json:"ca,omitempty"`

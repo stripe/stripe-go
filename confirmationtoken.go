@@ -454,6 +454,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTamara           ConfirmationTokenPaymentMethodPreviewType = "tamara"
+	ConfirmationTokenPaymentMethodPreviewTypeTossPay          ConfirmationTokenPaymentMethodPreviewType = "toss_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
@@ -1188,6 +1189,10 @@ type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
 type ConfirmationTokenPaymentMethodPreviewSunbit struct{}
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTamara struct{}
+type ConfirmationTokenPaymentMethodPreviewTossPay struct {
+	// The buyer identifier provided by NICE for this Toss Pay account, when available.
+	BuyerID string `json:"buyer_id"`
+}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 type ConfirmationTokenPaymentMethodPreviewUpi struct {
 	// Customer's unique Virtual Payment Address
@@ -1311,6 +1316,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish,omitempty"`
 	Tamara          *ConfirmationTokenPaymentMethodPreviewTamara          `json:"tamara,omitempty"`
+	TossPay         *ConfirmationTokenPaymentMethodPreviewTossPay         `json:"toss_pay,omitempty"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
