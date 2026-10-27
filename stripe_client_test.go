@@ -419,6 +419,75 @@ func TestFetchRelatedObject(t *testing.T) {
 	assert.Equal(t, "", event.LastResponse.Header.Get("Stripe-Context"))
 }
 
+func TestFetchedEventRelatedObjectUsesEventContext(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "acct_child", r.Header.Get("Stripe-Context"))
+		switch r.URL.Path {
+		case "/v2/core/events/evt_123":
+			_, err := w.Write([]byte(`{
+				"id": "evt_123",
+				"object": "v2.core.event",
+				"type": "v1.product.updated",
+				"context": "acct_child",
+				"related_object": {
+					"id": "prod_shared",
+					"type": "product",
+					"url": "/v1/products/prod_shared"
+				}
+			}`))
+			assert.NoError(t, err)
+		case "/v1/products/prod_shared":
+			assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
+			_, err := w.Write([]byte(`{"id":"prod_shared","object":"product"}`))
+			assert.NoError(t, err)
+		default:
+			t.Fatalf("unexpected request path: %s", r.URL.Path)
+		}
+	}))
+	defer server.Close()
+
+	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		URL:           stripe.String(server.URL),
+		StripeContext: stripe.String("acct_platform"),
+	})
+	client := stripe.NewClient(TestAPIKey, stripe.WithBackends(&stripe.Backends{
+		API:         backend,
+		Connect:     backend,
+		Uploads:     backend,
+		MeterEvents: backend,
+	}))
+	payload := []byte(`{
+		"id": "evt_123",
+		"object": "v2.core.event",
+		"type": "v1.product.updated",
+		"context": "acct_child",
+		"related_object": {
+			"id": "prod_shared",
+			"type": "product",
+			"url": "/v1/products/prod_shared"
+		}
+	}`)
+	p := stripe.SignedPayload{
+		UnsignedPayload: stripe.UnsignedPayload{
+			Payload:   payload,
+			Timestamp: time.Now(),
+			Secret:    "whsec_test_secret",
+			Scheme:    "v1",
+		},
+	}
+	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
+	p.Header = generateHeader(p)
+
+	notificationContainer, err := client.ParseEventNotification(p.Payload, p.Header, p.Secret)
+	assert.NoError(t, err)
+	notification := notificationContainer.(*stripe.V1ProductUpdatedEventNotification)
+
+	event, err := notification.FetchEvent(context.Background())
+	assert.NoError(t, err)
+	_, err = event.FetchRelatedObject(context.Background())
+	assert.NoError(t, err)
+}
+
 func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	// Create mock response for the V2 event retrieve call
 
