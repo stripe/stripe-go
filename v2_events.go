@@ -260,12 +260,12 @@ func (n *V1AccountExternalAccountUpdatedEventNotification) FetchEvent(ctx contex
 type V1AccountUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Account, error)
+	fetchRelatedObject func() (*Account, error)
 }
 
 // FetchRelatedObject fetches the Account related to the event.
 func (e *V1AccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Account, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1AccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.account.updated"
@@ -301,12 +301,12 @@ func (n *V1AccountUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1ApplicationFeeCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ApplicationFee, error)
+	fetchRelatedObject func() (*ApplicationFee, error)
 }
 
 // FetchRelatedObject fetches the ApplicationFee related to the event.
 func (e *V1ApplicationFeeCreatedEvent) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ApplicationFeeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.application_fee.created"
@@ -342,12 +342,12 @@ func (n *V1ApplicationFeeCreatedEventNotification) FetchRelatedObject(ctx contex
 type V1ApplicationFeeRefundUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FeeRefund, error)
+	fetchRelatedObject func() (*FeeRefund, error)
 }
 
 // FetchRelatedObject fetches the FeeRefund related to the event.
 func (e *V1ApplicationFeeRefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FeeRefund, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ApplicationFeeRefundUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.application_fee.refund.updated"
@@ -383,12 +383,12 @@ func (n *V1ApplicationFeeRefundUpdatedEventNotification) FetchRelatedObject(ctx 
 type V1ApplicationFeeRefundedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ApplicationFee, error)
+	fetchRelatedObject func() (*ApplicationFee, error)
 }
 
 // FetchRelatedObject fetches the ApplicationFee related to the event.
 func (e *V1ApplicationFeeRefundedEvent) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ApplicationFeeRefundedEventNotification is the webhook payload you'll get when handling an event with type "v1.application_fee.refunded"
@@ -424,12 +424,12 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 type V1BalanceAvailableEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Balance, error)
+	fetchRelatedObject func() (*Balance, error)
 }
 
 // FetchRelatedObject fetches the Balance related to the event.
 func (e *V1BalanceAvailableEvent) FetchRelatedObject(ctx context.Context) (*Balance, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BalanceAvailableEventNotification is the webhook payload you'll get when handling an event with type "v1.balance.available"
@@ -465,12 +465,12 @@ func (n *V1BalanceAvailableEventNotification) FetchRelatedObject(ctx context.Con
 type V1BalanceSettingsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BalanceSettings, error)
+	fetchRelatedObject func() (*BalanceSettings, error)
 }
 
 // FetchRelatedObject fetches the BalanceSettings related to the event.
 func (e *V1BalanceSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BalanceSettings, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BalanceSettingsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.balance_settings.updated"
@@ -506,12 +506,12 @@ func (n *V1BalanceSettingsUpdatedEventNotification) FetchRelatedObject(ctx conte
 type V1BillingAlertTriggeredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingAlert, error)
+	fetchRelatedObject func() (*BillingAlert, error)
 }
 
 // FetchRelatedObject fetches the BillingAlert related to the event.
 func (e *V1BillingAlertTriggeredEvent) FetchRelatedObject(ctx context.Context) (*BillingAlert, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingAlertTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.alert.triggered"
@@ -547,12 +547,12 @@ func (n *V1BillingAlertTriggeredEventNotification) FetchRelatedObject(ctx contex
 type V1BillingCreditBalanceTransactionCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingCreditBalanceTransaction, error)
+	fetchRelatedObject func() (*BillingCreditBalanceTransaction, error)
 }
 
 // FetchRelatedObject fetches the BillingCreditBalanceTransaction related to the event.
 func (e *V1BillingCreditBalanceTransactionCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditBalanceTransaction, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingCreditBalanceTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_balance_transaction.created"
@@ -588,12 +588,12 @@ func (n *V1BillingCreditBalanceTransactionCreatedEventNotification) FetchRelated
 type V1BillingCreditGrantCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingCreditGrant, error)
+	fetchRelatedObject func() (*BillingCreditGrant, error)
 }
 
 // FetchRelatedObject fetches the BillingCreditGrant related to the event.
 func (e *V1BillingCreditGrantCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingCreditGrantCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_grant.created"
@@ -629,12 +629,12 @@ func (n *V1BillingCreditGrantCreatedEventNotification) FetchRelatedObject(ctx co
 type V1BillingCreditGrantUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingCreditGrant, error)
+	fetchRelatedObject func() (*BillingCreditGrant, error)
 }
 
 // FetchRelatedObject fetches the BillingCreditGrant related to the event.
 func (e *V1BillingCreditGrantUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingCreditGrantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_grant.updated"
@@ -670,12 +670,12 @@ func (n *V1BillingCreditGrantUpdatedEventNotification) FetchRelatedObject(ctx co
 type V1BillingMeterCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingMeter, error)
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.created"
@@ -711,12 +711,12 @@ func (n *V1BillingMeterCreatedEventNotification) FetchRelatedObject(ctx context.
 type V1BillingMeterDeactivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingMeter, error)
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.deactivated"
@@ -753,12 +753,12 @@ type V1BillingMeterErrorReportTriggeredEvent struct {
 	V2BaseEvent
 	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject                    `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingMeter, error)
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
@@ -816,12 +816,12 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 type V1BillingMeterReactivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingMeter, error)
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterReactivatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterReactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.reactivated"
@@ -857,12 +857,12 @@ func (n *V1BillingMeterReactivatedEventNotification) FetchRelatedObject(ctx cont
 type V1BillingMeterUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingMeter, error)
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.updated"
@@ -898,12 +898,12 @@ func (n *V1BillingMeterUpdatedEventNotification) FetchRelatedObject(ctx context.
 type V1BillingPortalConfigurationCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingPortalConfiguration, error)
+	fetchRelatedObject func() (*BillingPortalConfiguration, error)
 }
 
 // FetchRelatedObject fetches the BillingPortalConfiguration related to the event.
 func (e *V1BillingPortalConfigurationCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingPortalConfigurationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing_portal.configuration.created"
@@ -939,12 +939,12 @@ func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchRelatedObjec
 type V1BillingPortalConfigurationUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*BillingPortalConfiguration, error)
+	fetchRelatedObject func() (*BillingPortalConfiguration, error)
 }
 
 // FetchRelatedObject fetches the BillingPortalConfiguration related to the event.
 func (e *V1BillingPortalConfigurationUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1BillingPortalConfigurationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing_portal.configuration.updated"
@@ -999,12 +999,12 @@ func (n *V1BillingPortalSessionCreatedEventNotification) FetchEvent(ctx context.
 type V1CapabilityUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Capability, error)
+	fetchRelatedObject func() (*Capability, error)
 }
 
 // FetchRelatedObject fetches the Capability related to the event.
 func (e *V1CapabilityUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Capability, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CapabilityUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.capability.updated"
@@ -1040,12 +1040,12 @@ func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 type V1CashBalanceFundsAvailableEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CashBalance, error)
+	fetchRelatedObject func() (*CashBalance, error)
 }
 
 // FetchRelatedObject fetches the CashBalance related to the event.
 func (e *V1CashBalanceFundsAvailableEvent) FetchRelatedObject(ctx context.Context) (*CashBalance, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CashBalanceFundsAvailableEventNotification is the webhook payload you'll get when handling an event with type "v1.cash_balance.funds_available"
@@ -1081,12 +1081,12 @@ func (n *V1CashBalanceFundsAvailableEventNotification) FetchRelatedObject(ctx co
 type V1ChargeCapturedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeCapturedEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeCapturedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.captured"
@@ -1122,12 +1122,12 @@ func (n *V1ChargeCapturedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1ChargeDisputeClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Dispute, error)
+	fetchRelatedObject func() (*Dispute, error)
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
 func (e *V1ChargeDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeDisputeClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.closed"
@@ -1163,12 +1163,12 @@ func (n *V1ChargeDisputeClosedEventNotification) FetchRelatedObject(ctx context.
 type V1ChargeDisputeCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Dispute, error)
+	fetchRelatedObject func() (*Dispute, error)
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
 func (e *V1ChargeDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeDisputeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.created"
@@ -1204,12 +1204,12 @@ func (n *V1ChargeDisputeCreatedEventNotification) FetchRelatedObject(ctx context
 type V1ChargeDisputeFundsReinstatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Dispute, error)
+	fetchRelatedObject func() (*Dispute, error)
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
 func (e *V1ChargeDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeDisputeFundsReinstatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.funds_reinstated"
@@ -1245,12 +1245,12 @@ func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx
 type V1ChargeDisputeFundsWithdrawnEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Dispute, error)
+	fetchRelatedObject func() (*Dispute, error)
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
 func (e *V1ChargeDisputeFundsWithdrawnEvent) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeDisputeFundsWithdrawnEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.funds_withdrawn"
@@ -1286,12 +1286,12 @@ func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchRelatedObject(ctx 
 type V1ChargeDisputeUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Dispute, error)
+	fetchRelatedObject func() (*Dispute, error)
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
 func (e *V1ChargeDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeDisputeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.updated"
@@ -1327,12 +1327,12 @@ func (n *V1ChargeDisputeUpdatedEventNotification) FetchRelatedObject(ctx context
 type V1ChargeExpiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeExpiredEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.expired"
@@ -1368,12 +1368,12 @@ func (n *V1ChargeExpiredEventNotification) FetchRelatedObject(ctx context.Contex
 type V1ChargeFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeFailedEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.failed"
@@ -1409,12 +1409,12 @@ func (n *V1ChargeFailedEventNotification) FetchRelatedObject(ctx context.Context
 type V1ChargePendingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargePendingEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargePendingEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.pending"
@@ -1450,12 +1450,12 @@ func (n *V1ChargePendingEventNotification) FetchRelatedObject(ctx context.Contex
 type V1ChargeRefundUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Refund, error)
+	fetchRelatedObject func() (*Refund, error)
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
 func (e *V1ChargeRefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Refund, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeRefundUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.refund.updated"
@@ -1491,12 +1491,12 @@ func (n *V1ChargeRefundUpdatedEventNotification) FetchRelatedObject(ctx context.
 type V1ChargeRefundedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeRefundedEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeRefundedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.refunded"
@@ -1532,12 +1532,12 @@ func (n *V1ChargeRefundedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1ChargeSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeSucceededEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.succeeded"
@@ -1573,12 +1573,12 @@ func (n *V1ChargeSucceededEventNotification) FetchRelatedObject(ctx context.Cont
 type V1ChargeUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Charge, error)
+	fetchRelatedObject func() (*Charge, error)
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
 func (e *V1ChargeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Charge, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ChargeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.updated"
@@ -1614,12 +1614,12 @@ func (n *V1ChargeUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1CheckoutSessionAsyncPaymentFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CheckoutSession, error)
+	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
 func (e *V1CheckoutSessionAsyncPaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CheckoutSessionAsyncPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.async_payment_failed"
@@ -1655,12 +1655,12 @@ func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchRelatedObjec
 type V1CheckoutSessionAsyncPaymentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CheckoutSession, error)
+	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
 func (e *V1CheckoutSessionAsyncPaymentSucceededEvent) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CheckoutSessionAsyncPaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.async_payment_succeeded"
@@ -1696,12 +1696,12 @@ func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchRelatedOb
 type V1CheckoutSessionCompletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CheckoutSession, error)
+	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
 func (e *V1CheckoutSessionCompletedEvent) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CheckoutSessionCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.completed"
@@ -1737,12 +1737,12 @@ func (n *V1CheckoutSessionCompletedEventNotification) FetchRelatedObject(ctx con
 type V1CheckoutSessionExpiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CheckoutSession, error)
+	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
 func (e *V1CheckoutSessionExpiredEvent) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CheckoutSessionExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.expired"
@@ -1778,12 +1778,12 @@ func (n *V1CheckoutSessionExpiredEventNotification) FetchRelatedObject(ctx conte
 type V1ClimateOrderCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateOrder, error)
+	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
 func (e *V1ClimateOrderCanceledEvent) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateOrderCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.canceled"
@@ -1819,12 +1819,12 @@ func (n *V1ClimateOrderCanceledEventNotification) FetchRelatedObject(ctx context
 type V1ClimateOrderCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateOrder, error)
+	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
 func (e *V1ClimateOrderCreatedEvent) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateOrderCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.created"
@@ -1860,12 +1860,12 @@ func (n *V1ClimateOrderCreatedEventNotification) FetchRelatedObject(ctx context.
 type V1ClimateOrderDelayedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateOrder, error)
+	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
 func (e *V1ClimateOrderDelayedEvent) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateOrderDelayedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.delayed"
@@ -1901,12 +1901,12 @@ func (n *V1ClimateOrderDelayedEventNotification) FetchRelatedObject(ctx context.
 type V1ClimateOrderDeliveredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateOrder, error)
+	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
 func (e *V1ClimateOrderDeliveredEvent) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateOrderDeliveredEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.delivered"
@@ -1942,12 +1942,12 @@ func (n *V1ClimateOrderDeliveredEventNotification) FetchRelatedObject(ctx contex
 type V1ClimateOrderProductSubstitutedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateOrder, error)
+	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
 func (e *V1ClimateOrderProductSubstitutedEvent) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateOrderProductSubstitutedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.product_substituted"
@@ -1983,12 +1983,12 @@ func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchRelatedObject(c
 type V1ClimateProductCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateProduct, error)
+	fetchRelatedObject func() (*ClimateProduct, error)
 }
 
 // FetchRelatedObject fetches the ClimateProduct related to the event.
 func (e *V1ClimateProductCreatedEvent) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateProductCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.product.created"
@@ -2024,12 +2024,12 @@ func (n *V1ClimateProductCreatedEventNotification) FetchRelatedObject(ctx contex
 type V1ClimateProductPricingUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*ClimateProduct, error)
+	fetchRelatedObject func() (*ClimateProduct, error)
 }
 
 // FetchRelatedObject fetches the ClimateProduct related to the event.
 func (e *V1ClimateProductPricingUpdatedEvent) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ClimateProductPricingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.product.pricing_updated"
@@ -2065,12 +2065,12 @@ func (n *V1ClimateProductPricingUpdatedEventNotification) FetchRelatedObject(ctx
 type V1CouponCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Coupon, error)
+	fetchRelatedObject func() (*Coupon, error)
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
 func (e *V1CouponCreatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CouponCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.created"
@@ -2106,12 +2106,12 @@ func (n *V1CouponCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1CouponDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Coupon, error)
+	fetchRelatedObject func() (*Coupon, error)
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
 func (e *V1CouponDeletedEvent) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CouponDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.deleted"
@@ -2147,12 +2147,12 @@ func (n *V1CouponDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1CouponUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Coupon, error)
+	fetchRelatedObject func() (*Coupon, error)
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
 func (e *V1CouponUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CouponUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.updated"
@@ -2188,12 +2188,12 @@ func (n *V1CouponUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1CreditNoteCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CreditNote, error)
+	fetchRelatedObject func() (*CreditNote, error)
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
 func (e *V1CreditNoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CreditNoteCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.created"
@@ -2229,12 +2229,12 @@ func (n *V1CreditNoteCreatedEventNotification) FetchRelatedObject(ctx context.Co
 type V1CreditNoteUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CreditNote, error)
+	fetchRelatedObject func() (*CreditNote, error)
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
 func (e *V1CreditNoteUpdatedEvent) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CreditNoteUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.updated"
@@ -2270,12 +2270,12 @@ func (n *V1CreditNoteUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 type V1CreditNoteVoidedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CreditNote, error)
+	fetchRelatedObject func() (*CreditNote, error)
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
 func (e *V1CreditNoteVoidedEvent) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CreditNoteVoidedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.voided"
@@ -2311,12 +2311,12 @@ func (n *V1CreditNoteVoidedEventNotification) FetchRelatedObject(ctx context.Con
 type V1CustomerCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Customer, error)
+	fetchRelatedObject func() (*Customer, error)
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
 func (e *V1CustomerCreatedEvent) FetchRelatedObject(ctx context.Context) (*Customer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.created"
@@ -2352,12 +2352,12 @@ func (n *V1CustomerCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 type V1CustomerDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Customer, error)
+	fetchRelatedObject func() (*Customer, error)
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
 func (e *V1CustomerDeletedEvent) FetchRelatedObject(ctx context.Context) (*Customer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.deleted"
@@ -2393,12 +2393,12 @@ func (n *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Cont
 type V1CustomerDiscountCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Discount, error)
+	fetchRelatedObject func() (*Discount, error)
 }
 
 // FetchRelatedObject fetches the Discount related to the event.
 func (e *V1CustomerDiscountCreatedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerDiscountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.created"
@@ -2434,12 +2434,12 @@ func (n *V1CustomerDiscountCreatedEventNotification) FetchRelatedObject(ctx cont
 type V1CustomerDiscountDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Discount, error)
+	fetchRelatedObject func() (*Discount, error)
 }
 
 // FetchRelatedObject fetches the Discount related to the event.
 func (e *V1CustomerDiscountDeletedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerDiscountDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.deleted"
@@ -2475,12 +2475,12 @@ func (n *V1CustomerDiscountDeletedEventNotification) FetchRelatedObject(ctx cont
 type V1CustomerDiscountUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Discount, error)
+	fetchRelatedObject func() (*Discount, error)
 }
 
 // FetchRelatedObject fetches the Discount related to the event.
 func (e *V1CustomerDiscountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerDiscountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.updated"
@@ -2516,12 +2516,12 @@ func (n *V1CustomerDiscountUpdatedEventNotification) FetchRelatedObject(ctx cont
 type V1CustomerSubscriptionCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionCreatedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.created"
@@ -2557,12 +2557,12 @@ func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx 
 type V1CustomerSubscriptionDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionDeletedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.deleted"
@@ -2598,12 +2598,12 @@ func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx 
 type V1CustomerSubscriptionPausedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionPausedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionPausedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.paused"
@@ -2639,12 +2639,12 @@ func (n *V1CustomerSubscriptionPausedEventNotification) FetchRelatedObject(ctx c
 type V1CustomerSubscriptionPendingUpdateAppliedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionPendingUpdateAppliedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionPendingUpdateAppliedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.pending_update_applied"
@@ -2680,12 +2680,12 @@ func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchRelat
 type V1CustomerSubscriptionPendingUpdateExpiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionPendingUpdateExpiredEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionPendingUpdateExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.pending_update_expired"
@@ -2721,12 +2721,12 @@ func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchRelat
 type V1CustomerSubscriptionResumedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionResumedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionResumedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.resumed"
@@ -2762,12 +2762,12 @@ func (n *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx 
 type V1CustomerSubscriptionTrialWillEndEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionTrialWillEndEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionTrialWillEndEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.trial_will_end"
@@ -2803,12 +2803,12 @@ func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject
 type V1CustomerSubscriptionUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Subscription, error)
+	fetchRelatedObject func() (*Subscription, error)
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (e *V1CustomerSubscriptionUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerSubscriptionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.updated"
@@ -2844,12 +2844,12 @@ func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchRelatedObject(ctx 
 type V1CustomerTaxIDCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxID, error)
+	fetchRelatedObject func() (*TaxID, error)
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
 func (e *V1CustomerTaxIDCreatedEvent) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerTaxIDCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.created"
@@ -2885,12 +2885,12 @@ func (n *V1CustomerTaxIDCreatedEventNotification) FetchRelatedObject(ctx context
 type V1CustomerTaxIDDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxID, error)
+	fetchRelatedObject func() (*TaxID, error)
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
 func (e *V1CustomerTaxIDDeletedEvent) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerTaxIDDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.deleted"
@@ -2926,12 +2926,12 @@ func (n *V1CustomerTaxIDDeletedEventNotification) FetchRelatedObject(ctx context
 type V1CustomerTaxIDUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxID, error)
+	fetchRelatedObject func() (*TaxID, error)
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
 func (e *V1CustomerTaxIDUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerTaxIDUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.updated"
@@ -2967,12 +2967,12 @@ func (n *V1CustomerTaxIDUpdatedEventNotification) FetchRelatedObject(ctx context
 type V1CustomerUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Customer, error)
+	fetchRelatedObject func() (*Customer, error)
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
 func (e *V1CustomerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Customer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.updated"
@@ -3008,12 +3008,12 @@ func (n *V1CustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 type V1CustomerCashBalanceTransactionCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*CustomerCashBalanceTransaction, error)
+	fetchRelatedObject func() (*CustomerCashBalanceTransaction, error)
 }
 
 // FetchRelatedObject fetches the CustomerCashBalanceTransaction related to the event.
 func (e *V1CustomerCashBalanceTransactionCreatedEvent) FetchRelatedObject(ctx context.Context) (*CustomerCashBalanceTransaction, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1CustomerCashBalanceTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer_cash_balance_transaction.created"
@@ -3068,12 +3068,12 @@ func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchEv
 type V1FileCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*File, error)
+	fetchRelatedObject func() (*File, error)
 }
 
 // FetchRelatedObject fetches the File related to the event.
 func (e *V1FileCreatedEvent) FetchRelatedObject(ctx context.Context) (*File, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FileCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.file.created"
@@ -3109,12 +3109,12 @@ func (n *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 type V1FinancialConnectionsAccountAccountNumbersUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountAccountNumbersUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.account_numbers_updated"
@@ -3150,12 +3150,12 @@ func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) Fe
 type V1FinancialConnectionsAccountCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.created"
@@ -3191,12 +3191,12 @@ func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchRelatedObje
 type V1FinancialConnectionsAccountDeactivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.deactivated"
@@ -3232,12 +3232,12 @@ func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchRelated
 type V1FinancialConnectionsAccountDisconnectedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountDisconnectedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountDisconnectedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.disconnected"
@@ -3273,12 +3273,12 @@ func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelate
 type V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.expected_deactivation_date_updated"
@@ -3314,12 +3314,12 @@ func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotifi
 type V1FinancialConnectionsAccountReactivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountReactivatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountReactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.reactivated"
@@ -3355,12 +3355,12 @@ func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchRelated
 type V1FinancialConnectionsAccountRefreshedBalanceEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountRefreshedBalanceEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountRefreshedBalanceEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_balance"
@@ -3396,12 +3396,12 @@ func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchRe
 type V1FinancialConnectionsAccountRefreshedOwnershipEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountRefreshedOwnershipEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountRefreshedOwnershipEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_ownership"
@@ -3437,12 +3437,12 @@ func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) Fetch
 type V1FinancialConnectionsAccountRefreshedTransactionsEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountRefreshedTransactionsEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountRefreshedTransactionsEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_transactions"
@@ -3478,12 +3478,12 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 type V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.supported_payment_method_types_updated"
@@ -3519,12 +3519,12 @@ func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNot
 type V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.upcoming_account_number_expiry"
@@ -3560,12 +3560,12 @@ func (n *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotificati
 type V1FinancialConnectionsAccountUpcomingDeactivationEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*FinancialConnectionsAccount, error)
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (e *V1FinancialConnectionsAccountUpcomingDeactivationEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1FinancialConnectionsAccountUpcomingDeactivationEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.upcoming_deactivation"
@@ -3601,12 +3601,12 @@ func (n *V1FinancialConnectionsAccountUpcomingDeactivationEventNotification) Fet
 type V1IdentityVerificationSessionCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionCanceledEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.canceled"
@@ -3642,12 +3642,12 @@ func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchRelatedObj
 type V1IdentityVerificationSessionCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionCreatedEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.created"
@@ -3683,12 +3683,12 @@ func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchRelatedObje
 type V1IdentityVerificationSessionProcessingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionProcessingEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionProcessingEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.processing"
@@ -3724,12 +3724,12 @@ func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchRelatedO
 type V1IdentityVerificationSessionRedactedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionRedactedEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionRedactedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.redacted"
@@ -3765,12 +3765,12 @@ func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchRelatedObj
 type V1IdentityVerificationSessionRequiresInputEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionRequiresInputEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionRequiresInputEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.requires_input"
@@ -3806,12 +3806,12 @@ func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchRelat
 type V1IdentityVerificationSessionVerifiedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IdentityVerificationSession, error)
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
 func (e *V1IdentityVerificationSessionVerifiedEvent) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IdentityVerificationSessionVerifiedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.verified"
@@ -3847,12 +3847,12 @@ func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchRelatedObj
 type V1InvoiceCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.created"
@@ -3888,12 +3888,12 @@ func (n *V1InvoiceCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1InvoiceDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.deleted"
@@ -3929,12 +3929,12 @@ func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1InvoiceFinalizationFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceFinalizationFailedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceFinalizationFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.finalization_failed"
@@ -3970,12 +3970,12 @@ func (n *V1InvoiceFinalizationFailedEventNotification) FetchRelatedObject(ctx co
 type V1InvoiceFinalizedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceFinalizedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.finalized"
@@ -4011,12 +4011,12 @@ func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Con
 type V1InvoiceMarkedUncollectibleEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceMarkedUncollectibleEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceMarkedUncollectibleEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.marked_uncollectible"
@@ -4052,12 +4052,12 @@ func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchRelatedObject(ctx c
 type V1InvoiceOverdueEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceOverdueEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceOverdueEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.overdue"
@@ -4093,12 +4093,12 @@ func (n *V1InvoiceOverdueEventNotification) FetchRelatedObject(ctx context.Conte
 type V1InvoiceOverpaidEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceOverpaidEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceOverpaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.overpaid"
@@ -4134,12 +4134,12 @@ func (n *V1InvoiceOverpaidEventNotification) FetchRelatedObject(ctx context.Cont
 type V1InvoicePaidEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoicePaidEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.paid"
@@ -4175,12 +4175,12 @@ func (n *V1InvoicePaidEventNotification) FetchRelatedObject(ctx context.Context)
 type V1InvoicePaymentActionRequiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoicePaymentActionRequiredEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaymentActionRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_action_required"
@@ -4216,12 +4216,12 @@ func (n *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx
 type V1InvoicePaymentAttemptRequiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoicePaymentAttemptRequiredEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaymentAttemptRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_attempt_required"
@@ -4257,12 +4257,12 @@ func (n *V1InvoicePaymentAttemptRequiredEventNotification) FetchRelatedObject(ct
 type V1InvoicePaymentFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoicePaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_failed"
@@ -4298,12 +4298,12 @@ func (n *V1InvoicePaymentFailedEventNotification) FetchRelatedObject(ctx context
 type V1InvoicePaymentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoicePaymentSucceededEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_succeeded"
@@ -4339,12 +4339,12 @@ func (n *V1InvoicePaymentSucceededEventNotification) FetchRelatedObject(ctx cont
 type V1InvoiceSentEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceSentEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceSentEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.sent"
@@ -4397,12 +4397,12 @@ func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V
 type V1InvoiceUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.updated"
@@ -4438,12 +4438,12 @@ func (n *V1InvoiceUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1InvoiceVoidedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceVoidedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceVoidedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.voided"
@@ -4479,12 +4479,12 @@ func (n *V1InvoiceVoidedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1InvoiceWillBeDueEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Invoice, error)
+	fetchRelatedObject func() (*Invoice, error)
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (e *V1InvoiceWillBeDueEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceWillBeDueEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.will_be_due"
@@ -4520,12 +4520,12 @@ func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Con
 type V1InvoicePaymentPaidEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*InvoicePayment, error)
+	fetchRelatedObject func() (*InvoicePayment, error)
 }
 
 // FetchRelatedObject fetches the InvoicePayment related to the event.
 func (e *V1InvoicePaymentPaidEvent) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoicePaymentPaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.paid"
@@ -4561,12 +4561,12 @@ func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.C
 type V1InvoiceitemCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*InvoiceItem, error)
+	fetchRelatedObject func() (*InvoiceItem, error)
 }
 
 // FetchRelatedObject fetches the InvoiceItem related to the event.
 func (e *V1InvoiceitemCreatedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceitemCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.created"
@@ -4602,12 +4602,12 @@ func (n *V1InvoiceitemCreatedEventNotification) FetchRelatedObject(ctx context.C
 type V1InvoiceitemDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*InvoiceItem, error)
+	fetchRelatedObject func() (*InvoiceItem, error)
 }
 
 // FetchRelatedObject fetches the InvoiceItem related to the event.
 func (e *V1InvoiceitemDeletedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1InvoiceitemDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.deleted"
@@ -4643,12 +4643,12 @@ func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.C
 type V1IssuingAuthorizationCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingAuthorization, error)
+	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
 func (e *V1IssuingAuthorizationCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingAuthorizationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.created"
@@ -4684,12 +4684,12 @@ func (n *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx 
 type V1IssuingAuthorizationRequestEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingAuthorization, error)
+	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
 func (e *V1IssuingAuthorizationRequestEvent) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingAuthorizationRequestEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.request"
@@ -4725,12 +4725,12 @@ func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx 
 type V1IssuingAuthorizationUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingAuthorization, error)
+	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
 func (e *V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingAuthorizationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.updated"
@@ -4766,12 +4766,12 @@ func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchRelatedObject(ctx 
 type V1IssuingCardCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingCard, error)
+	fetchRelatedObject func() (*IssuingCard, error)
 }
 
 // FetchRelatedObject fetches the IssuingCard related to the event.
 func (e *V1IssuingCardCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingCardCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_card.created"
@@ -4807,12 +4807,12 @@ func (n *V1IssuingCardCreatedEventNotification) FetchRelatedObject(ctx context.C
 type V1IssuingCardUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingCard, error)
+	fetchRelatedObject func() (*IssuingCard, error)
 }
 
 // FetchRelatedObject fetches the IssuingCard related to the event.
 func (e *V1IssuingCardUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingCardUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_card.updated"
@@ -4848,12 +4848,12 @@ func (n *V1IssuingCardUpdatedEventNotification) FetchRelatedObject(ctx context.C
 type V1IssuingCardholderCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingCardholder, error)
+	fetchRelatedObject func() (*IssuingCardholder, error)
 }
 
 // FetchRelatedObject fetches the IssuingCardholder related to the event.
 func (e *V1IssuingCardholderCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingCardholderCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_cardholder.created"
@@ -4889,12 +4889,12 @@ func (n *V1IssuingCardholderCreatedEventNotification) FetchRelatedObject(ctx con
 type V1IssuingCardholderUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingCardholder, error)
+	fetchRelatedObject func() (*IssuingCardholder, error)
 }
 
 // FetchRelatedObject fetches the IssuingCardholder related to the event.
 func (e *V1IssuingCardholderUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingCardholderUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_cardholder.updated"
@@ -4930,12 +4930,12 @@ func (n *V1IssuingCardholderUpdatedEventNotification) FetchRelatedObject(ctx con
 type V1IssuingDisputeClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.closed"
@@ -4971,12 +4971,12 @@ func (n *V1IssuingDisputeClosedEventNotification) FetchRelatedObject(ctx context
 type V1IssuingDisputeCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.created"
@@ -5012,12 +5012,12 @@ func (n *V1IssuingDisputeCreatedEventNotification) FetchRelatedObject(ctx contex
 type V1IssuingDisputeFundsReinstatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeFundsReinstatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.funds_reinstated"
@@ -5053,12 +5053,12 @@ func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchRelatedObject(ct
 type V1IssuingDisputeFundsRescindedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeFundsRescindedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeFundsRescindedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.funds_rescinded"
@@ -5094,12 +5094,12 @@ func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchRelatedObject(ctx
 type V1IssuingDisputeSubmittedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeSubmittedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeSubmittedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.submitted"
@@ -5135,12 +5135,12 @@ func (n *V1IssuingDisputeSubmittedEventNotification) FetchRelatedObject(ctx cont
 type V1IssuingDisputeUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingDispute, error)
+	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
 func (e *V1IssuingDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingDisputeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.updated"
@@ -5176,12 +5176,12 @@ func (n *V1IssuingDisputeUpdatedEventNotification) FetchRelatedObject(ctx contex
 type V1IssuingPersonalizationDesignActivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingPersonalizationDesign, error)
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
 func (e *V1IssuingPersonalizationDesignActivatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingPersonalizationDesignActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.activated"
@@ -5217,12 +5217,12 @@ func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchRelatedO
 type V1IssuingPersonalizationDesignDeactivatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingPersonalizationDesign, error)
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
 func (e *V1IssuingPersonalizationDesignDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingPersonalizationDesignDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.deactivated"
@@ -5258,12 +5258,12 @@ func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchRelate
 type V1IssuingPersonalizationDesignRejectedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingPersonalizationDesign, error)
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
 func (e *V1IssuingPersonalizationDesignRejectedEvent) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingPersonalizationDesignRejectedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.rejected"
@@ -5299,12 +5299,12 @@ func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchRelatedOb
 type V1IssuingPersonalizationDesignUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingPersonalizationDesign, error)
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
 func (e *V1IssuingPersonalizationDesignUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingPersonalizationDesignUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.updated"
@@ -5340,12 +5340,12 @@ func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchRelatedObj
 type V1IssuingTokenCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingToken, error)
+	fetchRelatedObject func() (*IssuingToken, error)
 }
 
 // FetchRelatedObject fetches the IssuingToken related to the event.
 func (e *V1IssuingTokenCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingTokenCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_token.created"
@@ -5381,12 +5381,12 @@ func (n *V1IssuingTokenCreatedEventNotification) FetchRelatedObject(ctx context.
 type V1IssuingTokenUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingToken, error)
+	fetchRelatedObject func() (*IssuingToken, error)
 }
 
 // FetchRelatedObject fetches the IssuingToken related to the event.
 func (e *V1IssuingTokenUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingTokenUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_token.updated"
@@ -5422,12 +5422,12 @@ func (n *V1IssuingTokenUpdatedEventNotification) FetchRelatedObject(ctx context.
 type V1IssuingTransactionCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingTransaction, error)
+	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
 func (e *V1IssuingTransactionCreatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.created"
@@ -5463,12 +5463,12 @@ func (n *V1IssuingTransactionCreatedEventNotification) FetchRelatedObject(ctx co
 type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingTransaction, error)
+	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
 func (e *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.purchase_details_receipt_updated"
@@ -5504,12 +5504,12 @@ func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) Fet
 type V1IssuingTransactionUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*IssuingTransaction, error)
+	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
 func (e *V1IssuingTransactionUpdatedEvent) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1IssuingTransactionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.updated"
@@ -5545,12 +5545,12 @@ func (n *V1IssuingTransactionUpdatedEventNotification) FetchRelatedObject(ctx co
 type V1MandateUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Mandate, error)
+	fetchRelatedObject func() (*Mandate, error)
 }
 
 // FetchRelatedObject fetches the Mandate related to the event.
 func (e *V1MandateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Mandate, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1MandateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.mandate.updated"
@@ -5586,12 +5586,12 @@ func (n *V1MandateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1PaymentIntentAmountCapturableUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentAmountCapturableUpdatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentAmountCapturableUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.amount_capturable_updated"
@@ -5627,12 +5627,12 @@ func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchRelatedOb
 type V1PaymentIntentCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.canceled"
@@ -5668,12 +5668,12 @@ func (n *V1PaymentIntentCanceledEventNotification) FetchRelatedObject(ctx contex
 type V1PaymentIntentCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.created"
@@ -5709,12 +5709,12 @@ func (n *V1PaymentIntentCreatedEventNotification) FetchRelatedObject(ctx context
 type V1PaymentIntentPartiallyFundedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentPartiallyFundedEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentPartiallyFundedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.partially_funded"
@@ -5750,12 +5750,12 @@ func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchRelatedObject(ctx
 type V1PaymentIntentPaymentFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentPaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.payment_failed"
@@ -5791,12 +5791,12 @@ func (n *V1PaymentIntentPaymentFailedEventNotification) FetchRelatedObject(ctx c
 type V1PaymentIntentProcessingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentProcessingEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentProcessingEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.processing"
@@ -5832,12 +5832,12 @@ func (n *V1PaymentIntentProcessingEventNotification) FetchRelatedObject(ctx cont
 type V1PaymentIntentRequiresActionEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentRequiresActionEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.requires_action"
@@ -5873,12 +5873,12 @@ func (n *V1PaymentIntentRequiresActionEventNotification) FetchRelatedObject(ctx 
 type V1PaymentIntentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentIntent, error)
+	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
 func (e *V1PaymentIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.succeeded"
@@ -5914,12 +5914,12 @@ func (n *V1PaymentIntentSucceededEventNotification) FetchRelatedObject(ctx conte
 type V1PaymentLinkCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentLink, error)
+	fetchRelatedObject func() (*PaymentLink, error)
 }
 
 // FetchRelatedObject fetches the PaymentLink related to the event.
 func (e *V1PaymentLinkCreatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentLinkCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_link.created"
@@ -5955,12 +5955,12 @@ func (n *V1PaymentLinkCreatedEventNotification) FetchRelatedObject(ctx context.C
 type V1PaymentLinkUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentLink, error)
+	fetchRelatedObject func() (*PaymentLink, error)
 }
 
 // FetchRelatedObject fetches the PaymentLink related to the event.
 func (e *V1PaymentLinkUpdatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentLinkUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_link.updated"
@@ -5996,12 +5996,12 @@ func (n *V1PaymentLinkUpdatedEventNotification) FetchRelatedObject(ctx context.C
 type V1PaymentMethodAttachedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentMethod, error)
+	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
 func (e *V1PaymentMethodAttachedEvent) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentMethodAttachedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.attached"
@@ -6037,12 +6037,12 @@ func (n *V1PaymentMethodAttachedEventNotification) FetchRelatedObject(ctx contex
 type V1PaymentMethodAutomaticallyUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentMethod, error)
+	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
 func (e *V1PaymentMethodAutomaticallyUpdatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentMethodAutomaticallyUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.automatically_updated"
@@ -6078,12 +6078,12 @@ func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchRelatedObjec
 type V1PaymentMethodDetachedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentMethod, error)
+	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
 func (e *V1PaymentMethodDetachedEvent) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentMethodDetachedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.detached"
@@ -6119,12 +6119,12 @@ func (n *V1PaymentMethodDetachedEventNotification) FetchRelatedObject(ctx contex
 type V1PaymentMethodUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PaymentMethod, error)
+	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
 func (e *V1PaymentMethodUpdatedEvent) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PaymentMethodUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.updated"
@@ -6160,12 +6160,12 @@ func (n *V1PaymentMethodUpdatedEventNotification) FetchRelatedObject(ctx context
 type V1PayoutCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutCanceledEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.canceled"
@@ -6201,12 +6201,12 @@ func (n *V1PayoutCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 type V1PayoutCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutCreatedEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.created"
@@ -6242,12 +6242,12 @@ func (n *V1PayoutCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1PayoutFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutFailedEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.failed"
@@ -6283,12 +6283,12 @@ func (n *V1PayoutFailedEventNotification) FetchRelatedObject(ctx context.Context
 type V1PayoutPaidEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutPaidEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutPaidEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.paid"
@@ -6324,12 +6324,12 @@ func (n *V1PayoutPaidEventNotification) FetchRelatedObject(ctx context.Context) 
 type V1PayoutReconciliationCompletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutReconciliationCompletedEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutReconciliationCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.reconciliation_completed"
@@ -6365,12 +6365,12 @@ func (n *V1PayoutReconciliationCompletedEventNotification) FetchRelatedObject(ct
 type V1PayoutUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Payout, error)
+	fetchRelatedObject func() (*Payout, error)
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
 func (e *V1PayoutUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Payout, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PayoutUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.updated"
@@ -6406,12 +6406,12 @@ func (n *V1PayoutUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1PersonCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Person, error)
+	fetchRelatedObject func() (*Person, error)
 }
 
 // FetchRelatedObject fetches the Person related to the event.
 func (e *V1PersonCreatedEvent) FetchRelatedObject(ctx context.Context) (*Person, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PersonCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.created"
@@ -6447,12 +6447,12 @@ func (n *V1PersonCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1PersonDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Person, error)
+	fetchRelatedObject func() (*Person, error)
 }
 
 // FetchRelatedObject fetches the Person related to the event.
 func (e *V1PersonDeletedEvent) FetchRelatedObject(ctx context.Context) (*Person, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PersonDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.deleted"
@@ -6488,12 +6488,12 @@ func (n *V1PersonDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1PersonUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Person, error)
+	fetchRelatedObject func() (*Person, error)
 }
 
 // FetchRelatedObject fetches the Person related to the event.
 func (e *V1PersonUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Person, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PersonUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.updated"
@@ -6529,12 +6529,12 @@ func (n *V1PersonUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1PlanCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Plan, error)
+	fetchRelatedObject func() (*Plan, error)
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
 func (e *V1PlanCreatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PlanCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.created"
@@ -6570,12 +6570,12 @@ func (n *V1PlanCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 type V1PlanDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Plan, error)
+	fetchRelatedObject func() (*Plan, error)
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
 func (e *V1PlanDeletedEvent) FetchRelatedObject(ctx context.Context) (*Plan, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PlanDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.deleted"
@@ -6611,12 +6611,12 @@ func (n *V1PlanDeletedEventNotification) FetchRelatedObject(ctx context.Context)
 type V1PlanUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Plan, error)
+	fetchRelatedObject func() (*Plan, error)
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
 func (e *V1PlanUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PlanUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.updated"
@@ -6652,12 +6652,12 @@ func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context)
 type V1PriceCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Price, error)
+	fetchRelatedObject func() (*Price, error)
 }
 
 // FetchRelatedObject fetches the Price related to the event.
 func (e *V1PriceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PriceCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.created"
@@ -6693,12 +6693,12 @@ func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context
 type V1PriceDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Price, error)
+	fetchRelatedObject func() (*Price, error)
 }
 
 // FetchRelatedObject fetches the Price related to the event.
 func (e *V1PriceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PriceDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.deleted"
@@ -6734,12 +6734,12 @@ func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context
 type V1PriceUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Price, error)
+	fetchRelatedObject func() (*Price, error)
 }
 
 // FetchRelatedObject fetches the Price related to the event.
 func (e *V1PriceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PriceUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.updated"
@@ -6775,12 +6775,12 @@ func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context
 type V1ProductCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Product, error)
+	fetchRelatedObject func() (*Product, error)
 }
 
 // FetchRelatedObject fetches the Product related to the event.
 func (e *V1ProductCreatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ProductCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.created"
@@ -6816,12 +6816,12 @@ func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1ProductDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Product, error)
+	fetchRelatedObject func() (*Product, error)
 }
 
 // FetchRelatedObject fetches the Product related to the event.
 func (e *V1ProductDeletedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ProductDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.deleted"
@@ -6857,12 +6857,12 @@ func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1ProductUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Product, error)
+	fetchRelatedObject func() (*Product, error)
 }
 
 // FetchRelatedObject fetches the Product related to the event.
 func (e *V1ProductUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ProductUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.updated"
@@ -6898,12 +6898,12 @@ func (n *V1ProductUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1PromotionCodeCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PromotionCode, error)
+	fetchRelatedObject func() (*PromotionCode, error)
 }
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
 func (e *V1PromotionCodeCreatedEvent) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PromotionCodeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.created"
@@ -6939,12 +6939,12 @@ func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context
 type V1PromotionCodeUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*PromotionCode, error)
+	fetchRelatedObject func() (*PromotionCode, error)
 }
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
 func (e *V1PromotionCodeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1PromotionCodeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.updated"
@@ -6980,12 +6980,12 @@ func (n *V1PromotionCodeUpdatedEventNotification) FetchRelatedObject(ctx context
 type V1QuoteAcceptedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Quote, error)
+	fetchRelatedObject func() (*Quote, error)
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
 func (e *V1QuoteAcceptedEvent) FetchRelatedObject(ctx context.Context) (*Quote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1QuoteAcceptedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.accepted"
@@ -7021,12 +7021,12 @@ func (n *V1QuoteAcceptedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1QuoteCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Quote, error)
+	fetchRelatedObject func() (*Quote, error)
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
 func (e *V1QuoteCanceledEvent) FetchRelatedObject(ctx context.Context) (*Quote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1QuoteCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.canceled"
@@ -7062,12 +7062,12 @@ func (n *V1QuoteCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 type V1QuoteCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Quote, error)
+	fetchRelatedObject func() (*Quote, error)
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
 func (e *V1QuoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*Quote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1QuoteCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.created"
@@ -7103,12 +7103,12 @@ func (n *V1QuoteCreatedEventNotification) FetchRelatedObject(ctx context.Context
 type V1QuoteFinalizedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Quote, error)
+	fetchRelatedObject func() (*Quote, error)
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
 func (e *V1QuoteFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Quote, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1QuoteFinalizedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.finalized"
@@ -7144,12 +7144,12 @@ func (n *V1QuoteFinalizedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1RadarEarlyFraudWarningCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*RadarEarlyFraudWarning, error)
+	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
 }
 
 // FetchRelatedObject fetches the RadarEarlyFraudWarning related to the event.
 func (e *V1RadarEarlyFraudWarningCreatedEvent) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1RadarEarlyFraudWarningCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.radar.early_fraud_warning.created"
@@ -7185,12 +7185,12 @@ func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchRelatedObject(ct
 type V1RadarEarlyFraudWarningUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*RadarEarlyFraudWarning, error)
+	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
 }
 
 // FetchRelatedObject fetches the RadarEarlyFraudWarning related to the event.
 func (e *V1RadarEarlyFraudWarningUpdatedEvent) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1RadarEarlyFraudWarningUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.radar.early_fraud_warning.updated"
@@ -7226,12 +7226,12 @@ func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchRelatedObject(ct
 type V1RefundCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Refund, error)
+	fetchRelatedObject func() (*Refund, error)
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
 func (e *V1RefundCreatedEvent) FetchRelatedObject(ctx context.Context) (*Refund, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1RefundCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.created"
@@ -7267,12 +7267,12 @@ func (n *V1RefundCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1RefundFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Refund, error)
+	fetchRelatedObject func() (*Refund, error)
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
 func (e *V1RefundFailedEvent) FetchRelatedObject(ctx context.Context) (*Refund, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1RefundFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.failed"
@@ -7308,12 +7308,12 @@ func (n *V1RefundFailedEventNotification) FetchRelatedObject(ctx context.Context
 type V1RefundUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Refund, error)
+	fetchRelatedObject func() (*Refund, error)
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
 func (e *V1RefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Refund, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1RefundUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.updated"
@@ -7349,12 +7349,12 @@ func (n *V1RefundUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1ReviewClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Review, error)
+	fetchRelatedObject func() (*Review, error)
 }
 
 // FetchRelatedObject fetches the Review related to the event.
 func (e *V1ReviewClosedEvent) FetchRelatedObject(ctx context.Context) (*Review, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ReviewClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.review.closed"
@@ -7390,12 +7390,12 @@ func (n *V1ReviewClosedEventNotification) FetchRelatedObject(ctx context.Context
 type V1ReviewOpenedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Review, error)
+	fetchRelatedObject func() (*Review, error)
 }
 
 // FetchRelatedObject fetches the Review related to the event.
 func (e *V1ReviewOpenedEvent) FetchRelatedObject(ctx context.Context) (*Review, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1ReviewOpenedEventNotification is the webhook payload you'll get when handling an event with type "v1.review.opened"
@@ -7431,12 +7431,12 @@ func (n *V1ReviewOpenedEventNotification) FetchRelatedObject(ctx context.Context
 type V1SetupIntentCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SetupIntent, error)
+	fetchRelatedObject func() (*SetupIntent, error)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
 func (e *V1SetupIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SetupIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.canceled"
@@ -7472,12 +7472,12 @@ func (n *V1SetupIntentCanceledEventNotification) FetchRelatedObject(ctx context.
 type V1SetupIntentCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SetupIntent, error)
+	fetchRelatedObject func() (*SetupIntent, error)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
 func (e *V1SetupIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SetupIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.created"
@@ -7513,12 +7513,12 @@ func (n *V1SetupIntentCreatedEventNotification) FetchRelatedObject(ctx context.C
 type V1SetupIntentRequiresActionEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SetupIntent, error)
+	fetchRelatedObject func() (*SetupIntent, error)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
 func (e *V1SetupIntentRequiresActionEvent) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SetupIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.requires_action"
@@ -7554,12 +7554,12 @@ func (n *V1SetupIntentRequiresActionEventNotification) FetchRelatedObject(ctx co
 type V1SetupIntentSetupFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SetupIntent, error)
+	fetchRelatedObject func() (*SetupIntent, error)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
 func (e *V1SetupIntentSetupFailedEvent) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SetupIntentSetupFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.setup_failed"
@@ -7595,12 +7595,12 @@ func (n *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx conte
 type V1SetupIntentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SetupIntent, error)
+	fetchRelatedObject func() (*SetupIntent, error)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
 func (e *V1SetupIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SetupIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.succeeded"
@@ -7636,12 +7636,12 @@ func (n *V1SetupIntentSucceededEventNotification) FetchRelatedObject(ctx context
 type V1SigmaScheduledQueryRunCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SigmaScheduledQueryRun, error)
+	fetchRelatedObject func() (*SigmaScheduledQueryRun, error)
 }
 
 // FetchRelatedObject fetches the SigmaScheduledQueryRun related to the event.
 func (e *V1SigmaScheduledQueryRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*SigmaScheduledQueryRun, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SigmaScheduledQueryRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.sigma.scheduled_query_run.created"
@@ -7677,12 +7677,12 @@ func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchRelatedObject(ct
 type V1SourceCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Source, error)
+	fetchRelatedObject func() (*Source, error)
 }
 
 // FetchRelatedObject fetches the Source related to the event.
 func (e *V1SourceCanceledEvent) FetchRelatedObject(ctx context.Context) (*Source, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SourceCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.source.canceled"
@@ -7718,12 +7718,12 @@ func (n *V1SourceCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 type V1SourceChargeableEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Source, error)
+	fetchRelatedObject func() (*Source, error)
 }
 
 // FetchRelatedObject fetches the Source related to the event.
 func (e *V1SourceChargeableEvent) FetchRelatedObject(ctx context.Context) (*Source, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SourceChargeableEventNotification is the webhook payload you'll get when handling an event with type "v1.source.chargeable"
@@ -7759,12 +7759,12 @@ func (n *V1SourceChargeableEventNotification) FetchRelatedObject(ctx context.Con
 type V1SourceFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Source, error)
+	fetchRelatedObject func() (*Source, error)
 }
 
 // FetchRelatedObject fetches the Source related to the event.
 func (e *V1SourceFailedEvent) FetchRelatedObject(ctx context.Context) (*Source, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SourceFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.source.failed"
@@ -7800,12 +7800,12 @@ func (n *V1SourceFailedEventNotification) FetchRelatedObject(ctx context.Context
 type V1SourceRefundAttributesRequiredEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Source, error)
+	fetchRelatedObject func() (*Source, error)
 }
 
 // FetchRelatedObject fetches the Source related to the event.
 func (e *V1SourceRefundAttributesRequiredEvent) FetchRelatedObject(ctx context.Context) (*Source, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SourceRefundAttributesRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.source.refund_attributes_required"
@@ -7841,12 +7841,12 @@ func (n *V1SourceRefundAttributesRequiredEventNotification) FetchRelatedObject(c
 type V1SubscriptionScheduleAbortedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleAbortedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleAbortedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.aborted"
@@ -7882,12 +7882,12 @@ func (n *V1SubscriptionScheduleAbortedEventNotification) FetchRelatedObject(ctx 
 type V1SubscriptionScheduleCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleCanceledEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.canceled"
@@ -7923,12 +7923,12 @@ func (n *V1SubscriptionScheduleCanceledEventNotification) FetchRelatedObject(ctx
 type V1SubscriptionScheduleCompletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleCompletedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.completed"
@@ -7964,12 +7964,12 @@ func (n *V1SubscriptionScheduleCompletedEventNotification) FetchRelatedObject(ct
 type V1SubscriptionScheduleCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleCreatedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.created"
@@ -8005,12 +8005,12 @@ func (n *V1SubscriptionScheduleCreatedEventNotification) FetchRelatedObject(ctx 
 type V1SubscriptionScheduleExpiringEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleExpiringEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleExpiringEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.expiring"
@@ -8046,12 +8046,12 @@ func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx
 type V1SubscriptionScheduleReleasedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleReleasedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleReleasedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.released"
@@ -8087,12 +8087,12 @@ func (n *V1SubscriptionScheduleReleasedEventNotification) FetchRelatedObject(ctx
 type V1SubscriptionScheduleUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*SubscriptionSchedule, error)
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (e *V1SubscriptionScheduleUpdatedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1SubscriptionScheduleUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.updated"
@@ -8128,12 +8128,12 @@ func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx 
 type V1TaxSettingsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedSingletonObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxSettings, error)
+	fetchRelatedObject func() (*TaxSettings, error)
 }
 
 // FetchRelatedObject fetches the TaxSettings related to the event.
 func (e *V1TaxSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TaxSettings, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TaxSettingsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.tax.settings.updated"
@@ -8169,12 +8169,12 @@ func (n *V1TaxSettingsUpdatedEventNotification) FetchRelatedObject(ctx context.C
 type V1TaxRateCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxRate, error)
+	fetchRelatedObject func() (*TaxRate, error)
 }
 
 // FetchRelatedObject fetches the TaxRate related to the event.
 func (e *V1TaxRateCreatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TaxRateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.tax_rate.created"
@@ -8210,12 +8210,12 @@ func (n *V1TaxRateCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1TaxRateUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TaxRate, error)
+	fetchRelatedObject func() (*TaxRate, error)
 }
 
 // FetchRelatedObject fetches the TaxRate related to the event.
 func (e *V1TaxRateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TaxRateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.tax_rate.updated"
@@ -8251,12 +8251,12 @@ func (n *V1TaxRateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 type V1TerminalReaderActionFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TerminalReader, error)
+	fetchRelatedObject func() (*TerminalReader, error)
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
 func (e *V1TerminalReaderActionFailedEvent) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TerminalReaderActionFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_failed"
@@ -8292,12 +8292,12 @@ func (n *V1TerminalReaderActionFailedEventNotification) FetchRelatedObject(ctx c
 type V1TerminalReaderActionSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TerminalReader, error)
+	fetchRelatedObject func() (*TerminalReader, error)
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
 func (e *V1TerminalReaderActionSucceededEvent) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TerminalReaderActionSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_succeeded"
@@ -8333,12 +8333,12 @@ func (n *V1TerminalReaderActionSucceededEventNotification) FetchRelatedObject(ct
 type V1TerminalReaderActionUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TerminalReader, error)
+	fetchRelatedObject func() (*TerminalReader, error)
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
 func (e *V1TerminalReaderActionUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TerminalReaderActionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_updated"
@@ -8374,12 +8374,12 @@ func (n *V1TerminalReaderActionUpdatedEventNotification) FetchRelatedObject(ctx 
 type V1TestHelpersTestClockAdvancingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TestHelpersTestClock, error)
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
 func (e *V1TestHelpersTestClockAdvancingEvent) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TestHelpersTestClockAdvancingEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.advancing"
@@ -8415,12 +8415,12 @@ func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchRelatedObject(ct
 type V1TestHelpersTestClockCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TestHelpersTestClock, error)
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
 func (e *V1TestHelpersTestClockCreatedEvent) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TestHelpersTestClockCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.created"
@@ -8456,12 +8456,12 @@ func (n *V1TestHelpersTestClockCreatedEventNotification) FetchRelatedObject(ctx 
 type V1TestHelpersTestClockDeletedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TestHelpersTestClock, error)
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
 func (e *V1TestHelpersTestClockDeletedEvent) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TestHelpersTestClockDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.deleted"
@@ -8497,12 +8497,12 @@ func (n *V1TestHelpersTestClockDeletedEventNotification) FetchRelatedObject(ctx 
 type V1TestHelpersTestClockInternalFailureEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TestHelpersTestClock, error)
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
 func (e *V1TestHelpersTestClockInternalFailureEvent) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TestHelpersTestClockInternalFailureEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.internal_failure"
@@ -8538,12 +8538,12 @@ func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchRelatedObj
 type V1TestHelpersTestClockReadyEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*TestHelpersTestClock, error)
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
 func (e *V1TestHelpersTestClockReadyEvent) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TestHelpersTestClockReadyEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.ready"
@@ -8579,12 +8579,12 @@ func (n *V1TestHelpersTestClockReadyEventNotification) FetchRelatedObject(ctx co
 type V1TopupCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Topup, error)
+	fetchRelatedObject func() (*Topup, error)
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
 func (e *V1TopupCanceledEvent) FetchRelatedObject(ctx context.Context) (*Topup, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TopupCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.canceled"
@@ -8620,12 +8620,12 @@ func (n *V1TopupCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 type V1TopupCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Topup, error)
+	fetchRelatedObject func() (*Topup, error)
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
 func (e *V1TopupCreatedEvent) FetchRelatedObject(ctx context.Context) (*Topup, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TopupCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.created"
@@ -8661,12 +8661,12 @@ func (n *V1TopupCreatedEventNotification) FetchRelatedObject(ctx context.Context
 type V1TopupFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Topup, error)
+	fetchRelatedObject func() (*Topup, error)
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
 func (e *V1TopupFailedEvent) FetchRelatedObject(ctx context.Context) (*Topup, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TopupFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.failed"
@@ -8702,12 +8702,12 @@ func (n *V1TopupFailedEventNotification) FetchRelatedObject(ctx context.Context)
 type V1TopupReversedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Topup, error)
+	fetchRelatedObject func() (*Topup, error)
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
 func (e *V1TopupReversedEvent) FetchRelatedObject(ctx context.Context) (*Topup, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TopupReversedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.reversed"
@@ -8743,12 +8743,12 @@ func (n *V1TopupReversedEventNotification) FetchRelatedObject(ctx context.Contex
 type V1TopupSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Topup, error)
+	fetchRelatedObject func() (*Topup, error)
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
 func (e *V1TopupSucceededEvent) FetchRelatedObject(ctx context.Context) (*Topup, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TopupSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.succeeded"
@@ -8784,12 +8784,12 @@ func (n *V1TopupSucceededEventNotification) FetchRelatedObject(ctx context.Conte
 type V1TransferCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Transfer, error)
+	fetchRelatedObject func() (*Transfer, error)
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
 func (e *V1TransferCreatedEvent) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TransferCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.created"
@@ -8825,12 +8825,12 @@ func (n *V1TransferCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 type V1TransferReversedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Transfer, error)
+	fetchRelatedObject func() (*Transfer, error)
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
 func (e *V1TransferReversedEvent) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TransferReversedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.reversed"
@@ -8866,12 +8866,12 @@ func (n *V1TransferReversedEventNotification) FetchRelatedObject(ctx context.Con
 type V1TransferUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*Transfer, error)
+	fetchRelatedObject func() (*Transfer, error)
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
 func (e *V1TransferUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V1TransferUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.updated"
@@ -8907,12 +8907,12 @@ func (n *V1TransferUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 type V2CommerceProductCatalogImportsFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CommerceProductCatalogImport, error)
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
 }
 
 // FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
 func (e *V2CommerceProductCatalogImportsFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CommerceProductCatalogImportsFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.failed"
@@ -8948,12 +8948,12 @@ func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchRelatedObj
 type V2CommerceProductCatalogImportsProcessingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CommerceProductCatalogImport, error)
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
 }
 
 // FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
 func (e *V2CommerceProductCatalogImportsProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CommerceProductCatalogImportsProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.processing"
@@ -8989,12 +8989,12 @@ func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchRelate
 type V2CommerceProductCatalogImportsSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CommerceProductCatalogImport, error)
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
 }
 
 // FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
 func (e *V2CommerceProductCatalogImportsSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CommerceProductCatalogImportsSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded"
@@ -9030,12 +9030,12 @@ func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchRelated
 type V2CommerceProductCatalogImportsSucceededWithErrorsEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CommerceProductCatalogImport, error)
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
 }
 
 // FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
 func (e *V2CommerceProductCatalogImportsSucceededWithErrorsEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded_with_errors"
@@ -9071,12 +9071,12 @@ func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) Fe
 type V2CoreAccountClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountClosedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.closed"
@@ -9112,12 +9112,12 @@ func (n *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Co
 type V2CoreAccountCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.created"
@@ -9153,12 +9153,12 @@ func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.C
 type V2CoreAccountUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.updated"
@@ -9195,12 +9195,12 @@ type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent str
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject                                                    `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].capability_status_updated"
@@ -9236,12 +9236,12 @@ func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].updated"
@@ -9278,12 +9278,12 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent str
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject                                                    `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].capability_status_updated"
@@ -9319,12 +9319,12 @@ func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].updated"
@@ -9361,12 +9361,12 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent st
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject                                                     `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].capability_status_updated"
@@ -9402,12 +9402,12 @@ func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].updated"
@@ -9443,12 +9443,12 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[defaults].updated"
@@ -9484,12 +9484,12 @@ func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObj
 type V2CoreAccountIncludingFutureRequirementsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingFutureRequirementsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[future_requirements].updated"
@@ -9525,12 +9525,12 @@ func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) Fetch
 type V2CoreAccountIncludingIdentityUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingIdentityUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[identity].updated"
@@ -9566,12 +9566,12 @@ func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObj
 type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccount, error)
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (e *V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingRequirementsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[requirements].updated"
@@ -9630,12 +9630,12 @@ type V2CoreAccountPersonCreatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccountPerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
 func (e *V2CoreAccountPersonCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountPersonCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.created"
@@ -9672,12 +9672,12 @@ type V2CoreAccountPersonDeletedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccountPerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
 func (e *V2CoreAccountPersonDeletedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountPersonDeletedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.deleted"
@@ -9714,12 +9714,12 @@ type V2CoreAccountPersonUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
 	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreAccountPerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
 func (e *V2CoreAccountPersonUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountPersonUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.updated"
@@ -9755,12 +9755,12 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func(ctx context.Context) (*V2CoreEventDestination, error)
+	fetchRelatedObject func() (*V2CoreEventDestination, error)
 }
 
 // FetchRelatedObject fetches the V2CoreEventDestination related to the event.
 func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2CoreEventDestination, error) {
-	return e.fetchRelatedObject(ctx)
+	return e.fetchRelatedObject()
 }
 
 // V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
@@ -9953,9 +9953,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1AccountUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Account, error) {
+		result.fetchRelatedObject = func() (*Account, error) {
 			v := &Account{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -9969,9 +9969,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ApplicationFeeCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ApplicationFee, error) {
+		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -9985,9 +9985,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ApplicationFeeRefundUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FeeRefund, error) {
+		result.fetchRelatedObject = func() (*FeeRefund, error) {
 			v := &FeeRefund{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10001,9 +10001,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ApplicationFeeRefundedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ApplicationFee, error) {
+		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10017,9 +10017,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BalanceAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*Balance, error) {
+		result.fetchRelatedObject = func() (*Balance, error) {
 			v := &Balance{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10033,9 +10033,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BalanceSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*BalanceSettings, error) {
+		result.fetchRelatedObject = func() (*BalanceSettings, error) {
 			v := &BalanceSettings{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10049,9 +10049,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingAlertTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingAlert, error) {
+		result.fetchRelatedObject = func() (*BillingAlert, error) {
 			v := &BillingAlert{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10065,9 +10065,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingCreditBalanceTransactionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingCreditBalanceTransaction, error) {
+		result.fetchRelatedObject = func() (*BillingCreditBalanceTransaction, error) {
 			v := &BillingCreditBalanceTransaction{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10081,9 +10081,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingCreditGrantCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingCreditGrant, error) {
+		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10097,9 +10097,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingCreditGrantUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingCreditGrant, error) {
+		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10113,9 +10113,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingMeterCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingMeter, error) {
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10129,9 +10129,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingMeterDeactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingMeter, error) {
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10145,9 +10145,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingMeter, error) {
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10171,9 +10171,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingMeterReactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingMeter, error) {
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10187,9 +10187,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingMeterUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingMeter, error) {
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10203,9 +10203,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingPortalConfigurationCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingPortalConfiguration, error) {
+		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10219,9 +10219,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1BillingPortalConfigurationUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*BillingPortalConfiguration, error) {
+		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10239,9 +10239,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CapabilityUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Capability, error) {
+		result.fetchRelatedObject = func() (*Capability, error) {
 			v := &Capability{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10255,9 +10255,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CashBalanceFundsAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*CashBalance, error) {
+		result.fetchRelatedObject = func() (*CashBalance, error) {
 			v := &CashBalance{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10271,9 +10271,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeCapturedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10287,9 +10287,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeDisputeClosedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Dispute, error) {
+		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10303,9 +10303,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeDisputeCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Dispute, error) {
+		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10319,9 +10319,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeDisputeFundsReinstatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Dispute, error) {
+		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10335,9 +10335,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeDisputeFundsWithdrawnEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Dispute, error) {
+		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10351,9 +10351,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeDisputeUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Dispute, error) {
+		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10367,9 +10367,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeExpiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10383,9 +10383,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10399,9 +10399,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargePendingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10415,9 +10415,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeRefundUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Refund, error) {
+		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10431,9 +10431,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeRefundedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10447,9 +10447,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10463,9 +10463,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ChargeUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Charge, error) {
+		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10479,9 +10479,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CheckoutSessionAsyncPaymentFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CheckoutSession, error) {
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10495,9 +10495,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CheckoutSessionAsyncPaymentSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CheckoutSession, error) {
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10511,9 +10511,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CheckoutSessionCompletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CheckoutSession, error) {
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10527,9 +10527,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CheckoutSessionExpiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CheckoutSession, error) {
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10543,9 +10543,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateOrderCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateOrder, error) {
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10559,9 +10559,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateOrderCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateOrder, error) {
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10575,9 +10575,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateOrderDelayedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateOrder, error) {
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10591,9 +10591,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateOrderDeliveredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateOrder, error) {
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10607,9 +10607,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateOrderProductSubstitutedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateOrder, error) {
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10623,9 +10623,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateProductCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateProduct, error) {
+		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10639,9 +10639,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ClimateProductPricingUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*ClimateProduct, error) {
+		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10655,9 +10655,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CouponCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Coupon, error) {
+		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10671,9 +10671,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CouponDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Coupon, error) {
+		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10687,9 +10687,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CouponUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Coupon, error) {
+		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10703,9 +10703,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CreditNoteCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CreditNote, error) {
+		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10719,9 +10719,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CreditNoteUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CreditNote, error) {
+		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10735,9 +10735,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CreditNoteVoidedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CreditNote, error) {
+		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10751,9 +10751,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Customer, error) {
+		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10767,9 +10767,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Customer, error) {
+		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10783,9 +10783,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerDiscountCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*Discount, error) {
+		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10799,9 +10799,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerDiscountDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*Discount, error) {
+		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10815,9 +10815,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerDiscountUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*Discount, error) {
+		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10831,9 +10831,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10847,9 +10847,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10863,9 +10863,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionPausedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10879,9 +10879,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionPendingUpdateAppliedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10895,9 +10895,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionPendingUpdateExpiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10911,9 +10911,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionResumedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10927,9 +10927,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionTrialWillEndEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10943,9 +10943,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerSubscriptionUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Subscription, error) {
+		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10959,9 +10959,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerTaxIDCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxID, error) {
+		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10975,9 +10975,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerTaxIDDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxID, error) {
+		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -10991,9 +10991,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerTaxIDUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxID, error) {
+		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11007,9 +11007,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Customer, error) {
+		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11023,9 +11023,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1CustomerCashBalanceTransactionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*CustomerCashBalanceTransaction, error) {
+		result.fetchRelatedObject = func() (*CustomerCashBalanceTransaction, error) {
 			v := &CustomerCashBalanceTransaction{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11043,9 +11043,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FileCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*File, error) {
+		result.fetchRelatedObject = func() (*File, error) {
 			v := &File{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11059,9 +11059,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountAccountNumbersUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11075,9 +11075,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11091,9 +11091,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountDeactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11107,9 +11107,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountDisconnectedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11123,9 +11123,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11139,9 +11139,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountReactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11155,9 +11155,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountRefreshedBalanceEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11171,9 +11171,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountRefreshedOwnershipEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11187,9 +11187,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountRefreshedTransactionsEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11203,9 +11203,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11219,9 +11219,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11235,9 +11235,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1FinancialConnectionsAccountUpcomingDeactivationEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*FinancialConnectionsAccount, error) {
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11251,9 +11251,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11267,9 +11267,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11283,9 +11283,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionProcessingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11299,9 +11299,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionRedactedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11315,9 +11315,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionRequiresInputEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11331,9 +11331,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IdentityVerificationSessionVerifiedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IdentityVerificationSession, error) {
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11347,9 +11347,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11363,9 +11363,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11379,9 +11379,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceFinalizationFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11395,9 +11395,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceFinalizedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11411,9 +11411,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceMarkedUncollectibleEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11427,9 +11427,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceOverdueEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11443,9 +11443,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceOverpaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11459,9 +11459,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11475,9 +11475,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaymentActionRequiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11491,9 +11491,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaymentAttemptRequiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11507,9 +11507,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaymentFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11523,9 +11523,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaymentSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11539,9 +11539,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceSentEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11559,9 +11559,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11575,9 +11575,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceVoidedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11591,9 +11591,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceWillBeDueEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Invoice, error) {
+		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11607,9 +11607,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoicePaymentPaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*InvoicePayment, error) {
+		result.fetchRelatedObject = func() (*InvoicePayment, error) {
 			v := &InvoicePayment{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11623,9 +11623,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceitemCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*InvoiceItem, error) {
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11639,9 +11639,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1InvoiceitemDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*InvoiceItem, error) {
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11655,9 +11655,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingAuthorizationCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingAuthorization, error) {
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11671,9 +11671,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingAuthorizationRequestEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingAuthorization, error) {
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11687,9 +11687,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingAuthorizationUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingAuthorization, error) {
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11703,9 +11703,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingCardCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingCard, error) {
+		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11719,9 +11719,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingCardUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingCard, error) {
+		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11735,9 +11735,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingCardholderCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingCardholder, error) {
+		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11751,9 +11751,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingCardholderUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingCardholder, error) {
+		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11767,9 +11767,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeClosedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11783,9 +11783,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11799,9 +11799,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeFundsReinstatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11815,9 +11815,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeFundsRescindedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11831,9 +11831,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeSubmittedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11847,9 +11847,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingDisputeUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingDispute, error) {
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11863,9 +11863,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingPersonalizationDesignActivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11879,9 +11879,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingPersonalizationDesignDeactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11895,9 +11895,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingPersonalizationDesignRejectedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11911,9 +11911,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingPersonalizationDesignUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11927,9 +11927,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingTokenCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingToken, error) {
+		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11943,9 +11943,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingTokenUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingToken, error) {
+		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11959,9 +11959,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingTransactionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingTransaction, error) {
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11975,9 +11975,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingTransaction, error) {
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -11991,9 +11991,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1IssuingTransactionUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*IssuingTransaction, error) {
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12007,9 +12007,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1MandateUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Mandate, error) {
+		result.fetchRelatedObject = func() (*Mandate, error) {
 			v := &Mandate{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12023,9 +12023,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentAmountCapturableUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12039,9 +12039,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12055,9 +12055,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12071,9 +12071,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentPartiallyFundedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12087,9 +12087,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentPaymentFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12103,9 +12103,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentProcessingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12119,9 +12119,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentRequiresActionEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12135,9 +12135,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentIntentSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentIntent, error) {
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12151,9 +12151,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentLinkCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentLink, error) {
+		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12167,9 +12167,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentLinkUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentLink, error) {
+		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12183,9 +12183,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentMethodAttachedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentMethod, error) {
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12199,9 +12199,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentMethodAutomaticallyUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentMethod, error) {
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12215,9 +12215,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentMethodDetachedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentMethod, error) {
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12231,9 +12231,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PaymentMethodUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PaymentMethod, error) {
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12247,9 +12247,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12263,9 +12263,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12279,9 +12279,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12295,9 +12295,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutPaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12311,9 +12311,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutReconciliationCompletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12327,9 +12327,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PayoutUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Payout, error) {
+		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12343,9 +12343,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PersonCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Person, error) {
+		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12359,9 +12359,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PersonDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Person, error) {
+		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12375,9 +12375,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PersonUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Person, error) {
+		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12391,9 +12391,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PlanCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Plan, error) {
+		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12407,9 +12407,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PlanDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Plan, error) {
+		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12423,9 +12423,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PlanUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Plan, error) {
+		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12439,9 +12439,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PriceCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Price, error) {
+		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12455,9 +12455,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PriceDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Price, error) {
+		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12471,9 +12471,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PriceUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Price, error) {
+		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12487,9 +12487,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ProductCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Product, error) {
+		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12503,9 +12503,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ProductDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Product, error) {
+		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12519,9 +12519,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ProductUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Product, error) {
+		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12535,9 +12535,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PromotionCodeCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PromotionCode, error) {
+		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12551,9 +12551,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1PromotionCodeUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*PromotionCode, error) {
+		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12567,9 +12567,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1QuoteAcceptedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Quote, error) {
+		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12583,9 +12583,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1QuoteCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Quote, error) {
+		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12599,9 +12599,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1QuoteCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Quote, error) {
+		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12615,9 +12615,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1QuoteFinalizedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Quote, error) {
+		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12631,9 +12631,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1RadarEarlyFraudWarningCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12647,9 +12647,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1RadarEarlyFraudWarningUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12663,9 +12663,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1RefundCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Refund, error) {
+		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12679,9 +12679,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1RefundFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Refund, error) {
+		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12695,9 +12695,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1RefundUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Refund, error) {
+		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12711,9 +12711,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ReviewClosedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Review, error) {
+		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12727,9 +12727,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1ReviewOpenedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Review, error) {
+		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12743,9 +12743,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SetupIntentCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SetupIntent, error) {
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12759,9 +12759,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SetupIntentCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SetupIntent, error) {
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12775,9 +12775,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SetupIntentRequiresActionEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SetupIntent, error) {
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12791,9 +12791,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SetupIntentSetupFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SetupIntent, error) {
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12807,9 +12807,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SetupIntentSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SetupIntent, error) {
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12823,9 +12823,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SigmaScheduledQueryRunCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SigmaScheduledQueryRun, error) {
+		result.fetchRelatedObject = func() (*SigmaScheduledQueryRun, error) {
 			v := &SigmaScheduledQueryRun{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12839,9 +12839,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SourceCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Source, error) {
+		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12855,9 +12855,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SourceChargeableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Source, error) {
+		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12871,9 +12871,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SourceFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Source, error) {
+		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12887,9 +12887,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SourceRefundAttributesRequiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Source, error) {
+		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12903,9 +12903,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleAbortedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12919,9 +12919,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12935,9 +12935,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleCompletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12951,9 +12951,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12967,9 +12967,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleExpiringEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12983,9 +12983,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleReleasedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -12999,9 +12999,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1SubscriptionScheduleUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*SubscriptionSchedule, error) {
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13015,9 +13015,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TaxSettingsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxSettings, error) {
+		result.fetchRelatedObject = func() (*TaxSettings, error) {
 			v := &TaxSettings{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13031,9 +13031,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TaxRateCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxRate, error) {
+		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13047,9 +13047,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TaxRateUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TaxRate, error) {
+		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13063,9 +13063,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TerminalReaderActionFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TerminalReader, error) {
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13079,9 +13079,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TerminalReaderActionSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TerminalReader, error) {
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13095,9 +13095,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TerminalReaderActionUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TerminalReader, error) {
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13111,9 +13111,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TestHelpersTestClockAdvancingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TestHelpersTestClock, error) {
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13127,9 +13127,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TestHelpersTestClockCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TestHelpersTestClock, error) {
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13143,9 +13143,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TestHelpersTestClockDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TestHelpersTestClock, error) {
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13159,9 +13159,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TestHelpersTestClockInternalFailureEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TestHelpersTestClock, error) {
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13175,9 +13175,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TestHelpersTestClockReadyEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*TestHelpersTestClock, error) {
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13191,9 +13191,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TopupCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Topup, error) {
+		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13207,9 +13207,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TopupCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Topup, error) {
+		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13223,9 +13223,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TopupFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Topup, error) {
+		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13239,9 +13239,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TopupReversedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Topup, error) {
+		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13255,9 +13255,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TopupSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Topup, error) {
+		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13271,9 +13271,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TransferCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Transfer, error) {
+		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13287,9 +13287,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TransferReversedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Transfer, error) {
+		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13303,9 +13303,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V1TransferUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*Transfer, error) {
+		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13319,9 +13319,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CommerceProductCatalogImportsFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13335,9 +13335,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CommerceProductCatalogImportsProcessingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13351,9 +13351,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CommerceProductCatalogImportsSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13367,9 +13367,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CommerceProductCatalogImportsSucceededWithErrorsEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13383,9 +13383,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountClosedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13399,9 +13399,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13415,9 +13415,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13431,9 +13431,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13450,9 +13450,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationCustomerUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13466,9 +13466,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13485,9 +13485,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationMerchantUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13501,9 +13501,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13520,9 +13520,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13536,9 +13536,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13552,9 +13552,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingFutureRequirementsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13568,9 +13568,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13584,9 +13584,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccount, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13607,9 +13607,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountPersonCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccountPerson, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13626,9 +13626,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountPersonDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccountPerson, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13645,9 +13645,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreAccountPersonUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreAccountPerson, error) {
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -13664,9 +13664,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result := &V2CoreEventDestinationPingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func(ctx context.Context) (*V2CoreEventDestination, error) {
+		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
 			v := &V2CoreEventDestination{}
-			params := &Params{Context: ctx}
+			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
