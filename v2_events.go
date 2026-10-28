@@ -9956,6 +9956,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Account, error) {
 			v := &Account{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -9971,6 +9972,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -9986,6 +9988,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FeeRefund, error) {
 			v := &FeeRefund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10001,6 +10004,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10016,6 +10020,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Balance, error) {
 			v := &Balance{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10031,6 +10036,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BalanceSettings, error) {
 			v := &BalanceSettings{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10046,6 +10052,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingAlert, error) {
 			v := &BillingAlert{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10061,6 +10068,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditBalanceTransaction, error) {
 			v := &BillingCreditBalanceTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10076,6 +10084,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10091,6 +10100,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10106,6 +10116,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10121,6 +10132,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10136,6 +10148,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10161,6 +10174,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10176,6 +10190,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10191,6 +10206,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10206,6 +10222,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10225,6 +10242,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Capability, error) {
 			v := &Capability{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10240,6 +10258,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CashBalance, error) {
 			v := &CashBalance{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10255,6 +10274,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10270,6 +10290,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10285,6 +10306,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10300,6 +10322,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10315,6 +10338,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10330,6 +10354,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10345,6 +10370,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10360,6 +10386,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10375,6 +10402,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10390,6 +10418,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10405,6 +10434,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10420,6 +10450,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10435,6 +10466,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10450,6 +10482,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10465,6 +10498,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10480,6 +10514,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10495,6 +10530,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10510,6 +10546,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10525,6 +10562,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10540,6 +10578,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10555,6 +10594,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10570,6 +10610,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10585,6 +10626,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10600,6 +10642,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10615,6 +10658,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10630,6 +10674,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10645,6 +10690,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10660,6 +10706,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10675,6 +10722,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10690,6 +10738,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10705,6 +10754,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10720,6 +10770,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10735,6 +10786,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10750,6 +10802,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10765,6 +10818,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10780,6 +10834,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10795,6 +10850,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10810,6 +10866,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10825,6 +10882,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10840,6 +10898,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10855,6 +10914,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10870,6 +10930,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10885,6 +10946,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10900,6 +10962,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10915,6 +10978,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10930,6 +10994,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10945,6 +11010,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10960,6 +11026,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CustomerCashBalanceTransaction, error) {
 			v := &CustomerCashBalanceTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10979,6 +11046,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*File, error) {
 			v := &File{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -10994,6 +11062,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11009,6 +11078,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11024,6 +11094,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11039,6 +11110,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11054,6 +11126,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11069,6 +11142,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11084,6 +11158,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11099,6 +11174,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11114,6 +11190,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11129,6 +11206,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11144,6 +11222,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11159,6 +11238,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11174,6 +11254,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11189,6 +11270,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11204,6 +11286,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11219,6 +11302,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11234,6 +11318,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11249,6 +11334,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11264,6 +11350,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11279,6 +11366,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11294,6 +11382,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11309,6 +11398,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11324,6 +11414,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11339,6 +11430,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11354,6 +11446,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11369,6 +11462,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11384,6 +11478,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11399,6 +11494,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11414,6 +11510,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11429,6 +11526,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11444,6 +11542,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11463,6 +11562,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11478,6 +11578,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11493,6 +11594,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11508,6 +11610,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoicePayment, error) {
 			v := &InvoicePayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11523,6 +11626,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11538,6 +11642,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11553,6 +11658,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11568,6 +11674,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11583,6 +11690,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11598,6 +11706,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11613,6 +11722,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11628,6 +11738,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11643,6 +11754,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11658,6 +11770,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11673,6 +11786,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11688,6 +11802,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11703,6 +11818,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11718,6 +11834,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11733,6 +11850,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11748,6 +11866,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11763,6 +11882,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11778,6 +11898,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11793,6 +11914,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11808,6 +11930,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11823,6 +11946,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11838,6 +11962,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11853,6 +11978,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11868,6 +11994,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11883,6 +12010,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Mandate, error) {
 			v := &Mandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11898,6 +12026,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11913,6 +12042,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11928,6 +12058,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11943,6 +12074,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11958,6 +12090,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11973,6 +12106,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -11988,6 +12122,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12003,6 +12138,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12018,6 +12154,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12033,6 +12170,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12048,6 +12186,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12063,6 +12202,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12078,6 +12218,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12093,6 +12234,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12108,6 +12250,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12123,6 +12266,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12138,6 +12282,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12153,6 +12298,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12168,6 +12314,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12183,6 +12330,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12198,6 +12346,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12213,6 +12362,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12228,6 +12378,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12243,6 +12394,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12258,6 +12410,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12273,6 +12426,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12288,6 +12442,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12303,6 +12458,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12318,6 +12474,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12333,6 +12490,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12348,6 +12506,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12363,6 +12522,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12378,6 +12538,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12393,6 +12554,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12408,6 +12570,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12423,6 +12586,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12438,6 +12602,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12453,6 +12618,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12468,6 +12634,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12483,6 +12650,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12498,6 +12666,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12513,6 +12682,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12528,6 +12698,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12543,6 +12714,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12558,6 +12730,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12573,6 +12746,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12588,6 +12762,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12603,6 +12778,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12618,6 +12794,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12633,6 +12810,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12648,6 +12826,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SigmaScheduledQueryRun, error) {
 			v := &SigmaScheduledQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12663,6 +12842,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12678,6 +12858,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12693,6 +12874,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12708,6 +12890,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12723,6 +12906,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12738,6 +12922,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12753,6 +12938,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12768,6 +12954,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12783,6 +12970,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12798,6 +12986,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12813,6 +13002,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12828,6 +13018,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxSettings, error) {
 			v := &TaxSettings{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12843,6 +13034,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12858,6 +13050,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12873,6 +13066,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12888,6 +13082,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12903,6 +13098,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12918,6 +13114,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12933,6 +13130,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12948,6 +13146,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12963,6 +13162,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12978,6 +13178,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -12993,6 +13194,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13008,6 +13210,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13023,6 +13226,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13038,6 +13242,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13053,6 +13258,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13068,6 +13274,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13083,6 +13290,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13098,6 +13306,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13113,6 +13322,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13128,6 +13338,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13143,6 +13354,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13158,6 +13370,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13173,6 +13386,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13188,6 +13402,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13203,6 +13418,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13218,6 +13434,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13236,6 +13453,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13251,6 +13469,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13269,6 +13488,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13284,6 +13504,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13302,6 +13523,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13317,6 +13539,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13332,6 +13555,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13347,6 +13571,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13362,6 +13587,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13384,6 +13610,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13402,6 +13629,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13420,6 +13648,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -13438,6 +13667,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
 			v := &V2CoreEventDestination{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
