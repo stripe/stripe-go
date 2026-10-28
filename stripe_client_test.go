@@ -419,6 +419,73 @@ func TestFetchRelatedObject(t *testing.T) {
 	assert.Equal(t, "", event.LastResponse.Header.Get("Stripe-Context"))
 }
 
+func TestFetchedEventRelatedObjectUsesRequestContext(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case "/v2/core/events/evt_123":
+			_, err := w.Write([]byte(`{
+				"id": "evt_123",
+				"object": "v2.core.event",
+				"type": "v1.billing.meter.error_report_triggered",
+				"data": {},
+				"related_object": {
+					"id": "bm_123",
+					"type": "billing.meter",
+					"url": "/v1/billing/meters/bm_123"
+				}
+			}`))
+			assert.NoError(t, err)
+		case "/v1/billing/meters/bm_123":
+			_, err := w.Write([]byte(`{"id":"bm_123","object":"billing.meter"}`))
+			assert.NoError(t, err)
+		default:
+			t.Fatalf("unexpected request path: %s", r.URL.Path)
+		}
+	}))
+	defer server.Close()
+
+	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		URL: stripe.String(server.URL),
+	})
+	client := stripe.NewClient(TestAPIKey, stripe.WithBackends(&stripe.Backends{
+		API:         backend,
+		Connect:     backend,
+		Uploads:     backend,
+		MeterEvents: backend,
+	}))
+	payload := []byte(`{
+		"id": "evt_123",
+		"object": "v2.core.event",
+		"type": "v1.billing.meter.error_report_triggered",
+		"related_object": {
+			"id": "bm_123",
+			"type": "billing.meter",
+			"url": "/v1/billing/meters/bm_123"
+		}
+	}`)
+	p := stripe.SignedPayload{
+		UnsignedPayload: stripe.UnsignedPayload{
+			Payload:   payload,
+			Timestamp: time.Now(),
+			Secret:    "whsec_test_secret",
+			Scheme:    "v1",
+		},
+	}
+	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
+	p.Header = generateHeader(p)
+
+	notificationContainer, err := client.ParseEventNotification(p.Payload, p.Header, p.Secret)
+	assert.NoError(t, err)
+	notification := notificationContainer.(*stripe.V1BillingMeterErrorReportTriggeredEventNotification)
+	event, err := notification.FetchEvent(context.Background())
+	assert.NoError(t, err)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	_, err = event.FetchRelatedObject(ctx)
+	assert.ErrorIs(t, err, context.Canceled)
+}
+
 func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	// Create mock response for the V2 event retrieve call
 
