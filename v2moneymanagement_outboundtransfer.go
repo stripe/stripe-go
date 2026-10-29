@@ -75,9 +75,21 @@ const (
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonUnknownFailure                     V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "unknown_failure"
 )
 
+// The preferred networks to use for this OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork string
+
+// List of values that V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork can take
+const (
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkACH     V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "ach"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkFedwire V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "fedwire"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkFPS     V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPA    V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSwift   V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+)
+
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 // `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 // even after the payment or transfer is posted.
 type V2MoneyManagementOutboundTransferTraceIDStatus string
 
@@ -146,19 +158,44 @@ type V2MoneyManagementOutboundTransferStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct{}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptions struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccount struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptions struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+}
+
 // To which payout method the OutboundTransfer was sent.
 type V2MoneyManagementOutboundTransferTo struct {
 	// The monetary amount being credited to the destination.
 	Credited Amount `json:"credited"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod string `json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptions `json:"payout_method_options,omitempty"`
 }
 
 // A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
 type V2MoneyManagementOutboundTransferTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-	// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+	// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 	// even after the payment or transfer is posted.
 	Status V2MoneyManagementOutboundTransferTraceIDStatus `json:"status"`
 	// The trace ID value if `trace_id.status` is `supported`, otherwise empty.

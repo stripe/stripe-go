@@ -28,20 +28,22 @@ type V2MoneyManagementPayoutMethodParams struct {
 	Params `form:"*"`
 }
 
-// Archive a PayoutMethod object. Archived objects cannot be used as payout methods
-// and will not appear in the payout method list.
+// Archive a `PayoutMethod`. Archiving prevents the Payout Method from being used for outbound payments
+// or transfers and omits it from normal list results. To restore list visibility, use the
+// [unarchive endpoint](https://docs.stripe.com/api/v2/money-management/payout-methods/unarchive).
 type V2MoneyManagementPayoutMethodArchiveParams struct {
 	Params `form:"*"`
 }
 
-// Disable a PayoutMethod object. The payout method will not be available for use in outbound money movement.
-// To re-enable the payout method, create an OutboundSetupIntent
-// using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
+// Disable a `PayoutMethod`. Disabling temporarily prevents the Payout Method from being used for outbound
+// payments or transfers while keeping it in normal list results. To re-enable it, complete setup again by
+// [creating an Outbound Setup Intent](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 type V2MoneyManagementPayoutMethodDisableParams struct {
 	Params `form:"*"`
 }
 
-// Unarchive an PayoutMethod object.
+// Unarchive a `PayoutMethod`. Unarchiving restores the Payout Method to normal list results and clears
+// only its archived state. It doesn't guarantee that the Payout Method can be used.
 type V2MoneyManagementPayoutMethodUnarchiveParams struct {
 	Params `form:"*"`
 }

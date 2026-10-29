@@ -20,40 +20,18 @@ const (
 	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
 )
 
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
+// The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferNetwork string
 
-// List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
+// List of values that V2MoneyManagementReceivedCreditBankTransferNetwork can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkChaps V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "chaps"
-	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS   V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkACH            V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "ach"
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkRTP            V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "rtp"
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork = "us_domestic_wire"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork = "sepa_credit_transfer"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetworkChaps V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork = "chaps"
-	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetworkFPS   V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferNetworkACH         V2MoneyManagementReceivedCreditBankTransferNetwork = "ach"
+	V2MoneyManagementReceivedCreditBankTransferNetworkChaps       V2MoneyManagementReceivedCreditBankTransferNetwork = "chaps"
+	V2MoneyManagementReceivedCreditBankTransferNetworkFedwire     V2MoneyManagementReceivedCreditBankTransferNetwork = "fedwire"
+	V2MoneyManagementReceivedCreditBankTransferNetworkFPS         V2MoneyManagementReceivedCreditBankTransferNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferNetworkRTP         V2MoneyManagementReceivedCreditBankTransferNetwork = "rtp"
+	V2MoneyManagementReceivedCreditBankTransferNetworkSEPA        V2MoneyManagementReceivedCreditBankTransferNetwork = "sepa"
+	V2MoneyManagementReceivedCreditBankTransferNetworkSEPAInstant V2MoneyManagementReceivedCreditBankTransferNetwork = "sepa_instant"
 )
 
 // Open Enum. The type of bank transfer that originated this ReceivedCredit.
@@ -64,24 +42,6 @@ const (
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountTypeABA      V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountType = "aba"
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountTypeIBAN     V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountType = "iban"
 	V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountTypeSortCode V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountType = "sort_code"
-)
-
-// The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "sepa_credit_transfer"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkACH            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "ach"
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
 )
 
 // Open Enum. The status of the ReceivedCredit.
@@ -140,20 +100,6 @@ type V2MoneyManagementReceivedCreditBalanceTransfer struct {
 	Type V2MoneyManagementReceivedCreditBalanceTransferType `json:"type"`
 }
 
-// Deprecated. Use `originating_bank_account.sort_code` instead.
-type V2MoneyManagementReceivedCreditBankTransferGBBankAccount struct {
-	// The bank name the transfer was received from.
-	AccountHolderName string `json:"account_holder_name,omitempty"`
-	// The bank name the transfer was received from.
-	BankName string `json:"bank_name,omitempty"`
-	// The last 4 digits of the account number that originated the transfer.
-	Last4 string `json:"last4,omitempty"`
-	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork `json:"network"`
-	// The sort code of the account that originated the transfer.
-	SortCode string `json:"sort_code,omitempty"`
-}
-
 // Hash containing the transaction bank details. Present if `type` field value is `aba`.
 type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABA struct {
 	// The name of the account holder that sent the payment.
@@ -162,8 +108,6 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABA struct
 	BankName string `json:"bank_name,omitempty"`
 	// The last 4 digits of the account number that originated the transfer.
 	Last4 string `json:"last4,omitempty"`
-	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountABANetwork `json:"network"`
 	// The routing number of the account that originated the transfer.
 	RoutingNumber string `json:"routing_number,omitempty"`
 }
@@ -180,8 +124,6 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBAN struc
 	Country string `json:"country,omitempty"`
 	// The IBAN that originated the transfer.
 	IBAN string `json:"iban,omitempty"`
-	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountIBANNetwork `json:"network"`
 }
 
 // Hash containing the transaction bank details. Present if `type` field value is `sort_code`.
@@ -192,8 +134,6 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCode s
 	BankName string `json:"bank_name,omitempty"`
 	// The last 4 digits of the account number that originated the transfer.
 	Last4 string `json:"last4,omitempty"`
-	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountSortCodeNetwork `json:"network"`
 	// The sort code of the account that originated the transfer.
 	SortCode string `json:"sort_code,omitempty"`
 }
@@ -210,50 +150,16 @@ type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccount struct {
 	Type V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccountType `json:"type"`
 }
 
-// Deprecated. Use `originating_bank_account.iban` instead.
-type V2MoneyManagementReceivedCreditBankTransferSEPABankAccount struct {
-	// The account holder name of the bank account the transfer was received from.
-	AccountHolderName string `json:"account_holder_name,omitempty"`
-	// The bank name the transfer was received from.
-	BankName string `json:"bank_name,omitempty"`
-	// The BIC of the SEPA account.
-	BIC string `json:"bic,omitempty"`
-	// The origination country of the bank transfer.
-	Country string `json:"country,omitempty"`
-	// The IBAN that originated the transfer.
-	IBAN string `json:"iban,omitempty"`
-	// The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork `json:"network"`
-}
-
-// Deprecated. Use `originating_bank_account.aba` instead.
-type V2MoneyManagementReceivedCreditBankTransferUSBankAccount struct {
-	// The name of the account holder that sent the payment.
-	AccountHolderName string `json:"account_holder_name,omitempty"`
-	// The bank name the transfer was received from.
-	BankName string `json:"bank_name,omitempty"`
-	// The last 4 digits of the account number that originated the transfer.
-	Last4 string `json:"last4,omitempty"`
-	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-	Network V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork `json:"network"`
-	// The routing number of the account that originated the transfer.
-	RoutingNumber string `json:"routing_number,omitempty"`
-}
-
 // This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.
 type V2MoneyManagementReceivedCreditBankTransfer struct {
 	// Financial Address on which funds for ReceivedCredit were received.
 	FinancialAddress string `json:"financial_address"`
-	// Deprecated. Use `originating_bank_account.sort_code` instead.
-	GBBankAccount *V2MoneyManagementReceivedCreditBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
+	// The money transmission network used to send funds for this ReceivedCredit.
+	Network V2MoneyManagementReceivedCreditBankTransferNetwork `json:"network"`
 	// Hash containing the originating bank account details and type for this bank transfer.
 	OriginatingBankAccount *V2MoneyManagementReceivedCreditBankTransferOriginatingBankAccount `json:"originating_bank_account"`
-	// Deprecated. Use `originating_bank_account.iban` instead.
-	SEPABankAccount *V2MoneyManagementReceivedCreditBankTransferSEPABankAccount `json:"sepa_bank_account,omitempty"`
 	// Freeform string set by originator of the external ReceivedCredit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// Deprecated. Use `originating_bank_account.aba` instead.
-	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
@@ -292,9 +198,9 @@ type V2MoneyManagementReceivedCreditStatusTransitions struct {
 // Use ReceivedCredits API to retrieve information on when, where, and how funds are sent into your FinancialAccount.
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
-	// The amount and currency of the ReceivedCredit.
+	// The amount and currency credited to the FinancialAccount.
 	Amount Amount `json:"amount"`
-	// The amount and currency of the ReceivedCredit that was received.
+	// The amount and currency Stripe received from the external source, before any conversion or fees.
 	AmountReceived Amount `json:"amount_received"`
 	// This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer,omitempty"`

@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// InboundTransfers APIs are used to create, retrieve or list InboundTransfers.
+// Creates an InboundTransfer to pull funds from a bank account into a financial account. Per-transfer and rolling weekly limits vary by account and payment rail. See [transfer limits](https://docs.stripe.com/treasury/add-funds#transfer-limits).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -9,7 +9,7 @@ package stripe
 // Deletes the feature attachment to a product
 type ProductFeatureParams struct {
 	Params `form:"*"`
-	// The ID of the product.
+	// Unique identifier for the object.
 	Product *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
 	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature,omitempty"`
@@ -25,7 +25,8 @@ func (p *ProductFeatureParams) AddExpand(f string) {
 // Retrieve a list of features for a product
 type ProductFeatureListParams struct {
 	ListParams `form:"*"`
-	Product    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Product *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -57,7 +58,8 @@ func (p *ProductFeatureRetrieveParams) AddExpand(f string) {
 
 // Creates a product_feature, which represents a feature attachment to a product
 type ProductFeatureCreateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Product *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
 	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature"`

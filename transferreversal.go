@@ -11,7 +11,8 @@ import "encoding/json"
 // You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
 type TransferReversalListParams struct {
 	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -28,7 +29,8 @@ func (p *TransferReversalListParams) AddExpand(f string) {
 // Once entirely reversed, a transfer can't be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.
 type TransferReversalParams struct {
 	Params `form:"*"`
-	ID     *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to a reversal object. This will be unset if you POST an empty value.
@@ -75,7 +77,8 @@ func (p *TransferReversalParams) AddMetadata(key string, value string) {
 // Once entirely reversed, a transfer can't be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.
 type TransferReversalCreateParams struct {
 	Params `form:"*"`
-	ID     *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to a reversal object. This will be unset if you POST an empty value.
@@ -118,7 +121,8 @@ func (p *TransferReversalCreateParams) AddMetadata(key string, value string) {
 // By default, you can see the 10 most recent reversals stored directly on the transfer object, but you can also retrieve details about a specific reversal stored on the transfer.
 type TransferReversalRetrieveParams struct {
 	Params `form:"*"`
-	ID     *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -133,7 +137,8 @@ func (p *TransferReversalRetrieveParams) AddExpand(f string) {
 // This request only accepts metadata and description as arguments.
 type TransferReversalUpdateParams struct {
 	Params `form:"*"`
-	ID     *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

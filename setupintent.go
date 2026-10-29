@@ -200,6 +200,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
 	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
 	SetupIntentExcludedPaymentMethodTypeWeChatPay        SetupIntentExcludedPaymentMethodType = "wechat_pay"
+	SetupIntentExcludedPaymentMethodTypeWero             SetupIntentExcludedPaymentMethodType = "wero"
 	SetupIntentExcludedPaymentMethodTypeZip              SetupIntentExcludedPaymentMethodType = "zip"
 )
 
@@ -920,6 +921,14 @@ type SetupIntentPaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -928,6 +937,8 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -936,6 +947,9 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentPaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type SetupIntentPaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type SetupIntentPaymentMethodDataZipParams struct{}
@@ -1077,6 +1091,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *SetupIntentPaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -1629,7 +1645,7 @@ type SetupIntentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -2018,6 +2034,14 @@ type SetupIntentConfirmPaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentConfirmPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentConfirmPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -2026,6 +2050,8 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentConfirmPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -2034,6 +2060,9 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type SetupIntentConfirmPaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type SetupIntentConfirmPaymentMethodDataZipParams struct{}
@@ -2175,6 +2204,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *SetupIntentConfirmPaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -2213,7 +2244,7 @@ type SetupIntentConfirmParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand      []*string                     `form:"expand" json:"expand,omitempty"`
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
@@ -2623,6 +2654,14 @@ type SetupIntentCreatePaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentCreatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -2631,6 +2670,8 @@ type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentCreatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -2639,6 +2680,9 @@ type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentCreatePaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type SetupIntentCreatePaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type SetupIntentCreatePaymentMethodDataZipParams struct{}
@@ -2780,6 +2824,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	USBankAccount *SetupIntentCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentCreatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *SetupIntentCreatePaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *SetupIntentCreatePaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -3330,7 +3376,7 @@ type SetupIntentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -3718,6 +3764,14 @@ type SetupIntentUpdatePaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentUpdatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -3726,6 +3780,8 @@ type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentUpdatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -3734,6 +3790,9 @@ type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentUpdatePaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type SetupIntentUpdatePaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type SetupIntentUpdatePaymentMethodDataZipParams struct{}
@@ -3875,6 +3934,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	USBankAccount *SetupIntentUpdatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentUpdatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *SetupIntentUpdatePaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *SetupIntentUpdatePaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -4400,7 +4461,7 @@ type SetupIntentUpdateParams struct {
 	FlowDirections []*string `form:"flow_directions" json:"flow_directions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`

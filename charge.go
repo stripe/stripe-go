@@ -168,7 +168,7 @@ const (
 	ChargePaymentMethodDetailsCardSetupCredentialUsageUnscheduled ChargePaymentMethodDetailsCardSetupCredentialUsage = "unscheduled"
 )
 
-// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction.
 type ChargePaymentMethodDetailsCardStoredCredentialUsage string
 
 // List of values that ChargePaymentMethodDetailsCardStoredCredentialUsage can take
@@ -304,6 +304,7 @@ type ChargePaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that ChargePaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	ChargePaymentMethodDetailsCryptoTokenCurrencyOusd        ChargePaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyPhantomCash ChargePaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdc        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdg        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -321,6 +322,7 @@ const (
 	ChargePaymentMethodDetailsIDBankTransferBankBni     ChargePaymentMethodDetailsIDBankTransferBank = "bni"
 	ChargePaymentMethodDetailsIDBankTransferBankBri     ChargePaymentMethodDetailsIDBankTransferBank = "bri"
 	ChargePaymentMethodDetailsIDBankTransferBankCimb    ChargePaymentMethodDetailsIDBankTransferBank = "cimb"
+	ChargePaymentMethodDetailsIDBankTransferBankMandiri ChargePaymentMethodDetailsIDBankTransferBank = "mandiri"
 	ChargePaymentMethodDetailsIDBankTransferBankPermata ChargePaymentMethodDetailsIDBankTransferBank = "permata"
 )
 
@@ -566,7 +568,7 @@ type ChargeParams struct {
 	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
-	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and receipts are only sent for payments in live mode. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
@@ -2348,7 +2350,7 @@ type ChargeCaptureParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *ChargeCapturePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
+	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts are only sent for payments in live mode.
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
@@ -2433,7 +2435,7 @@ type ChargeCreateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
-	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and receipts are only sent for payments in live mode. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
@@ -3821,7 +3823,7 @@ type ChargePaymentMethodDetailsCard struct {
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// The payment_method_options.card.setup_credential_usage value that was passed when setup_future_usage was present at confirmation, one of `recurring`, `unscheduled`, or `installment`
 	SetupCredentialUsage ChargePaymentMethodDetailsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
-	// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction, one of `recurring`, `unscheduled`, `on_session`, or `installment`
+	// The payment_method_options.card.stored_credential_usage value that was passed for an off session, merchant-initiated transaction.
 	StoredCredentialUsage ChargePaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
@@ -4428,6 +4430,7 @@ type ChargePaymentMethodDetailsWeChatPay struct {
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type ChargePaymentMethodDetailsWero struct{}
 type ChargePaymentMethodDetailsZip struct{}
 
 // Details about the payment method at the time of the transaction.
@@ -4504,6 +4507,7 @@ type ChargePaymentMethodDetails struct {
 	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *ChargePaymentMethodDetailsWero          `json:"wero,omitempty"`
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 type ChargePresentmentDetails struct {

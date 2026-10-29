@@ -6,32 +6,22 @@
 
 package stripe
 
-// Lists FinancialAccounts in this compartment.
+// Returns a list of FinancialAccounts in your account that match the provided filters.
 type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Filter for FinancialAccount `status`. By default, closed FinancialAccounts are not returned.
+	// Return FinancialAccounts whose `status` matches any of the provided values.
+	// If omitted, closed FinancialAccounts are not returned.
 	Statuses []*string `form:"statuses" json:"statuses,omitempty"`
-}
-
-// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams struct {
-	// The bank where funds are stored.
-	BankName *string `form:"bank_name" json:"bank_name"`
-	// Currencies eligible for deposit insurance at this bank under this scheme.
-	Currencies []*string `form:"currencies" json:"currencies"`
-	// The deposit insurance scheme.
-	Type *string `form:"type" json:"type"`
 }
 
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
-	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
-	// The currencies that this FinancialAccount can hold.
+	// The currencies that the storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
+	// Must be a subset of the currencies requested in `configuration.storer.features.holds_currencies` of the v2/accounts API.
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
@@ -42,7 +32,8 @@ type V2MoneyManagementFinancialAccountParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Metadata associated with the FinancialAccount.
+	// Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting
+	// null to them.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorageParams `form:"storage" json:"storage,omitempty"`
@@ -59,36 +50,28 @@ func (p *V2MoneyManagementFinancialAccountParams) AddMetadata(key string, value 
 	p.Metadata[key] = value
 }
 
-// The addresses to forward any incoming transactions to.
+// Settings that specify where to send positive balances and how to cover negative balances.
+// You must provide these settings if the FinancialAccount has a non-zero balance.
 type V2MoneyManagementFinancialAccountCloseForwardingSettingsParams struct {
-	// The address to send forwarded payments to.
+	// ID of the FinancialAccount that supplies funds to cover negative balances
+	// during or after this FinancialAccount's closure.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The address to send forwarded payouts to.
+	// ID of the FinancialAccount that receives funds forwarded from this FinancialAccount when it closes.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 }
 
-// Closes a FinancialAccount with or without forwarding settings.
+// Closes a FinancialAccount. You must provide forwarding settings if it has a non-zero balance.
 type V2MoneyManagementFinancialAccountCloseParams struct {
 	Params `form:"*"`
-	// The addresses to forward any incoming transactions to.
+	// Settings that specify where to send positive balances and how to cover negative balances.
+	// You must provide these settings if the FinancialAccount has a non-zero balance.
 	ForwardingSettings *V2MoneyManagementFinancialAccountCloseForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
-}
-
-// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-type V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams struct {
-	// The bank where funds are stored.
-	BankName *string `form:"bank_name" json:"bank_name"`
-	// Currencies eligible for deposit insurance at this bank under this scheme.
-	Currencies []*string `form:"currencies" json:"currencies"`
-	// The deposit insurance scheme.
-	Type *string `form:"type" json:"type"`
 }
 
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
-	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
-	// The currencies that this FinancialAccount can hold.
+	// The currencies that the storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
+	// Must be a subset of the currencies requested in `configuration.storer.features.holds_currencies` of the v2/accounts API.
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
@@ -121,12 +104,13 @@ type V2MoneyManagementFinancialAccountRetrieveParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
-// Updates an existing FinancialAccount.
+// Updates an existing FinancialAccount using the provided parameters.
 type V2MoneyManagementFinancialAccountUpdateParams struct {
 	Params `form:"*"`
-	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name appears in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
-	// Metadata associated with the FinancialAccount.
+	// Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting
+	// null to them.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 

@@ -599,6 +599,8 @@ type IssuingCardUpdateParams struct {
 	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata              map[string]string `form:"metadata" json:"metadata,omitempty"`
 	PersonalizationDesign *string           `form:"personalization_design" json:"personalization_design,omitempty"`
@@ -689,6 +691,8 @@ type IssuingCardShipping struct {
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
 	// Additional information that may be required for clearing customs.
 	Customs *IssuingCardShippingCustoms `json:"customs"`
+	// The time the card was reported as delivered. Null for undelivered or untracked shipments, or if Stripe has not recorded a delivery time.
+	DeliveredAt int64 `json:"delivered_at,omitempty"`
 	// A unix timestamp representing a best estimate of when the card will be delivered.
 	ETA int64 `json:"eta"`
 	// Recipient name.
@@ -699,6 +703,8 @@ type IssuingCardShipping struct {
 	RequireSignature bool `json:"require_signature"`
 	// Shipment service, such as `standard` or `express`.
 	Service IssuingCardShippingService `json:"service"`
+	// The time the card was reported as shipped. Null if Stripe has not recorded a shipment time.
+	ShippedAt int64 `json:"shipped_at,omitempty"`
 	// The delivery status of the card.
 	Status IssuingCardShippingStatus `json:"status"`
 	// A tracking number for a card shipment.

@@ -98,6 +98,7 @@ const (
 	SetupAttemptPaymentMethodDetailsIDBankTransferBankBni     SetupAttemptPaymentMethodDetailsIDBankTransferBank = "bni"
 	SetupAttemptPaymentMethodDetailsIDBankTransferBankBri     SetupAttemptPaymentMethodDetailsIDBankTransferBank = "bri"
 	SetupAttemptPaymentMethodDetailsIDBankTransferBankCimb    SetupAttemptPaymentMethodDetailsIDBankTransferBank = "cimb"
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankMandiri SetupAttemptPaymentMethodDetailsIDBankTransferBank = "mandiri"
 	SetupAttemptPaymentMethodDetailsIDBankTransferBankPermata SetupAttemptPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 

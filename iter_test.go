@@ -25,6 +25,14 @@ func TestIterEmptyErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestIterEmptyWithHasMore(t *testing.T) {
+	tq := testQuery{{nil, &ListMeta{HasMore: true}, nil}}
+	g, gerr := collect(GetIter(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
+}
+
 func TestIterOne(t *testing.T) {
 	tq := testQuery{{[]interface{}{1}, &ListMeta{}, nil}}
 	want := []interface{}{1}
@@ -65,6 +73,18 @@ func TestIterPage2EmptyErr(t *testing.T) {
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
+}
+
+func TestIterPage2EmptyWithHasMore(t *testing.T) {
+	tq := testQuery{
+		{[]interface{}{&item{"x"}}, &ListMeta{HasMore: true}, nil},
+		{nil, &ListMeta{HasMore: true}, nil},
+	}
+	want := []interface{}{&item{"x"}}
+	g, gerr := collect(GetIter(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
 }
 
 func TestIterTwoPages(t *testing.T) {
@@ -160,6 +180,14 @@ func TestV1ListEmptyErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestV1ListEmptyWithHasMore(t *testing.T) {
+	tq := testV1Query[*item]{{v: &v1Page[*item]{ListMeta: ListMeta{HasMore: true}}, e: nil}}
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
+}
+
 func TestV1ListOne(t *testing.T) {
 	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
 	want := []*item{{"1"}}
@@ -188,6 +216,18 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListPage2EmptyWithHasMore(t *testing.T) {
+	tq := testV1Query[*item]{
+		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{ListMeta: ListMeta{HasMore: true}}, e: nil},
+	}
+	want := []*item{{"x"}}
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.ErrorIs(t, gerr, errEmptyPageWithHasMore)
 }
 
 func TestV1ListTwoPages(t *testing.T) {
@@ -305,6 +345,87 @@ func TestV2ListTwoPagesErr(t *testing.T) {
 	assert.Equal(t, errTest, gerr)
 }
 
+func TestV2SearchReplaysOriginalParams(t *testing.T) {
+	params := &testV2SearchParams{
+		SearchParams: SearchParams{
+			Query: "status:'active'",
+			Limit: Int64(2),
+		},
+		Sort:    "-created",
+		URLOnly: String("acct_123"),
+	}
+	var paths []string
+	var seen []ParamsContainer
+	var bodies []string
+	pages := []*V2SearchPage[*item]{
+		{Data: []*item{{"x"}}, TotalCount: 2, V2ListMeta: V2ListMeta{NextPageURL: "/test?limit=2&page=2"}},
+		{Data: []*item{{"y"}}, TotalCount: 2},
+	}
+	fetch := func(_ context.Context, path string, p ParamsContainer) (*V2SearchPage[*item], error) {
+		paths = append(paths, path)
+		seen = append(seen, p)
+		body, err := marshalV2JSON(p)
+		assert.NoError(t, err)
+		bodies = append(bodies, string(body))
+		page := pages[0]
+		pages = pages[1:]
+		return page, nil
+	}
+	list := newV2SearchList(context.Background(), "/test", params, fetch)
+	params.Query = "changed"
+	params.Sort = "changed"
+	*params.Limit = 10
+	got, err := collectV2SearchList(list)
+	assert.NoError(t, err)
+	assert.Equal(t, []*item{{"x"}, {"y"}}, got)
+	assert.Equal(t, []string{"/test?limit=2", "/test?limit=2&page=2"}, paths)
+	assert.NotSame(t, params, seen[0])
+	assert.NotSame(t, seen[0], seen[1])
+	for i, p := range seen {
+		assert.Nil(t, p.(*testV2SearchParams).Limit)
+		assert.Equal(t, "acct_123", *p.(*testV2SearchParams).URLOnly)
+		assert.JSONEq(t, `{"query":"status:'active'","sort":"-created"}`, bodies[i])
+	}
+	assert.Equal(t, int64(2), list.TotalCount())
+}
+
+type testV2SearchParams struct {
+	SearchParams
+	Sort    string  `json:"sort"`
+	URLOnly *string `json:"-"`
+}
+
+func TestV2SearchNilPageError(t *testing.T) {
+	for _, afterFirstPage := range []bool{false, true} {
+		t.Run(map[bool]string{false: "initial", true: "later"}[afterFirstPage], func(t *testing.T) {
+			calls := 0
+			fetch := func(_ context.Context, _ string, _ ParamsContainer) (*V2SearchPage[*item], error) {
+				calls++
+				if afterFirstPage && calls == 1 {
+					return &V2SearchPage[*item]{Data: []*item{{"x"}}, V2ListMeta: V2ListMeta{NextPageURL: "/test?page=2"}}, nil
+				}
+				return nil, errTest
+			}
+			list := newV2SearchList(context.Background(), "/test", &testV2SearchParams{SearchParams: SearchParams{Query: "q"}, Sort: "s"}, fetch)
+			got, err := collectV2SearchList(list)
+			assert.ErrorIs(t, err, errTest)
+			if afterFirstPage {
+				assert.Equal(t, []*item{{"x"}}, got)
+			} else {
+				assert.Empty(t, got)
+			}
+			assert.Empty(t, list.Data())
+		})
+	}
+}
+
+func TestV2SearchNilPageWithoutError(t *testing.T) {
+	list := newV2SearchList(context.Background(), "/test", &testV2SearchParams{SearchParams: SearchParams{Query: "q"}, Sort: "s"},
+		func(context.Context, string, ParamsContainer) (*V2SearchPage[*item], error) { return nil, nil })
+	_, err := collectV2SearchList(list)
+	assert.EqualError(t, err, "invalid v2 search response: nil page")
+}
+
 //
 // ---
 //
@@ -352,6 +473,20 @@ func (tq *testV2Query[T]) query(context.Context, string, ParamsContainer) (*V2Pa
 }
 
 func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
+	var tt []T
+	var err error
+	it.All(context.TODO())(func(t T, e error) bool {
+		if e != nil {
+			err = e
+			return false
+		}
+		tt = append(tt, t)
+		return true
+	})
+	return tt, err
+}
+
+func collectV2SearchList[T any](it *V2SearchList[T]) ([]T, error) {
 	var tt []T
 	var err error
 	it.All(context.TODO())(func(t T, e error) bool {

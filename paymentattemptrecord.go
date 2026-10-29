@@ -285,6 +285,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyOusd        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -378,6 +379,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBni     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bni"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBri     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bri"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankCimb    PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "cimb"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankMandiri PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "mandiri"
 	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 
@@ -1588,6 +1590,7 @@ type PaymentAttemptRecordPaymentMethodDetailsWeChatPay struct {
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsWero struct{}
 type PaymentAttemptRecordPaymentMethodDetailsZip struct{}
 
 // Information about the Payment Method debited for this payment.
@@ -1674,6 +1677,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	USBankAccount *PaymentAttemptRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChat        *PaymentAttemptRecordPaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
 	WeChatPay     *PaymentAttemptRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *PaymentAttemptRecordPaymentMethodDetailsWero          `json:"wero,omitempty"`
 	Zip           *PaymentAttemptRecordPaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 

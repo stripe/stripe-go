@@ -29,6 +29,31 @@ func (c v2MoneyManagementTransactionService) Retrieve(ctx context.Context, id st
 	return transaction, err
 }
 
+// Updates an existing Transaction. You can update its description and metadata.
+func (c v2MoneyManagementTransactionService) Update(ctx context.Context, id string, params *V2MoneyManagementTransactionUpdateParams) (*V2MoneyManagementTransaction, error) {
+	if params == nil {
+		params = &V2MoneyManagementTransactionUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/transactions/%s", id)
+	transaction := &V2MoneyManagementTransaction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	return transaction, err
+}
+
+// Creates a fresh hosted URL for a Transaction's regulatory receipt.
+func (c v2MoneyManagementTransactionService) RefreshRegulatoryReceipt(ctx context.Context, id string, params *V2MoneyManagementTransactionRefreshRegulatoryReceiptParams) (*V2MoneyManagementTransaction, error) {
+	if params == nil {
+		params = &V2MoneyManagementTransactionRefreshRegulatoryReceiptParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/money_management/transactions/%s/refresh_regulatory_receipt", id)
+	transaction := &V2MoneyManagementTransaction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	return transaction, err
+}
+
 // Returns a list of Transactions that match the provided filters.
 func (c v2MoneyManagementTransactionService) List(ctx context.Context, listParams *V2MoneyManagementTransactionListParams) *V2List[*V2MoneyManagementTransaction] {
 	if listParams == nil {

@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Closed Enum for now, and will be turned into an Open Enum soon. A descriptive category used to classify the Transaction.
+// Open Enum. The category of this TransactionEntry's parent Transaction.
 type V2MoneyManagementTransactionEntryTransactionDetailsCategory string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsCategory can take
@@ -29,14 +29,14 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFeeTax             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee_tax"
 )
 
-// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
+// Open Enum. The type of flow that created the Transaction. When available, the flow's ID is provided in the corresponding field.
 type V2MoneyManagementTransactionEntryTransactionDetailsFlowType string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsFlowType can take
 const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeBatch           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_batch"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
@@ -44,24 +44,29 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
 )
 
-// The delta to the FinancialAccount's balance.
+// The change to the FinancialAccount's balance that takes effect at this TransactionEntry's `effective_at` timestamp.
 type V2MoneyManagementTransactionEntryBalanceImpact struct {
-	// Impact to the available balance.
+	// The change to the available balance.
 	Available Amount `json:"available"`
-	// Impact to the inbound_pending balance.
+	// The change to the `inbound_pending` balance.
 	InboundPending Amount `json:"inbound_pending"`
-	// Impact to the outbound_pending balance.
+	// The change to the `outbound_pending` balance.
 	OutboundPending Amount `json:"outbound_pending"`
 }
 
-// Details about the Flow object that created the Transaction.
+// Details about the flow object that created the Transaction this entry belongs to, such as an
+// InboundTransfer or OutboundPayment. `transaction_details.flow.type` identifies the kind of object.
+// The corresponding field contains its ID, when available: for an InboundTransfer,
+// `transaction_details.flow.inbound_transfer` contains the InboundTransfer's ID. To list entries for
+// the parent Transaction, pass the TransactionEntry's `transaction` ID to the `transaction` parameter
+// on List Transaction Entries.
 type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	// If applicable, the ID of the Adjustment that created this Transaction.
 	Adjustment string `json:"adjustment,omitempty"`
-	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
+	// When available, the ID of the CurrencyConversion that created this Transaction.
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
-	// If applicable, the ID of the FeeTransaction that created this Transaction.
-	FeeTransaction string `json:"fee_transaction,omitempty"`
+	// If applicable, the ID of the FeeBatch that created this Transaction.
+	FeeBatch string `json:"fee_batch,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.
@@ -72,28 +77,33 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	ReceivedCredit string `json:"received_credit,omitempty"`
 	// If applicable, the ID of the ReceivedDebit that created this Transaction.
 	ReceivedDebit string `json:"received_debit,omitempty"`
-	// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
+	// Open Enum. The type of flow that created the Transaction. When available, the flow's ID is provided in the corresponding field.
 	Type V2MoneyManagementTransactionEntryTransactionDetailsFlowType `json:"type"`
 }
 
-// Details copied from the transaction that this TransactionEntry belongs to.
+// Details copied from the Transaction that this TransactionEntry belongs to.
 type V2MoneyManagementTransactionEntryTransactionDetails struct {
-	// Closed Enum for now, and will be turned into an Open Enum soon. A descriptive category used to classify the Transaction.
+	// Open Enum. The category of this TransactionEntry's parent Transaction.
 	Category V2MoneyManagementTransactionEntryTransactionDetailsCategory `json:"category"`
-	// Indicates the FinancialAccount affected by this Transaction.
+	// The ID of the FinancialAccount affected by this Transaction.
 	FinancialAccount string `json:"financial_account"`
-	// Details about the Flow object that created the Transaction.
+	// Details about the flow object that created the Transaction this entry belongs to, such as an
+	// InboundTransfer or OutboundPayment. `transaction_details.flow.type` identifies the kind of object.
+	// The corresponding field contains its ID, when available: for an InboundTransfer,
+	// `transaction_details.flow.inbound_transfer` contains the InboundTransfer's ID. To list entries for
+	// the parent Transaction, pass the TransactionEntry's `transaction` ID to the `transaction` parameter
+	// on List Transaction Entries.
 	Flow *V2MoneyManagementTransactionEntryTransactionDetailsFlow `json:"flow,omitempty"`
 }
 
-// TransactionEntries represent individual money movements across different states within a Transaction.
+// TransactionEntries model funds moving between availability states for a given Transaction.
 type V2MoneyManagementTransactionEntry struct {
 	APIResource
-	// The delta to the FinancialAccount's balance.
+	// The change to the FinancialAccount's balance that takes effect at this TransactionEntry's `effective_at` timestamp.
 	BalanceImpact *V2MoneyManagementTransactionEntryBalanceImpact `json:"balance_impact"`
-	// Time at which the object was created.
+	// Time at which the object was created. Represented as an RFC 3339 timestamp in UTC with millisecond precision, for example `2022-09-18T13:22:18.123Z`.
 	Created time.Time `json:"created"`
-	// Time at which the entry impacted (or will impact if it's in the future) the FinancialAccount balance.
+	// Time at which the TransactionEntry affects the FinancialAccount balance. This can be in the past or future.
 	EffectiveAt time.Time `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -101,8 +111,8 @@ type V2MoneyManagementTransactionEntry struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The Transaction that this TransactionEntry belongs to.
+	// The ID of the Transaction that this TransactionEntry belongs to.
 	Transaction string `json:"transaction"`
-	// Details copied from the transaction that this TransactionEntry belongs to.
+	// Details copied from the Transaction that this TransactionEntry belongs to.
 	TransactionDetails *V2MoneyManagementTransactionEntryTransactionDetails `json:"transaction_details"`
 }

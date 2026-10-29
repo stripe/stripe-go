@@ -41,7 +41,7 @@ func (c v2MoneyManagementFinancialAccountService) Retrieve(ctx context.Context, 
 	return financialaccount, err
 }
 
-// Updates an existing FinancialAccount.
+// Updates an existing FinancialAccount using the provided parameters.
 func (c v2MoneyManagementFinancialAccountService) Update(ctx context.Context, id string, params *V2MoneyManagementFinancialAccountUpdateParams) (*V2MoneyManagementFinancialAccount, error) {
 	if params == nil {
 		params = &V2MoneyManagementFinancialAccountUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2MoneyManagementFinancialAccountService) Update(ctx context.Context, id
 	return financialaccount, err
 }
 
-// Closes a FinancialAccount with or without forwarding settings.
+// Closes a FinancialAccount. You must provide forwarding settings if it has a non-zero balance.
 func (c v2MoneyManagementFinancialAccountService) Close(ctx context.Context, id string, params *V2MoneyManagementFinancialAccountCloseParams) (*V2MoneyManagementFinancialAccount, error) {
 	if params == nil {
 		params = &V2MoneyManagementFinancialAccountCloseParams{}
@@ -65,7 +65,7 @@ func (c v2MoneyManagementFinancialAccountService) Close(ctx context.Context, id 
 	return financialaccount, err
 }
 
-// Lists FinancialAccounts in this compartment.
+// Returns a list of FinancialAccounts in your account that match the provided filters.
 func (c v2MoneyManagementFinancialAccountService) List(ctx context.Context, listParams *V2MoneyManagementFinancialAccountListParams) *V2List[*V2MoneyManagementFinancialAccount] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementFinancialAccountListParams{}

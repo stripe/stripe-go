@@ -215,6 +215,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBni     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bni"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBri     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bri"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankCimb    ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "cimb"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankMandiri ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "mandiri"
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankPermata ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "permata"
 )
 
@@ -425,6 +426,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeWero             ConfirmationTokenPaymentMethodPreviewType = "wero"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
 )
 
@@ -1158,6 +1160,7 @@ type ConfirmationTokenPaymentMethodPreviewUSBankAccount struct {
 	StatusDetails *ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetails `json:"status_details"`
 }
 type ConfirmationTokenPaymentMethodPreviewWeChatPay struct{}
+type ConfirmationTokenPaymentMethodPreviewWero struct{}
 type ConfirmationTokenPaymentMethodPreviewZip struct{}
 
 // Payment details collected by the Payment Element, used to create a PaymentMethod when a PaymentIntent or SetupIntent is confirmed with this ConfirmationToken.
@@ -1233,6 +1236,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Upi           *ConfirmationTokenPaymentMethodPreviewUpi           `json:"upi,omitempty"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *ConfirmationTokenPaymentMethodPreviewWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *ConfirmationTokenPaymentMethodPreviewWero          `json:"wero,omitempty"`
 	Zip           *ConfirmationTokenPaymentMethodPreviewZip           `json:"zip,omitempty"`
 }
 

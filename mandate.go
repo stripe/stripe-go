@@ -219,7 +219,8 @@ type MandateListParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Stripe account ID that the mandates are intended for. Learn more about the [use case for connected accounts payments](https://docs.stripe.com/payments/connected-accounts).
-	OnBehalfOf    *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+	// The ID of the payment method whose mandates you want to retrieve.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 	// The status of the mandates to retrieve. Status indicates whether or not you can use it to initiate a payment, and can have a value of `active`, `pending`, or `inactive`.
 	Status *string `form:"status" json:"status"`

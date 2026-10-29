@@ -213,6 +213,7 @@ const (
 	PaymentMethodIDBankTransferBankBni     PaymentMethodIDBankTransferBank = "bni"
 	PaymentMethodIDBankTransferBankBri     PaymentMethodIDBankTransferBank = "bri"
 	PaymentMethodIDBankTransferBankCimb    PaymentMethodIDBankTransferBank = "cimb"
+	PaymentMethodIDBankTransferBankMandiri PaymentMethodIDBankTransferBank = "mandiri"
 	PaymentMethodIDBankTransferBankPermata PaymentMethodIDBankTransferBank = "permata"
 )
 
@@ -345,6 +346,7 @@ const (
 	PaymentMethodTypeUpi              PaymentMethodType = "upi"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
+	PaymentMethodTypeWero             PaymentMethodType = "wero"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
 )
 
@@ -791,6 +793,14 @@ type PaymentMethodUpiParams struct {
 	MandateOptions *PaymentMethodUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type PaymentMethodUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -799,6 +809,8 @@ type PaymentMethodUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *PaymentMethodUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -807,6 +819,9 @@ type PaymentMethodUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type PaymentMethodWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type PaymentMethodZipParams struct{}
@@ -954,6 +969,8 @@ type PaymentMethodParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *PaymentMethodWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip         *PaymentMethodZipParams         `form:"zip" json:"zip,omitempty"`
 	UnsetFields []PaymentMethodParamsUnsetField `form:"-" json:"-"`
@@ -1380,6 +1397,14 @@ type PaymentMethodCreateUpiParams struct {
 	MandateOptions *PaymentMethodCreateUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type PaymentMethodCreateUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodCreateUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -1388,6 +1413,8 @@ type PaymentMethodCreateUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *PaymentMethodCreateUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -1396,6 +1423,9 @@ type PaymentMethodCreateUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodCreateWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type PaymentMethodCreateWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type PaymentMethodCreateZipParams struct{}
@@ -1547,6 +1577,8 @@ type PaymentMethodCreateParams struct {
 	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodCreateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *PaymentMethodCreateWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentMethodCreateZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -2304,6 +2336,7 @@ type PaymentMethodUSBankAccount struct {
 	StatusDetails *PaymentMethodUSBankAccountStatusDetails `json:"status_details"`
 }
 type PaymentMethodWeChatPay struct{}
+type PaymentMethodWero struct{}
 type PaymentMethodZip struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
@@ -2403,6 +2436,7 @@ type PaymentMethod struct {
 	Upi           *PaymentMethodUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *PaymentMethodWero          `json:"wero,omitempty"`
 	Zip           *PaymentMethodZip           `json:"zip,omitempty"`
 }
 

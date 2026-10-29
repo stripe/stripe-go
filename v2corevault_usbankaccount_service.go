@@ -93,6 +93,18 @@ func (c v2CoreVaultUSBankAccountService) SendMicrodeposits(ctx context.Context, 
 	return usbankaccount, err
 }
 
+// Unarchive a USBankAccount object.
+func (c v2CoreVaultUSBankAccountService) Unarchive(ctx context.Context, id string, params *V2CoreVaultUSBankAccountUnarchiveParams) (*V2CoreVaultUSBankAccount, error) {
+	if params == nil {
+		params = &V2CoreVaultUSBankAccountUnarchiveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/vault/us_bank_accounts/%s/unarchive", id)
+	usbankaccount := &V2CoreVaultUSBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, usbankaccount)
+	return usbankaccount, err
+}
+
 // List USBankAccount objects. Optionally filter by verification status.
 func (c v2CoreVaultUSBankAccountService) List(ctx context.Context, listParams *V2CoreVaultUSBankAccountListParams) *V2List[*V2CoreVaultUSBankAccount] {
 	if listParams == nil {

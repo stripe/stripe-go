@@ -107,7 +107,7 @@ type V2MoneyManagementReceivedDebitStatusTransitions struct {
 	SucceededAt time.Time `json:"succeeded_at,omitempty"`
 }
 
-// ReceivedDebit resource
+// Use ReceivedDebits API to retrieve information on when, where, and how funds are debited from your FinancialAccount.
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.

@@ -146,6 +146,14 @@ func (p *TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// An external token used to create a payment method.
+type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // Required hash if type is set to `us_bank_account`.
 type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -154,6 +162,8 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams stru
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -301,6 +311,14 @@ func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetails
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// An external token used to create a payment method.
+type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // Required hash if type is set to `us_bank_account`.
 type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -309,6 +327,8 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountParam
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -515,6 +535,8 @@ type TreasuryOutboundPaymentTrackingDetails struct {
 	USDomesticWire *TreasuryOutboundPaymentTrackingDetailsUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
+// Legacy OutboundPayments are part of the v1 version of Treasury for platforms and do not support many of the features introduced in [Treasury for platforms v2](https://docs.stripe.com/treasury/connect). Use [Outbound Payments](https://docs.stripe.com/api/v2/money-management/outbound-payments) instead of building a new v1 integration.
+//
 // Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://docs.stripe.com/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://docs.stripe.com/api#outbound_transfers).
 //
 // Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
