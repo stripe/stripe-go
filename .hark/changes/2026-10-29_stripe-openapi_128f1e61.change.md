@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2479
 semver_level: minor
 is_stripe_api_change: true
+released_in_version: 87.1.0
 ---
 
 * Add support for new resources `V2CoreVaultGBBankAccount`, `V2CoreVaultUSBankAccount`, `V2MoneyManagementAdjustment`, `V2MoneyManagementFinancialAccount`, `V2MoneyManagementFinancialAddressCreditSimulation`, `V2MoneyManagementFinancialAddress`, `V2MoneyManagementInboundTransfer`, `V2MoneyManagementOutboundPayment`, `V2MoneyManagementOutboundSetupIntent`, `V2MoneyManagementPayoutIntent`, `V2MoneyManagementPayoutMethod`, `V2MoneyManagementPayoutMethodsBankAccountSpec`, `V2MoneyManagementReceivedCredit`, `V2MoneyManagementRecipientVerification`, `V2MoneyManagementTransactionEntry`, and `V2MoneyManagementTransaction`
