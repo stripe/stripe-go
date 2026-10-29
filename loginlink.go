@@ -10,7 +10,8 @@ package stripe
 //
 // You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 type LoginLinkParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -25,7 +26,8 @@ func (p *LoginLinkParams) AddExpand(f string) {
 //
 // You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 type LoginLinkCreateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`

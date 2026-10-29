@@ -473,7 +473,8 @@ func (p *QuoteParams) AddMetadata(key string, value string) {
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
-	Quote      *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Quote *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -486,7 +487,8 @@ func (p *QuoteListComputedUpfrontLineItemsParams) AddExpand(f string) {
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuoteListLineItemsParams struct {
 	ListParams `form:"*"`
-	Quote      *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Quote *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

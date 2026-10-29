@@ -143,7 +143,7 @@ type V2CoreEventDestination struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// For snapshot events only, the Stripe API version used to render event objects. Thin events are not pinned to an API version.
+	// For snapshot events only, the Stripe API version used to render event objects. You can't change this value after you create the event destination. Thin events are not pinned to an API version.
 	SnapshotAPIVersion string `json:"snapshot_api_version,omitempty"`
 	// Whether Stripe currently attempts delivery. Stripe attempts delivery to enabled destinations when their provider configuration is active; disabled destinations do not receive delivery attempts.
 	Status V2CoreEventDestinationStatus `json:"status"`

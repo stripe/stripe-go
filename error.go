@@ -6,6 +6,60 @@ import (
 )
 
 // errorEnums: The beginning of the section generated from our OpenAPI spec
+type InvalidPaymentMethodInvalidParam string
+
+// List of values that InvalidPaymentMethodInvalidParam can take
+const (
+	InvalidPaymentMethodInvalidParamAccountNumber        InvalidPaymentMethodInvalidParam = "account_number"
+	InvalidPaymentMethodInvalidParamCurrency             InvalidPaymentMethodInvalidParam = "currency"
+	InvalidPaymentMethodInvalidParamFedwireRoutingNumber InvalidPaymentMethodInvalidParam = "fedwire_routing_number"
+	InvalidPaymentMethodInvalidParamRoutingNumber        InvalidPaymentMethodInvalidParam = "routing_number"
+)
+
+// Closed Enum. The field that already exists on the resource.
+type InvalidVaultedCredentialInvalidParam string
+
+// List of values that InvalidVaultedCredentialInvalidParam can take
+const (
+	InvalidVaultedCredentialInvalidParamAccountNumber InvalidVaultedCredentialInvalidParam = "account_number"
+	InvalidVaultedCredentialInvalidParamCurrency      InvalidVaultedCredentialInvalidParam = "currency"
+	InvalidVaultedCredentialInvalidParamIBAN          InvalidVaultedCredentialInvalidParam = "iban"
+	InvalidVaultedCredentialInvalidParamSortCode      InvalidVaultedCredentialInvalidParam = "sort_code"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationAttemptFailedVerificationStatus string
+
+// List of values that VerificationAttemptFailedVerificationStatus can take
+const (
+	VerificationAttemptFailedVerificationStatusAwaitingVerification VerificationAttemptFailedVerificationStatus = "awaiting_verification"
+	VerificationAttemptFailedVerificationStatusUnverified           VerificationAttemptFailedVerificationStatus = "unverified"
+	VerificationAttemptFailedVerificationStatusVerificationFailed   VerificationAttemptFailedVerificationStatus = "verification_failed"
+	VerificationAttemptFailedVerificationStatusVerified             VerificationAttemptFailedVerificationStatus = "verified"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationExpiredVerificationStatus string
+
+// List of values that VerificationExpiredVerificationStatus can take
+const (
+	VerificationExpiredVerificationStatusAwaitingVerification VerificationExpiredVerificationStatus = "awaiting_verification"
+	VerificationExpiredVerificationStatusUnverified           VerificationExpiredVerificationStatus = "unverified"
+	VerificationExpiredVerificationStatusVerificationFailed   VerificationExpiredVerificationStatus = "verification_failed"
+	VerificationExpiredVerificationStatusVerified             VerificationExpiredVerificationStatus = "verified"
+)
+
+// Closed Enum. The verification status of the bank account associated with this error.
+type VerificationNotInitiatedVerificationStatus string
+
+// List of values that VerificationNotInitiatedVerificationStatus can take
+const (
+	VerificationNotInitiatedVerificationStatusAwaitingVerification VerificationNotInitiatedVerificationStatus = "awaiting_verification"
+	VerificationNotInitiatedVerificationStatusUnverified           VerificationNotInitiatedVerificationStatus = "unverified"
+	VerificationNotInitiatedVerificationStatusVerificationFailed   VerificationNotInitiatedVerificationStatus = "verification_failed"
+	VerificationNotInitiatedVerificationStatusVerified             VerificationNotInitiatedVerificationStatus = "verified"
+)
+
 // errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
@@ -20,8 +74,26 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 
 	// V2 error types
-	ErrorTypeRateLimit               ErrorType = "rate_limit"
-	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
+	ErrorTypeAlreadyCanceled               ErrorType = "already_canceled"
+	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
+	ErrorTypeCannotProceed                 ErrorType = "cannot_proceed"
+	ErrorTypeCapabilityNotEnabled          ErrorType = "capability_not_enabled"
+	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
+	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
+	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
+	ErrorTypeFxQuoteNeedsRefresh           ErrorType = "fx_quote_needs_refresh"
+	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
+	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
+	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
+	ErrorTypeInvalidVaultedCredential      ErrorType = "invalid_vaulted_credential"
+	ErrorTypeNotCancelable                 ErrorType = "not_cancelable"
+	ErrorTypeQuotaExceeded                 ErrorType = "quota_exceeded"
+	ErrorTypeRateLimit                     ErrorType = "rate_limit"
+	ErrorTypeRecipientNotNotifiable        ErrorType = "recipient_not_notifiable"
+	ErrorTypeTemporarySessionExpired       ErrorType = "temporary_session_expired"
+	ErrorTypeVerificationAttemptFailed     ErrorType = "verification_attempt_failed"
+	ErrorTypeVerificationExpired           ErrorType = "verification_expired"
+	ErrorTypeVerificationNotInitiated      ErrorType = "verification_not_initiated"
 )
 
 // errorTypes: The end of the section generated from our OpenAPI spec
@@ -218,11 +290,13 @@ const (
 	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
 	ErrorCodeSiretInvalid                                                ErrorCode = "siret_invalid"
+	ErrorCodeSmartDisputesNotAvailable                                   ErrorCode = "smart_disputes_not_available"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"
 	ErrorCodeStorerCapabilityMissing                                     ErrorCode = "storer_capability_missing"
 	ErrorCodeStorerCapabilityNotActive                                   ErrorCode = "storer_capability_not_active"
 	ErrorCodeStripeTaxInactive                                           ErrorCode = "stripe_tax_inactive"
+	ErrorCodeSubscriptionUpdateTrialAfterBillingCycleAnchor              ErrorCode = "subscription_update_trial_after_billing_cycle_anchor"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
 	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"
 	ErrorCodeTaxIDProhibited                                             ErrorCode = "tax_id_prohibited"
@@ -235,6 +309,8 @@ const (
 	ErrorCodeTerminalReaderOffline                                       ErrorCode = "terminal_reader_offline"
 	ErrorCodeTerminalReaderTimeout                                       ErrorCode = "terminal_reader_timeout"
 	ErrorCodeTestmodeChargesOnly                                         ErrorCode = "testmode_charges_only"
+	ErrorCodeThreeDSecureAuthenticationNotSupported                      ErrorCode = "three_d_secure_authentication_not_supported"
+	ErrorCodeThreeDSecureAuthenticationUpstreamError                     ErrorCode = "three_d_secure_authentication_upstream_error"
 	ErrorCodeTokenAlreadyUsed                                            ErrorCode = "token_already_used"
 	ErrorCodeTokenCardNetworkInvalid                                     ErrorCode = "token_card_network_invalid"
 	ErrorCodeTokenInUse                                                  ErrorCode = "token_in_use"
@@ -465,6 +541,392 @@ func (e *IdempotencyError) Error() string {
 
 // errorStructs: The beginning of the section generated from our OpenAPI spec
 
+// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled".
+// Error returned when user tries to cancel an OutboundPayment that was already canceled.
+type AlreadyCanceledError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *AlreadyCanceledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *AlreadyCanceledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *AlreadyCanceledError) canRetry() bool {
+	return false
+}
+
+// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe".
+// Returned in cases where the bank account cannot be used due to suspicious activity.
+type BlockedByStripeError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *BlockedByStripeError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *BlockedByStripeError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *BlockedByStripeError) canRetry() bool {
+	return false
+}
+
+// CannotProceedError is the Go struct corresponding to the error type "cannot_proceed".
+// Returned when the GB Bank Account object is set as default_for_currency and cannot be archived.
+type CannotProceedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Reason      string    `json:"reason"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *CannotProceedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *CannotProceedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *CannotProceedError) canRetry() bool {
+	return false
+}
+
+// CapabilityNotEnabledError is the Go struct corresponding to the error type "capability_not_enabled".
+// The user attempts to create an outbound flow from a closed Financial Account.
+type CapabilityNotEnabledError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *CapabilityNotEnabledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *CapabilityNotEnabledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *CapabilityNotEnabledError) canRetry() bool {
+	return false
+}
+
+// ControlledByAlternateResourceError is the Go struct corresponding to the error type "controlled_by_alternate_resource".
+// Returned when the GB Bank Account is controlled by an alternate resource and cannot be archived.
+type ControlledByAlternateResourceError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *ControlledByAlternateResourceError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *ControlledByAlternateResourceError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *ControlledByAlternateResourceError) canRetry() bool {
+	return false
+}
+
+// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled".
+// Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
+type FeatureNotEnabledError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FeatureNotEnabledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FeatureNotEnabledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FeatureNotEnabledError) canRetry() bool {
+	return false
+}
+
+// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open".
+type FinancialAccountNotOpenError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FinancialAccountNotOpenError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FinancialAccountNotOpenError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FinancialAccountNotOpenError) canRetry() bool {
+	return false
+}
+
+// FxQuoteNeedsRefreshError is the Go struct corresponding to the error type "fx_quote_needs_refresh".
+// Error returned when the FX quote rate lock for a PayoutIntent has expired.
+type FxQuoteNeedsRefreshError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FxQuoteNeedsRefreshError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FxQuoteNeedsRefreshError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FxQuoteNeedsRefreshError) canRetry() bool {
+	return false
+}
+
+// InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds".
+// Error returned when the balance of provided financial account and balance type in the OutboundPayment/OutboundTransfer request does not have enough funds.
+type InsufficientFundsError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InsufficientFundsError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InsufficientFundsError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InsufficientFundsError) canRetry() bool {
+	return false
+}
+
+// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method".
+// Returned in cases where the bank account provided is not valid (wrong format of account number
+// or a routing number that does not correspond to a banking institution).
+type InvalidPaymentMethodError struct {
+	APIResource
+	Code         string                           `json:"code"`
+	DocURL       *string                          `json:"doc_url,omitempty"`
+	InvalidParam InvalidPaymentMethodInvalidParam `json:"invalid_param"`
+	Message      string                           `json:"message"`
+	Type         ErrorType                        `json:"type"`
+	UserMessage  *string                          `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidPaymentMethodError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidPaymentMethodError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidPaymentMethodError) canRetry() bool {
+	return false
+}
+
+// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method".
+// Returned in cases where the ID provided doesn't correspond to a valid payout method.
+type InvalidPayoutMethodError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidPayoutMethodError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidPayoutMethodError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidPayoutMethodError) canRetry() bool {
+	return false
+}
+
+// InvalidVaultedCredentialError is the Go struct corresponding to the error type "invalid_vaulted_credential".
+// Returned in cases where the bank account provided is not valid (wrong format of account number
+// or a routing number that does not correspond to a banking institution).
+type InvalidVaultedCredentialError struct {
+	APIResource
+	Code   string  `json:"code"`
+	DocURL *string `json:"doc_url,omitempty"`
+	// Closed Enum. The field that already exists on the resource.
+	InvalidParam InvalidVaultedCredentialInvalidParam `json:"invalid_param"`
+	Message      string                               `json:"message"`
+	Type         ErrorType                            `json:"type"`
+	UserMessage  *string                              `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidVaultedCredentialError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidVaultedCredentialError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidVaultedCredentialError) canRetry() bool {
+	return false
+}
+
+// NotCancelableError is the Go struct corresponding to the error type "not_cancelable".
+// Error returned when user tries to cancel an OutboundPayment that is not cancelable.
+type NotCancelableError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *NotCancelableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *NotCancelableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *NotCancelableError) canRetry() bool {
+	return false
+}
+
+// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded".
+// Returned when the number of GBBankAccount objects on a given V2 Account has exceeded the limit of 10.
+// GBBankAccount objects may be archived with /archive, at which point they will not count against the limit.
+// If you are not passing a V2 Account ID in the Stripe-Context header you may receive this error since
+// you are creating all your GBBankAccount objects in your own workspace.
+type QuotaExceededError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *QuotaExceededError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *QuotaExceededError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *QuotaExceededError) canRetry() bool {
+	return false
+}
+
 // RateLimitError is the Go struct corresponding to the error type "rate_limit".
 // Account cannot exceed a configured concurrency rate limit on updates.
 type RateLimitError struct {
@@ -492,6 +954,33 @@ func (e *RateLimitError) canRetry() bool {
 	return false
 }
 
+// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable".
+// Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
+type RecipientNotNotifiableError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *RecipientNotNotifiableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *RecipientNotNotifiableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *RecipientNotNotifiableError) canRetry() bool {
+	return false
+}
+
 // TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired".
 // The temporary session token has expired.
 type TemporarySessionExpiredError struct {
@@ -516,6 +1005,94 @@ func (e *TemporarySessionExpiredError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *TemporarySessionExpiredError) canRetry() bool {
+	return false
+}
+
+// VerificationAttemptFailedError is the Go struct corresponding to the error type "verification_attempt_failed".
+// Returned when the wrong values were provided to confirm microdeposits.
+type VerificationAttemptFailedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationAttemptFailedVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationAttemptFailedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationAttemptFailedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationAttemptFailedError) canRetry() bool {
+	return false
+}
+
+// VerificationExpiredError is the Go struct corresponding to the error type "verification_expired".
+// Returned when an attempt to confirm microdeposits has failed because too much time has elapsed since the
+// microdeposits were sent.
+type VerificationExpiredError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationExpiredVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationExpiredError) canRetry() bool {
+	return false
+}
+
+// VerificationNotInitiatedError is the Go struct corresponding to the error type "verification_not_initiated".
+// Returned when an attempt is made to confirm microdeposits before the microdeposits have been sent.
+type VerificationNotInitiatedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+	// Closed Enum. The verification status of the bank account associated with this error.
+	VerificationStatus VerificationNotInitiatedVerificationStatus `json:"verification_status"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *VerificationNotInitiatedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *VerificationNotInitiatedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *VerificationNotInitiatedError) canRetry() bool {
 	return false
 }
 

@@ -1,0 +1,58 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+package stripe
+
+import (
+	"context"
+	"net/http"
+)
+
+// v2MoneyManagementInboundTransferService is used to invoke inboundtransfer related APIs.
+type v2MoneyManagementInboundTransferService struct {
+	B   Backend
+	Key string
+}
+
+// Creates an InboundTransfer to pull funds from a bank account into a financial account. Per-transfer and rolling weekly limits vary by account and payment rail. See [transfer limits](https://docs.stripe.com/treasury/add-funds#transfer-limits).
+func (c v2MoneyManagementInboundTransferService) Create(ctx context.Context, params *V2MoneyManagementInboundTransferCreateParams) (*V2MoneyManagementInboundTransfer, error) {
+	if params == nil {
+		params = &V2MoneyManagementInboundTransferCreateParams{}
+	}
+	params.Context = ctx
+	inboundtransfer := &V2MoneyManagementInboundTransfer{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/inbound_transfers", c.Key, params, inboundtransfer)
+	return inboundtransfer, err
+}
+
+// Retrieve an InboundTransfer by ID.
+func (c v2MoneyManagementInboundTransferService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementInboundTransferRetrieveParams) (*V2MoneyManagementInboundTransfer, error) {
+	if params == nil {
+		params = &V2MoneyManagementInboundTransferRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/inbound_transfers/%s", id)
+	inboundtransfer := &V2MoneyManagementInboundTransfer{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, inboundtransfer)
+	return inboundtransfer, err
+}
+
+// Retrieves a list of InboundTransfers.
+func (c v2MoneyManagementInboundTransferService) List(ctx context.Context, listParams *V2MoneyManagementInboundTransferListParams) *V2List[*V2MoneyManagementInboundTransfer] {
+	if listParams == nil {
+		listParams = &V2MoneyManagementInboundTransferListParams{}
+	}
+	listParams.Context = ctx
+	return newV2List(ctx, "/v2/money_management/inbound_transfers", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementInboundTransfer], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		page := &V2Page[*V2MoneyManagementInboundTransfer]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	})
+}
