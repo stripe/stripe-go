@@ -170,6 +170,23 @@ import (
 	v2coreaccounttoken "github.com/stripe/stripe-go/v87/v2/core/accounttoken"
 	v2coreevent "github.com/stripe/stripe-go/v87/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v87/v2/core/eventdestination"
+	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/gbbankaccount"
+	v2corevaultusbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/usbankaccount"
+	v2moneymanagementadjustment "github.com/stripe/stripe-go/v87/v2/moneymanagement/adjustment"
+	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccount"
+	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaddress"
+	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundtransfer"
+	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundpayment"
+	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundsetupintent"
+	v2moneymanagementpayoutintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutintent"
+	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutmethod"
+	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutmethodsbankaccountspec"
+	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v87/v2/moneymanagement/receivedcredit"
+	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v87/v2/moneymanagement/recipientverification"
+	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelpers/financialaddress"
+	v2moneymanagementtransaction "github.com/stripe/stripe-go/v87/v2/moneymanagement/transaction"
+	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v87/v2/moneymanagement/transactionentry"
+	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v87/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v87/webhookendpoint"
 )
 
@@ -493,6 +510,40 @@ type API struct {
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2coreevent.Client
+	// V2CoreVaultGBBankAccounts is the client used to invoke /v2/core/vault/gb_bank_accounts APIs.
+	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
+	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
+	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
+	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
+	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
+	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
+	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
+	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
+	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
+	V2MoneyManagementInboundTransfers *v2moneymanagementinboundtransfer.Client
+	// V2MoneyManagementOutboundPayments is the client used to invoke /v2/money_management/outbound_payments APIs.
+	V2MoneyManagementOutboundPayments *v2moneymanagementoutboundpayment.Client
+	// V2MoneyManagementOutboundSetupIntents is the client used to invoke /v2/money_management/outbound_setup_intents APIs.
+	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
+	// V2MoneyManagementPayoutIntents is the client used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2moneymanagementpayoutintent.Client
+	// V2MoneyManagementPayoutMethods is the client used to invoke /v2/money_management/payout_methods APIs.
+	V2MoneyManagementPayoutMethods *v2moneymanagementpayoutmethod.Client
+	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the client used to invoke payoutmethodsbankaccountspec related APIs.
+	V2MoneyManagementPayoutMethodsBankAccountSpecs *v2moneymanagementpayoutmethodsbankaccountspec.Client
+	// V2MoneyManagementReceivedCredits is the client used to invoke /v2/money_management/received_credits APIs.
+	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
+	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
+	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2moneymanagementtesthelpersfinancialaddress.Client
+	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
+	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
+	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
+	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
+	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2testhelpersmoneymanagement.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -668,6 +719,23 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
+	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
+	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutIntents = &v2moneymanagementpayoutintent.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
+	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

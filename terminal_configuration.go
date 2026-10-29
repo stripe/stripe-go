@@ -31,12 +31,16 @@ type TerminalConfigurationParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationOfflineParams `form:"offline" json:"offline,omitempty"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationReaderSecurityParams `form:"reader_security" json:"reader_security,omitempty"`
 	// Reboot time settings for readers. that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window" json:"reboot_window,omitempty"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -58,20 +62,22 @@ type TerminalConfigurationParams struct {
 type TerminalConfigurationParamsUnsetField string
 
 const (
-	TerminalConfigurationParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationParamsUnsetField = "bbpos_wisepad3"
-	TerminalConfigurationParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationParamsUnsetField = "bbpos_wisepos_e"
-	TerminalConfigurationParamsUnsetFieldCellular      TerminalConfigurationParamsUnsetField = "cellular"
-	TerminalConfigurationParamsUnsetFieldOffline       TerminalConfigurationParamsUnsetField = "offline"
-	TerminalConfigurationParamsUnsetFieldRebootWindow  TerminalConfigurationParamsUnsetField = "reboot_window"
-	TerminalConfigurationParamsUnsetFieldStripeS700    TerminalConfigurationParamsUnsetField = "stripe_s700"
-	TerminalConfigurationParamsUnsetFieldStripeS710    TerminalConfigurationParamsUnsetField = "stripe_s710"
-	TerminalConfigurationParamsUnsetFieldTipping       TerminalConfigurationParamsUnsetField = "tipping"
-	TerminalConfigurationParamsUnsetFieldVerifoneM425  TerminalConfigurationParamsUnsetField = "verifone_m425"
-	TerminalConfigurationParamsUnsetFieldVerifoneP400  TerminalConfigurationParamsUnsetField = "verifone_p400"
-	TerminalConfigurationParamsUnsetFieldVerifoneP630  TerminalConfigurationParamsUnsetField = "verifone_p630"
-	TerminalConfigurationParamsUnsetFieldVerifoneUx700 TerminalConfigurationParamsUnsetField = "verifone_ux700"
-	TerminalConfigurationParamsUnsetFieldVerifoneV660p TerminalConfigurationParamsUnsetField = "verifone_v660p"
-	TerminalConfigurationParamsUnsetFieldWifi          TerminalConfigurationParamsUnsetField = "wifi"
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePad3  TerminalConfigurationParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePOSE  TerminalConfigurationParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationParamsUnsetFieldCellular       TerminalConfigurationParamsUnsetField = "cellular"
+	TerminalConfigurationParamsUnsetFieldOffline        TerminalConfigurationParamsUnsetField = "offline"
+	TerminalConfigurationParamsUnsetFieldReaderSecurity TerminalConfigurationParamsUnsetField = "reader_security"
+	TerminalConfigurationParamsUnsetFieldRebootWindow   TerminalConfigurationParamsUnsetField = "reboot_window"
+	TerminalConfigurationParamsUnsetFieldStripeS700     TerminalConfigurationParamsUnsetField = "stripe_s700"
+	TerminalConfigurationParamsUnsetFieldStripeS710     TerminalConfigurationParamsUnsetField = "stripe_s710"
+	TerminalConfigurationParamsUnsetFieldStripeT600     TerminalConfigurationParamsUnsetField = "stripe_t600"
+	TerminalConfigurationParamsUnsetFieldTipping        TerminalConfigurationParamsUnsetField = "tipping"
+	TerminalConfigurationParamsUnsetFieldVerifoneM425   TerminalConfigurationParamsUnsetField = "verifone_m425"
+	TerminalConfigurationParamsUnsetFieldVerifoneP400   TerminalConfigurationParamsUnsetField = "verifone_p400"
+	TerminalConfigurationParamsUnsetFieldVerifoneP630   TerminalConfigurationParamsUnsetField = "verifone_p630"
+	TerminalConfigurationParamsUnsetFieldVerifoneUx700  TerminalConfigurationParamsUnsetField = "verifone_ux700"
+	TerminalConfigurationParamsUnsetFieldVerifoneV660p  TerminalConfigurationParamsUnsetField = "verifone_v660p"
+	TerminalConfigurationParamsUnsetFieldWifi           TerminalConfigurationParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -134,6 +140,25 @@ type TerminalConfigurationOfflineParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
+// Configurations for reader security settings.
+type TerminalConfigurationReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string                                               `form:"admin_menu_passcode" json:"admin_menu_passcode,omitempty"`
+	UnsetFields       []TerminalConfigurationReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationReaderSecurityParams.
+type TerminalConfigurationReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationReaderSecurityParams) AddUnsetField(field TerminalConfigurationReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Reboot time settings for readers. that support customized reboot time configuration.
 type TerminalConfigurationRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -177,6 +202,25 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationStripeS710Params) AddUnsetField(field TerminalConfigurationStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                           `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationStripeT600Params.
+type TerminalConfigurationStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationStripeT600Params) AddUnsetField(field TerminalConfigurationStripeT600ParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -658,6 +702,25 @@ type TerminalConfigurationUpdateOfflineParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
+// Configurations for reader security settings.
+type TerminalConfigurationUpdateReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string                                                     `form:"admin_menu_passcode" json:"admin_menu_passcode,omitempty"`
+	UnsetFields       []TerminalConfigurationUpdateReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateReaderSecurityParams.
+type TerminalConfigurationUpdateReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationUpdateReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateReaderSecurityParams) AddUnsetField(field TerminalConfigurationUpdateReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Reboot time settings for readers. that support customized reboot time configuration.
 type TerminalConfigurationUpdateRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -701,6 +764,25 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationUpdateStripeS710Params) AddUnsetField(field TerminalConfigurationUpdateStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationUpdateStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                 `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateStripeT600Params.
+type TerminalConfigurationUpdateStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateStripeT600Params) AddUnsetField(field TerminalConfigurationUpdateStripeT600ParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -1116,12 +1198,16 @@ type TerminalConfigurationUpdateParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationUpdateOfflineParams `form:"offline" json:"offline,omitempty"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationUpdateReaderSecurityParams `form:"reader_security" json:"reader_security,omitempty"`
 	// Reboot time settings for readers. that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window" json:"reboot_window,omitempty"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationUpdateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationUpdateStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -1143,20 +1229,22 @@ type TerminalConfigurationUpdateParams struct {
 type TerminalConfigurationUpdateParamsUnsetField string
 
 const (
-	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepad3"
-	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepos_e"
-	TerminalConfigurationUpdateParamsUnsetFieldCellular      TerminalConfigurationUpdateParamsUnsetField = "cellular"
-	TerminalConfigurationUpdateParamsUnsetFieldOffline       TerminalConfigurationUpdateParamsUnsetField = "offline"
-	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow  TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
-	TerminalConfigurationUpdateParamsUnsetFieldStripeS700    TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
-	TerminalConfigurationUpdateParamsUnsetFieldStripeS710    TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
-	TerminalConfigurationUpdateParamsUnsetFieldTipping       TerminalConfigurationUpdateParamsUnsetField = "tipping"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneM425  TerminalConfigurationUpdateParamsUnsetField = "verifone_m425"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400  TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP630  TerminalConfigurationUpdateParamsUnsetField = "verifone_p630"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneUx700 TerminalConfigurationUpdateParamsUnsetField = "verifone_ux700"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneV660p TerminalConfigurationUpdateParamsUnsetField = "verifone_v660p"
-	TerminalConfigurationUpdateParamsUnsetFieldWifi          TerminalConfigurationUpdateParamsUnsetField = "wifi"
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePad3  TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePOSE  TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationUpdateParamsUnsetFieldCellular       TerminalConfigurationUpdateParamsUnsetField = "cellular"
+	TerminalConfigurationUpdateParamsUnsetFieldOffline        TerminalConfigurationUpdateParamsUnsetField = "offline"
+	TerminalConfigurationUpdateParamsUnsetFieldReaderSecurity TerminalConfigurationUpdateParamsUnsetField = "reader_security"
+	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow   TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS700     TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS710     TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeT600     TerminalConfigurationUpdateParamsUnsetField = "stripe_t600"
+	TerminalConfigurationUpdateParamsUnsetFieldTipping        TerminalConfigurationUpdateParamsUnsetField = "tipping"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneM425   TerminalConfigurationUpdateParamsUnsetField = "verifone_m425"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400   TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP630   TerminalConfigurationUpdateParamsUnsetField = "verifone_p630"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneUx700  TerminalConfigurationUpdateParamsUnsetField = "verifone_ux700"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneV660p  TerminalConfigurationUpdateParamsUnsetField = "verifone_v660p"
+	TerminalConfigurationUpdateParamsUnsetFieldWifi           TerminalConfigurationUpdateParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1219,6 +1307,25 @@ type TerminalConfigurationCreateOfflineParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
+// Configurations for reader security settings.
+type TerminalConfigurationCreateReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string                                                     `form:"admin_menu_passcode" json:"admin_menu_passcode,omitempty"`
+	UnsetFields       []TerminalConfigurationCreateReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateReaderSecurityParams.
+type TerminalConfigurationCreateReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationCreateReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateReaderSecurityParams) AddUnsetField(field TerminalConfigurationCreateReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Reboot time settings for readers. that support customized reboot time configuration.
 type TerminalConfigurationCreateRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -1262,6 +1369,25 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationCreateStripeS710Params) AddUnsetField(field TerminalConfigurationCreateStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationCreateStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                 `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateStripeT600Params.
+type TerminalConfigurationCreateStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationCreateStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateStripeT600Params) AddUnsetField(field TerminalConfigurationCreateStripeT600ParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -1677,12 +1803,16 @@ type TerminalConfigurationCreateParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationCreateOfflineParams `form:"offline" json:"offline,omitempty"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationCreateReaderSecurityParams `form:"reader_security" json:"reader_security,omitempty"`
 	// Reboot time settings for readers. that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window" json:"reboot_window,omitempty"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationCreateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationCreateStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -1704,10 +1834,11 @@ type TerminalConfigurationCreateParams struct {
 type TerminalConfigurationCreateParamsUnsetField string
 
 const (
-	TerminalConfigurationCreateParamsUnsetFieldCellular TerminalConfigurationCreateParamsUnsetField = "cellular"
-	TerminalConfigurationCreateParamsUnsetFieldOffline  TerminalConfigurationCreateParamsUnsetField = "offline"
-	TerminalConfigurationCreateParamsUnsetFieldTipping  TerminalConfigurationCreateParamsUnsetField = "tipping"
-	TerminalConfigurationCreateParamsUnsetFieldWifi     TerminalConfigurationCreateParamsUnsetField = "wifi"
+	TerminalConfigurationCreateParamsUnsetFieldCellular       TerminalConfigurationCreateParamsUnsetField = "cellular"
+	TerminalConfigurationCreateParamsUnsetFieldOffline        TerminalConfigurationCreateParamsUnsetField = "offline"
+	TerminalConfigurationCreateParamsUnsetFieldReaderSecurity TerminalConfigurationCreateParamsUnsetField = "reader_security"
+	TerminalConfigurationCreateParamsUnsetFieldTipping        TerminalConfigurationCreateParamsUnsetField = "tipping"
+	TerminalConfigurationCreateParamsUnsetFieldWifi           TerminalConfigurationCreateParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1736,6 +1867,10 @@ type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled bool `json:"enabled"`
 }
+type TerminalConfigurationReaderSecurity struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode string `json:"admin_menu_passcode"`
+}
 type TerminalConfigurationRebootWindow struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
 	EndHour int64 `json:"end_hour"`
@@ -1747,6 +1882,10 @@ type TerminalConfigurationStripeS700 struct {
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
 type TerminalConfigurationStripeS710 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
+type TerminalConfigurationStripeT600 struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
@@ -2014,18 +2153,20 @@ type TerminalConfiguration struct {
 	// String indicating the name of the Configuration object, set by the user
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object        string                              `json:"object"`
-	Offline       *TerminalConfigurationOffline       `json:"offline,omitempty"`
-	RebootWindow  *TerminalConfigurationRebootWindow  `json:"reboot_window,omitempty"`
-	StripeS700    *TerminalConfigurationStripeS700    `json:"stripe_s700,omitempty"`
-	StripeS710    *TerminalConfigurationStripeS710    `json:"stripe_s710,omitempty"`
-	Tipping       *TerminalConfigurationTipping       `json:"tipping,omitempty"`
-	VerifoneM425  *TerminalConfigurationVerifoneM425  `json:"verifone_m425,omitempty"`
-	VerifoneP400  *TerminalConfigurationVerifoneP400  `json:"verifone_p400,omitempty"`
-	VerifoneP630  *TerminalConfigurationVerifoneP630  `json:"verifone_p630,omitempty"`
-	VerifoneUx700 *TerminalConfigurationVerifoneUx700 `json:"verifone_ux700,omitempty"`
-	VerifoneV660p *TerminalConfigurationVerifoneV660p `json:"verifone_v660p,omitempty"`
-	Wifi          *TerminalConfigurationWifi          `json:"wifi,omitempty"`
+	Object         string                               `json:"object"`
+	Offline        *TerminalConfigurationOffline        `json:"offline,omitempty"`
+	ReaderSecurity *TerminalConfigurationReaderSecurity `json:"reader_security,omitempty"`
+	RebootWindow   *TerminalConfigurationRebootWindow   `json:"reboot_window,omitempty"`
+	StripeS700     *TerminalConfigurationStripeS700     `json:"stripe_s700,omitempty"`
+	StripeS710     *TerminalConfigurationStripeS710     `json:"stripe_s710,omitempty"`
+	StripeT600     *TerminalConfigurationStripeT600     `json:"stripe_t600,omitempty"`
+	Tipping        *TerminalConfigurationTipping        `json:"tipping,omitempty"`
+	VerifoneM425   *TerminalConfigurationVerifoneM425   `json:"verifone_m425,omitempty"`
+	VerifoneP400   *TerminalConfigurationVerifoneP400   `json:"verifone_p400,omitempty"`
+	VerifoneP630   *TerminalConfigurationVerifoneP630   `json:"verifone_p630,omitempty"`
+	VerifoneUx700  *TerminalConfigurationVerifoneUx700  `json:"verifone_ux700,omitempty"`
+	VerifoneV660p  *TerminalConfigurationVerifoneV660p  `json:"verifone_v660p,omitempty"`
+	Wifi           *TerminalConfigurationWifi           `json:"wifi,omitempty"`
 }
 
 // TerminalConfigurationList is a list of Configurations as retrieved from a list endpoint.

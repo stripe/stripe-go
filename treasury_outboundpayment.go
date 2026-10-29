@@ -503,6 +503,8 @@ type TreasuryOutboundPaymentTrackingDetails struct {
 	USDomesticWire *TreasuryOutboundPaymentTrackingDetailsUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
+// Legacy OutboundPayments are part of the v1 version of Treasury for platforms and do not support many of the features introduced in [Treasury for platforms v2](https://docs.stripe.com/treasury/connect). Use [Outbound Payments](https://docs.stripe.com/api/v2/money-management/outbound-payments) instead of building a new v1 integration.
+//
 // Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://docs.stripe.com/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://docs.stripe.com/api#outbound_transfers).
 //
 // Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.

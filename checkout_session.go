@@ -153,7 +153,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -165,7 +165,9 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeAoTin    CheckoutSessionCustomerDetailsTaxIDType = "ao_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeARCUIT   CheckoutSessionCustomerDetailsTaxIDType = "ar_cuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUABN    CheckoutSessionCustomerDetailsTaxIDType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuAcn    CheckoutSessionCustomerDetailsTaxIDType = "au_acn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUARN    CheckoutSessionCustomerDetailsTaxIDType = "au_arn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAuWpn    CheckoutSessionCustomerDetailsTaxIDType = "au_wpn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAwTin    CheckoutSessionCustomerDetailsTaxIDType = "aw_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeAzTin    CheckoutSessionCustomerDetailsTaxIDType = "az_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeBaTin    CheckoutSessionCustomerDetailsTaxIDType = "ba_tin"
@@ -179,6 +181,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDTypeBsTin    CheckoutSessionCustomerDetailsTaxIDType = "bs_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeBwVAT    CheckoutSessionCustomerDetailsTaxIDType = "bw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeByTin    CheckoutSessionCustomerDetailsTaxIDType = "by_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCABN     CheckoutSessionCustomerDetailsTaxIDType = "ca_bn"
 	CheckoutSessionCustomerDetailsTaxIDTypeCAGSTHST CheckoutSessionCustomerDetailsTaxIDType = "ca_gst_hst"
@@ -189,12 +192,14 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCdNif    CheckoutSessionCustomerDetailsTaxIDType = "cd_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHUID    CheckoutSessionCustomerDetailsTaxIDType = "ch_uid"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDType = "ch_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeCiVAT    CheckoutSessionCustomerDetailsTaxIDType = "ci_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDType = "cl_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCmNiu    CheckoutSessionCustomerDetailsTaxIDType = "cm_niu"
 	CheckoutSessionCustomerDetailsTaxIDTypeCNTIN    CheckoutSessionCustomerDetailsTaxIDType = "cn_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCONIT    CheckoutSessionCustomerDetailsTaxIDType = "co_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeCRTIN    CheckoutSessionCustomerDetailsTaxIDType = "cr_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCvNif    CheckoutSessionCustomerDetailsTaxIDType = "cv_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeCzDic    CheckoutSessionCustomerDetailsTaxIDType = "cz_dic"
 	CheckoutSessionCustomerDetailsTaxIDTypeDEStn    CheckoutSessionCustomerDetailsTaxIDType = "de_stn"
 	CheckoutSessionCustomerDetailsTaxIDTypeDORCN    CheckoutSessionCustomerDetailsTaxIDType = "do_rcn"
 	CheckoutSessionCustomerDetailsTaxIDTypeECRUC    CheckoutSessionCustomerDetailsTaxIDType = "ec_ruc"
@@ -204,8 +209,12 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDType = "eu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeFoVAT    CheckoutSessionCustomerDetailsTaxIDType = "fo_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiren  CheckoutSessionCustomerDetailsTaxIDType = "fr_siren"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSiret  CheckoutSessionCustomerDetailsTaxIDType = "fr_siret"
+	CheckoutSessionCustomerDetailsTaxIDTypeFRSpi    CheckoutSessionCustomerDetailsTaxIDType = "fr_spi"
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeGhTin    CheckoutSessionCustomerDetailsTaxIDType = "gh_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeGiTin    CheckoutSessionCustomerDetailsTaxIDType = "gi_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeGnNif    CheckoutSessionCustomerDetailsTaxIDType = "gn_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
@@ -215,6 +224,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeINGST    CheckoutSessionCustomerDetailsTaxIDType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeIsKt     CheckoutSessionCustomerDetailsTaxIDType = "is_kt"
 	CheckoutSessionCustomerDetailsTaxIDTypeISVAT    CheckoutSessionCustomerDetailsTaxIDType = "is_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeITCf     CheckoutSessionCustomerDetailsTaxIDType = "it_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPCN     CheckoutSessionCustomerDetailsTaxIDType = "jp_cn"
@@ -230,23 +240,28 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeLiVAT    CheckoutSessionCustomerDetailsTaxIDType = "li_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeLkVAT    CheckoutSessionCustomerDetailsTaxIDType = "lk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMaVAT    CheckoutSessionCustomerDetailsTaxIDType = "ma_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeMdCf     CheckoutSessionCustomerDetailsTaxIDType = "md_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeMdVAT    CheckoutSessionCustomerDetailsTaxIDType = "md_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMePib    CheckoutSessionCustomerDetailsTaxIDType = "me_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeMkVAT    CheckoutSessionCustomerDetailsTaxIDType = "mk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMrNif    CheckoutSessionCustomerDetailsTaxIDType = "mr_nif"
+	CheckoutSessionCustomerDetailsTaxIDTypeMuVAT    CheckoutSessionCustomerDetailsTaxIDType = "mu_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDType = "mx_rfc"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYFRP    CheckoutSessionCustomerDetailsTaxIDType = "my_frp"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYITN    CheckoutSessionCustomerDetailsTaxIDType = "my_itn"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIDTypeMzNuit   CheckoutSessionCustomerDetailsTaxIDType = "mz_nuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeNgTin    CheckoutSessionCustomerDetailsTaxIDType = "ng_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVOEC   CheckoutSessionCustomerDetailsTaxIDType = "no_voec"
 	CheckoutSessionCustomerDetailsTaxIDTypeNpPan    CheckoutSessionCustomerDetailsTaxIDType = "np_pan"
+	CheckoutSessionCustomerDetailsTaxIDTypeNzBn     CheckoutSessionCustomerDetailsTaxIDType = "nz_bn"
 	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeOmVAT    CheckoutSessionCustomerDetailsTaxIDType = "om_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypePLNip    CheckoutSessionCustomerDetailsTaxIDType = "pl_nip"
+	CheckoutSessionCustomerDetailsTaxIDTypePTNif    CheckoutSessionCustomerDetailsTaxIDType = "pt_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypePyRuc    CheckoutSessionCustomerDetailsTaxIDType = "py_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypeROTIN    CheckoutSessionCustomerDetailsTaxIDType = "ro_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
@@ -256,12 +271,15 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeSGGST    CheckoutSessionCustomerDetailsTaxIDType = "sg_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDType = "sg_uen"
 	CheckoutSessionCustomerDetailsTaxIDTypeSITIN    CheckoutSessionCustomerDetailsTaxIDType = "si_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeSmCoe    CheckoutSessionCustomerDetailsTaxIDType = "sm_coe"
 	CheckoutSessionCustomerDetailsTaxIDTypeSnNinea  CheckoutSessionCustomerDetailsTaxIDType = "sn_ninea"
 	CheckoutSessionCustomerDetailsTaxIDTypeSrFin    CheckoutSessionCustomerDetailsTaxIDType = "sr_fin"
 	CheckoutSessionCustomerDetailsTaxIDTypeSVNIT    CheckoutSessionCustomerDetailsTaxIDType = "sv_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDType = "th_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTjTin    CheckoutSessionCustomerDetailsTaxIDType = "tj_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeTRTIN    CheckoutSessionCustomerDetailsTaxIDType = "tr_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtBir    CheckoutSessionCustomerDetailsTaxIDType = "tt_bir"
+	CheckoutSessionCustomerDetailsTaxIDTypeTtVAT    CheckoutSessionCustomerDetailsTaxIDType = "tt_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDType = "tw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTzVAT    CheckoutSessionCustomerDetailsTaxIDType = "tz_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDType = "ua_vat"
@@ -306,7 +324,7 @@ const (
 	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
 )
 
-// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
 // List of values that CheckoutSessionPaymentMethodCollection can take
@@ -1960,7 +1978,7 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -1992,7 +2010,7 @@ type CheckoutSessionLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2103,7 +2121,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
-	// An arbitrary string attached to the object. Often useful for displaying to users.
+	// An arbitrary string attached to the object. Often useful for displaying to users. Pass an empty string to clear a previously configured value.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -2124,20 +2142,42 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	//
+	// You must wrap any Checkout Session update that mutates `setup_future_usage` in [`runServerUpdate`](https://docs.stripe.com/js/custom_checkout/run_server_update) and await it before continuing with the payment.
+	// Pass an empty string to remove a previously supplied configuration.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	//  Pass an empty string to clear a previously configured value.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	//  Pass an empty string to clear a previously configured value.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
-	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
+	TransferGroup *string                                            `form:"transfer_group" json:"transfer_group,omitempty"`
+	UnsetFields   []CheckoutSessionPaymentIntentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionPaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionPaymentIntentDataParams.
+type CheckoutSessionPaymentIntentDataParamsUnsetField string
+
+const (
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldDescription               CheckoutSessionPaymentIntentDataParamsUnsetField = "description"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldMetadata                  CheckoutSessionPaymentIntentDataParamsUnsetField = "metadata"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldSetupFutureUsage          CheckoutSessionPaymentIntentDataParamsUnsetField = "setup_future_usage"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldStatementDescriptor       CheckoutSessionPaymentIntentDataParamsUnsetField = "statement_descriptor"
+	CheckoutSessionPaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix CheckoutSessionPaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionPaymentIntentDataParams) AddUnsetField(field CheckoutSessionPaymentIntentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2865,7 +2905,7 @@ type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Additional fields for mandate creation.
 	MandateOptions *CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -3348,6 +3388,14 @@ type CheckoutSessionSubscriptionDataBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// A list of up to 4 custom fields to be displayed on the invoice.
+type CheckoutSessionSubscriptionDataInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name" json:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value" json:"value"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -3358,8 +3406,30 @@ type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 
 // All invoices will be billed using the specified settings.
 type CheckoutSessionSubscriptionDataInvoiceSettingsParams struct {
+	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
+	// A list of up to 4 custom fields to be displayed on the invoice.
+	CustomFields []*CheckoutSessionSubscriptionDataInvoiceSettingsCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Footer to be displayed on the invoice.
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	Issuer      *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
+	UnsetFields []CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionSubscriptionDataInvoiceSettingsParams.
+type CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField string
+
+const (
+	CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetFieldAccountTaxIDs CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField = "account_tax_ids"
+	CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetFieldCustomFields  CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField = "custom_fields"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionSubscriptionDataInvoiceSettingsParams) AddUnsetField(field CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
@@ -3488,7 +3558,7 @@ type CheckoutSessionParams struct {
 	CollectedInformation *CheckoutSessionCollectedInformationParams `form:"collected_information" json:"collected_information,omitempty"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `allowed_payment_method_types` is not set.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
@@ -3570,7 +3640,9 @@ type CheckoutSessionParams struct {
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
-	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
+	//
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
 	// This may occur if the Checkout Session includes a free trial or a discount.
@@ -3675,7 +3747,8 @@ type CheckoutSessionCollectedInformationParams struct {
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
-	Session    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Session *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -4100,7 +4173,7 @@ type CheckoutSessionCreateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -4130,7 +4203,7 @@ type CheckoutSessionCreateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -4989,7 +5062,7 @@ type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Additional fields for mandate creation.
 	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -5472,6 +5545,14 @@ type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// A list of up to 4 custom fields to be displayed on the invoice.
+type CheckoutSessionCreateSubscriptionDataInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name" json:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value" json:"value"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -5482,8 +5563,30 @@ type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 
 // All invoices will be billed using the specified settings.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams struct {
+	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
+	// A list of up to 4 custom fields to be displayed on the invoice.
+	CustomFields []*CheckoutSessionCreateSubscriptionDataInvoiceSettingsCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Footer to be displayed on the invoice.
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	Issuer      *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
+	UnsetFields []CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams.
+type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetFieldAccountTaxIDs CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField = "account_tax_ids"
+	CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetFieldCustomFields  CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField = "custom_fields"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams) AddUnsetField(field CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
@@ -5610,7 +5713,7 @@ type CheckoutSessionCreateParams struct {
 	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionCreateConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `allowed_payment_method_types` is not set.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
@@ -5858,7 +5961,7 @@ type CheckoutSessionUpdateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 type CheckoutSessionUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -5898,7 +6001,7 @@ type CheckoutSessionUpdateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required when creating a new line item.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline, for [dynamic pricing](https://docs.stripe.com/products-prices/how-products-and-prices-work#inline-pricing) when the amount isn't known ahead of time. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -5922,6 +6025,65 @@ func (p *CheckoutSessionUpdateLineItemParams) AddUnsetField(field CheckoutSessio
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CheckoutSessionUpdateLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
+//
+// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
+type CheckoutSessionUpdatePaymentIntentDataParams struct {
+	// An arbitrary string attached to the object. Often useful for displaying to users. Pass an empty string to clear a previously configured value.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	//
+	// You must wrap any Checkout Session update that mutates `setup_future_usage` in [`runServerUpdate`](https://docs.stripe.com/js/custom_checkout/run_server_update) and await it before continuing with the payment.
+	// Pass an empty string to remove a previously supplied configuration.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
+	//  Pass an empty string to clear a previously configured value.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	//  Pass an empty string to clear a previously configured value.
+	StatementDescriptorSuffix *string                                                  `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
+	UnsetFields               []CheckoutSessionUpdatePaymentIntentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdatePaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdatePaymentIntentDataParams.
+type CheckoutSessionUpdatePaymentIntentDataParamsUnsetField string
+
+const (
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldDescription               CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "description"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldMetadata                  CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "metadata"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldSetupFutureUsage          CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "setup_future_usage"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptor       CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor"
+	CheckoutSessionUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix CheckoutSessionUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdatePaymentIntentDataParams) AddUnsetField(field CheckoutSessionUpdatePaymentIntentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionUpdatePaymentIntentDataParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
 	}
@@ -6031,6 +6193,10 @@ type CheckoutSessionUpdateParams struct {
 	LineItems []*CheckoutSessionUpdateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
+	//
+	// You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
+	PaymentIntentData *CheckoutSessionUpdatePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options" json:"shipping_options,omitempty"`
 	UnsetFields     []CheckoutSessionUpdateParamsUnsetField      `form:"-" json:"-"`
@@ -6293,7 +6459,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -7339,7 +7505,7 @@ type CheckoutSession struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
-	// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
+	// Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
 	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`

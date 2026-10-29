@@ -27,6 +27,8 @@ type CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork strin
 const (
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkACH            CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "ach"
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkDomesticWireUS CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "domestic_wire_us"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkFednow         CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "fednow"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkRTP            CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "rtp"
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkSwift          CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "swift"
 )
 
@@ -49,7 +51,8 @@ const (
 // Returns a list of transactions that modified the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
