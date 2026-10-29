@@ -23,9 +23,7 @@ type V2CoreVaultGBBankAccountBankAccountType string
 // List of values that V2CoreVaultGBBankAccountBankAccountType can take
 const (
 	V2CoreVaultGBBankAccountBankAccountTypeChecking V2CoreVaultGBBankAccountBankAccountType = "checking"
-	V2CoreVaultGBBankAccountBankAccountTypeFutsu    V2CoreVaultGBBankAccountBankAccountType = "futsu"
 	V2CoreVaultGBBankAccountBankAccountTypeSavings  V2CoreVaultGBBankAccountBankAccountType = "savings"
-	V2CoreVaultGBBankAccountBankAccountTypeToza     V2CoreVaultGBBankAccountBankAccountType = "toza"
 )
 
 // Whether or not the information of the bank account matches what you have provided. Closed enum.
@@ -134,6 +132,9 @@ type V2CoreVaultGBBankAccount struct {
 	ConfirmationOfPayee *V2CoreVaultGBBankAccountConfirmationOfPayee `json:"confirmation_of_payee"`
 	// Creation time.
 	Created time.Time `json:"created"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same bank account, for example.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// The ID of the GBBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number or IBAN.

@@ -403,6 +403,8 @@ type TreasuryOutboundTransferTrackingDetails struct {
 	USDomesticWire *TreasuryOutboundTransferTrackingDetailsUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
+// Legacy OutboundTransfers are part of the v1 version of Treasury for platforms and do not support many of the features introduced in [Treasury for platforms v2](https://docs.stripe.com/treasury/connect). Use [Outbound Transfers](https://docs.stripe.com/api/v2/money-management/outbound-transfers?api-version=preview) instead of building a new v1 integration.
+//
 // Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://docs.stripe.com/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://docs.stripe.com/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 //
 // Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints. These methods can only be called on test mode objects.

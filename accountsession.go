@@ -522,6 +522,28 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features" json:"features,omitempty"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsTerminalHardwareOrdersFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+type AccountSessionComponentsTerminalHardwareOrdersParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsTerminalHardwareOrdersFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsTerminalHardwareShopFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+type AccountSessionComponentsTerminalHardwareShopParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsTerminalHardwareShopFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -590,6 +612,10 @@ type AccountSessionComponentsParams struct {
 	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings" json:"tax_settings,omitempty"`
 	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring" json:"tax_threshold_monitoring,omitempty"`
+	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+	TerminalHardwareOrders *AccountSessionComponentsTerminalHardwareOrdersParams `form:"terminal_hardware_orders" json:"terminal_hardware_orders,omitempty"`
+	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+	TerminalHardwareShop *AccountSessionComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop" json:"terminal_hardware_shop,omitempty"`
 }
 
 // Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -1124,6 +1150,28 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features" json:"features,omitempty"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsTerminalHardwareOrdersFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+type AccountSessionCreateComponentsTerminalHardwareOrdersParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsTerminalHardwareOrdersFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsTerminalHardwareShopFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+type AccountSessionCreateComponentsTerminalHardwareShopParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsTerminalHardwareShopFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -1192,6 +1240,10 @@ type AccountSessionCreateComponentsParams struct {
 	TaxSettings *AccountSessionCreateComponentsTaxSettingsParams `form:"tax_settings" json:"tax_settings,omitempty"`
 	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionCreateComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring" json:"tax_threshold_monitoring,omitempty"`
+	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+	TerminalHardwareOrders *AccountSessionCreateComponentsTerminalHardwareOrdersParams `form:"terminal_hardware_orders" json:"terminal_hardware_orders,omitempty"`
+	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+	TerminalHardwareShop *AccountSessionCreateComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop" json:"terminal_hardware_shop,omitempty"`
 }
 
 // Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -1469,6 +1521,12 @@ type AccountSessionComponentsPayoutsList struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsListFeatures `json:"features"`
 }
+type AccountSessionComponentsReportingChartFeatures struct{}
+type AccountSessionComponentsReportingChart struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                            `json:"enabled"`
+	Features *AccountSessionComponentsReportingChartFeatures `json:"features"`
+}
 type AccountSessionComponentsTaxRegistrationsFeatures struct{}
 type AccountSessionComponentsTaxRegistrations struct {
 	// Whether the embedded component is enabled.
@@ -1480,6 +1538,18 @@ type AccountSessionComponentsTaxSettings struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
+}
+type AccountSessionComponentsTerminalHardwareOrdersFeatures struct{}
+type AccountSessionComponentsTerminalHardwareOrders struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                    `json:"enabled"`
+	Features *AccountSessionComponentsTerminalHardwareOrdersFeatures `json:"features"`
+}
+type AccountSessionComponentsTerminalHardwareShopFeatures struct{}
+type AccountSessionComponentsTerminalHardwareShop struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                  `json:"enabled"`
+	Features *AccountSessionComponentsTerminalHardwareShopFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
 	AccountManagement            *AccountSessionComponentsAccountManagement            `json:"account_management"`
@@ -1505,8 +1575,11 @@ type AccountSessionComponents struct {
 	PayoutReconciliationReport   *AccountSessionComponentsPayoutReconciliationReport   `json:"payout_reconciliation_report"`
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
+	ReportingChart               *AccountSessionComponentsReportingChart               `json:"reporting_chart"`
 	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
 	TaxSettings                  *AccountSessionComponentsTaxSettings                  `json:"tax_settings"`
+	TerminalHardwareOrders       *AccountSessionComponentsTerminalHardwareOrders       `json:"terminal_hardware_orders"`
+	TerminalHardwareShop         *AccountSessionComponentsTerminalHardwareShop         `json:"terminal_hardware_shop"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

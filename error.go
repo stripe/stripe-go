@@ -78,9 +78,11 @@ const (
 	ErrorTypeAlreadyExists                 ErrorType = "already_exists"
 	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
 	ErrorTypeCannotProceed                 ErrorType = "cannot_proceed"
+	ErrorTypeCapabilityNotEnabled          ErrorType = "capability_not_enabled"
 	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
 	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
 	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
+	ErrorTypeFxQuoteNeedsRefresh           ErrorType = "fx_quote_needs_refresh"
 	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
 	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
@@ -292,11 +294,13 @@ const (
 	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
 	ErrorCodeSiretInvalid                                                ErrorCode = "siret_invalid"
+	ErrorCodeSmartDisputesNotAvailable                                   ErrorCode = "smart_disputes_not_available"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"
 	ErrorCodeStorerCapabilityMissing                                     ErrorCode = "storer_capability_missing"
 	ErrorCodeStorerCapabilityNotActive                                   ErrorCode = "storer_capability_not_active"
 	ErrorCodeStripeTaxInactive                                           ErrorCode = "stripe_tax_inactive"
+	ErrorCodeSubscriptionUpdateTrialAfterBillingCycleAnchor              ErrorCode = "subscription_update_trial_after_billing_cycle_anchor"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
 	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"
 	ErrorCodeTaxIDProhibited                                             ErrorCode = "tax_id_prohibited"
@@ -310,6 +314,8 @@ const (
 	ErrorCodeTerminalReaderOffline                                       ErrorCode = "terminal_reader_offline"
 	ErrorCodeTerminalReaderTimeout                                       ErrorCode = "terminal_reader_timeout"
 	ErrorCodeTestmodeChargesOnly                                         ErrorCode = "testmode_charges_only"
+	ErrorCodeThreeDSecureAuthenticationNotSupported                      ErrorCode = "three_d_secure_authentication_not_supported"
+	ErrorCodeThreeDSecureAuthenticationUpstreamError                     ErrorCode = "three_d_secure_authentication_upstream_error"
 	ErrorCodeTokenAlreadyUsed                                            ErrorCode = "token_already_used"
 	ErrorCodeTokenCardNetworkInvalid                                     ErrorCode = "token_card_network_invalid"
 	ErrorCodeTokenInUse                                                  ErrorCode = "token_in_use"
@@ -651,6 +657,33 @@ func (e *CannotProceedError) canRetry() bool {
 	return false
 }
 
+// CapabilityNotEnabledError is the Go struct corresponding to the error type "capability_not_enabled".
+// The user attempts to create an outbound flow from a closed Financial Account.
+type CapabilityNotEnabledError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *CapabilityNotEnabledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *CapabilityNotEnabledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *CapabilityNotEnabledError) canRetry() bool {
+	return false
+}
+
 // ControlledByAlternateResourceError is the Go struct corresponding to the error type "controlled_by_alternate_resource".
 // Returned when the GB Bank Account is controlled by an alternate resource and cannot be archived.
 type ControlledByAlternateResourceError struct {
@@ -679,7 +712,7 @@ func (e *ControlledByAlternateResourceError) canRetry() bool {
 }
 
 // FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled".
-// The user attempts to create an outbound flow from a closed Financial Account.
+// Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
 type FeatureNotEnabledError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -728,6 +761,33 @@ func (e *FinancialAccountNotOpenError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *FinancialAccountNotOpenError) canRetry() bool {
+	return false
+}
+
+// FxQuoteNeedsRefreshError is the Go struct corresponding to the error type "fx_quote_needs_refresh".
+// Error returned when the FX quote rate lock for a PayoutIntent has expired.
+type FxQuoteNeedsRefreshError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FxQuoteNeedsRefreshError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FxQuoteNeedsRefreshError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FxQuoteNeedsRefreshError) canRetry() bool {
 	return false
 }
 
@@ -899,7 +959,10 @@ func (e *NotCancelableError) canRetry() bool {
 }
 
 // QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded".
-// Returned when attempting to update an archived card.
+// Returned when the number of GBBankAccount objects on a given V2 Account has exceeded the limit of 10.
+// GBBankAccount objects may be archived with /archive, at which point they will not count against the limit.
+// If you are not passing a V2 Account ID in the Stripe-Context header you may receive this error since
+// you are creating all your GBBankAccount objects in your own workspace.
 type QuotaExceededError struct {
 	APIResource
 	Code        string    `json:"code"`

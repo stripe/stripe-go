@@ -46,6 +46,29 @@ type V2MoneyManagementOutboundTransferFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct{}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferToParams struct {
 	// Describes the currency to send to the recipient.
@@ -58,6 +81,8 @@ type V2MoneyManagementOutboundTransferToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 }
 
 // Creates an OutboundTransfer.
@@ -73,6 +98,8 @@ type V2MoneyManagementOutboundTransferParams struct {
 	From *V2MoneyManagementOutboundTransferFromParams `form:"from" json:"from,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferToParams `form:"to" json:"to,omitempty"`
 }
@@ -105,6 +132,29 @@ type V2MoneyManagementOutboundTransferCreateFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct{}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferCreateToParams struct {
 	// Describes the currency to send to the recipient.
@@ -117,6 +167,8 @@ type V2MoneyManagementOutboundTransferCreateToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 }
 
 // Creates an OutboundTransfer.
@@ -132,6 +184,8 @@ type V2MoneyManagementOutboundTransferCreateParams struct {
 	From *V2MoneyManagementOutboundTransferCreateFromParams `form:"from" json:"from"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferCreateToParams `form:"to" json:"to"`
 }

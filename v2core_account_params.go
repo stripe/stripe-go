@@ -18,7 +18,7 @@ type V2CoreAccountListParams struct {
 	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
 	// Filter by whether the account is closed. If omitted, returns only Accounts that are not closed.
 	Closed *bool `form:"closed" json:"closed,omitempty"`
-	// The upper limit on the number of accounts returned by the List Account request.
+	// The maximum number of items returned by the list request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
@@ -118,9 +118,9 @@ type V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams struct {
 
 // Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 type V2CoreAccountConfigurationMerchantBrandingParams struct {
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): An icon for the merchant. Must be square and at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): An icon for the merchant. Must be square and at least 128px x 128px.
 	Icon *string `form:"icon" json:"icon,omitempty"`
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
 	Logo *string `form:"logo" json:"logo,omitempty"`
 	// A CSS hex color value representing the primary branding color for the merchant.
 	PrimaryColor *string `form:"primary_color" json:"primary_color,omitempty"`
@@ -656,7 +656,7 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings for Smart Disputes automatic response feature.
 	SmartDisputes *V2CoreAccountConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
-	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
+	// Settings for the default statement descriptor text.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
@@ -866,28 +866,74 @@ type V2CoreAccountConfigurationMoneyManagerParams struct {
 	Capabilities *V2CoreAccountConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsACHParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsFedwireParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsFPSParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireParams struct {
+// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsRTPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSEPAParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSwiftParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+	ACH *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsACHParams `form:"ach" json:"ach,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+	Fedwire *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsFedwireParams `form:"fedwire" json:"fedwire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+	FPS *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsFPSParams `form:"fps" json:"fps,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
-	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-	Wire *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireParams `form:"wire" json:"wire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+	RTP *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsRTPParams `form:"rtp" json:"rtp,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+	SEPA *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSEPAParams `form:"sepa" json:"sepa,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+	Swift *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
 }
 
 // Capabilities that enable OutboundPayments to a card linked to this Account.
 type V2CoreAccountConfigurationRecipientCapabilitiesCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -910,6 +956,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
+	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -920,8 +968,6 @@ type V2CoreAccountConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
-	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -1012,7 +1058,7 @@ type V2CoreAccountIdentityAttestationsRepresentativeDeclarationParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+// Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
@@ -1034,7 +1080,7 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
-	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
@@ -1104,7 +1150,7 @@ type V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams struct {
 
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1112,7 +1158,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificati
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1120,7 +1166,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
 
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1128,7 +1174,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociation
 
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1136,7 +1182,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1144,23 +1190,23 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyRegistrationVerificatio
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document verifying the business.
 type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -1168,7 +1214,15 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams stru
 
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
+// One or more documents that demonstrate proof of business presence.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1182,7 +1236,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParam
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
@@ -1198,7 +1252,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwner
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -1224,6 +1278,8 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -1412,7 +1468,7 @@ type V2CoreAccountIdentityIndividualDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountIdentityIndividualDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1420,39 +1476,39 @@ type V2CoreAccountIdentityIndividualDocumentsCompanyAuthorizationParams struct {
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountIdentityIndividualDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountIdentityIndividualDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountIdentityIndividualDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountIdentityIndividualDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountIdentityIndividualDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountIdentityIndividualDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountIdentityIndividualDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -1460,7 +1516,7 @@ type V2CoreAccountIdentityIndividualDocumentsSecondaryVerificationParams struct 
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountIdentityIndividualDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -1772,9 +1828,9 @@ type V2CoreAccountCreateConfigurationMerchantBACSDebitPaymentsParams struct {
 
 // Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 type V2CoreAccountCreateConfigurationMerchantBrandingParams struct {
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): An icon for the merchant. Must be square and at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): An icon for the merchant. Must be square and at least 128px x 128px.
 	Icon *string `form:"icon" json:"icon,omitempty"`
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
 	Logo *string `form:"logo" json:"logo,omitempty"`
 	// A CSS hex color value representing the primary branding color for the merchant.
 	PrimaryColor *string `form:"primary_color" json:"primary_color,omitempty"`
@@ -2516,28 +2572,74 @@ type V2CoreAccountCreateConfigurationMoneyManagerParams struct {
 	Capabilities *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsACHParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsFedwireParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsFPSParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsWireParams struct {
+// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsRTPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSEPAParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSwiftParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+	ACH *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsACHParams `form:"ach" json:"ach,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+	Fedwire *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsFedwireParams `form:"fedwire" json:"fedwire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+	FPS *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsFPSParams `form:"fps" json:"fps,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
-	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-	Wire *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsWireParams `form:"wire" json:"wire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+	RTP *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsRTPParams `form:"rtp" json:"rtp,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+	SEPA *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSEPAParams `form:"sepa" json:"sepa,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+	Swift *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
 }
 
 // Capabilities that enable OutboundPayments to a card linked to this Account.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2560,6 +2662,8 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capabilities that enable OutboundPayments to a card linked to this Account.
 	Cards *V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
+	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+	CryptoWallets *V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -2656,7 +2760,7 @@ type V2CoreAccountCreateIdentityAttestationsRepresentativeDeclarationParams stru
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+// Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date"`
@@ -2678,7 +2782,7 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceMoneyManagerParams str
 
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
-	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	MoneyManager *V2CoreAccountCreateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
@@ -2746,7 +2850,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2754,7 +2858,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsBankAccountOwnershipVeri
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2762,7 +2866,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyLicenseParams str
 
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2770,7 +2874,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssoc
 
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2778,7 +2882,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMinisterialDecree
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2786,23 +2890,23 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyRegistrationVerif
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front"`
 }
 
 // A document verifying the business.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -2810,7 +2914,15 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
+// One or more documents that demonstrate proof of business presence.
+type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -2824,7 +2936,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSigne
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
@@ -2840,7 +2952,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficia
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -2866,6 +2978,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3054,7 +3168,7 @@ type V2CoreAccountCreateIdentityIndividualDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountCreateIdentityIndividualDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -3062,39 +3176,39 @@ type V2CoreAccountCreateIdentityIndividualDocumentsCompanyAuthorizationParams st
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountCreateIdentityIndividualDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountCreateIdentityIndividualDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountCreateIdentityIndividualDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountCreateIdentityIndividualDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountCreateIdentityIndividualDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountCreateIdentityIndividualDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountCreateIdentityIndividualDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -3102,7 +3216,7 @@ type V2CoreAccountCreateIdentityIndividualDocumentsSecondaryVerificationParams s
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountCreateIdentityIndividualDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -3410,9 +3524,9 @@ type V2CoreAccountUpdateConfigurationMerchantBACSDebitPaymentsParams struct {
 
 // Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 type V2CoreAccountUpdateConfigurationMerchantBrandingParams struct {
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): An icon for the merchant. Must be square and at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): An icon for the merchant. Must be square and at least 128px x 128px.
 	Icon *string `form:"icon" json:"icon,omitempty"`
-	// ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
+	// ID of a [file upload](https://docs.stripe.com/api/files/create): A logo for the merchant that will be used in Checkout instead of the icon and without the merchant's name next to it if provided. Must be at least 128px x 128px.
 	Logo *string `form:"logo" json:"logo,omitempty"`
 	// A CSS hex color value representing the primary branding color for the merchant.
 	PrimaryColor *string `form:"primary_color" json:"primary_color,omitempty"`
@@ -3888,7 +4002,7 @@ type V2CoreAccountUpdateConfigurationMerchantSmartDisputesParams struct {
 	AutoRespond *V2CoreAccountUpdateConfigurationMerchantSmartDisputesAutoRespondParams `form:"auto_respond" json:"auto_respond,omitempty"`
 }
 
-// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
+// Settings for the default statement descriptor text.
 type V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
 	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
@@ -3948,7 +4062,7 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	SEPADebitPayments *V2CoreAccountUpdateConfigurationMerchantSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings for Smart Disputes automatic response feature.
 	SmartDisputes *V2CoreAccountUpdateConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
-	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
+	// Settings for the default statement descriptor text.
 	StatementDescriptor *V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountUpdateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
@@ -4158,28 +4272,74 @@ type V2CoreAccountUpdateConfigurationMoneyManagerParams struct {
 	Capabilities *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsACHParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsFedwireParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsFPSParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsWireParams struct {
+// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsRTPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSEPAParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSwiftParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
+	ACH *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsACHParams `form:"ach" json:"ach,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over Fedwire or CHIPS.
+	Fedwire *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsFedwireParams `form:"fedwire" json:"fedwire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over FPS rails.
+	FPS *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsFPSParams `form:"fps" json:"fps,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
-	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
-	Wire *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsWireParams `form:"wire" json:"wire,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over RTP rails.
+	RTP *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsRTPParams `form:"rtp" json:"rtp,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SEPA rails.
+	SEPA *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSEPAParams `form:"sepa" json:"sepa,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
+	Swift *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
 }
 
 // Capability that enable OutboundPayments to a debit card linked to this Account.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -4202,6 +4362,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
+	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
+	CryptoWallets *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -4212,8 +4374,6 @@ type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Recipient Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
-	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -4304,7 +4464,7 @@ type V2CoreAccountUpdateIdentityAttestationsRepresentativeDeclarationParams stru
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+// Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
@@ -4336,7 +4496,7 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams str
 
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
-	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
+	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
@@ -4406,7 +4566,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams struct {
 
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4414,7 +4574,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsBankAccountOwnershipVeri
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4422,7 +4582,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyLicenseParams str
 
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4430,7 +4590,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssoc
 
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4438,7 +4598,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMinisterialDecree
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4446,23 +4606,23 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyRegistrationVerif
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document verifying the business.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -4470,7 +4630,15 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
+// One or more documents that demonstrate proof of business presence.
+type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4484,7 +4652,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationSigne
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
@@ -4500,7 +4668,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficia
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// Person that is signing the document.
 	Signer *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
@@ -4526,6 +4694,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfRegistration *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -4714,7 +4884,7 @@ type V2CoreAccountUpdateIdentityIndividualDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountUpdateIdentityIndividualDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -4722,39 +4892,39 @@ type V2CoreAccountUpdateIdentityIndividualDocumentsCompanyAuthorizationParams st
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountUpdateIdentityIndividualDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountUpdateIdentityIndividualDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountUpdateIdentityIndividualDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountUpdateIdentityIndividualDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountUpdateIdentityIndividualDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountUpdateIdentityIndividualDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountUpdateIdentityIndividualDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -4762,7 +4932,7 @@ type V2CoreAccountUpdateIdentityIndividualDocumentsSecondaryVerificationParams s
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountUpdateIdentityIndividualDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`

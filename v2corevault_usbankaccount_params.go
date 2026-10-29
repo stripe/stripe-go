@@ -11,7 +11,7 @@ type V2CoreVaultUSBankAccountListParams struct {
 	Params `form:"*"`
 	// Optionally set the maximum number of results per page. Defaults to 10.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Optionally filter by verification status. Mutually exclusive with `unverified`, `verified`, `awaiting_verification`, and `verification_failed`.
+	// Closed Enum. Optionally filter by verification status.
 	VerificationStatus *string `form:"verification_status" json:"verification_status,omitempty"`
 }
 
@@ -48,6 +48,11 @@ type V2CoreVaultUSBankAccountConfirmMicrodepositsParams struct {
 
 // Send microdeposits in order to verify your US Bank Account so it is eligible to transfer funds. This will start the verification process and you must Confirm Microdeposits to successfully verify your US Bank Account.
 type V2CoreVaultUSBankAccountSendMicrodepositsParams struct {
+	Params `form:"*"`
+}
+
+// Unarchive a USBankAccount object.
+type V2CoreVaultUSBankAccountUnarchiveParams struct {
 	Params `form:"*"`
 }
 

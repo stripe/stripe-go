@@ -38,7 +38,7 @@ const (
 )
 
 // The address of the account holder.
-type V2MoneyManagementFinancialAddressBankAccountABAAccountHolderAddress struct {
+type V2MoneyManagementFinancialAddressBankAccountABAAddress struct {
 	// City.
 	City string `json:"city"`
 	// Country.
@@ -57,16 +57,14 @@ type V2MoneyManagementFinancialAddressBankAccountABAAccountHolderAddress struct 
 
 // ABA bank account details (US).
 type V2MoneyManagementFinancialAddressBankAccountABA struct {
-	// The address of the account holder.
-	AccountHolderAddress *V2MoneyManagementFinancialAddressBankAccountABAAccountHolderAddress `json:"account_holder_address,omitempty"`
 	// The name of the account holder.
 	AccountHolderName string `json:"account_holder_name,omitempty"`
-	// The full account number.
-	AccountNumber string `json:"account_number,omitempty"`
+	// The full account number. Empty while the bank account is pending allocation.
+	AccountNumber string `json:"account_number"`
+	// The address of the account holder.
+	Address *V2MoneyManagementFinancialAddressBankAccountABAAddress `json:"address,omitempty"`
 	// The name of the bank.
 	BankName string `json:"bank_name,omitempty"`
-	// The last four digits of the account number.
-	Last4 string `json:"last4"`
 	// The ABA routing number.
 	RoutingNumber string `json:"routing_number"`
 }
@@ -77,22 +75,16 @@ type V2MoneyManagementFinancialAddressBankAccountIBAN struct {
 	AccountHolderName string `json:"account_holder_name"`
 	// The name of the bank.
 	BankName string `json:"bank_name"`
-	// The country of the bank account.
-	Country string `json:"country"`
-	// The full IBAN.
-	IBAN string `json:"iban,omitempty"`
-	// The last four digits of the IBAN.
-	Last4 string `json:"last4"`
+	// The full IBAN. Empty while the bank account is pending allocation.
+	IBAN string `json:"iban"`
 }
 
 // Sort code bank account details (UK).
 type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 	// The name of the account holder.
 	AccountHolderName string `json:"account_holder_name"`
-	// The full account number.
-	AccountNumber string `json:"account_number,omitempty"`
-	// The last four digits of the account number.
-	Last4 string `json:"last4"`
+	// The full account number. Empty while the bank account is pending allocation.
+	AccountNumber string `json:"account_number"`
 	// The sort code.
 	SortCode string `json:"sort_code"`
 }
@@ -101,7 +93,8 @@ type V2MoneyManagementFinancialAddressBankAccountSortCode struct {
 type V2MoneyManagementFinancialAddressBankAccount struct {
 	// ABA bank account details (US).
 	ABA *V2MoneyManagementFinancialAddressBankAccountABA `json:"aba,omitempty"`
-	// The country of the bank account.
+	// The country of the bank account. Always included in the response, but null while the bank
+	// account is pending and its country is not yet known.
 	Country string `json:"country,omitempty"`
 	// Open Enum. The currency of the bank account.
 	Currency Currency `json:"currency"`
@@ -127,9 +120,8 @@ type V2MoneyManagementFinancialAddress struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
-	Object string `json:"object"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
-	SettlementCurrency Currency `json:"settlement_currency,omitempty"`
+	Object             string   `json:"object"`
+	SettlementCurrency Currency `json:"settlement_currency"`
 	// Closed Enum. The status of the FinancialAddress.
 	Status V2MoneyManagementFinancialAddressStatus `json:"status"`
 	// Open Enum. The type of FinancialAddress.

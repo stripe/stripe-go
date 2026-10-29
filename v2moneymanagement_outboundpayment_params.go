@@ -6,26 +6,11 @@
 
 package stripe
 
-import "time"
-
 // Returns a list of OutboundPayments that match the provided filters.
 type V2MoneyManagementOutboundPaymentListParams struct {
 	Params `form:"*"`
-	// Filter for objects created at the specified timestamp.
-	// Must be an RFC 3339 date & time value, for example: 2022-09-18T13:22:00Z.
-	Created *time.Time `form:"created" json:"created,omitempty"`
-	// Filter for objects created after the specified timestamp.
-	// Must be an RFC 3339 date & time value, for example: 2022-09-18T13:22:00Z.
-	CreatedGt *time.Time `form:"created_gt" json:"created_gt,omitempty"`
-	// Filter for objects created on or after the specified timestamp.
-	// Must be an RFC 3339 date & time value, for example: 2022-09-18T13:22:00Z.
-	CreatedGTE *time.Time `form:"created_gte" json:"created_gte,omitempty"`
-	// Filter for objects created before the specified timestamp.
-	// Must be an RFC 3339 date & time value, for example: 2022-09-18T13:22:00Z.
-	CreatedLT *time.Time `form:"created_lt" json:"created_lt,omitempty"`
-	// Filter for objects created on or before the specified timestamp.
-	// Must be an RFC 3339 date & time value, for example: 2022-09-18T13:22:00Z.
-	CreatedLte *time.Time `form:"created_lte" json:"created_lte,omitempty"`
+	// Filter OutboundPayments by their creation time.
+	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
 	// The maximum number of results to return.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Only return OutboundPayments sent to this recipient.
@@ -51,8 +36,36 @@ type V2MoneyManagementOutboundPaymentFromParams struct {
 // Details about the notification settings for the OutboundPayment recipient.
 type V2MoneyManagementOutboundPaymentRecipientNotificationParams struct {
 	// Closed Enum. Configuration option to enable or disable notifications to recipients.
-	// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+	// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 	Setting *string `form:"setting" json:"setting"`
+}
+
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Open Enum. ACH submission timing.
+	Submission *string `form:"submission" json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 }
 
 // To which payout method to send the OutboundPayment.
@@ -61,12 +74,14 @@ type V2MoneyManagementOutboundPaymentToParams struct {
 	// If included, this currency must match a currency supported by the destination.
 	// Can be omitted in the following cases:
 	// - destination only supports one currency
-	// - destination supports multiple currencies and one of the currencies matches the FA currency
-	// - destination supports multiple currencies and one of the currencies matches the presentment currency
-	// Note - when both FA currency and presentment currency are supported, we pick the FA currency to minimize FX.
+	// - destination supports multiple currencies and one matches `from.currency`
+	// - destination supports multiple currencies and one matches `amount.currency`
+	// When both `from.currency` and `amount.currency` are supported, Stripe selects `from.currency` to minimize currency conversion.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient *string `form:"recipient" json:"recipient"`
 }
@@ -74,7 +89,7 @@ type V2MoneyManagementOutboundPaymentToParams struct {
 // Creates an OutboundPayment.
 type V2MoneyManagementOutboundPaymentParams struct {
 	Params `form:"*"`
-	// The "presentment amount" to be sent to the recipient.
+	// The requested amount and currency for the OutboundPayment.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Delivery options to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
@@ -90,6 +105,10 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
+	// The ID of the RecipientVerification for this OutboundPayment. Required where recipient-name verification is mandated before creating an OutboundPayment.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundPayment (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentToParams `form:"to" json:"to,omitempty"`
 }
@@ -125,8 +144,36 @@ type V2MoneyManagementOutboundPaymentCreateFromParams struct {
 // Details about the notification settings for the OutboundPayment recipient.
 type V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams struct {
 	// Closed Enum. Configuration option to enable or disable notifications to recipients.
-	// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+	// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 	Setting *string `form:"setting" json:"setting"`
+}
+
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Open Enum. ACH submission timing.
+	Submission *string `form:"submission" json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 }
 
 // To which payout method to send the OutboundPayment.
@@ -135,12 +182,14 @@ type V2MoneyManagementOutboundPaymentCreateToParams struct {
 	// If included, this currency must match a currency supported by the destination.
 	// Can be omitted in the following cases:
 	// - destination only supports one currency
-	// - destination supports multiple currencies and one of the currencies matches the FA currency
-	// - destination supports multiple currencies and one of the currencies matches the presentment currency
-	// Note - when both FA currency and presentment currency are supported, we pick the FA currency to minimize FX.
+	// - destination supports multiple currencies and one matches `from.currency`
+	// - destination supports multiple currencies and one matches `amount.currency`
+	// When both `from.currency` and `amount.currency` are supported, Stripe selects `from.currency` to minimize currency conversion.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient *string `form:"recipient" json:"recipient"`
 }
@@ -148,7 +197,7 @@ type V2MoneyManagementOutboundPaymentCreateToParams struct {
 // Creates an OutboundPayment.
 type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Params `form:"*"`
-	// The "presentment amount" to be sent to the recipient.
+	// The requested amount and currency for the OutboundPayment.
 	Amount *Amount `form:"amount" json:"amount"`
 	// Delivery options to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
@@ -164,6 +213,10 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
+	// The ID of the RecipientVerification for this OutboundPayment. Required where recipient-name verification is mandated before creating an OutboundPayment.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundPayment (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentCreateToParams `form:"to" json:"to"`
 }

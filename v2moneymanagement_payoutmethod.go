@@ -37,6 +37,22 @@ const (
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeToza     V2MoneyManagementPayoutMethodBankAccountBankAccountType = "toza"
 )
 
+// Which rail is being used to make an outbound money movement to this wallet.
+type V2MoneyManagementPayoutMethodCryptoWalletNetwork string
+
+// List of values that V2MoneyManagementPayoutMethodCryptoWalletNetwork can take
+const (
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkArbitrum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkAvalancheCChain V2MoneyManagementPayoutMethodCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkBase            V2MoneyManagementPayoutMethodCryptoWalletNetwork = "base"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkEthereum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkOptimism        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "optimism"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkPolygon         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "polygon"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkSolana          V2MoneyManagementPayoutMethodCryptoWalletNetwork = "solana"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkStellar         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "stellar"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkTempo           V2MoneyManagementPayoutMethodCryptoWalletNetwork = "tempo"
+)
+
 // Open Enum. The type of payout method.
 type V2MoneyManagementPayoutMethodType string
 
@@ -95,6 +111,9 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	EnabledDeliverySchemes []string `json:"enabled_delivery_schemes"`
 	// The ID of the Financial Connections Account used to create the bank account.
 	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same bank account, for example.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`
 	// The routing number of the bank account, if present.
@@ -118,6 +137,16 @@ type V2MoneyManagementPayoutMethodCard struct {
 	Last4 string `json:"last4"`
 	// The list of currencies supported by this bank account.
 	SupportedCurrencies []Currency `json:"supported_currencies"`
+}
+
+// The PayoutMethodCryptoWallet object details.
+type V2MoneyManagementPayoutMethodCryptoWallet struct {
+	// Destination wallet address.
+	Address string `json:"address"`
+	// Optional field, required if network supports memos (only "stellar" currently).
+	Memo string `json:"memo,omitempty"`
+	// Which rail is being used to make an outbound money movement to this wallet.
+	Network V2MoneyManagementPayoutMethodCryptoWalletNetwork `json:"network"`
 }
 
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
@@ -147,6 +176,8 @@ type V2MoneyManagementPayoutMethod struct {
 	Card *V2MoneyManagementPayoutMethodCard `json:"card,omitempty"`
 	// Created timestamp.
 	Created time.Time `json:"created"`
+	// The PayoutMethodCryptoWallet object details.
+	CryptoWallet *V2MoneyManagementPayoutMethodCryptoWallet `json:"crypto_wallet,omitempty"`
 	// ID of the PayoutMethod object.
 	ID string `json:"id"`
 	// ID of the underlying active OutboundSetupIntent object, if any.

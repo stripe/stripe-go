@@ -103,6 +103,7 @@ import (
 	"github.com/stripe/stripe-go/v87/paymentmethod"
 	"github.com/stripe/stripe-go/v87/paymentmethodconfiguration"
 	"github.com/stripe/stripe-go/v87/paymentmethoddomain"
+	"github.com/stripe/stripe-go/v87/paymentplan"
 	"github.com/stripe/stripe-go/v87/paymentrecord"
 	"github.com/stripe/stripe-go/v87/paymentsource"
 	"github.com/stripe/stripe-go/v87/payout"
@@ -208,7 +209,11 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v87/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/usbankaccount"
+	v2dataqueryrun "github.com/stripe/stripe-go/v87/v2/data/queryrun"
+	v2datareport "github.com/stripe/stripe-go/v87/v2/data/report"
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v87/v2/data/reporting/queryrun"
+	v2datareportrun "github.com/stripe/stripe-go/v87/v2/data/reportrun"
+	v2dataschema "github.com/stripe/stripe-go/v87/v2/data/schema"
 	v2extendworkflow "github.com/stripe/stripe-go/v87/v2/extend/workflow"
 	v2extendworkflowrun "github.com/stripe/stripe-go/v87/v2/extend/workflowrun"
 	v2iamactivitylog "github.com/stripe/stripe-go/v87/v2/iam/activitylog"
@@ -220,10 +225,12 @@ import (
 	v2moneymanagementoutboundpaymentquote "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundpaymentquote"
 	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundsetupintent"
 	v2moneymanagementoutboundtransfer "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundtransfer"
+	v2moneymanagementpayoutintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutintent"
 	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutmethod"
 	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v87/v2/moneymanagement/payoutmethodsbankaccountspec"
 	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v87/v2/moneymanagement/receivedcredit"
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v87/v2/moneymanagement/receiveddebit"
+	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v87/v2/moneymanagement/recipientverification"
 	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v87/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v87/v2/moneymanagement/transactionentry"
@@ -232,6 +239,7 @@ import (
 	v2signalsaccountactivity "github.com/stripe/stripe-go/v87/v2/signals/accountactivity"
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v87/v2/signals/accountevaluation"
 	v2signalsaccountsignal "github.com/stripe/stripe-go/v87/v2/signals/accountsignal"
+	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v87/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v87/webhookendpoint"
 )
 
@@ -421,6 +429,8 @@ type API struct {
 	PaymentMethodDomains *paymentmethoddomain.Client
 	// PaymentMethods is the client used to invoke /v1/payment_methods APIs.
 	PaymentMethods *paymentmethod.Client
+	// PaymentPlans is the client used to invoke /v1/payment_plans APIs.
+	PaymentPlans *paymentplan.Client
 	// PaymentRecords is the client used to invoke /v1/payment_records APIs.
 	PaymentRecords *paymentrecord.Client
 	// PaymentSources is the client used to invoke /v1/customers/{customer}/sources APIs.
@@ -631,8 +641,16 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2DataQueryRuns is the client used to invoke /v2/data/query_runs APIs.
+	V2DataQueryRuns *v2dataqueryrun.Client
 	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
 	V2DataReportingQueryRuns *v2datareportingqueryrun.Client
+	// V2DataReportRuns is the client used to invoke /v2/data/report_runs APIs.
+	V2DataReportRuns *v2datareportrun.Client
+	// V2DataReports is the client used to invoke /v2/data/reports APIs.
+	V2DataReports *v2datareport.Client
+	// V2DataSchemas is the client used to invoke /v2/data/schemas APIs.
+	V2DataSchemas *v2dataschema.Client
 	// V2ExtendWorkflowRuns is the client used to invoke /v2/extend/workflow_runs APIs.
 	V2ExtendWorkflowRuns *v2extendworkflowrun.Client
 	// V2ExtendWorkflows is the client used to invoke /v2/extend/workflows APIs.
@@ -655,6 +673,8 @@ type API struct {
 	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
 	// V2MoneyManagementOutboundTransfers is the client used to invoke /v2/money_management/outbound_transfers APIs.
 	V2MoneyManagementOutboundTransfers *v2moneymanagementoutboundtransfer.Client
+	// V2MoneyManagementPayoutIntents is the client used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2moneymanagementpayoutintent.Client
 	// V2MoneyManagementPayoutMethods is the client used to invoke /v2/money_management/payout_methods APIs.
 	V2MoneyManagementPayoutMethods *v2moneymanagementpayoutmethod.Client
 	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the client used to invoke payoutmethodsbankaccountspec related APIs.
@@ -663,6 +683,8 @@ type API struct {
 	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
 	// V2MoneyManagementReceivedDebits is the client used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
+	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
 	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2MoneyManagementTestHelpersFinancialAddresses *v2moneymanagementtesthelpersfinancialaddress.Client
 	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
@@ -679,6 +701,8 @@ type API struct {
 	V2SignalsAccountEvaluations *v2signalsaccountevaluation.Client
 	// V2SignalsAccountSignals is the client used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2signalsaccountsignal.Client
+	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2testhelpersmoneymanagement.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -787,6 +811,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.PaymentMethodConfigurations = &paymentmethodconfiguration.Client{B: backends.API, Key: key}
 	a.PaymentMethodDomains = &paymentmethoddomain.Client{B: backends.API, Key: key}
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
+	a.PaymentPlans = &paymentplan.Client{B: backends.API, Key: key}
 	a.PaymentRecords = &paymentrecord.Client{B: backends.API, Key: key}
 	a.PaymentSources = &paymentsource.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
@@ -892,7 +917,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2DataQueryRuns = &v2dataqueryrun.Client{B: backends.API, Key: key}
 	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
+	a.V2DataReportRuns = &v2datareportrun.Client{B: backends.API, Key: key}
+	a.V2DataReports = &v2datareport.Client{B: backends.API, Key: key}
+	a.V2DataSchemas = &v2dataschema.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflowRuns = &v2extendworkflowrun.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflows = &v2extendworkflow.Client{B: backends.API, Key: key}
 	a.V2IamActivityLogs = &v2iamactivitylog.Client{B: backends.API, Key: key}
@@ -904,10 +933,12 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundTransfers = &v2moneymanagementoutboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutIntents = &v2moneymanagementpayoutintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
@@ -916,6 +947,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
+	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

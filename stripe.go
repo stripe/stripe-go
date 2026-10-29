@@ -342,13 +342,15 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
 
-			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
+			metadataField := reflectValue.Elem().FieldByName("Metadata")
+			if metadataField.IsValid() && !metadataField.IsZero() {
 				if commonParams.Metadata != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
-			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
+			expandField := reflectValue.Elem().FieldByName("Expand")
+			if expandField.IsValid() && !expandField.IsZero() {
 				if commonParams.Expand != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
@@ -585,7 +587,11 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	paramsValue := reflect.ValueOf(params)
 	unsetFieldPaths := collectAllUnsetFields(paramsValue)
 	decimalFields := collectDecimalJSONFields(paramsValue, nil)
-	if len(unsetFieldPaths) == 0 && len(decimalFields) == 0 {
+	var extraValues url.Values
+	if baseParams := params.GetParams(); baseParams != nil && baseParams.Extra != nil {
+		extraValues = baseParams.Extra.Values
+	}
+	if len(unsetFieldPaths) == 0 && len(decimalFields) == 0 && len(extraValues) == 0 {
 		return data, nil
 	}
 
@@ -603,6 +609,19 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	}
 	for _, path := range unsetFieldPaths {
 		setNestedNull(m, path)
+	}
+	for key, values := range extraValues {
+		var value interface{}
+		if len(values) == 1 {
+			value = values[0]
+		} else {
+			value = values
+		}
+		encoded, err := json.Marshal(value)
+		if err != nil {
+			return nil, err
+		}
+		m[key] = encoded
 	}
 
 	return json.Marshal(m)
@@ -1335,6 +1354,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "capability_not_enabled":
+		tmp := struct {
+			Error *CapabilityNotEnabledError `json:"error"`
+		}{
+			Error: &CapabilityNotEnabledError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "controlled_by_alternate_resource":
 		tmp := struct {
 			Error *ControlledByAlternateResourceError `json:"error"`
@@ -1362,6 +1392,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *FinancialAccountNotOpenError `json:"error"`
 		}{
 			Error: &FinancialAccountNotOpenError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "fx_quote_needs_refresh":
+		tmp := struct {
+			Error *FxQuoteNeedsRefreshError `json:"error"`
+		}{
+			Error: &FxQuoteNeedsRefreshError{},
 		}
 		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -1602,10 +1643,27 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		}
 	}
 
+	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
+	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
+	// instructions if given.
+	if resp != nil {
+		if resp.Header.Get("Stripe-Should-Retry") == "false" {
+			return false, "`Stripe-Should-Retry` header returned `false`"
+		}
+		if resp.Header.Get("Stripe-Should-Retry") == "true" {
+			return true, ""
+		}
+	}
+
 	// All errors from the Stripe API should implement the `retrier` interface.
-	// Any other error comes from a different layer
-	if err, ok := err.(retrier); ok {
-		return err.canRetry(), "not retriable error"
+	// A retrier can independently opt in to a retry, but a false result should
+	// still allow the response status to be evaluated below.
+	isStripeError := false
+	if retryError, ok := err.(retrier); ok {
+		isStripeError = true
+		if retryError.canRetry() {
+			return true, ""
+		}
 	}
 
 	// We retry most errors that come out of HTTP requests except for a curated
@@ -1614,7 +1672,7 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 	// flip this to an inverted strategy of retrying only errors that we know
 	// to be retryable in a future refactor, if a good methodology is found for
 	// identifying that full set of errors.
-	if err != nil {
+	if err != nil && !isStripeError {
 		if urlErr, ok := err.(*url.Error); ok {
 			// Don't retry too many redirects.
 			if redirectsErrorRE.MatchString(urlErr.Error()) {
@@ -1636,28 +1694,20 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		return true, ""
 	}
 
-	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
-	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
-	// instructions if given.
-	if resp.Header.Get("Stripe-Should-Retry") == "false" {
-		return false, "`Stripe-Should-Retry` header returned `false`"
-	}
-	if resp.Header.Get("Stripe-Should-Retry") == "true" {
-		return true, ""
-	}
+	if resp != nil {
+		// 409 Conflict
+		if resp.StatusCode == http.StatusConflict {
+			return true, ""
+		}
 
-	// 409 Conflict
-	if resp.StatusCode == http.StatusConflict {
-		return true, ""
-	}
-
-	// Retry on 500, 503, and other internal errors.
-	//
-	// Note that we expect the stripe-should-retry header to be false
-	// in most cases when a 500 is returned, since our idempotency framework
-	// would typically replay it anyway.
-	if resp.StatusCode >= http.StatusInternalServerError {
-		return true, ""
+		// Retry on 500, 503, and other internal errors.
+		//
+		// Note that we expect the stripe-should-retry header to be false
+		// in most cases when a 500 is returned, since our idempotency framework
+		// would typically replay it anyway.
+		if resp.StatusCode >= http.StatusInternalServerError {
+			return true, ""
+		}
 	}
 
 	return false, "response not known to be safe for retry"

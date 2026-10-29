@@ -27,7 +27,7 @@ const (
 )
 
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
-// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 type V2MoneyManagementOutboundPaymentRecipientNotificationSetting string
 
 // List of values that V2MoneyManagementOutboundPaymentRecipientNotificationSetting can take
@@ -36,10 +36,9 @@ const (
 	V2MoneyManagementOutboundPaymentRecipientNotificationSettingNone       V2MoneyManagementOutboundPaymentRecipientNotificationSetting = "none"
 )
 
-// Closed Enum. Current status of the OutboundPayment: `processing`, `failed`, `posted`, `returned`, `canceled`.
-// An OutboundPayment is `processing` if it has been created and is processing.
-// The status changes to `posted` once the OutboundPayment has been "confirmed" and funds have left the account, or to `failed` or `canceled`.
-// If an OutboundPayment fails to arrive at its payout method, its status will change to `returned`.
+// Current status of the OutboundPayment.
+// An OutboundPayment is `processing` after creation. It becomes `posted` when funds leave the account,
+// `failed` if it cannot be sent, `canceled` if canceled before posting, or `returned` if the funds are returned.
 type V2MoneyManagementOutboundPaymentStatus string
 
 // List of values that V2MoneyManagementOutboundPaymentStatus can take
@@ -93,9 +92,39 @@ const (
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonUnknownFailure                     V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "unknown_failure"
 )
 
+// Open Enum. ACH submission timing.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionNextDay V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "next_day"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionSameDay V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "same_day"
+)
+
+// The transaction purpose for this ACH payment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurposePayroll V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose = "payroll"
+)
+
+// The preferred networks to use for this OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkACH     V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "ach"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkFedwire V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "fedwire"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkFPS     V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkRTP     V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSEPA    V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSwift   V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+)
+
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 // `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 // even after the payment or transfer is posted.
 type V2MoneyManagementOutboundPaymentTraceIDStatus string
 
@@ -104,6 +133,26 @@ const (
 	V2MoneyManagementOutboundPaymentTraceIDStatusPending     V2MoneyManagementOutboundPaymentTraceIDStatus = "pending"
 	V2MoneyManagementOutboundPaymentTraceIDStatusSupported   V2MoneyManagementOutboundPaymentTraceIDStatus = "supported"
 	V2MoneyManagementOutboundPaymentTraceIDStatusUnsupported V2MoneyManagementOutboundPaymentTraceIDStatus = "unsupported"
+)
+
+// The status of the tracking details for this OutboundPayment.
+type V2MoneyManagementOutboundPaymentTrackingDetailsStatus string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsStatus can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsStatusPending     V2MoneyManagementOutboundPaymentTrackingDetailsStatus = "pending"
+	V2MoneyManagementOutboundPaymentTrackingDetailsStatusSupported   V2MoneyManagementOutboundPaymentTrackingDetailsStatus = "supported"
+	V2MoneyManagementOutboundPaymentTrackingDetailsStatusUnsupported V2MoneyManagementOutboundPaymentTrackingDetailsStatus = "unsupported"
+)
+
+// The type of tracking details for this OutboundPayment.
+type V2MoneyManagementOutboundPaymentTrackingDetailsType string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsType can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsTypeBankAccount  V2MoneyManagementOutboundPaymentTrackingDetailsType = "bank_account"
+	V2MoneyManagementOutboundPaymentTrackingDetailsTypeCard         V2MoneyManagementOutboundPaymentTrackingDetailsType = "card"
+	V2MoneyManagementOutboundPaymentTrackingDetailsTypeCryptoWallet V2MoneyManagementOutboundPaymentTrackingDetailsType = "crypto_wallet"
 )
 
 // Delivery options to be used to send the OutboundPayment.
@@ -123,7 +172,7 @@ type V2MoneyManagementOutboundPaymentFrom struct {
 // Details about the OutboundPayment notification settings for recipient.
 type V2MoneyManagementOutboundPaymentRecipientNotification struct {
 	// Closed Enum. Configuration option to enable or disable notifications to recipients.
-	// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+	// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 	Setting V2MoneyManagementOutboundPaymentRecipientNotificationSetting `json:"setting"`
 }
 
@@ -171,12 +220,42 @@ type V2MoneyManagementOutboundPaymentStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct {
+	// Open Enum. ACH submission timing.
+	Submission V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission `json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose `json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptions struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks,omitempty"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptions struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+}
+
 // To which payout method the OutboundPayment was sent.
 type V2MoneyManagementOutboundPaymentTo struct {
 	// The monetary amount being credited to the destination.
 	Credited Amount `json:"credited"`
 	// The payout method which the OutboundPayment uses to send payout.
-	PayoutMethod string `json:"payout_method"`
+	PayoutMethod string `json:"payout_method,omitempty"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptions `json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient string `json:"recipient"`
 }
@@ -185,17 +264,49 @@ type V2MoneyManagementOutboundPaymentTo struct {
 type V2MoneyManagementOutboundPaymentTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-	// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+	// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 	// even after the payment or transfer is posted.
 	Status V2MoneyManagementOutboundPaymentTraceIDStatus `json:"status"`
 	// The trace ID value if `trace_id.status` is `supported`, otherwise empty.
 	Value string `json:"value,omitempty"`
 }
 
+// Bank account tracking details.
+type V2MoneyManagementOutboundPaymentTrackingDetailsBankAccount struct {
+	// A unique identifier that can be used to track this OutboundPayment with the recipient bank. Banks might call this a “reference number” or something similar.
+	TraceID string `json:"trace_id,omitempty"`
+}
+
+// Card tracking details.
+type V2MoneyManagementOutboundPaymentTrackingDetailsCard struct {
+	// A unique identifier that can be used to track this OutboundPayment with the recipient card.
+	RetrievalReference string `json:"retrieval_reference,omitempty"`
+}
+
+// Crypto wallet tracking details.
+type V2MoneyManagementOutboundPaymentTrackingDetailsCryptoWallet struct {
+	// A unique identifier that can be used to track this OutboundPayment with the recipient crypto wallet.
+	BlockchainTransaction string `json:"blockchain_transaction,omitempty"`
+}
+
+// Information to track this OutboundPayment with the recipient bank.
+type V2MoneyManagementOutboundPaymentTrackingDetails struct {
+	// Bank account tracking details.
+	BankAccount *V2MoneyManagementOutboundPaymentTrackingDetailsBankAccount `json:"bank_account,omitempty"`
+	// Card tracking details.
+	Card *V2MoneyManagementOutboundPaymentTrackingDetailsCard `json:"card,omitempty"`
+	// Crypto wallet tracking details.
+	CryptoWallet *V2MoneyManagementOutboundPaymentTrackingDetailsCryptoWallet `json:"crypto_wallet,omitempty"`
+	// The status of the tracking details for this OutboundPayment.
+	Status V2MoneyManagementOutboundPaymentTrackingDetailsStatus `json:"status"`
+	// The type of tracking details for this OutboundPayment.
+	Type V2MoneyManagementOutboundPaymentTrackingDetailsType `json:"type"`
+}
+
 // OutboundPayment represents a single money movement from one FinancialAccount you own to a payout method someone else owns.
 type V2MoneyManagementOutboundPayment struct {
 	APIResource
-	// The "presentment amount" for the OutboundPayment.
+	// The amount and currency requested for this OutboundPayment.
 	Amount Amount `json:"amount"`
 	// Returns true if the OutboundPayment can be canceled, and false otherwise.
 	Cancelable bool `json:"cancelable"`
@@ -221,18 +332,21 @@ type V2MoneyManagementOutboundPayment struct {
 	Object string `json:"object"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote string `json:"outbound_payment_quote,omitempty"`
+	// The PayoutIntent ID that triggered this OutboundPayment.
+	PayoutIntent string `json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose V2MoneyManagementOutboundPaymentPurpose `json:"purpose,omitempty"`
 	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotification `json:"recipient_notification"`
-	// The description that appears on the receiving end for an OutboundPayment (for example, bank statement for external bank transfer). It will default to `STRIPE` if not set on the account settings.
+	// The ID of the RecipientVerification for this OutboundPayment. Required where recipient-name verification is mandated before creating an OutboundPayment.
+	RecipientVerification string `json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end of an OutboundPayment (for example, on a bank statement). Defaults to `STRIPE` if not configured in the account settings.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// Closed Enum. Current status of the OutboundPayment: `processing`, `failed`, `posted`, `returned`, `canceled`.
-	// An OutboundPayment is `processing` if it has been created and is processing.
-	// The status changes to `posted` once the OutboundPayment has been "confirmed" and funds have left the account, or to `failed` or `canceled`.
-	// If an OutboundPayment fails to arrive at its payout method, its status will change to `returned`.
+	// Current status of the OutboundPayment.
+	// An OutboundPayment is `processing` after creation. It becomes `posted` when funds leave the account,
+	// `failed` if it cannot be sent, `canceled` if canceled before posting, or `returned` if the funds are returned.
 	Status V2MoneyManagementOutboundPaymentStatus `json:"status"`
 	// Status details for an OutboundPayment in a `processing`, `failed`, or `returned` state.
 	StatusDetails *V2MoneyManagementOutboundPaymentStatusDetails `json:"status_details,omitempty"`
@@ -242,4 +356,6 @@ type V2MoneyManagementOutboundPayment struct {
 	To *V2MoneyManagementOutboundPaymentTo `json:"to"`
 	// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a "reference number" or something similar.
 	TraceID *V2MoneyManagementOutboundPaymentTraceID `json:"trace_id"`
+	// Information to track this OutboundPayment with the recipient bank.
+	TrackingDetails *V2MoneyManagementOutboundPaymentTrackingDetails `json:"tracking_details,omitempty"`
 }

@@ -64,7 +64,8 @@ type V2SignalsAccountEvaluationAccountActivityDetailsDataParams struct {
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.
 	RegistrationAttempt *V2SignalsAccountEvaluationAccountActivityDetailsDataRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
-	// The type of activity. Must be registration_attempt or login_attempt.
+	// The type of activity. Supports registration_attempt, login_attempt, mfa_addition, mfa_removal,
+	// credential_change, account_takeover_report, account_takeover_confirmation, or account_takeover_mitigation.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -106,6 +107,8 @@ type V2SignalsAccountEvaluationAccountDetailsDataIdentityParams struct {
 
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationAccountDetailsDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.
@@ -116,7 +119,7 @@ type V2SignalsAccountEvaluationAccountDetailsDataParams struct {
 type V2SignalsAccountEvaluationAccountDetailsParams struct {
 	// The v2 account ID of the account.
 	Account *string `form:"account" json:"account,omitempty"`
-	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
+	// The v1 customer ID of the account, for users not yet migrated to v2 accounts.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountEvaluationAccountDetailsDataParams `form:"data" json:"data,omitempty"`
@@ -189,7 +192,8 @@ type V2SignalsAccountEvaluationCreateAccountActivityDetailsDataParams struct {
 	OccurredAt *time.Time `form:"occurred_at" json:"occurred_at,omitempty"`
 	// Details for the registration attempt. Provide only when type is registration_attempt.
 	RegistrationAttempt *V2SignalsAccountEvaluationCreateAccountActivityDetailsDataRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
-	// The type of activity. Must be registration_attempt or login_attempt.
+	// The type of activity. Supports registration_attempt, login_attempt, mfa_addition, mfa_removal,
+	// credential_change, account_takeover_report, account_takeover_confirmation, or account_takeover_mitigation.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -231,6 +235,8 @@ type V2SignalsAccountEvaluationCreateAccountDetailsDataIdentityParams struct {
 
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationCreateAccountDetailsDataParams struct {
+	// The account's contact email.
+	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationCreateAccountDetailsDataDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Identity data.
@@ -241,7 +247,7 @@ type V2SignalsAccountEvaluationCreateAccountDetailsDataParams struct {
 type V2SignalsAccountEvaluationCreateAccountDetailsParams struct {
 	// The v2 account ID of the account.
 	Account *string `form:"account" json:"account,omitempty"`
-	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
+	// The v1 customer ID of the account, for users not yet migrated to v2 accounts.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountEvaluationCreateAccountDetailsDataParams `form:"data" json:"data,omitempty"`
@@ -258,7 +264,7 @@ type V2SignalsAccountEvaluationCreateParams struct {
 	RequestedSignals []*string `form:"requested_signals" json:"requested_signals"`
 }
 
-// Retrieves an AccountEvaluation by its ID.
+// Retrieves an AccountEvaluation by its ID when its created timestamp is no more than 90 days old.
 type V2SignalsAccountEvaluationRetrieveParams struct {
 	Params `form:"*"`
 }

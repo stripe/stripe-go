@@ -184,6 +184,8 @@ type Client struct {
 	V1PaymentMethodDomains *v1PaymentMethodDomainService
 	// V1PaymentMethods is the service used to invoke /v1/payment_methods APIs.
 	V1PaymentMethods *v1PaymentMethodService
+	// V1PaymentPlans is the service used to invoke /v1/payment_plans APIs.
+	V1PaymentPlans *v1PaymentPlanService
 	// V1PaymentRecords is the service used to invoke /v1/payment_records APIs.
 	V1PaymentRecords *v1PaymentRecordService
 	// V1PaymentSources is the service used to invoke /v1/customers/{customer}/sources APIs.
@@ -398,8 +400,16 @@ type Client struct {
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2DataQueryRuns is the service used to invoke /v2/data/query_runs APIs.
+	V2DataQueryRuns *v2DataQueryRunService
 	// V2DataReportingQueryRuns is the service used to invoke /v2/data/reporting/query_runs APIs.
 	V2DataReportingQueryRuns *v2DataReportingQueryRunService
+	// V2DataReportRuns is the service used to invoke /v2/data/report_runs APIs.
+	V2DataReportRuns *v2DataReportRunService
+	// V2DataReports is the service used to invoke /v2/data/reports APIs.
+	V2DataReports *v2DataReportService
+	// V2DataSchemas is the service used to invoke /v2/data/schemas APIs.
+	V2DataSchemas *v2DataSchemaService
 	// V2ExtendWorkflowRuns is the service used to invoke /v2/extend/workflow_runs APIs.
 	V2ExtendWorkflowRuns *v2ExtendWorkflowRunService
 	// V2ExtendWorkflows is the service used to invoke /v2/extend/workflows APIs.
@@ -422,6 +432,8 @@ type Client struct {
 	V2MoneyManagementOutboundSetupIntents *v2MoneyManagementOutboundSetupIntentService
 	// V2MoneyManagementOutboundTransfers is the service used to invoke /v2/money_management/outbound_transfers APIs.
 	V2MoneyManagementOutboundTransfers *v2MoneyManagementOutboundTransferService
+	// V2MoneyManagementPayoutIntents is the service used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2MoneyManagementPayoutIntentService
 	// V2MoneyManagementPayoutMethods is the service used to invoke /v2/money_management/payout_methods APIs.
 	V2MoneyManagementPayoutMethods *v2MoneyManagementPayoutMethodService
 	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the service used to invoke payoutmethodsbankaccountspec related APIs.
@@ -430,6 +442,8 @@ type Client struct {
 	V2MoneyManagementReceivedCredits *v2MoneyManagementReceivedCreditService
 	// V2MoneyManagementReceivedDebits is the service used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2MoneyManagementReceivedDebitService
+	// V2MoneyManagementRecipientVerifications is the service used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2MoneyManagementRecipientVerificationService
 	// V2MoneyManagementTestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2MoneyManagementTestHelpersFinancialAddresses *v2MoneyManagementTestHelpersFinancialAddressService
 	// V2MoneyManagementTransactionEntries is the service used to invoke /v2/money_management/transaction_entries APIs.
@@ -446,6 +460,8 @@ type Client struct {
 	V2SignalsAccountEvaluations *v2SignalsAccountEvaluationService
 	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2SignalsAccountSignalService
+	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2TestHelpersMoneyManagementService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
 	backends *Backends
@@ -573,6 +589,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
 	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
 	client.V1PaymentMethods = &v1PaymentMethodService{B: backends.API, Key: key}
+	client.V1PaymentPlans = &v1PaymentPlanService{B: backends.API, Key: key}
 	client.V1PaymentRecords = &v1PaymentRecordService{B: backends.API, Key: key}
 	client.V1PaymentSources = &v1PaymentSourceService{B: backends.API, Key: key}
 	client.V1Payouts = &v1PayoutService{B: backends.API, Key: key}
@@ -680,7 +697,11 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2DataQueryRuns = &v2DataQueryRunService{B: backends.API, Key: key}
 	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}
+	client.V2DataReportRuns = &v2DataReportRunService{B: backends.API, Key: key}
+	client.V2DataReports = &v2DataReportService{B: backends.API, Key: key}
+	client.V2DataSchemas = &v2DataSchemaService{B: backends.API, Key: key}
 	client.V2ExtendWorkflowRuns = &v2ExtendWorkflowRunService{B: backends.API, Key: key}
 	client.V2ExtendWorkflows = &v2ExtendWorkflowService{B: backends.API, Key: key}
 	client.V2IamActivityLogs = &v2IamActivityLogService{B: backends.API, Key: key}
@@ -692,10 +713,12 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementOutboundPayments = &v2MoneyManagementOutboundPaymentService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundSetupIntents = &v2MoneyManagementOutboundSetupIntentService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundTransfers = &v2MoneyManagementOutboundTransferService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutIntents = &v2MoneyManagementPayoutIntentService{B: backends.API, Key: key}
 	client.V2MoneyManagementPayoutMethods = &v2MoneyManagementPayoutMethodService{B: backends.API, Key: key}
 	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
+	client.V2MoneyManagementRecipientVerifications = &v2MoneyManagementRecipientVerificationService{B: backends.API, Key: key}
 	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
@@ -704,6 +727,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
+	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 

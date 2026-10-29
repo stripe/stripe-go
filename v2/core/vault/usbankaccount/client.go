@@ -98,6 +98,19 @@ func (c Client) SendMicrodeposits(id string, params *stripe.V2CoreVaultUSBankAcc
 	return usbankaccount, err
 }
 
+// Unarchive a USBankAccount object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Unarchive(id string, params *stripe.V2CoreVaultUSBankAccountUnarchiveParams) (*stripe.V2CoreVaultUSBankAccount, error) {
+	path := stripe.FormatURLPath(
+		"/v2/core/vault/us_bank_accounts/%s/unarchive", id)
+	usbankaccount := &stripe.V2CoreVaultUSBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, usbankaccount)
+	return usbankaccount, err
+}
+
 // List USBankAccount objects. Optionally filter by verification status.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

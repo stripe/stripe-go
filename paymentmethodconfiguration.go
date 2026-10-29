@@ -1204,6 +1204,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationWeroDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationWeroDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationWeroDisplayPreferencePreferenceNone PaymentMethodConfigurationWeroDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationWeroDisplayPreferencePreferenceOff  PaymentMethodConfigurationWeroDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationWeroDisplayPreferencePreferenceOn   PaymentMethodConfigurationWeroDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationWeroDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationWeroDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationWeroDisplayPreferenceValueOff PaymentMethodConfigurationWeroDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationWeroDisplayPreferenceValueOn  PaymentMethodConfigurationWeroDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationZipDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationZipDisplayPreferencePreference can take
@@ -2019,6 +2038,18 @@ type PaymentMethodConfigurationWeChatPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationWeroDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+type PaymentMethodConfigurationWeroParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationWeroDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2171,6 +2202,8 @@ type PaymentMethodConfigurationParams struct {
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+	Wero *PaymentMethodConfigurationWeroParams `form:"wero" json:"wero,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 	Zip *PaymentMethodConfigurationZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -2961,6 +2994,18 @@ type PaymentMethodConfigurationCreateWeChatPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateWeroDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+type PaymentMethodConfigurationCreateWeroParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateWeroDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3111,6 +3156,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	USBankAccount *PaymentMethodConfigurationCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationCreateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+	Wero *PaymentMethodConfigurationCreateWeroParams `form:"wero" json:"wero,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 	Zip *PaymentMethodConfigurationCreateZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -3913,6 +3960,18 @@ type PaymentMethodConfigurationUpdateWeChatPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateWeroDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+type PaymentMethodConfigurationUpdateWeroParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateWeroDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -4063,6 +4122,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	USBankAccount *PaymentMethodConfigurationUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationUpdateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// Wero is a pan-European payment method that enables secure and instant money transfers between bank accounts. Learn more about the [Wero](https://docs.stripe.com/payments/wero) payment method.
+	Wero *PaymentMethodConfigurationUpdateWeroParams `form:"wero" json:"wero,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 	Zip *PaymentMethodConfigurationUpdateZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -4891,6 +4952,19 @@ type PaymentMethodConfigurationWeChatPay struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationWeroDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationWeroDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationWeroDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationWero struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                             `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationWeroDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationZipDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -5000,6 +5074,7 @@ type PaymentMethodConfiguration struct {
 	Upi           *PaymentMethodConfigurationUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *PaymentMethodConfigurationWero          `json:"wero,omitempty"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip,omitempty"`
 }
 

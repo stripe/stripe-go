@@ -328,6 +328,14 @@ type TestHelpersConfirmationTokenPaymentMethodDataUpiParams struct {
 	MandateOptions *TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -336,6 +344,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -344,6 +354,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataZipParams struct{}
@@ -484,6 +497,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	USBankAccount *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *TestHelpersConfirmationTokenPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *TestHelpersConfirmationTokenPaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *TestHelpersConfirmationTokenPaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -899,6 +914,14 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams struct {
 	MandateOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -907,6 +930,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams stru
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -915,6 +940,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams stru
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataWeChatPayParams struct{}
+
+// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataWeroParams struct{}
 
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataZipParams struct{}
@@ -1055,6 +1083,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	USBankAccount *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *TestHelpersConfirmationTokenCreatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *TestHelpersConfirmationTokenCreatePaymentMethodDataWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *TestHelpersConfirmationTokenCreatePaymentMethodDataZipParams `form:"zip" json:"zip,omitempty"`
 }

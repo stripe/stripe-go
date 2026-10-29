@@ -19,7 +19,7 @@ type V2MoneyManagementFinancialAddressListParams struct {
 type V2MoneyManagementFinancialAddressBankAccountParams struct {
 	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision.
+	// The currency of the bank account to provision. Available currencies depend on your account's enabled features and rollout access; `eur` requires the Financial Address Global Payouts EU preview.
 	Currency *string `form:"currency" json:"currency"`
 }
 
@@ -30,8 +30,6 @@ type V2MoneyManagementFinancialAddressParams struct {
 	BankAccount *V2MoneyManagementFinancialAddressBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
-	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
 	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type,omitempty"`
 }
@@ -40,7 +38,7 @@ type V2MoneyManagementFinancialAddressParams struct {
 type V2MoneyManagementFinancialAddressCreateBankAccountParams struct {
 	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision.
+	// The currency of the bank account to provision. Available currencies depend on your account's enabled features and rollout access; `eur` requires the Financial Address Global Payouts EU preview.
 	Currency *string `form:"currency" json:"currency"`
 }
 
@@ -51,8 +49,6 @@ type V2MoneyManagementFinancialAddressCreateParams struct {
 	BankAccount *V2MoneyManagementFinancialAddressCreateBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
-	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
 	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type"`
 }

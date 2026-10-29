@@ -103,6 +103,8 @@ type V2SignalsAccountEvaluationAccountDetailsDataIdentity struct {
 
 // Inline account data to evaluate without creating a v2 account.
 type V2SignalsAccountEvaluationAccountDetailsData struct {
+	// The account's contact email.
+	ContactEmail string `json:"contact_email,omitempty"`
 	// Default account settings.
 	Defaults *V2SignalsAccountEvaluationAccountDetailsDataDefaults `json:"defaults,omitempty"`
 	// Identity data.
@@ -113,7 +115,7 @@ type V2SignalsAccountEvaluationAccountDetailsData struct {
 type V2SignalsAccountEvaluationAccountDetails struct {
 	// The v2 account ID of the account.
 	Account string `json:"account,omitempty"`
-	// The v1 customer ID of the account, for users not yet migrated to v2/accounts.
+	// The v1 customer ID of the account, for users not yet migrated to v2 accounts.
 	Customer string `json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountEvaluationAccountDetailsData `json:"data,omitempty"`

@@ -30,10 +30,10 @@ const (
 	AppsInstallStatusUninstalling    AppsInstallStatus = "uninstalling"
 )
 
-// Returns a list of app installs. An app developer or embedding platform filtering by its own app sees the installs across the accounts that installed it; other callers see the installs on their own account. The key selects the environment: a live key lists live installs, a sandbox API key lists the installs on that sandbox, and the key of an app's managed sandbox filtering by app lists that app's installs across every sandbox. For existing accounts that still use legacy test mode, a test mode key lists legacy test mode installs.
+// Returns a list of app installs. An app developer filtering by its own app with its own key sees that app's installs across the accounts that installed it. An app developer acting on a connected account through Stripe-Account and filtering by its app sees that account's installs of the app, and an embedding platform acting on a connected account sees only the installs it created there. Other callers see the installs on their own account. A live key lists live installs and a test key lists test installs; the key of an app's managed sandbox filtering by app lists that app's installs across every sandbox.
 type AppsInstallListParams struct {
 	ListParams `form:"*"`
-	// Only return installs made by this account. Only useful to app developers and embedding platforms, whose lists span the accounts that installed their app.
+	// Only return installs made by this account. Only useful to an app developer filtering by its own app with its own key, whose list spans the accounts that installed the app; other lists only accept the authenticated account.
 	Account *string `form:"account" json:"account,omitempty"`
 	// Only return installs for the app specified by this app ID.
 	App *string `form:"app" json:"app,omitempty"`
@@ -49,7 +49,7 @@ type AppsInstallListParams struct {
 	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Only return installs with the given status.
+	// Only return installs with the given status: `installed`, `installing`, `install_failed`, `uninstalling`, or `uninstall_failed`.
 	Status *string `form:"status" json:"status,omitempty"`
 }
 
@@ -58,12 +58,12 @@ func (p *AppsInstallListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Creates an app install. An account installs its own private app with its own key; public and testing installs are made from the Dashboard. An app developer or embedding platform acting on a connected account through Stripe-Account installs or reinstalls its app there. For a private app, creating an install installs the newest completed upload; when that version is already installed with nothing pending, the existing install is returned.
+// Creates an app install. An account installs its own private app with its own key; public and testing installs are made from the Dashboard. An app developer acting on a connected account through Stripe-Account installs or reinstalls its app there, and an embedding platform can do the same once the app's developer approves its request to embed the app. For a private app, creating an install installs the newest completed upload; when that version is already installed with nothing pending, the existing install is returned.
 type AppsInstallParams struct {
 	Params `form:"*"`
 	// The ID of the app to install.
 	App *string `form:"app" json:"app,omitempty"`
-	// The distribution channel to install from. Defaults to `public`. A private app must be installed on `private_test` or `private_live`, matching the mode of the API key.
+	// The distribution channel to install from. Defaults to `public`, which only app developers and embedding platforms can use. An account installing its own private app must pass `private_test` or `private_live`, matching the mode of the API key.
 	Channel *string `form:"channel" json:"channel,omitempty"`
 	// For OAuth apps, the PKCE code challenge used to issue the `auth_code` returned on the install. Must be 43 to 128 characters and contain only letters, numbers, `-`, `.`, `_`, and `~`. Only applies to installs made by the app developer or an embedding platform; ignored when an account installs its own private app.
 	CodeChallenge *string `form:"code_challenge" json:"code_challenge,omitempty"`
@@ -90,12 +90,12 @@ func (p *AppsInstallUninstallParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Creates an app install. An account installs its own private app with its own key; public and testing installs are made from the Dashboard. An app developer or embedding platform acting on a connected account through Stripe-Account installs or reinstalls its app there. For a private app, creating an install installs the newest completed upload; when that version is already installed with nothing pending, the existing install is returned.
+// Creates an app install. An account installs its own private app with its own key; public and testing installs are made from the Dashboard. An app developer acting on a connected account through Stripe-Account installs or reinstalls its app there, and an embedding platform can do the same once the app's developer approves its request to embed the app. For a private app, creating an install installs the newest completed upload; when that version is already installed with nothing pending, the existing install is returned.
 type AppsInstallCreateParams struct {
 	Params `form:"*"`
 	// The ID of the app to install.
 	App *string `form:"app" json:"app"`
-	// The distribution channel to install from. Defaults to `public`. A private app must be installed on `private_test` or `private_live`, matching the mode of the API key.
+	// The distribution channel to install from. Defaults to `public`, which only app developers and embedding platforms can use. An account installing its own private app must pass `private_test` or `private_live`, matching the mode of the API key.
 	Channel *string `form:"channel" json:"channel,omitempty"`
 	// For OAuth apps, the PKCE code challenge used to issue the `auth_code` returned on the install. Must be 43 to 128 characters and contain only letters, numbers, `-`, `.`, `_`, and `~`. Only applies to installs made by the app developer or an embedding platform; ignored when an account installs its own private app.
 	CodeChallenge *string `form:"code_challenge" json:"code_challenge,omitempty"`
@@ -122,7 +122,7 @@ func (p *AppsInstallRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Reauthorizes an app install. The installer grants the permissions, content security policy entries, and endpoints that the version being installed requests. An account reauthorizes its own installs on any channel with its own key; app developers and embedding platforms reauthorize installs on connected accounts through Stripe-Account. For private apps, the version being installed is the newest completed upload.
+// Reauthorizes an app install. The installer grants the permissions, content security policy entries, and endpoints that the version being installed requests. An account reauthorizes its own installs on any channel with its own key, which grants all of that access, so only give app_install_write to keys that may approve an app's access. App developers and embedding platforms reauthorize installs on connected accounts through Stripe-Account. An app developer can't grant new access. An embedding platform can grant new access only once the app's developer approves its request to embed the app. For private apps, the version being installed is the newest completed upload.
 type AppsInstallUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

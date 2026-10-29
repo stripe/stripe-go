@@ -287,6 +287,7 @@ type PaymentRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyOusd        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "ousd"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
@@ -380,6 +381,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankBni     PaymentRecordPaymentMethodDetailsIDBankTransferBank = "bni"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankBri     PaymentRecordPaymentMethodDetailsIDBankTransferBank = "bri"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankCimb    PaymentRecordPaymentMethodDetailsIDBankTransferBank = "cimb"
+	PaymentRecordPaymentMethodDetailsIDBankTransferBankMandiri PaymentRecordPaymentMethodDetailsIDBankTransferBank = "mandiri"
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 
@@ -2101,6 +2103,7 @@ type PaymentRecordPaymentMethodDetailsWeChatPay struct {
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type PaymentRecordPaymentMethodDetailsWero struct{}
 type PaymentRecordPaymentMethodDetailsZip struct{}
 
 // Information about the Payment Method debited for this payment.
@@ -2187,6 +2190,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
 	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Wero          *PaymentRecordPaymentMethodDetailsWero          `json:"wero,omitempty"`
 	Zip           *PaymentRecordPaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 

@@ -153,11 +153,13 @@ const (
 	DisputeSmartDisputesStatusUnavailable      DisputeSmartDisputesStatus = "unavailable"
 )
 
-// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
+// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `appeal_needs_response`, `appeal_under_review`, `won`, `lost`, or `prevented`.
 type DisputeStatus string
 
 // List of values that DisputeStatus can take
 const (
+	DisputeStatusAppealNeedsResponse  DisputeStatus = "appeal_needs_response"
+	DisputeStatusAppealUnderReview    DisputeStatus = "appeal_under_review"
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
 	DisputeStatusPrevented            DisputeStatus = "prevented"
@@ -752,6 +754,8 @@ type DisputeEvidenceAppealCard struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `dispute_evidence` to support the appeal.
 	SupportingFiles []string `json:"supporting_files,omitempty"`
 }
+
+// Appeal evidence submitted during the appeal stage.
 type DisputeEvidenceAppeal struct {
 	Card *DisputeEvidenceAppealCard `json:"card,omitempty"`
 }
@@ -816,8 +820,9 @@ type DisputeEvidenceEnhancedEvidence struct {
 }
 type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
-	AccessActivityLog string                 `json:"access_activity_log"`
-	Appeal            *DisputeEvidenceAppeal `json:"appeal,omitempty"`
+	AccessActivityLog string `json:"access_activity_log"`
+	// Appeal evidence submitted during the appeal stage.
+	Appeal *DisputeEvidenceAppeal `json:"appeal,omitempty"`
 	// The billing address provided by the customer.
 	BillingAddress string `json:"billing_address"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
@@ -902,7 +907,7 @@ type DisputeEvidenceDetails struct {
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 	// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
-	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method,omitempty"`
+	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method"`
 }
 type DisputePaymentMethodDetailsAmazonPay struct {
 	// The AmazonPay dispute type, chargeback or claim
@@ -969,7 +974,7 @@ type Dispute struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Intended submission method for the dispute.
-	IntendedSubmissionMethod DisputeIntendedSubmissionMethod `json:"intended_submission_method,omitempty"`
+	IntendedSubmissionMethod DisputeIntendedSubmissionMethod `json:"intended_submission_method"`
 	// If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -986,7 +991,7 @@ type Dispute struct {
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://docs.stripe.com/disputes/categories).
 	Reason        DisputeReason         `json:"reason"`
 	SmartDisputes *DisputeSmartDisputes `json:"smart_disputes,omitempty"`
-	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
+	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `appeal_needs_response`, `appeal_under_review`, `won`, `lost`, or `prevented`.
 	Status DisputeStatus `json:"status"`
 }
 

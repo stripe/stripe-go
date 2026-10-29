@@ -243,6 +243,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
 	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
+	PaymentIntentExcludedPaymentMethodTypeWero             PaymentIntentExcludedPaymentMethodType = "wero"
 	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
 )
 
@@ -1983,6 +1984,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsWeroSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsWeroSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsWeroSetupFutureUsageNone PaymentIntentPaymentMethodOptionsWeroSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsZipSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsZipSetupFutureUsage can take
@@ -3322,6 +3337,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *PaymentMethodWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentMethodZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -5324,9 +5341,9 @@ type PaymentIntentPaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -5860,6 +5877,20 @@ type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+type PaymentIntentPaymentMethodOptionsWeroParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 type PaymentIntentPaymentMethodOptionsZipParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -6002,6 +6033,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentPaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+	Wero *PaymentIntentPaymentMethodOptionsWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 	Zip         *PaymentIntentPaymentMethodOptionsZipParams         `form:"zip" json:"zip,omitempty"`
 	UnsetFields []PaymentIntentPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
@@ -6074,6 +6107,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentPaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "wechat_pay"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldWero             PaymentIntentPaymentMethodOptionsParamsUnsetField = "wero"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentPaymentMethodOptionsParamsUnsetField = "zip"
 )
 
@@ -6247,7 +6281,7 @@ type PaymentIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -8616,7 +8650,7 @@ type PaymentIntentConfirmParams struct {
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	// If the payment method is attached to a Customer, it must match the [customer](https://docs.stripe.com/api#create_payment_intent-customer) that is set on this PaymentIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
@@ -10571,6 +10605,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *PaymentMethodWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentMethodZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -12573,9 +12609,9 @@ type PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -13109,6 +13145,20 @@ type PaymentIntentCreatePaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+type PaymentIntentCreatePaymentMethodOptionsWeroParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 type PaymentIntentCreatePaymentMethodOptionsZipParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -13251,6 +13301,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	USBankAccount *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentCreatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+	Wero *PaymentIntentCreatePaymentMethodOptionsWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 	Zip         *PaymentIntentCreatePaymentMethodOptionsZipParams         `form:"zip" json:"zip,omitempty"`
 	UnsetFields []PaymentIntentCreatePaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
@@ -13323,6 +13375,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldWero             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "wero"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "zip"
 )
 
@@ -13498,7 +13551,7 @@ type PaymentIntentCreateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCreatePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -14829,6 +14882,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a Wero PaymentMethod, this hash contains details about the Wero payment method.
+	Wero *PaymentMethodWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentMethodZipParams `form:"zip" json:"zip,omitempty"`
 }
@@ -16831,9 +16886,9 @@ type PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -17367,6 +17422,20 @@ type PaymentIntentUpdatePaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsWeroParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsZipParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -17509,6 +17578,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	USBankAccount *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentUpdatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	// If this is a `wero` PaymentMethod, this sub-hash contains details about the Wero payment method options.
+	Wero *PaymentIntentUpdatePaymentMethodOptionsWeroParams `form:"wero" json:"wero,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
 	Zip         *PaymentIntentUpdatePaymentMethodOptionsZipParams         `form:"zip" json:"zip,omitempty"`
 	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
@@ -17581,6 +17652,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldWero             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "wero"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "zip"
 )
 
@@ -19463,9 +19535,9 @@ type PaymentIntentPaymentMethodOptionsPixMandateOptions struct {
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
-	// The timestamp at which the Pix expires.
+	// The absolute Unix timestamp at which the Pix expires. When supplied as an input, it must be between 60 and 1209600 seconds from the current time at validation, inclusive. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt      int64                                               `json:"expires_at"`
 	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -19699,6 +19771,16 @@ type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsWero struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsWeroSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsZip struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -19775,6 +19857,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Upi              *PaymentIntentPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
+	Wero             *PaymentIntentPaymentMethodOptionsWero             `json:"wero,omitempty"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip,omitempty"`
 }
 type PaymentIntentPresentmentDetails struct {

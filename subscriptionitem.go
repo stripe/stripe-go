@@ -481,8 +481,11 @@ type SubscriptionItemBillingThresholds struct {
 
 // The current trial that is applied to this subscription item.
 type SubscriptionItemCurrentTrial struct {
-	EndDate    int64  `json:"end_date"`
-	StartDate  int64  `json:"start_date"`
+	// The time the current trial ends.
+	EndDate int64 `json:"end_date"`
+	// The time the current trial started.
+	StartDate int64 `json:"start_date"`
+	// The Trial Offer ID applied to the subscription item.
 	TrialOffer string `json:"trial_offer"`
 }
 
