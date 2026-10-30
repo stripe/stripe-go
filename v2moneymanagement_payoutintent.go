@@ -8,7 +8,8 @@ package stripe
 
 import "time"
 
-// Controls whether the intent requires explicit confirmation before transitioning to pending.
+// Controls whether the PayoutIntent requires explicit confirmation before transitioning to `pending`.
+// Even when `automatic`, regulatory requirements may require confirmation. See [Send money with Global Payouts](https://docs.stripe.com/global-payouts/send-money) for details.
 type V2MoneyManagementPayoutIntentConfirmationMethod string
 
 // List of values that V2MoneyManagementPayoutIntentConfirmationMethod can take
@@ -89,6 +90,16 @@ const (
 	V2MoneyManagementPayoutIntentLatestPayoutTypeOutboundTransfer V2MoneyManagementPayoutIntentLatestPayoutType = "outbound_transfer"
 )
 
+// The PayoutIntent fields that must be reviewed before confirmation.
+type V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview string
+
+// List of values that V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview can take
+const (
+	V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReviewEstimatedFees         V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview = "estimated_fees"
+	V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReviewFxQuote               V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview = "fx_quote"
+	V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReviewRecipientVerification V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview = "recipient_verification"
+)
+
 // Open Enum. The reason the PayoutIntent requires confirmation.
 type V2MoneyManagementPayoutIntentNextActionConfirmReason string
 
@@ -105,7 +116,6 @@ type V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason string
 const (
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonAccountNotConfiguredAsRecipient                V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "account_not_configured_as_recipient"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCurrencyNotSupportedForFinancialAccountBalance V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "currency_not_supported_for_financial_account_balance"
-	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCurrencyRequired                               V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "currency_required"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFeatureNotActiveForRecipient                   V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "feature_not_active_for_recipient"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFxRateDriftExceededAfterReview                 V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "fx_rate_drift_exceeded_after_review"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonInsufficientFunds                              V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "insufficient_funds"
@@ -120,11 +130,13 @@ const (
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodHolderAddressIncorrect             V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_holder_address_incorrect"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodHolderDetailsIncorrect             V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_holder_details_incorrect"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodHolderNameIncorrect                V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_holder_name_incorrect"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodInvalid                            V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_invalid"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodInvalidAccountNumber               V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_invalid_account_number"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodRestricted                         V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_restricted"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodUnsupported                        V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_unsupported"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonPayoutMethodUsageFrequencyLimitExceeded        V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "payout_method_usage_frequency_limit_exceeded"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonRecalled                                       V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "recalled"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonRecipientCapabilityNotActive                   V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "recipient_capability_not_active"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonReviewRejected                                 V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "review_rejected"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonToDestinationInvalid                           V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "to_destination_invalid"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonUnknownFailure                                 V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "unknown_failure"
@@ -140,7 +152,7 @@ const (
 )
 
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
-// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 type V2MoneyManagementPayoutIntentRecipientNotificationSetting string
 
 // List of values that V2MoneyManagementPayoutIntentRecipientNotificationSetting can take
@@ -149,7 +161,36 @@ const (
 	V2MoneyManagementPayoutIntentRecipientNotificationSettingNone       V2MoneyManagementPayoutIntentRecipientNotificationSetting = "none"
 )
 
-// Open Enum. Current status of the PayoutIntent: `pending`, `processing`, `posted`, `canceled`, `requires_action`.
+// Closed Enum. The recipient-verification provider's match result.
+type V2MoneyManagementPayoutIntentRecipientVerificationMatchResult string
+
+// List of values that V2MoneyManagementPayoutIntentRecipientVerificationMatchResult can take
+const (
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultCloseMatch  V2MoneyManagementPayoutIntentRecipientVerificationMatchResult = "close_match"
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultMatch       V2MoneyManagementPayoutIntentRecipientVerificationMatchResult = "match"
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultNoMatch     V2MoneyManagementPayoutIntentRecipientVerificationMatchResult = "no_match"
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultUnavailable V2MoneyManagementPayoutIntentRecipientVerificationMatchResult = "unavailable"
+)
+
+// The business type returned by the recipient-verification provider.
+type V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessType string
+
+// List of values that V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessType can take
+const (
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessTypeBusiness V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessType = "business"
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessTypePersonal V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessType = "personal"
+)
+
+// The business type provided for recipient verification.
+type V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessType string
+
+// List of values that V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessType can take
+const (
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessTypeBusiness V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessType = "business"
+	V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessTypePersonal V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessType = "personal"
+)
+
+// Current status of the PayoutIntent.
 type V2MoneyManagementPayoutIntentStatus string
 
 // List of values that V2MoneyManagementPayoutIntentStatus can take
@@ -190,6 +231,7 @@ const (
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkFPS         V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkNpp         V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "npp"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkRTP         V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPA        V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
@@ -207,7 +249,7 @@ type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptions st
 	ACH *V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkOptionsACH `json:"ach,omitempty"`
 }
 
-// Details about the network and options associated with this fee. Present when type is network_fee.
+// Details about the network and options associated with this fee. Present when `type` is `network_fee`.
 type V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetails struct {
 	// The network associated with the fee.
 	Network V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork `json:"network"`
@@ -227,7 +269,7 @@ type V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount struct {
 type V2MoneyManagementPayoutIntentEstimatedFee struct {
 	// The fee amount.
 	Amount Amount `json:"amount"`
-	// Details about the network and options associated with this fee. Present when type is network_fee.
+	// Details about the network and options associated with this fee. Present when `type` is `network_fee`.
 	NetworkFeeDetails *V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetails `json:"network_fee_details,omitempty"`
 	// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
 	TaxAmount *V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount `json:"tax_amount,omitempty"`
@@ -245,10 +287,10 @@ type V2MoneyManagementPayoutIntentFrom struct {
 	FinancialAccount string `json:"financial_account"`
 }
 
-// Key: source currency. Value: exchange rate from source currency to to_currency.
+// Maps each source currency to its exchange rate into `to_currency`.
 type V2MoneyManagementPayoutIntentFxQuoteRates struct {
-	// The exchange rate going from_currency -> to_currency, represented as a decimal string
-	// (e.g., "1.1520") to preserve the full precision of the rate.
+	// The exchange rate from the source currency to `to_currency`, represented as a decimal string
+	// (for example, `1.1520`) to preserve the full precision of the rate.
 	ExchangeRate string `json:"exchange_rate"`
 }
 
@@ -260,7 +302,7 @@ type V2MoneyManagementPayoutIntentFxQuote struct {
 	LockExpiresAt time.Time `json:"lock_expires_at,omitempty"`
 	// Open Enum. Lock status of the FX rate.
 	LockStatus V2MoneyManagementPayoutIntentFxQuoteLockStatus `json:"lock_status"`
-	// Key: source currency. Value: exchange rate from source currency to to_currency.
+	// Maps each source currency to its exchange rate into `to_currency`.
 	Rates map[string]*V2MoneyManagementPayoutIntentFxQuoteRates `json:"rates"`
 	// The destination currency.
 	ToCurrency Currency `json:"to_currency"`
@@ -276,36 +318,60 @@ type V2MoneyManagementPayoutIntentLatestPayout struct {
 	Type V2MoneyManagementPayoutIntentLatestPayoutType `json:"type"`
 }
 
-// Details about a confirmation required. Populated when type is confirm.
+// Details about a confirmation required. Populated when `type` is `confirm`.
 type V2MoneyManagementPayoutIntentNextActionConfirm struct {
+	// The PayoutIntent fields that must be reviewed before confirmation.
+	FieldsToReview []V2MoneyManagementPayoutIntentNextActionConfirmFieldsToReview `json:"fields_to_review,omitempty"`
 	// Open Enum. The reason the PayoutIntent requires confirmation.
 	Reason V2MoneyManagementPayoutIntentNextActionConfirmReason `json:"reason"`
 }
 
-// Details about a failure that requires user action. Populated when type is handle_failure.
+// Details about a failure that requires user action. Populated when `type` is `handle_failure`.
 type V2MoneyManagementPayoutIntentNextActionHandleFailure struct {
 	// Open Enum. The reason for the failure.
 	FailureReason V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason `json:"failure_reason"`
 }
 
-// Next action required for a PayoutIntent in the requires_action state. Populated when status is requires_action.
+// Next action required for a PayoutIntent in the `requires_action` state. Populated when `status` is `requires_action`.
 type V2MoneyManagementPayoutIntentNextAction struct {
-	// Details about a confirmation required. Populated when type is confirm.
+	// Details about a confirmation required. Populated when `type` is `confirm`.
 	Confirm *V2MoneyManagementPayoutIntentNextActionConfirm `json:"confirm,omitempty"`
-	// Details about a failure that requires user action. Populated when type is handle_failure.
+	// Details about a failure that requires user action. Populated when `type` is `handle_failure`.
 	HandleFailure *V2MoneyManagementPayoutIntentNextActionHandleFailure `json:"handle_failure,omitempty"`
 	// Open Enum. The type of next action required.
 	Type V2MoneyManagementPayoutIntentNextActionType `json:"type"`
 }
 
-// Details about the OutboundPayment notification settings for recipient. Only applicable to OutboundPayment.
+// Recipient notification settings for the PayoutIntent. Only applicable when the PayoutIntent creates an OutboundPayment.
 type V2MoneyManagementPayoutIntentRecipientNotification struct {
 	// Closed Enum. Configuration option to enable or disable notifications to recipients.
-	// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+	// Do not send notifications when `setting` is `none`. Use the account setting when `setting` is `configured` or omitted.
 	Setting V2MoneyManagementPayoutIntentRecipientNotificationSetting `json:"setting"`
 }
 
-// Scheduling options for the payout. If this is nil, we assume immediate execution.
+// Details associated with the match result.
+type V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetails struct {
+	// The business type returned by the recipient-verification provider.
+	MatchedBusinessType V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsMatchedBusinessType `json:"matched_business_type,omitempty"`
+	// The account name returned by the recipient-verification provider.
+	MatchedName string `json:"matched_name,omitempty"`
+	// A message describing the match result.
+	Message string `json:"message"`
+	// The business type provided for recipient verification.
+	ProvidedBusinessType V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetailsProvidedBusinessType `json:"provided_business_type,omitempty"`
+	// The name associated with the provided recipient.
+	ProvidedName string `json:"provided_name"`
+}
+
+// Recipient verification details for this PayoutIntent.
+type V2MoneyManagementPayoutIntentRecipientVerification struct {
+	// Closed Enum. The recipient-verification provider's match result.
+	MatchResult V2MoneyManagementPayoutIntentRecipientVerificationMatchResult `json:"match_result"`
+	// Details associated with the match result.
+	MatchResultDetails *V2MoneyManagementPayoutIntentRecipientVerificationMatchResultDetails `json:"match_result_details"`
+}
+
+// Scheduling options for the payout. If omitted, the payout is scheduled for immediate execution.
 type V2MoneyManagementPayoutIntentScheduleOptions struct {
 	// The date when the payout should be executed, in YYYY-MM-DD format.
 	ExecuteOn string `json:"execute_on,omitempty"`
@@ -348,7 +414,7 @@ type V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccount struct {
 	// Per-network configuration options.
 	PreferredNetworkOptions *V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this PayoutIntent.
-	PreferredNetworks []V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
+	PreferredNetworks []V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks,omitempty"`
 }
 
 // Payout method options for the PayoutIntent.
@@ -363,11 +429,11 @@ type V2MoneyManagementPayoutIntentTo struct {
 	Credited Amount `json:"credited,omitempty"`
 	// The currency to send to the recipient.
 	Currency Currency `json:"currency,omitempty"`
-	// The payout method ID. Optional for OutboundPayment if recipient has default payment method. Required for OutboundTransfer.
+	// The payout method ID for the PayoutIntent. Optional when the PayoutIntent creates an OutboundPayment and the recipient has a default payout method. Required when the PayoutIntent creates an OutboundTransfer.
 	PayoutMethod string `json:"payout_method,omitempty"`
 	// Payout method options for the PayoutIntent.
 	PayoutMethodOptions *V2MoneyManagementPayoutIntentToPayoutMethodOptions `json:"payout_method_options,omitempty"`
-	// The recipient ID. Only relevant for OutboundPayment.
+	// The recipient ID for the PayoutIntent.
 	Recipient string `json:"recipient,omitempty"`
 }
 
@@ -376,7 +442,8 @@ type V2MoneyManagementPayoutIntent struct {
 	APIResource
 	// The monetary amount to be sent.
 	Amount Amount `json:"amount"`
-	// Controls whether the intent requires explicit confirmation before transitioning to pending.
+	// Controls whether the PayoutIntent requires explicit confirmation before transitioning to `pending`.
+	// Even when `automatic`, regulatory requirements may require confirmation. See [Send money with Global Payouts](https://docs.stripe.com/global-payouts/send-money) for details.
 	ConfirmationMethod V2MoneyManagementPayoutIntentConfirmationMethod `json:"confirmation_method"`
 	// Time at which the PayoutIntent was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -392,22 +459,24 @@ type V2MoneyManagementPayoutIntent struct {
 	// Unique identifier for the PayoutIntent.
 	ID string `json:"id"`
 	// Details about the latest payout associated with this PayoutIntent.
-	LatestPayout *V2MoneyManagementPayoutIntentLatestPayout `json:"latest_payout"`
+	LatestPayout *V2MoneyManagementPayoutIntentLatestPayout `json:"latest_payout,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata,omitempty"`
-	// Next action required for a PayoutIntent in the requires_action state. Populated when status is requires_action.
+	// Next action required for a PayoutIntent in the `requires_action` state. Populated when `status` is `requires_action`.
 	NextAction *V2MoneyManagementPayoutIntentNextAction `json:"next_action,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Details about the OutboundPayment notification settings for recipient. Only applicable to OutboundPayment.
+	// Recipient notification settings for the PayoutIntent. Only applicable when the PayoutIntent creates an OutboundPayment.
 	RecipientNotification *V2MoneyManagementPayoutIntentRecipientNotification `json:"recipient_notification,omitempty"`
-	// Scheduling options for the payout. If this is nil, we assume immediate execution.
+	// Recipient verification details for this PayoutIntent.
+	RecipientVerification *V2MoneyManagementPayoutIntentRecipientVerification `json:"recipient_verification,omitempty"`
+	// Scheduling options for the payout. If omitted, the payout is scheduled for immediate execution.
 	ScheduleOptions *V2MoneyManagementPayoutIntentScheduleOptions `json:"schedule_options,omitempty"`
 	// The description that appears on the receiving end for the payout (for example, on a bank statement).
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// Open Enum. Current status of the PayoutIntent: `pending`, `processing`, `posted`, `canceled`, `requires_action`.
+	// Current status of the PayoutIntent.
 	Status V2MoneyManagementPayoutIntentStatus `json:"status"`
 	// Hash containing timestamps of when transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementPayoutIntentStatusTransitions `json:"status_transitions,omitempty"`

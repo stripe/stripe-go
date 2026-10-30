@@ -44,7 +44,7 @@ const (
 	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitSucceeded  V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_succeeded"
 )
 
-// The Payment Method object used to create the InboundTransfer.
+// The bank account credential used to fund the InboundTransfer (for example, a US bank account), not a Payments API `pm_` PaymentMethod.
 type V2MoneyManagementInboundTransferFromPaymentMethod struct {
 	// The Bacs Direct Debit PaymentMethod identifier.
 	BACSDebit string `json:"bacs_debit,omitempty"`
@@ -58,7 +58,7 @@ type V2MoneyManagementInboundTransferFromPaymentMethod struct {
 type V2MoneyManagementInboundTransferFrom struct {
 	// The amount in specified currency that was debited from the Payment Method.
 	Debited Amount `json:"debited"`
-	// The Payment Method object used to create the InboundTransfer.
+	// The bank account credential used to fund the InboundTransfer (for example, a US bank account), not a Payments API `pm_` PaymentMethod.
 	PaymentMethod *V2MoneyManagementInboundTransferFromPaymentMethod `json:"payment_method"`
 }
 

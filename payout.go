@@ -16,7 +16,7 @@ const (
 	PayoutDestinationTypeCard        PayoutDestinationType = "card"
 )
 
-// Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://docs.stripe.com/api#payout_failures).
+// Error code that provides a reason for a payout failure, if available.
 type PayoutFailureCode string
 
 // List of values that PayoutFailureCode can take
@@ -372,7 +372,7 @@ type Payout struct {
 	Destination *PayoutDestination `json:"destination"`
 	// If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance.
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
-	// Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://docs.stripe.com/api#payout_failures).
+	// Error code that provides a reason for a payout failure, if available.
 	FailureCode PayoutFailureCode `json:"failure_code"`
 	// Message that provides the reason for a payout failure, if available.
 	FailureMessage string `json:"failure_message"`

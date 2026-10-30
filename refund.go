@@ -85,6 +85,45 @@ func (p *RefundListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The gift card to receive the refund.
+type RefundPaymentMethodDataGiftCardParams struct {
+	// The ID of the gift card to receive the refund.
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
+// Used to create the PaymentMethod that will receive the refund.
+type RefundPaymentMethodDataParams struct {
+	// The gift card to receive the refund.
+	GiftCard *RefundPaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type" json:"type"`
+}
+
+// Gift card refund options.
+type RefundPaymentMethodOptionsGiftCardParams struct {
+	// The type of gift card operation to perform for the refund.
+	OperationType *string `form:"operation_type" json:"operation_type,omitempty"`
+}
+
+// Payment method-specific options for the refund.
+type RefundPaymentMethodOptionsParams struct {
+	// Gift card refund options.
+	GiftCard    *RefundPaymentMethodOptionsGiftCardParams    `form:"gift_card" json:"gift_card,omitempty"`
+	UnsetFields []RefundPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// RefundPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on RefundPaymentMethodOptionsParams.
+type RefundPaymentMethodOptionsParamsUnsetField string
+
+const (
+	RefundPaymentMethodOptionsParamsUnsetFieldGiftCard RefundPaymentMethodOptionsParamsUnsetField = "gift_card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *RefundPaymentMethodOptionsParams) AddUnsetField(field RefundPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
 //
 // Creating a new refund will refund a charge that has previously been created but not yet refunded.
@@ -117,6 +156,10 @@ type RefundParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// Used to create the PaymentMethod that will receive the refund.
+	PaymentMethodData *RefundPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
+	// Payment method-specific options for the refund.
+	PaymentMethodOptions *RefundPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The identifier of the PaymentRecord to refund.
 	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
@@ -170,6 +213,45 @@ func (p *RefundCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The gift card to receive the refund.
+type RefundCreatePaymentMethodDataGiftCardParams struct {
+	// The ID of the gift card to receive the refund.
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
+// Used to create the PaymentMethod that will receive the refund.
+type RefundCreatePaymentMethodDataParams struct {
+	// The gift card to receive the refund.
+	GiftCard *RefundCreatePaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type" json:"type"`
+}
+
+// Gift card refund options.
+type RefundCreatePaymentMethodOptionsGiftCardParams struct {
+	// The type of gift card operation to perform for the refund.
+	OperationType *string `form:"operation_type" json:"operation_type,omitempty"`
+}
+
+// Payment method-specific options for the refund.
+type RefundCreatePaymentMethodOptionsParams struct {
+	// Gift card refund options.
+	GiftCard    *RefundCreatePaymentMethodOptionsGiftCardParams    `form:"gift_card" json:"gift_card,omitempty"`
+	UnsetFields []RefundCreatePaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// RefundCreatePaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on RefundCreatePaymentMethodOptionsParams.
+type RefundCreatePaymentMethodOptionsParamsUnsetField string
+
+const (
+	RefundCreatePaymentMethodOptionsParamsUnsetFieldGiftCard RefundCreatePaymentMethodOptionsParamsUnsetField = "gift_card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *RefundCreatePaymentMethodOptionsParams) AddUnsetField(field RefundCreatePaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
 //
 // Creating a new refund will refund a charge that has previously been created but not yet refunded.
@@ -202,6 +284,10 @@ type RefundCreateParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// Used to create the PaymentMethod that will receive the refund.
+	PaymentMethodData *RefundCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
+	// Payment method-specific options for the refund.
+	PaymentMethodOptions *RefundCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The identifier of the PaymentRecord to refund.
 	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.

@@ -153,11 +153,13 @@ const (
 	DisputeSmartDisputesStatusUnavailable      DisputeSmartDisputesStatus = "unavailable"
 )
 
-// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
+// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `appeal_needs_response`, `appeal_under_review`, `won`, `lost`, or `prevented`.
 type DisputeStatus string
 
 // List of values that DisputeStatus can take
 const (
+	DisputeStatusAppealNeedsResponse  DisputeStatus = "appeal_needs_response"
+	DisputeStatusAppealUnderReview    DisputeStatus = "appeal_under_review"
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
 	DisputeStatusPrevented            DisputeStatus = "prevented"
@@ -978,7 +980,7 @@ type Dispute struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Intended submission method for the dispute.
-	IntendedSubmissionMethod DisputeIntendedSubmissionMethod `json:"intended_submission_method,omitempty"`
+	IntendedSubmissionMethod DisputeIntendedSubmissionMethod `json:"intended_submission_method"`
 	// If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -995,7 +997,7 @@ type Dispute struct {
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://docs.stripe.com/disputes/categories).
 	Reason        DisputeReason         `json:"reason"`
 	SmartDisputes *DisputeSmartDisputes `json:"smart_disputes,omitempty"`
-	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
+	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `appeal_needs_response`, `appeal_under_review`, `won`, `lost`, or `prevented`.
 	Status DisputeStatus `json:"status"`
 }
 

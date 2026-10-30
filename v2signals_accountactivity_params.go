@@ -95,6 +95,16 @@ type V2SignalsAccountActivityCredentialChangeParams struct {
 	CredentialType *string `form:"credential_type" json:"credential_type"`
 }
 
+// Details for the custom marketing action. Provide only when type is custom_marketing_action.
+type V2SignalsAccountActivityCustomMarketingActionParams struct {
+	// A description of the action, between 1 and 100 characters.
+	Description *string `form:"description" json:"description"`
+	// The outcome of the action.
+	Outcome *string `form:"outcome" json:"outcome"`
+	// Additional user-defined properties of the action.
+	Properties map[string]string `form:"properties" json:"properties"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityLoginAttemptClientDetailsDataParams struct {
 	// The IP address associated with the activity.
@@ -119,8 +129,18 @@ type V2SignalsAccountActivityLoginAttemptParams struct {
 	ClientDetails *V2SignalsAccountActivityLoginAttemptClientDetailsParams `form:"client_details" json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeParams struct {
+	// The authentication method used for the challenge.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status *string `form:"status" json:"status"`
+}
+
 // Details for the login decision. Provide only when type is login_decision.
 type V2SignalsAccountActivityLoginDecisionParams struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityLoginDecisionMfaChallengeParams `form:"mfa_challenges" json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
 }
@@ -189,6 +209,8 @@ type V2SignalsAccountActivityParams struct {
 	AccountTakeoverReport *V2SignalsAccountActivityAccountTakeoverReportParams `form:"account_takeover_report" json:"account_takeover_report,omitempty"`
 	// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
 	CredentialChange *V2SignalsAccountActivityCredentialChangeParams `form:"credential_change" json:"credential_change,omitempty"`
+	// Details for the custom marketing action. Provide only when type is custom_marketing_action.
+	CustomMarketingAction *V2SignalsAccountActivityCustomMarketingActionParams `form:"custom_marketing_action" json:"custom_marketing_action,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
@@ -205,6 +227,10 @@ type V2SignalsAccountActivityParams struct {
 	RegistrationAttempt *V2SignalsAccountActivityRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Provide only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
+	// An accessible AccountSignal that prompted this activity. The signal must be within its
+	// 90-day retrieval window and match the existing account or customer in account_details.
+	// Inline data is unsupported. May be supplied together with account_evaluation.
+	TriggeringSignal *string `form:"triggering_signal" json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type,omitempty"`
 }
@@ -305,6 +331,16 @@ type V2SignalsAccountActivityCreateCredentialChangeParams struct {
 	CredentialType *string `form:"credential_type" json:"credential_type"`
 }
 
+// Details for the custom marketing action. Provide only when type is custom_marketing_action.
+type V2SignalsAccountActivityCreateCustomMarketingActionParams struct {
+	// A description of the action, between 1 and 100 characters.
+	Description *string `form:"description" json:"description"`
+	// The outcome of the action.
+	Outcome *string `form:"outcome" json:"outcome"`
+	// Additional user-defined properties of the action.
+	Properties map[string]string `form:"properties" json:"properties"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityCreateLoginAttemptClientDetailsDataParams struct {
 	// The IP address associated with the activity.
@@ -329,8 +365,18 @@ type V2SignalsAccountActivityCreateLoginAttemptParams struct {
 	ClientDetails *V2SignalsAccountActivityCreateLoginAttemptClientDetailsParams `form:"client_details" json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityCreateLoginDecisionMfaChallengeParams struct {
+	// The authentication method used for the challenge.
+	MfaType *string `form:"mfa_type" json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status *string `form:"status" json:"status"`
+}
+
 // Details for the login decision. Provide only when type is login_decision.
 type V2SignalsAccountActivityCreateLoginDecisionParams struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityCreateLoginDecisionMfaChallengeParams `form:"mfa_challenges" json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status *string `form:"status" json:"status"`
 }
@@ -399,6 +445,8 @@ type V2SignalsAccountActivityCreateParams struct {
 	AccountTakeoverReport *V2SignalsAccountActivityCreateAccountTakeoverReportParams `form:"account_takeover_report" json:"account_takeover_report,omitempty"`
 	// Required when type is credential_change. Requires an existing customer or account with a customer configuration.
 	CredentialChange *V2SignalsAccountActivityCreateCredentialChangeParams `form:"credential_change" json:"credential_change,omitempty"`
+	// Details for the custom marketing action. Provide only when type is custom_marketing_action.
+	CustomMarketingAction *V2SignalsAccountActivityCreateCustomMarketingActionParams `form:"custom_marketing_action" json:"custom_marketing_action,omitempty"`
 	// Details for the login attempt. Provide only when type is login_attempt.
 	LoginAttempt *V2SignalsAccountActivityCreateLoginAttemptParams `form:"login_attempt" json:"login_attempt,omitempty"`
 	// Details for the login decision. Provide only when type is login_decision.
@@ -415,6 +463,10 @@ type V2SignalsAccountActivityCreateParams struct {
 	RegistrationAttempt *V2SignalsAccountActivityCreateRegistrationAttemptParams `form:"registration_attempt" json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Provide only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityCreateRegistrationDecisionParams `form:"registration_decision" json:"registration_decision,omitempty"`
+	// An accessible AccountSignal that prompted this activity. The signal must be within its
+	// 90-day retrieval window and match the existing account or customer in account_details.
+	// Inline data is unsupported. May be supplied together with account_evaluation.
+	TriggeringSignal *string `form:"triggering_signal" json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type *string `form:"type" json:"type"`
 }

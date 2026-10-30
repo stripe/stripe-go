@@ -16,7 +16,7 @@ const (
 	V2CoreAccountEvaluationEvaluationsTriggeredAccountTakeover     V2CoreAccountEvaluationEvaluationsTriggered = "account_takeover"
 	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite   V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
 	V2CoreAccountEvaluationEvaluationsTriggeredUserAccountSharing  V2CoreAccountEvaluationEvaluationsTriggered = "user_account_sharing"
-	V2CoreAccountEvaluationEvaluationsTriggeredUserMerchantFit     V2CoreAccountEvaluationEvaluationsTriggered = "user_merchant_fit"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserAffinity        V2CoreAccountEvaluationEvaluationsTriggered = "user_affinity"
 	V2CoreAccountEvaluationEvaluationsTriggeredUserMultiAccounting V2CoreAccountEvaluationEvaluationsTriggered = "user_multi_accounting"
 )
 

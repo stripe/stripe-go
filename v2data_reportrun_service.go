@@ -33,6 +33,7 @@ func (c v2DataReportRunService) Create(ctx context.Context, params *V2DataReport
 
 // Fetches the current state and details of a previously created `ReportRun`. If the
 // `ReportRun` has succeeded, the endpoint provides details for how to retrieve the results.
+// Returns a `404` error if the `ReportRun` doesn't exist or its retention period has ended.
 func (c v2DataReportRunService) Retrieve(ctx context.Context, id string, params *V2DataReportRunRetrieveParams) (*V2DataReportRun, error) {
 	if params == nil {
 		params = &V2DataReportRunRetrieveParams{}

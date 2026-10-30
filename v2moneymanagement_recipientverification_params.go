@@ -11,11 +11,11 @@ type V2MoneyManagementRecipientVerificationParams struct {
 	Params `form:"*"`
 	// ID of the payout method.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
-	// ID of the recipient account. Required if the recipient distinct from the sender. Leave empty if the recipient and sender are the same entity (i.e. for me-to-me payouts).
+	// ID of the recipient account. Required if the recipient is different from the sender. Omit for payouts to your own account.
 	Recipient *string `form:"recipient" json:"recipient,omitempty"`
 }
 
-// Acknowledges an existing RecipientVerification. Only RecipientVerification awaiting acknowledgement can be acknowledged.
+// Acknowledges an existing RecipientVerification in the `awaiting_acknowledgement` state.
 type V2MoneyManagementRecipientVerificationAcknowledgeParams struct {
 	Params `form:"*"`
 }
@@ -25,7 +25,7 @@ type V2MoneyManagementRecipientVerificationCreateParams struct {
 	Params `form:"*"`
 	// ID of the payout method.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
-	// ID of the recipient account. Required if the recipient distinct from the sender. Leave empty if the recipient and sender are the same entity (i.e. for me-to-me payouts).
+	// ID of the recipient account. Required if the recipient is different from the sender. Omit for payouts to your own account.
 	Recipient *string `form:"recipient" json:"recipient,omitempty"`
 }
 

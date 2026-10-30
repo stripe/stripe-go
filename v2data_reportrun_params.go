@@ -16,9 +16,9 @@ type V2DataReportRunReportParams struct {
 
 // Optional settings that customize the generated result file.
 type V2DataReportRunResultOptionsParams struct {
-	// If set, the generated result file is compressed into a ZIP archive before
-	// it is stored. This applies only to downloadable file results.
-	CompressFile *bool `form:"compress_file" json:"compress_file,omitempty"`
+	// The compression applied to the generated result file. Defaults to `none`. This applies
+	// only to downloadable file results.
+	Compression *string `form:"compression" json:"compression,omitempty"`
 }
 
 // Initiates the generation of a `ReportRun` based on the specified `Report` and
@@ -30,7 +30,7 @@ type V2DataReportRunParams struct {
 	Format *string `form:"format" json:"format,omitempty"`
 	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
 	Include []*string `form:"include" json:"include,omitempty"`
-	// The maximum number of inline `ReportRun` result rows to return. Defaults to 10. Maximum is 1000.
+	// The maximum number of inline `ReportRun` result rows to return. Defaults to 100. Maximum is 1000.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// The page token for paginating the inline `ReportRun` result rows.
 	Page *string `form:"page" json:"page,omitempty"`
@@ -53,9 +53,9 @@ type V2DataReportRunCreateReportParams struct {
 
 // Optional settings that customize the generated result file.
 type V2DataReportRunCreateResultOptionsParams struct {
-	// If set, the generated result file is compressed into a ZIP archive before
-	// it is stored. This applies only to downloadable file results.
-	CompressFile *bool `form:"compress_file" json:"compress_file,omitempty"`
+	// The compression applied to the generated result file. Defaults to `none`. This applies
+	// only to downloadable file results.
+	Compression *string `form:"compression" json:"compression,omitempty"`
 }
 
 // Initiates the generation of a `ReportRun` based on the specified `Report` and
@@ -76,11 +76,12 @@ type V2DataReportRunCreateParams struct {
 
 // Fetches the current state and details of a previously created `ReportRun`. If the
 // `ReportRun` has succeeded, the endpoint provides details for how to retrieve the results.
+// Returns a `404` error if the `ReportRun` doesn't exist or its retention period has ended.
 type V2DataReportRunRetrieveParams struct {
 	Params `form:"*"`
 	// Any optional includes (see https://docs.stripe.com/api-includable-response-values).
 	Include []*string `form:"include" json:"include,omitempty"`
-	// The maximum number of inline `ReportRun` result rows to return. Defaults to 10. Maximum is 1000.
+	// The maximum number of inline `ReportRun` result rows to return. Defaults to 100. Maximum is 1000.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// The page token for paginating the inline `ReportRun` result rows.
 	Page *string `form:"page" json:"page,omitempty"`

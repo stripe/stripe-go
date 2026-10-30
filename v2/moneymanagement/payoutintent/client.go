@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementPayoutIntentParam
 	return payoutintent, err
 }
 
-// Updates a PayoutIntent. Only pending or requires_action PayoutIntents that are editable can be updated.
+// Updates an editable PayoutIntent in the `pending` or `requires_action` state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2MoneyManagementPayoutIntentPa
 	return payoutintent, err
 }
 
-// Cancels a PayoutIntent. Only pending PayoutIntents, processing PayoutIntents with cancelable OutboundPayment/Transfer, or requires_action PayoutIntents can be canceled.
+// Cancels a PayoutIntent in the `pending` or `requires_action` state, or a `processing` PayoutIntent with a cancelable OutboundPayment.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -71,7 +71,7 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementPayoutIntentCa
 	return payoutintent, err
 }
 
-// Confirms a PayoutIntent that is in the requires_action state, transitioning it to pending.
+// Confirms a PayoutIntent in the `requires_action` state, transitioning it to `pending`.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -84,14 +84,27 @@ func (c Client) Confirm(id string, params *stripe.V2MoneyManagementPayoutIntentC
 	return payoutintent, err
 }
 
-// Refreshes FX quote for a PayoutIntent.
+// Refreshes the FX quote for a PayoutIntent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) FxQuote(id string, params *stripe.V2MoneyManagementPayoutIntentFxQuoteParams) (*stripe.V2MoneyManagementPayoutIntent, error) {
+func (c Client) RefreshFxQuote(id string, params *stripe.V2MoneyManagementPayoutIntentRefreshFxQuoteParams) (*stripe.V2MoneyManagementPayoutIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v2/money_management/payout_intents/%s/fx_quote", id)
+		"/v2/money_management/payout_intents/%s/refresh_fx_quote", id)
+	payoutintent := &stripe.V2MoneyManagementPayoutIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
+	return payoutintent, err
+}
+
+// Refreshes the recipient verification for a PayoutIntent.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) RefreshRecipientVerification(id string, params *stripe.V2MoneyManagementPayoutIntentRefreshRecipientVerificationParams) (*stripe.V2MoneyManagementPayoutIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/payout_intents/%s/refresh_recipient_verification", id)
 	payoutintent := &stripe.V2MoneyManagementPayoutIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
 	return payoutintent, err

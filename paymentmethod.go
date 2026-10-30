@@ -382,6 +382,7 @@ const (
 	PaymentMethodTypeSunbit           PaymentMethodType = "sunbit"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTamara           PaymentMethodType = "tamara"
+	PaymentMethodTypeTossPay          PaymentMethodType = "toss_pay"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUpi              PaymentMethodType = "upi"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
@@ -837,6 +838,9 @@ type PaymentMethodSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type PaymentMethodTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type PaymentMethodTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodTWINTParams struct{}
 
@@ -858,6 +862,14 @@ type PaymentMethodUpiParams struct {
 	MandateOptions *PaymentMethodUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type PaymentMethodUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -866,6 +878,8 @@ type PaymentMethodUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *PaymentMethodUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -1026,6 +1040,8 @@ type PaymentMethodParams struct {
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *PaymentMethodTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -1476,6 +1492,9 @@ type PaymentMethodCreateSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type PaymentMethodCreateTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type PaymentMethodCreateTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodCreateTWINTParams struct{}
 
@@ -1497,6 +1516,14 @@ type PaymentMethodCreateUpiParams struct {
 	MandateOptions *PaymentMethodCreateUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type PaymentMethodCreateUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodCreateUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -1505,6 +1532,8 @@ type PaymentMethodCreateUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *PaymentMethodCreateUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -1669,6 +1698,8 @@ type PaymentMethodCreateParams struct {
 	Swish *PaymentMethodCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *PaymentMethodCreateTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *PaymentMethodCreateTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodCreateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -2448,6 +2479,10 @@ type PaymentMethodStripeBalance struct {
 type PaymentMethodSunbit struct{}
 type PaymentMethodSwish struct{}
 type PaymentMethodTamara struct{}
+type PaymentMethodTossPay struct {
+	// The buyer identifier provided by NICE for this Toss Pay account, when available.
+	BuyerID string `json:"buyer_id"`
+}
 type PaymentMethodTWINT struct{}
 type PaymentMethodUpi struct {
 	// Customer's unique Virtual Payment Address
@@ -2595,6 +2630,7 @@ type PaymentMethod struct {
 	Sunbit                    *PaymentMethodSunbit        `json:"sunbit,omitempty"`
 	Swish                     *PaymentMethodSwish         `json:"swish,omitempty"`
 	Tamara                    *PaymentMethodTamara        `json:"tamara,omitempty"`
+	TossPay                   *PaymentMethodTossPay       `json:"toss_pay,omitempty"`
 	TWINT                     *PaymentMethodTWINT         `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`

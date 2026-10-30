@@ -38,6 +38,7 @@ func (c Client) New(params *stripe.V2DataReportRunParams) (*stripe.V2DataReportR
 
 // Fetches the current state and details of a previously created `ReportRun`. If the
 // `ReportRun` has succeeded, the endpoint provides details for how to retrieve the results.
+// Returns a `404` error if the `ReportRun` doesn't exist or its retention period has ended.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

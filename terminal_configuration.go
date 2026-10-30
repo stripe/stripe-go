@@ -39,6 +39,8 @@ type TerminalConfigurationParams struct {
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -68,6 +70,7 @@ const (
 	TerminalConfigurationParamsUnsetFieldRebootWindow   TerminalConfigurationParamsUnsetField = "reboot_window"
 	TerminalConfigurationParamsUnsetFieldStripeS700     TerminalConfigurationParamsUnsetField = "stripe_s700"
 	TerminalConfigurationParamsUnsetFieldStripeS710     TerminalConfigurationParamsUnsetField = "stripe_s710"
+	TerminalConfigurationParamsUnsetFieldStripeT600     TerminalConfigurationParamsUnsetField = "stripe_t600"
 	TerminalConfigurationParamsUnsetFieldTipping        TerminalConfigurationParamsUnsetField = "tipping"
 	TerminalConfigurationParamsUnsetFieldVerifoneM425   TerminalConfigurationParamsUnsetField = "verifone_m425"
 	TerminalConfigurationParamsUnsetFieldVerifoneP400   TerminalConfigurationParamsUnsetField = "verifone_p400"
@@ -199,6 +202,25 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationStripeS710Params) AddUnsetField(field TerminalConfigurationStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                           `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationStripeT600Params.
+type TerminalConfigurationStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationStripeT600Params) AddUnsetField(field TerminalConfigurationStripeT600ParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -745,6 +767,25 @@ func (p *TerminalConfigurationUpdateStripeS710Params) AddUnsetField(field Termin
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationUpdateStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                 `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateStripeT600Params.
+type TerminalConfigurationUpdateStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateStripeT600Params) AddUnsetField(field TerminalConfigurationUpdateStripeT600ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Tipping configuration for AED
 type TerminalConfigurationUpdateTippingAedParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -1165,6 +1206,8 @@ type TerminalConfigurationUpdateParams struct {
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationUpdateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationUpdateStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -1194,6 +1237,7 @@ const (
 	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow   TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
 	TerminalConfigurationUpdateParamsUnsetFieldStripeS700     TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
 	TerminalConfigurationUpdateParamsUnsetFieldStripeS710     TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeT600     TerminalConfigurationUpdateParamsUnsetField = "stripe_t600"
 	TerminalConfigurationUpdateParamsUnsetFieldTipping        TerminalConfigurationUpdateParamsUnsetField = "tipping"
 	TerminalConfigurationUpdateParamsUnsetFieldVerifoneM425   TerminalConfigurationUpdateParamsUnsetField = "verifone_m425"
 	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400   TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
@@ -1325,6 +1369,25 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationCreateStripeS710Params) AddUnsetField(field TerminalConfigurationCreateStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Stripe T600 readers.
+type TerminalConfigurationCreateStripeT600Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                 `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateStripeT600ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateStripeT600ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateStripeT600Params.
+type TerminalConfigurationCreateStripeT600ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateStripeT600ParamsUnsetFieldSplashscreen TerminalConfigurationCreateStripeT600ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateStripeT600Params) AddUnsetField(field TerminalConfigurationCreateStripeT600ParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -1748,6 +1811,8 @@ type TerminalConfigurationCreateParams struct {
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700" json:"stripe_s700,omitempty"`
 	// An object containing device type specific settings for Stripe S710 readers.
 	StripeS710 *TerminalConfigurationCreateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
+	// An object containing device type specific settings for Stripe T600 readers.
+	StripeT600 *TerminalConfigurationCreateStripeT600Params `form:"stripe_t600" json:"stripe_t600,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping" json:"tipping,omitempty"`
 	// An object containing device type specific settings for Verifone M425 readers.
@@ -1817,6 +1882,10 @@ type TerminalConfigurationStripeS700 struct {
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
 type TerminalConfigurationStripeS710 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
+type TerminalConfigurationStripeT600 struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
@@ -2090,6 +2159,7 @@ type TerminalConfiguration struct {
 	RebootWindow   *TerminalConfigurationRebootWindow   `json:"reboot_window,omitempty"`
 	StripeS700     *TerminalConfigurationStripeS700     `json:"stripe_s700,omitempty"`
 	StripeS710     *TerminalConfigurationStripeS710     `json:"stripe_s710,omitempty"`
+	StripeT600     *TerminalConfigurationStripeT600     `json:"stripe_t600,omitempty"`
 	Tipping        *TerminalConfigurationTipping        `json:"tipping,omitempty"`
 	VerifoneM425   *TerminalConfigurationVerifoneM425   `json:"verifone_m425,omitempty"`
 	VerifoneP400   *TerminalConfigurationVerifoneP400   `json:"verifone_p400,omitempty"`

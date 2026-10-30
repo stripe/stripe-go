@@ -224,6 +224,8 @@ import (
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v87/v2/billing/collectionsettings/version"
 	v2billingcontract "github.com/stripe/stripe-go/v87/v2/billing/contract"
 	v2billingcontractspricinglinesquantitychange "github.com/stripe/stripe-go/v87/v2/billing/contracts/pricinglines/quantitychange"
+	v2billingcontractsterm "github.com/stripe/stripe-go/v87/v2/billing/contracts/term"
+	v2billingcontractstermsquantitychange "github.com/stripe/stripe-go/v87/v2/billing/contracts/terms/quantitychange"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v87/v2/billing/custompricingunit"
 	v2billingintent "github.com/stripe/stripe-go/v87/v2/billing/intent"
 	v2billingintentsaction "github.com/stripe/stripe-go/v87/v2/billing/intents/action"
@@ -252,6 +254,7 @@ import (
 	v2coreaccountlink "github.com/stripe/stripe-go/v87/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v87/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v87/v2/core/accounts/persontoken"
+	v2coreaccountsession "github.com/stripe/stripe-go/v87/v2/core/accountsession"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v87/v2/core/accounttoken"
 	v2coreapprovalrequest "github.com/stripe/stripe-go/v87/v2/core/approvalrequest"
 	v2corebatchjob "github.com/stripe/stripe-go/v87/v2/core/batchjob"
@@ -285,7 +288,9 @@ import (
 	v2moneymanagementfinancialaccountsstatement "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccounts/statement"
 	v2moneymanagementfinancialaccountswalletexport "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccounts/walletexport"
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaddress"
+	v2moneymanagementfundingintent "github.com/stripe/stripe-go/v87/v2/moneymanagement/fundingintent"
 	v2moneymanagementfundingsession "github.com/stripe/stripe-go/v87/v2/moneymanagement/fundingsession"
+	v2moneymanagementinboundfunding "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundfunding"
 	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundtransfer"
 	v2moneymanagementinboundtransfermandate "github.com/stripe/stripe-go/v87/v2/moneymanagement/inboundtransfermandate"
 	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v87/v2/moneymanagement/outboundpayment"
@@ -299,6 +304,9 @@ import (
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v87/v2/moneymanagement/receiveddebit"
 	v2moneymanagementreceiveddebitmandate "github.com/stripe/stripe-go/v87/v2/moneymanagement/receiveddebitmandate"
 	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v87/v2/moneymanagement/recipientverification"
+	v2moneymanagementrewardprogram "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprogram"
+	v2moneymanagementrewardprogramenrollment "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprogramenrollment"
+	v2moneymanagementrewardprogramsrule "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprograms/rule"
 	v2moneymanagementtesthelper "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelper"
 	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v87/v2/moneymanagement/transaction"
@@ -319,7 +327,7 @@ import (
 	v2provisioningresource "github.com/stripe/stripe-go/v87/v2/provisioning/resource"
 	v2reportingreport "github.com/stripe/stripe-go/v87/v2/reporting/report"
 	v2reportingreportrun "github.com/stripe/stripe-go/v87/v2/reporting/reportrun"
-	v2riskinquiry "github.com/stripe/stripe-go/v87/v2/risk/inquiry"
+	v2riskform "github.com/stripe/stripe-go/v87/v2/risk/form"
 	v2signalsaccountactivity "github.com/stripe/stripe-go/v87/v2/signals/accountactivity"
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v87/v2/signals/accountevaluation"
 	v2signalsaccountsignal "github.com/stripe/stripe-go/v87/v2/signals/accountsignal"
@@ -760,6 +768,10 @@ type API struct {
 	V2BillingContracts *v2billingcontract.Client
 	// V2BillingContractsPricingLinesQuantityChanges is the client used to invoke quantitychange related APIs.
 	V2BillingContractsPricingLinesQuantityChanges *v2billingcontractspricinglinesquantitychange.Client
+	// V2BillingContractsTerms is the client used to invoke term related APIs.
+	V2BillingContractsTerms *v2billingcontractsterm.Client
+	// V2BillingContractsTermsQuantityChanges is the client used to invoke quantitychange related APIs.
+	V2BillingContractsTermsQuantityChanges *v2billingcontractstermsquantitychange.Client
 	// V2BillingCustomPricingUnits is the client used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
 	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
@@ -812,6 +824,8 @@ type API struct {
 	V2CoreAccountLinks *v2coreaccountlink.Client
 	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
 	V2CoreAccounts *v2coreaccount.Client
+	// V2CoreAccountSessions is the client used to invoke /v2/core/account_sessions APIs.
+	V2CoreAccountSessions *v2coreaccountsession.Client
 	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2coreaccountsperson.Client
 	// V2CoreAccountsPersonTokens is the client used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
@@ -882,8 +896,12 @@ type API struct {
 	V2MoneyManagementFinancialAccountsWalletExports *v2moneymanagementfinancialaccountswalletexport.Client
 	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
+	// V2MoneyManagementFundingIntents is the client used to invoke /v2/money_management/funding_intents APIs.
+	V2MoneyManagementFundingIntents *v2moneymanagementfundingintent.Client
 	// V2MoneyManagementFundingSessions is the client used to invoke /v2/money_management/funding_sessions APIs.
 	V2MoneyManagementFundingSessions *v2moneymanagementfundingsession.Client
+	// V2MoneyManagementInboundFundings is the client used to invoke /v2/money_management/inbound_fundings APIs.
+	V2MoneyManagementInboundFundings *v2moneymanagementinboundfunding.Client
 	// V2MoneyManagementInboundTransferMandates is the client used to invoke /v2/money_management/inbound_transfer_mandates APIs.
 	V2MoneyManagementInboundTransferMandates *v2moneymanagementinboundtransfermandate.Client
 	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
@@ -910,6 +928,12 @@ type API struct {
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
 	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
 	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
+	// V2MoneyManagementRewardProgramEnrollments is the client used to invoke /v2/money_management/reward_program_enrollments APIs.
+	V2MoneyManagementRewardProgramEnrollments *v2moneymanagementrewardprogramenrollment.Client
+	// V2MoneyManagementRewardPrograms is the client used to invoke /v2/money_management/reward_programs APIs.
+	V2MoneyManagementRewardPrograms *v2moneymanagementrewardprogram.Client
+	// V2MoneyManagementRewardProgramsRules is the client used to invoke /v2/money_management/reward_programs/{reward_program_id}/rules APIs.
+	V2MoneyManagementRewardProgramsRules *v2moneymanagementrewardprogramsrule.Client
 	// V2MoneyManagementTestHelpers is the client used to invoke testhelper related APIs.
 	V2MoneyManagementTestHelpers *v2moneymanagementtesthelper.Client
 	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
@@ -950,8 +974,8 @@ type API struct {
 	V2ReportingReportRuns *v2reportingreportrun.Client
 	// V2ReportingReports is the client used to invoke report related APIs.
 	V2ReportingReports *v2reportingreport.Client
-	// V2RiskInquiries is the client used to invoke /v2/risk/inquiries APIs.
-	V2RiskInquiries *v2riskinquiry.Client
+	// V2RiskForms is the client used to invoke form related APIs.
+	V2RiskForms *v2riskform.Client
 	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2signalsaccountactivity.Client
 	// V2SignalsAccountEvaluations is the client used to invoke /v2/signals/account_evaluations APIs.
@@ -1199,6 +1223,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingContracts = &v2billingcontract.Client{B: backends.API, Key: key}
 	a.V2BillingContractsPricingLinesQuantityChanges = &v2billingcontractspricinglinesquantitychange.Client{B: backends.API, Key: key}
+	a.V2BillingContractsTerms = &v2billingcontractsterm.Client{B: backends.API, Key: key}
+	a.V2BillingContractsTermsQuantityChanges = &v2billingcontractstermsquantitychange.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
 	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
 	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}
@@ -1225,6 +1251,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountEvaluations = &v2coreaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
+	a.V2CoreAccountSessions = &v2coreaccountsession.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
@@ -1260,7 +1287,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementFinancialAccountsStatements = &v2moneymanagementfinancialaccountsstatement.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsWalletExports = &v2moneymanagementfinancialaccountswalletexport.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFundingIntents = &v2moneymanagementfundingintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFundingSessions = &v2moneymanagementfundingsession.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementInboundFundings = &v2moneymanagementinboundfunding.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransferMandates = &v2moneymanagementinboundtransfermandate.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundPaymentQuotes = &v2moneymanagementoutboundpaymentquote.Client{B: backends.API, Key: key}
@@ -1274,6 +1303,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementReceivedDebitMandates = &v2moneymanagementreceiveddebitmandate.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRewardProgramEnrollments = &v2moneymanagementrewardprogramenrollment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRewardPrograms = &v2moneymanagementrewardprogram.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRewardProgramsRules = &v2moneymanagementrewardprogramsrule.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpers = &v2moneymanagementtesthelper.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
@@ -1294,7 +1326,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2ProvisioningResources = &v2provisioningresource.Client{B: backends.API, Key: key}
 	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
 	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
-	a.V2RiskInquiries = &v2riskinquiry.Client{B: backends.API, Key: key}
+	a.V2RiskForms = &v2riskform.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}

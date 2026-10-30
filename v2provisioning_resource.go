@@ -39,6 +39,15 @@ const (
 	V2ProvisioningResourceStatusRemoved          V2ProvisioningResourceStatus = "removed"
 )
 
+// Names of the provider-issued configuration entries available for this resource. This is null
+// unless explicitly included on RetrieveResource and the resource is complete with an available,
+// unexpired configuration. Values are never exposed through this field.
+type V2ProvisioningResourceConfiguration struct {
+	// Exact top-level configuration key names, unique and sorted in ascending lexicographic order.
+	// This array is present and empty when the available configuration has no entries.
+	KeyNames []string `json:"key_names"`
+}
+
 // Message supplied by the provider when the resource becomes ready.
 type V2ProvisioningResourceUserMessage struct {
 	// Message from the provider to display to the user.
@@ -53,6 +62,10 @@ type V2ProvisioningResource struct {
 	APIResource
 	// Catalog partition containing the resource's provider service.
 	Catalog V2ProvisioningResourceCatalog `json:"catalog,omitempty"`
+	// Names of the provider-issued configuration entries available for this resource. This is null
+	// unless explicitly included on RetrieveResource and the resource is complete with an available,
+	// unexpired configuration. Values are never exposed through this field.
+	Configuration *V2ProvisioningResourceConfiguration `json:"configuration,omitempty"`
 	// Time at which the resource was created.
 	Created time.Time `json:"created"`
 	// Provider environment in which the resource runs.

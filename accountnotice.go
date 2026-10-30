@@ -16,6 +16,7 @@ const (
 	AccountNoticeReasonIssuingAccountClosedForNotProvidingURLClarification           AccountNoticeReason = "issuing.account_closed_for_not_providing_url_clarification"
 	AccountNoticeReasonIssuingAccountClosedForNotProvidingUseCaseClarification       AccountNoticeReason = "issuing.account_closed_for_not_providing_use_case_clarification"
 	AccountNoticeReasonIssuingAccountClosedForTermsOfServiceViolation                AccountNoticeReason = "issuing.account_closed_for_terms_of_service_violation"
+	AccountNoticeReasonIssuingApplicationRejectedBecauseProhibitedBusiness           AccountNoticeReason = "issuing.application_rejected_because_prohibited_business"
 	AccountNoticeReasonIssuingApplicationRejectedForFailureToVerify                  AccountNoticeReason = "issuing.application_rejected_for_failure_to_verify"
 	AccountNoticeReasonIssuingCreditApplicationRejected                              AccountNoticeReason = "issuing.credit_application_rejected"
 	AccountNoticeReasonIssuingCreditIncreaseApplicationRejected                      AccountNoticeReason = "issuing.credit_increase_application_rejected"

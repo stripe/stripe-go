@@ -6,14 +6,15 @@
 
 package stripe
 
-// Lists FinancialAccounts in this account.
+// Returns a list of FinancialAccounts in your account that match the provided filters.
 type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Filter for FinancialAccount `status`. By default, closed FinancialAccounts are not returned.
+	// Return FinancialAccounts whose `status` matches any of the provided values.
+	// If omitted, closed FinancialAccounts are not returned.
 	Statuses []*string `form:"statuses" json:"statuses,omitempty"`
 	// Filter for FinancialAccount `type`. By default, FinancialAccounts of any `type` are returned.
 	Types []*string `form:"types" json:"types,omitempty"`
@@ -25,7 +26,7 @@ type V2MoneyManagementFinancialAccountSavingsParams struct {
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
-// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+// Crypto-specific storage configuration. Fiat currencies remain configured only through `holds_currencies`.
 type V2MoneyManagementFinancialAccountStorageCryptoParams struct {
 	// The blockchain network configured for each crypto currency. Keys are lowercase currency codes and must identify crypto currencies also present in `holds_currencies`.
 	CurrencyNetworks map[string]string `form:"currency_networks" json:"currency_networks"`
@@ -33,23 +34,12 @@ type V2MoneyManagementFinancialAccountStorageCryptoParams struct {
 	CustodyModel *string `form:"custody_model" json:"custody_model"`
 }
 
-// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-type V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams struct {
-	// The bank where funds are stored.
-	BankName *string `form:"bank_name" json:"bank_name"`
-	// Currencies eligible for deposit insurance at this bank under this scheme.
-	Currencies []*string `form:"currencies" json:"currencies"`
-	// The deposit insurance scheme.
-	Type *string `form:"type" json:"type"`
-}
-
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
-	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+	// Crypto-specific storage configuration used when adding crypto to a fiat-only FinancialAccount.
+	// `custody_model` is required for the initial crypto update and cannot be changed afterward.
 	Crypto *V2MoneyManagementFinancialAccountStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
-	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+	// The usage type for funds in this FinancialAccount. Defaults to BUSINESS if not specified.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
 	// Adding currencies requires the corresponding holds_currencies storer capabilities to be enabled.
@@ -66,7 +56,8 @@ type V2MoneyManagementFinancialAccountParams struct {
 	ForwardingSettings *V2MoneyManagementFinancialAccountForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Metadata associated with the FinancialAccount.
+	// Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting
+	// null to them.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `savings` type FinancialAccounts.
 	Savings *V2MoneyManagementFinancialAccountSavingsParams `form:"savings" json:"savings,omitempty"`
@@ -87,28 +78,32 @@ func (p *V2MoneyManagementFinancialAccountParams) AddMetadata(key string, value 
 
 // Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 type V2MoneyManagementFinancialAccountForwardingSettingsParams struct {
-	// The address to send forwarded payments to.
+	// ID of the FinancialAccount that supplies funds to cover negative balances
+	// during or after this FinancialAccount's closure.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The address to send forwarded payouts to.
+	// ID of the FinancialAccount that receives funds forwarded from this FinancialAccount when it closes.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// Whether to skip forwarding exportable self-custodied wallet balances. Defaults to false. This does not skip non-exportable or fiat balances, inbound-pending checks, or negative-balance requirements.
 	SkipExportableBalances *bool `form:"skip_exportable_balances" json:"skip_exportable_balances,omitempty"`
 }
 
-// The addresses to forward any incoming transactions to.
+// Settings that specify where to send positive balances and how to cover negative balances.
+// You must provide these settings if the FinancialAccount has a non-zero balance.
 type V2MoneyManagementFinancialAccountCloseForwardingSettingsParams struct {
-	// The address to send forwarded payments to.
+	// ID of the FinancialAccount that supplies funds to cover negative balances
+	// during or after this FinancialAccount's closure.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The address to send forwarded payouts to.
+	// ID of the FinancialAccount that receives funds forwarded from this FinancialAccount when it closes.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// Whether to skip forwarding exportable self-custodied wallet balances. Defaults to false. This does not skip non-exportable or fiat balances, inbound-pending checks, or negative-balance requirements.
 	SkipExportableBalances *bool `form:"skip_exportable_balances" json:"skip_exportable_balances,omitempty"`
 }
 
-// Closes a FinancialAccount with or without forwarding settings.
+// Closes a FinancialAccount. You must provide forwarding settings if it has a non-zero balance.
 type V2MoneyManagementFinancialAccountCloseParams struct {
 	Params `form:"*"`
-	// The addresses to forward any incoming transactions to.
+	// Settings that specify where to send positive balances and how to cover negative balances.
+	// You must provide these settings if the FinancialAccount has a non-zero balance.
 	ForwardingSettings *V2MoneyManagementFinancialAccountCloseForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
 }
 
@@ -118,7 +113,7 @@ type V2MoneyManagementFinancialAccountCreateSavingsParams struct {
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
-// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+// Crypto-specific storage configuration. Fiat currencies remain configured only through `holds_currencies`.
 type V2MoneyManagementFinancialAccountCreateStorageCryptoParams struct {
 	// The blockchain network configured for each crypto currency. Keys are lowercase currency codes and must identify crypto currencies also present in `holds_currencies`.
 	CurrencyNetworks map[string]string `form:"currency_networks" json:"currency_networks"`
@@ -126,25 +121,14 @@ type V2MoneyManagementFinancialAccountCreateStorageCryptoParams struct {
 	CustodyModel *string `form:"custody_model" json:"custody_model"`
 }
 
-// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-type V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams struct {
-	// The bank where funds are stored.
-	BankName *string `form:"bank_name" json:"bank_name"`
-	// Currencies eligible for deposit insurance at this bank under this scheme.
-	Currencies []*string `form:"currencies" json:"currencies"`
-	// The deposit insurance scheme.
-	Type *string `form:"type" json:"type"`
-}
-
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
-	// Crypto-specific storage configuration. Only populated when `storage.crypto` is passed in the `include` parameter and the FinancialAccount stores crypto assets. Fiat currencies remain configured only through `holds_currencies`.
+	// Crypto-specific storage configuration. Fiat currencies remain configured only through `holds_currencies`.
 	Crypto *V2MoneyManagementFinancialAccountCreateStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
-	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountCreateStorageDepositInsuranceEligibilityParams `form:"deposit_insurance_eligibility" json:"deposit_insurance_eligibility,omitempty"`
-	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+	// The usage type for funds in this FinancialAccount. Defaults to BUSINESS if not specified.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
-	// The currencies that this FinancialAccount can hold.
+	// The currencies that the storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
+	// Must be a subset of the currencies requested in `configuration.storer.features.holds_currencies` of the v2/accounts API.
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
@@ -181,9 +165,10 @@ type V2MoneyManagementFinancialAccountRetrieveParams struct {
 
 // Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 type V2MoneyManagementFinancialAccountUpdateForwardingSettingsParams struct {
-	// The address to send forwarded payments to.
+	// ID of the FinancialAccount that supplies funds to cover negative balances
+	// during or after this FinancialAccount's closure.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The address to send forwarded payouts to.
+	// ID of the FinancialAccount that receives funds forwarded from this FinancialAccount when it closes.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// Whether to skip forwarding exportable self-custodied wallet balances. Defaults to false. This does not skip non-exportable or fiat balances, inbound-pending checks, or negative-balance requirements.
 	SkipExportableBalances *bool `form:"skip_exportable_balances" json:"skip_exportable_balances,omitempty"`
@@ -209,14 +194,15 @@ type V2MoneyManagementFinancialAccountUpdateStorageParams struct {
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies,omitempty"`
 }
 
-// Updates an existing FinancialAccount.
+// Updates an existing FinancialAccount using the provided parameters.
 type V2MoneyManagementFinancialAccountUpdateParams struct {
 	Params `form:"*"`
-	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name appears in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 	ForwardingSettings *V2MoneyManagementFinancialAccountUpdateForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
-	// Metadata associated with the FinancialAccount.
+	// Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting
+	// null to them.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters for updating storage-specific fields on the FinancialAccount.
 	Storage *V2MoneyManagementFinancialAccountUpdateStorageParams `form:"storage" json:"storage,omitempty"`

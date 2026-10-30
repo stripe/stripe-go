@@ -64,6 +64,16 @@ const (
 	V2DataQueryRunResultInlineColumnTypeVarchar   V2DataQueryRunResultInlineColumnType = "varchar"
 )
 
+// The compression applied to the generated result file. Defaults to `none`. This applies
+// only to downloadable file results.
+type V2DataQueryRunResultOptionsCompression string
+
+// List of values that V2DataQueryRunResultOptionsCompression can take
+const (
+	V2DataQueryRunResultOptionsCompressionNone V2DataQueryRunResultOptionsCompression = "none"
+	V2DataQueryRunResultOptionsCompressionZip  V2DataQueryRunResultOptionsCompression = "zip"
+)
+
 // The current status of the `QueryRun`.
 type V2DataQueryRunStatus string
 
@@ -80,14 +90,16 @@ type V2DataQueryRunStatusDetailsCode string
 
 // List of values that V2DataQueryRunStatusDetailsCode can take
 const (
-	V2DataQueryRunStatusDetailsCodeFileSizeAboveLimit V2DataQueryRunStatusDetailsCode = "file_size_above_limit"
-	V2DataQueryRunStatusDetailsCodeInternalError      V2DataQueryRunStatusDetailsCode = "internal_error"
-	V2DataQueryRunStatusDetailsCodeQueryRunInvalidSQL V2DataQueryRunStatusDetailsCode = "query_run_invalid_sql"
+	V2DataQueryRunStatusDetailsCodeExecutionFailed       V2DataQueryRunStatusDetailsCode = "execution_failed"
+	V2DataQueryRunStatusDetailsCodeFileSizeAboveLimit    V2DataQueryRunStatusDetailsCode = "file_size_above_limit"
+	V2DataQueryRunStatusDetailsCodeInternalError         V2DataQueryRunStatusDetailsCode = "internal_error"
+	V2DataQueryRunStatusDetailsCodeQueryRunInvalidSQL    V2DataQueryRunStatusDetailsCode = "query_run_invalid_sql"
+	V2DataQueryRunStatusDetailsCodeResourceLimitExceeded V2DataQueryRunStatusDetailsCode = "resource_limit_exceeded"
 )
 
 // The query that was submitted for execution.
 type V2DataQueryRunQuery struct {
-	// Ad-hoc SQL to execute.
+	// Ad-hoc SQL to execute. The maximum length is 100,000 characters.
 	SQL string `json:"sql,omitempty"`
 }
 
@@ -161,9 +173,17 @@ type V2DataQueryRunResult struct {
 
 // Settings applied to the generated result file.
 type V2DataQueryRunResultOptions struct {
-	// If set, the generated result file is compressed into a ZIP archive before
-	// it is stored. This applies only to downloadable file results.
-	CompressFile bool `json:"compress_file,omitempty"`
+	// The compression applied to the generated result file. Defaults to `none`. This applies
+	// only to downloadable file results.
+	Compression V2DataQueryRunResultOptionsCompression `json:"compression,omitempty"`
+}
+
+// Errors found in the submitted SQL. Populated when the failure was caused by invalid SQL.
+type V2DataQueryRunStatusDetailsQueryError struct {
+	// A human-readable description of the error.
+	Message string `json:"message"`
+	// A short identifier categorizing the type of error.
+	Type string `json:"type"`
 }
 
 // Additional details about the current state of the `QueryRun`.
@@ -174,11 +194,15 @@ type V2DataQueryRunStatusDetails struct {
 	Code V2DataQueryRunStatusDetailsCode `json:"code,omitempty"`
 	// Error message with additional details about the failure.
 	Message string `json:"message,omitempty"`
+	// Errors found in the submitted SQL. Populated when the failure was caused by invalid SQL.
+	QueryErrors []*V2DataQueryRunStatusDetailsQueryError `json:"query_errors"`
 }
 
 // The `QueryRun` resource represents an execution of ad-hoc SQL against a dataset. Once
 // created, Stripe processes the query. When the query has finished running, the object
-// provides a reference to the results.
+// provides a reference to the results. A `QueryRun` and its results are retained for 90 days
+// after the run completes. After that, Stripe deletes them and retrieving the `QueryRun`
+// returns a `404` error.
 type V2DataQueryRun struct {
 	APIResource
 	// Time at which the `QueryRun` was created.

@@ -328,6 +328,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
 
@@ -349,6 +352,14 @@ type TestHelpersConfirmationTokenPaymentMethodDataUpiParams struct {
 	MandateOptions *TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -357,6 +368,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -510,6 +523,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *TestHelpersConfirmationTokenPaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *TestHelpersConfirmationTokenPaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -937,6 +952,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams struct{}
 
@@ -958,6 +976,14 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams struct {
 	MandateOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -966,6 +992,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams stru
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -1119,6 +1147,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Swish *TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *TestHelpersConfirmationTokenCreatePaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *TestHelpersConfirmationTokenCreatePaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

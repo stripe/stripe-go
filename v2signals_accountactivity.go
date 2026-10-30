@@ -64,6 +64,37 @@ const (
 	V2SignalsAccountActivityCredentialChangeCredentialTypeOther         V2SignalsAccountActivityCredentialChangeCredentialType = "other"
 )
 
+// The outcome of the action.
+type V2SignalsAccountActivityCustomMarketingActionOutcome string
+
+// List of values that V2SignalsAccountActivityCustomMarketingActionOutcome can take
+const (
+	V2SignalsAccountActivityCustomMarketingActionOutcomeFailed    V2SignalsAccountActivityCustomMarketingActionOutcome = "failed"
+	V2SignalsAccountActivityCustomMarketingActionOutcomeSucceeded V2SignalsAccountActivityCustomMarketingActionOutcome = "succeeded"
+)
+
+// The authentication method used for the challenge.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType string
+
+// List of values that V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType can take
+const (
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeAuthenticatorApp V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "authenticator_app"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeEmail            V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "email"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeHardwareKey      V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "hardware_key"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeOther            V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "other"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeMfaTypeSms              V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType = "sms"
+)
+
+// The outcome of the authentication challenge.
+type V2SignalsAccountActivityLoginDecisionMfaChallengeStatus string
+
+// List of values that V2SignalsAccountActivityLoginDecisionMfaChallengeStatus can take
+const (
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusFailed    V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "failed"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusOther     V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "other"
+	V2SignalsAccountActivityLoginDecisionMfaChallengeStatusSucceeded V2SignalsAccountActivityLoginDecisionMfaChallengeStatus = "succeeded"
+)
+
 // The action the merchant took following the evaluation.
 type V2SignalsAccountActivityLoginDecisionStatus string
 
@@ -120,6 +151,7 @@ const (
 	V2SignalsAccountActivityTypeAccountTakeoverMitigation   V2SignalsAccountActivityType = "account_takeover_mitigation"
 	V2SignalsAccountActivityTypeAccountTakeoverReport       V2SignalsAccountActivityType = "account_takeover_report"
 	V2SignalsAccountActivityTypeCredentialChange            V2SignalsAccountActivityType = "credential_change"
+	V2SignalsAccountActivityTypeCustomMarketingAction       V2SignalsAccountActivityType = "custom_marketing_action"
 	V2SignalsAccountActivityTypeLoginAttempt                V2SignalsAccountActivityType = "login_attempt"
 	V2SignalsAccountActivityTypeLoginDecision               V2SignalsAccountActivityType = "login_decision"
 	V2SignalsAccountActivityTypeMfaAddition                 V2SignalsAccountActivityType = "mfa_addition"
@@ -215,6 +247,16 @@ type V2SignalsAccountActivityCredentialChange struct {
 	CredentialType V2SignalsAccountActivityCredentialChangeCredentialType `json:"credential_type"`
 }
 
+// Details for the custom marketing action. Present only when type is custom_marketing_action.
+type V2SignalsAccountActivityCustomMarketingAction struct {
+	// A description of the action.
+	Description string `json:"description"`
+	// The outcome of the action.
+	Outcome V2SignalsAccountActivityCustomMarketingActionOutcome `json:"outcome"`
+	// Additional user-defined properties of the action.
+	Properties map[string]string `json:"properties"`
+}
+
 // Raw client details for the activity, when a Radar session is not available.
 type V2SignalsAccountActivityLoginAttemptClientDetailsData struct {
 	// The IP address associated with the activity.
@@ -239,8 +281,18 @@ type V2SignalsAccountActivityLoginAttempt struct {
 	ClientDetails *V2SignalsAccountActivityLoginAttemptClientDetails `json:"client_details"`
 }
 
+// Multi-factor authentication challenges performed during the login process.
+type V2SignalsAccountActivityLoginDecisionMfaChallenge struct {
+	// The authentication method used for the challenge.
+	MfaType V2SignalsAccountActivityLoginDecisionMfaChallengeMfaType `json:"mfa_type"`
+	// The outcome of the authentication challenge.
+	Status V2SignalsAccountActivityLoginDecisionMfaChallengeStatus `json:"status"`
+}
+
 // Details for the login decision. Present only when type is login_decision.
 type V2SignalsAccountActivityLoginDecision struct {
+	// Multi-factor authentication challenges performed during the login process.
+	MfaChallenges []*V2SignalsAccountActivityLoginDecisionMfaChallenge `json:"mfa_challenges,omitempty"`
 	// The action the merchant took following the evaluation.
 	Status V2SignalsAccountActivityLoginDecisionStatus `json:"status"`
 }
@@ -311,6 +363,8 @@ type V2SignalsAccountActivity struct {
 	Created time.Time `json:"created"`
 	// Details for the credential change. Present only when type is credential_change.
 	CredentialChange *V2SignalsAccountActivityCredentialChange `json:"credential_change,omitempty"`
+	// Details for the custom marketing action. Present only when type is custom_marketing_action.
+	CustomMarketingAction *V2SignalsAccountActivityCustomMarketingAction `json:"custom_marketing_action,omitempty"`
 	// Unique identifier for the account activity.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -333,6 +387,9 @@ type V2SignalsAccountActivity struct {
 	RegistrationAttempt *V2SignalsAccountActivityRegistrationAttempt `json:"registration_attempt,omitempty"`
 	// Details for the registration decision. Present only when type is registration_decision.
 	RegistrationDecision *V2SignalsAccountActivityRegistrationDecision `json:"registration_decision,omitempty"`
+	// The AccountSignal that prompted this activity, when applicable. This historical reference
+	// may coexist with account_evaluation and remains present after the signal expires.
+	TriggeringSignal string `json:"triggering_signal,omitempty"`
 	// The type of activity.
 	Type V2SignalsAccountActivityType `json:"type"`
 }

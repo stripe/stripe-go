@@ -9,11 +9,12 @@ package stripe
 // Returns a list of TransactionEntries that match the provided filters.
 type V2MoneyManagementTransactionEntryListParams struct {
 	Params `form:"*"`
-	// Set of filters to query TransactionEntries within a range of `created` timestamps.
+	// Filter for TransactionEntries created within a specified time range.
 	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Filter for TransactionEntries belonging to a Transaction.
+	// Filter for TransactionEntries belonging to a specific Transaction. This filter only supports
+	// filtering by a Transaction ID, which appears in each TransactionEntry's `transaction` field.
 	Transaction *string `form:"transaction" json:"transaction,omitempty"`
 }
 

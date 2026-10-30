@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a CurrencyConversion.
+// Create a new Currency Conversion in a Financial Account or the payments balance.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2MoneyManagementCurrencyConversionParams) (*
 	return currencyconversion, err
 }
 
-// Retrieve details of a CurrencyConversion by id.
+// Retrieves the details of a Currency Conversion by its ID.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -47,7 +47,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementCurrencyConversio
 	return currencyconversion, err
 }
 
-// List all CurrencyConversion on an account with the option to filter by FinancialAccount.
+// Lists all Currency Conversions that match the provided filters.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

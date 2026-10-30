@@ -76,7 +76,7 @@ type V2MoneyManagementOutboundSetupIntent struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Use the PayoutMethods API to list and interact with PayoutMethod objects.
-	PayoutMethod *V2MoneyManagementPayoutMethod `json:"payout_method"`
+	PayoutMethod *V2MoneyManagementPayoutMethod `json:"payout_method,omitempty"`
 	// Closed Enum. Status of the outbound setup intent.
 	Status V2MoneyManagementOutboundSetupIntentStatus `json:"status"`
 	// The intended money movement flow this payout method should be set up for, specified in params.

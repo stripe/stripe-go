@@ -17,7 +17,7 @@ type v2CoreVaultNetworkTokenService struct {
 	Key string
 }
 
-// Create or Return a Network Token Using Raw Card Data.
+// Creates a Network Token from raw card data.
 func (c v2CoreVaultNetworkTokenService) Create(ctx context.Context, params *V2CoreVaultNetworkTokenCreateParams) (*V2CoreVaultNetworkToken, error) {
 	if params == nil {
 		params = &V2CoreVaultNetworkTokenCreateParams{}
@@ -41,7 +41,7 @@ func (c v2CoreVaultNetworkTokenService) Retrieve(ctx context.Context, id string,
 	return networktoken, err
 }
 
-// Creates or returns a Network Token from an existing card reference.
+// Creates a Network Token from an existing card reference.
 func (c v2CoreVaultNetworkTokenService) CreateFromCredential(ctx context.Context, params *V2CoreVaultNetworkTokenCreateFromCredentialParams) (*V2CoreVaultNetworkToken, error) {
 	if params == nil {
 		params = &V2CoreVaultNetworkTokenCreateFromCredentialParams{}

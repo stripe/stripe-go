@@ -47,15 +47,15 @@ const (
 	V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharingRiskLevelUnknown  V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharingRiskLevel = "unknown"
 )
 
-// Categorical assessment of the user-merchant fit.
-type V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel string
+// Categorical assessment of the user affinity.
+type V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel string
 
-// List of values that V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel can take
+// List of values that V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel can take
 const (
-	V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevelStandard   V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel = "standard"
-	V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevelStrong     V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel = "strong"
-	V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevelUnknown    V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel = "unknown"
-	V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevelVeryStrong V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel = "very_strong"
+	V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevelStandard   V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel = "standard"
+	V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevelStrong     V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel = "strong"
+	V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevelUnknown    V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel = "unknown"
+	V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevelVeryStrong V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel = "very_strong"
 )
 
 // Categorical assessment of the multi-accounting risk.
@@ -78,7 +78,7 @@ const (
 	V2SignalsAccountEvaluationPendingSignalAccountTakeover     V2SignalsAccountEvaluationPendingSignal = "account_takeover"
 	V2SignalsAccountEvaluationPendingSignalFraudulentWebsite   V2SignalsAccountEvaluationPendingSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationPendingSignalUserAccountSharing  V2SignalsAccountEvaluationPendingSignal = "user_account_sharing"
-	V2SignalsAccountEvaluationPendingSignalUserMerchantFit     V2SignalsAccountEvaluationPendingSignal = "user_merchant_fit"
+	V2SignalsAccountEvaluationPendingSignalUserAffinity        V2SignalsAccountEvaluationPendingSignal = "user_affinity"
 	V2SignalsAccountEvaluationPendingSignalUserMultiAccounting V2SignalsAccountEvaluationPendingSignal = "user_multi_accounting"
 )
 
@@ -90,7 +90,7 @@ const (
 	V2SignalsAccountEvaluationRequestedSignalAccountTakeover     V2SignalsAccountEvaluationRequestedSignal = "account_takeover"
 	V2SignalsAccountEvaluationRequestedSignalFraudulentWebsite   V2SignalsAccountEvaluationRequestedSignal = "fraudulent_website"
 	V2SignalsAccountEvaluationRequestedSignalUserAccountSharing  V2SignalsAccountEvaluationRequestedSignal = "user_account_sharing"
-	V2SignalsAccountEvaluationRequestedSignalUserMerchantFit     V2SignalsAccountEvaluationRequestedSignal = "user_merchant_fit"
+	V2SignalsAccountEvaluationRequestedSignalUserAffinity        V2SignalsAccountEvaluationRequestedSignal = "user_affinity"
 	V2SignalsAccountEvaluationRequestedSignalUserMultiAccounting V2SignalsAccountEvaluationRequestedSignal = "user_multi_accounting"
 )
 
@@ -182,15 +182,15 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharing struct {
 	Signal string `json:"signal,omitempty"`
 }
 
-// User-merchant fit result for the evaluation, when available.
-type V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFit struct {
+// User affinity result for the evaluation, when available.
+type V2SignalsAccountEvaluationEvaluatedSignalsUserAffinity struct {
 	// Timestamp at which the signal was evaluated.
 	EvaluatedAt time.Time `json:"evaluated_at,omitempty"`
-	// Categorical assessment of the user-merchant fit.
-	FitLevel V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFitFitLevel `json:"fit_level"`
-	// The specific fit score for the user, between 0.00 and 100.00. Absent when fit_level is unknown.
+	// Categorical assessment of the user affinity.
+	Level V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel `json:"level"`
+	// The specific affinity score for the user, between 0.00 and 100.00. Absent when level is unknown.
 	Score decimal.Decimal `json:"score,omitempty"`
-	// The account signal ID containing the full user-merchant fit signal result.
+	// The account signal ID containing the full user affinity signal result.
 	Signal string `json:"signal,omitempty"`
 }
 
@@ -214,8 +214,8 @@ type V2SignalsAccountEvaluationEvaluatedSignals struct {
 	FraudulentWebsite *V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite `json:"fraudulent_website,omitempty"`
 	// User account-sharing result for the evaluation, when available.
 	UserAccountSharing *V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharing `json:"user_account_sharing,omitempty"`
-	// User-merchant fit result for the evaluation, when available.
-	UserMerchantFit *V2SignalsAccountEvaluationEvaluatedSignalsUserMerchantFit `json:"user_merchant_fit,omitempty"`
+	// User affinity result for the evaluation, when available.
+	UserAffinity *V2SignalsAccountEvaluationEvaluatedSignalsUserAffinity `json:"user_affinity,omitempty"`
 	// User multi-accounting result for the evaluation, when available.
 	UserMultiAccounting *V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }

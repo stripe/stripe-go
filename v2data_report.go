@@ -6,6 +6,8 @@
 
 package stripe
 
+import "time"
+
 // The data type of the elements in the array.
 type V2DataReportParametersArrayDetailsElementType string
 
@@ -81,4 +83,8 @@ type V2DataReport struct {
 	Object string `json:"object"`
 	// Specification of the parameters that the `Report` accepts, keyed by parameter name.
 	Parameters map[string]*V2DataReportParameters `json:"parameters,omitempty"`
+	// The most recent time through which data is available for this report, not the time the
+	// report definition was updated. Unset if the report has no data-availability policy, or if no
+	// freshness watermark is available yet.
+	RefreshedAt time.Time `json:"refreshed_at,omitempty"`
 }

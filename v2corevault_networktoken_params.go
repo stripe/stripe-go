@@ -28,7 +28,7 @@ type V2CoreVaultNetworkTokenCardParams struct {
 	OwnerDetails *V2CoreVaultNetworkTokenCardOwnerDetailsParams `form:"owner_details" json:"owner_details,omitempty"`
 }
 
-// Create or Return a Network Token Using Raw Card Data.
+// Creates a Network Token from raw card data.
 type V2CoreVaultNetworkTokenParams struct {
 	Params `form:"*"`
 	// Raw card values used to provision the network token.
@@ -45,7 +45,7 @@ type V2CoreVaultNetworkTokenCreateFromCredentialCardParams struct {
 	Reference *string `form:"reference" json:"reference"`
 }
 
-// Creates or returns a Network Token from an existing card reference.
+// Creates a Network Token from an existing card reference.
 type V2CoreVaultNetworkTokenCreateFromCredentialParams struct {
 	Params `form:"*"`
 	// The existing Stripe card reference to provision or resolve.
@@ -84,7 +84,7 @@ type V2CoreVaultNetworkTokenCreateCardParams struct {
 	OwnerDetails *V2CoreVaultNetworkTokenCreateCardOwnerDetailsParams `form:"owner_details" json:"owner_details,omitempty"`
 }
 
-// Create or Return a Network Token Using Raw Card Data.
+// Creates a Network Token from raw card data.
 type V2CoreVaultNetworkTokenCreateParams struct {
 	Params `form:"*"`
 	// Raw card values used to provision the network token.

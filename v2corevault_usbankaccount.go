@@ -85,10 +85,15 @@ type V2CoreVaultUSBankAccount struct {
 	BankName string `json:"bank_name"`
 	// Creation time of the object.
 	Created time.Time `json:"created"`
+	// Same as `fingerprint`, but uniquely identifies the bank account using its `fedwire_routing_number` instead of its `routing_number`.
+	FedwireFingerprint string `json:"fedwire_fingerprint,omitempty"`
 	// The fedwire routing number of the bank account.
 	FedwireRoutingNumber string `json:"fedwire_routing_number,omitempty"`
 	// The ID of the Financial Connections Account used to create the bank account.
 	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same bank account, for example.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// The ID of the USBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number.

@@ -34,7 +34,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementTransactionParams
 	return transaction, err
 }
 
-// Updates the description of an existing Transaction.
+// Updates an existing Transaction. You can update its description and metadata.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

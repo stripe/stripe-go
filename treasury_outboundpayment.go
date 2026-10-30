@@ -146,6 +146,14 @@ func (p *TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// An external token used to create a payment method.
+type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // Required hash if type is set to `us_bank_account`.
 type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -154,6 +162,8 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams stru
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -301,6 +311,14 @@ func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetails
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// An external token used to create a payment method.
+type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // Required hash if type is set to `us_bank_account`.
 type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -309,6 +327,8 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountParam
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.

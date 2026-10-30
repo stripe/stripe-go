@@ -47,7 +47,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementRecipientVerifica
 	return recipientverification, err
 }
 
-// Acknowledges an existing RecipientVerification. Only RecipientVerification awaiting acknowledgement can be acknowledged.
+// Acknowledges an existing RecipientVerification in the `awaiting_acknowledgement` state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -23,6 +23,29 @@ const (
 	V2SignalsAccountSignalAccountTakeoverRiskLevelUnknown  V2SignalsAccountSignalAccountTakeoverRiskLevel = "unknown"
 )
 
+// The name of the customer risk indicator.
+type V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator string
+
+// List of values that V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator can take
+const (
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorCardTestingOnStripe                      V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "card_testing_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorCustomerRecentlyCreated                  V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "customer_recently_created"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorDisposableEmailUseOnStripe               V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "disposable_email_use_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorDistributedFraudOnStripe                 V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "distributed_fraud_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighDistinctCardCountOnStripe            V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_distinct_card_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighDistinctEmailCountOnStripe           V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_distinct_email_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighDistinctIPCountOnStripe              V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_distinct_ip_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighDistinctPhoneCountOnStripe           V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_distinct_phone_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighFraudulentDisputeCountOnStripe       V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_fraudulent_dispute_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighNameVerificationFailureCountOnStripe V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_name_verification_failure_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorHighRefundCountOnStripe                  V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "high_refund_count_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorLowAuthRateOnStripe                      V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "low_auth_rate_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorNewIdentityOnStripe                      V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "new_identity_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorProxyIPUsageOnStripe                     V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "proxy_ip_usage_on_stripe"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorSharedBrowserFingerprintManyCustomers    V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "shared_browser_fingerprint_many_customers"
+	V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicatorSharedCardManyCustomers                  V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator = "shared_card_many_customers"
+)
+
 // Categorical assessment of the customer's risk of fraudulent or abusive activity.
 type V2SignalsAccountSignalCustomerRiskRiskLevel string
 
@@ -144,7 +167,7 @@ const (
 	V2SignalsAccountSignalTypeMerchantDelinquency        V2SignalsAccountSignalType = "merchant_delinquency"
 	V2SignalsAccountSignalTypePaymentDelinquencyExposure V2SignalsAccountSignalType = "payment_delinquency_exposure"
 	V2SignalsAccountSignalTypeUserAccountSharing         V2SignalsAccountSignalType = "user_account_sharing"
-	V2SignalsAccountSignalTypeUserMerchantFit            V2SignalsAccountSignalType = "user_merchant_fit"
+	V2SignalsAccountSignalTypeUserAffinity               V2SignalsAccountSignalType = "user_affinity"
 	V2SignalsAccountSignalTypeUserMultiAccounting        V2SignalsAccountSignalType = "user_multi_accounting"
 )
 
@@ -160,15 +183,15 @@ const (
 	V2SignalsAccountSignalUserAccountSharingRiskLevelUnknown  V2SignalsAccountSignalUserAccountSharingRiskLevel = "unknown"
 )
 
-// Categorical assessment of the user-merchant fit.
-type V2SignalsAccountSignalUserMerchantFitFitLevel string
+// Categorical assessment of the user affinity.
+type V2SignalsAccountSignalUserAffinityLevel string
 
-// List of values that V2SignalsAccountSignalUserMerchantFitFitLevel can take
+// List of values that V2SignalsAccountSignalUserAffinityLevel can take
 const (
-	V2SignalsAccountSignalUserMerchantFitFitLevelStandard   V2SignalsAccountSignalUserMerchantFitFitLevel = "standard"
-	V2SignalsAccountSignalUserMerchantFitFitLevelStrong     V2SignalsAccountSignalUserMerchantFitFitLevel = "strong"
-	V2SignalsAccountSignalUserMerchantFitFitLevelUnknown    V2SignalsAccountSignalUserMerchantFitFitLevel = "unknown"
-	V2SignalsAccountSignalUserMerchantFitFitLevelVeryStrong V2SignalsAccountSignalUserMerchantFitFitLevel = "very_strong"
+	V2SignalsAccountSignalUserAffinityLevelStandard   V2SignalsAccountSignalUserAffinityLevel = "standard"
+	V2SignalsAccountSignalUserAffinityLevelStrong     V2SignalsAccountSignalUserAffinityLevel = "strong"
+	V2SignalsAccountSignalUserAffinityLevelUnknown    V2SignalsAccountSignalUserAffinityLevel = "unknown"
+	V2SignalsAccountSignalUserAffinityLevelVeryStrong V2SignalsAccountSignalUserAffinityLevel = "very_strong"
 )
 
 // Categorical assessment of the multi-accounting risk.
@@ -197,8 +220,22 @@ type V2SignalsAccountSignalAccountTakeover struct {
 	RiskLevel V2SignalsAccountSignalAccountTakeoverRiskLevel `json:"risk_level"`
 }
 
+// Indicators providing risk context. Not all indicators directly contribute to the overall risk level.
+type V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicator struct {
+	// The name of the customer risk indicator.
+	Indicator V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicatorIndicator `json:"indicator"`
+}
+
+// Supplementary contextual data for the signal, including indicators. Absent when no indicators are available.
+type V2SignalsAccountSignalCustomerRiskAdditionalDetails struct {
+	// Indicators providing risk context. Not all indicators directly contribute to the overall risk level.
+	Indicators []*V2SignalsAccountSignalCustomerRiskAdditionalDetailsIndicator `json:"indicators"`
+}
+
 // Data for the customer risk signal. Present only when type is customer_risk.
 type V2SignalsAccountSignalCustomerRisk struct {
+	// Supplementary contextual data for the signal, including indicators. Absent when no indicators are available.
+	AdditionalDetails *V2SignalsAccountSignalCustomerRiskAdditionalDetails `json:"additional_details,omitempty"`
 	// Categorical assessment of the customer's risk of fraudulent or abusive activity.
 	RiskLevel V2SignalsAccountSignalCustomerRiskRiskLevel `json:"risk_level"`
 }
@@ -312,11 +349,11 @@ type V2SignalsAccountSignalUserAccountSharing struct {
 	Score decimal.Decimal `json:"score,omitempty"`
 }
 
-// Data for the user-merchant fit signal. Present only when type is user_merchant_fit.
-type V2SignalsAccountSignalUserMerchantFit struct {
-	// Categorical assessment of the user-merchant fit.
-	FitLevel V2SignalsAccountSignalUserMerchantFitFitLevel `json:"fit_level"`
-	// The specific fit score for the user, between 0.00 and 100.00. Absent when fit_level is unknown.
+// Data for the user affinity signal. Present only when type is user_affinity.
+type V2SignalsAccountSignalUserAffinity struct {
+	// Categorical assessment of the user affinity.
+	Level V2SignalsAccountSignalUserAffinityLevel `json:"level"`
+	// The specific affinity score for the user, between 0.00 and 100.00. Absent when level is unknown.
 	Score decimal.Decimal `json:"score,omitempty"`
 }
 
@@ -363,8 +400,8 @@ type V2SignalsAccountSignal struct {
 	Type V2SignalsAccountSignalType `json:"type"`
 	// Data for the user account-sharing signal. Present only when type is user_account_sharing.
 	UserAccountSharing *V2SignalsAccountSignalUserAccountSharing `json:"user_account_sharing,omitempty"`
-	// Data for the user-merchant fit signal. Present only when type is user_merchant_fit.
-	UserMerchantFit *V2SignalsAccountSignalUserMerchantFit `json:"user_merchant_fit,omitempty"`
+	// Data for the user affinity signal. Present only when type is user_affinity.
+	UserAffinity *V2SignalsAccountSignalUserAffinity `json:"user_affinity,omitempty"`
 	// Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
 	UserMultiAccounting *V2SignalsAccountSignalUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }

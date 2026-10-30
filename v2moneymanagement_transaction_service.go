@@ -29,7 +29,7 @@ func (c v2MoneyManagementTransactionService) Retrieve(ctx context.Context, id st
 	return transaction, err
 }
 
-// Updates the description of an existing Transaction.
+// Updates an existing Transaction. You can update its description and metadata.
 func (c v2MoneyManagementTransactionService) Update(ctx context.Context, id string, params *V2MoneyManagementTransactionUpdateParams) (*V2MoneyManagementTransaction, error) {
 	if params == nil {
 		params = &V2MoneyManagementTransactionUpdateParams{}

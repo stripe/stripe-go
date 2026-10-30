@@ -54,6 +54,18 @@ func (c v2CoreVaultGBBankAccountService) Archive(ctx context.Context, id string,
 	return gbbankaccount, err
 }
 
+// Unarchive a GBBankAccount object.
+func (c v2CoreVaultGBBankAccountService) Unarchive(ctx context.Context, id string, params *V2CoreVaultGBBankAccountUnarchiveParams) (*V2CoreVaultGBBankAccount, error) {
+	if params == nil {
+		params = &V2CoreVaultGBBankAccountUnarchiveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/vault/gb_bank_accounts/%s/unarchive", id)
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, gbbankaccount)
+	return gbbankaccount, err
+}
+
 // List objects that can be used as destinations for outbound money movement via OutboundPayment.
 func (c v2CoreVaultGBBankAccountService) List(ctx context.Context, listParams *V2CoreVaultGBBankAccountListParams) *V2List[*V2CoreVaultGBBankAccount] {
 	if listParams == nil {

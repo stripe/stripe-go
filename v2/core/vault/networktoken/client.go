@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create or Return a Network Token Using Raw Card Data.
+// Creates a Network Token from raw card data.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2CoreVaultNetworkTokenParams) (*s
 	return networktoken, err
 }
 
-// Creates or returns a Network Token from an existing card reference.
+// Creates a Network Token from an existing card reference.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

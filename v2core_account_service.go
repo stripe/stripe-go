@@ -64,6 +64,30 @@ func (c v2CoreAccountService) Close(ctx context.Context, id string, params *V2Co
 	return account, err
 }
 
+// Rejects an Account and prevents it from operating across its configurations.
+func (c v2CoreAccountService) Reject(ctx context.Context, id string, params *V2CoreAccountRejectParams) (*V2CoreAccount, error) {
+	if params == nil {
+		params = &V2CoreAccountRejectParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/accounts/%s/reject", id)
+	account := &V2CoreAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
+// Reverses a platform rejection on an Account. Restrictions applied by Stripe or other risk controls remain in place.
+func (c v2CoreAccountService) Unreject(ctx context.Context, id string, params *V2CoreAccountUnrejectParams) (*V2CoreAccount, error) {
+	if params == nil {
+		params = &V2CoreAccountUnrejectParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/accounts/%s/unreject", id)
+	account := &V2CoreAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
 // Returns a list of Accounts.
 func (c v2CoreAccountService) List(ctx context.Context, listParams *V2CoreAccountListParams) *V2List[*V2CoreAccount] {
 	if listParams == nil {

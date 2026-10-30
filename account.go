@@ -963,6 +963,12 @@ type AccountCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1138,6 +1144,8 @@ type AccountCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -1268,6 +1276,8 @@ type AccountCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
@@ -1347,6 +1357,12 @@ type AccountDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -1391,6 +1407,8 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -2487,6 +2505,12 @@ type AccountUpdateCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountUpdateCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountUpdateCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2662,6 +2686,8 @@ type AccountUpdateCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountUpdateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountUpdateCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountUpdateCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -2788,6 +2814,8 @@ type AccountUpdateCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams                              `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountUpdateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
@@ -2866,6 +2894,12 @@ type AccountUpdateDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountUpdateDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -2910,6 +2944,8 @@ type AccountUpdateDocumentsParams struct {
 	CompanyTaxIDVerification *AccountUpdateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountUpdateDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountUpdateDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountUpdateDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3978,6 +4014,12 @@ type AccountCreateCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountCreateCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountCreateCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -4153,6 +4195,8 @@ type AccountCreateCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountCreateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountCreateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountCreateCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountCreateCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -4282,6 +4326,8 @@ type AccountCreateCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
@@ -4411,6 +4457,12 @@ type AccountCreateDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountCreateDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -4441,6 +4493,8 @@ type AccountCreateDocumentsParams struct {
 	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountCreateDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountCreateDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`
 }
@@ -5249,6 +5303,7 @@ type AccountCompany struct {
 	OwnersProvided bool `json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone                    string                          `json:"phone,omitempty"`
+	PhysicalAddress          *Address                        `json:"physical_address,omitempty"`
 	PrincipalPlaceOfBusiness *Address                        `json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.

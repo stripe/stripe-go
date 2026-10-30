@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Open Enum. A descriptive category used to classify the Transaction.
+// Open Enum. A category used to classify the Transaction.
 type V2MoneyManagementTransactionCategory string
 
 // List of values that V2MoneyManagementTransactionCategory can take
@@ -72,7 +72,7 @@ const (
 	V2MoneyManagementTransactionCategoryUnreconciledCustomerFunds               V2MoneyManagementTransactionCategory = "unreconciled_customer_funds"
 )
 
-// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
+// Open Enum. The type of flow that created the Transaction. When available, the flow's ID is provided in the corresponding field.
 type V2MoneyManagementTransactionFlowType string
 
 // List of values that V2MoneyManagementTransactionFlowType can take
@@ -85,7 +85,7 @@ const (
 	V2MoneyManagementTransactionFlowTypeDebitDispute                 V2MoneyManagementTransactionFlowType = "debit_dispute"
 	V2MoneyManagementTransactionFlowTypeDispute                      V2MoneyManagementTransactionFlowType = "dispute"
 	V2MoneyManagementTransactionFlowTypeEarnedCredit                 V2MoneyManagementTransactionFlowType = "earned_credit"
-	V2MoneyManagementTransactionFlowTypeFeeTransaction               V2MoneyManagementTransactionFlowType = "fee_transaction"
+	V2MoneyManagementTransactionFlowTypeFeeBatch                     V2MoneyManagementTransactionFlowType = "fee_batch"
 	V2MoneyManagementTransactionFlowTypeInboundTransfer              V2MoneyManagementTransactionFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionFlowTypeIssuingAuthorization         V2MoneyManagementTransactionFlowType = "issuing_authorization"
 	V2MoneyManagementTransactionFlowTypeIssuingDispute               V2MoneyManagementTransactionFlowType = "issuing_dispute"
@@ -124,11 +124,11 @@ const (
 	V2MoneyManagementTransactionRegulatoryReceiptStatusURLExpired    V2MoneyManagementTransactionRegulatoryReceiptStatus = "url_expired"
 )
 
-// Closed Enum. Current status of the Transaction.
+// Closed Enum. The current status of the Transaction.
 // A Transaction is `pending` if either `balance_impact.inbound_pending` or `balance_impact.outbound_pending` is non-zero.
 // A Transaction is `posted` if only `balance_impact.available` is non-zero.
 // A Transaction is `void` if there is no balance impact.
-// `posted` and `void` are terminal states, and no additional entries will be added to the Transaction.
+// `posted` and `void` are terminal states, and no additional TransactionEntries will be added to the Transaction.
 type V2MoneyManagementTransactionStatus string
 
 // List of values that V2MoneyManagementTransactionStatus can take
@@ -138,24 +138,27 @@ const (
 	V2MoneyManagementTransactionStatusVoid    V2MoneyManagementTransactionStatus = "void"
 )
 
-// The delta to the FinancialAccount's balance. The balance_impact for the Transaction is equal to sum of its
-// TransactionEntries that have `effective_at`s in the past.
+// The change to the FinancialAccount's balance. This is the sum of the balance impacts of this Transaction's
+// TransactionEntries with `effective_at` timestamps in the past.
 type V2MoneyManagementTransactionBalanceImpact struct {
-	// Impact to the available balance.
+	// The change to the available balance.
 	Available Amount `json:"available"`
-	// Impact to the inbound_pending balance.
+	// The change to the `inbound_pending` balance.
 	InboundPending Amount `json:"inbound_pending"`
-	// Impact to the outbound_pending balance.
+	// The change to the `outbound_pending` balance.
 	OutboundPending Amount `json:"outbound_pending"`
 }
 
-// Counterparty to this Transaction.
+// Details about the counterparty to this Transaction.
 type V2MoneyManagementTransactionCounterparty struct {
 	// Name of the counterparty.
 	Name string `json:"name,omitempty"`
 }
 
-// Details about the Flow object that created the Transaction.
+// Details about the flow object that created the Transaction, such as an InboundTransfer or OutboundPayment.
+// `flow.type` identifies the kind of object. The corresponding field contains its ID, when available:
+// for an InboundTransfer, `flow.inbound_transfer` contains the InboundTransfer's ID. Pass that ID to
+// the `flow` parameter on List Transactions.
 type V2MoneyManagementTransactionFlow struct {
 	// If applicable, the connected account associated with this Transaction's flow.
 	Account string `json:"account,omitempty"`
@@ -167,7 +170,7 @@ type V2MoneyManagementTransactionFlow struct {
 	ApplicationFeeRefund string `json:"application_fee_refund,omitempty"`
 	// If applicable, the ID of the Charge that created this Transaction.
 	Charge string `json:"charge,omitempty"`
-	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
+	// When available, the ID of the CurrencyConversion that created this Transaction.
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
 	// If applicable, the ID of the DebitDispute that created this Transaction.
 	DebitDispute string `json:"debit_dispute,omitempty"`
@@ -175,8 +178,8 @@ type V2MoneyManagementTransactionFlow struct {
 	Dispute string `json:"dispute,omitempty"`
 	// If applicable, the ID of the EarnedCredit that created this Transaction.
 	EarnedCredit string `json:"earned_credit,omitempty"`
-	// If applicable, the ID of the FeeTransaction that created this Transaction.
-	FeeTransaction string `json:"fee_transaction,omitempty"`
+	// If applicable, the ID of the FeeBatch that created this Transaction.
+	FeeBatch string `json:"fee_batch,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
 	// If applicable, the ID of the Issuing authorization that created this Transaction.
@@ -225,11 +228,11 @@ type V2MoneyManagementTransactionFlow struct {
 	TreasuryReceivedCredit string `json:"treasury_received_credit,omitempty"`
 	// If applicable, the ID of the Treasury ReceivedDebit that created this Transaction.
 	TreasuryReceivedDebit string `json:"treasury_received_debit,omitempty"`
-	// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
+	// Open Enum. The type of flow that created the Transaction. When available, the flow's ID is provided in the corresponding field.
 	Type V2MoneyManagementTransactionFlowType `json:"type"`
 }
 
-// Hosted transaction receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. If not applicable, `regulatory_receipt.status` will be `not_applicable` and no URL will be provided.
+// Hosted transaction receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. If not applicable, `regulatory_receipt.status` will be `not_applicable` and no URL will be provided unless you opt in by calling `/refresh_regulatory_receipt`.
 type V2MoneyManagementTransactionRegulatoryReceipt struct {
 	// Current availability of the regulatory receipt.
 	Status V2MoneyManagementTransactionRegulatoryReceiptStatus `json:"status"`
@@ -239,34 +242,38 @@ type V2MoneyManagementTransactionRegulatoryReceipt struct {
 	URLExpiresAt time.Time `json:"url_expires_at,omitempty"`
 }
 
-// Timestamps for when the Transaction transitioned to a particular status.
+// Timestamps for when the Transaction transitioned to each status.
 type V2MoneyManagementTransactionStatusTransitions struct {
-	// The time at which the Transaction became posted. Only present if status == posted.
+	// The time at which the Transaction became `posted`. Only present when `status` is `posted`.
 	PostedAt time.Time `json:"posted_at,omitempty"`
-	// The time at which the Transaction became void. Only present if status == void.
+	// The time at which the Transaction became `void`. Only present when `status` is `void`.
 	VoidAt time.Time `json:"void_at,omitempty"`
 }
 
-// Use Transactions to view changes to your FinancialAccount balance over time. Every flow that moves money, such as OutboundPayments or ReceivedCredits, will have one or more Transactions that describes how the flow impacted your balance. Note that while the FinancialAccount balance will always be up to date, be aware that Transactions and TransactionEntries are created shortly after to reflect changes.
+// A Transaction records how a money movement flow affects your FinancialAccount balance.
+// A flow can create one or more Transactions.
 type V2MoneyManagementTransaction struct {
 	APIResource
 	// The amount of the Transaction.
 	Amount Amount `json:"amount"`
-	// The delta to the FinancialAccount's balance. The balance_impact for the Transaction is equal to sum of its
-	// TransactionEntries that have `effective_at`s in the past.
+	// The change to the FinancialAccount's balance. This is the sum of the balance impacts of this Transaction's
+	// TransactionEntries with `effective_at` timestamps in the past.
 	BalanceImpact *V2MoneyManagementTransactionBalanceImpact `json:"balance_impact"`
-	// Open Enum. A descriptive category used to classify the Transaction.
+	// Open Enum. A category used to classify the Transaction.
 	Category V2MoneyManagementTransactionCategory `json:"category"`
-	// Counterparty to this Transaction.
+	// Details about the counterparty to this Transaction.
 	Counterparty *V2MoneyManagementTransactionCounterparty `json:"counterparty,omitempty"`
-	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	// Time at which the object was created. Represented as an RFC 3339 timestamp in UTC with millisecond precision, for example `2022-09-18T13:22:18.123Z`.
 	Created time.Time `json:"created"`
-	// Description of this Transaction. When applicable, the description is copied from the Flow object at the time
-	// of transaction creation.
+	// A description of the Transaction. When applicable, the description is copied from the flow object when
+	// the Transaction is created. You can update it using the Update Transaction endpoint.
 	Description string `json:"description,omitempty"`
-	// Indicates the FinancialAccount affected by this Transaction.
+	// The ID of the FinancialAccount affected by this Transaction.
 	FinancialAccount string `json:"financial_account"`
-	// Details about the Flow object that created the Transaction.
+	// Details about the flow object that created the Transaction, such as an InboundTransfer or OutboundPayment.
+	// `flow.type` identifies the kind of object. The corresponding field contains its ID, when available:
+	// for an InboundTransfer, `flow.inbound_transfer` contains the InboundTransfer's ID. Pass that ID to
+	// the `flow` parameter on List Transactions.
 	Flow *V2MoneyManagementTransactionFlow `json:"flow,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -277,15 +284,15 @@ type V2MoneyManagementTransaction struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Hosted transaction receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. If not applicable, `regulatory_receipt.status` will be `not_applicable` and no URL will be provided.
+	// Hosted transaction receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. If not applicable, `regulatory_receipt.status` will be `not_applicable` and no URL will be provided unless you opt in by calling `/refresh_regulatory_receipt`.
 	RegulatoryReceipt *V2MoneyManagementTransactionRegulatoryReceipt `json:"regulatory_receipt"`
-	// Closed Enum. Current status of the Transaction.
+	// Closed Enum. The current status of the Transaction.
 	// A Transaction is `pending` if either `balance_impact.inbound_pending` or `balance_impact.outbound_pending` is non-zero.
 	// A Transaction is `posted` if only `balance_impact.available` is non-zero.
 	// A Transaction is `void` if there is no balance impact.
-	// `posted` and `void` are terminal states, and no additional entries will be added to the Transaction.
+	// `posted` and `void` are terminal states, and no additional TransactionEntries will be added to the Transaction.
 	Status V2MoneyManagementTransactionStatus `json:"status"`
-	// Timestamps for when the Transaction transitioned to a particular status.
+	// Timestamps for when the Transaction transitioned to each status.
 	StatusTransitions *V2MoneyManagementTransactionStatusTransitions `json:"status_transitions"`
 	// The v1 Treasury transaction associated with this transaction.
 	TreasuryTransaction string `json:"treasury_transaction,omitempty"`

@@ -3917,7 +3917,7 @@ type SubscriptionSchedule struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The pause schedules for this subscription schedule.
-	PauseSchedules []*SubscriptionSchedulePauseSchedule `json:"pause_schedules,omitempty"`
+	PauseSchedules []*SubscriptionSchedulePauseSchedule `json:"pause_schedules"`
 	// Configuration for the subscription schedule's phases.
 	Phases []*SubscriptionSchedulePhase `json:"phases"`
 	// Time period and invoice for a Subscription billed in advance.

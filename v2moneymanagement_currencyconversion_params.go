@@ -6,74 +6,74 @@
 
 package stripe
 
-// List all CurrencyConversion on an account with the option to filter by FinancialAccount.
+// Lists all Currency Conversions that match the provided filters.
 type V2MoneyManagementCurrencyConversionListParams struct {
 	Params `form:"*"`
-	// The ID of the FinancialAccount to filter by.
+	// The ID of the Financial Account for which conversions should be listed.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// The page limit.
+	// The maximum number of Currency Conversions to return.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// From amount object indicating the from currency or optional amount.
+// The source currency to debit, optionally including an amount. Either `from` or `to` must contain a specific amount (but not both).
 type V2MoneyManagementCurrencyConversionFromParams struct {
-	// Amount object.
+	// An amount specified for conversion.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
-	// A lowercase alpha3 currency code like "usd".
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
-// To amount object indicating the to currency or optional amount.
+// The destination currency to credit, optionally including an amount.
 type V2MoneyManagementCurrencyConversionToParams struct {
-	// Amount object.
+	// An amount specified for conversion.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
-	// A lowercase alpha3 currency code like "usd".
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
-// Create a CurrencyConversion.
+// Create a new Currency Conversion in a Financial Account or the payments balance.
 type V2MoneyManagementCurrencyConversionParams struct {
 	Params `form:"*"`
-	// The FinancialAccount id to create the CurrencyConversion on.
+	// The ID of the Financial Account in which the Currency Conversion should be created. If omitted, it will be created in the payments balance.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// From amount object indicating the from currency or optional amount.
+	// The source currency to debit, optionally including an amount. Either `from` or `to` must contain a specific amount (but not both).
 	From *V2MoneyManagementCurrencyConversionFromParams `form:"from" json:"from,omitempty"`
-	// The FX quote to use for the conversion.
+	// The ID of the [FX Quote](https://docs.stripe.com/api/fx_quotes) to use.
 	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
-	// To amount object indicating the to currency or optional amount.
+	// The destination currency to credit, optionally including an amount.
 	To *V2MoneyManagementCurrencyConversionToParams `form:"to" json:"to,omitempty"`
 }
 
-// From amount object indicating the from currency or optional amount.
+// The source currency to debit, optionally including an amount. Either `from` or `to` must contain a specific amount (but not both).
 type V2MoneyManagementCurrencyConversionCreateFromParams struct {
-	// Amount object.
+	// An amount specified for conversion.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
-	// A lowercase alpha3 currency code like "usd".
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
-// To amount object indicating the to currency or optional amount.
+// The destination currency to credit, optionally including an amount.
 type V2MoneyManagementCurrencyConversionCreateToParams struct {
-	// Amount object.
+	// An amount specified for conversion.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
-	// A lowercase alpha3 currency code like "usd".
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
-// Create a CurrencyConversion.
+// Create a new Currency Conversion in a Financial Account or the payments balance.
 type V2MoneyManagementCurrencyConversionCreateParams struct {
 	Params `form:"*"`
-	// The FinancialAccount id to create the CurrencyConversion on.
+	// The ID of the Financial Account in which the Currency Conversion should be created. If omitted, it will be created in the payments balance.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// From amount object indicating the from currency or optional amount.
+	// The source currency to debit, optionally including an amount. Either `from` or `to` must contain a specific amount (but not both).
 	From *V2MoneyManagementCurrencyConversionCreateFromParams `form:"from" json:"from"`
-	// The FX quote to use for the conversion.
+	// The ID of the [FX Quote](https://docs.stripe.com/api/fx_quotes) to use.
 	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
-	// To amount object indicating the to currency or optional amount.
+	// The destination currency to credit, optionally including an amount.
 	To *V2MoneyManagementCurrencyConversionCreateToParams `form:"to" json:"to"`
 }
 
-// Retrieve details of a CurrencyConversion by id.
+// Retrieves the details of a Currency Conversion by its ID.
 type V2MoneyManagementCurrencyConversionRetrieveParams struct {
 	Params `form:"*"`
 }

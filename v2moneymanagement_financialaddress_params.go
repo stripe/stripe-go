@@ -19,11 +19,13 @@ type V2MoneyManagementFinancialAddressListParams struct {
 
 // Properties for creating a bank account FinancialAddress.
 type V2MoneyManagementFinancialAddressBankAccountParams struct {
-	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	// The country where Stripe provisions the bank account. Each currency supports the country listed in its description. If omitted, Stripe selects that country.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision.
+	// The currency of the bank account to provision. Some currencies require preview or rollout access, as configured for your account.
 	Currency *string `form:"currency" json:"currency"`
 }
+
+// Properties for creating a crypto wallet FinancialAddress. Requires `settlement_currency`.
 type V2MoneyManagementFinancialAddressCryptoWalletParams struct {
 	// The blockchain network of the crypto wallet.
 	Network *string `form:"network" json:"network"`
@@ -35,10 +37,12 @@ type V2MoneyManagementFinancialAddressParams struct {
 	// The ID of the Account that owns this FinancialAddress.
 	Account *string `form:"account" json:"account,omitempty"`
 	// Properties for creating a bank account FinancialAddress.
-	BankAccount  *V2MoneyManagementFinancialAddressBankAccountParams  `form:"bank_account" json:"bank_account,omitempty"`
+	BankAccount *V2MoneyManagementFinancialAddressBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+	// Properties for creating a crypto wallet FinancialAddress. Requires `settlement_currency`.
 	CryptoWallet *V2MoneyManagementFinancialAddressCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
-	FinancialAccount   *string `form:"financial_account" json:"financial_account,omitempty"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
+	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount. Optional for `bank_account`, where it defaults to `bank_account.currency`; required for all other types.
 	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
 	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type,omitempty"`
@@ -46,11 +50,13 @@ type V2MoneyManagementFinancialAddressParams struct {
 
 // Properties for creating a bank account FinancialAddress.
 type V2MoneyManagementFinancialAddressCreateBankAccountParams struct {
-	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	// The country where Stripe provisions the bank account. Each currency supports the country listed in its description. If omitted, Stripe selects that country.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision.
+	// The currency of the bank account to provision. Some currencies require preview or rollout access, as configured for your account.
 	Currency *string `form:"currency" json:"currency"`
 }
+
+// Properties for creating a crypto wallet FinancialAddress. Requires `settlement_currency`.
 type V2MoneyManagementFinancialAddressCreateCryptoWalletParams struct {
 	// The blockchain network of the crypto wallet.
 	Network *string `form:"network" json:"network"`
@@ -62,10 +68,12 @@ type V2MoneyManagementFinancialAddressCreateParams struct {
 	// The ID of the Account that owns this FinancialAddress.
 	Account *string `form:"account" json:"account,omitempty"`
 	// Properties for creating a bank account FinancialAddress.
-	BankAccount  *V2MoneyManagementFinancialAddressCreateBankAccountParams  `form:"bank_account" json:"bank_account,omitempty"`
+	BankAccount *V2MoneyManagementFinancialAddressCreateBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+	// Properties for creating a crypto wallet FinancialAddress. Requires `settlement_currency`.
 	CryptoWallet *V2MoneyManagementFinancialAddressCreateCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
-	FinancialAccount   *string `form:"financial_account" json:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
+	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount. Optional for `bank_account`, where it defaults to `bank_account.currency`; required for all other types.
 	SettlementCurrency *string `form:"settlement_currency" json:"settlement_currency,omitempty"`
 	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
 	Type *string `form:"type" json:"type"`

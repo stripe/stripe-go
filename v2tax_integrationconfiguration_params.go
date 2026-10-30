@@ -13,6 +13,8 @@ type V2TaxIntegrationConfigurationParams struct {
 	CheckoutSessions *V2TaxIntegrationConfigurationCheckoutSessionsParams `form:"checkout_sessions" json:"checkout_sessions,omitempty"`
 	// Configuration for standalone Invoices automatic tax behavior.
 	Invoices *V2TaxIntegrationConfigurationInvoicesParams `form:"invoices" json:"invoices,omitempty"`
+	// Configuration for Subscriptions automatic tax behavior.
+	Subscriptions *V2TaxIntegrationConfigurationSubscriptionsParams `form:"subscriptions" json:"subscriptions,omitempty"`
 }
 
 // Configuration for Checkout Sessions automatic tax behavior.
@@ -24,6 +26,12 @@ type V2TaxIntegrationConfigurationCheckoutSessionsParams struct {
 // Configuration for standalone Invoices automatic tax behavior.
 type V2TaxIntegrationConfigurationInvoicesParams struct {
 	// Controls the default value of automatic_tax[enabled] on new standalone Invoices.
+	AutomaticTaxDefaultValue *string `form:"automatic_tax_default_value" json:"automatic_tax_default_value"`
+}
+
+// Configuration for Subscriptions automatic tax behavior.
+type V2TaxIntegrationConfigurationSubscriptionsParams struct {
+	// Controls the default value of automatic_tax[enabled] on new Subscriptions.
 	AutomaticTaxDefaultValue *string `form:"automatic_tax_default_value" json:"automatic_tax_default_value"`
 }
 
@@ -44,6 +52,12 @@ type V2TaxIntegrationConfigurationUpdateInvoicesParams struct {
 	AutomaticTaxDefaultValue *string `form:"automatic_tax_default_value" json:"automatic_tax_default_value"`
 }
 
+// Configuration for Subscriptions automatic tax behavior.
+type V2TaxIntegrationConfigurationUpdateSubscriptionsParams struct {
+	// Controls the default value of automatic_tax[enabled] on new Subscriptions.
+	AutomaticTaxDefaultValue *string `form:"automatic_tax_default_value" json:"automatic_tax_default_value"`
+}
+
 // Update the tax integration configuration for this account.
 type V2TaxIntegrationConfigurationUpdateParams struct {
 	Params `form:"*"`
@@ -51,4 +65,6 @@ type V2TaxIntegrationConfigurationUpdateParams struct {
 	CheckoutSessions *V2TaxIntegrationConfigurationUpdateCheckoutSessionsParams `form:"checkout_sessions" json:"checkout_sessions,omitempty"`
 	// Configuration for standalone Invoices automatic tax behavior.
 	Invoices *V2TaxIntegrationConfigurationUpdateInvoicesParams `form:"invoices" json:"invoices,omitempty"`
+	// Configuration for Subscriptions automatic tax behavior.
+	Subscriptions *V2TaxIntegrationConfigurationUpdateSubscriptionsParams `form:"subscriptions" json:"subscriptions,omitempty"`
 }
