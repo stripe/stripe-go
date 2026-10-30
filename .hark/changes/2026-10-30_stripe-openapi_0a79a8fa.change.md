@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2478
 semver_level: major
 is_stripe_api_change: true
+released_in_version: 87.2.0-alpha.1
 ---
 
 * Add support for new resources `V2BillingContractTermQuantityChange`, `V2BillingContractTerm`, `V2CoreAccountSession`, `V2MoneyManagementFundingIntent`, `V2MoneyManagementInboundFunding`, `V2MoneyManagementRewardProgramEnrollment`, `V2MoneyManagementRewardProgramRule`, `V2MoneyManagementRewardProgram`, and `V2RiskForm`
