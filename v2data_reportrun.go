@@ -8,6 +8,14 @@ package stripe
 
 import "time"
 
+// The file format of the result.
+type V2DataReportRunFormat string
+
+// List of values that V2DataReportRunFormat can take
+const (
+	V2DataReportRunFormatCsv V2DataReportRunFormat = "csv"
+)
+
 // The data type of the column.
 type V2DataReportRunResultFileColumnType string
 
@@ -48,6 +56,16 @@ const (
 	V2DataReportRunResultInlineColumnTypeVarchar   V2DataReportRunResultInlineColumnType = "varchar"
 )
 
+// The compression applied to the generated result file. Defaults to `none`. This applies
+// only to downloadable file results.
+type V2DataReportRunResultOptionsCompression string
+
+// List of values that V2DataReportRunResultOptionsCompression can take
+const (
+	V2DataReportRunResultOptionsCompressionNone V2DataReportRunResultOptionsCompression = "none"
+	V2DataReportRunResultOptionsCompressionZip  V2DataReportRunResultOptionsCompression = "zip"
+)
+
 // The current status of the `ReportRun`.
 type V2DataReportRunStatus string
 
@@ -64,9 +82,11 @@ type V2DataReportRunStatusDetailsCode string
 
 // List of values that V2DataReportRunStatusDetailsCode can take
 const (
-	V2DataReportRunStatusDetailsCodeFileSizeAboveLimit V2DataReportRunStatusDetailsCode = "file_size_above_limit"
-	V2DataReportRunStatusDetailsCodeInternalError      V2DataReportRunStatusDetailsCode = "internal_error"
-	V2DataReportRunStatusDetailsCodeQueryRunInvalidSQL V2DataReportRunStatusDetailsCode = "query_run_invalid_sql"
+	V2DataReportRunStatusDetailsCodeExecutionFailed       V2DataReportRunStatusDetailsCode = "execution_failed"
+	V2DataReportRunStatusDetailsCodeFileSizeAboveLimit    V2DataReportRunStatusDetailsCode = "file_size_above_limit"
+	V2DataReportRunStatusDetailsCodeInternalError         V2DataReportRunStatusDetailsCode = "internal_error"
+	V2DataReportRunStatusDetailsCodeQueryRunInvalidSQL    V2DataReportRunStatusDetailsCode = "query_run_invalid_sql"
+	V2DataReportRunStatusDetailsCodeResourceLimitExceeded V2DataReportRunStatusDetailsCode = "resource_limit_exceeded"
 )
 
 // The schema of the result data.
@@ -139,9 +159,17 @@ type V2DataReportRunResult struct {
 
 // Settings applied to the generated result file.
 type V2DataReportRunResultOptions struct {
-	// If set, the generated result file is compressed into a ZIP archive before
-	// it is stored. This applies only to downloadable file results.
-	CompressFile bool `json:"compress_file,omitempty"`
+	// The compression applied to the generated result file. Defaults to `none`. This applies
+	// only to downloadable file results.
+	Compression V2DataReportRunResultOptionsCompression `json:"compression,omitempty"`
+}
+
+// Errors found in the submitted SQL. Populated when the failure was caused by invalid SQL.
+type V2DataReportRunStatusDetailsQueryError struct {
+	// A human-readable description of the error.
+	Message string `json:"message"`
+	// A short identifier categorizing the type of error.
+	Type string `json:"type"`
 }
 
 // Additional details about the current state of the `ReportRun`.
@@ -152,15 +180,21 @@ type V2DataReportRunStatusDetails struct {
 	Code V2DataReportRunStatusDetailsCode `json:"code,omitempty"`
 	// Error message with additional details about the failure.
 	Message string `json:"message,omitempty"`
+	// Errors found in the submitted SQL. Populated when the failure was caused by invalid SQL.
+	QueryErrors []*V2DataReportRunStatusDetailsQueryError `json:"query_errors"`
 }
 
 // The `ReportRun` resource represents an instance of a `Report` generated with specific
 // parameter values. Once the object is created, Stripe begins processing the report. When
-// the report has finished running, it provides a reference to the results.
+// the report has finished running, it provides a reference to the results. A `ReportRun` and
+// its results are retained for 90 days after the run completes. After that, Stripe deletes
+// them and retrieving the `ReportRun` returns a `404` error.
 type V2DataReportRun struct {
 	APIResource
 	// Time at which the `ReportRun` was created.
 	Created time.Time `json:"created"`
+	// The file format of the result.
+	Format V2DataReportRunFormat `json:"format"`
 	// The unique identifier of the `ReportRun`.
 	ID string `json:"id"`
 	// Whether the `ReportRun` was executed in live mode.
@@ -179,8 +213,8 @@ type V2DataReportRun struct {
 	Result *V2DataReportRunResult `json:"result,omitempty"`
 	// Settings applied to the generated result file.
 	ResultOptions *V2DataReportRunResultOptions `json:"result_options,omitempty"`
-	// The fully-resolved SQL that was executed. Only present when requested via
-	// `include[0]=sql`.
+	// The fully-resolved SQL that was executed, or an explanatory message when the SQL cannot be
+	// exposed. Only present when requested via `include[0]=sql`.
 	SQL string `json:"sql,omitempty"`
 	// The current status of the `ReportRun`.
 	Status V2DataReportRunStatus `json:"status"`

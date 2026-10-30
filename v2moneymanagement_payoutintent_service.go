@@ -41,7 +41,7 @@ func (c v2MoneyManagementPayoutIntentService) Retrieve(ctx context.Context, id s
 	return payoutintent, err
 }
 
-// Updates a PayoutIntent. Only pending or requires_action PayoutIntents that are editable can be updated.
+// Updates an editable PayoutIntent in the `pending` or `requires_action` state.
 func (c v2MoneyManagementPayoutIntentService) Update(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentUpdateParams) (*V2MoneyManagementPayoutIntent, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutIntentUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2MoneyManagementPayoutIntentService) Update(ctx context.Context, id str
 	return payoutintent, err
 }
 
-// Cancels a PayoutIntent. Only pending PayoutIntents, processing PayoutIntents with cancelable OutboundPayment/Transfer, or requires_action PayoutIntents can be canceled.
+// Cancels a PayoutIntent in the `pending` or `requires_action` state, or a `processing` PayoutIntent with a cancelable OutboundPayment.
 func (c v2MoneyManagementPayoutIntentService) Cancel(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentCancelParams) (*V2MoneyManagementPayoutIntent, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutIntentCancelParams{}
@@ -65,7 +65,7 @@ func (c v2MoneyManagementPayoutIntentService) Cancel(ctx context.Context, id str
 	return payoutintent, err
 }
 
-// Confirms a PayoutIntent that is in the requires_action state, transitioning it to pending.
+// Confirms a PayoutIntent in the `requires_action` state, transitioning it to `pending`.
 func (c v2MoneyManagementPayoutIntentService) Confirm(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentConfirmParams) (*V2MoneyManagementPayoutIntent, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutIntentConfirmParams{}
@@ -77,13 +77,27 @@ func (c v2MoneyManagementPayoutIntentService) Confirm(ctx context.Context, id st
 	return payoutintent, err
 }
 
-// Refreshes FX quote for a PayoutIntent.
-func (c v2MoneyManagementPayoutIntentService) FxQuote(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentFxQuoteParams) (*V2MoneyManagementPayoutIntent, error) {
+// Refreshes the FX quote for a PayoutIntent.
+func (c v2MoneyManagementPayoutIntentService) RefreshFxQuote(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentRefreshFxQuoteParams) (*V2MoneyManagementPayoutIntent, error) {
 	if params == nil {
-		params = &V2MoneyManagementPayoutIntentFxQuoteParams{}
+		params = &V2MoneyManagementPayoutIntentRefreshFxQuoteParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath("/v2/money_management/payout_intents/%s/fx_quote", id)
+	path := FormatURLPath(
+		"/v2/money_management/payout_intents/%s/refresh_fx_quote", id)
+	payoutintent := &V2MoneyManagementPayoutIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
+	return payoutintent, err
+}
+
+// Refreshes the recipient verification for a PayoutIntent.
+func (c v2MoneyManagementPayoutIntentService) RefreshRecipientVerification(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentRefreshRecipientVerificationParams) (*V2MoneyManagementPayoutIntent, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutIntentRefreshRecipientVerificationParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/money_management/payout_intents/%s/refresh_recipient_verification", id)
 	payoutintent := &V2MoneyManagementPayoutIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
 	return payoutintent, err

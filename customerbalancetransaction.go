@@ -30,7 +30,8 @@ const (
 // Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Customer *string `form:"-"` // Included in URL
 	// Only return customer balance transactions that were created during the given date interval.
 	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return customer balance transactions that were created during the given date interval.
@@ -54,7 +55,8 @@ type CustomerBalanceTransactionAppliedToInvoiceParams struct {
 
 // Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
@@ -107,7 +109,8 @@ type CustomerBalanceTransactionCreateAppliedToInvoiceParams struct {
 
 // Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionCreateParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount" json:"amount"`

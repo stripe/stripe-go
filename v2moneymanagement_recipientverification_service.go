@@ -41,7 +41,7 @@ func (c v2MoneyManagementRecipientVerificationService) Retrieve(ctx context.Cont
 	return recipientverification, err
 }
 
-// Acknowledges an existing RecipientVerification. Only RecipientVerification awaiting acknowledgement can be acknowledged.
+// Acknowledges an existing RecipientVerification in the `awaiting_acknowledgement` state.
 func (c v2MoneyManagementRecipientVerificationService) Acknowledge(ctx context.Context, id string, params *V2MoneyManagementRecipientVerificationAcknowledgeParams) (*V2MoneyManagementRecipientVerification, error) {
 	if params == nil {
 		params = &V2MoneyManagementRecipientVerificationAcknowledgeParams{}

@@ -887,7 +887,7 @@ type RadarPaymentEvaluationSignalsBankInitiatedReturn struct {
 	Score float64 `json:"score"`
 }
 
-// A payment evaluation signal with evaluated_at, risk_level, and score fields.
+// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
 type RadarPaymentEvaluationSignalsEarlyFraudWarning struct {
 	// The time when this signal was evaluated.
 	EvaluatedAt int64 `json:"evaluated_at"`
@@ -921,8 +921,8 @@ type RadarPaymentEvaluationSignalsFraudulentPayment struct {
 type RadarPaymentEvaluationSignals struct {
 	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
 	BankInitiatedReturn *RadarPaymentEvaluationSignalsBankInitiatedReturn `json:"bank_initiated_return,omitempty"`
-	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
-	EarlyFraudWarning *RadarPaymentEvaluationSignalsEarlyFraudWarning `json:"early_fraud_warning,omitempty"`
+	// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
+	EarlyFraudWarning *RadarPaymentEvaluationSignalsEarlyFraudWarning `json:"early_fraud_warning"`
 	// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
 	FraudulentDispute *RadarPaymentEvaluationSignalsFraudulentDispute `json:"fraudulent_dispute"`
 	// A payment evaluation signal with evaluated_at, risk_level, and score fields.

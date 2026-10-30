@@ -90,6 +90,8 @@ type CustomerParams struct {
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
+	// Advertising attribution information for this customer. Only one attribution is supported.
+	MarketingAttributions []*CustomerMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The customer's full name or business name.
@@ -272,9 +274,37 @@ func (p *CustomerListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Information used when sending conversions to an advertising platform.
+type CustomerMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this customer. Only one attribution is supported.
+type CustomerMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CustomerMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
+}
+
 // The customer's tax IDs.
 type CustomerTaxIDDataParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_acn`, `au_arn`, `au_wpn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `bw_vat`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `ci_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `cz_dic`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `fr_siren`, `fr_siret`, `fr_spi`, `gb_vat`, `ge_vat`, `gh_tin`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_kt`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_cf`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mu_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `mz_nuit`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_bn`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `pt_nif`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sm_coe`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tt_bir`, `tt_vat`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -283,7 +313,8 @@ type CustomerTaxIDDataParams struct {
 // Returns a list of PaymentMethods for a given Customer
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Customer *string `form:"-"` // Included in URL
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -634,6 +665,34 @@ func (p *CustomerCreateInvoiceSettingsParams) AddUnsetField(field CustomerCreate
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Information used when sending conversions to an advertising platform.
+type CustomerCreateMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this customer. Only one attribution is supported.
+type CustomerCreateMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CustomerCreateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
+}
+
 // The customer's shipping information. Appears on invoices emailed to this customer.
 type CustomerCreateShippingParams struct {
 	// Customer shipping address.
@@ -667,7 +726,7 @@ func (p *CustomerCreateTaxParams) AddUnsetField(field CustomerCreateTaxParamsUns
 
 // The customer's tax IDs.
 type CustomerCreateTaxIDDataParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_acn`, `au_arn`, `au_wpn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `bw_vat`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `ci_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `cz_dic`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `fr_siren`, `fr_siret`, `fr_spi`, `gb_vat`, `ge_vat`, `gh_tin`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_kt`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_cf`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mu_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `mz_nuit`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_bn`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `pt_nif`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sm_coe`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tt_bir`, `tt_vat`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -696,6 +755,8 @@ type CustomerCreateParams struct {
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerCreateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
+	// Advertising attribution information for this customer. Only one attribution is supported.
+	MarketingAttributions []*CustomerCreateMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The customer's full name or business name.
@@ -778,6 +839,31 @@ type CustomerInvoiceSettings struct {
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
 }
+type CustomerMarketingAttributionAdConversion struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected bool `json:"consent_collected"`
+}
+
+// Advertising attribution information for this customer.
+type CustomerMarketingAttribution struct {
+	AdConversion *CustomerMarketingAttributionAdConversion `json:"ad_conversion,omitempty"`
+	// The advertising platform's click identifier.
+	ClickID string `json:"click_id"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt int64 `json:"occurred_at"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup string `json:"utm_adgroup"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent string `json:"utm_content"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID string `json:"utm_id"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium string `json:"utm_medium"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource string `json:"utm_source"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm string `json:"utm_term"`
+}
 
 // Redaction status of this customer. If not null, this customer is associated to a redaction job.
 type CustomerRedaction struct {
@@ -851,6 +937,8 @@ type Customer struct {
 	InvoiceSettings *CustomerInvoiceSettings `json:"invoice_settings,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Advertising attribution information for this customer.
+	MarketingAttributions []*CustomerMarketingAttribution `json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// The customer's full name or business name.

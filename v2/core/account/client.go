@@ -69,6 +69,30 @@ func (c Client) Close(id string, params *stripe.V2CoreAccountCloseParams) (*stri
 	return account, err
 }
 
+// Rejects an Account and prevents it from operating across its configurations.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Reject(id string, params *stripe.V2CoreAccountRejectParams) (*stripe.V2CoreAccount, error) {
+	path := stripe.FormatURLPath("/v2/core/accounts/%s/reject", id)
+	account := &stripe.V2CoreAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
+// Reverses a platform rejection on an Account. Restrictions applied by Stripe or other risk controls remain in place.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Unreject(id string, params *stripe.V2CoreAccountUnrejectParams) (*stripe.V2CoreAccount, error) {
+	path := stripe.FormatURLPath("/v2/core/accounts/%s/unreject", id)
+	account := &stripe.V2CoreAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
 // Returns a list of Accounts.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

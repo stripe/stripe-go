@@ -87,6 +87,7 @@ const (
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkFPS         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkNpp         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "npp"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkRTP         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPA        V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
@@ -94,7 +95,7 @@ const (
 
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 // `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 // even after the payment or transfer is posted.
 type V2MoneyManagementOutboundTransferTraceIDStatus string
 
@@ -203,7 +204,7 @@ type V2MoneyManagementOutboundTransferTo struct {
 type V2MoneyManagementOutboundTransferTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
-	// Note that this status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
+	// This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
 	// even after the payment or transfer is posted.
 	Status V2MoneyManagementOutboundTransferTraceIDStatus `json:"status"`
 	// The trace ID value if `trace_id.status` is `supported`, otherwise empty.

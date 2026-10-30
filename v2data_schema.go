@@ -38,6 +38,8 @@ type V2DataSchemaColumnForeignKeysFrom struct {
 	Column string `json:"column"`
 	// The identifier of the referenced schema.
 	Schema string `json:"schema"`
+	// The name of the referenced schema.
+	SchemaName string `json:"schema_name"`
 }
 
 // Columns in other schemas that this column references as a foreign key.
@@ -46,6 +48,8 @@ type V2DataSchemaColumnForeignKeysTo struct {
 	Column string `json:"column"`
 	// The identifier of the referenced schema.
 	Schema string `json:"schema"`
+	// The name of the referenced schema.
+	SchemaName string `json:"schema_name"`
 }
 
 // The columns of the table.

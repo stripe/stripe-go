@@ -14,6 +14,6 @@ type V2TestHelpersMoneyManagementRecipientVerificationsParams struct {
 	MatchResult *string `form:"match_result" json:"match_result"`
 	// ID of the payout method.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
-	// ID of the recipient account. Required if the recipient distinct from the sender. Leave empty if the recipient and sender are the same entity (i.e. for me-to-me payouts).
+	// ID of the recipient account. Required if the recipient is different from the sender. Omit for payouts to your own account.
 	Recipient *string `form:"recipient" json:"recipient,omitempty"`
 }

@@ -25,6 +25,35 @@ const (
 	CheckoutSessionApprovalMethodManual CheckoutSessionApprovalMethod = "manual"
 )
 
+// Whether the fee is calculated on the amount due before or after tax.
+type CheckoutSessionAutomaticPassThroughFeeCalculationBasis string
+
+// List of values that CheckoutSessionAutomaticPassThroughFeeCalculationBasis can take
+const (
+	CheckoutSessionAutomaticPassThroughFeeCalculationBasisTotalAfterTax  CheckoutSessionAutomaticPassThroughFeeCalculationBasis = "total_after_tax"
+	CheckoutSessionAutomaticPassThroughFeeCalculationBasisTotalBeforeTax CheckoutSessionAutomaticPassThroughFeeCalculationBasis = "total_before_tax"
+)
+
+// The status of the most recent pass-through fee calculation for this session.
+type CheckoutSessionAutomaticPassThroughFeeStatus string
+
+// List of values that CheckoutSessionAutomaticPassThroughFeeStatus can take
+const (
+	CheckoutSessionAutomaticPassThroughFeeStatusComplete      CheckoutSessionAutomaticPassThroughFeeStatus = "complete"
+	CheckoutSessionAutomaticPassThroughFeeStatusFailed        CheckoutSessionAutomaticPassThroughFeeStatus = "failed"
+	CheckoutSessionAutomaticPassThroughFeeStatusNotApplicable CheckoutSessionAutomaticPassThroughFeeStatus = "not_applicable"
+	CheckoutSessionAutomaticPassThroughFeeStatusRequiresInput CheckoutSessionAutomaticPassThroughFeeStatus = "requires_input"
+)
+
+// The type of fee calculated for this session.
+type CheckoutSessionAutomaticPassThroughFeeType string
+
+// List of values that CheckoutSessionAutomaticPassThroughFeeType can take
+const (
+	CheckoutSessionAutomaticPassThroughFeeTypeConvenienceFee CheckoutSessionAutomaticPassThroughFeeType = "convenience_fee"
+	CheckoutSessionAutomaticPassThroughFeeTypeServiceFee     CheckoutSessionAutomaticPassThroughFeeType = "service_fee"
+)
+
 // Determines which amount serves as the basis for calculating the surcharge.
 type CheckoutSessionAutomaticSurchargeCalculationBasis string
 
@@ -141,7 +170,7 @@ const (
 	CheckoutSessionBrandingSettingsLogoTypeURL  CheckoutSessionBrandingSettingsLogoType = "url"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
 // List of values that CheckoutSessionCollectedInformationTaxIDType can take
@@ -169,6 +198,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeBRCNPJ   CheckoutSessionCollectedInformationTaxIDType = "br_cnpj"
 	CheckoutSessionCollectedInformationTaxIDTypeBRCPF    CheckoutSessionCollectedInformationTaxIDType = "br_cpf"
 	CheckoutSessionCollectedInformationTaxIDTypeBsTin    CheckoutSessionCollectedInformationTaxIDType = "bs_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeBwVAT    CheckoutSessionCollectedInformationTaxIDType = "bw_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeByTin    CheckoutSessionCollectedInformationTaxIDType = "by_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeCABN     CheckoutSessionCollectedInformationTaxIDType = "ca_bn"
 	CheckoutSessionCollectedInformationTaxIDTypeCAGSTHST CheckoutSessionCollectedInformationTaxIDType = "ca_gst_hst"
@@ -179,6 +209,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeCdNif    CheckoutSessionCollectedInformationTaxIDType = "cd_nif"
 	CheckoutSessionCollectedInformationTaxIDTypeCHUID    CheckoutSessionCollectedInformationTaxIDType = "ch_uid"
 	CheckoutSessionCollectedInformationTaxIDTypeCHVAT    CheckoutSessionCollectedInformationTaxIDType = "ch_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeCiVAT    CheckoutSessionCollectedInformationTaxIDType = "ci_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeCLTIN    CheckoutSessionCollectedInformationTaxIDType = "cl_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeCmNiu    CheckoutSessionCollectedInformationTaxIDType = "cm_niu"
 	CheckoutSessionCollectedInformationTaxIDTypeCNTIN    CheckoutSessionCollectedInformationTaxIDType = "cn_tin"
@@ -200,6 +231,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeFRSpi    CheckoutSessionCollectedInformationTaxIDType = "fr_spi"
 	CheckoutSessionCollectedInformationTaxIDTypeGBVAT    CheckoutSessionCollectedInformationTaxIDType = "gb_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeGEVAT    CheckoutSessionCollectedInformationTaxIDType = "ge_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeGhTin    CheckoutSessionCollectedInformationTaxIDType = "gh_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeGiTin    CheckoutSessionCollectedInformationTaxIDType = "gi_tin"
 	CheckoutSessionCollectedInformationTaxIDTypeGnNif    CheckoutSessionCollectedInformationTaxIDType = "gn_nif"
 	CheckoutSessionCollectedInformationTaxIDTypeHKBR     CheckoutSessionCollectedInformationTaxIDType = "hk_br"
@@ -403,7 +435,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -431,6 +463,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDTypeBsTin    CheckoutSessionCustomerDetailsTaxIDType = "bs_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeBwVAT    CheckoutSessionCustomerDetailsTaxIDType = "bw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeByTin    CheckoutSessionCustomerDetailsTaxIDType = "by_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCABN     CheckoutSessionCustomerDetailsTaxIDType = "ca_bn"
 	CheckoutSessionCustomerDetailsTaxIDTypeCAGSTHST CheckoutSessionCustomerDetailsTaxIDType = "ca_gst_hst"
@@ -441,6 +474,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCdNif    CheckoutSessionCustomerDetailsTaxIDType = "cd_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHUID    CheckoutSessionCustomerDetailsTaxIDType = "ch_uid"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDType = "ch_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeCiVAT    CheckoutSessionCustomerDetailsTaxIDType = "ci_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDType = "cl_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCmNiu    CheckoutSessionCustomerDetailsTaxIDType = "cm_niu"
 	CheckoutSessionCustomerDetailsTaxIDTypeCNTIN    CheckoutSessionCustomerDetailsTaxIDType = "cn_tin"
@@ -462,6 +496,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeFRSpi    CheckoutSessionCustomerDetailsTaxIDType = "fr_spi"
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeGhTin    CheckoutSessionCustomerDetailsTaxIDType = "gh_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeGiTin    CheckoutSessionCustomerDetailsTaxIDType = "gi_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeGnNif    CheckoutSessionCustomerDetailsTaxIDType = "gn_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
@@ -2008,6 +2043,16 @@ type CheckoutSessionAfterExpirationParams struct {
 	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
 }
 
+// Settings for calculating and adding a pass-through fee (a convenience or service fee) to this session.
+type CheckoutSessionAutomaticPassThroughFeeParams struct {
+	// Whether the fee is calculated on the amount due before or after tax. Required when `enabled` is `true`.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate a pass-through fee using the customer's payment method details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The type of fee to calculate. Required when `enabled` is `true`.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
 // Settings for automatic surcharge calculation for this session.
 type CheckoutSessionAutomaticSurchargeParams struct {
 	// Determines which amount serves as the basis for calculating the surcharge.
@@ -2549,9 +2594,9 @@ type CheckoutSessionItemSubscriptionItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
-// The trial offer to apply to this subscription item.
+// The [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview) to apply to this subscription item. One of `price`, `price_data` or `current_trial` is required.
 type CheckoutSessionItemSubscriptionItemCurrentTrialParams struct {
-	// The ID of the trial offer to apply to the subscription item.
+	// The ID of the [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview).
 	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
 }
 
@@ -2611,7 +2656,7 @@ type CheckoutSessionItemSubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price`, `price_data` or `current_trial` is required.
 type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2633,11 +2678,11 @@ type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 type CheckoutSessionItemSubscriptionItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionItemSubscriptionItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
-	// The trial offer to apply to this subscription item.
+	// The [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview) to apply to this subscription item. One of `price`, `price_data` or `current_trial` is required.
 	CurrentTrial *CheckoutSessionItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
-	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price`, `price_data` or `current_trial` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price`, `price_data` or `current_trial` is required.
 	PriceData *CheckoutSessionItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -2854,7 +2899,7 @@ type CheckoutSessionMarketingAttributionAdConversionParams struct {
 // Advertising attribution information for this Checkout Session. Only one attribution is supported.
 type CheckoutSessionMarketingAttributionParams struct {
 	// Information used when sending conversions to an advertising platform.
-	AdConversion *CheckoutSessionMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	AdConversion *CheckoutSessionMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
 	// The advertising platform's click identifier.
 	ClickID *string `form:"click_id" json:"click_id,omitempty"`
 	// The Unix timestamp when the advertising interaction occurred.
@@ -3699,6 +3744,12 @@ func (p *CheckoutSessionPaymentMethodOptionsPaypalParams) AddUnsetField(field Ch
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// contains details about the PayPay payment method options.
+type CheckoutSessionPaymentMethodOptionsPaypayParams struct {
+	// The merchant's subscription identifier for this off-session charge.
+	SubscriptionReference *string `form:"subscription_reference" json:"subscription_reference,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
@@ -4063,6 +4114,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// contains details about the PayPal payment method options.
 	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// contains details about the PayPay payment method options.
+	Paypay *CheckoutSessionPaymentMethodOptionsPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// contains details about the PayTo payment method options.
 	Payto *CheckoutSessionPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
 	// contains details about the Pix payment method options.
@@ -4381,6 +4434,14 @@ type CheckoutSessionSubscriptionDataBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// A list of up to 4 custom fields to be displayed on the invoice.
+type CheckoutSessionSubscriptionDataInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name" json:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value" json:"value"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -4391,8 +4452,30 @@ type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 
 // All invoices will be billed using the specified settings.
 type CheckoutSessionSubscriptionDataInvoiceSettingsParams struct {
+	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
+	// A list of up to 4 custom fields to be displayed on the invoice.
+	CustomFields []*CheckoutSessionSubscriptionDataInvoiceSettingsCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Footer to be displayed on the invoice.
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	Issuer      *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
+	UnsetFields []CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionSubscriptionDataInvoiceSettingsParams.
+type CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField string
+
+const (
+	CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetFieldAccountTaxIDs CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField = "account_tax_ids"
+	CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetFieldCustomFields  CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField = "custom_fields"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionSubscriptionDataInvoiceSettingsParams) AddUnsetField(field CheckoutSessionSubscriptionDataInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
@@ -4570,6 +4653,8 @@ type CheckoutSessionParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](https://docs.stripe.com/api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for calculating and adding a pass-through fee (a convenience or service fee) to this session.
+	AutomaticPassThroughFee *CheckoutSessionAutomaticPassThroughFeeParams `form:"automatic_pass_through_fee" json:"automatic_pass_through_fee,omitempty"`
 	// Settings for automatic surcharge calculation for this session.
 	AutomaticSurcharge *CheckoutSessionAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
@@ -4793,7 +4878,8 @@ type CheckoutSessionCollectedInformationParams struct {
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
-	Session    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Session *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -4891,6 +4977,16 @@ type CheckoutSessionCreateAfterExpirationRecoveryParams struct {
 type CheckoutSessionCreateAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionCreateAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
+}
+
+// Settings for calculating and adding a pass-through fee (a convenience or service fee) to this session.
+type CheckoutSessionCreateAutomaticPassThroughFeeParams struct {
+	// Whether the fee is calculated on the amount due before or after tax. Required when `enabled` is `true`.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate a pass-through fee using the customer's payment method details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The type of fee to calculate. Required when `enabled` is `true`.
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for automatic surcharge calculation for this session.
@@ -5434,9 +5530,9 @@ type CheckoutSessionCreateItemSubscriptionItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 }
 
-// The trial offer to apply to this subscription item.
+// The [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview) to apply to this subscription item. One of `price`, `price_data` or `current_trial` is required.
 type CheckoutSessionCreateItemSubscriptionItemCurrentTrialParams struct {
-	// The ID of the trial offer to apply to the subscription item.
+	// The ID of the [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview).
 	TrialOffer *string `form:"trial_offer" json:"trial_offer"`
 }
 
@@ -5496,7 +5592,7 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price`, `price_data` or `current_trial` is required.
 type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -5518,11 +5614,11 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 type CheckoutSessionCreateItemSubscriptionItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionCreateItemSubscriptionItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
-	// The trial offer to apply to this subscription item.
+	// The [Trial Offer](https://docs.stripe.com/api/product-catalog/trial-offer?api-version=2026-03-25.preview) to apply to this subscription item. One of `price`, `price_data` or `current_trial` is required.
 	CurrentTrial *CheckoutSessionCreateItemSubscriptionItemCurrentTrialParams `form:"current_trial" json:"current_trial,omitempty"`
-	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price`, `price_data` or `current_trial` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price`, `price_data` or `current_trial` is required.
 	PriceData *CheckoutSessionCreateItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -5723,7 +5819,7 @@ type CheckoutSessionCreateMarketingAttributionAdConversionParams struct {
 // Advertising attribution information for this Checkout Session. Only one attribution is supported.
 type CheckoutSessionCreateMarketingAttributionParams struct {
 	// Information used when sending conversions to an advertising platform.
-	AdConversion *CheckoutSessionCreateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion"`
+	AdConversion *CheckoutSessionCreateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
 	// The advertising platform's click identifier.
 	ClickID *string `form:"click_id" json:"click_id,omitempty"`
 	// The Unix timestamp when the advertising interaction occurred.
@@ -6545,6 +6641,12 @@ func (p *CheckoutSessionCreatePaymentMethodOptionsPaypalParams) AddUnsetField(fi
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// contains details about the PayPay payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsPaypayParams struct {
+	// The merchant's subscription identifier for this off-session charge.
+	SubscriptionReference *string `form:"subscription_reference" json:"subscription_reference,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type CheckoutSessionCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
@@ -6909,6 +7011,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	PayNow *CheckoutSessionCreatePaymentMethodOptionsPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// contains details about the PayPal payment method options.
 	Paypal *CheckoutSessionCreatePaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
+	// contains details about the PayPay payment method options.
+	Paypay *CheckoutSessionCreatePaymentMethodOptionsPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// contains details about the PayTo payment method options.
 	Payto *CheckoutSessionCreatePaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
 	// contains details about the Pix payment method options.
@@ -7214,6 +7318,14 @@ type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// A list of up to 4 custom fields to be displayed on the invoice.
+type CheckoutSessionCreateSubscriptionDataInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name" json:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value" json:"value"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -7224,8 +7336,30 @@ type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 
 // All invoices will be billed using the specified settings.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams struct {
+	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
+	// A list of up to 4 custom fields to be displayed on the invoice.
+	CustomFields []*CheckoutSessionCreateSubscriptionDataInvoiceSettingsCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Footer to be displayed on the invoice.
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	Issuer      *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
+	UnsetFields []CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams.
+type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetFieldAccountTaxIDs CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField = "account_tax_ids"
+	CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetFieldCustomFields  CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField = "custom_fields"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams) AddUnsetField(field CheckoutSessionCreateSubscriptionDataInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
@@ -7389,6 +7523,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](https://docs.stripe.com/api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for calculating and adding a pass-through fee (a convenience or service fee) to this session.
+	AutomaticPassThroughFee *CheckoutSessionCreateAutomaticPassThroughFeeParams `form:"automatic_pass_through_fee" json:"automatic_pass_through_fee,omitempty"`
 	// Settings for automatic surcharge calculation for this session.
 	AutomaticSurcharge *CheckoutSessionCreateAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
@@ -8116,6 +8252,18 @@ type CheckoutSessionAfterExpiration struct {
 	// When set, configuration used to recover the Checkout Session on expiry.
 	Recovery *CheckoutSessionAfterExpirationRecovery `json:"recovery"`
 }
+type CheckoutSessionAutomaticPassThroughFee struct {
+	// Whether the fee is calculated on the amount due before or after tax.
+	CalculationBasis CheckoutSessionAutomaticPassThroughFeeCalculationBasis `json:"calculation_basis"`
+	// Indicates whether a pass-through fee is calculated and added to this session.
+	Enabled bool `json:"enabled"`
+	// The provider that performed this session's latest pass-through fee calculation.
+	Provider string `json:"provider"`
+	// The status of the most recent pass-through fee calculation for this session.
+	Status CheckoutSessionAutomaticPassThroughFeeStatus `json:"status,omitempty"`
+	// The type of fee calculated for this session.
+	Type CheckoutSessionAutomaticPassThroughFeeType `json:"type"`
+}
 type CheckoutSessionAutomaticSurcharge struct {
 	// Determines which amount serves as the basis for calculating the surcharge.
 	CalculationBasis CheckoutSessionAutomaticSurchargeCalculationBasis `json:"calculation_basis"`
@@ -8210,7 +8358,7 @@ type CheckoutSessionCollectedInformationShippingDetails struct {
 
 // Customer's tax id for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8472,7 +8620,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -8681,6 +8829,16 @@ type CheckoutSessionItemMetronomeCommit struct {
 	PriceConfiguration *CheckoutSessionItemMetronomeCommitPriceConfiguration `json:"price_configuration"`
 }
 
+// The adjustable quantity settings for this subscription item.
+type CheckoutSessionItemSubscriptionItemAdjustableQuantity struct {
+	// Whether the quantity is adjustable.
+	Enabled bool `json:"enabled"`
+	// The maximum quantity the customer can purchase.
+	Maximum int64 `json:"maximum"`
+	// The minimum quantity the customer can purchase.
+	Minimum int64 `json:"minimum"`
+}
+
 // The trial offer applied to this subscription item.
 type CheckoutSessionItemSubscriptionItemCurrentTrial struct {
 	// The ID of the trial offer applied to this subscription item.
@@ -8689,6 +8847,8 @@ type CheckoutSessionItemSubscriptionItemCurrentTrial struct {
 
 // The items in the subscription.
 type CheckoutSessionItemSubscriptionItem struct {
+	// The adjustable quantity settings for this subscription item.
+	AdjustableQuantity *CheckoutSessionItemSubscriptionItemAdjustableQuantity `json:"adjustable_quantity,omitempty"`
 	// The trial offer applied to this subscription item.
 	CurrentTrial *CheckoutSessionItemSubscriptionItemCurrentTrial `json:"current_trial"`
 	// The price for this subscription item.
@@ -8763,7 +8923,7 @@ type CheckoutSessionMarketingAttributionAdConversion struct {
 
 // Advertising attribution information for this Checkout Session.
 type CheckoutSessionMarketingAttribution struct {
-	AdConversion *CheckoutSessionMarketingAttributionAdConversion `json:"ad_conversion"`
+	AdConversion *CheckoutSessionMarketingAttributionAdConversion `json:"ad_conversion,omitempty"`
 	// The advertising platform's click identifier.
 	ClickID string `json:"click_id"`
 	// The Unix timestamp when the advertising interaction occurred.
@@ -9265,6 +9425,10 @@ type CheckoutSessionPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsPaypay struct {
+	// A reference to the merchant subscription this payment corresponds to.
+	SubscriptionReference string `json:"subscription_reference,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
@@ -9520,6 +9684,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Payco            *CheckoutSessionPaymentMethodOptionsPayco            `json:"payco,omitempty"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow,omitempty"`
 	Paypal           *CheckoutSessionPaymentMethodOptionsPaypal           `json:"paypal,omitempty"`
+	Paypay           *CheckoutSessionPaymentMethodOptionsPaypay           `json:"paypay,omitempty"`
 	Payto            *CheckoutSessionPaymentMethodOptionsPayto            `json:"payto,omitempty"`
 	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix,omitempty"`
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay,omitempty"`
@@ -9815,9 +9980,10 @@ type CheckoutSession struct {
 	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](https://docs.stripe.com/api/checkout/sessions/approve) from your server.
-	ApprovalMethod     CheckoutSessionApprovalMethod      `json:"approval_method,omitempty"`
-	AutomaticSurcharge *CheckoutSessionAutomaticSurcharge `json:"automatic_surcharge,omitempty"`
-	AutomaticTax       *CheckoutSessionAutomaticTax       `json:"automatic_tax"`
+	ApprovalMethod          CheckoutSessionApprovalMethod           `json:"approval_method,omitempty"`
+	AutomaticPassThroughFee *CheckoutSessionAutomaticPassThroughFee `json:"automatic_pass_through_fee,omitempty"`
+	AutomaticSurcharge      *CheckoutSessionAutomaticSurcharge      `json:"automatic_surcharge,omitempty"`
+	AutomaticTax            *CheckoutSessionAutomaticTax            `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
 	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings,omitempty"`

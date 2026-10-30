@@ -1905,7 +1905,7 @@ func (p *InvoiceCreatePreviewCustomerDetailsTaxParams) AddUnsetField(field Invoi
 
 // The customer's tax IDs.
 type InvoiceCreatePreviewCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_acn`, `au_arn`, `au_wpn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `bw_vat`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `ci_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `cz_dic`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `fr_siren`, `fr_siret`, `fr_spi`, `gb_vat`, `ge_vat`, `gh_tin`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_kt`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_cf`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mu_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `mz_nuit`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_bn`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `pt_nif`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sm_coe`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tt_bir`, `tt_vat`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -2654,6 +2654,111 @@ type InvoiceCreatePreviewScheduleDetailsDefaultSettingsParams struct {
 	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 }
 
+// When to pause the subscription.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePausePauseAtParams struct {
+	// The Unix timestamp at which to pause the subscription. Required when `type` is `timestamp`.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// When to pause the subscription. Use `now` to pause immediately or `timestamp` to pause at a specific time.
+	Type *string `form:"type" json:"type"`
+}
+
+// Controls whether to collect metered usage accrued up to the pause date.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForOutstandingUsageThroughParams struct {
+	// Determines whether to collect metered usage accrued up to the pause date. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Controls how unused time on subscription items is credited when pausing.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForUnusedTimeFromParams struct {
+	// Determines which point in the billing period unused time is credited from. When adding a pause schedule, defaults to `pause_at`. On updates, the existing value is preserved if not provided.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Controls what to bill for when pausing the subscription.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForParams struct {
+	// Controls whether to collect metered usage accrued up to the pause date.
+	OutstandingUsageThrough *InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForOutstandingUsageThroughParams `form:"outstanding_usage_through" json:"outstanding_usage_through,omitempty"`
+	// Controls how unused time on subscription items is credited when pausing.
+	UnusedTimeFrom *InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForUnusedTimeFromParams `form:"unused_time_from" json:"unused_time_from,omitempty"`
+}
+
+// Settings controlling billing behavior during the pause.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsParams struct {
+	// Controls what to bill for when pausing the subscription.
+	BillFor *InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsBillForParams `form:"bill_for" json:"bill_for,omitempty"`
+	// Determines whether to generate an invoice for outstanding amounts when pausing. When adding a pause schedule, defaults to `pending_invoice_item`. On updates, the existing value is preserved if not provided.
+	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
+	// The pause type. Currently only `subscription` is supported.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Configuration for when and how the subscription pauses.
+type InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseParams struct {
+	// When to pause the subscription.
+	PauseAt *InvoiceCreatePreviewScheduleDetailsPauseSchedulePausePauseAtParams `form:"pause_at" json:"pause_at,omitempty"`
+	// Settings controlling billing behavior during the pause.
+	Settings *InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseSettingsParams `form:"settings" json:"settings,omitempty"`
+}
+
+// The duration after which to resume the subscription. Required when `type` is `duration`.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeResumeAtDurationParams struct {
+	// The time unit for the resume duration. One of `day`, `week`, `month`, or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals after which the subscription resumes.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// When to resume the subscription.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeResumeAtParams struct {
+	// The duration after which to resume the subscription. Required when `type` is `duration`.
+	Duration *InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeResumeAtDurationParams `form:"duration" json:"duration,omitempty"`
+	// The Unix timestamp at which to resume the subscription. Required when `type` is `timestamp`.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// When to resume the subscription. Use `now` to resume immediately, `duration` to resume after a set duration, or `timestamp` to resume at a specific time.
+	Type *string `form:"type" json:"type"`
+}
+
+// Settings controlling how the subscription resumes.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeSettingsParams struct {
+	// Controls the billing cycle anchor when the subscription resumes. When adding a pause schedule, defaults to `resume_at`. On updates, the existing value is preserved if not provided.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. When adding a pause schedule, defaults to `resume_on_payment_success`. On updates, the existing value is preserved if not provided.
+	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
+	// Determines how to handle prorations when the subscription resumes. When adding a pause schedule, defaults to `create_prorations`. On updates, the existing value is preserved if not provided.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// Configuration for when and how the subscription resumes.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeParams struct {
+	// When to resume the subscription.
+	ResumeAt *InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeResumeAtParams `form:"resume_at" json:"resume_at,omitempty"`
+	// Settings controlling how the subscription resumes.
+	Settings *InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeSettingsParams `form:"settings" json:"settings,omitempty"`
+}
+
+// The subscription's pause behavior and optional resume behavior. You can provide one entry. Include its `key` to update an existing pause schedule. Omit `pause_schedules` to leave the existing schedule unchanged, or pass an empty string (`""`) to clear it.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleParams struct {
+	// A unique identifier for this pause schedule entry.
+	Key *string `form:"key" json:"key,omitempty"`
+	// Configuration for when and how the subscription pauses.
+	Pause *InvoiceCreatePreviewScheduleDetailsPauseSchedulePauseParams `form:"pause" json:"pause,omitempty"`
+	// Configuration for when and how the subscription resumes.
+	Resume      *InvoiceCreatePreviewScheduleDetailsPauseScheduleResumeParams      `form:"resume" json:"resume,omitempty"`
+	UnsetFields []InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewScheduleDetailsPauseScheduleParams.
+type InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetField string
+
+const (
+	InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetFieldResume InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetField = "resume"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePreviewScheduleDetailsPauseScheduleParams) AddUnsetField(field InvoiceCreatePreviewScheduleDetailsPauseScheduleParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -3208,6 +3313,8 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	DefaultSettings *InvoiceCreatePreviewScheduleDetailsDefaultSettingsParams `form:"default_settings" json:"default_settings,omitempty"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
+	// The subscription's pause behavior and optional resume behavior. You can provide one entry. Include its `key` to update an existing pause schedule. Omit `pause_schedules` to leave the existing schedule unchanged, or pass an empty string (`""`) to clear it.
+	PauseSchedules []*InvoiceCreatePreviewScheduleDetailsPauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceCreatePreviewScheduleDetailsPhaseParams `form:"phases" json:"phases,omitempty"`
 	// Provide any time periods to bill in advance.
@@ -3222,6 +3329,7 @@ type InvoiceCreatePreviewScheduleDetailsParamsUnsetField string
 
 const (
 	InvoiceCreatePreviewScheduleDetailsParamsUnsetFieldBillingSchedules InvoiceCreatePreviewScheduleDetailsParamsUnsetField = "billing_schedules"
+	InvoiceCreatePreviewScheduleDetailsParamsUnsetFieldPauseSchedules   InvoiceCreatePreviewScheduleDetailsParamsUnsetField = "pause_schedules"
 	InvoiceCreatePreviewScheduleDetailsParamsUnsetFieldPrebilling       InvoiceCreatePreviewScheduleDetailsParamsUnsetField = "prebilling"
 )
 
@@ -3635,7 +3743,8 @@ func (p *InvoiceCreatePreviewParams) AddExpand(f string) {
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`
-	Invoice    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Invoice *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
@@ -5061,7 +5170,7 @@ type InvoiceCustomerBalance struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `au_acn`, `nz_bn`, `pt_nif`, `cz_dic`, `fr_siret`, `fr_siren`, `fr_spi`, `sm_coe`, `tt_vat`, `tt_bir`, `mu_vat`, `mz_nuit`, `au_wpn`, `md_cf`, `is_kt`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, `gh_tin`, `bw_vat`, `ci_vat`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

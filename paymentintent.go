@@ -151,6 +151,7 @@ const (
 	PaymentIntentAllowedPaymentMethodTypeSwish                PaymentIntentAllowedPaymentMethodType = "swish"
 	PaymentIntentAllowedPaymentMethodTypeTamara               PaymentIntentAllowedPaymentMethodType = "tamara"
 	PaymentIntentAllowedPaymentMethodTypeTestPay              PaymentIntentAllowedPaymentMethodType = "test_pay"
+	PaymentIntentAllowedPaymentMethodTypeTossPay              PaymentIntentAllowedPaymentMethodType = "toss_pay"
 	PaymentIntentAllowedPaymentMethodTypeTouchNGo             PaymentIntentAllowedPaymentMethodType = "touch_n_go"
 	PaymentIntentAllowedPaymentMethodTypeTruemoney            PaymentIntentAllowedPaymentMethodType = "truemoney"
 	PaymentIntentAllowedPaymentMethodTypeTWINT                PaymentIntentAllowedPaymentMethodType = "twint"
@@ -294,6 +295,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeSunbit           PaymentIntentExcludedPaymentMethodType = "sunbit"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
 	PaymentIntentExcludedPaymentMethodTypeTamara           PaymentIntentExcludedPaymentMethodType = "tamara"
+	PaymentIntentExcludedPaymentMethodTypeTossPay          PaymentIntentExcludedPaymentMethodType = "toss_pay"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
@@ -671,6 +673,14 @@ const (
 	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeOther      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "other"
 	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypePhone      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "phone"
 	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeRestaurant PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "restaurant"
+)
+
+// The merchant of record for this account funding transaction.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingMerchantOfRecord string
+
+// List of values that PaymentIntentPaymentDetailsMoneyServicesAccountFundingMerchantOfRecord can take
+const (
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingMerchantOfRecordStripe PaymentIntentPaymentDetailsMoneyServicesAccountFundingMerchantOfRecord = "stripe"
 )
 
 // The type of money services transaction.
@@ -2243,6 +2253,21 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage can take
@@ -3662,6 +3687,8 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams s
 
 // Account funding transaction details including sender information.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The merchant of record for this account funding transaction. Can only be set when creating a PaymentIntent.
+	MerchantOfRecord *string `form:"merchant_of_record" json:"merchant_of_record,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -3996,6 +4023,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *PaymentMethodTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -6710,6 +6739,31 @@ func (p *PaymentIntentPaymentMethodOptionsSwishParams) AddUnsetField(field Payme
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+type PaymentIntentPaymentMethodOptionsTossPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                    `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsTossPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsTossPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsTossPayParams.
+type PaymentIntentPaymentMethodOptionsTossPayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsTossPayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsTossPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsTossPayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsTossPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -7064,6 +7118,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Sunbit *PaymentIntentPaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 	Swish *PaymentIntentPaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+	TossPay *PaymentIntentPaymentMethodOptionsTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentPaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
 	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
@@ -7146,6 +7202,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentPaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSunbit           PaymentIntentPaymentMethodOptionsParamsUnsetField = "sunbit"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentPaymentMethodOptionsParamsUnsetField = "swish"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldTossPay          PaymentIntentPaymentMethodOptionsParamsUnsetField = "toss_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentPaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentPaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentPaymentMethodOptionsParamsUnsetField = "us_bank_account"
@@ -9802,6 +9859,8 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsP
 
 // Account funding transaction details including sender information.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The merchant of record for this account funding transaction. Can only be set when creating a PaymentIntent.
+	MerchantOfRecord *string `form:"merchant_of_record" json:"merchant_of_record,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -12067,6 +12126,8 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 
 // Account funding transaction details including sender information.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The merchant of record for this account funding transaction. Can only be set when creating a PaymentIntent.
+	MerchantOfRecord *string `form:"merchant_of_record" json:"merchant_of_record,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -12401,6 +12462,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *PaymentMethodTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -15115,6 +15178,31 @@ func (p *PaymentIntentCreatePaymentMethodOptionsSwishParams) AddUnsetField(field
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsTossPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsTossPayParams.
+type PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsTossPayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsTossPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 type PaymentIntentCreatePaymentMethodOptionsTWINTParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -15469,6 +15557,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Sunbit *PaymentIntentCreatePaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 	Swish *PaymentIntentCreatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+	TossPay *PaymentIntentCreatePaymentMethodOptionsTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentCreatePaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
 	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
@@ -15551,6 +15641,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSunbit           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "sunbit"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "swish"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldTossPay          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "toss_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
@@ -16979,6 +17070,8 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 
 // Account funding transaction details including sender information.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The merchant of record for this account funding transaction. Can only be set when creating a PaymentIntent.
+	MerchantOfRecord *string `form:"merchant_of_record" json:"merchant_of_record,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -17313,6 +17406,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *PaymentMethodTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -20027,6 +20122,31 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsSwishParams) AddUnsetField(field
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsTossPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsTossPayParams.
+type PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsTossPayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsTossPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsTWINTParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -20381,6 +20501,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Sunbit *PaymentIntentUpdatePaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 	Swish *PaymentIntentUpdatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this sub-hash contains details about the Toss Pay payment method options.
+	TossPay *PaymentIntentUpdatePaymentMethodOptionsTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentUpdatePaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
 	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
@@ -20463,6 +20585,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSunbit           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "sunbit"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "swish"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldTossPay          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "toss_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
@@ -21841,8 +21964,10 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct 
 	Surname string `json:"surname,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
-	SenderAccount string                                                               `json:"sender_account,omitempty"`
-	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails `json:"sender_details,omitempty"`
+	// The merchant of record for this account funding transaction.
+	MerchantOfRecord PaymentIntentPaymentDetailsMoneyServicesAccountFundingMerchantOfRecord `json:"merchant_of_record,omitempty"`
+	SenderAccount    string                                                                 `json:"sender_account,omitempty"`
+	SenderDetails    *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails   `json:"sender_details,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth struct {
 	// Day of birth, between 1 and 31.
@@ -22900,6 +23025,16 @@ type PaymentIntentPaymentMethodOptionsSwish struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSwishSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsTossPay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsTossPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsTWINT struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -23077,6 +23212,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	StripeBalance    *PaymentIntentPaymentMethodOptionsStripeBalance    `json:"stripe_balance,omitempty"`
 	Sunbit           *PaymentIntentPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish,omitempty"`
+	TossPay          *PaymentIntentPaymentMethodOptionsTossPay          `json:"toss_pay,omitempty"`
 	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint,omitempty"`
 	Upi              *PaymentIntentPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`

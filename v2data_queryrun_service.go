@@ -30,7 +30,8 @@ func (c v2DataQueryRunService) Create(ctx context.Context, params *V2DataQueryRu
 	return queryrun, err
 }
 
-// Retrieves the status and results of a previously created `QueryRun`.
+// Retrieves the status and results of a previously created `QueryRun`. Returns a `404` error
+// if the `QueryRun` doesn't exist or its retention period has ended.
 func (c v2DataQueryRunService) Retrieve(ctx context.Context, id string, params *V2DataQueryRunRetrieveParams) (*V2DataQueryRun, error) {
 	if params == nil {
 		params = &V2DataQueryRunRetrieveParams{}

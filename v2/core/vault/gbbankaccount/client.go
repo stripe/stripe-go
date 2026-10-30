@@ -59,6 +59,19 @@ func (c Client) Archive(id string, params *stripe.V2CoreVaultGBBankAccountArchiv
 	return gbbankaccount, err
 }
 
+// Unarchive a GBBankAccount object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Unarchive(id string, params *stripe.V2CoreVaultGBBankAccountUnarchiveParams) (*stripe.V2CoreVaultGBBankAccount, error) {
+	path := stripe.FormatURLPath(
+		"/v2/core/vault/gb_bank_accounts/%s/unarchive", id)
+	gbbankaccount := &stripe.V2CoreVaultGBBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, gbbankaccount)
+	return gbbankaccount, err
+}
+
 // List objects that can be used as destinations for outbound money movement via OutboundPayment.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

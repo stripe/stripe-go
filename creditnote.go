@@ -560,6 +560,7 @@ func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CreditNoteListLinesParams struct {
 	ListParams `form:"*"`
+	// Unique identifier for the object.
 	CreditNote *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`

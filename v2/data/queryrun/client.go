@@ -35,7 +35,8 @@ func (c Client) New(params *stripe.V2DataQueryRunParams) (*stripe.V2DataQueryRun
 	return queryrun, err
 }
 
-// Retrieves the status and results of a previously created `QueryRun`.
+// Retrieves the status and results of a previously created `QueryRun`. Returns a `404` error
+// if the `QueryRun` doesn't exist or its retention period has ended.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

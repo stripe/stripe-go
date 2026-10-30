@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAccountP
 	return financialaccount, err
 }
 
-// Updates an existing FinancialAccount.
+// Updates an existing FinancialAccount using the provided parameters.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2MoneyManagementFinancialAccou
 	return financialaccount, err
 }
 
-// Closes a FinancialAccount with or without forwarding settings.
+// Closes a FinancialAccount. You must provide forwarding settings if it has a non-zero balance.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -71,7 +71,7 @@ func (c Client) Close(id string, params *stripe.V2MoneyManagementFinancialAccoun
 	return financialaccount, err
 }
 
-// Lists FinancialAccounts in this account.
+// Returns a list of FinancialAccounts in your account that match the provided filters.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

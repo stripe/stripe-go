@@ -106,6 +106,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeSwish                SetupIntentAllowedPaymentMethodType = "swish"
 	SetupIntentAllowedPaymentMethodTypeTamara               SetupIntentAllowedPaymentMethodType = "tamara"
 	SetupIntentAllowedPaymentMethodTypeTestPay              SetupIntentAllowedPaymentMethodType = "test_pay"
+	SetupIntentAllowedPaymentMethodTypeTossPay              SetupIntentAllowedPaymentMethodType = "toss_pay"
 	SetupIntentAllowedPaymentMethodTypeTouchNGo             SetupIntentAllowedPaymentMethodType = "touch_n_go"
 	SetupIntentAllowedPaymentMethodTypeTruemoney            SetupIntentAllowedPaymentMethodType = "truemoney"
 	SetupIntentAllowedPaymentMethodTypeTWINT                SetupIntentAllowedPaymentMethodType = "twint"
@@ -206,6 +207,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeSunbit           SetupIntentExcludedPaymentMethodType = "sunbit"
 	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
 	SetupIntentExcludedPaymentMethodTypeTamara           SetupIntentExcludedPaymentMethodType = "tamara"
+	SetupIntentExcludedPaymentMethodTypeTossPay          SetupIntentExcludedPaymentMethodType = "toss_pay"
 	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
 	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
 	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
@@ -948,6 +950,9 @@ type SetupIntentPaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type SetupIntentPaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type SetupIntentPaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentPaymentMethodDataTWINTParams struct{}
 
@@ -969,6 +974,14 @@ type SetupIntentPaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -977,6 +990,8 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -1131,6 +1146,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *SetupIntentPaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *SetupIntentPaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *SetupIntentPaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -2136,6 +2153,9 @@ type SetupIntentConfirmPaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type SetupIntentConfirmPaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type SetupIntentConfirmPaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentConfirmPaymentMethodDataTWINTParams struct{}
 
@@ -2157,6 +2177,14 @@ type SetupIntentConfirmPaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentConfirmPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentConfirmPaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -2165,6 +2193,8 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentConfirmPaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -2319,6 +2349,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *SetupIntentConfirmPaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *SetupIntentConfirmPaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *SetupIntentConfirmPaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -2816,6 +2848,9 @@ type SetupIntentCreatePaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type SetupIntentCreatePaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type SetupIntentCreatePaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentCreatePaymentMethodDataTWINTParams struct{}
 
@@ -2837,6 +2872,14 @@ type SetupIntentCreatePaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentCreatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -2845,6 +2888,8 @@ type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentCreatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -2999,6 +3044,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Swish *SetupIntentCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *SetupIntentCreatePaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *SetupIntentCreatePaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *SetupIntentCreatePaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -4001,6 +4048,9 @@ type SetupIntentUpdatePaymentMethodDataSwishParams struct{}
 // If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 type SetupIntentUpdatePaymentMethodDataTamaraParams struct{}
 
+// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+type SetupIntentUpdatePaymentMethodDataTossPayParams struct{}
+
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentUpdatePaymentMethodDataTWINTParams struct{}
 
@@ -4022,6 +4072,14 @@ type SetupIntentUpdatePaymentMethodDataUpiParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// An external token used to create a payment method.
+type SetupIntentUpdatePaymentMethodDataUSBankAccountExternalTokenParams struct {
+	// The Plaid processor token to use for this bank account.
+	PlaidProcessorToken *string `form:"plaid_processor_token" json:"plaid_processor_token,omitempty"`
+	// The type of external token.
+	Type *string `form:"type" json:"type"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -4030,6 +4088,8 @@ type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type" json:"account_type,omitempty"`
+	// An external token used to create a payment method.
+	ExternalToken *SetupIntentUpdatePaymentMethodDataUSBankAccountExternalTokenParams `form:"external_token" json:"external_token,omitempty"`
 	// The ID of a Financial Connections Account to use as a payment method.
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
@@ -4184,6 +4244,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Swish *SetupIntentUpdatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
 	Tamara *SetupIntentUpdatePaymentMethodDataTamaraParams `form:"tamara" json:"tamara,omitempty"`
+	// If this is a `toss_pay` PaymentMethod, this hash contains details about the Toss Pay payment method.
+	TossPay *SetupIntentUpdatePaymentMethodDataTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *SetupIntentUpdatePaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

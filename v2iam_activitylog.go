@@ -87,50 +87,6 @@ const (
 	V2IamActivityLogDetailsTypeUserRoles       V2IamActivityLogDetailsType = "user_roles"
 )
 
-// Type of authentication factor.
-type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType string
-
-// List of values that V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType can take
-const (
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeBackupCode V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "backup_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeEmailCode  V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "email_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeOauth      V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "oauth"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePasskey    V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "passkey"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePassword   V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "password"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePhoneCode  V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "phone_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeSaml       V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "saml"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeSms        V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "sms"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeTotp       V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "totp"
-	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeWebAuthn   V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "web_authn"
-)
-
-// Type of authentication factor.
-type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType string
-
-// List of values that V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType can take
-const (
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeBackupCode V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "backup_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeEmailCode  V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "email_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeOauth      V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "oauth"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePasskey    V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "passkey"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePassword   V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "password"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePhoneCode  V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "phone_code"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeSaml       V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "saml"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeSms        V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "sms"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeTotp       V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "totp"
-	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeWebAuthn   V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "web_authn"
-)
-
-// Risk level for the user access action.
-type V2IamActivityLogDetailsUserAccessRiskLevel string
-
-// List of values that V2IamActivityLogDetailsUserAccessRiskLevel can take
-const (
-	V2IamActivityLogDetailsUserAccessRiskLevelHigh   V2IamActivityLogDetailsUserAccessRiskLevel = "high"
-	V2IamActivityLogDetailsUserAccessRiskLevelLow    V2IamActivityLogDetailsUserAccessRiskLevel = "low"
-	V2IamActivityLogDetailsUserAccessRiskLevelMedium V2IamActivityLogDetailsUserAccessRiskLevel = "medium"
-)
-
 // Type of risk signal.
 type V2IamActivityLogDetailsUserAccessRiskSignalType string
 
@@ -357,40 +313,10 @@ type V2IamActivityLogDetailsSso struct {
 	Mandate V2IamActivityLogDetailsSsoMandate `json:"mandate,omitempty"`
 }
 
-// Primary authentication factor.
-type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactor struct {
-	// SSO provider for the authentication factor.
-	SsoProvider string `json:"sso_provider,omitempty"`
-	// Type of authentication factor.
-	Type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType `json:"type"`
-}
-
-// Secondary authentication factors.
-type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactor struct {
-	// SSO provider for the authentication factor.
-	SsoProvider string `json:"sso_provider,omitempty"`
-	// Type of authentication factor.
-	Type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType `json:"type"`
-}
-
-// Authentication details for the user access action.
-type V2IamActivityLogDetailsUserAccessAuthentication struct {
-	// Primary authentication factor.
-	PrimaryFactor *V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactor `json:"primary_factor"`
-	// Secondary authentication factors.
-	SecondaryFactors []*V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactor `json:"secondary_factors"`
-}
-
 // Dashboard client details for the user access action.
 type V2IamActivityLogDetailsUserAccessDashboardClient struct {
-	// Browser used for the user access action.
-	Browser string `json:"browser"`
-	// Browser version used for the user access action.
-	BrowserVersion string `json:"browser_version"`
-	// Device type used for the user access action.
-	DeviceType string `json:"device_type"`
-	// Operating system used for the user access action.
-	Os string `json:"os"`
+	// User-Agent header for the user access action.
+	UserAgent string `json:"user_agent"`
 }
 
 // Network details for the user access action.
@@ -418,16 +344,12 @@ type V2IamActivityLogDetailsUserAccessRiskSignal struct {
 
 // Risk details for the user access action.
 type V2IamActivityLogDetailsUserAccessRisk struct {
-	// Risk level for the user access action.
-	Level V2IamActivityLogDetailsUserAccessRiskLevel `json:"level"`
 	// Risk signals for the user access action.
 	Signals []*V2IamActivityLogDetailsUserAccessRiskSignal `json:"signals"`
 }
 
 // Details of a user access action.
 type V2IamActivityLogDetailsUserAccess struct {
-	// Authentication details for the user access action.
-	Authentication *V2IamActivityLogDetailsUserAccessAuthentication `json:"authentication"`
 	// Dashboard client details for the user access action.
 	DashboardClient *V2IamActivityLogDetailsUserAccessDashboardClient `json:"dashboard_client,omitempty"`
 	// Timestamp when the user access expires.
@@ -438,8 +360,6 @@ type V2IamActivityLogDetailsUserAccess struct {
 	Risk *V2IamActivityLogDetailsUserAccessRisk `json:"risk"`
 	// Roles associated with the user access action.
 	Roles []string `json:"roles"`
-	// Session fingerprint for the user access action.
-	SessionFingerprint string `json:"session_fingerprint"`
 	// Surface where the user access action started.
 	Surface V2IamActivityLogDetailsUserAccessSurface `json:"surface"`
 }

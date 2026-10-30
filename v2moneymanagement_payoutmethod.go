@@ -131,6 +131,9 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	EnabledDeliverySchemes []string `json:"enabled_delivery_schemes"`
 	// The ID of the Financial Connections Account used to create the bank account.
 	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same bank account, for example.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`
 	// The routing number of the bank account, if present.

@@ -14,8 +14,6 @@ type V2MoneyManagementAdjustmentAdjustedFlowType string
 // List of values that V2MoneyManagementAdjustmentAdjustedFlowType can take
 const (
 	V2MoneyManagementAdjustmentAdjustedFlowTypeAdjustment       V2MoneyManagementAdjustmentAdjustedFlowType = "adjustment"
-	V2MoneyManagementAdjustmentAdjustedFlowTypeBalanceExchange  V2MoneyManagementAdjustmentAdjustedFlowType = "balance_exchange"
-	V2MoneyManagementAdjustmentAdjustedFlowTypeInboundPayment   V2MoneyManagementAdjustmentAdjustedFlowType = "inbound_payment"
 	V2MoneyManagementAdjustmentAdjustedFlowTypeInboundTransfer  V2MoneyManagementAdjustmentAdjustedFlowType = "inbound_transfer"
 	V2MoneyManagementAdjustmentAdjustedFlowTypeOutboundPayment  V2MoneyManagementAdjustmentAdjustedFlowType = "outbound_payment"
 	V2MoneyManagementAdjustmentAdjustedFlowTypeOutboundTransfer V2MoneyManagementAdjustmentAdjustedFlowType = "outbound_transfer"
@@ -23,9 +21,12 @@ const (
 	V2MoneyManagementAdjustmentAdjustedFlowTypeReceivedDebit    V2MoneyManagementAdjustmentAdjustedFlowType = "received_debit"
 )
 
-// If applicable, contains information about the original flow linked to this Adjustment.
+// Details about the original flow object linked to this Adjustment, if applicable.
+// `adjusted_flow.type` identifies the kind of object. The corresponding field contains its ID:
+// for an InboundTransfer, `adjusted_flow.inbound_transfer` contains the InboundTransfer's ID.
+// Pass that ID to the `adjusted_flow` parameter on List Adjustments.
 type V2MoneyManagementAdjustmentAdjustedFlow struct {
-	// If applicable, the ID of the Adjustment linked to this Adjustment.
+	// If applicable, the ID of the original Adjustment linked to this Adjustment.
 	Adjustment string `json:"adjustment,omitempty"`
 	// If applicable, the ID of the InboundTransfer linked to this Adjustment.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
@@ -41,18 +42,23 @@ type V2MoneyManagementAdjustmentAdjustedFlow struct {
 	Type V2MoneyManagementAdjustmentAdjustedFlowType `json:"type"`
 }
 
-// Adjustments represent Stripe-initiated credits or debits to a user balance. They might be used to amend balances due to technical or operational error.
+// An Adjustment records a credit or debit that Stripe makes to your Financial Account balance,
+// for example to correct technical or operational errors.
 type V2MoneyManagementAdjustment struct {
 	APIResource
-	// If applicable, contains information about the original flow linked to this Adjustment.
+	// Details about the original flow object linked to this Adjustment, if applicable.
+	// `adjusted_flow.type` identifies the kind of object. The corresponding field contains its ID:
+	// for an InboundTransfer, `adjusted_flow.inbound_transfer` contains the InboundTransfer's ID.
+	// Pass that ID to the `adjusted_flow` parameter on List Adjustments.
 	AdjustedFlow *V2MoneyManagementAdjustmentAdjustedFlow `json:"adjusted_flow,omitempty"`
 	// The amount of the Adjustment.
 	Amount Amount `json:"amount"`
-	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	// Time at which the object was created. Represented as an RFC 3339 timestamp in UTC with millisecond precision,
+	// for example `2022-09-18T13:22:18.123Z`.
 	Created time.Time `json:"created"`
-	// Description of the Adjustment and what it was used for.
+	// A description of the Adjustment and its purpose.
 	Description string `json:"description,omitempty"`
-	// The FinancialAccount that this adjustment is for.
+	// The ID of the FinancialAccount whose balance this Adjustment affects.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -60,7 +66,9 @@ type V2MoneyManagementAdjustment struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// A link to the Stripe-hosted receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. The receipt link remains active for 60 days from the Adjustment creation date. After this period, the link will expire and the receipt url value will be null.
+	// A link to the Stripe-hosted receipt provided when money movement is regulated under Stripe's money transmission licenses.
+	// You can use this link to view the receipt for 60 days after the Adjustment is created.
+	// After that, the link expires and `receipt_url` is `null`.
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// A reference for the Adjustment that associates it with related records or operations.
 	Reference string `json:"reference,omitempty"`

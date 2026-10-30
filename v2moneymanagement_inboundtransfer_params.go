@@ -15,12 +15,12 @@ type V2MoneyManagementInboundTransferListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// Object containing details about where the funds will originate from.
+// The verified bank account credential to debit for this InboundTransfer.
 type V2MoneyManagementInboundTransferFromParams struct {
 	// An optional currency field used to specify which currency is debited from the Payment Method.
 	// Since many Payment Methods support only one currency, this field is optional.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// ID of the Payment Method using which IBT will be made.
+	// ID of the verified bank account credential to debit for this InboundTransfer (for example, `usba_`), not a Payments API `pm_` PaymentMethod.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 }
 
@@ -37,38 +37,38 @@ type V2MoneyManagementInboundTransferNetworkDetailsParams struct {
 	ACH *V2MoneyManagementInboundTransferNetworkDetailsACHParams `form:"ach" json:"ach"`
 }
 
-// Object containing details about where the funds will land.
+// The FinancialAccount and currency to credit with the transferred funds.
 type V2MoneyManagementInboundTransferToParams struct {
-	// The currency in which funds will land in.
+	// The currency to credit to the FinancialAccount.
 	Currency *string `form:"currency" json:"currency"`
-	// The FinancialAccount that funds will land in.
+	// The FinancialAccount that receives the funds.
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
-// InboundTransfers APIs are used to create, retrieve or list InboundTransfers.
+// Creates an InboundTransfer to pull funds from a bank account into a financial account. Per-transfer and rolling weekly limits vary by account and payment rail. See [transfer limits](https://docs.stripe.com/treasury/add-funds#transfer-limits).
 type V2MoneyManagementInboundTransferParams struct {
 	Params `form:"*"`
-	// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
+	// The amount and currency to credit to the FinancialAccount.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// An optional, freeform description field intended to store metadata.
 	Description *string `form:"description" json:"description,omitempty"`
-	// Object containing details about where the funds will originate from.
+	// The verified bank account credential to debit for this InboundTransfer.
 	From *V2MoneyManagementInboundTransferFromParams `form:"from" json:"from,omitempty"`
 	// Network-specific details for the InboundTransfer.
 	NetworkDetails *V2MoneyManagementInboundTransferNetworkDetailsParams `form:"network_details" json:"network_details,omitempty"`
 	// An optional statement descriptor surfaced on the payer's bank statement. Max 10 characters.
 	// When omitted, Stripe sends its default descriptor.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Object containing details about where the funds will land.
+	// The FinancialAccount and currency to credit with the transferred funds.
 	To *V2MoneyManagementInboundTransferToParams `form:"to" json:"to,omitempty"`
 }
 
-// Object containing details about where the funds will originate from.
+// The verified bank account credential to debit for this InboundTransfer.
 type V2MoneyManagementInboundTransferCreateFromParams struct {
 	// An optional currency field used to specify which currency is debited from the Payment Method.
 	// Since many Payment Methods support only one currency, this field is optional.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// ID of the Payment Method using which IBT will be made.
+	// ID of the verified bank account credential to debit for this InboundTransfer (for example, `usba_`), not a Payments API `pm_` PaymentMethod.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 }
 
@@ -85,29 +85,29 @@ type V2MoneyManagementInboundTransferCreateNetworkDetailsParams struct {
 	ACH *V2MoneyManagementInboundTransferCreateNetworkDetailsACHParams `form:"ach" json:"ach"`
 }
 
-// Object containing details about where the funds will land.
+// The FinancialAccount and currency to credit with the transferred funds.
 type V2MoneyManagementInboundTransferCreateToParams struct {
-	// The currency in which funds will land in.
+	// The currency to credit to the FinancialAccount.
 	Currency *string `form:"currency" json:"currency"`
-	// The FinancialAccount that funds will land in.
+	// The FinancialAccount that receives the funds.
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
-// InboundTransfers APIs are used to create, retrieve or list InboundTransfers.
+// Creates an InboundTransfer to pull funds from a bank account into a financial account. Per-transfer and rolling weekly limits vary by account and payment rail. See [transfer limits](https://docs.stripe.com/treasury/add-funds#transfer-limits).
 type V2MoneyManagementInboundTransferCreateParams struct {
 	Params `form:"*"`
-	// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
+	// The amount and currency to credit to the FinancialAccount.
 	Amount *Amount `form:"amount" json:"amount"`
 	// An optional, freeform description field intended to store metadata.
 	Description *string `form:"description" json:"description,omitempty"`
-	// Object containing details about where the funds will originate from.
+	// The verified bank account credential to debit for this InboundTransfer.
 	From *V2MoneyManagementInboundTransferCreateFromParams `form:"from" json:"from"`
 	// Network-specific details for the InboundTransfer.
 	NetworkDetails *V2MoneyManagementInboundTransferCreateNetworkDetailsParams `form:"network_details" json:"network_details,omitempty"`
 	// An optional statement descriptor surfaced on the payer's bank statement. Max 10 characters.
 	// When omitted, Stripe sends its default descriptor.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Object containing details about where the funds will land.
+	// The FinancialAccount and currency to credit with the transferred funds.
 	To *V2MoneyManagementInboundTransferCreateToParams `form:"to" json:"to"`
 }
 

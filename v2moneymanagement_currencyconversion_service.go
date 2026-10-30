@@ -17,7 +17,7 @@ type v2MoneyManagementCurrencyConversionService struct {
 	Key string
 }
 
-// Create a CurrencyConversion.
+// Create a new Currency Conversion in a Financial Account or the payments balance.
 func (c v2MoneyManagementCurrencyConversionService) Create(ctx context.Context, params *V2MoneyManagementCurrencyConversionCreateParams) (*V2MoneyManagementCurrencyConversion, error) {
 	if params == nil {
 		params = &V2MoneyManagementCurrencyConversionCreateParams{}
@@ -29,7 +29,7 @@ func (c v2MoneyManagementCurrencyConversionService) Create(ctx context.Context, 
 	return currencyconversion, err
 }
 
-// Retrieve details of a CurrencyConversion by id.
+// Retrieves the details of a Currency Conversion by its ID.
 func (c v2MoneyManagementCurrencyConversionService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementCurrencyConversionRetrieveParams) (*V2MoneyManagementCurrencyConversion, error) {
 	if params == nil {
 		params = &V2MoneyManagementCurrencyConversionRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2MoneyManagementCurrencyConversionService) Retrieve(ctx context.Context
 	return currencyconversion, err
 }
 
-// List all CurrencyConversion on an account with the option to filter by FinancialAccount.
+// Lists all Currency Conversions that match the provided filters.
 func (c v2MoneyManagementCurrencyConversionService) List(ctx context.Context, listParams *V2MoneyManagementCurrencyConversionListParams) *V2List[*V2MoneyManagementCurrencyConversion] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementCurrencyConversionListParams{}

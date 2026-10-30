@@ -129,6 +129,7 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACSSDebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "acss_debit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAffirmPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "affirm_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlipayPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alipay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments      V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
@@ -166,12 +167,14 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySatispayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "satispay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityScalapayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "scalapay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySequraPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sequra_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySunbitPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sunbit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUpiPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "upi_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityVippsPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "vipps_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
@@ -210,6 +213,7 @@ const (
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageInboundUsdc              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.inbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageOutboundUSD              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.outbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageOutboundUsdc             V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.outbound.usdc"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundFundingsPaperChecks              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_fundings.paper_checks"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts            V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts            V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards                   V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
@@ -274,6 +278,7 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal                V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsNpp                  V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.npp"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsRTP                  V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.rtp"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSEPA                 V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.sepa"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSEPACredit           V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.sepa_credit"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSEPAInstant          V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.sepa_instant"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSwift                V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.swift"
@@ -334,6 +339,15 @@ const (
 	V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethodPUT    V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod = "PUT"
 )
 
+// The severity of the alert.
+type V2CoreHealthAPIErrorFiringEventDataSeverity string
+
+// List of values that V2CoreHealthAPIErrorFiringEventDataSeverity can take
+const (
+	V2CoreHealthAPIErrorFiringEventDataSeverityCritical    V2CoreHealthAPIErrorFiringEventDataSeverity = "critical"
+	V2CoreHealthAPIErrorFiringEventDataSeverityNonCritical V2CoreHealthAPIErrorFiringEventDataSeverity = "non_critical"
+)
+
 // The HTTP method.
 type V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod string
 
@@ -343,6 +357,15 @@ const (
 	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodGET    V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "GET"
 	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodPOST   V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "POST"
 	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodPUT    V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "PUT"
+)
+
+// The severity of the alert.
+type V2CoreHealthAPIErrorResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthAPIErrorResolvedEventDataSeverity can take
+const (
+	V2CoreHealthAPIErrorResolvedEventDataSeverityCritical    V2CoreHealthAPIErrorResolvedEventDataSeverity = "critical"
+	V2CoreHealthAPIErrorResolvedEventDataSeverityNonCritical V2CoreHealthAPIErrorResolvedEventDataSeverity = "non_critical"
 )
 
 // The HTTP method.
@@ -356,6 +379,15 @@ const (
 	V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethodPUT    V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod = "PUT"
 )
 
+// The severity of the alert.
+type V2CoreHealthAPILatencyFiringEventDataSeverity string
+
+// List of values that V2CoreHealthAPILatencyFiringEventDataSeverity can take
+const (
+	V2CoreHealthAPILatencyFiringEventDataSeverityCritical    V2CoreHealthAPILatencyFiringEventDataSeverity = "critical"
+	V2CoreHealthAPILatencyFiringEventDataSeverityNonCritical V2CoreHealthAPILatencyFiringEventDataSeverity = "non_critical"
+)
+
 // The HTTP method.
 type V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod string
 
@@ -365,6 +397,15 @@ const (
 	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodGET    V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "GET"
 	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodPOST   V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "POST"
 	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodPUT    V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "PUT"
+)
+
+// The severity of the alert.
+type V2CoreHealthAPILatencyResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthAPILatencyResolvedEventDataSeverity can take
+const (
+	V2CoreHealthAPILatencyResolvedEventDataSeverityCritical    V2CoreHealthAPILatencyResolvedEventDataSeverity = "critical"
+	V2CoreHealthAPILatencyResolvedEventDataSeverityNonCritical V2CoreHealthAPILatencyResolvedEventDataSeverity = "non_critical"
 )
 
 // The type of the charge.
@@ -461,6 +502,15 @@ const (
 	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeZip                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "zip"
 )
 
+// The severity of the alert.
+type V2CoreHealthAuthorizationRateDropFiringEventDataSeverity string
+
+// List of values that V2CoreHealthAuthorizationRateDropFiringEventDataSeverity can take
+const (
+	V2CoreHealthAuthorizationRateDropFiringEventDataSeverityCritical    V2CoreHealthAuthorizationRateDropFiringEventDataSeverity = "critical"
+	V2CoreHealthAuthorizationRateDropFiringEventDataSeverityNonCritical V2CoreHealthAuthorizationRateDropFiringEventDataSeverity = "non_critical"
+)
+
 // The type of the charge.
 type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType string
 
@@ -555,6 +605,15 @@ const (
 	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "zip"
 )
 
+// The severity of the alert.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthAuthorizationRateDropResolvedEventDataSeverity can take
+const (
+	V2CoreHealthAuthorizationRateDropResolvedEventDataSeverityCritical    V2CoreHealthAuthorizationRateDropResolvedEventDataSeverity = "critical"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataSeverityNonCritical V2CoreHealthAuthorizationRateDropResolvedEventDataSeverity = "non_critical"
+)
+
 // The type of the element.
 type V2CoreHealthElementsErrorFiringEventDataImpactElementType string
 
@@ -562,6 +621,15 @@ type V2CoreHealthElementsErrorFiringEventDataImpactElementType string
 const (
 	V2CoreHealthElementsErrorFiringEventDataImpactElementTypeExpressCheckout V2CoreHealthElementsErrorFiringEventDataImpactElementType = "expressCheckout"
 	V2CoreHealthElementsErrorFiringEventDataImpactElementTypePayment         V2CoreHealthElementsErrorFiringEventDataImpactElementType = "payment"
+)
+
+// The severity of the alert.
+type V2CoreHealthElementsErrorFiringEventDataSeverity string
+
+// List of values that V2CoreHealthElementsErrorFiringEventDataSeverity can take
+const (
+	V2CoreHealthElementsErrorFiringEventDataSeverityCritical    V2CoreHealthElementsErrorFiringEventDataSeverity = "critical"
+	V2CoreHealthElementsErrorFiringEventDataSeverityNonCritical V2CoreHealthElementsErrorFiringEventDataSeverity = "non_critical"
 )
 
 // The type of the element.
@@ -573,6 +641,15 @@ const (
 	V2CoreHealthElementsErrorResolvedEventDataImpactElementTypePayment         V2CoreHealthElementsErrorResolvedEventDataImpactElementType = "payment"
 )
 
+// The severity of the alert.
+type V2CoreHealthElementsErrorResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthElementsErrorResolvedEventDataSeverity can take
+const (
+	V2CoreHealthElementsErrorResolvedEventDataSeverityCritical    V2CoreHealthElementsErrorResolvedEventDataSeverity = "critical"
+	V2CoreHealthElementsErrorResolvedEventDataSeverityNonCritical V2CoreHealthElementsErrorResolvedEventDataSeverity = "non_critical"
+)
+
 // Fraud attack type.
 type V2CoreHealthFraudRateIncreasedEventDataImpactAttackType string
 
@@ -580,6 +657,69 @@ type V2CoreHealthFraudRateIncreasedEventDataImpactAttackType string
 const (
 	V2CoreHealthFraudRateIncreasedEventDataImpactAttackTypeSpike           V2CoreHealthFraudRateIncreasedEventDataImpactAttackType = "spike"
 	V2CoreHealthFraudRateIncreasedEventDataImpactAttackTypeSustainedAttack V2CoreHealthFraudRateIncreasedEventDataImpactAttackType = "sustained_attack"
+)
+
+// The severity of the alert.
+type V2CoreHealthFraudRateIncreasedEventDataSeverity string
+
+// List of values that V2CoreHealthFraudRateIncreasedEventDataSeverity can take
+const (
+	V2CoreHealthFraudRateIncreasedEventDataSeverityCritical    V2CoreHealthFraudRateIncreasedEventDataSeverity = "critical"
+	V2CoreHealthFraudRateIncreasedEventDataSeverityNonCritical V2CoreHealthFraudRateIncreasedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthInvoiceCountDroppedFiringEventDataSeverity string
+
+// List of values that V2CoreHealthInvoiceCountDroppedFiringEventDataSeverity can take
+const (
+	V2CoreHealthInvoiceCountDroppedFiringEventDataSeverityCritical    V2CoreHealthInvoiceCountDroppedFiringEventDataSeverity = "critical"
+	V2CoreHealthInvoiceCountDroppedFiringEventDataSeverityNonCritical V2CoreHealthInvoiceCountDroppedFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverity can take
+const (
+	V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverityCritical    V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverity = "critical"
+	V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverityNonCritical V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverity string
+
+// List of values that V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverity can take
+const (
+	V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverityCritical    V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverity = "critical"
+	V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverityNonCritical V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverity can take
+const (
+	V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverityCritical    V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverity = "critical"
+	V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverityNonCritical V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverity string
+
+// List of values that V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverity can take
+const (
+	V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverityCritical    V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverity = "critical"
+	V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverityNonCritical V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverity can take
+const (
+	V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverityCritical    V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverity = "critical"
+	V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverityNonCritical V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverity = "non_critical"
 )
 
 // The ingestion method.
@@ -590,12 +730,30 @@ const (
 	V2CoreHealthMeterEventSummariesDelayedFiringEventDataImpactIngestionMethodImportSets V2CoreHealthMeterEventSummariesDelayedFiringEventDataImpactIngestionMethod = "import_sets"
 )
 
+// The severity of the alert.
+type V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverity string
+
+// List of values that V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverity can take
+const (
+	V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverityCritical    V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverity = "critical"
+	V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverityNonCritical V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverity = "non_critical"
+)
+
 // The ingestion method.
 type V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethod string
 
 // List of values that V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethod can take
 const (
 	V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethodImportSets V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethod = "import_sets"
+)
+
+// The severity of the alert.
+type V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverity can take
+const (
+	V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverityCritical    V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverity = "critical"
+	V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverityNonCritical V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverity = "non_critical"
 )
 
 // The impacted Metronome billing pipeline.
@@ -609,6 +767,15 @@ const (
 	V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipelineTimeTriggered                 V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline = "time_triggered"
 )
 
+// The severity of the alert.
+type V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverity string
+
+// List of values that V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverity can take
+const (
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverityCritical    V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverity = "critical"
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverityNonCritical V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverity = "non_critical"
+)
+
 // The impacted Metronome billing pipeline.
 type V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline string
 
@@ -618,6 +785,15 @@ const (
 	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineHighCardinalityUsageTriggered V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "high_cardinality_usage_triggered"
 	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineStandardUsageTriggered        V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "standard_usage_triggered"
 	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineTimeTriggered                 V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "time_triggered"
+)
+
+// The severity of the alert.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverity can take
+const (
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverityCritical    V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverity = "critical"
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverityNonCritical V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverity = "non_critical"
 )
 
 // The type of the payment method.
@@ -696,6 +872,15 @@ const (
 	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "zip"
 )
 
+// The severity of the alert.
+type V2CoreHealthPaymentMethodErrorFiringEventDataSeverity string
+
+// List of values that V2CoreHealthPaymentMethodErrorFiringEventDataSeverity can take
+const (
+	V2CoreHealthPaymentMethodErrorFiringEventDataSeverityCritical    V2CoreHealthPaymentMethodErrorFiringEventDataSeverity = "critical"
+	V2CoreHealthPaymentMethodErrorFiringEventDataSeverityNonCritical V2CoreHealthPaymentMethodErrorFiringEventDataSeverity = "non_critical"
+)
+
 // The type of the payment method.
 type V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType string
 
@@ -770,6 +955,69 @@ const (
 	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeVipps                V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "vipps"
 	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeWeChatPay            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "wechat_pay"
 	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "zip"
+)
+
+// The severity of the alert.
+type V2CoreHealthPaymentMethodErrorResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthPaymentMethodErrorResolvedEventDataSeverity can take
+const (
+	V2CoreHealthPaymentMethodErrorResolvedEventDataSeverityCritical    V2CoreHealthPaymentMethodErrorResolvedEventDataSeverity = "critical"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataSeverityNonCritical V2CoreHealthPaymentMethodErrorResolvedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthSEPADebitDelayedFiringEventDataSeverity string
+
+// List of values that V2CoreHealthSEPADebitDelayedFiringEventDataSeverity can take
+const (
+	V2CoreHealthSEPADebitDelayedFiringEventDataSeverityCritical    V2CoreHealthSEPADebitDelayedFiringEventDataSeverity = "critical"
+	V2CoreHealthSEPADebitDelayedFiringEventDataSeverityNonCritical V2CoreHealthSEPADebitDelayedFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthSEPADebitDelayedResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthSEPADebitDelayedResolvedEventDataSeverity can take
+const (
+	V2CoreHealthSEPADebitDelayedResolvedEventDataSeverityCritical    V2CoreHealthSEPADebitDelayedResolvedEventDataSeverity = "critical"
+	V2CoreHealthSEPADebitDelayedResolvedEventDataSeverityNonCritical V2CoreHealthSEPADebitDelayedResolvedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthTrafficVolumeDropFiringEventDataSeverity string
+
+// List of values that V2CoreHealthTrafficVolumeDropFiringEventDataSeverity can take
+const (
+	V2CoreHealthTrafficVolumeDropFiringEventDataSeverityCritical    V2CoreHealthTrafficVolumeDropFiringEventDataSeverity = "critical"
+	V2CoreHealthTrafficVolumeDropFiringEventDataSeverityNonCritical V2CoreHealthTrafficVolumeDropFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthTrafficVolumeDropResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthTrafficVolumeDropResolvedEventDataSeverity can take
+const (
+	V2CoreHealthTrafficVolumeDropResolvedEventDataSeverityCritical    V2CoreHealthTrafficVolumeDropResolvedEventDataSeverity = "critical"
+	V2CoreHealthTrafficVolumeDropResolvedEventDataSeverityNonCritical V2CoreHealthTrafficVolumeDropResolvedEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthWebhookLatencyFiringEventDataSeverity string
+
+// List of values that V2CoreHealthWebhookLatencyFiringEventDataSeverity can take
+const (
+	V2CoreHealthWebhookLatencyFiringEventDataSeverityCritical    V2CoreHealthWebhookLatencyFiringEventDataSeverity = "critical"
+	V2CoreHealthWebhookLatencyFiringEventDataSeverityNonCritical V2CoreHealthWebhookLatencyFiringEventDataSeverity = "non_critical"
+)
+
+// The severity of the alert.
+type V2CoreHealthWebhookLatencyResolvedEventDataSeverity string
+
+// List of values that V2CoreHealthWebhookLatencyResolvedEventDataSeverity can take
+const (
+	V2CoreHealthWebhookLatencyResolvedEventDataSeverityCritical    V2CoreHealthWebhookLatencyResolvedEventDataSeverity = "critical"
+	V2CoreHealthWebhookLatencyResolvedEventDataSeverityNonCritical V2CoreHealthWebhookLatencyResolvedEventDataSeverity = "non_critical"
 )
 
 // The party that initiated the agreement.
@@ -3068,6 +3316,107 @@ func (n *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Cont
 	return relatedObj, err
 }
 
+// V1CustomerDiscountSourceChangedEvent is the Go struct for the "v1.customer.discount.source_changed" event.
+// Occurs whenever the source of a customer's discount changes.
+type V1CustomerDiscountSourceChangedEvent struct{ V2BaseEvent }
+
+// V1CustomerDiscountSourceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.source_changed"
+// Occurs whenever the source of a customer's discount changes.
+type V1CustomerDiscountSourceChangedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V1CustomerDiscountSourceChangedEvent that created this Notification
+func (n *V1CustomerDiscountSourceChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDiscountSourceChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerDiscountSourceChangedEvent), nil
+}
+
+// V1CustomerSubscriptionActiveEvent is the Go struct for the "v1.customer.subscription.active" event.
+// Occurs whenever a subscription's status becomes active.
+type V1CustomerSubscriptionActiveEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionActiveEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionActiveEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.active"
+// Occurs whenever a subscription's status becomes active.
+type V1CustomerSubscriptionActiveEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionActiveEvent that created this Notification
+func (n *V1CustomerSubscriptionActiveEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionActiveEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionActiveEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionActiveEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionCancelAtChangedEvent is the Go struct for the "v1.customer.subscription.cancel_at_changed" event.
+// Occurs whenever a subscription's scheduled cancellation date changes.
+type V1CustomerSubscriptionCancelAtChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionCancelAtChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionCancelAtChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.cancel_at_changed"
+// Occurs whenever a subscription's scheduled cancellation date changes.
+type V1CustomerSubscriptionCancelAtChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionCancelAtChangedEvent that created this Notification
+func (n *V1CustomerSubscriptionCancelAtChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCancelAtChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionCancelAtChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionCancelAtChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1CustomerSubscriptionCreatedEvent is the Go struct for the "v1.customer.subscription.created" event.
 // Occurs whenever a customer is signed up for a new plan.
 type V1CustomerSubscriptionCreatedEvent struct {
@@ -3109,6 +3458,47 @@ func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx 
 	return relatedObj, err
 }
 
+// V1CustomerSubscriptionDefaultPaymentMethodChangedEvent is the Go struct for the "v1.customer.subscription.default_payment_method_changed" event.
+// Occurs whenever a subscription's default payment method changes.
+type V1CustomerSubscriptionDefaultPaymentMethodChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionDefaultPaymentMethodChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.default_payment_method_changed"
+// Occurs whenever a subscription's default payment method changes.
+type V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionDefaultPaymentMethodChangedEvent that created this Notification
+func (n *V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDefaultPaymentMethodChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionDefaultPaymentMethodChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1CustomerSubscriptionDeletedEvent is the Go struct for the "v1.customer.subscription.deleted" event.
 // Occurs whenever a customer's subscription ends.
 type V1CustomerSubscriptionDeletedEvent struct {
@@ -3140,6 +3530,334 @@ func (n *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionIncompleteEvent is the Go struct for the "v1.customer.subscription.incomplete" event.
+// Occurs whenever a subscription's status becomes incomplete.
+type V1CustomerSubscriptionIncompleteEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionIncompleteEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionIncompleteEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.incomplete"
+// Occurs whenever a subscription's status becomes incomplete.
+type V1CustomerSubscriptionIncompleteEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionIncompleteEvent that created this Notification
+func (n *V1CustomerSubscriptionIncompleteEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionIncompleteEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionIncompleteEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionIncompleteEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionIncompleteExpiredEvent is the Go struct for the "v1.customer.subscription.incomplete_expired" event.
+// Occurs whenever a subscription's status becomes incomplete_expired.
+type V1CustomerSubscriptionIncompleteExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionIncompleteExpiredEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionIncompleteExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.incomplete_expired"
+// Occurs whenever a subscription's status becomes incomplete_expired.
+type V1CustomerSubscriptionIncompleteExpiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionIncompleteExpiredEvent that created this Notification
+func (n *V1CustomerSubscriptionIncompleteExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionIncompleteExpiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionIncompleteExpiredEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionIncompleteExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionItemAddedEvent is the Go struct for the "v1.customer.subscription.item_added" event.
+// Occurs whenever an item is added to a subscription.
+type V1CustomerSubscriptionItemAddedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionItemAddedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionItemAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_added"
+// Occurs whenever an item is added to a subscription.
+type V1CustomerSubscriptionItemAddedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionItemAddedEvent that created this Notification
+func (n *V1CustomerSubscriptionItemAddedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionItemAddedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionItemAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionItemPriceChangedEvent is the Go struct for the "v1.customer.subscription.item_price_changed" event.
+// Occurs whenever the price of a subscription item changes.
+type V1CustomerSubscriptionItemPriceChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionItemPriceChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionItemPriceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_price_changed"
+// Occurs whenever the price of a subscription item changes.
+type V1CustomerSubscriptionItemPriceChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionItemPriceChangedEvent that created this Notification
+func (n *V1CustomerSubscriptionItemPriceChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemPriceChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionItemPriceChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionItemPriceChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionItemQuantityChangedEvent is the Go struct for the "v1.customer.subscription.item_quantity_changed" event.
+// Occurs whenever the quantity of a subscription item changes.
+type V1CustomerSubscriptionItemQuantityChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionItemQuantityChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionItemQuantityChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_quantity_changed"
+// Occurs whenever the quantity of a subscription item changes.
+type V1CustomerSubscriptionItemQuantityChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionItemQuantityChangedEvent that created this Notification
+func (n *V1CustomerSubscriptionItemQuantityChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemQuantityChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionItemQuantityChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionItemQuantityChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionItemRemovedEvent is the Go struct for the "v1.customer.subscription.item_removed" event.
+// Occurs whenever an item is removed from a subscription.
+type V1CustomerSubscriptionItemRemovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionItemRemovedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionItemRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_removed"
+// Occurs whenever an item is removed from a subscription.
+type V1CustomerSubscriptionItemRemovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionItemRemovedEvent that created this Notification
+func (n *V1CustomerSubscriptionItemRemovedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionItemRemovedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionItemRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionItemTaxRatesChangedEvent is the Go struct for the "v1.customer.subscription.item_tax_rates_changed" event.
+// Occurs whenever the tax rates of a subscription item change.
+type V1CustomerSubscriptionItemTaxRatesChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionItemTaxRatesChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionItemTaxRatesChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_tax_rates_changed"
+// Occurs whenever the tax rates of a subscription item change.
+type V1CustomerSubscriptionItemTaxRatesChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionItemTaxRatesChangedEvent that created this Notification
+func (n *V1CustomerSubscriptionItemTaxRatesChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemTaxRatesChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionItemTaxRatesChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionItemTaxRatesChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionPastDueEvent is the Go struct for the "v1.customer.subscription.past_due" event.
+// Occurs whenever a subscription's status becomes past_due.
+type V1CustomerSubscriptionPastDueEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionPastDueEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionPastDueEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.past_due"
+// Occurs whenever a subscription's status becomes past_due.
+type V1CustomerSubscriptionPastDueEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionPastDueEvent that created this Notification
+func (n *V1CustomerSubscriptionPastDueEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPastDueEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionPastDueEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3345,6 +4063,88 @@ func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx con
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionTrialingEvent is the Go struct for the "v1.customer.subscription.trialing" event.
+// Occurs whenever a subscription's status becomes trialing.
+type V1CustomerSubscriptionTrialingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionTrialingEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionTrialingEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.trialing"
+// Occurs whenever a subscription's status becomes trialing.
+type V1CustomerSubscriptionTrialingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionTrialingEvent that created this Notification
+func (n *V1CustomerSubscriptionTrialingEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionTrialingEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionTrialingEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Subscription{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1CustomerSubscriptionUnpaidEvent is the Go struct for the "v1.customer.subscription.unpaid" event.
+// Occurs whenever a subscription's status becomes unpaid.
+type V1CustomerSubscriptionUnpaidEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (e *V1CustomerSubscriptionUnpaidEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionUnpaidEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.unpaid"
+// Occurs whenever a subscription's status becomes unpaid.
+type V1CustomerSubscriptionUnpaidEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1CustomerSubscriptionUnpaidEvent that created this Notification
+func (n *V1CustomerSubscriptionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUnpaidEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1CustomerSubscriptionUnpaidEvent), nil
+}
+
+// FetchRelatedObject fetches the Subscription related to the event.
+func (n *V1CustomerSubscriptionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3601,6 +4401,48 @@ func (n *V1CustomerCashBalanceTransactionCreatedEventNotification) FetchRelatedO
 	return relatedObj, err
 }
 
+// V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_added" event.
+// Occurs when an entitlement is added to a customer's active entitlement summary.
+type V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent struct {
+	V2BaseEvent
+}
+
+// V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.entitlement_added"
+// Occurs when an entitlement is added to a customer's active entitlement summary.
+type V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent that created this Notification
+func (n *V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification) FetchEvent(ctx context.Context) (*V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent), nil
+}
+
+// V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_removed" event.
+// Occurs when an entitlement is removed from a customer's active entitlement summary.
+type V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent struct {
+	V2BaseEvent
+}
+
+// V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.entitlement_removed"
+// Occurs when an entitlement is removed from a customer's active entitlement summary.
+type V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent that created this Notification
+func (n *V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification) FetchEvent(ctx context.Context) (*V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent), nil
+}
+
 // V1EntitlementsActiveEntitlementSummaryUpdatedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.updated" event.
 // Occurs whenever a customer's entitlements change.
 type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct{ V2BaseEvent }
@@ -3692,6 +4534,88 @@ func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) Fe
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountBalanceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_failed" event.
+// Occurs when a balance refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountBalanceRefreshFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountBalanceRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.balance_refresh_failed"
+// Occurs when a balance refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountBalanceRefreshFailedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountBalanceRefreshFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountBalanceRefreshFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountBalanceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_succeeded" event.
+// Occurs when a balance refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountBalanceRefreshSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountBalanceRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.balance_refresh_succeeded"
+// Occurs when a balance refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountBalanceRefreshSucceededEvent that created this Notification
+func (n *V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountBalanceRefreshSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountBalanceRefreshSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3866,6 +4790,170 @@ func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotifi
 	return relatedObj, err
 }
 
+// V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_failed" event.
+// Occurs when an inferred-balances refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.inferred_balances_refresh_failed"
+// Occurs when an inferred-balances refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_succeeded" event.
+// Occurs when an inferred-balances refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.inferred_balances_refresh_succeeded"
+// Occurs when an inferred-balances refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent that created this Notification
+func (n *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountOwnershipRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_failed" event.
+// Occurs when an ownership refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountOwnershipRefreshFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountOwnershipRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.ownership_refresh_failed"
+// Occurs when an ownership refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountOwnershipRefreshFailedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountOwnershipRefreshFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountOwnershipRefreshFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_succeeded" event.
+// Occurs when an ownership refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.ownership_refresh_succeeded"
+// Occurs when an ownership refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent that created this Notification
+func (n *V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1FinancialConnectionsAccountReactivatedEvent is the Go struct for the "v1.financial_connections.account.reactivated" event.
 // Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
 type V1FinancialConnectionsAccountReactivatedEvent struct {
@@ -4030,6 +5118,88 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 	return relatedObj, err
 }
 
+// V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_failed" event.
+// Occurs when a risk-intelligence refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.risk_intelligence_refresh_failed"
+// Occurs when a risk-intelligence refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_succeeded" event.
+// Occurs when a risk-intelligence refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.risk_intelligence_refresh_succeeded"
+// Occurs when a risk-intelligence refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent that created this Notification
+func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent is the Go struct for the "v1.financial_connections.account.supported_payment_method_types_updated" event.
 // Occurs when the supported_payment_method_types array on a Financial Connections account changes.
 type V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent struct {
@@ -4061,6 +5231,88 @@ func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNot
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountTransactionsRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_failed" event.
+// Occurs when a transactions refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountTransactionsRefreshFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountTransactionsRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.transactions_refresh_failed"
+// Occurs when a transactions refresh on a Financial Connections account fails.
+type V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountTransactionsRefreshFailedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountTransactionsRefreshFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountTransactionsRefreshFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_succeeded" event.
+// Occurs when a transactions refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.transactions_refresh_succeeded"
+// Occurs when a transactions refresh on a Financial Connections account completes successfully.
+type V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent that created this Notification
+func (n *V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -4481,6 +5733,88 @@ func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 	return relatedObj, err
 }
 
+// V1InvoiceDiscountAddedEvent is the Go struct for the "v1.invoice.discount_added" event.
+// Occurs when a discount is added to an invoice.
+type V1InvoiceDiscountAddedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceDiscountAddedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceDiscountAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.discount_added"
+// Occurs when a discount is added to an invoice.
+type V1InvoiceDiscountAddedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceDiscountAddedEvent that created this Notification
+func (n *V1InvoiceDiscountAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDiscountAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceDiscountAddedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceDiscountAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceDiscountRemovedEvent is the Go struct for the "v1.invoice.discount_removed" event.
+// Occurs when a discount is removed from an invoice.
+type V1InvoiceDiscountRemovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceDiscountRemovedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceDiscountRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.discount_removed"
+// Occurs when a discount is removed from an invoice.
+type V1InvoiceDiscountRemovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceDiscountRemovedEvent that created this Notification
+func (n *V1InvoiceDiscountRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDiscountRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceDiscountRemovedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceDiscountRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1InvoiceFinalizationFailedEvent is the Go struct for the "v1.invoice.finalization_failed" event.
 // Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
 type V1InvoiceFinalizationFailedEvent struct {
@@ -4553,6 +5887,170 @@ func (n *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceLineItemAddedEvent is the Go struct for the "v1.invoice.line_item_added" event.
+// Occurs whenever a line item is added to a draft invoice.
+type V1InvoiceLineItemAddedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceLineItemAddedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceLineItemAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_added"
+// Occurs whenever a line item is added to a draft invoice.
+type V1InvoiceLineItemAddedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceLineItemAddedEvent that created this Notification
+func (n *V1InvoiceLineItemAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceLineItemAddedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceLineItemAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceLineItemPricingChangedEvent is the Go struct for the "v1.invoice.line_item_pricing_changed" event.
+// Occurs when an invoice line item's pricing changes.
+type V1InvoiceLineItemPricingChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceLineItemPricingChangedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceLineItemPricingChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_pricing_changed"
+// Occurs when an invoice line item's pricing changes.
+type V1InvoiceLineItemPricingChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceLineItemPricingChangedEvent that created this Notification
+func (n *V1InvoiceLineItemPricingChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemPricingChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceLineItemPricingChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceLineItemPricingChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceLineItemQuantityChangedEvent is the Go struct for the "v1.invoice.line_item_quantity_changed" event.
+// Occurs when an invoice line item's quantity changes.
+type V1InvoiceLineItemQuantityChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceLineItemQuantityChangedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceLineItemQuantityChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_quantity_changed"
+// Occurs when an invoice line item's quantity changes.
+type V1InvoiceLineItemQuantityChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceLineItemQuantityChangedEvent that created this Notification
+func (n *V1InvoiceLineItemQuantityChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemQuantityChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceLineItemQuantityChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceLineItemQuantityChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceLineItemRemovedEvent is the Go struct for the "v1.invoice.line_item_removed" event.
+// Occurs whenever a line item is removed from a draft invoice.
+type V1InvoiceLineItemRemovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoiceLineItemRemovedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceLineItemRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_removed"
+// Occurs whenever a line item is removed from a draft invoice.
+type V1InvoiceLineItemRemovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceLineItemRemovedEvent that created this Notification
+func (n *V1InvoiceLineItemRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceLineItemRemovedEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoiceLineItemRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -5075,6 +6573,88 @@ func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Con
 	return relatedObj, err
 }
 
+// V1InvoicePaymentCanceledEvent is the Go struct for the "v1.invoice_payment.canceled" event.
+// Occurs whenever an invoice payment is canceled.
+type V1InvoicePaymentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoicePayment, error)
+}
+
+// FetchRelatedObject fetches the InvoicePayment related to the event.
+func (e *V1InvoicePaymentCanceledEvent) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.canceled"
+// Occurs whenever an invoice payment is canceled.
+type V1InvoicePaymentCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoicePaymentCanceledEvent that created this Notification
+func (n *V1InvoicePaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoicePaymentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the InvoicePayment related to the event.
+func (n *V1InvoicePaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &InvoicePayment{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoicePaymentOpenEvent is the Go struct for the "v1.invoice_payment.open" event.
+// Occurs whenever an invoice payment record is created in open status.
+type V1InvoicePaymentOpenEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoicePayment, error)
+}
+
+// FetchRelatedObject fetches the InvoicePayment related to the event.
+func (e *V1InvoicePaymentOpenEvent) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentOpenEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.open"
+// Occurs whenever an invoice payment record is created in open status.
+type V1InvoicePaymentOpenEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoicePaymentOpenEvent that created this Notification
+func (n *V1InvoicePaymentOpenEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentOpenEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoicePaymentOpenEvent), nil
+}
+
+// FetchRelatedObject fetches the InvoicePayment related to the event.
+func (n *V1InvoicePaymentOpenEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &InvoicePayment{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1InvoicePaymentPaidEvent is the Go struct for the "v1.invoice_payment.paid" event.
 // Occurs when an InvoicePayment is successfully paid.
 type V1InvoicePaymentPaidEvent struct {
@@ -5111,6 +6691,47 @@ func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoicePayment{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceitemAmountChangedEvent is the Go struct for the "v1.invoiceitem.amount_changed" event.
+// Occurs when an invoice item's amount changes.
+type V1InvoiceitemAmountChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoiceItem, error)
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (e *V1InvoiceitemAmountChangedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceitemAmountChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.amount_changed"
+// Occurs when an invoice item's amount changes.
+type V1InvoiceitemAmountChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceitemAmountChangedEvent that created this Notification
+func (n *V1InvoiceitemAmountChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemAmountChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceitemAmountChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (n *V1InvoiceitemAmountChangedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -5188,6 +6809,88 @@ func (n *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context) 
 
 // FetchRelatedObject fetches the InvoiceItem related to the event.
 func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &InvoiceItem{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceitemDiscountAddedEvent is the Go struct for the "v1.invoiceitem.discount_added" event.
+// Occurs when a discount is added to an invoice item.
+type V1InvoiceitemDiscountAddedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoiceItem, error)
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (e *V1InvoiceitemDiscountAddedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceitemDiscountAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.discount_added"
+// Occurs when a discount is added to an invoice item.
+type V1InvoiceitemDiscountAddedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceitemDiscountAddedEvent that created this Notification
+func (n *V1InvoiceitemDiscountAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDiscountAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceitemDiscountAddedEvent), nil
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (n *V1InvoiceitemDiscountAddedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &InvoiceItem{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoiceitemDiscountRemovedEvent is the Go struct for the "v1.invoiceitem.discount_removed" event.
+// Occurs when a discount is removed from an invoice item.
+type V1InvoiceitemDiscountRemovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoiceItem, error)
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (e *V1InvoiceitemDiscountRemovedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceitemDiscountRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.discount_removed"
+// Occurs when a discount is removed from an invoice item.
+type V1InvoiceitemDiscountRemovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoiceitemDiscountRemovedEvent that created this Notification
+func (n *V1InvoiceitemDiscountRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDiscountRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoiceitemDiscountRemovedEvent), nil
+}
+
+// FetchRelatedObject fetches the InvoiceItem related to the event.
+func (n *V1InvoiceitemDiscountRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -7207,6 +8910,47 @@ func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context)
 	return relatedObj, err
 }
 
+// V1PriceActivatedEvent is the Go struct for the "v1.price.activated" event.
+// Occurs whenever a price is activated.
+type V1PriceActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (e *V1PriceActivatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.activated"
+// Occurs whenever a price is activated.
+type V1PriceActivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1PriceActivatedEvent that created this Notification
+func (n *V1PriceActivatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceActivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1PriceActivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (n *V1PriceActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Price{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1PriceCreatedEvent is the Go struct for the "v1.price.created" event.
 // Occurs whenever a price is created.
 type V1PriceCreatedEvent struct {
@@ -7238,6 +8982,47 @@ func (n *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1Pr
 
 // FetchRelatedObject fetches the Price related to the event.
 func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Price{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1PriceDeactivatedEvent is the Go struct for the "v1.price.deactivated" event.
+// Occurs whenever a price is deactivated.
+type V1PriceDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (e *V1PriceDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.deactivated"
+// Occurs whenever a price is deactivated.
+type V1PriceDeactivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1PriceDeactivatedEvent that created this Notification
+func (n *V1PriceDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeactivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1PriceDeactivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (n *V1PriceDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -7289,6 +9074,88 @@ func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context
 	return relatedObj, err
 }
 
+// V1PriceLookupKeyChangedEvent is the Go struct for the "v1.price.lookup_key_changed" event.
+// Occurs whenever a price's lookup key changes.
+type V1PriceLookupKeyChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (e *V1PriceLookupKeyChangedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceLookupKeyChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.lookup_key_changed"
+// Occurs whenever a price's lookup key changes.
+type V1PriceLookupKeyChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1PriceLookupKeyChangedEvent that created this Notification
+func (n *V1PriceLookupKeyChangedEventNotification) FetchEvent(ctx context.Context) (*V1PriceLookupKeyChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1PriceLookupKeyChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (n *V1PriceLookupKeyChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Price{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1PriceTaxBehaviorChangedEvent is the Go struct for the "v1.price.tax_behavior_changed" event.
+// Occurs whenever a price's tax behavior changes.
+type V1PriceTaxBehaviorChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (e *V1PriceTaxBehaviorChangedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceTaxBehaviorChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.tax_behavior_changed"
+// Occurs whenever a price's tax behavior changes.
+type V1PriceTaxBehaviorChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1PriceTaxBehaviorChangedEvent that created this Notification
+func (n *V1PriceTaxBehaviorChangedEventNotification) FetchEvent(ctx context.Context) (*V1PriceTaxBehaviorChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1PriceTaxBehaviorChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Price related to the event.
+func (n *V1PriceTaxBehaviorChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Price{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1PriceUpdatedEvent is the Go struct for the "v1.price.updated" event.
 // Occurs whenever a price is updated.
 type V1PriceUpdatedEvent struct {
@@ -7325,6 +9192,47 @@ func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1ProductActivatedEvent is the Go struct for the "v1.product.activated" event.
+// Occurs whenever a product is activated.
+type V1ProductActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (e *V1ProductActivatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.activated"
+// Occurs whenever a product is activated.
+type V1ProductActivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1ProductActivatedEvent that created this Notification
+func (n *V1ProductActivatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductActivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1ProductActivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (n *V1ProductActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -7371,6 +9279,88 @@ func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 	return relatedObj, err
 }
 
+// V1ProductDeactivatedEvent is the Go struct for the "v1.product.deactivated" event.
+// Occurs whenever a product is deactivated.
+type V1ProductDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (e *V1ProductDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.deactivated"
+// Occurs whenever a product is deactivated.
+type V1ProductDeactivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1ProductDeactivatedEvent that created this Notification
+func (n *V1ProductDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeactivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1ProductDeactivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (n *V1ProductDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Product{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1ProductDefaultPriceChangedEvent is the Go struct for the "v1.product.default_price_changed" event.
+// Occurs whenever a product's default price changes.
+type V1ProductDefaultPriceChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (e *V1ProductDefaultPriceChangedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductDefaultPriceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.default_price_changed"
+// Occurs whenever a product's default price changes.
+type V1ProductDefaultPriceChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1ProductDefaultPriceChangedEvent that created this Notification
+func (n *V1ProductDefaultPriceChangedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDefaultPriceChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1ProductDefaultPriceChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (n *V1ProductDefaultPriceChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Product{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1ProductDeletedEvent is the Go struct for the "v1.product.deleted" event.
 // Occurs whenever a product is deleted.
 type V1ProductDeletedEvent struct {
@@ -7402,6 +9392,47 @@ func (n *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1
 
 // FetchRelatedObject fetches the Product related to the event.
 func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Product{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1ProductTaxCodeChangedEvent is the Go struct for the "v1.product.tax_code_changed" event.
+// Occurs whenever a product's tax code changes.
+type V1ProductTaxCodeChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (e *V1ProductTaxCodeChangedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductTaxCodeChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.tax_code_changed"
+// Occurs whenever a product's tax code changes.
+type V1ProductTaxCodeChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1ProductTaxCodeChangedEvent that created this Notification
+func (n *V1ProductTaxCodeChangedEventNotification) FetchEvent(ctx context.Context) (*V1ProductTaxCodeChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1ProductTaxCodeChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the Product related to the event.
+func (n *V1ProductTaxCodeChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -7484,6 +9515,47 @@ func (n *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
 func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &PromotionCode{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1PromotionCodeFullyRedeemedEvent is the Go struct for the "v1.promotion_code.fully_redeemed" event.
+// Occurs whenever a promotion code is fully redeemed.
+type V1PromotionCodeFullyRedeemedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PromotionCode, error)
+}
+
+// FetchRelatedObject fetches the PromotionCode related to the event.
+func (e *V1PromotionCodeFullyRedeemedEvent) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PromotionCodeFullyRedeemedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.fully_redeemed"
+// Occurs whenever a promotion code is fully redeemed.
+type V1PromotionCodeFullyRedeemedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1PromotionCodeFullyRedeemedEvent that created this Notification
+func (n *V1PromotionCodeFullyRedeemedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeFullyRedeemedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1PromotionCodeFullyRedeemedEvent), nil
+}
+
+// FetchRelatedObject fetches the PromotionCode related to the event.
+func (n *V1PromotionCodeFullyRedeemedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -8591,6 +10663,211 @@ func (n *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx context
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
 func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &SubscriptionSchedule{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1SubscriptionSchedulePhaseAddedEvent is the Go struct for the "v1.subscription_schedule.phase_added" event.
+// Occurs whenever a phase is added to a subscription schedule.
+type V1SubscriptionSchedulePhaseAddedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (e *V1SubscriptionSchedulePhaseAddedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionSchedulePhaseAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_added"
+// Occurs whenever a phase is added to a subscription schedule.
+type V1SubscriptionSchedulePhaseAddedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1SubscriptionSchedulePhaseAddedEvent that created this Notification
+func (n *V1SubscriptionSchedulePhaseAddedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseAddedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1SubscriptionSchedulePhaseAddedEvent), nil
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (n *V1SubscriptionSchedulePhaseAddedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &SubscriptionSchedule{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent is the Go struct for the "v1.subscription_schedule.phase_default_tax_rates_changed" event.
+// Occurs whenever a subscription schedule phase's default tax rates change.
+type V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (e *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_default_tax_rates_changed"
+// Occurs whenever a subscription schedule phase's default tax rates change.
+type V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent that created this Notification
+func (n *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (n *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &SubscriptionSchedule{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1SubscriptionSchedulePhaseEndDateChangedEvent is the Go struct for the "v1.subscription_schedule.phase_end_date_changed" event.
+// Occurs whenever a subscription schedule phase's end date changes.
+type V1SubscriptionSchedulePhaseEndDateChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (e *V1SubscriptionSchedulePhaseEndDateChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionSchedulePhaseEndDateChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_end_date_changed"
+// Occurs whenever a subscription schedule phase's end date changes.
+type V1SubscriptionSchedulePhaseEndDateChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1SubscriptionSchedulePhaseEndDateChangedEvent that created this Notification
+func (n *V1SubscriptionSchedulePhaseEndDateChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseEndDateChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1SubscriptionSchedulePhaseEndDateChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (n *V1SubscriptionSchedulePhaseEndDateChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &SubscriptionSchedule{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1SubscriptionSchedulePhaseRemovedEvent is the Go struct for the "v1.subscription_schedule.phase_removed" event.
+// Occurs whenever a phase is removed from a subscription schedule.
+type V1SubscriptionSchedulePhaseRemovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (e *V1SubscriptionSchedulePhaseRemovedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionSchedulePhaseRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_removed"
+// Occurs whenever a phase is removed from a subscription schedule.
+type V1SubscriptionSchedulePhaseRemovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1SubscriptionSchedulePhaseRemovedEvent that created this Notification
+func (n *V1SubscriptionSchedulePhaseRemovedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseRemovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1SubscriptionSchedulePhaseRemovedEvent), nil
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (n *V1SubscriptionSchedulePhaseRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &SubscriptionSchedule{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1SubscriptionSchedulePhaseTrialEndChangedEvent is the Go struct for the "v1.subscription_schedule.phase_trial_end_changed" event.
+// Occurs whenever a subscription schedule phase's trial end changes.
+type V1SubscriptionSchedulePhaseTrialEndChangedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (e *V1SubscriptionSchedulePhaseTrialEndChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionSchedulePhaseTrialEndChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_trial_end_changed"
+// Occurs whenever a subscription schedule phase's trial end changes.
+type V1SubscriptionSchedulePhaseTrialEndChangedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1SubscriptionSchedulePhaseTrialEndChangedEvent that created this Notification
+func (n *V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseTrialEndChangedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1SubscriptionSchedulePhaseTrialEndChangedEvent), nil
+}
+
+// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
+func (n *V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -9951,6 +12228,132 @@ func (n *V2BillingContractUpdatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractTermCreatedEvent is the Go struct for the "v2.billing.contract_term.created" event.
+// Occurs when a Contract Term is created.
+type V2BillingContractTermCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingContractTermCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject              `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContractTerm, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (e *V2BillingContractTermCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractTermCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract_term.created"
+// Occurs when a Contract Term is created.
+type V2BillingContractTermCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractTermCreatedEvent that created this Notification
+func (n *V2BillingContractTermCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractTermCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractTermCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (n *V2BillingContractTermCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContractTerm{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractTermDeletedEvent is the Go struct for the "v2.billing.contract_term.deleted" event.
+// Occurs when a Contract Term is removed before it starts.
+type V2BillingContractTermDeletedEvent struct {
+	V2BaseEvent
+	Data               V2BillingContractTermDeletedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject              `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContractTerm, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (e *V2BillingContractTermDeletedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractTermDeletedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract_term.deleted"
+// Occurs when a Contract Term is removed before it starts.
+type V2BillingContractTermDeletedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractTermDeletedEvent that created this Notification
+func (n *V2BillingContractTermDeletedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractTermDeletedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractTermDeletedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (n *V2BillingContractTermDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContractTerm{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractTermUpdatedEvent is the Go struct for the "v2.billing.contract_term.updated" event.
+// Occurs when a Contract Term is updated.
+type V2BillingContractTermUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingContractTermUpdatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject              `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContractTerm, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (e *V2BillingContractTermUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractTermUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract_term.updated"
+// Occurs when a Contract Term is updated.
+type V2BillingContractTermUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractTermUpdatedEvent that created this Notification
+func (n *V2BillingContractTermUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractTermUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractTermUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContractTerm related to the event.
+func (n *V2BillingContractTermUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContractTerm, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -15683,6 +18086,663 @@ func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedO
 	return relatedObj, err
 }
 
+// V2MoneyManagementFundingIntentCanceledEvent is the Go struct for the "v2.money_management.funding_intent.canceled" event.
+// Occurs when a FundingIntent transitions into the canceled state.
+type V2MoneyManagementFundingIntentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.canceled"
+// Occurs when a FundingIntent transitions into the canceled state.
+type V2MoneyManagementFundingIntentCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentCanceledEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentCreatedEvent is the Go struct for the "v2.money_management.funding_intent.created" event.
+// Occurs when a FundingIntent is created.
+type V2MoneyManagementFundingIntentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.created"
+// Occurs when a FundingIntent is created.
+type V2MoneyManagementFundingIntentCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentCreatedEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentProcessingEvent is the Go struct for the "v2.money_management.funding_intent.processing" event.
+// Occurs when a FundingIntent transitions into the processing state.
+type V2MoneyManagementFundingIntentProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.processing"
+// Occurs when a FundingIntent transitions into the processing state.
+type V2MoneyManagementFundingIntentProcessingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentProcessingEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentProcessingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentRequiresActionEvent is the Go struct for the "v2.money_management.funding_intent.requires_action" event.
+// Occurs when a FundingIntent transitions into the requires_action state.
+type V2MoneyManagementFundingIntentRequiresActionEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentRequiresActionEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.requires_action"
+// Occurs when a FundingIntent transitions into the requires_action state.
+type V2MoneyManagementFundingIntentRequiresActionEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentRequiresActionEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentRequiresActionEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentRequiresActionEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentRequiresConfirmationEvent is the Go struct for the "v2.money_management.funding_intent.requires_confirmation" event.
+// Occurs when a FundingIntent transitions into the requires_confirmation state.
+type V2MoneyManagementFundingIntentRequiresConfirmationEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentRequiresConfirmationEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentRequiresConfirmationEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.requires_confirmation"
+// Occurs when a FundingIntent transitions into the requires_confirmation state.
+type V2MoneyManagementFundingIntentRequiresConfirmationEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentRequiresConfirmationEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentRequiresConfirmationEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentRequiresConfirmationEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentRequiresConfirmationEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentRequiresConfirmationEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentSucceededEvent is the Go struct for the "v2.money_management.funding_intent.succeeded" event.
+// Occurs when a FundingIntent transitions into the succeeded state.
+type V2MoneyManagementFundingIntentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.succeeded"
+// Occurs when a FundingIntent transitions into the succeeded state.
+type V2MoneyManagementFundingIntentSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentSucceededEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentUpdatedEvent is the Go struct for the "v2.money_management.funding_intent.updated" event.
+// Occurs when a FundingIntent is updated.
+type V2MoneyManagementFundingIntentUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.updated"
+// Occurs when a FundingIntent is updated.
+type V2MoneyManagementFundingIntentUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentUpdatedEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFundingIntentValidatingEvent is the Go struct for the "v2.money_management.funding_intent.validating" event.
+// Occurs when a FundingIntent transitions into the validating state.
+type V2MoneyManagementFundingIntentValidatingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFundingIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (e *V2MoneyManagementFundingIntentValidatingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFundingIntentValidatingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.funding_intent.validating"
+// Occurs when a FundingIntent transitions into the validating state.
+type V2MoneyManagementFundingIntentValidatingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFundingIntentValidatingEvent that created this Notification
+func (n *V2MoneyManagementFundingIntentValidatingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFundingIntentValidatingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFundingIntentValidatingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFundingIntent related to the event.
+func (n *V2MoneyManagementFundingIntentValidatingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFundingIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFundingIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingAvailableEvent is the Go struct for the "v2.money_management.inbound_funding.available" event.
+// Occurs when the funds for an InboundFunding become available.
+type V2MoneyManagementInboundFundingAvailableEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementInboundFundingAvailableEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                          `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingAvailableEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingAvailableEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.available"
+// Occurs when the funds for an InboundFunding become available.
+type V2MoneyManagementInboundFundingAvailableEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingAvailableEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingAvailableEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingAvailableEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCheckFailedEvent is the Go struct for the "v2.money_management.inbound_funding.check_failed" event.
+// Occurs when an InboundFunding transitions into the failed state.
+type V2MoneyManagementInboundFundingCheckFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCheckFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCheckFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.check_failed"
+// Occurs when an InboundFunding transitions into the failed state.
+type V2MoneyManagementInboundFundingCheckFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCheckFailedEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCheckFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCheckFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCheckFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCheckFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCheckProcessingEvent is the Go struct for the "v2.money_management.inbound_funding.check_processing" event.
+// Occurs when an InboundFunding transitions into the processing state.
+type V2MoneyManagementInboundFundingCheckProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCheckProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCheckProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.check_processing"
+// Occurs when an InboundFunding transitions into the processing state.
+type V2MoneyManagementInboundFundingCheckProcessingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCheckProcessingEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCheckProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCheckProcessingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCheckProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCheckProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCheckQueuedEvent is the Go struct for the "v2.money_management.inbound_funding.check_queued" event.
+// Occurs when an InboundFunding is created in the queued state.
+type V2MoneyManagementInboundFundingCheckQueuedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCheckQueuedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCheckQueuedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.check_queued"
+// Occurs when an InboundFunding is created in the queued state.
+type V2MoneyManagementInboundFundingCheckQueuedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCheckQueuedEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCheckQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCheckQueuedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCheckQueuedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCheckQueuedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCheckReturnedEvent is the Go struct for the "v2.money_management.inbound_funding.check_returned" event.
+// Occurs when an InboundFunding transitions into the returned state.
+type V2MoneyManagementInboundFundingCheckReturnedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCheckReturnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCheckReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.check_returned"
+// Occurs when an InboundFunding transitions into the returned state.
+type V2MoneyManagementInboundFundingCheckReturnedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCheckReturnedEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCheckReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCheckReturnedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCheckReturnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCheckReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCheckSucceededEvent is the Go struct for the "v2.money_management.inbound_funding.check_succeeded" event.
+// Occurs when an InboundFunding transitions into the succeeded state.
+type V2MoneyManagementInboundFundingCheckSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCheckSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCheckSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.check_succeeded"
+// Occurs when an InboundFunding transitions into the succeeded state.
+type V2MoneyManagementInboundFundingCheckSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCheckSucceededEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCheckSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCheckSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCheckSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCheckSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingCreatedEvent is the Go struct for the "v2.money_management.inbound_funding.created" event.
+// Occurs when an InboundFunding is created.
+type V2MoneyManagementInboundFundingCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.created"
+// Occurs when an InboundFunding is created.
+type V2MoneyManagementInboundFundingCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingCreatedEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementInboundFundingUpdatedEvent is the Go struct for the "v2.money_management.inbound_funding.updated" event.
+// Occurs when an InboundFunding is updated.
+type V2MoneyManagementInboundFundingUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundFunding, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (e *V2MoneyManagementInboundFundingUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundFundingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_funding.updated"
+// Occurs when an InboundFunding is updated.
+type V2MoneyManagementInboundFundingUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundFundingUpdatedEvent that created this Notification
+func (n *V2MoneyManagementInboundFundingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundFundingUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundFundingUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundFunding related to the event.
+func (n *V2MoneyManagementInboundFundingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundFunding, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementInboundFunding{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEvent struct {
@@ -16793,6 +19853,47 @@ func (n *V2MoneyManagementPayoutIntentCreatedEventNotification) FetchRelatedObje
 	return relatedObj, err
 }
 
+// V2MoneyManagementPayoutIntentPendingEvent is the Go struct for the "v2.money_management.payout_intent.pending" event.
+// Occurs when a PayoutIntent transitions into the pending state.
+type V2MoneyManagementPayoutIntentPendingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentPendingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentPendingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.pending"
+// Occurs when a PayoutIntent transitions into the pending state.
+type V2MoneyManagementPayoutIntentPendingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentPendingEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentPendingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentPendingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementPayoutIntentPostedEvent is the Go struct for the "v2.money_management.payout_intent.posted" event.
 // Occurs when a PayoutIntent transitions into the posted state.
 type V2MoneyManagementPayoutIntentPostedEvent struct {
@@ -16906,6 +20007,47 @@ func (n *V2MoneyManagementPayoutIntentRequiresActionEventNotification) FetchEven
 
 // FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
 func (n *V2MoneyManagementPayoutIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentUpdatedEvent is the Go struct for the "v2.money_management.payout_intent.updated" event.
+// Occurs when a PayoutIntent is updated.
+type V2MoneyManagementPayoutIntentUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.updated"
+// Occurs when a PayoutIntent is updated.
+type V2MoneyManagementPayoutIntentUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentUpdatedEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -17737,6 +20879,96 @@ func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchRe
 	return relatedObj, err
 }
 
+// V2MoneyManagementRewardProgramRewardEarnedEvent is the Go struct for the "v2.money_management.reward_program.reward_earned" event.
+// Occurs when a reward program produces a reward for a connected account. Credit `reward.amount` to
+// the account. Use the event ID as the idempotency key.
+type V2MoneyManagementRewardProgramRewardEarnedEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementRewardProgramRewardEarnedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                            `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementRewardProgram, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementRewardProgram related to the event.
+func (e *V2MoneyManagementRewardProgramRewardEarnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRewardProgram, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementRewardProgramRewardEarnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.reward_program.reward_earned"
+// Occurs when a reward program produces a reward for a connected account. Credit `reward.amount` to
+// the account. Use the event ID as the idempotency key.
+type V2MoneyManagementRewardProgramRewardEarnedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementRewardProgramRewardEarnedEvent that created this Notification
+func (n *V2MoneyManagementRewardProgramRewardEarnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRewardProgramRewardEarnedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementRewardProgramRewardEarnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementRewardProgram related to the event.
+func (n *V2MoneyManagementRewardProgramRewardEarnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRewardProgram, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementRewardProgram{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementRewardProgramRewardReversedEvent is the Go struct for the "v2.money_management.reward_program.reward_reversed" event.
+// Occurs when a previously earned reward is reversed, for example because the card transaction was
+// refunded or disputed. Debit `reward.amount` from the connected account. Use the event ID as the
+// idempotency key.
+type V2MoneyManagementRewardProgramRewardReversedEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementRewardProgramRewardReversedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                              `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementRewardProgram, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementRewardProgram related to the event.
+func (e *V2MoneyManagementRewardProgramRewardReversedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRewardProgram, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementRewardProgramRewardReversedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.reward_program.reward_reversed"
+// Occurs when a previously earned reward is reversed, for example because the card transaction was
+// refunded or disputed. Debit `reward.amount` from the connected account. Use the event ID as the
+// idempotency key.
+type V2MoneyManagementRewardProgramRewardReversedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementRewardProgramRewardReversedEvent that created this Notification
+func (n *V2MoneyManagementRewardProgramRewardReversedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRewardProgramRewardReversedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementRewardProgramRewardReversedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementRewardProgram related to the event.
+func (n *V2MoneyManagementRewardProgramRewardReversedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRewardProgram, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementRewardProgram{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEvent struct {
@@ -18064,94 +21296,6 @@ func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchEvent(
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
 func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
-// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
-// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_failed"
-// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
-// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
-func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
-// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
-// retry or an initial authorization.
-// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_started"
-// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
-// retry or an initial authorization.
-// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
-func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent), nil
-}
-
-// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -19413,6 +22557,24 @@ type V2BillingCadenceCreatedEventData struct {
 	Created time.Time `json:"created"`
 }
 
+// Occurs when a Contract Term is created.
+type V2BillingContractTermCreatedEventData struct {
+	// The Contract containing this term.
+	Contract string `json:"contract"`
+}
+
+// Occurs when a Contract Term is removed before it starts.
+type V2BillingContractTermDeletedEventData struct {
+	// The Contract containing this term.
+	Contract string `json:"contract"`
+}
+
+// Occurs when a Contract Term is updated.
+type V2BillingContractTermUpdatedEventData struct {
+	// The Contract containing this term.
+	Contract string `json:"contract"`
+}
+
 // Occurs when a LicenseFeeVersion is created.
 type V2BillingLicenseFeeVersionCreatedEventData struct {
 	// The ID of the LicenseFee that the LicenseFeeVersion belongs to.
@@ -19583,6 +22745,8 @@ type V2CoreHealthAPIErrorFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthAPIErrorFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthAPIErrorFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19627,6 +22791,8 @@ type V2CoreHealthAPIErrorResolvedEventData struct {
 	Impact *V2CoreHealthAPIErrorResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthAPIErrorResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19667,6 +22833,8 @@ type V2CoreHealthAPILatencyFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthAPILatencyFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthAPILatencyFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19709,6 +22877,8 @@ type V2CoreHealthAPILatencyResolvedEventData struct {
 	Impact *V2CoreHealthAPILatencyResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthAPILatencyResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19747,6 +22917,8 @@ type V2CoreHealthAuthorizationRateDropFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthAuthorizationRateDropFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthAuthorizationRateDropFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19787,6 +22959,8 @@ type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
 	Impact *V2CoreHealthAuthorizationRateDropResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthAuthorizationRateDropResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19809,6 +22983,8 @@ type V2CoreHealthElementsErrorFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthElementsErrorFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthElementsErrorFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19833,6 +23009,8 @@ type V2CoreHealthElementsErrorResolvedEventData struct {
 	Impact *V2CoreHealthElementsErrorResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthElementsErrorResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19893,6 +23071,8 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 	Impact *V2CoreHealthFraudRateIncreasedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at,omitempty"`
+	// The severity of the alert.
+	Severity V2CoreHealthFraudRateIncreasedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19917,6 +23097,8 @@ type V2CoreHealthInvoiceCountDroppedFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthInvoiceCountDroppedFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthInvoiceCountDroppedFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19943,6 +23125,8 @@ type V2CoreHealthInvoiceCountDroppedResolvedEventData struct {
 	Impact *V2CoreHealthInvoiceCountDroppedResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthInvoiceCountDroppedResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19969,6 +23153,8 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -19997,6 +23183,8 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData struct {
 	Impact *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20023,6 +23211,8 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20051,6 +23241,8 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
 	Impact *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20071,6 +23263,8 @@ type V2CoreHealthMeterEventSummariesDelayedFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthMeterEventSummariesDelayedFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthMeterEventSummariesDelayedFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20093,6 +23287,8 @@ type V2CoreHealthMeterEventSummariesDelayedResolvedEventData struct {
 	Impact *V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthMeterEventSummariesDelayedResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20113,6 +23309,8 @@ type V2CoreHealthMetronomeNotificationLatencyFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthMetronomeNotificationLatencyFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20135,6 +23333,8 @@ type V2CoreHealthMetronomeNotificationLatencyResolvedEventData struct {
 	Impact *V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthMetronomeNotificationLatencyResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20173,6 +23373,8 @@ type V2CoreHealthPaymentMethodErrorFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthPaymentMethodErrorFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthPaymentMethodErrorFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20213,6 +23415,8 @@ type V2CoreHealthPaymentMethodErrorResolvedEventData struct {
 	Impact *V2CoreHealthPaymentMethodErrorResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthPaymentMethodErrorResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20235,6 +23439,8 @@ type V2CoreHealthSEPADebitDelayedFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthSEPADebitDelayedFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthSEPADebitDelayedFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20259,6 +23465,8 @@ type V2CoreHealthSEPADebitDelayedResolvedEventData struct {
 	Impact *V2CoreHealthSEPADebitDelayedResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthSEPADebitDelayedResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20285,6 +23493,8 @@ type V2CoreHealthTrafficVolumeDropFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthTrafficVolumeDropFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthTrafficVolumeDropFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20313,6 +23523,8 @@ type V2CoreHealthTrafficVolumeDropResolvedEventData struct {
 	Impact *V2CoreHealthTrafficVolumeDropResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthTrafficVolumeDropResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20333,6 +23545,8 @@ type V2CoreHealthWebhookLatencyFiringEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthWebhookLatencyFiringEventDataImpact `json:"impact"`
+	// The severity of the alert.
+	Severity V2CoreHealthWebhookLatencyFiringEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20355,6 +23569,8 @@ type V2CoreHealthWebhookLatencyResolvedEventData struct {
 	Impact *V2CoreHealthWebhookLatencyResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
+	// The severity of the alert.
+	Severity V2CoreHealthWebhookLatencyResolvedEventDataSeverity `json:"severity"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -20497,6 +23713,12 @@ type V2MoneyManagementFinancialAccountStatementRestatedEventData struct {
 	RestatementID string `json:"restatement_id"`
 }
 
+// Occurs when the funds for an InboundFunding become available.
+type V2MoneyManagementInboundFundingAvailableEventData struct {
+	// The transaction ID of the inbound funding.
+	TransactionID string `json:"transaction_id"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -20507,6 +23729,70 @@ type V2MoneyManagementInboundTransferAvailableEventData struct {
 type V2MoneyManagementReceivedCreditAvailableEventData struct {
 	// The transaction ID of the received credit.
 	TransactionID string `json:"transaction_id"`
+}
+
+// Issuing card spend details for the reward.
+type V2MoneyManagementRewardProgramRewardEarnedEventDataCardSpend struct {
+	// The Issuing cardholder whose spend earned the reward.
+	Cardholder string `json:"cardholder,omitempty"`
+	// The Issuing transaction that earned the reward. Present when the reward is calculated from a
+	// single Issuing transaction.
+	IssuingTransaction string `json:"issuing_transaction,omitempty"`
+}
+
+// The reward to credit to the connected account.
+type V2MoneyManagementRewardProgramRewardEarnedEventDataReward struct {
+	// The reward amount. Always positive; the event type determines whether to credit or debit the
+	// connected account.
+	Amount Amount `json:"amount"`
+	// The period over which the reward was earned. Present when the reward is calculated over an
+	// earning period rather than from a single Issuing transaction.
+	EarningPeriod *Period `json:"earning_period,omitempty"`
+}
+
+// Occurs when a reward program produces a reward for a connected account. Credit `reward.amount` to
+// the account. Use the event ID as the idempotency key.
+type V2MoneyManagementRewardProgramRewardEarnedEventData struct {
+	// The connected account that earned the reward.
+	Account string `json:"account"`
+	// Issuing card spend details for the reward.
+	CardSpend *V2MoneyManagementRewardProgramRewardEarnedEventDataCardSpend `json:"card_spend,omitempty"`
+	// The reward to credit to the connected account.
+	Reward *V2MoneyManagementRewardProgramRewardEarnedEventDataReward `json:"reward"`
+}
+
+// Issuing card spend details for the reversal.
+type V2MoneyManagementRewardProgramRewardReversedEventDataCardSpend struct {
+	// The Issuing cardholder whose spend earned the original reward.
+	Cardholder string `json:"cardholder,omitempty"`
+	// The Issuing transaction that reversed the reward. Present when the reversal is calculated from a
+	// single Issuing transaction.
+	IssuingTransaction string `json:"issuing_transaction,omitempty"`
+	// The Issuing transaction that earned the original reward. Present when the reversal is calculated
+	// from a single Issuing transaction and Stripe can associate it with the original transaction.
+	OriginalTransaction string `json:"original_transaction,omitempty"`
+}
+
+// The reward to debit from the connected account.
+type V2MoneyManagementRewardProgramRewardReversedEventDataReward struct {
+	// The reward amount. Always positive; the event type determines whether to credit or debit the
+	// connected account.
+	Amount Amount `json:"amount"`
+	// The period over which the reward was earned. Present when the reward is calculated over an
+	// earning period rather than from a single Issuing transaction.
+	EarningPeriod *Period `json:"earning_period,omitempty"`
+}
+
+// Occurs when a previously earned reward is reversed, for example because the card transaction was
+// refunded or disputed. Debit `reward.amount` from the connected account. Use the event ID as the
+// idempotency key.
+type V2MoneyManagementRewardProgramRewardReversedEventData struct {
+	// The connected account whose reward is reversed.
+	Account string `json:"account"`
+	// Issuing card spend details for the reversal.
+	CardSpend *V2MoneyManagementRewardProgramRewardReversedEventDataCardSpend `json:"card_spend,omitempty"`
+	// The reward to debit from the connected account.
+	Reward *V2MoneyManagementRewardProgramRewardReversedEventDataReward `json:"reward"`
 }
 
 // Occurs when a Transaction is created.
@@ -20717,6 +24003,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Account, error) {
 			v := &Account{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20739,6 +24026,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20754,6 +24042,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FeeRefund, error) {
 			v := &FeeRefund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20769,6 +24058,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ApplicationFee, error) {
 			v := &ApplicationFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20784,6 +24074,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Balance, error) {
 			v := &Balance{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20799,6 +24090,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BalanceSettings, error) {
 			v := &BalanceSettings{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20814,6 +24106,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingAlert, error) {
 			v := &BillingAlert{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20829,6 +24122,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditBalanceTransaction, error) {
 			v := &BillingCreditBalanceTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20844,6 +24138,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20859,6 +24154,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
 			v := &BillingCreditGrant{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20874,6 +24170,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20889,6 +24186,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20904,6 +24202,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20929,6 +24228,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20944,6 +24244,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20959,6 +24260,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20974,6 +24276,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
 			v := &BillingPortalConfiguration{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -20993,6 +24296,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Capability, error) {
 			v := &Capability{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21008,6 +24312,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CashBalance, error) {
 			v := &CashBalance{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21023,6 +24328,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21038,6 +24344,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21053,6 +24360,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21068,6 +24376,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21083,6 +24392,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21098,6 +24408,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Dispute, error) {
 			v := &Dispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21113,6 +24424,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21128,6 +24440,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21143,6 +24456,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21158,6 +24472,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21173,6 +24488,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21188,6 +24504,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21203,6 +24520,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Charge, error) {
 			v := &Charge{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21218,6 +24536,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21233,6 +24552,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21248,6 +24568,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21263,6 +24584,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CheckoutSession, error) {
 			v := &CheckoutSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21278,6 +24600,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21293,6 +24616,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21308,6 +24632,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21323,6 +24648,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21338,6 +24664,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateOrder, error) {
 			v := &ClimateOrder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21353,6 +24680,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21368,6 +24696,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*ClimateProduct, error) {
 			v := &ClimateProduct{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21383,6 +24712,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21398,6 +24728,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21413,6 +24744,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Coupon, error) {
 			v := &Coupon{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21428,6 +24760,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21443,6 +24776,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21458,6 +24792,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CreditNote, error) {
 			v := &CreditNote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21473,6 +24808,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21488,6 +24824,43 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.discount.source_changed":
+		result := &V1CustomerDiscountSourceChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v1.customer.subscription.active":
+		result := &V1CustomerSubscriptionActiveEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.cancel_at_changed":
+		result := &V1CustomerSubscriptionCancelAtChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21503,6 +24876,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.default_payment_method_changed":
+		result := &V1CustomerSubscriptionDefaultPaymentMethodChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21518,6 +24908,135 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.incomplete":
+		result := &V1CustomerSubscriptionIncompleteEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.incomplete_expired":
+		result := &V1CustomerSubscriptionIncompleteExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.item_added":
+		result := &V1CustomerSubscriptionItemAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.item_price_changed":
+		result := &V1CustomerSubscriptionItemPriceChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.item_quantity_changed":
+		result := &V1CustomerSubscriptionItemQuantityChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.item_removed":
+		result := &V1CustomerSubscriptionItemRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.item_tax_rates_changed":
+		result := &V1CustomerSubscriptionItemTaxRatesChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.past_due":
+		result := &V1CustomerSubscriptionPastDueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21533,6 +25052,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21548,6 +25068,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21563,6 +25084,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21578,6 +25100,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21593,6 +25116,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.trialing":
+		result := &V1CustomerSubscriptionTrialingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.unpaid":
+		result := &V1CustomerSubscriptionUnpaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21608,6 +25164,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Subscription, error) {
 			v := &Subscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21623,6 +25180,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21638,6 +25196,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21653,6 +25212,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxID, error) {
 			v := &TaxID{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21668,6 +25228,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Customer, error) {
 			v := &Customer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21683,6 +25244,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*CustomerCashBalanceTransaction, error) {
 			v := &CustomerCashBalanceTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21690,6 +25252,14 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
+		return result, nil
+	case "v1.entitlements.active_entitlement_summary.entitlement_added":
+		result := &V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v1.entitlements.active_entitlement_summary.entitlement_removed":
+		result := &V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
 		return result, nil
 	case "v1.entitlements.active_entitlement_summary.updated":
 		result := &V1EntitlementsActiveEntitlementSummaryUpdatedEvent{}
@@ -21702,6 +25272,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*File, error) {
 			v := &File{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21717,6 +25288,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.balance_refresh_failed":
+		result := &V1FinancialConnectionsAccountBalanceRefreshFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.balance_refresh_succeeded":
+		result := &V1FinancialConnectionsAccountBalanceRefreshSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21732,6 +25336,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21747,6 +25352,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21762,6 +25368,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21777,6 +25384,71 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.inferred_balances_refresh_failed":
+		result := &V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.inferred_balances_refresh_succeeded":
+		result := &V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.ownership_refresh_failed":
+		result := &V1FinancialConnectionsAccountOwnershipRefreshFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.ownership_refresh_succeeded":
+		result := &V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21792,6 +25464,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21807,6 +25480,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21822,6 +25496,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21837,6 +25512,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.risk_intelligence_refresh_failed":
+		result := &V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.risk_intelligence_refresh_succeeded":
+		result := &V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21852,6 +25560,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.transactions_refresh_failed":
+		result := &V1FinancialConnectionsAccountTransactionsRefreshFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.transactions_refresh_succeeded":
+		result := &V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21867,6 +25608,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21882,6 +25624,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
 			v := &FinancialConnectionsAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21897,6 +25640,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21912,6 +25656,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21927,6 +25672,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21942,6 +25688,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21957,6 +25704,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21972,6 +25720,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
 			v := &IdentityVerificationSession{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -21987,6 +25736,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22002,6 +25752,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.discount_added":
+		result := &V1InvoiceDiscountAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.discount_removed":
+		result := &V1InvoiceDiscountRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22017,6 +25800,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22032,6 +25816,71 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.line_item_added":
+		result := &V1InvoiceLineItemAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.line_item_pricing_changed":
+		result := &V1InvoiceLineItemPricingChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.line_item_quantity_changed":
+		result := &V1InvoiceLineItemQuantityChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.line_item_removed":
+		result := &V1InvoiceLineItemRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22047,6 +25896,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22062,6 +25912,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22077,6 +25928,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22092,6 +25944,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22107,6 +25960,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22122,6 +25976,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22137,6 +25992,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22152,6 +26008,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22167,6 +26024,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22189,6 +26047,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22204,6 +26063,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22219,6 +26079,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Invoice, error) {
 			v := &Invoice{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice_payment.canceled":
+		result := &V1InvoicePaymentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoicePayment, error) {
+			v := &InvoicePayment{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice_payment.open":
+		result := &V1InvoicePaymentOpenEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoicePayment, error) {
+			v := &InvoicePayment{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22234,6 +26127,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoicePayment, error) {
 			v := &InvoicePayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoiceitem.amount_changed":
+		result := &V1InvoiceitemAmountChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
+			v := &InvoiceItem{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22249,6 +26159,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22264,6 +26175,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*InvoiceItem, error) {
 			v := &InvoiceItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoiceitem.discount_added":
+		result := &V1InvoiceitemDiscountAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
+			v := &InvoiceItem{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoiceitem.discount_removed":
+		result := &V1InvoiceitemDiscountRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
+			v := &InvoiceItem{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22279,6 +26223,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22294,6 +26239,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22309,6 +26255,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
 			v := &IssuingAuthorization{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22324,6 +26271,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22339,6 +26287,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCard, error) {
 			v := &IssuingCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22354,6 +26303,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22369,6 +26319,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
 			v := &IssuingCardholder{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22384,6 +26335,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22399,6 +26351,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22414,6 +26367,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22429,6 +26383,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22444,6 +26399,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22459,6 +26415,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingDispute, error) {
 			v := &IssuingDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22474,6 +26431,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22489,6 +26447,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22504,6 +26463,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22519,6 +26479,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
 			v := &IssuingPersonalizationDesign{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22534,6 +26495,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22549,6 +26511,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingToken, error) {
 			v := &IssuingToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22564,6 +26527,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22579,6 +26543,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22594,6 +26559,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
 			v := &IssuingTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22609,6 +26575,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Mandate, error) {
 			v := &Mandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22624,6 +26591,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22639,6 +26607,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22654,6 +26623,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22669,6 +26639,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22684,6 +26655,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22699,6 +26671,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22714,6 +26687,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22729,6 +26703,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentIntent, error) {
 			v := &PaymentIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22744,6 +26719,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22759,6 +26735,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentLink, error) {
 			v := &PaymentLink{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22774,6 +26751,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22789,6 +26767,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22804,6 +26783,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22819,6 +26799,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PaymentMethod, error) {
 			v := &PaymentMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22834,6 +26815,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22849,6 +26831,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22864,6 +26847,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22879,6 +26863,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22894,6 +26879,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22909,6 +26895,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Payout, error) {
 			v := &Payout{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22924,6 +26911,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22939,6 +26927,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22954,6 +26943,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Person, error) {
 			v := &Person{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22969,6 +26959,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22984,6 +26975,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -22999,6 +26991,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Plan, error) {
 			v := &Plan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.activated":
+		result := &V1PriceActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23014,6 +27023,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.deactivated":
+		result := &V1PriceDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23029,6 +27055,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.lookup_key_changed":
+		result := &V1PriceLookupKeyChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.tax_behavior_changed":
+		result := &V1PriceTaxBehaviorChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23044,6 +27103,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.activated":
+		result := &V1ProductActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23059,6 +27135,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.deactivated":
+		result := &V1ProductDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.default_price_changed":
+		result := &V1ProductDefaultPriceChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23074,6 +27183,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.tax_code_changed":
+		result := &V1ProductTaxCodeChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23089,6 +27215,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Product, error) {
 			v := &Product{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23104,6 +27231,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.promotion_code.fully_redeemed":
+		result := &V1PromotionCodeFullyRedeemedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PromotionCode, error) {
+			v := &PromotionCode{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23119,6 +27263,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*PromotionCode, error) {
 			v := &PromotionCode{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23134,6 +27279,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23149,6 +27295,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23164,6 +27311,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23179,6 +27327,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Quote, error) {
 			v := &Quote{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23194,6 +27343,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23209,6 +27359,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
 			v := &RadarEarlyFraudWarning{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23224,6 +27375,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23239,6 +27391,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23254,6 +27407,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Refund, error) {
 			v := &Refund{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23269,6 +27423,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23284,6 +27439,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Review, error) {
 			v := &Review{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23299,6 +27455,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23314,6 +27471,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23329,6 +27487,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23344,6 +27503,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23359,6 +27519,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SetupIntent, error) {
 			v := &SetupIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23374,6 +27535,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SigmaScheduledQueryRun, error) {
 			v := &SigmaScheduledQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23389,6 +27551,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23404,6 +27567,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23419,6 +27583,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23434,6 +27599,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Source, error) {
 			v := &Source{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23449,6 +27615,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23464,6 +27631,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23479,6 +27647,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23494,6 +27663,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23509,6 +27679,87 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.phase_added":
+		result := &V1SubscriptionSchedulePhaseAddedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.phase_default_tax_rates_changed":
+		result := &V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.phase_end_date_changed":
+		result := &V1SubscriptionSchedulePhaseEndDateChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.phase_removed":
+		result := &V1SubscriptionSchedulePhaseRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.phase_trial_end_changed":
+		result := &V1SubscriptionSchedulePhaseTrialEndChangedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23524,6 +27775,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23539,6 +27791,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
 			v := &SubscriptionSchedule{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23554,6 +27807,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxSettings, error) {
 			v := &TaxSettings{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23569,6 +27823,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23584,6 +27839,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TaxRate, error) {
 			v := &TaxRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23599,6 +27855,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23614,6 +27871,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23629,6 +27887,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TerminalReader, error) {
 			v := &TerminalReader{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23644,6 +27903,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23659,6 +27919,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23674,6 +27935,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23689,6 +27951,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23704,6 +27967,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
 			v := &TestHelpersTestClock{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23719,6 +27983,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23734,6 +27999,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23749,6 +28015,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23764,6 +28031,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23779,6 +28047,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Topup, error) {
 			v := &Topup{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23794,6 +28063,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23809,6 +28079,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23824,6 +28095,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*Transfer, error) {
 			v := &Transfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23839,6 +28111,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
 			v := &V2BillingCadence{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23857,6 +28130,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
 			v := &V2BillingCadence{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23872,6 +28146,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
 			v := &V2BillingCadence{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23890,6 +28165,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23905,6 +28181,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23920,6 +28197,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23935,6 +28213,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23950,6 +28229,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23965,6 +28245,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23980,6 +28261,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -23995,6 +28277,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24010,12 +28293,70 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingContract, error) {
 			v := &V2BillingContract{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
 			err := backend.Call(
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract_term.created":
+		result := &V2BillingContractTermCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContractTerm, error) {
+			v := &V2BillingContractTerm{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.contract_term.deleted":
+		result := &V2BillingContractTermDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContractTerm, error) {
+			v := &V2BillingContractTerm{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.contract_term.updated":
+		result := &V2BillingContractTermUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContractTerm, error) {
+			v := &V2BillingContractTerm{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.billing.license_fee.created":
@@ -24025,6 +28366,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingLicenseFee, error) {
 			v := &V2BillingLicenseFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24040,6 +28382,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingLicenseFee, error) {
 			v := &V2BillingLicenseFee{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24055,6 +28398,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingLicenseFeeVersion, error) {
 			v := &V2BillingLicenseFeeVersion{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24073,6 +28417,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingLicensedItem, error) {
 			v := &V2BillingLicensedItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24088,6 +28433,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingLicensedItem, error) {
 			v := &V2BillingLicensedItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24103,6 +28449,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingMeteredItem, error) {
 			v := &V2BillingMeteredItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24118,6 +28465,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingMeteredItem, error) {
 			v := &V2BillingMeteredItem{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24133,6 +28481,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlan, error) {
 			v := &V2BillingPricingPlan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24148,6 +28497,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlan, error) {
 			v := &V2BillingPricingPlan{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24163,6 +28513,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanComponent, error) {
 			v := &V2BillingPricingPlanComponent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24181,6 +28532,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanComponent, error) {
 			v := &V2BillingPricingPlanComponent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24199,6 +28551,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24214,6 +28567,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24229,6 +28583,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24244,6 +28599,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24259,6 +28615,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24274,6 +28631,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24289,6 +28647,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24304,6 +28663,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
 			v := &V2BillingPricingPlanSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24319,6 +28679,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingPricingPlanVersion, error) {
 			v := &V2BillingPricingPlanVersion{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24337,6 +28698,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCard, error) {
 			v := &V2BillingRateCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24355,6 +28717,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCard, error) {
 			v := &V2BillingRateCard{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24370,6 +28733,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardCustomPricingUnitOverageRate, error) {
 			v := &V2BillingRateCardCustomPricingUnitOverageRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24388,6 +28752,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardRate, error) {
 			v := &V2BillingRateCardRate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24406,6 +28771,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24421,6 +28787,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24436,6 +28803,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24451,6 +28819,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24466,6 +28835,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24481,6 +28851,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24496,6 +28867,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24511,6 +28883,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24526,6 +28899,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24541,6 +28915,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
 			v := &V2BillingRateCardSubscription{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24556,6 +28931,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2BillingRateCardVersion, error) {
 			v := &V2BillingRateCardVersion{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24574,6 +28950,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24589,6 +28966,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24604,6 +28982,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24619,6 +28998,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
 			v := &V2CommerceProductCatalogImport{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24634,6 +29014,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24649,6 +29030,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24664,6 +29046,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24679,6 +29062,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24697,6 +29081,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24712,6 +29097,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24730,6 +29116,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24745,6 +29132,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24763,6 +29151,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24778,6 +29167,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24796,6 +29186,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24811,6 +29202,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24829,6 +29221,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24844,6 +29237,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24859,6 +29253,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24874,6 +29269,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24889,6 +29285,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24911,6 +29308,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24929,6 +29327,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24947,6 +29346,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24972,6 +29372,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -24987,6 +29388,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25002,6 +29404,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25017,6 +29420,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25032,6 +29436,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25047,6 +29452,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25062,6 +29468,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
 			v := &V2CoreApprovalRequest{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25077,6 +29484,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25092,6 +29500,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25107,6 +29516,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25122,6 +29532,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25137,6 +29548,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25152,6 +29564,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25167,6 +29580,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25182,6 +29596,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25197,6 +29612,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25212,6 +29628,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
 			v := &V2CoreBatchJob{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25227,6 +29644,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
 			v := &V2CoreClaimableSandbox{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25242,6 +29660,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
 			v := &V2CoreClaimableSandbox{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25257,6 +29676,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
 			v := &V2CoreClaimableSandbox{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25272,6 +29692,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
 			v := &V2CoreClaimableSandbox{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25287,6 +29708,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
 			v := &V2CoreClaimableSandbox{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25302,6 +29724,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
 			v := &V2CoreEventDestination{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25513,6 +29936,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
 			v := &V2CoreVaultNetworkToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25528,6 +29952,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
 			v := &V2CoreVaultNetworkToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25543,6 +29968,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
 			v := &V2CoreVaultNetworkToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25558,6 +29984,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
 			v := &V2CoreVaultNetworkToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25573,6 +30000,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2CoreVaultNetworkToken, error) {
 			v := &V2CoreVaultNetworkToken{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25588,6 +30016,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
 			v := &V2DataQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25603,6 +30032,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
 			v := &V2DataQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25618,6 +30048,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
 			v := &V2DataQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25633,6 +30064,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataQueryRun, error) {
 			v := &V2DataQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25648,6 +30080,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
 			v := &V2DataReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25663,6 +30096,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
 			v := &V2DataReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25678,6 +30112,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
 			v := &V2DataReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25693,6 +30128,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportRun, error) {
 			v := &V2DataReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25708,6 +30144,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
 			v := &V2DataReportingQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25723,6 +30160,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
 			v := &V2DataReportingQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25738,6 +30176,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
 			v := &V2DataReportingQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25753,6 +30192,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
 			v := &V2DataReportingQueryRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25775,6 +30215,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
 			v := &V2ExtendWorkflowRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25793,6 +30234,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
 			v := &V2ExtendWorkflowRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25808,6 +30250,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
 			v := &V2ExtendWorkflowRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25907,6 +30350,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
 			v := &V2MoneyManagementAdjustment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25922,6 +30366,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementDebitDispute, error) {
 			v := &V2MoneyManagementDebitDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25937,6 +30382,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementDebitDispute, error) {
 			v := &V2MoneyManagementDebitDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25952,6 +30398,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementDebitDispute, error) {
 			v := &V2MoneyManagementDebitDispute{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25967,6 +30414,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementEarnedCredit, error) {
 			v := &V2MoneyManagementEarnedCredit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25982,6 +30430,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -25997,6 +30446,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26012,6 +30462,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26027,6 +30478,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26042,6 +30494,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26057,6 +30510,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccountStatement, error) {
 			v := &V2MoneyManagementFinancialAccountStatement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26075,6 +30529,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccountStatement, error) {
 			v := &V2MoneyManagementFinancialAccountStatement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26093,6 +30548,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26108,6 +30564,266 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.canceled":
+		result := &V2MoneyManagementFundingIntentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.created":
+		result := &V2MoneyManagementFundingIntentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.processing":
+		result := &V2MoneyManagementFundingIntentProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.requires_action":
+		result := &V2MoneyManagementFundingIntentRequiresActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.requires_confirmation":
+		result := &V2MoneyManagementFundingIntentRequiresConfirmationEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.succeeded":
+		result := &V2MoneyManagementFundingIntentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.updated":
+		result := &V2MoneyManagementFundingIntentUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.funding_intent.validating":
+		result := &V2MoneyManagementFundingIntentValidatingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFundingIntent, error) {
+			v := &V2MoneyManagementFundingIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.available":
+		result := &V2MoneyManagementInboundFundingAvailableEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.check_failed":
+		result := &V2MoneyManagementInboundFundingCheckFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.check_processing":
+		result := &V2MoneyManagementInboundFundingCheckProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.check_queued":
+		result := &V2MoneyManagementInboundFundingCheckQueuedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.check_returned":
+		result := &V2MoneyManagementInboundFundingCheckReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.check_succeeded":
+		result := &V2MoneyManagementInboundFundingCheckSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.created":
+		result := &V2MoneyManagementInboundFundingCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_funding.updated":
+		result := &V2MoneyManagementInboundFundingUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundFunding, error) {
+			v := &V2MoneyManagementInboundFunding{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26123,6 +30839,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26141,6 +30858,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26156,6 +30874,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26171,6 +30890,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26186,6 +30906,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26201,6 +30922,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26216,6 +30938,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransferMandate, error) {
 			v := &V2MoneyManagementInboundTransferMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26231,6 +30954,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransferMandate, error) {
 			v := &V2MoneyManagementInboundTransferMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26246,6 +30970,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransferMandate, error) {
 			v := &V2MoneyManagementInboundTransferMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26261,6 +30986,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransferMandate, error) {
 			v := &V2MoneyManagementInboundTransferMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26276,6 +31002,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransferMandate, error) {
 			v := &V2MoneyManagementInboundTransferMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26291,6 +31018,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26306,6 +31034,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26321,6 +31050,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26336,6 +31066,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26351,6 +31082,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26366,6 +31098,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26381,6 +31114,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26396,6 +31130,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26411,6 +31146,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26426,6 +31162,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26441,6 +31178,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26456,6 +31194,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26471,6 +31210,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26486,6 +31226,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26501,6 +31242,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
 			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26516,6 +31258,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
 			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.pending":
+		result := &V2MoneyManagementPayoutIntentPendingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26531,6 +31290,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
 			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26546,6 +31306,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
 			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26561,6 +31322,23 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
 			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.updated":
+		result := &V2MoneyManagementPayoutIntentUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26576,6 +31354,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
 			v := &V2MoneyManagementPayoutMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26591,6 +31370,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
 			v := &V2MoneyManagementPayoutMethod{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26606,6 +31386,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26624,6 +31405,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26639,6 +31421,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26654,6 +31437,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26669,6 +31453,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26684,6 +31469,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26699,6 +31485,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26714,6 +31501,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26729,6 +31517,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26744,6 +31533,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26759,6 +31549,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26774,6 +31565,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
 			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26789,6 +31581,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
 			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26804,6 +31597,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
 			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26819,6 +31613,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
 			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26834,6 +31629,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
 			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26849,6 +31645,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementRecipientVerification, error) {
 			v := &V2MoneyManagementRecipientVerification{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26864,12 +31661,51 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementRecipientVerification, error) {
 			v := &V2MoneyManagementRecipientVerification{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
 			err := backend.Call(
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
+		}
+		return result, nil
+	case "v2.money_management.reward_program.reward_earned":
+		result := &V2MoneyManagementRewardProgramRewardEarnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementRewardProgram, error) {
+			v := &V2MoneyManagementRewardProgram{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.reward_program.reward_reversed":
+		result := &V2MoneyManagementRewardProgramRewardReversedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementRewardProgram, error) {
+			v := &V2MoneyManagementRewardProgram{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.transaction.created":
@@ -26879,6 +31715,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26897,6 +31734,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26915,6 +31753,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
 			v := &V2OrchestratedCommerceAgreement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26933,6 +31772,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
 			v := &V2OrchestratedCommerceAgreement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26951,6 +31791,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
 			v := &V2OrchestratedCommerceAgreement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26969,6 +31810,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
 			v := &V2OrchestratedCommerceAgreement{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -26987,6 +31829,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27005,36 +31848,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_failed":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_started":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27050,6 +31864,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27065,6 +31880,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27080,6 +31896,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27098,6 +31915,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27113,6 +31931,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27128,6 +31947,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27143,6 +31963,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27158,6 +31979,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27173,6 +31995,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27191,6 +32014,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27206,6 +32030,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27228,6 +32053,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27243,6 +32069,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
 			v := &V2PaymentsSettlementAllocationIntent{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27258,6 +32085,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
 			v := &V2PaymentsSettlementAllocationIntentSplit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27276,6 +32104,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
 			v := &V2PaymentsSettlementAllocationIntentSplit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27294,6 +32123,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
 			v := &V2PaymentsSettlementAllocationIntentSplit{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27312,6 +32142,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27327,6 +32158,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27342,6 +32174,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27357,6 +32190,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27372,6 +32206,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountEvaluation, error) {
 			v := &V2SignalsAccountEvaluation{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27387,6 +32222,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
 			v := &V2SignalsAccountSignal{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27402,6 +32238,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
 			v := &V2SignalsAccountSignal{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27417,6 +32254,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
 			v := &V2SignalsAccountSignal{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27432,6 +32270,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
 			v := &V2SignalsAccountSignal{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27447,6 +32286,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
 			v := &V2SignalsAccountSignal{}
 			params := &Params{}
+			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
 			params.Headers.Set(
 				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
@@ -27903,6 +32743,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.customer.discount.source_changed":
+		evt := V1CustomerDiscountSourceChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.active":
+		evt := V1CustomerSubscriptionActiveEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.cancel_at_changed":
+		evt := V1CustomerSubscriptionCancelAtChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.customer.subscription.created":
 		evt := V1CustomerSubscriptionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -27910,8 +32771,71 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.customer.subscription.default_payment_method_changed":
+		evt := V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.customer.subscription.deleted":
 		evt := V1CustomerSubscriptionDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.incomplete":
+		evt := V1CustomerSubscriptionIncompleteEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.incomplete_expired":
+		evt := V1CustomerSubscriptionIncompleteExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.item_added":
+		evt := V1CustomerSubscriptionItemAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.item_price_changed":
+		evt := V1CustomerSubscriptionItemPriceChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.item_quantity_changed":
+		evt := V1CustomerSubscriptionItemQuantityChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.item_removed":
+		evt := V1CustomerSubscriptionItemRemovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.item_tax_rates_changed":
+		evt := V1CustomerSubscriptionItemTaxRatesChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.past_due":
+		evt := V1CustomerSubscriptionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -27947,6 +32871,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.customer.subscription.trial_will_end":
 		evt := V1CustomerSubscriptionTrialWillEndEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.trialing":
+		evt := V1CustomerSubscriptionTrialingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.customer.subscription.unpaid":
+		evt := V1CustomerSubscriptionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -27994,6 +32932,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.entitlements.active_entitlement_summary.entitlement_added":
+		evt := V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.entitlements.active_entitlement_summary.entitlement_removed":
+		evt := V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.entitlements.active_entitlement_summary.updated":
 		evt := V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28010,6 +32962,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.financial_connections.account.account_numbers_updated":
 		evt := V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.balance_refresh_failed":
+		evt := V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.balance_refresh_succeeded":
+		evt := V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28043,6 +33009,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.financial_connections.account.inferred_balances_refresh_failed":
+		evt := V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.inferred_balances_refresh_succeeded":
+		evt := V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.ownership_refresh_failed":
+		evt := V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.ownership_refresh_succeeded":
+		evt := V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.financial_connections.account.reactivated":
 		evt := V1FinancialConnectionsAccountReactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28071,8 +33065,36 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.financial_connections.account.risk_intelligence_refresh_failed":
+		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.risk_intelligence_refresh_succeeded":
+		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.financial_connections.account.supported_payment_method_types_updated":
 		evt := V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.transactions_refresh_failed":
+		evt := V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.transactions_refresh_succeeded":
+		evt := V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28148,6 +33170,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.invoice.discount_added":
+		evt := V1InvoiceDiscountAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.discount_removed":
+		evt := V1InvoiceDiscountRemovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.invoice.finalization_failed":
 		evt := V1InvoiceFinalizationFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28157,6 +33193,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.invoice.finalized":
 		evt := V1InvoiceFinalizedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.line_item_added":
+		evt := V1InvoiceLineItemAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.line_item_pricing_changed":
+		evt := V1InvoiceLineItemPricingChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.line_item_quantity_changed":
+		evt := V1InvoiceLineItemQuantityChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.line_item_removed":
+		evt := V1InvoiceLineItemRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28253,8 +33317,29 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.invoice_payment.canceled":
+		evt := V1InvoicePaymentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice_payment.open":
+		evt := V1InvoicePaymentOpenEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.invoice_payment.paid":
 		evt := V1InvoicePaymentPaidEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoiceitem.amount_changed":
+		evt := V1InvoiceitemAmountChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28269,6 +33354,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.invoiceitem.deleted":
 		evt := V1InvoiceitemDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoiceitem.discount_added":
+		evt := V1InvoiceitemDiscountAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoiceitem.discount_removed":
+		evt := V1InvoiceitemDiscountRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28617,8 +33716,22 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.price.activated":
+		evt := V1PriceActivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.price.created":
 		evt := V1PriceCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.price.deactivated":
+		evt := V1PriceDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28631,8 +33744,29 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.price.lookup_key_changed":
+		evt := V1PriceLookupKeyChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.price.tax_behavior_changed":
+		evt := V1PriceTaxBehaviorChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.price.updated":
 		evt := V1PriceUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.product.activated":
+		evt := V1ProductActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28645,8 +33779,29 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.product.deactivated":
+		evt := V1ProductDeactivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.product.default_price_changed":
+		evt := V1ProductDefaultPriceChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.product.deleted":
 		evt := V1ProductDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.product.tax_code_changed":
+		evt := V1ProductTaxCodeChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28661,6 +33816,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.promotion_code.created":
 		evt := V1PromotionCodeCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.promotion_code.fully_redeemed":
+		evt := V1PromotionCodeFullyRedeemedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -28850,6 +34012,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.subscription_schedule.expiring":
 		evt := V1SubscriptionScheduleExpiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.subscription_schedule.phase_added":
+		evt := V1SubscriptionSchedulePhaseAddedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.subscription_schedule.phase_default_tax_rates_changed":
+		evt := V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.subscription_schedule.phase_end_date_changed":
+		evt := V1SubscriptionSchedulePhaseEndDateChangedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.subscription_schedule.phase_removed":
+		evt := V1SubscriptionSchedulePhaseRemovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.subscription_schedule.phase_trial_end_changed":
+		evt := V1SubscriptionSchedulePhaseTrialEndChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -29081,6 +34278,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.billing.contract.updated":
 		evt := V2BillingContractUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract_term.created":
+		evt := V2BillingContractTermCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract_term.deleted":
+		evt := V2BillingContractTermDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract_term.updated":
+		evt := V2BillingContractTermUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -30199,6 +35417,118 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.funding_intent.canceled":
+		evt := V2MoneyManagementFundingIntentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.created":
+		evt := V2MoneyManagementFundingIntentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.processing":
+		evt := V2MoneyManagementFundingIntentProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.requires_action":
+		evt := V2MoneyManagementFundingIntentRequiresActionEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.requires_confirmation":
+		evt := V2MoneyManagementFundingIntentRequiresConfirmationEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.succeeded":
+		evt := V2MoneyManagementFundingIntentSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.updated":
+		evt := V2MoneyManagementFundingIntentUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.funding_intent.validating":
+		evt := V2MoneyManagementFundingIntentValidatingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.available":
+		evt := V2MoneyManagementInboundFundingAvailableEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.check_failed":
+		evt := V2MoneyManagementInboundFundingCheckFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.check_processing":
+		evt := V2MoneyManagementInboundFundingCheckProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.check_queued":
+		evt := V2MoneyManagementInboundFundingCheckQueuedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.check_returned":
+		evt := V2MoneyManagementInboundFundingCheckReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.check_succeeded":
+		evt := V2MoneyManagementInboundFundingCheckSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.created":
+		evt := V2MoneyManagementInboundFundingCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_funding.updated":
+		evt := V2MoneyManagementInboundFundingUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.inbound_transfer.available":
 		evt := V2MoneyManagementInboundTransferAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -30388,6 +35718,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.payout_intent.pending":
+		evt := V2MoneyManagementPayoutIntentPendingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.payout_intent.posted":
 		evt := V2MoneyManagementPayoutIntentPostedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -30404,6 +35741,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.payout_intent.requires_action":
 		evt := V2MoneyManagementPayoutIntentRequiresActionEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_intent.updated":
+		evt := V2MoneyManagementPayoutIntentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -30549,6 +35893,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.reward_program.reward_earned":
+		evt := V2MoneyManagementRewardProgramRewardEarnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.reward_program.reward_reversed":
+		evt := V2MoneyManagementRewardProgramRewardReversedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.transaction.created":
 		evt := V2MoneyManagementTransactionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -30600,20 +35958,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.payments.off_session_payment.attempt_started":
 		evt := V2PaymentsOffSessionPaymentAttemptStartedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.payments.off_session_payment.authorization_attempt_failed":
-		evt := V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.payments.off_session_payment.authorization_attempt_started":
-		evt := V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

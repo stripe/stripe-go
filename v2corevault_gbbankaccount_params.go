@@ -51,6 +51,11 @@ type V2CoreVaultGBBankAccountArchiveParams struct {
 	Params `form:"*"`
 }
 
+// Unarchive a GBBankAccount object.
+type V2CoreVaultGBBankAccountUnarchiveParams struct {
+	Params `form:"*"`
+}
+
 // Whether or not to automatically perform Confirmation of Payee to verify the users information
 // against what was provided by the bank. Doing so is required for all bank accounts not owned
 // by you before making domestic UK OutboundPayments.

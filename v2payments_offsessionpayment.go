@@ -50,19 +50,18 @@ const (
 )
 
 // Status of this OffSessionPayment, one of `pending`, `pending_retry`, `processing`,
-// `failed`, `canceled`, `requires_capture`, or `succeeded`.
+// `failed`, `canceled`, or `succeeded`.
 type V2PaymentsOffSessionPaymentStatus string
 
 // List of values that V2PaymentsOffSessionPaymentStatus can take
 const (
-	V2PaymentsOffSessionPaymentStatusCanceled        V2PaymentsOffSessionPaymentStatus = "canceled"
-	V2PaymentsOffSessionPaymentStatusFailed          V2PaymentsOffSessionPaymentStatus = "failed"
-	V2PaymentsOffSessionPaymentStatusPaused          V2PaymentsOffSessionPaymentStatus = "paused"
-	V2PaymentsOffSessionPaymentStatusPending         V2PaymentsOffSessionPaymentStatus = "pending"
-	V2PaymentsOffSessionPaymentStatusPendingRetry    V2PaymentsOffSessionPaymentStatus = "pending_retry"
-	V2PaymentsOffSessionPaymentStatusProcessing      V2PaymentsOffSessionPaymentStatus = "processing"
-	V2PaymentsOffSessionPaymentStatusRequiresCapture V2PaymentsOffSessionPaymentStatus = "requires_capture"
-	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
+	V2PaymentsOffSessionPaymentStatusCanceled     V2PaymentsOffSessionPaymentStatus = "canceled"
+	V2PaymentsOffSessionPaymentStatusFailed       V2PaymentsOffSessionPaymentStatus = "failed"
+	V2PaymentsOffSessionPaymentStatusPaused       V2PaymentsOffSessionPaymentStatus = "paused"
+	V2PaymentsOffSessionPaymentStatusPending      V2PaymentsOffSessionPaymentStatus = "pending"
+	V2PaymentsOffSessionPaymentStatusPendingRetry V2PaymentsOffSessionPaymentStatus = "pending_retry"
+	V2PaymentsOffSessionPaymentStatusProcessing   V2PaymentsOffSessionPaymentStatus = "processing"
+	V2PaymentsOffSessionPaymentStatusSucceeded    V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
 
 // Contains information about the error that occurred when validating the current amount details.
@@ -283,7 +282,7 @@ type V2PaymentsOffSessionPayment struct {
 	// to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix,omitempty"`
 	// Status of this OffSessionPayment, one of `pending`, `pending_retry`, `processing`,
-	// `failed`, `canceled`, `requires_capture`, or `succeeded`.
+	// `failed`, `canceled`, or `succeeded`.
 	Status V2PaymentsOffSessionPaymentStatus `json:"status"`
 	// Provides a way to schedule deferred payments for cards and debits, in YYYY-MM-DD format.
 	TargetDate string `json:"target_date,omitempty"`

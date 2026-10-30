@@ -25,10 +25,30 @@ const (
 	V2CoreBatchJobStatusValidationFailed V2CoreBatchJobStatus = "validation_failed"
 )
 
+// A pre-signed URL that allows secure, time-limited access to download the file.
+type V2CoreBatchJobStatusDetailsBatchFailedPartialOutputFileDownloadURL struct {
+	// The time that the URL expires.
+	ExpiresAt time.Time `json:"expires_at,omitempty"`
+	// The URL that can be used for accessing the file.
+	URL string `json:"url"`
+}
+
+// The partial output file details, containing everything processed before the `batch_job` failed. Absent for jobs that failed before producing any output.
+type V2CoreBatchJobStatusDetailsBatchFailedPartialOutputFile struct {
+	// The content type of the file.
+	ContentType string `json:"content_type"`
+	// A pre-signed URL that allows secure, time-limited access to download the file.
+	DownloadURL *V2CoreBatchJobStatusDetailsBatchFailedPartialOutputFileDownloadURL `json:"download_url"`
+	// The total size of the file in bytes.
+	Size int64 `json:"size,string"`
+}
+
 // Additional details for the `BATCH_FAILED` status of the `batch_job`.
 type V2CoreBatchJobStatusDetailsBatchFailed struct {
 	// Details about the `batch_job` failure.
 	Error string `json:"error"`
+	// The partial output file details, containing everything processed before the `batch_job` failed. Absent for jobs that failed before producing any output.
+	PartialOutputFile *V2CoreBatchJobStatusDetailsBatchFailedPartialOutputFile `json:"partial_output_file,omitempty"`
 }
 
 // A pre-signed URL that allows secure, time-limited access to download the file.

@@ -342,13 +342,15 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
 
-			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
+			metadataField := reflectValue.Elem().FieldByName("Metadata")
+			if metadataField.IsValid() && !metadataField.IsZero() {
 				if commonParams.Metadata != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
-			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
+			expandField := reflectValue.Elem().FieldByName("Expand")
+			if expandField.IsValid() && !expandField.IsZero() {
 				if commonParams.Expand != nil {
 					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
@@ -1346,6 +1348,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *CannotProceedError `json:"error"`
 		}{
 			Error: &CannotProceedError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "capability_not_enabled":
+		tmp := struct {
+			Error *CapabilityNotEnabledError `json:"error"`
+		}{
+			Error: &CapabilityNotEnabledError{},
 		}
 		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err

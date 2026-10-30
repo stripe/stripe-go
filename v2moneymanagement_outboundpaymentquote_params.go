@@ -43,7 +43,7 @@ type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountParams
 	// Per-network configuration options.
 	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this OutboundPayment.
-	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
 }
 
 // Payout method options for the OutboundPaymentQuote.
@@ -120,7 +120,7 @@ type V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsBankAccount
 	// Per-network configuration options.
 	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
 	// The preferred networks to use for this OutboundPayment.
-	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
 }
 
 // Payout method options for the OutboundPaymentQuote.

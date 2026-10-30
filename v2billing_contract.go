@@ -363,7 +363,13 @@ type V2BillingContractStatusTransitions struct {
 	EndedAt time.Time `json:"ended_at,omitempty"`
 }
 
-// Contract resource representing a comprehensive sales agreement
+// All terms in display order. Only populated when `terms` is included.
+type V2BillingContractTerms struct {
+	// All terms in display order.
+	Data []*V2BillingContractTerm `json:"data"`
+}
+
+// Contract resource representing a comprehensive sales agreement.
 type V2BillingContract struct {
 	APIResource
 	// The billing cycle anchor.
@@ -400,4 +406,6 @@ type V2BillingContract struct {
 	Status V2BillingContractStatus `json:"status"`
 	// Historical timestamps of when the contract transitioned into each status.
 	StatusTransitions *V2BillingContractStatusTransitions `json:"status_transitions,omitempty"`
+	// All terms in display order. Only populated when `terms` is included.
+	Terms *V2BillingContractTerms `json:"terms,omitempty"`
 }

@@ -8,35 +8,35 @@ package stripe
 
 import "time"
 
-// The from block containing what was debited.
+// The amount that was debited from the source currency.
 type V2MoneyManagementCurrencyConversionFrom struct {
-	// Amount object.
+	// A specific amount.
 	Amount Amount `json:"amount"`
 }
 
-// The to block containing what was credited.
+// The amount that was credited to the destination currency.
 type V2MoneyManagementCurrencyConversionTo struct {
-	// Amount object.
+	// A specific amount.
 	Amount Amount `json:"amount"`
 }
 
-// The CurrencyConversion object. Contains details such as the amount debited and credited and the FinancialAccount the CurrencyConversion was performed on.
+// A Currency Conversion represents a standalone conversion between currencies in a [Financial Account](https://docs.stripe.com/api/v2/money-management/financial-accounts) or the payments balance.
 type V2MoneyManagementCurrencyConversion struct {
 	APIResource
-	// The time the CurrencyConversion was created at.
+	// The time the Currency Conversion was created at.
 	Created time.Time `json:"created"`
-	// The exchange rate used when processing the CurrencyConversion.
+	// The exchange rate used, excluding applicable fees.
 	ExchangeRate string `json:"exchange_rate"`
-	// The FinancialAccount the CurrencyConversion was performed on.
+	// The ID of the Financial Account the Currency Conversion was created in. If `null`, it was created in the payments balance.
 	FinancialAccount string `json:"financial_account,omitempty"`
-	// The from block containing what was debited.
+	// The amount that was debited from the source currency.
 	From *V2MoneyManagementCurrencyConversionFrom `json:"from"`
-	// The id of the CurrencyConversion.
+	// The ID of the Currency Conversion.
 	ID string `json:"id"`
-	// If the CurrencyConversion was performed in livemode or not.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The to block containing what was credited.
+	// The amount that was credited to the destination currency.
 	To *V2MoneyManagementCurrencyConversionTo `json:"to"`
 }

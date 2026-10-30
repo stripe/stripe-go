@@ -24,6 +24,15 @@ const (
 	V2TaxIntegrationConfigurationInvoicesAutomaticTaxDefaultValueEnabledWhenPossible V2TaxIntegrationConfigurationInvoicesAutomaticTaxDefaultValue = "enabled_when_possible"
 )
 
+// Controls the default value of automatic_tax[enabled] on new Subscriptions.
+type V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValue string
+
+// List of values that V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValue can take
+const (
+	V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValueDisabled            V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValue = "disabled"
+	V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValueEnabledWhenPossible V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValue = "enabled_when_possible"
+)
+
 // Configuration for Checkout Sessions automatic tax behavior.
 type V2TaxIntegrationConfigurationCheckoutSessions struct {
 	// Controls the default value of automatic_tax[enabled] on new Checkout Sessions.
@@ -34,6 +43,12 @@ type V2TaxIntegrationConfigurationCheckoutSessions struct {
 type V2TaxIntegrationConfigurationInvoices struct {
 	// Controls the default value of automatic_tax[enabled] on new standalone Invoices.
 	AutomaticTaxDefaultValue V2TaxIntegrationConfigurationInvoicesAutomaticTaxDefaultValue `json:"automatic_tax_default_value"`
+}
+
+// Configuration for Subscriptions automatic tax behavior.
+type V2TaxIntegrationConfigurationSubscriptions struct {
+	// Controls the default value of automatic_tax[enabled] on new Subscriptions.
+	AutomaticTaxDefaultValue V2TaxIntegrationConfigurationSubscriptionsAutomaticTaxDefaultValue `json:"automatic_tax_default_value"`
 }
 
 // Per-account configuration controlling implicit behavior of Stripe Tax
@@ -48,4 +63,6 @@ type V2TaxIntegrationConfiguration struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Configuration for Subscriptions automatic tax behavior.
+	Subscriptions *V2TaxIntegrationConfigurationSubscriptions `json:"subscriptions"`
 }

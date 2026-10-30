@@ -115,7 +115,8 @@ const (
 
 // Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the representative. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 type PersonParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`
@@ -431,7 +432,8 @@ type PersonListRelationshipParams struct {
 // Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
 type PersonListParams struct {
 	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filters on the list of people returned based on the person's relationship to the account's company.
@@ -666,7 +668,8 @@ type PersonUpdateVerificationParams struct {
 
 // Updates an existing person.
 type PersonUpdateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 	AdditionalTOSAcceptances *PersonUpdateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`
@@ -973,7 +976,8 @@ type PersonCreateVerificationParams struct {
 
 // Creates a new person.
 type PersonCreateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 	AdditionalTOSAcceptances *PersonCreateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`

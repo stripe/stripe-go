@@ -15,6 +15,10 @@ type V2ProvisioningResourceParams struct {
 	Configuration map[string]any `form:"configuration" json:"configuration,omitempty"`
 	// Environment the resource should be created in.
 	Environment *string `form:"environment" json:"environment,omitempty"`
+	// Additional fields to include in the response. Requesting configuration only populates names
+	// for a complete Resource with an available, unexpired configuration. Missing configuration is
+	// returned as null; authorization, dependency, malformed-data, and limit failures remain errors.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Whether the resource should use Stripe live-mode objects. When omitted, this resolves to false
 	// for a sandbox target and true otherwise. Sandbox targets cannot create live-mode resources.
 	Livemode *bool `form:"livemode" json:"livemode,omitempty"`
@@ -102,6 +106,10 @@ type V2ProvisioningResourceCreateParams struct {
 // Retrieves a provider resource.
 type V2ProvisioningResourceRetrieveParams struct {
 	Params `form:"*"`
+	// Additional fields to include in the response. Requesting configuration only populates names
+	// for a complete Resource with an available, unexpired configuration. Missing configuration is
+	// returned as null; authorization, dependency, malformed-data, and limit failures remain errors.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Updates a resource's configuration or service.
