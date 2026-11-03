@@ -322,6 +322,40 @@ type Client struct {
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2CoreEventService
+	// V2CoreVaultGBBankAccounts is the service used to invoke /v2/core/vault/gb_bank_accounts APIs.
+	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
+	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
+	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2MoneyManagementAdjustments is the service used to invoke /v2/money_management/adjustments APIs.
+	V2MoneyManagementAdjustments *v2MoneyManagementAdjustmentService
+	// V2MoneyManagementFinancialAccounts is the service used to invoke /v2/money_management/financial_accounts APIs.
+	V2MoneyManagementFinancialAccounts *v2MoneyManagementFinancialAccountService
+	// V2MoneyManagementFinancialAddresses is the service used to invoke /v2/money_management/financial_addresses APIs.
+	V2MoneyManagementFinancialAddresses *v2MoneyManagementFinancialAddressService
+	// V2MoneyManagementInboundTransfers is the service used to invoke /v2/money_management/inbound_transfers APIs.
+	V2MoneyManagementInboundTransfers *v2MoneyManagementInboundTransferService
+	// V2MoneyManagementOutboundPayments is the service used to invoke /v2/money_management/outbound_payments APIs.
+	V2MoneyManagementOutboundPayments *v2MoneyManagementOutboundPaymentService
+	// V2MoneyManagementOutboundSetupIntents is the service used to invoke /v2/money_management/outbound_setup_intents APIs.
+	V2MoneyManagementOutboundSetupIntents *v2MoneyManagementOutboundSetupIntentService
+	// V2MoneyManagementPayoutIntents is the service used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2MoneyManagementPayoutIntentService
+	// V2MoneyManagementPayoutMethods is the service used to invoke /v2/money_management/payout_methods APIs.
+	V2MoneyManagementPayoutMethods *v2MoneyManagementPayoutMethodService
+	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the service used to invoke payoutmethodsbankaccountspec related APIs.
+	V2MoneyManagementPayoutMethodsBankAccountSpecs *v2MoneyManagementPayoutMethodsBankAccountSpecService
+	// V2MoneyManagementReceivedCredits is the service used to invoke /v2/money_management/received_credits APIs.
+	V2MoneyManagementReceivedCredits *v2MoneyManagementReceivedCreditService
+	// V2MoneyManagementRecipientVerifications is the service used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2MoneyManagementRecipientVerificationService
+	// V2MoneyManagementTestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2MoneyManagementTestHelpersFinancialAddressService
+	// V2MoneyManagementTransactionEntries is the service used to invoke /v2/money_management/transaction_entries APIs.
+	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
+	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
+	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
+	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2TestHelpersMoneyManagementService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
 	backends *Backends
@@ -518,6 +552,23 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
+	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
+	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
+	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundPayments = &v2MoneyManagementOutboundPaymentService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundSetupIntents = &v2MoneyManagementOutboundSetupIntentService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutIntents = &v2MoneyManagementPayoutIntentService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutMethods = &v2MoneyManagementPayoutMethodService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
+	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
+	client.V2MoneyManagementRecipientVerifications = &v2MoneyManagementRecipientVerificationService{B: backends.API, Key: key}
+	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
+	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
+	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
+	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 

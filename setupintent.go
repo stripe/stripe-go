@@ -344,6 +344,16 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
+// Set to indicate the future transaction type usage for the card being set up.
+type SetupIntentPaymentMethodOptionsCardSetupCredentialUsage string
+
+// List of values that SetupIntentPaymentMethodOptionsCardSetupCredentialUsage can take
+const (
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageInstallment SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "installment"
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageRecurring   SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "recurring"
+	SetupIntentPaymentMethodOptionsCardSetupCredentialUsageUnscheduled SetupIntentPaymentMethodOptionsCardSetupCredentialUsage = "unscheduled"
+)
+
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
 
@@ -1174,6 +1184,8 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -1527,7 +1539,7 @@ type SetupIntentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -2060,7 +2072,7 @@ type SetupIntentConfirmParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand      []*string                     `form:"expand" json:"expand,omitempty"`
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
@@ -2760,6 +2772,8 @@ type SetupIntentCreatePaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentCreatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -3111,7 +3125,7 @@ type SetupIntentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// The ID of a PaymentMethod to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -3789,6 +3803,8 @@ type SetupIntentUpdatePaymentMethodOptionsCardParams struct {
 	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this setup.
 	ThreeDSecure *SetupIntentUpdatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -4115,7 +4131,7 @@ type SetupIntentUpdateParams struct {
 	FlowDirections []*string `form:"flow_directions" json:"flow_directions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -4313,6 +4329,8 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	Network SetupIntentPaymentMethodOptionsCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage SetupIntentPaymentMethodOptionsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
 type SetupIntentPaymentMethodOptionsKlarna struct {

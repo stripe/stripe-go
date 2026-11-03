@@ -302,7 +302,7 @@ type AccountParams struct {
 	Capabilities *AccountCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCompanyParams `form:"company" json:"company,omitempty"`
-	// A hash of configuration describing the account controller's attributes.
+	// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 	Controller *AccountControllerParams `form:"controller" json:"controller,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country" json:"country,omitempty"`
@@ -830,6 +830,12 @@ type AccountCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -981,6 +987,8 @@ type AccountCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -1111,6 +1119,8 @@ type AccountCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
@@ -1190,6 +1200,12 @@ type AccountDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -1234,6 +1250,8 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -1567,13 +1585,13 @@ func (p *AccountListParams) AddExpand(f string) {
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountControllerFeesParams struct {
-	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. Setting `controller.losses.payments=application` requires `controller.fees.payer=application`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	Payer *string `form:"payer" json:"payer,omitempty"`
 }
 
 // A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
 type AccountControllerLossesParams struct {
-	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Defaults to `stripe`.
 	Payments *string `form:"payments" json:"payments,omitempty"`
 }
 
@@ -1583,7 +1601,7 @@ type AccountControllerStripeDashboardParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// A hash of configuration describing the account controller's attributes.
+// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 type AccountControllerParams struct {
 	// A hash of configuration for who pays Stripe fees for product usage on this account.
 	Fees *AccountControllerFeesParams `form:"fees" json:"fees,omitempty"`
@@ -2122,6 +2140,12 @@ type AccountUpdateCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountUpdateCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountUpdateCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2273,6 +2297,8 @@ type AccountUpdateCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountUpdateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountUpdateCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountUpdateCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -2399,6 +2425,8 @@ type AccountUpdateCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams                              `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountUpdateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
@@ -2477,6 +2505,12 @@ type AccountUpdateDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountUpdateDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -2521,6 +2555,8 @@ type AccountUpdateDocumentsParams struct {
 	CompanyTaxIDVerification *AccountUpdateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountUpdateDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountUpdateDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountUpdateDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3399,6 +3435,12 @@ type AccountCreateCapabilitiesUSBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The wero_payments capability.
+type AccountCreateCapabilitiesWeroPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The zip_payments capability.
 type AccountCreateCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3550,6 +3592,8 @@ type AccountCreateCapabilitiesParams struct {
 	USBankAccountACHPayments *AccountCreateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
 	USBankTransferPayments *AccountCreateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
+	// The wero_payments capability.
+	WeroPayments *AccountCreateCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// The zip_payments capability.
 	ZipPayments *AccountCreateCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -3679,6 +3723,8 @@ type AccountCreateCompanyParams struct {
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// A location where the business has a meaningful physical operating presence.
+	PhysicalAddress *AddressParams `form:"physical_address" json:"physical_address,omitempty"`
 	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
@@ -3718,13 +3764,13 @@ func (p *AccountCreateCompanyParams) AddUnsetField(field AccountCreateCompanyPar
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountCreateControllerFeesParams struct {
-	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. Setting `controller.losses.payments=application` requires `controller.fees.payer=application`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	Payer *string `form:"payer" json:"payer,omitempty"`
 }
 
 // A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
 type AccountCreateControllerLossesParams struct {
-	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Defaults to `stripe`.
 	Payments *string `form:"payments" json:"payments,omitempty"`
 }
 
@@ -3734,7 +3780,7 @@ type AccountCreateControllerStripeDashboardParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// A hash of configuration describing the account controller's attributes.
+// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 type AccountCreateControllerParams struct {
 	// A hash of configuration for who pays Stripe fees for product usage on this account.
 	Fees *AccountCreateControllerFeesParams `form:"fees" json:"fees,omitempty"`
@@ -3788,6 +3834,12 @@ type AccountCreateDocumentsProofOfAddressParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
+// One or more documents that demonstrate proof of business presence.
+type AccountCreateDocumentsProofOfBusinessPresenceParams struct {
+	// One or more document ids returned by a [file upload](https://docs.stripe.com/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files" json:"files,omitempty"`
+}
+
 // Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
@@ -3818,6 +3870,8 @@ type AccountCreateDocumentsParams struct {
 	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountCreateDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
+	// One or more documents that demonstrate proof of business presence.
+	ProofOfBusinessPresence *AccountCreateDocumentsProofOfBusinessPresenceParams `form:"proof_of_business_presence" json:"proof_of_business_presence,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`
 }
@@ -4150,7 +4204,7 @@ type AccountCreateParams struct {
 	Capabilities *AccountCreateCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCreateCompanyParams `form:"company" json:"company,omitempty"`
-	// A hash of configuration describing the account controller's attributes.
+	// Configures the account's Dashboard access, loss liability, requirements collection, and Stripe fee responsibility.
 	Controller *AccountCreateControllerParams `form:"controller" json:"controller,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country" json:"country,omitempty"`
@@ -4388,6 +4442,8 @@ type AccountCapabilities struct {
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments,omitempty"`
 	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.
 	USBankTransferPayments AccountCapabilityStatus `json:"us_bank_transfer_payments,omitempty"`
+	// The status of the Wero capability of the account, or whether the account can directly process Wero payments.
+	WeroPayments AccountCapabilityStatus `json:"wero_payments,omitempty"`
 	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.
 	ZipPayments AccountCapabilityStatus `json:"zip_payments,omitempty"`
 }
@@ -4511,6 +4567,7 @@ type AccountCompany struct {
 	OwnersProvided bool `json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
 	Phone                    string                          `json:"phone,omitempty"`
+	PhysicalAddress          *Address                        `json:"physical_address,omitempty"`
 	PrincipalPlaceOfBusiness *Address                        `json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.

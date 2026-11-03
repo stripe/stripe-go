@@ -664,6 +664,16 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
+// Set to indicate the future transaction type usage for the card being set up.
+type PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCardSetupCredentialUsageInstallment PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage = "installment"
+	PaymentIntentPaymentMethodOptionsCardSetupCredentialUsageRecurring   PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage = "recurring"
+	PaymentIntentPaymentMethodOptionsCardSetupCredentialUsageUnscheduled PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage = "unscheduled"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -678,6 +688,16 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// Selected usage to indicate the transaction type of the off-session payment.
+type PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCardStoredCredentialUsageInstallment PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage = "installment"
+	PaymentIntentPaymentMethodOptionsCardStoredCredentialUsageRecurring   PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage = "recurring"
+	PaymentIntentPaymentMethodOptionsCardStoredCredentialUsageUnscheduled PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage = "unscheduled"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -2643,6 +2663,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection" json:"require_cvc_recollection,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2657,6 +2679,14 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	StatementDescriptorSuffixKana *string `form:"statement_descriptor_suffix_kana" json:"statement_descriptor_suffix_kana,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji" json:"statement_descriptor_suffix_kanji,omitempty"`
+	// Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
+	//
+	//  When making an off session payment with a previously saved card (that was saved with a SetupIntent or with a PaymentIntent with `setup_future_usage`), set this parameter to indicate the type of transaction.
+	//
+	//  You can set this parameter at any time before or during PaymentIntent confirmation, and confirm this PaymentIntent with `off_session=true`.
+	//
+	//  Note that this parameter is currently unsupported with the `setup_future_usage` parameter.
+	StoredCredentialUsage *string `form:"stored_credential_usage" json:"stored_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this payment.
 	ThreeDSecure *PaymentIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -3413,9 +3443,9 @@ type PaymentIntentPaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -4248,7 +4278,7 @@ type PaymentIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -4939,7 +4969,7 @@ type PaymentIntentConfirmParams struct {
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	// If the payment method is attached to a Customer, it must match the [customer](https://docs.stripe.com/api#create_payment_intent-customer) that is set on this PaymentIntent.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
@@ -6299,6 +6329,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection" json:"require_cvc_recollection,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -6313,6 +6345,14 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	StatementDescriptorSuffixKana *string `form:"statement_descriptor_suffix_kana" json:"statement_descriptor_suffix_kana,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji" json:"statement_descriptor_suffix_kanji,omitempty"`
+	// Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
+	//
+	//  When making an off session payment with a previously saved card (that was saved with a SetupIntent or with a PaymentIntent with `setup_future_usage`), set this parameter to indicate the type of transaction.
+	//
+	//  You can set this parameter at any time before or during PaymentIntent confirmation, and confirm this PaymentIntent with `off_session=true`.
+	//
+	//  Note that this parameter is currently unsupported with the `setup_future_usage` parameter.
+	StoredCredentialUsage *string `form:"stored_credential_usage" json:"stored_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this payment.
 	ThreeDSecure *PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -7069,9 +7109,9 @@ type PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -7906,7 +7946,7 @@ type PaymentIntentCreateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCreatePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// The ID of a PaymentMethod to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
@@ -8969,6 +9009,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection" json:"require_cvc_recollection,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage *string `form:"setup_credential_usage" json:"setup_credential_usage,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -8983,6 +9025,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	StatementDescriptorSuffixKana *string `form:"statement_descriptor_suffix_kana" json:"statement_descriptor_suffix_kana,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji" json:"statement_descriptor_suffix_kanji,omitempty"`
+	// Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
+	//
+	//  When making an off session payment with a previously saved card (that was saved with a SetupIntent or with a PaymentIntent with `setup_future_usage`), set this parameter to indicate the type of transaction.
+	//
+	//  You can set this parameter at any time before or during PaymentIntent confirmation, and confirm this PaymentIntent with `off_session=true`.
+	//
+	//  Note that this parameter is currently unsupported with the `setup_future_usage` parameter.
+	StoredCredentialUsage *string `form:"stored_credential_usage" json:"stored_credential_usage,omitempty"`
 	// If 3D Secure authentication was performed with a third-party provider,
 	// the authentication details to use for this payment.
 	ThreeDSecure *PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
@@ -9739,9 +9789,9 @@ type PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
-	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	// The absolute Unix timestamp at which the Pix expires, between 60 and 1209600 seconds from the current time. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
@@ -10520,7 +10570,7 @@ type PaymentIntentUpdateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentUpdatePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent. To unset this field to null, pass in an empty string.
+	// The ID of a PaymentMethod to attach to this PaymentIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -11288,6 +11338,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection bool `json:"require_cvc_recollection,omitempty"`
+	// Set to indicate the future transaction type usage for the card being set up.
+	SetupCredentialUsage PaymentIntentPaymentMethodOptionsCardSetupCredentialUsage `json:"setup_credential_usage,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -11300,6 +11352,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKana string `json:"statement_descriptor_suffix_kana,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji,omitempty"`
+	// Selected usage to indicate the transaction type of the off-session payment.
+	StoredCredentialUsage PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	// Requested routing priority
@@ -11648,9 +11702,9 @@ type PaymentIntentPaymentMethodOptionsPixMandateOptions struct {
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof,omitempty"`
-	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
+	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If neither expiration option is supplied, defaults to 14400 seconds (4 hours). Mutually exclusive with `expires_at`.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
-	// The timestamp at which the Pix expires.
+	// The absolute Unix timestamp at which the Pix expires. When supplied as an input, it must be between 60 and 1209600 seconds from the current time at validation, inclusive. If neither expiration option is supplied, the Pix expires 14400 seconds (4 hours) after PaymentIntent confirmation. Mutually exclusive with `expires_after_seconds`.
 	ExpiresAt      int64                                               `json:"expires_at"`
 	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

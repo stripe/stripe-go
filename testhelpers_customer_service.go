@@ -17,7 +17,7 @@ type v1TestHelpersCustomerService struct {
 	Key string
 }
 
-// Create an incoming testmode bank transfer
+// Create a test incoming bank transfer
 func (c v1TestHelpersCustomerService) FundCashBalance(ctx context.Context, id string, params *TestHelpersCustomerFundCashBalanceParams) (*CustomerCashBalanceTransaction, error) {
 	if params == nil {
 		params = &TestHelpersCustomerFundCashBalanceParams{}
