@@ -181,10 +181,26 @@ func (p *TreasuryInboundTransferRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// ACH return details.
+type TreasuryInboundTransferFailureDetailsNetworkDetailsACH struct {
+	// NACHA ACH return code.
+	ReturnCode string `json:"return_code"`
+	// NACHA ACH return reason.
+	ReturnReason string `json:"return_reason"`
+}
+
+// Money movement network-specific details regarding the failure.
+type TreasuryInboundTransferFailureDetailsNetworkDetails struct {
+	// ACH return details.
+	ACH *TreasuryInboundTransferFailureDetailsNetworkDetailsACH `json:"ach"`
+}
+
 // Details about this InboundTransfer's failure. Will be set when `status=failed` or `returned=true`.
 type TreasuryInboundTransferFailureDetails struct {
 	// Reason for the failure.
 	Code TreasuryInboundTransferFailureDetailsCode `json:"code"`
+	// Money movement network-specific details regarding the failure.
+	NetworkDetails *TreasuryInboundTransferFailureDetailsNetworkDetails `json:"network_details"`
 }
 type TreasuryInboundTransferLinkedFlows struct {
 	// If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return.

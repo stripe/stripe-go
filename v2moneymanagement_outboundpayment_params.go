@@ -85,7 +85,7 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Params `form:"*"`
 	// The requested amount and currency for the OutboundPayment.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
-	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.
+	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users. The description can not be longer than 100 characters and can only contain basic Latin characters and spaces. The following special characters are not allowed: <>\'"* .
 	Description *string `form:"description" json:"description,omitempty"`
 	// From which FinancialAccount and BalanceType to pull funds from.
 	From *V2MoneyManagementOutboundPaymentFromParams `form:"from" json:"from,omitempty"`
@@ -181,7 +181,7 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Params `form:"*"`
 	// The requested amount and currency for the OutboundPayment.
 	Amount *Amount `form:"amount" json:"amount"`
-	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.
+	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users. The description can not be longer than 100 characters and can only contain basic Latin characters and spaces. The following special characters are not allowed: <>\'"* .
 	Description *string `form:"description" json:"description,omitempty"`
 	// From which FinancialAccount and BalanceType to pull funds from.
 	From *V2MoneyManagementOutboundPaymentCreateFromParams `form:"from" json:"from"`

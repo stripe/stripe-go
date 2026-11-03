@@ -354,6 +354,11 @@ func (h *eventNotificationHandlerBase) OnV1CheckoutSessionCompleted(callback fun
 	return registerTypedHandler(h, "v1.checkout.session.completed", callback)
 }
 
+// OnV1CheckoutSessionCreated registers a callback to handle notifications about the "v1.checkout.session.created" event.
+func (h *eventNotificationHandlerBase) OnV1CheckoutSessionCreated(callback func(ctx context.Context, notif *V1CheckoutSessionCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.checkout.session.created", callback)
+}
+
 // OnV1CheckoutSessionExpired registers a callback to handle notifications about the "v1.checkout.session.expired" event.
 func (h *eventNotificationHandlerBase) OnV1CheckoutSessionExpired(callback func(ctx context.Context, notif *V1CheckoutSessionExpiredEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.checkout.session.expired", callback)
@@ -953,11 +958,6 @@ func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationCreated(callback 
 	return registerTypedHandler(h, "v1.issuing_authorization.created", callback)
 }
 
-// OnV1IssuingAuthorizationRequest registers a callback to handle notifications about the "v1.issuing_authorization.request" event.
-func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationRequest(callback func(ctx context.Context, notif *V1IssuingAuthorizationRequestEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v1.issuing_authorization.request", callback)
-}
-
 // OnV1IssuingAuthorizationUpdated registers a callback to handle notifications about the "v1.issuing_authorization.updated" event.
 func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationUpdated(callback func(ctx context.Context, notif *V1IssuingAuthorizationUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.issuing_authorization.updated", callback)
@@ -1110,9 +1110,19 @@ func (h *eventNotificationHandlerBase) OnV1PaymentIntentSucceeded(callback func(
 	return registerTypedHandler(h, "v1.payment_intent.succeeded", callback)
 }
 
+// OnV1PaymentLinkActivated registers a callback to handle notifications about the "v1.payment_link.activated" event.
+func (h *eventNotificationHandlerBase) OnV1PaymentLinkActivated(callback func(ctx context.Context, notif *V1PaymentLinkActivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.payment_link.activated", callback)
+}
+
 // OnV1PaymentLinkCreated registers a callback to handle notifications about the "v1.payment_link.created" event.
 func (h *eventNotificationHandlerBase) OnV1PaymentLinkCreated(callback func(ctx context.Context, notif *V1PaymentLinkCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.payment_link.created", callback)
+}
+
+// OnV1PaymentLinkDeactivated registers a callback to handle notifications about the "v1.payment_link.deactivated" event.
+func (h *eventNotificationHandlerBase) OnV1PaymentLinkDeactivated(callback func(ctx context.Context, notif *V1PaymentLinkDeactivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.payment_link.deactivated", callback)
 }
 
 // OnV1PaymentLinkUpdated registers a callback to handle notifications about the "v1.payment_link.updated" event.
@@ -1673,6 +1683,31 @@ func (h *eventNotificationHandlerBase) OnV2CoreAccountPersonDeleted(callback fun
 // OnV2CoreAccountPersonUpdated registers a callback to handle notifications about the "v2.core.account_person.updated" event.
 func (h *eventNotificationHandlerBase) OnV2CoreAccountPersonUpdated(callback func(ctx context.Context, notif *V2CoreAccountPersonUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.account_person.updated", callback)
+}
+
+// OnV2CoreClaimableSandboxClaimed registers a callback to handle notifications about the "v2.core.claimable_sandbox.claimed" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxClaimed(callback func(ctx context.Context, notif *V2CoreClaimableSandboxClaimedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.claimed", callback)
+}
+
+// OnV2CoreClaimableSandboxCreated registers a callback to handle notifications about the "v2.core.claimable_sandbox.created" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxCreated(callback func(ctx context.Context, notif *V2CoreClaimableSandboxCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.created", callback)
+}
+
+// OnV2CoreClaimableSandboxExpired registers a callback to handle notifications about the "v2.core.claimable_sandbox.expired" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxExpired(callback func(ctx context.Context, notif *V2CoreClaimableSandboxExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.expired", callback)
+}
+
+// OnV2CoreClaimableSandboxExpiring registers a callback to handle notifications about the "v2.core.claimable_sandbox.expiring" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxExpiring(callback func(ctx context.Context, notif *V2CoreClaimableSandboxExpiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.expiring", callback)
+}
+
+// OnV2CoreClaimableSandboxUpdated registers a callback to handle notifications about the "v2.core.claimable_sandbox.updated" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxUpdated(callback func(ctx context.Context, notif *V2CoreClaimableSandboxUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.updated", callback)
 }
 
 // OnV2CoreEventDestinationPing registers a callback to handle notifications about the "v2.core.event_destination.ping" event.
