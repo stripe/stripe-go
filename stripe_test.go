@@ -2163,32 +2163,31 @@ func TestStripeClientUserAgentTelemetryIsolation(t *testing.T) {
 			assert.NoError(t, os.WriteFile(filepath.Join(configDirOverride, "telemetry_id"), []byte(seededID), 0600))
 			enabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(true)}).(*BackendImplementation)
 			disabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(false)}).(*BackendImplementation)
-			cached := make(map[bool]string)
-			for _, enableTelemetry := range []bool{firstEnabled, !firstEnabled, firstEnabled} {
-				t.Run(fmt.Sprintf("request_%t", enableTelemetry), func(t *testing.T) {
-					backend := disabled
-					if enableTelemetry {
-						backend = enabled
-					}
-					req, err := backend.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
-					assert.NoError(t, err)
-					encoded := req.Header.Get("X-Stripe-Client-User-Agent")
-					if previous, ok := cached[enableTelemetry]; ok {
-						assert.Equal(t, previous, encoded)
-					}
-					cached[enableTelemetry] = encoded
-					var userAgent map[string]string
-					assert.NoError(t, json.Unmarshal([]byte(encoded), &userAgent))
-					assert.Equal(t, "go", userAgent["lang"])
-					assert.Equal(t, runtime.Version(), userAgent["lang_version"])
-					if enableTelemetry {
-						assert.Equal(t, seededID, userAgent["telemetry_id"])
-						assert.Equal(t, runtime.GOOS+" "+runtime.GOARCH, userAgent["platform"])
-					} else {
-						assert.NotContains(t, userAgent, "telemetry_id")
-						assert.NotContains(t, userAgent, "platform")
-					}
-				})
+			var firstHeader string
+			for i, enableTelemetry := range []bool{firstEnabled, !firstEnabled, firstEnabled} {
+				backend := disabled
+				if enableTelemetry {
+					backend = enabled
+				}
+				req, err := backend.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
+				assert.NoError(t, err)
+				encoded := req.Header.Get("X-Stripe-Client-User-Agent")
+				if i == 0 {
+					firstHeader = encoded
+				} else if i == 2 {
+					assert.Equal(t, firstHeader, encoded)
+				}
+				var userAgent map[string]string
+				assert.NoError(t, json.Unmarshal([]byte(encoded), &userAgent))
+				assert.Equal(t, "go", userAgent["lang"])
+				assert.Equal(t, runtime.Version(), userAgent["lang_version"])
+				if enableTelemetry {
+					assert.Equal(t, seededID, userAgent["telemetry_id"])
+					assert.Equal(t, runtime.GOOS+" "+runtime.GOARCH, userAgent["platform"])
+				} else {
+					assert.NotContains(t, userAgent, "telemetry_id")
+					assert.NotContains(t, userAgent, "platform")
+				}
 			}
 		})
 	}
@@ -2338,48 +2337,6 @@ func TestUserAgentWithAIAgent(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Contains(t, req.Header.Get("User-Agent"), "AIAgent/claude_code")
-}
-
-func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
-	resetTelemetryID()
-	configDirOverride = t.TempDir()
-	initUserAgent()
-	t.Cleanup(func() {
-		resetTelemetryID()
-		initUserAgent()
-	})
-
-	encoded := getEncodedStripeUserAgent(true)
-	var userAgent map[string]interface{}
-	err := json.Unmarshal([]byte(encoded), &userAgent)
-	assert.NoError(t, err)
-
-	// The ai_agent field may or may not be present depending on the test
-	// environment. If no AI agent env var is set, the key should be absent
-	// (omitempty). We just verify the JSON is valid and the field type is
-	// correct if present.
-	if val, ok := userAgent["ai_agent"]; ok {
-		_, isString := val.(string)
-		assert.True(t, isString)
-	}
-}
-
-func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
-	resetTelemetryID()
-	configDirOverride = t.TempDir()
-	initUserAgent()
-	t.Cleanup(func() {
-		resetTelemetryID()
-		initUserAgent()
-	})
-
-	encoded := getEncodedStripeUserAgent(false)
-	var userAgent map[string]string
-	err := json.Unmarshal([]byte(encoded), &userAgent)
-	assert.NoError(t, err)
-
-	assert.Equal(t, "go", userAgent["lang"])
-	assert.Empty(t, userAgent["platform"])
 }
 
 func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
