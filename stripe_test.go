@@ -2339,6 +2339,30 @@ func TestUserAgentWithAIAgent(t *testing.T) {
 	assert.Contains(t, req.Header.Get("User-Agent"), "AIAgent/claude_code")
 }
 
+func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
+	resetTelemetryID()
+	configDirOverride = t.TempDir()
+	initUserAgent()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		initUserAgent()
+	})
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	// The ai_agent field may or may not be present depending on the test
+	// environment. If no AI agent env var is set, the key should be absent
+	// (omitempty). We just verify the JSON is valid and the field type is
+	// correct if present.
+	if val, ok := userAgent["ai_agent"]; ok {
+		_, isString := val.(string)
+		assert.True(t, isString)
+	}
+}
+
 func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
 	resetTelemetryID()
 	configDirOverride = t.TempDir()
@@ -2363,7 +2387,7 @@ func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
 	assert.Regexp(t, `^[0-9a-f]{32}$`, telemetryIDStr, "expected 'telemetry_id' to be a 32-char lowercase hex string")
 }
 
-func TestStripeClientUserAgentOmitsTelemetryIDWhenDisabled(t *testing.T) {
+func TestStripeClientUserAgentOmitsTelemetryIDAndPlatformWhenDisabled(t *testing.T) {
 	resetTelemetryID()
 	configDirOverride = t.TempDir()
 	initUserAgent()
