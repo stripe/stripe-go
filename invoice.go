@@ -149,6 +149,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod strin
 // List of values that InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodInstant               InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "instant"
 	InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification InvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
@@ -833,7 +834,10 @@ type InvoicePaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type InvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -4026,7 +4030,10 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -4691,7 +4698,10 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
+}
 
 // Configuration options for setting up an eMandate
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
@@ -5355,7 +5365,10 @@ type InvoicePaymentSettingsPaymentMethodOptionsPix struct {
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct {
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date,omitempty"`
+}
 type InvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
 	// Amount to be charged for future payments.
 	Amount int64 `json:"amount"`

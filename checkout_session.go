@@ -698,8 +698,9 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType s
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
 const (
-	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
-	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness    CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBuyerChoice CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "buyer_choice"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal    CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -852,6 +853,7 @@ type CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod string
 // List of values that CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod can take
 const (
 	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodInstant               CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "instant"
 	CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification CheckoutSessionPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
@@ -1418,6 +1420,21 @@ const (
 	CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsage = "off_session"
+)
+
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType string
 
@@ -1626,6 +1643,21 @@ type CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage string
 // List of values that CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage can take
 const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -2221,6 +2253,12 @@ type CheckoutSessionCustomFieldParams struct {
 	Text *CheckoutSessionCustomFieldTextParams `form:"text" json:"text,omitempty"`
 	// The type of the field.
 	Type *string `form:"type" json:"type"`
+}
+
+// Options keyed by custom payment method type IDs (e.g., `cpmt_123`). Each ID must belong to your account and be included in `custom_payment_method_types`. Only available in `payment` mode.
+type CheckoutSessionCustomPaymentMethodOptionsParams struct {
+	// Use `off_session` to set up this custom payment method for future payments when the customer is absent. Use `none` to disable setup for future usage.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // Custom text that should be displayed after the payment confirmation button.
@@ -3746,6 +3784,14 @@ func (p *CheckoutSessionPaymentMethodOptionsPaypalParams) AddUnsetField(field Ch
 
 // contains details about the PayPay payment method options.
 type CheckoutSessionPaymentMethodOptionsPaypayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The merchant's subscription identifier for this off-session charge.
 	SubscriptionReference *string `form:"subscription_reference" json:"subscription_reference,omitempty"`
 }
@@ -3922,6 +3968,18 @@ type CheckoutSessionPaymentMethodOptionsSequraParams struct {
 
 // contains details about the Sofort payment method options.
 type CheckoutSessionPaymentMethodOptionsSofortParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// contains details about the Stripe Balance payment method options.
+type CheckoutSessionPaymentMethodOptionsStripeBalanceParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4134,6 +4192,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Sequra *CheckoutSessionPaymentMethodOptionsSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// contains details about the Stripe Balance payment method options.
+	StripeBalance *CheckoutSessionPaymentMethodOptionsStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 	// contains details about the Sunbit payment method options.
 	Sunbit *CheckoutSessionPaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// contains details about the Swish payment method options.
@@ -4710,6 +4770,8 @@ type CheckoutSessionParams struct {
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// Options keyed by custom payment method type IDs (e.g., `cpmt_123`). Each ID must belong to your account and be included in `custom_payment_method_types`. Only available in `payment` mode.
+	CustomPaymentMethodOptions map[string]*CheckoutSessionCustomPaymentMethodOptionsParams `form:"custom_payment_method_options" json:"custom_payment_method_options,omitempty"`
 	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
 	//
 	// You can add custom payment methods to your account through the dashboard under Settings > Custom Payment Methods.
@@ -5157,6 +5219,12 @@ type CheckoutSessionCreateCustomFieldParams struct {
 	Text *CheckoutSessionCreateCustomFieldTextParams `form:"text" json:"text,omitempty"`
 	// The type of the field.
 	Type *string `form:"type" json:"type"`
+}
+
+// Options keyed by custom payment method type IDs (e.g., `cpmt_123`). Each ID must belong to your account and be included in `custom_payment_method_types`. Only available in `payment` mode.
+type CheckoutSessionCreateCustomPaymentMethodOptionsParams struct {
+	// Use `off_session` to set up this custom payment method for future payments when the customer is absent. Use `none` to disable setup for future usage.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // Custom text that should be displayed after the payment confirmation button.
@@ -6643,6 +6711,14 @@ func (p *CheckoutSessionCreatePaymentMethodOptionsPaypalParams) AddUnsetField(fi
 
 // contains details about the PayPay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsPaypayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The merchant's subscription identifier for this off-session charge.
 	SubscriptionReference *string `form:"subscription_reference" json:"subscription_reference,omitempty"`
 }
@@ -6819,6 +6895,18 @@ type CheckoutSessionCreatePaymentMethodOptionsSequraParams struct {
 
 // contains details about the Sofort payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsSofortParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// contains details about the Stripe Balance payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsStripeBalanceParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -7031,6 +7119,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Sequra *CheckoutSessionCreatePaymentMethodOptionsSequraParams `form:"sequra" json:"sequra,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionCreatePaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// contains details about the Stripe Balance payment method options.
+	StripeBalance *CheckoutSessionCreatePaymentMethodOptionsStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 	// contains details about the Sunbit payment method options.
 	Sunbit *CheckoutSessionCreatePaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// contains details about the Swish payment method options.
@@ -7578,6 +7668,8 @@ type CheckoutSessionCreateParams struct {
 	CustomerUpdate *CheckoutSessionCreateCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
 	CustomFields []*CheckoutSessionCreateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// Options keyed by custom payment method type IDs (e.g., `cpmt_123`). Each ID must belong to your account and be included in `custom_payment_method_types`. Only available in `payment` mode.
+	CustomPaymentMethodOptions map[string]*CheckoutSessionCreateCustomPaymentMethodOptionsParams `form:"custom_payment_method_options" json:"custom_payment_method_options,omitempty"`
 	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
 	//
 	// You can add custom payment methods to your account through the dashboard under Settings > Custom Payment Methods.
@@ -9426,6 +9518,14 @@ type CheckoutSessionPaymentMethodOptionsPaypal struct {
 	Subsellers []string `json:"subsellers,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsPaypay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaypaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// A reference to the merchant subscription this payment corresponds to.
 	SubscriptionReference string `json:"subscription_reference,omitempty"`
 }
@@ -9551,6 +9651,16 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
+type CheckoutSessionPaymentMethodOptionsStripeBalance struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsStripeBalanceSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsSunbit struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -9694,6 +9804,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
 	Sequra           *CheckoutSessionPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
+	StripeBalance    *CheckoutSessionPaymentMethodOptionsStripeBalance    `json:"stripe_balance,omitempty"`
 	Sunbit           *CheckoutSessionPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
 	TWINT            *CheckoutSessionPaymentMethodOptionsTWINT            `json:"twint,omitempty"`

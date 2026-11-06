@@ -66,6 +66,40 @@ const (
 	PaymentMethodCardChecksCVCCheckUnchecked   PaymentMethodCardChecksCVCCheck = "unchecked"
 )
 
+// The prompt that the Terminal SDK displays to collect this Fleet value.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData1    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_1"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData2    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_2"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptDriverID                PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "driver_id"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEmployeeNumber          PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "employee_number"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataAlphanumeric PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_alphanumeric"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataNumeric      PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_numeric"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptGenericID               PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "generic_id"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptInvoiceNumber           PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "invoice_number"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptOdometer                PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "odometer"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptPostalCode              PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "postal_code"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReeferHours             PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "reefer_hours"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReplacementCar          PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "replacement_car"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTrailerNumber           PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trailer_number"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTripNumber              PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trip_number"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptUnitNumber              PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "unit_number"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleID               PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_id"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleTag              PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_tag"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptWorkOrder               PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "work_order"
+)
+
+// Whether the collected value is printed on the receipt.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorOmit  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "omit"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorPrint PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "print"
+)
+
 // Indicates whether or not multiple captures are supported.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus string
 
@@ -317,12 +351,14 @@ type PaymentMethodType string
 // List of values that PaymentMethodType can take
 const (
 	PaymentMethodTypeACSSDebit        PaymentMethodType = "acss_debit"
+	PaymentMethodTypeAeonPay          PaymentMethodType = "aeon_pay"
 	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
 	PaymentMethodTypeAlma             PaymentMethodType = "alma"
 	PaymentMethodTypeAmazonPay        PaymentMethodType = "amazon_pay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
+	PaymentMethodTypeAuPay            PaymentMethodType = "au_pay"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
 	PaymentMethodTypeBillie           PaymentMethodType = "billie"
@@ -336,6 +372,7 @@ const (
 	PaymentMethodTypeCrypto           PaymentMethodType = "crypto"
 	PaymentMethodTypeCustom           PaymentMethodType = "custom"
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
+	PaymentMethodTypeDbarai           PaymentMethodType = "dbarai"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
 	PaymentMethodTypeGetflex          PaymentMethodType = "getflex"
@@ -352,6 +389,7 @@ const (
 	PaymentMethodTypeKrCard           PaymentMethodType = "kr_card"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
 	PaymentMethodTypeMbWay            PaymentMethodType = "mb_way"
+	PaymentMethodTypeMerpay           PaymentMethodType = "merpay"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
@@ -481,6 +519,9 @@ type PaymentMethodACSSDebitParams struct {
 	TransitNumber *string `form:"transit_number" json:"transit_number"`
 }
 
+// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+type PaymentMethodAeonPayParams struct{}
+
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type PaymentMethodAffirmParams struct{}
 
@@ -503,6 +544,9 @@ type PaymentMethodAUBECSDebitParams struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber *string `form:"bsb_number" json:"bsb_number"`
 }
+
+// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+type PaymentMethodAuPayParams struct{}
 
 // If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 type PaymentMethodBACSDebitParams struct {
@@ -617,6 +661,9 @@ type PaymentMethodCustomParams struct {
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCustomerBalanceParams struct{}
 
+// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+type PaymentMethodDbaraiParams struct{}
+
 // If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 type PaymentMethodEPSParams struct {
 	// The customer's bank.
@@ -694,6 +741,9 @@ type PaymentMethodLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 type PaymentMethodMbWayParams struct{}
+
+// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+type PaymentMethodMerpayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodMobilepayParams struct{}
@@ -902,6 +952,8 @@ type PaymentMethodParams struct {
 	Params `form:"*"`
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *PaymentMethodAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -916,6 +968,8 @@ type PaymentMethodParams struct {
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *PaymentMethodAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -942,6 +996,8 @@ type PaymentMethodParams struct {
 	Custom *PaymentMethodCustomParams `form:"custom" json:"custom,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *PaymentMethodDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -976,6 +1032,8 @@ type PaymentMethodParams struct {
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *PaymentMethodMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1152,6 +1210,9 @@ type PaymentMethodCreateACSSDebitParams struct {
 	TransitNumber *string `form:"transit_number" json:"transit_number"`
 }
 
+// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+type PaymentMethodCreateAeonPayParams struct{}
+
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type PaymentMethodCreateAffirmParams struct{}
 
@@ -1174,6 +1235,9 @@ type PaymentMethodCreateAUBECSDebitParams struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber *string `form:"bsb_number" json:"bsb_number"`
 }
+
+// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+type PaymentMethodCreateAuPayParams struct{}
 
 // If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 type PaymentMethodCreateBACSDebitParams struct {
@@ -1271,6 +1335,9 @@ type PaymentMethodCreateCustomParams struct {
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCreateCustomerBalanceParams struct{}
 
+// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+type PaymentMethodCreateDbaraiParams struct{}
+
 // If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 type PaymentMethodCreateEPSParams struct {
 	// The customer's bank.
@@ -1348,6 +1415,9 @@ type PaymentMethodCreateLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 type PaymentMethodCreateMbWayParams struct{}
+
+// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+type PaymentMethodCreateMerpayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodCreateMobilepayParams struct{}
@@ -1556,6 +1626,8 @@ type PaymentMethodCreateParams struct {
 	Params `form:"*"`
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodCreateACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *PaymentMethodCreateAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodCreateAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -1570,6 +1642,8 @@ type PaymentMethodCreateParams struct {
 	AmazonPay *PaymentMethodCreateAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodCreateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *PaymentMethodCreateAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodCreateBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -1598,6 +1672,8 @@ type PaymentMethodCreateParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCreateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *PaymentMethodCreateDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodCreateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -1632,6 +1708,8 @@ type PaymentMethodCreateParams struct {
 	Link *PaymentMethodCreateLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodCreateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *PaymentMethodCreateMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1877,6 +1955,7 @@ type PaymentMethodACSSDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
+type PaymentMethodAeonPay struct{}
 type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
@@ -1890,6 +1969,7 @@ type PaymentMethodAUBECSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 }
+type PaymentMethodAuPay struct{}
 type PaymentMethodBACSDebit struct {
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
@@ -1939,6 +2019,20 @@ type PaymentMethodCardChecks struct {
 	AddressPostalCodeCheck PaymentMethodCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`
+}
+
+// Fleet prompts and values collected for this transaction.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatum struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt `json:"prompt"`
+	// Whether the collected value is printed on the receipt.
+	ReceiptBehavior PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior `json:"receipt_behavior"`
+	// The value collected for this Fleet prompt.
+	Value string `json:"value"`
+}
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleet struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatum `json:"transaction_data"`
 }
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticapture struct {
 	// Indicates whether or not multiple captures are supported.
@@ -2008,7 +2102,8 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string                                                              `json:"fingerprint"`
+	Fleet       *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleet `json:"fleet,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding string `json:"funding"`
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
@@ -2246,6 +2341,7 @@ type PaymentMethodCustom struct {
 	Usage PaymentMethodCustomUsage `json:"usage,omitempty"`
 }
 type PaymentMethodCustomerBalance struct{}
+type PaymentMethodDbarai struct{}
 type PaymentMethodEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
 	Bank string `json:"bank"`
@@ -2354,6 +2450,7 @@ type PaymentMethodLink struct {
 	PersistentToken string `json:"persistent_token,omitempty"`
 }
 type PaymentMethodMbWay struct{}
+type PaymentMethodMerpay struct{}
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
 type PaymentMethodNaverPay struct {
@@ -2541,6 +2638,7 @@ type PaymentMethodZip struct{}
 type PaymentMethod struct {
 	APIResource
 	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit,omitempty"`
+	AeonPay          *PaymentMethodAeonPay          `json:"aeon_pay,omitempty"`
 	Affirm           *PaymentMethodAffirm           `json:"affirm,omitempty"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay,omitempty"`
@@ -2549,6 +2647,7 @@ type PaymentMethod struct {
 	Alma           *PaymentMethodAlma           `json:"alma,omitempty"`
 	AmazonPay      *PaymentMethodAmazonPay      `json:"amazon_pay,omitempty"`
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit,omitempty"`
+	AuPay          *PaymentMethodAuPay          `json:"au_pay,omitempty"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit,omitempty"`
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact,omitempty"`
 	Billie         *PaymentMethodBillie         `json:"billie,omitempty"`
@@ -2568,6 +2667,7 @@ type PaymentMethod struct {
 	Customer        *Customer                     `json:"customer"`
 	CustomerAccount string                        `json:"customer_account"`
 	CustomerBalance *PaymentMethodCustomerBalance `json:"customer_balance,omitempty"`
+	Dbarai          *PaymentMethodDbarai          `json:"dbarai,omitempty"`
 	EPS             *PaymentMethodEPS             `json:"eps,omitempty"`
 	FPX             *PaymentMethodFPX             `json:"fpx,omitempty"`
 	Getflex         *PaymentMethodGetflex         `json:"getflex,omitempty"`
@@ -2588,8 +2688,9 @@ type PaymentMethod struct {
 	LatestActiveMandate *Mandate           `json:"latest_active_mandate,omitempty"`
 	Link                *PaymentMethodLink `json:"link,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool                `json:"livemode"`
-	MbWay    *PaymentMethodMbWay `json:"mb_way,omitempty"`
+	Livemode bool                 `json:"livemode"`
+	MbWay    *PaymentMethodMbWay  `json:"mb_way,omitempty"`
+	Merpay   *PaymentMethodMerpay `json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata      map[string]string           `json:"metadata"`
 	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay,omitempty"`

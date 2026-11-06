@@ -59,12 +59,14 @@ type PaymentIntentAllowedPaymentMethodType string
 // List of values that PaymentIntentAllowedPaymentMethodType can take
 const (
 	PaymentIntentAllowedPaymentMethodTypeACSSDebit            PaymentIntentAllowedPaymentMethodType = "acss_debit"
+	PaymentIntentAllowedPaymentMethodTypeAeonPay              PaymentIntentAllowedPaymentMethodType = "aeon_pay"
 	PaymentIntentAllowedPaymentMethodTypeAffirm               PaymentIntentAllowedPaymentMethodType = "affirm"
 	PaymentIntentAllowedPaymentMethodTypeAfterpayClearpay     PaymentIntentAllowedPaymentMethodType = "afterpay_clearpay"
 	PaymentIntentAllowedPaymentMethodTypeAlipay               PaymentIntentAllowedPaymentMethodType = "alipay"
 	PaymentIntentAllowedPaymentMethodTypeAlma                 PaymentIntentAllowedPaymentMethodType = "alma"
 	PaymentIntentAllowedPaymentMethodTypeAmazonPay            PaymentIntentAllowedPaymentMethodType = "amazon_pay"
 	PaymentIntentAllowedPaymentMethodTypeAUBECSDebit          PaymentIntentAllowedPaymentMethodType = "au_becs_debit"
+	PaymentIntentAllowedPaymentMethodTypeAuPay                PaymentIntentAllowedPaymentMethodType = "au_pay"
 	PaymentIntentAllowedPaymentMethodTypeBACSDebit            PaymentIntentAllowedPaymentMethodType = "bacs_debit"
 	PaymentIntentAllowedPaymentMethodTypeBancontact           PaymentIntentAllowedPaymentMethodType = "bancontact"
 	PaymentIntentAllowedPaymentMethodTypeBillie               PaymentIntentAllowedPaymentMethodType = "billie"
@@ -81,6 +83,7 @@ const (
 	PaymentIntentAllowedPaymentMethodTypeClickToPay           PaymentIntentAllowedPaymentMethodType = "click_to_pay"
 	PaymentIntentAllowedPaymentMethodTypeCrypto               PaymentIntentAllowedPaymentMethodType = "crypto"
 	PaymentIntentAllowedPaymentMethodTypeCustomerBalance      PaymentIntentAllowedPaymentMethodType = "customer_balance"
+	PaymentIntentAllowedPaymentMethodTypeDbarai               PaymentIntentAllowedPaymentMethodType = "dbarai"
 	PaymentIntentAllowedPaymentMethodTypeDemoPay              PaymentIntentAllowedPaymentMethodType = "demo_pay"
 	PaymentIntentAllowedPaymentMethodTypeDuitnow              PaymentIntentAllowedPaymentMethodType = "duitnow"
 	PaymentIntentAllowedPaymentMethodTypeDummyAuthPush        PaymentIntentAllowedPaymentMethodType = "dummy_auth_push"
@@ -107,6 +110,7 @@ const (
 	PaymentIntentAllowedPaymentMethodTypeKriya                PaymentIntentAllowedPaymentMethodType = "kriya"
 	PaymentIntentAllowedPaymentMethodTypeLink                 PaymentIntentAllowedPaymentMethodType = "link"
 	PaymentIntentAllowedPaymentMethodTypeMbWay                PaymentIntentAllowedPaymentMethodType = "mb_way"
+	PaymentIntentAllowedPaymentMethodTypeMerpay               PaymentIntentAllowedPaymentMethodType = "merpay"
 	PaymentIntentAllowedPaymentMethodTypeMobilepay            PaymentIntentAllowedPaymentMethodType = "mobilepay"
 	PaymentIntentAllowedPaymentMethodTypeMomo                 PaymentIntentAllowedPaymentMethodType = "momo"
 	PaymentIntentAllowedPaymentMethodTypeMondu                PaymentIntentAllowedPaymentMethodType = "mondu"
@@ -234,12 +238,14 @@ type PaymentIntentExcludedPaymentMethodType string
 // List of values that PaymentIntentExcludedPaymentMethodType can take
 const (
 	PaymentIntentExcludedPaymentMethodTypeACSSDebit        PaymentIntentExcludedPaymentMethodType = "acss_debit"
+	PaymentIntentExcludedPaymentMethodTypeAeonPay          PaymentIntentExcludedPaymentMethodType = "aeon_pay"
 	PaymentIntentExcludedPaymentMethodTypeAffirm           PaymentIntentExcludedPaymentMethodType = "affirm"
 	PaymentIntentExcludedPaymentMethodTypeAfterpayClearpay PaymentIntentExcludedPaymentMethodType = "afterpay_clearpay"
 	PaymentIntentExcludedPaymentMethodTypeAlipay           PaymentIntentExcludedPaymentMethodType = "alipay"
 	PaymentIntentExcludedPaymentMethodTypeAlma             PaymentIntentExcludedPaymentMethodType = "alma"
 	PaymentIntentExcludedPaymentMethodTypeAmazonPay        PaymentIntentExcludedPaymentMethodType = "amazon_pay"
 	PaymentIntentExcludedPaymentMethodTypeAUBECSDebit      PaymentIntentExcludedPaymentMethodType = "au_becs_debit"
+	PaymentIntentExcludedPaymentMethodTypeAuPay            PaymentIntentExcludedPaymentMethodType = "au_pay"
 	PaymentIntentExcludedPaymentMethodTypeBACSDebit        PaymentIntentExcludedPaymentMethodType = "bacs_debit"
 	PaymentIntentExcludedPaymentMethodTypeBancontact       PaymentIntentExcludedPaymentMethodType = "bancontact"
 	PaymentIntentExcludedPaymentMethodTypeBillie           PaymentIntentExcludedPaymentMethodType = "billie"
@@ -251,6 +257,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeCashApp          PaymentIntentExcludedPaymentMethodType = "cashapp"
 	PaymentIntentExcludedPaymentMethodTypeCrypto           PaymentIntentExcludedPaymentMethodType = "crypto"
 	PaymentIntentExcludedPaymentMethodTypeCustomerBalance  PaymentIntentExcludedPaymentMethodType = "customer_balance"
+	PaymentIntentExcludedPaymentMethodTypeDbarai           PaymentIntentExcludedPaymentMethodType = "dbarai"
 	PaymentIntentExcludedPaymentMethodTypeEPS              PaymentIntentExcludedPaymentMethodType = "eps"
 	PaymentIntentExcludedPaymentMethodTypeFPX              PaymentIntentExcludedPaymentMethodType = "fpx"
 	PaymentIntentExcludedPaymentMethodTypeGetflex          PaymentIntentExcludedPaymentMethodType = "getflex"
@@ -265,6 +272,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeKonbini          PaymentIntentExcludedPaymentMethodType = "konbini"
 	PaymentIntentExcludedPaymentMethodTypeKrCard           PaymentIntentExcludedPaymentMethodType = "kr_card"
 	PaymentIntentExcludedPaymentMethodTypeMbWay            PaymentIntentExcludedPaymentMethodType = "mb_way"
+	PaymentIntentExcludedPaymentMethodTypeMerpay           PaymentIntentExcludedPaymentMethodType = "merpay"
 	PaymentIntentExcludedPaymentMethodTypeMobilepay        PaymentIntentExcludedPaymentMethodType = "mobilepay"
 	PaymentIntentExcludedPaymentMethodTypeMultibanco       PaymentIntentExcludedPaymentMethodType = "multibanco"
 	PaymentIntentExcludedPaymentMethodTypeNaverPay         PaymentIntentExcludedPaymentMethodType = "naver_pay"
@@ -875,6 +883,7 @@ type PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethod string
 // List of values that PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethod can take
 const (
 	PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethodInstant               PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethod = "instant"
 	PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification PaymentIntentPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
@@ -1048,6 +1057,17 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkUnionpay        PaymentIntentPaymentMethodOptionsCardNetwork = "unionpay"
 	PaymentIntentPaymentMethodOptionsCardNetworkUnknown         PaymentIntentPaymentMethodOptionsCardNetwork = "unknown"
 	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
+)
+
+// The category of digital asset being acquired through this account funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryBlockchainNative PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "blockchain_native"
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryNft              PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "nft"
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryOtherNonFiat     PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "other_non_fiat"
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryStablecoin       PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "stablecoin"
 )
 
 // Indicates whether Stripe may synchronously request a real-time card account update for this confirmation. `if_available` allows the update; `never` opts out. Defaults to `if_available` and is omitted from the response unless explicitly set on this confirmation. This does not affect batch Card Account Updater.
@@ -1241,6 +1261,17 @@ type PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBeh
 const (
 	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehaviorOmit  PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior = "omit"
 	PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehaviorPrint PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatumReceiptBehavior = "print"
+)
+
+// The category of digital asset being acquired through this account funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryBlockchainNative PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "blockchain_native"
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryNft              PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "nft"
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryOtherNonFiat     PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "other_non_fiat"
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryStablecoin       PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "stablecoin"
 )
 
 // Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
@@ -1887,7 +1918,6 @@ type PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "off_session"
-	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "on_session"
 )
 
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
@@ -2570,10 +2600,42 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	FleetData *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -3889,6 +3951,8 @@ type PaymentIntentPaymentMethodDataSequraParams struct{}
 type PaymentIntentPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *PaymentMethodAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -3903,6 +3967,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *PaymentMethodAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -3925,6 +3991,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Crypto *PaymentMethodCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *PaymentMethodDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -3957,6 +4025,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *PaymentMethodMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -4292,6 +4362,12 @@ func (p *PaymentIntentPaymentMethodOptionsAUBECSDebitParams) AddUnsetField(field
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for Financial Connections session creation.
+type PaymentIntentPaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -4313,6 +4389,8 @@ func (p *PaymentIntentPaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnse
 
 // If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 type PaymentIntentPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *PaymentIntentPaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions *PaymentIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -7574,10 +7652,42 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams str
 	FleetData *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -8781,10 +8891,42 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams str
 	FleetData *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -10197,10 +10339,42 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 	FleetData *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -10544,10 +10718,42 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 	FleetData *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -11009,10 +11215,42 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams stru
 	FleetData *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -12328,6 +12566,8 @@ type PaymentIntentCreatePaymentMethodDataSequraParams struct{}
 type PaymentIntentCreatePaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *PaymentMethodAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -12342,6 +12582,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *PaymentMethodAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -12364,6 +12606,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Crypto *PaymentMethodCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *PaymentMethodDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -12396,6 +12640,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *PaymentMethodMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -12731,6 +12977,12 @@ func (p *PaymentIntentCreatePaymentMethodOptionsAUBECSDebitParams) AddUnsetField
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for Financial Connections session creation.
+type PaymentIntentCreatePaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -12752,6 +13004,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams) A
 
 // If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 type PaymentIntentCreatePaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *PaymentIntentCreatePaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions *PaymentIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -15970,10 +16224,42 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams stru
 	FleetData *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
+// Fleet data for this line item.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `klarna` payment method.
@@ -17272,6 +17558,8 @@ type PaymentIntentUpdatePaymentMethodDataSequraParams struct{}
 type PaymentIntentUpdatePaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *PaymentMethodAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -17286,6 +17574,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *PaymentMethodAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -17308,6 +17598,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Crypto *PaymentMethodCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *PaymentMethodDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -17340,6 +17632,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *PaymentMethodMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -17675,6 +17969,12 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsAUBECSDebitParams) AddUnsetField
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for Financial Connections session creation.
+type PaymentIntentUpdatePaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -17696,6 +17996,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams) A
 
 // If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *PaymentIntentUpdatePaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -21317,7 +21619,7 @@ type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
 	QRCode                *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 type PaymentIntentNextActionVerifyWithMicrodeposits struct {
-	// The timestamp when the microdeposits are expected to land.
+	// The timestamp when the microdeposits are expected to land. Null for instant microdeposits.
 	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
@@ -22140,12 +22442,16 @@ type PaymentIntentPaymentMethodOptionsAUBECSDebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsBACSDebitFinancialConnections struct {
+	ReturnURL string `json:"return_url,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsBACSDebit struct {
-	MandateOptions *PaymentIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options,omitempty"`
+	FinancialConnections *PaymentIntentPaymentMethodOptionsBACSDebitFinancialConnections `json:"financial_connections,omitempty"`
+	MandateOptions       *PaymentIntentPaymentMethodOptionsBACSDebitMandateOptions       `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -22273,6 +22579,16 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []PaymentIntentPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types"`
 }
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFunding struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory `json:"digital_asset_category,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServices struct {
+	AccountFunding *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsCardPaymentDetails struct {
+	MoneyServices *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServices `json:"money_services,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
 	Address *Address `json:"address,omitempty"`
 	// Phone number
@@ -22293,7 +22609,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
+	Network        PaymentIntentPaymentMethodOptionsCardNetwork         `json:"network"`
+	PaymentDetails *PaymentIntentPaymentMethodOptionsCardPaymentDetails `json:"payment_details,omitempty"`
 	// Indicates whether Stripe may synchronously request a real-time card account update for this confirmation. `if_available` allows the update; `never` opts out. Defaults to `if_available` and is omitted from the response unless explicitly set on this confirmation. This does not affect batch Card Account Updater.
 	RequestCardAccountUpdate PaymentIntentPaymentMethodOptionsCardRequestCardAccountUpdate `json:"request_card_account_update,omitempty"`
 	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
@@ -22370,6 +22687,16 @@ type PaymentIntentPaymentMethodOptionsCardPresentFleet struct {
 	// Fleet prompts and values collected for this transaction.
 	TransactionData []*PaymentIntentPaymentMethodOptionsCardPresentFleetTransactionDatum `json:"transaction_data"`
 }
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFunding struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory `json:"digital_asset_category,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServices struct {
+	AccountFunding *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetails struct {
+	MoneyServices *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServices `json:"money_services,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	// Requested routing priority
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
@@ -22384,7 +22711,8 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method,omitempty"`
 	// Fleet prompting data for this payment.
-	Fleet *PaymentIntentPaymentMethodOptionsCardPresentFleet `json:"fleet,omitempty"`
+	Fleet          *PaymentIntentPaymentMethodOptionsCardPresentFleet          `json:"fleet,omitempty"`
+	PaymentDetails *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetails `json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.

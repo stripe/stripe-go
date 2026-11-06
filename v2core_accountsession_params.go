@@ -54,6 +54,12 @@ type V2CoreAccountSessionComponentsBillsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
+// Settings for the Business Profile Management embedded component.
+type V2CoreAccountSessionComponentsBusinessProfileManagementParams struct {
+	// Whether this embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
 // Settings for the Capital Financing embedded component.
 type V2CoreAccountSessionComponentsCapitalFinancingParams struct {
 	// Whether this embedded component is enabled.
@@ -258,6 +264,8 @@ type V2CoreAccountSessionComponentsParams struct {
 	Balances *V2CoreAccountSessionComponentsBalancesParams `form:"balances" json:"balances,omitempty"`
 	// Settings for the Bills embedded component.
 	Bills *V2CoreAccountSessionComponentsBillsParams `form:"bills" json:"bills,omitempty"`
+	// Settings for the Business Profile Management embedded component.
+	BusinessProfileManagement *V2CoreAccountSessionComponentsBusinessProfileManagementParams `form:"business_profile_management" json:"business_profile_management,omitempty"`
 	// Settings for the Capital Financing embedded component.
 	CapitalFinancing *V2CoreAccountSessionComponentsCapitalFinancingParams `form:"capital_financing" json:"capital_financing,omitempty"`
 	// Settings for the Capital Financing Application embedded component.
@@ -417,6 +425,12 @@ type V2CoreAccountSessionCreateComponentsBalancesParams struct {
 
 // Settings for the Bills embedded component.
 type V2CoreAccountSessionCreateComponentsBillsParams struct {
+	// Whether this embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+}
+
+// Settings for the Business Profile Management embedded component.
+type V2CoreAccountSessionCreateComponentsBusinessProfileManagementParams struct {
 	// Whether this embedded component is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
@@ -625,6 +639,8 @@ type V2CoreAccountSessionCreateComponentsParams struct {
 	Balances *V2CoreAccountSessionCreateComponentsBalancesParams `form:"balances" json:"balances,omitempty"`
 	// Settings for the Bills embedded component.
 	Bills *V2CoreAccountSessionCreateComponentsBillsParams `form:"bills" json:"bills,omitempty"`
+	// Settings for the Business Profile Management embedded component.
+	BusinessProfileManagement *V2CoreAccountSessionCreateComponentsBusinessProfileManagementParams `form:"business_profile_management" json:"business_profile_management,omitempty"`
 	// Settings for the Capital Financing embedded component.
 	CapitalFinancing *V2CoreAccountSessionCreateComponentsCapitalFinancingParams `form:"capital_financing" json:"capital_financing,omitempty"`
 	// Settings for the Capital Financing Application embedded component.

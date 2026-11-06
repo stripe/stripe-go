@@ -168,6 +168,7 @@ import (
 	"github.com/stripe/stripe-go/v87/subscriptionschedule"
 	taxassociation "github.com/stripe/stripe-go/v87/tax/association"
 	taxcalculation "github.com/stripe/stripe-go/v87/tax/calculation"
+	taxcertificate "github.com/stripe/stripe-go/v87/tax/certificate"
 	taxform "github.com/stripe/stripe-go/v87/tax/form"
 	taxlocation "github.com/stripe/stripe-go/v87/tax/location"
 	taxregistration "github.com/stripe/stripe-go/v87/tax/registration"
@@ -276,6 +277,8 @@ import (
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v87/v2/data/reporting/queryrun"
 	v2datareportrun "github.com/stripe/stripe-go/v87/v2/data/reportrun"
 	v2dataschema "github.com/stripe/stripe-go/v87/v2/data/schema"
+	v2extendobjectdefinition "github.com/stripe/stripe-go/v87/v2/extend/objectdefinition"
+	v2extendobjectdefinitionsversion "github.com/stripe/stripe-go/v87/v2/extend/objectdefinitions/version"
 	v2extendworkflow "github.com/stripe/stripe-go/v87/v2/extend/workflow"
 	v2extendworkflowrun "github.com/stripe/stripe-go/v87/v2/extend/workflowrun"
 	v2iamactivitylog "github.com/stripe/stripe-go/v87/v2/iam/activitylog"
@@ -656,6 +659,8 @@ type API struct {
 	TaxAssociations *taxassociation.Client
 	// TaxCalculations is the client used to invoke /v1/tax/calculations APIs.
 	TaxCalculations *taxcalculation.Client
+	// TaxCertificates is the client used to invoke /v1/tax/certificates APIs.
+	TaxCertificates *taxcertificate.Client
 	// TaxCodes is the client used to invoke /v1/tax_codes APIs.
 	TaxCodes *taxcode.Client
 	// TaxForms is the client used to invoke /v1/tax/forms APIs.
@@ -872,6 +877,10 @@ type API struct {
 	V2DataReports *v2datareport.Client
 	// V2DataSchemas is the client used to invoke /v2/data/schemas APIs.
 	V2DataSchemas *v2dataschema.Client
+	// V2ExtendObjectDefinitions is the client used to invoke /v2/extend/object_definitions APIs.
+	V2ExtendObjectDefinitions *v2extendobjectdefinition.Client
+	// V2ExtendObjectDefinitionsVersions is the client used to invoke /v2/extend/object_definitions/{object_definition_id}/versions APIs.
+	V2ExtendObjectDefinitionsVersions *v2extendobjectdefinitionsversion.Client
 	// V2ExtendWorkflowRuns is the client used to invoke /v2/extend/workflow_runs APIs.
 	V2ExtendWorkflowRuns *v2extendworkflowrun.Client
 	// V2ExtendWorkflows is the client used to invoke /v2/extend/workflows APIs.
@@ -1167,6 +1176,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SubscriptionSchedules = &subscriptionschedule.Client{B: backends.API, Key: key}
 	a.TaxAssociations = &taxassociation.Client{B: backends.API, Key: key}
 	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
+	a.TaxCertificates = &taxcertificate.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxForms = &taxform.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.TaxFunds = &taxfund.Client{B: backends.API, Key: key}
@@ -1275,6 +1285,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2DataReportRuns = &v2datareportrun.Client{B: backends.API, Key: key}
 	a.V2DataReports = &v2datareport.Client{B: backends.API, Key: key}
 	a.V2DataSchemas = &v2dataschema.Client{B: backends.API, Key: key}
+	a.V2ExtendObjectDefinitions = &v2extendobjectdefinition.Client{B: backends.API, Key: key}
+	a.V2ExtendObjectDefinitionsVersions = &v2extendobjectdefinitionsversion.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflowRuns = &v2extendworkflowrun.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflows = &v2extendworkflow.Client{B: backends.API, Key: key}
 	a.V2IamActivityLogs = &v2iamactivitylog.Client{B: backends.API, Key: key}

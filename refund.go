@@ -156,6 +156,8 @@ type RefundParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// The ID of a PaymentMethod that will receive the refund.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Used to create the PaymentMethod that will receive the refund.
 	PaymentMethodData *RefundPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific options for the refund.
@@ -284,6 +286,8 @@ type RefundCreateParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// The ID of a PaymentMethod that will receive the refund.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Used to create the PaymentMethod that will receive the refund.
 	PaymentMethodData *RefundCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific options for the refund.
@@ -388,6 +392,12 @@ type RefundDestinationDetailsAlipay struct{}
 type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
 type RefundDestinationDetailsAuBankTransfer struct{}
+type RefundDestinationDetailsBizum struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsBLIK struct {
 	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
 	NetworkDeclineCode string `json:"network_decline_code"`
@@ -504,6 +514,12 @@ type RefundDestinationDetailsTHBankTransfer struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsTWINT struct{}
+type RefundDestinationDetailsUpi struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsUSBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -519,6 +535,7 @@ type RefundDestinationDetails struct {
 	Alma                *RefundDestinationDetailsAlma                `json:"alma,omitempty"`
 	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay,omitempty"`
 	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer,omitempty"`
+	Bizum               *RefundDestinationDetailsBizum               `json:"bizum,omitempty"`
 	BLIK                *RefundDestinationDetailsBLIK                `json:"blik,omitempty"`
 	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer,omitempty"`
 	Card                *RefundDestinationDetailsCard                `json:"card,omitempty"`
@@ -549,6 +566,7 @@ type RefundDestinationDetails struct {
 	TWINT               *RefundDestinationDetailsTWINT               `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
+	Upi            *RefundDestinationDetailsUpi            `json:"upi,omitempty"`
 	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer,omitempty"`
 	WeChatPay      *RefundDestinationDetailsWeChatPay      `json:"wechat_pay,omitempty"`
 	Zip            *RefundDestinationDetailsZip            `json:"zip,omitempty"`
@@ -617,6 +635,8 @@ type Refund struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// ID of the payment method associated with this refund.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
+	// ID of the PaymentRecord associated with the payment that has been refunded.
+	PaymentRecord string `json:"payment_record,omitempty"`
 	// Provides the reason for why the refund is pending. Possible values are: `processing`, `insufficient_funds`, or `charge_pending`.
 	PendingReason      RefundPendingReason       `json:"pending_reason,omitempty"`
 	PresentmentDetails *RefundPresentmentDetails `json:"presentment_details,omitempty"`

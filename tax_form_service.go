@@ -20,6 +20,18 @@ type v1TaxFormService struct {
 	Key      string
 }
 
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+func (c v1TaxFormService) Create(ctx context.Context, params *TaxFormCreateParams) (*TaxFormCorrection, error) {
+	if params == nil {
+		params = &TaxFormCreateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/tax/forms/%s/corrections", StringValue(params.ID))
+	formcorrection := &TaxFormCorrection{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, formcorrection)
+	return formcorrection, err
+}
+
 // Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 func (c v1TaxFormService) Retrieve(ctx context.Context, id string, params *TaxFormRetrieveParams) (*TaxForm, error) {
 	if params == nil {

@@ -17122,6 +17122,90 @@ func (n *V2ExtendExtensionRunFailedEventNotification) FetchEvent(ctx context.Con
 	return evt.(*V2ExtendExtensionRunFailedEvent), nil
 }
 
+// V2ExtendObjectDefinitionCreatedEvent is the Go struct for the "v2.extend.object_definition.created" event.
+// Occurs when an object definition is created.
+type V2ExtendObjectDefinitionCreatedEvent struct {
+	V2BaseEvent
+	Data               V2ExtendObjectDefinitionCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                 `json:"related_object"`
+	fetchRelatedObject func() (*V2ExtendObjectDefinition, error)
+}
+
+// FetchRelatedObject fetches the V2ExtendObjectDefinition related to the event.
+func (e *V2ExtendObjectDefinitionCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2ExtendObjectDefinition, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ExtendObjectDefinitionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.extend.object_definition.created"
+// Occurs when an object definition is created.
+type V2ExtendObjectDefinitionCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ExtendObjectDefinitionCreatedEvent that created this Notification
+func (n *V2ExtendObjectDefinitionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendObjectDefinitionCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ExtendObjectDefinitionCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ExtendObjectDefinition related to the event.
+func (n *V2ExtendObjectDefinitionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ExtendObjectDefinition, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2ExtendObjectDefinition{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ExtendObjectDefinitionVersionCreatedEvent is the Go struct for the "v2.extend.object_definition_version.created" event.
+// Occurs when an object definition version is created.
+type V2ExtendObjectDefinitionVersionCreatedEvent struct {
+	V2BaseEvent
+	Data               V2ExtendObjectDefinitionVersionCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                        `json:"related_object"`
+	fetchRelatedObject func() (*V2ExtendObjectDefinitionVersion, error)
+}
+
+// FetchRelatedObject fetches the V2ExtendObjectDefinitionVersion related to the event.
+func (e *V2ExtendObjectDefinitionVersionCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2ExtendObjectDefinitionVersion, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ExtendObjectDefinitionVersionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.extend.object_definition_version.created"
+// Occurs when an object definition version is created.
+type V2ExtendObjectDefinitionVersionCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ExtendObjectDefinitionVersionCreatedEvent that created this Notification
+func (n *V2ExtendObjectDefinitionVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendObjectDefinitionVersionCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ExtendObjectDefinitionVersionCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ExtendObjectDefinitionVersion related to the event.
+func (n *V2ExtendObjectDefinitionVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ExtendObjectDefinitionVersion, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2ExtendObjectDefinitionVersion{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2ExtendWorkflowRunFailedEvent is the Go struct for the "v2.extend.workflow_run.failed" event.
 // Occurs when a Workflow Run fails.
 type V2ExtendWorkflowRunFailedEvent struct {
@@ -23605,6 +23689,22 @@ type V2ExtendExtensionRunFailedEventData struct {
 	Extension *V2ExtendExtensionRunFailedEventDataExtension `json:"extension"`
 	// The ID of the extension run that failed.
 	ExtensionRunID string `json:"extension_run_id"`
+}
+
+// Occurs when an object definition is created.
+type V2ExtendObjectDefinitionCreatedEventData struct {
+	// The singular API name of the object definition.
+	APINameSingular string `json:"api_name_singular"`
+}
+
+// Occurs when an object definition version is created.
+type V2ExtendObjectDefinitionVersionCreatedEventData struct {
+	// The singular API name of the object definition.
+	APINameSingular string `json:"api_name_singular"`
+	// The ID of the parent object definition.
+	ObjectDefinition string `json:"object_definition"`
+	// The semantic version of the created object definition version, in `major.minor.patch` format.
+	Version string `json:"version"`
 }
 
 // Details about the Workflow Run's transition into the FAILED state.
@@ -30208,6 +30308,44 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.extend.object_definition.created":
+		result := &V2ExtendObjectDefinitionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ExtendObjectDefinition, error) {
+			v := &V2ExtendObjectDefinition{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.extend.object_definition_version.created":
+		result := &V2ExtendObjectDefinitionVersionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ExtendObjectDefinitionVersion, error) {
+			v := &V2ExtendObjectDefinitionVersion{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.extend.workflow_run.failed":
 		result := &V2ExtendWorkflowRunFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -35209,6 +35347,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.extend.extension_run.failed":
 		evt := V2ExtendExtensionRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.extend.object_definition.created":
+		evt := V2ExtendObjectDefinitionCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.extend.object_definition_version.created":
+		evt := V2ExtendObjectDefinitionVersionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

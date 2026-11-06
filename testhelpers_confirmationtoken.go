@@ -16,6 +16,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataACSSDebitParams struct {
 	TransitNumber *string `form:"transit_number" json:"transit_number"`
 }
 
+// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataAeonPayParams struct{}
+
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataAffirmParams struct{}
 
@@ -38,6 +41,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataAUBECSDebitParams struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber *string `form:"bsb_number" json:"bsb_number"`
 }
+
+// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataAuPayParams struct{}
 
 // If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 type TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams struct {
@@ -106,6 +112,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataCustomerBalanceParams struct{}
+
+// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataDbaraiParams struct{}
 
 // If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataEPSParams struct {
@@ -184,6 +193,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataMbWayParams struct{}
+
+// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataMerpayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams struct{}
@@ -389,6 +401,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataZipParams struct{}
 type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *TestHelpersConfirmationTokenPaymentMethodDataACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *TestHelpersConfirmationTokenPaymentMethodDataAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *TestHelpersConfirmationTokenPaymentMethodDataAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -403,6 +417,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	AmazonPay *TestHelpersConfirmationTokenPaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *TestHelpersConfirmationTokenPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *TestHelpersConfirmationTokenPaymentMethodDataAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -425,6 +441,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Crypto *TestHelpersConfirmationTokenPaymentMethodDataCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *TestHelpersConfirmationTokenPaymentMethodDataCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *TestHelpersConfirmationTokenPaymentMethodDataDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *TestHelpersConfirmationTokenPaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -457,6 +475,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenPaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *TestHelpersConfirmationTokenPaymentMethodDataMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -640,6 +660,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataACSSDebitParams struct {
 	TransitNumber *string `form:"transit_number" json:"transit_number"`
 }
 
+// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataAeonPayParams struct{}
+
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataAffirmParams struct{}
 
@@ -662,6 +685,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataAUBECSDebitParams struct
 	// Bank-State-Branch number of the bank account.
 	BSBNumber *string `form:"bsb_number" json:"bsb_number"`
 }
+
+// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataAuPayParams struct{}
 
 // If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams struct {
@@ -730,6 +756,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataCustomerBalanceParams struct{}
+
+// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataDbaraiParams struct{}
 
 // If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataEPSParams struct {
@@ -808,6 +837,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams struct{}
+
+// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataMerpayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataMobilepayParams struct{}
@@ -1013,6 +1045,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataZipParams struct{}
 type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this hash contains details about the AEON Pay payment method.
+	AeonPay *TestHelpersConfirmationTokenCreatePaymentMethodDataAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *TestHelpersConfirmationTokenCreatePaymentMethodDataAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
@@ -1027,6 +1061,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	AmazonPay *TestHelpersConfirmationTokenCreatePaymentMethodDataAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this hash contains details about the au PAY payment method.
+	AuPay *TestHelpersConfirmationTokenCreatePaymentMethodDataAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -1049,6 +1085,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Crypto *TestHelpersConfirmationTokenCreatePaymentMethodDataCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *TestHelpersConfirmationTokenCreatePaymentMethodDataCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this hash contains details about the d-Barai payment method.
+	Dbarai *TestHelpersConfirmationTokenCreatePaymentMethodDataDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *TestHelpersConfirmationTokenCreatePaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -1081,6 +1119,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Link *TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this hash contains details about the Merpay payment method.
+	Merpay *TestHelpersConfirmationTokenCreatePaymentMethodDataMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.

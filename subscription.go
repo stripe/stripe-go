@@ -173,6 +173,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod 
 // List of values that SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
 const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodInstant               SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "instant"
 	SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification SubscriptionPaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
@@ -586,6 +587,8 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
+	// The Billing Group which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
@@ -1464,8 +1467,10 @@ type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// Filter for subscriptions that have the specified billing cadence.
+	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Filter for subscriptions that have the specified billing group.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Only return subscriptions that were created during the given date interval.
@@ -2521,6 +2526,8 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// The Billing Group which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 	BillingSchedules []*SubscriptionUpdateBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -3492,6 +3499,8 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
+	// The Billing Group which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
@@ -4125,12 +4134,14 @@ type Subscription struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription.If unset, the subscription will bill according to its own configured schedule and create its own invoices.If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
+	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
 	BillingCadence string `json:"billing_cadence,omitempty"`
 	// The reference point that aligns future [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle) dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
+	// The Billing Group which controls the timing of recurring invoice generation for this subscription.If unset, the subscription will bill according to its own configured schedule and create its own invoices.If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
+	BillingGroup string `json:"billing_group,omitempty"`
 	// The billing mode of the subscription.
 	BillingMode *SubscriptionBillingMode `json:"billing_mode"`
 	// Billing schedules for this subscription.

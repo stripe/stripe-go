@@ -314,6 +314,8 @@ type Client struct {
 	V1TaxAssociations *v1TaxAssociationService
 	// V1TaxCalculations is the service used to invoke /v1/tax/calculations APIs.
 	V1TaxCalculations *v1TaxCalculationService
+	// V1TaxCertificates is the service used to invoke /v1/tax/certificates APIs.
+	V1TaxCertificates *v1TaxCertificateService
 	// V1TaxCodes is the service used to invoke /v1/tax_codes APIs.
 	V1TaxCodes *v1TaxCodeService
 	// V1TaxForms is the service used to invoke /v1/tax/forms APIs.
@@ -534,6 +536,10 @@ type Client struct {
 	V2DataReports *v2DataReportService
 	// V2DataSchemas is the service used to invoke /v2/data/schemas APIs.
 	V2DataSchemas *v2DataSchemaService
+	// V2ExtendObjectDefinitions is the service used to invoke /v2/extend/object_definitions APIs.
+	V2ExtendObjectDefinitions *v2ExtendObjectDefinitionService
+	// V2ExtendObjectDefinitionsVersions is the service used to invoke /v2/extend/object_definitions/{object_definition_id}/versions APIs.
+	V2ExtendObjectDefinitionsVersions *v2ExtendObjectDefinitionsVersionService
 	// V2ExtendWorkflowRuns is the service used to invoke /v2/extend/workflow_runs APIs.
 	V2ExtendWorkflowRuns *v2ExtendWorkflowRunService
 	// V2ExtendWorkflows is the service used to invoke /v2/extend/workflows APIs.
@@ -848,6 +854,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SubscriptionSchedules = &v1SubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1TaxAssociations = &v1TaxAssociationService{B: backends.API, Key: key}
 	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
+	client.V1TaxCertificates = &v1TaxCertificateService{B: backends.API, Key: key}
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxForms = &v1TaxFormService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1TaxFunds = &v1TaxFundService{B: backends.API, Key: key}
@@ -958,6 +965,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2DataReportRuns = &v2DataReportRunService{B: backends.API, Key: key}
 	client.V2DataReports = &v2DataReportService{B: backends.API, Key: key}
 	client.V2DataSchemas = &v2DataSchemaService{B: backends.API, Key: key}
+	client.V2ExtendObjectDefinitions = &v2ExtendObjectDefinitionService{B: backends.API, Key: key}
+	client.V2ExtendObjectDefinitionsVersions = &v2ExtendObjectDefinitionsVersionService{B: backends.API, Key: key}
 	client.V2ExtendWorkflowRuns = &v2ExtendWorkflowRunService{B: backends.API, Key: key}
 	client.V2ExtendWorkflows = &v2ExtendWorkflowService{B: backends.API, Key: key}
 	client.V2IamActivityLogs = &v2IamActivityLogService{B: backends.API, Key: key}

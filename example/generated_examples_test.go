@@ -17166,6 +17166,9 @@ func TestV2CoreAccountSessionPostService(t *testing.T) {
 			Bills: &stripe.V2CoreAccountSessionComponentsBillsParams{
 				Enabled: stripe.Bool(true),
 			},
+			BusinessProfileManagement: &stripe.V2CoreAccountSessionComponentsBusinessProfileManagementParams{
+				Enabled: stripe.Bool(true),
+			},
 			CapitalFinancing: &stripe.V2CoreAccountSessionComponentsCapitalFinancingParams{
 				Enabled: stripe.Bool(true),
 			},
@@ -17262,7 +17265,7 @@ func TestV2CoreAccountSessionPostService(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_sessions", params, "{\"object\":\"v2.core.account_session\",\"account\":\"account\",\"client_secret\":\"client_secret\",\"components\":{\"account_management\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"account_onboarding\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"agentic_commerce_settings\":{\"enabled\":true,\"scopes\":{}},\"app_install\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"app_viewport\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"balance_report\":{\"enabled\":true,\"scopes\":{}},\"balances\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"bills\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\"}},\"capital_financing\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_application\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_promotion\":{\"enabled\":true,\"scopes\":{}},\"check_scanning\":{\"enabled\":true,\"scopes\":{\"create_us_paper_check_on_application\":\"disabled\"}},\"disputes_list\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"documents\":{\"enabled\":true,\"scopes\":{}},\"export_tax_transactions\":{\"enabled\":true,\"scopes\":{}},\"financial_account_rewards\":{\"enabled\":true,\"scopes\":{}},\"financial_accounts\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"create_payout_schedule\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_payout_methods\":\"enabled\"}},\"financial_accounts_transactions\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\"}},\"instant_payouts_promotion\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"invoice_history\":{\"enabled\":true,\"scopes\":{}},\"issuing_card\":{\"enabled\":true,\"scopes\":{\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"issuing_cards_list\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"network_cost_passthrough_report\":{\"enabled\":true,\"scopes\":{}},\"notification_banner\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payment_details\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_disputes\":{\"enabled\":true,\"scopes\":{\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_method_settings\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\"}},\"payments\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payout_details\":{\"enabled\":true,\"scopes\":{}},\"payout_reconciliation_report\":{\"enabled\":true,\"scopes\":{}},\"payouts\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payouts_list\":{\"enabled\":true,\"scopes\":{}},\"product_tax_code_selector\":{\"enabled\":true,\"scopes\":{}},\"reporting_chart\":{\"enabled\":true,\"scopes\":{}},\"tax_registrations\":{\"enabled\":true,\"scopes\":{}},\"tax_settings\":{\"enabled\":true,\"scopes\":{}},\"tax_threshold_monitoring\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_orders\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_shop\":{\"enabled\":true,\"scopes\":{}}},\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_sessions", params, "{\"object\":\"v2.core.account_session\",\"account\":\"account\",\"client_secret\":\"client_secret\",\"components\":{\"account_management\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"account_onboarding\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"agentic_commerce_settings\":{\"enabled\":true,\"scopes\":{}},\"app_install\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"app_viewport\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"balance_report\":{\"enabled\":true,\"scopes\":{}},\"balances\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"bills\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\"}},\"business_profile_management\":{\"enabled\":true,\"scopes\":{}},\"capital_financing\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_application\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_promotion\":{\"enabled\":true,\"scopes\":{}},\"check_scanning\":{\"enabled\":true,\"scopes\":{\"create_us_paper_check_on_application\":\"disabled\"}},\"disputes_list\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"documents\":{\"enabled\":true,\"scopes\":{}},\"export_tax_transactions\":{\"enabled\":true,\"scopes\":{}},\"financial_account_rewards\":{\"enabled\":true,\"scopes\":{}},\"financial_accounts\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"create_payout_schedule\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_payout_methods\":\"enabled\"}},\"financial_accounts_transactions\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\"}},\"instant_payouts_promotion\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"invoice_history\":{\"enabled\":true,\"scopes\":{}},\"issuing_card\":{\"enabled\":true,\"scopes\":{\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"issuing_cards_list\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"network_cost_passthrough_report\":{\"enabled\":true,\"scopes\":{}},\"notification_banner\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payment_details\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_disputes\":{\"enabled\":true,\"scopes\":{\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_method_settings\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\"}},\"payments\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payout_details\":{\"enabled\":true,\"scopes\":{}},\"payout_reconciliation_report\":{\"enabled\":true,\"scopes\":{}},\"payouts\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payouts_list\":{\"enabled\":true,\"scopes\":{}},\"product_tax_code_selector\":{\"enabled\":true,\"scopes\":{}},\"reporting_chart\":{\"enabled\":true,\"scopes\":{}},\"tax_registrations\":{\"enabled\":true,\"scopes\":{}},\"tax_settings\":{\"enabled\":true,\"scopes\":{}},\"tax_threshold_monitoring\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_orders\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_shop\":{\"enabled\":true,\"scopes\":{}}},\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17298,6 +17301,9 @@ func TestV2CoreAccountSessionPostClient(t *testing.T) {
 				Enabled: stripe.Bool(true),
 			},
 			Bills: &stripe.V2CoreAccountSessionCreateComponentsBillsParams{
+				Enabled: stripe.Bool(true),
+			},
+			BusinessProfileManagement: &stripe.V2CoreAccountSessionCreateComponentsBusinessProfileManagementParams{
 				Enabled: stripe.Bool(true),
 			},
 			CapitalFinancing: &stripe.V2CoreAccountSessionCreateComponentsCapitalFinancingParams{
@@ -17396,7 +17402,7 @@ func TestV2CoreAccountSessionPostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_sessions", params, "{\"object\":\"v2.core.account_session\",\"account\":\"account\",\"client_secret\":\"client_secret\",\"components\":{\"account_management\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"account_onboarding\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"agentic_commerce_settings\":{\"enabled\":true,\"scopes\":{}},\"app_install\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"app_viewport\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"balance_report\":{\"enabled\":true,\"scopes\":{}},\"balances\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"bills\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\"}},\"capital_financing\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_application\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_promotion\":{\"enabled\":true,\"scopes\":{}},\"check_scanning\":{\"enabled\":true,\"scopes\":{\"create_us_paper_check_on_application\":\"disabled\"}},\"disputes_list\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"documents\":{\"enabled\":true,\"scopes\":{}},\"export_tax_transactions\":{\"enabled\":true,\"scopes\":{}},\"financial_account_rewards\":{\"enabled\":true,\"scopes\":{}},\"financial_accounts\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"create_payout_schedule\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_payout_methods\":\"enabled\"}},\"financial_accounts_transactions\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\"}},\"instant_payouts_promotion\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"invoice_history\":{\"enabled\":true,\"scopes\":{}},\"issuing_card\":{\"enabled\":true,\"scopes\":{\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"issuing_cards_list\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"network_cost_passthrough_report\":{\"enabled\":true,\"scopes\":{}},\"notification_banner\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payment_details\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_disputes\":{\"enabled\":true,\"scopes\":{\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_method_settings\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\"}},\"payments\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payout_details\":{\"enabled\":true,\"scopes\":{}},\"payout_reconciliation_report\":{\"enabled\":true,\"scopes\":{}},\"payouts\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payouts_list\":{\"enabled\":true,\"scopes\":{}},\"product_tax_code_selector\":{\"enabled\":true,\"scopes\":{}},\"reporting_chart\":{\"enabled\":true,\"scopes\":{}},\"tax_registrations\":{\"enabled\":true,\"scopes\":{}},\"tax_settings\":{\"enabled\":true,\"scopes\":{}},\"tax_threshold_monitoring\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_orders\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_shop\":{\"enabled\":true,\"scopes\":{}}},\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_sessions", params, "{\"object\":\"v2.core.account_session\",\"account\":\"account\",\"client_secret\":\"client_secret\",\"components\":{\"account_management\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"account_onboarding\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"agentic_commerce_settings\":{\"enabled\":true,\"scopes\":{}},\"app_install\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"app_viewport\":{\"enabled\":true,\"scopes\":{\"allowed_stripe_app_ids\":[\"allowed_stripe_app_ids\"]}},\"balance_report\":{\"enabled\":true,\"scopes\":{}},\"balances\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"bills\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\"}},\"business_profile_management\":{\"enabled\":true,\"scopes\":{}},\"capital_financing\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_application\":{\"enabled\":true,\"scopes\":{}},\"capital_financing_promotion\":{\"enabled\":true,\"scopes\":{}},\"check_scanning\":{\"enabled\":true,\"scopes\":{\"create_us_paper_check_on_application\":\"disabled\"}},\"disputes_list\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"documents\":{\"enabled\":true,\"scopes\":{}},\"export_tax_transactions\":{\"enabled\":true,\"scopes\":{}},\"financial_account_rewards\":{\"enabled\":true,\"scopes\":{}},\"financial_accounts\":{\"enabled\":true,\"scopes\":{\"create_outbound_payments\":\"enabled\",\"create_payout_schedule\":\"enabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_bills\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_payout_methods\":\"enabled\"}},\"financial_accounts_transactions\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\"}},\"instant_payouts_promotion\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"invoice_history\":{\"enabled\":true,\"scopes\":{}},\"issuing_card\":{\"enabled\":true,\"scopes\":{\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"issuing_cards_list\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_issuing_cardholders\":\"disabled\",\"manage_issuing_cards\":\"disabled\",\"manage_issuing_disputes\":\"disabled\",\"manage_issuing_spending_controls\":\"disabled\"}},\"network_cost_passthrough_report\":{\"enabled\":true,\"scopes\":{}},\"notification_banner\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payment_details\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_disputes\":{\"enabled\":true,\"scopes\":{\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payment_method_settings\":{\"enabled\":true,\"scopes\":{\"disable_stripe_user_authentication\":\"enabled\"}},\"payments\":{\"enabled\":true,\"scopes\":{\"capture_payments\":\"disabled\",\"manage_destination_on_behalf_of_charges\":\"enabled\",\"manage_payment_disputes\":\"disabled\",\"manage_refund_payments\":\"disabled\",\"manage_smart_disputes\":\"enabled\"}},\"payout_details\":{\"enabled\":true,\"scopes\":{}},\"payout_reconciliation_report\":{\"enabled\":true,\"scopes\":{}},\"payouts\":{\"enabled\":true,\"scopes\":{\"create_payout_schedule\":\"enabled\",\"create_standard_payouts\":\"disabled\",\"disable_stripe_user_authentication\":\"enabled\",\"manage_payout_methods\":\"enabled\"}},\"payouts_list\":{\"enabled\":true,\"scopes\":{}},\"product_tax_code_selector\":{\"enabled\":true,\"scopes\":{}},\"reporting_chart\":{\"enabled\":true,\"scopes\":{}},\"tax_registrations\":{\"enabled\":true,\"scopes\":{}},\"tax_settings\":{\"enabled\":true,\"scopes\":{}},\"tax_threshold_monitoring\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_orders\":{\"enabled\":true,\"scopes\":{}},\"terminal_hardware_shop\":{\"enabled\":true,\"scopes\":{}}},\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18778,10 +18784,10 @@ func TestV2DataAnalyticsMetricQueryPostClient(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2DataOperationPostService(t *testing.T) {
+func TestV2DataOperationSearchPostRequiredService(t *testing.T) {
 	params := &stripe.V2DataOperationSearchParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true}")
+		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"context\":{\"business_concepts\":[{\"definition\":\"definition\",\"term\":\"term\"}],\"domain\":\"domain\",\"guidance\":\"guidance\"},\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"extended_description\":\"extended_description\",\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true,\"next_page_url\":\"next_page_url\",\"previous_page_url\":\"previous_page_url\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18791,10 +18797,44 @@ func TestV2DataOperationPostService(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2DataOperationPostClient(t *testing.T) {
+func TestV2DataOperationSearchPostRequiredClient(t *testing.T) {
 	params := &stripe.V2DataOperationSearchParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true}")
+		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"context\":{\"business_concepts\":[{\"definition\":\"definition\",\"term\":\"term\"}],\"domain\":\"domain\",\"guidance\":\"guidance\"},\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"extended_description\":\"extended_description\",\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true,\"next_page_url\":\"next_page_url\",\"previous_page_url\":\"previous_page_url\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2DataOperations.Search(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2DataOperationSearchPostAllService(t *testing.T) {
+	params := &stripe.V2DataOperationSearchParams{
+		Catalogs: []*string{stripe.String("schemas")},
+		Page:     stripe.String("page"),
+	}
+	params.Limit = stripe.Int64(102976443)
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"context\":{\"business_concepts\":[{\"definition\":\"definition\",\"term\":\"term\"}],\"domain\":\"domain\",\"guidance\":\"guidance\"},\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"extended_description\":\"extended_description\",\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true,\"next_page_url\":\"next_page_url\",\"previous_page_url\":\"previous_page_url\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2DataOperations.Search(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2DataOperationSearchPostAllClient(t *testing.T) {
+	params := &stripe.V2DataOperationSearchParams{
+		Catalogs: []*string{stripe.String("schemas")},
+		Page:     stripe.String("page"),
+	}
+	params.Limit = stripe.Int64(102976443)
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/data/operations/search", params, "{\"object\":\"v2.data.search_result_list\",\"context\":{\"business_concepts\":[{\"definition\":\"definition\",\"term\":\"term\"}],\"domain\":\"domain\",\"guidance\":\"guidance\"},\"data\":[{\"description\":\"description\",\"execution_spec\":{\"execution_url\":\"execution_url\",\"http_method\":\"GET\",\"id\":\"obj_123\"},\"extended_description\":\"extended_description\",\"id\":\"obj_123\",\"name\":\"name\",\"object_type\":\"object_type\",\"reference_url\":\"reference_url\",\"refreshed_at\":\"1970-01-01T11:25:45.896Z\",\"relevance_score\":\"1104594632\"}],\"livemode\":true,\"next_page_url\":\"next_page_url\",\"previous_page_url\":\"previous_page_url\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19099,6 +19139,116 @@ func TestV2DataSchemaGet2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2DataSchemas.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ExtendObjectDefinitionGetService(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions", params, "{\"data\":[{\"object\":\"v2.extend.object_definition\",\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ExtendObjectDefinitions.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendObjectDefinitionGetClient(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions", params, "{\"data\":[{\"object\":\"v2.extend.object_definition\",\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ExtendObjectDefinitions.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendObjectDefinitionGet2Service(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/id_123", params, "{\"object\":\"v2.extend.object_definition\",\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ExtendObjectDefinitions.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ExtendObjectDefinitionGet2Client(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/id_123", params, "{\"object\":\"v2.extend.object_definition\",\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ExtendObjectDefinitions.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ExtendObjectDefinitionsVersionGetService(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionsVersionListParams{
+		ObjectDefinitionID: stripe.String("object_definition_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/object_definition_id_123/versions", params, "{\"data\":[{\"object\":\"v2.extend.object_definition_version\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name_plural\":\"display_name_plural\",\"display_name_singular\":\"display_name_singular\",\"id\":\"obj_123\",\"livemode\":true,\"object_definition\":\"object_definition\",\"parent_details\":{\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"id\":\"obj_123\"},\"properties\":{\"key\":{\"type\":\"array\"}},\"version\":\"version\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ExtendObjectDefinitionsVersions.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendObjectDefinitionsVersionGetClient(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionsVersionListParams{
+		ObjectDefinitionID: stripe.String("object_definition_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/object_definition_id_123/versions", params, "{\"data\":[{\"object\":\"v2.extend.object_definition_version\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name_plural\":\"display_name_plural\",\"display_name_singular\":\"display_name_singular\",\"id\":\"obj_123\",\"livemode\":true,\"object_definition\":\"object_definition\",\"parent_details\":{\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"id\":\"obj_123\"},\"properties\":{\"key\":{\"type\":\"array\"}},\"version\":\"version\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ExtendObjectDefinitionsVersions.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendObjectDefinitionsVersionGet2Service(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionsVersionParams{
+		ObjectDefinitionID: stripe.String("object_definition_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/object_definition_id_123/versions/id_123", params, "{\"object\":\"v2.extend.object_definition_version\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name_plural\":\"display_name_plural\",\"display_name_singular\":\"display_name_singular\",\"id\":\"obj_123\",\"livemode\":true,\"object_definition\":\"object_definition\",\"parent_details\":{\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"id\":\"obj_123\"},\"properties\":{\"key\":{\"type\":\"array\"}},\"version\":\"version\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ExtendObjectDefinitionsVersions.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2ExtendObjectDefinitionsVersionGet2Client(t *testing.T) {
+	params := &stripe.V2ExtendObjectDefinitionsVersionRetrieveParams{
+		ObjectDefinitionID: stripe.String("object_definition_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/object_definitions/object_definition_id_123/versions/id_123", params, "{\"object\":\"v2.extend.object_definition_version\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name_plural\":\"display_name_plural\",\"display_name_singular\":\"display_name_singular\",\"id\":\"obj_123\",\"livemode\":true,\"object_definition\":\"object_definition\",\"parent_details\":{\"api_name_plural\":\"api_name_plural\",\"api_name_singular\":\"api_name_singular\",\"id\":\"obj_123\"},\"properties\":{\"key\":{\"type\":\"array\"}},\"version\":\"version\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ExtendObjectDefinitionsVersions.Retrieve(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }
@@ -24708,18 +24858,14 @@ func TestV2TaxManualRulePost3Client(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2TaxOperationPostService(t *testing.T) {
+func TestV2TaxOperationResolveAddressPostRequiredService(t *testing.T) {
 	params := &stripe.V2TaxOperationResolveAddressParams{
 		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
-			City:       stripe.String("city"),
-			Country:    stripe.String("country"),
-			Line1:      stripe.String("line1"),
-			PostalCode: stripe.String("postal_code"),
-			State:      stripe.String("state"),
+			Country: stripe.String("country"),
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{\"city\":\"city\",\"country\":\"country\",\"line1\":\"line1\",\"postal_code\":\"postal_code\",\"state\":\"state\"},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -24729,7 +24875,24 @@ func TestV2TaxOperationPostService(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2TaxOperationPostClient(t *testing.T) {
+func TestV2TaxOperationResolveAddressPostRequiredClient(t *testing.T) {
+	params := &stripe.V2TaxOperationResolveAddressParams{
+		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
+			Country: stripe.String("country"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{\"city\":\"city\",\"country\":\"country\",\"line1\":\"line1\",\"postal_code\":\"postal_code\",\"state\":\"state\"},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxOperations.ResolveAddress(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2TaxOperationResolveAddressPostAllService(t *testing.T) {
 	params := &stripe.V2TaxOperationResolveAddressParams{
 		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
 			City:       stripe.String("city"),
@@ -24740,7 +24903,28 @@ func TestV2TaxOperationPostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{\"city\":\"city\",\"country\":\"country\",\"line1\":\"line1\",\"postal_code\":\"postal_code\",\"state\":\"state\"},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxOperations.ResolveAddress(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2TaxOperationResolveAddressPostAllClient(t *testing.T) {
+	params := &stripe.V2TaxOperationResolveAddressParams{
+		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
+			City:       stripe.String("city"),
+			Country:    stripe.String("country"),
+			Line1:      stripe.String("line1"),
+			PostalCode: stripe.String("postal_code"),
+			State:      stripe.String("state"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{\"city\":\"city\",\"country\":\"country\",\"line1\":\"line1\",\"postal_code\":\"postal_code\",\"state\":\"state\"},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
