@@ -2172,9 +2172,10 @@ func TestStripeClientUserAgentTelemetryIsolation(t *testing.T) {
 				req, err := backend.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
 				assert.NoError(t, err)
 				encoded := req.Header.Get("X-Stripe-Client-User-Agent")
-				if i == 0 {
+				switch i {
+				case 0:
 					firstHeader = encoded
-				} else if i == 2 {
+				case 2:
 					assert.Equal(t, firstHeader, encoded)
 				}
 				var userAgent map[string]string
