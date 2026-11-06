@@ -225,6 +225,7 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType s
 // List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType can take
 const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeCard          RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "card"
+	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeSEPADebit     RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "sepa_debit"
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeUSBankAccount RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "us_bank_account"
 )
 
@@ -246,15 +247,16 @@ const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountPaymentTypeRecurring RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountPaymentType = "recurring"
 )
 
-// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block`, `continue` and `request_three_d_secure`.
+// Recommended action for this payment based on its evaluated signals and rules.
 type RadarPaymentEvaluationRecommendedAction string
 
 // List of values that RadarPaymentEvaluationRecommendedAction can take
 const (
-	RadarPaymentEvaluationRecommendedActionBlock               RadarPaymentEvaluationRecommendedAction = "block"
-	RadarPaymentEvaluationRecommendedActionContinue            RadarPaymentEvaluationRecommendedAction = "continue"
-	RadarPaymentEvaluationRecommendedActionRequestThreeDSecure RadarPaymentEvaluationRecommendedAction = "request_three_d_secure"
-	RadarPaymentEvaluationRecommendedActionReroute             RadarPaymentEvaluationRecommendedAction = "reroute"
+	RadarPaymentEvaluationRecommendedActionBlock                    RadarPaymentEvaluationRecommendedAction = "block"
+	RadarPaymentEvaluationRecommendedActionContinue                 RadarPaymentEvaluationRecommendedAction = "continue"
+	RadarPaymentEvaluationRecommendedActionContinueWithManualReview RadarPaymentEvaluationRecommendedAction = "continue_with_manual_review"
+	RadarPaymentEvaluationRecommendedActionRequestThreeDSecure      RadarPaymentEvaluationRecommendedAction = "request_three_d_secure"
+	RadarPaymentEvaluationRecommendedActionReroute                  RadarPaymentEvaluationRecommendedAction = "reroute"
 )
 
 // Risk level of this signal, based on the score.
@@ -268,6 +270,19 @@ const (
 	RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevelNormal      RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevel = "normal"
 	RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevelNotAssessed RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevel = "not_assessed"
 	RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevelUnknown     RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevel = "unknown"
+)
+
+// Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsCardTestingRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsCardTestingRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelElevated    RadarPaymentEvaluationSignalsCardTestingRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelHighest     RadarPaymentEvaluationSignalsCardTestingRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelLow         RadarPaymentEvaluationSignalsCardTestingRiskLevel = "low"
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelNormal      RadarPaymentEvaluationSignalsCardTestingRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelNotAssessed RadarPaymentEvaluationSignalsCardTestingRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsCardTestingRiskLevelUnknown     RadarPaymentEvaluationSignalsCardTestingRiskLevel = "unknown"
 )
 
 // Risk level of this signal, based on the score.
@@ -353,6 +368,12 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
+// Describes SEPA debit money movement details.
+type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitParams struct {
+	// Supply the SEPA Creditor Identifier configured for the intended debit with your selected processor. Obtain it from your processor's SEPA configuration API or onboarding/support information. Do not supply a statement descriptor, IBAN, processor merchant-account ID, or mandate reference. If the creditor identifier is unknown, omit it.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Describes US bank account money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountParams struct {
 	// Describes the presence of the customer during the payment.
@@ -367,6 +388,8 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams struct {
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
+	// Describes SEPA debit money movement details.
+	SEPADebit *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// Describes US bank account money movement details.
 	USBankAccount *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -510,6 +533,12 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams st
 	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
+// Describes SEPA debit money movement details.
+type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsSEPADebitParams struct {
+	// Supply the SEPA Creditor Identifier configured for the intended debit with your selected processor. Obtain it from your processor's SEPA configuration API or onboarding/support information. Do not supply a statement descriptor, IBAN, processor merchant-account ID, or mandate reference. If the creditor identifier is unknown, omit it.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Describes US bank account money movement details.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsUSBankAccountParams struct {
 	// Describes the presence of the customer during the payment.
@@ -524,6 +553,8 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams struct
 	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
+	// Describes SEPA debit money movement details.
+	SEPADebit *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// Describes US bank account money movement details.
 	USBankAccount *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -789,6 +820,12 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 	PaymentType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardPaymentType `json:"payment_type"`
 }
 
+// Describes SEPA debit money movement details.
+type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebit struct {
+	// Creditor identifier used for the intended debit.
+	CreditorID string `json:"creditor_id"`
+}
+
 // Describes US bank account money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccount struct {
 	// Describes the presence of the customer during the payment.
@@ -803,6 +840,8 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetails struct {
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard `json:"card"`
 	// Describes the type of money movement.
 	MoneyMovementType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType `json:"money_movement_type"`
+	// Describes SEPA debit money movement details.
+	SEPADebit *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebit `json:"sepa_debit,omitempty"`
 	// Describes US bank account money movement details.
 	USBankAccount *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
@@ -887,6 +926,16 @@ type RadarPaymentEvaluationSignalsBankInitiatedReturn struct {
 	Score float64 `json:"score"`
 }
 
+// The likelihood that this `PaymentEvaluation` is part of a card testing attack.
+type RadarPaymentEvaluationSignalsCardTesting struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsCardTestingRiskLevel `json:"risk_level"`
+	// Numeric score for this signal, returned with two decimal places. Possible values for evaluated payments are between 0 and 100, where higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
 // The likelihood that this `PaymentEvaluation` results in an early fraud warning.
 type RadarPaymentEvaluationSignalsEarlyFraudWarning struct {
 	// The time when this signal was evaluated.
@@ -921,6 +970,8 @@ type RadarPaymentEvaluationSignalsFraudulentPayment struct {
 type RadarPaymentEvaluationSignals struct {
 	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
 	BankInitiatedReturn *RadarPaymentEvaluationSignalsBankInitiatedReturn `json:"bank_initiated_return,omitempty"`
+	// The likelihood that this `PaymentEvaluation` is part of a card testing attack.
+	CardTesting *RadarPaymentEvaluationSignalsCardTesting `json:"card_testing,omitempty"`
 	// The likelihood that this `PaymentEvaluation` results in an early fraud warning.
 	EarlyFraudWarning *RadarPaymentEvaluationSignalsEarlyFraudWarning `json:"early_fraud_warning"`
 	// The likelihood that this `PaymentEvaluation` results in a dispute with reason code `fraudulent`.
@@ -952,7 +1003,7 @@ type RadarPaymentEvaluation struct {
 	Outcome *RadarPaymentEvaluationOutcome `json:"outcome,omitempty"`
 	// Payment details attached to this payment evaluation.
 	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
-	// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block`, `continue` and `request_three_d_secure`.
+	// Recommended action for this payment based on its evaluated signals and rules.
 	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
 	// Details about Radar Rules associated with the payment evaluation.
 	Rules *RadarPaymentEvaluationRules `json:"rules,omitempty"`

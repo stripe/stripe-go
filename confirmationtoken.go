@@ -35,6 +35,40 @@ const (
 	ConfirmationTokenPaymentMethodPreviewAllowRedisplayUnspecified ConfirmationTokenPaymentMethodPreviewAllowRedisplay = "unspecified"
 )
 
+// The prompt that the Terminal SDK displays to collect this Fleet value.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData1    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_1"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData2    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_2"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptDriverID                ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "driver_id"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEmployeeNumber          ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "employee_number"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataAlphanumeric ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_alphanumeric"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataNumeric      ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_numeric"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptGenericID               ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "generic_id"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptInvoiceNumber           ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "invoice_number"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptOdometer                ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "odometer"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptPostalCode              ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "postal_code"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReeferHours             ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "reefer_hours"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReplacementCar          ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "replacement_car"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTrailerNumber           ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trailer_number"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTripNumber              ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trip_number"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptUnitNumber              ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "unit_number"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleID               ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_id"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleTag              ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_tag"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPromptWorkOrder               ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "work_order"
+)
+
+// Whether the collected value is printed on the receipt.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorOmit  ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "omit"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorPrint ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "print"
+)
+
 // Indicates whether or not multiple captures are supported.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus string
 
@@ -389,12 +423,14 @@ type ConfirmationTokenPaymentMethodPreviewType string
 // List of values that ConfirmationTokenPaymentMethodPreviewType can take
 const (
 	ConfirmationTokenPaymentMethodPreviewTypeACSSDebit        ConfirmationTokenPaymentMethodPreviewType = "acss_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeAeonPay          ConfirmationTokenPaymentMethodPreviewType = "aeon_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeAffirm           ConfirmationTokenPaymentMethodPreviewType = "affirm"
 	ConfirmationTokenPaymentMethodPreviewTypeAfterpayClearpay ConfirmationTokenPaymentMethodPreviewType = "afterpay_clearpay"
 	ConfirmationTokenPaymentMethodPreviewTypeAlipay           ConfirmationTokenPaymentMethodPreviewType = "alipay"
 	ConfirmationTokenPaymentMethodPreviewTypeAlma             ConfirmationTokenPaymentMethodPreviewType = "alma"
 	ConfirmationTokenPaymentMethodPreviewTypeAmazonPay        ConfirmationTokenPaymentMethodPreviewType = "amazon_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeAUBECSDebit      ConfirmationTokenPaymentMethodPreviewType = "au_becs_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeAuPay            ConfirmationTokenPaymentMethodPreviewType = "au_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBancontact       ConfirmationTokenPaymentMethodPreviewType = "bancontact"
 	ConfirmationTokenPaymentMethodPreviewTypeBillie           ConfirmationTokenPaymentMethodPreviewType = "billie"
@@ -408,6 +444,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeCrypto           ConfirmationTokenPaymentMethodPreviewType = "crypto"
 	ConfirmationTokenPaymentMethodPreviewTypeCustom           ConfirmationTokenPaymentMethodPreviewType = "custom"
 	ConfirmationTokenPaymentMethodPreviewTypeCustomerBalance  ConfirmationTokenPaymentMethodPreviewType = "customer_balance"
+	ConfirmationTokenPaymentMethodPreviewTypeDbarai           ConfirmationTokenPaymentMethodPreviewType = "dbarai"
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"
 	ConfirmationTokenPaymentMethodPreviewTypeGetflex          ConfirmationTokenPaymentMethodPreviewType = "getflex"
@@ -424,6 +461,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeKrCard           ConfirmationTokenPaymentMethodPreviewType = "kr_card"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
 	ConfirmationTokenPaymentMethodPreviewTypeMbWay            ConfirmationTokenPaymentMethodPreviewType = "mb_way"
+	ConfirmationTokenPaymentMethodPreviewTypeMerpay           ConfirmationTokenPaymentMethodPreviewType = "merpay"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
@@ -621,6 +659,7 @@ type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
+type ConfirmationTokenPaymentMethodPreviewAeonPay struct{}
 type ConfirmationTokenPaymentMethodPreviewAffirm struct{}
 type ConfirmationTokenPaymentMethodPreviewAfterpayClearpay struct{}
 type ConfirmationTokenPaymentMethodPreviewAlipay struct{}
@@ -634,6 +673,7 @@ type ConfirmationTokenPaymentMethodPreviewAUBECSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 }
+type ConfirmationTokenPaymentMethodPreviewAuPay struct{}
 type ConfirmationTokenPaymentMethodPreviewBACSDebit struct {
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
@@ -683,6 +723,20 @@ type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
 	AddressPostalCodeCheck string `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck string `json:"cvc_check"`
+}
+
+// Fleet prompts and values collected for this transaction.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatum struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt `json:"prompt"`
+	// Whether the collected value is printed on the receipt.
+	ReceiptBehavior ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior `json:"receipt_behavior"`
+	// The value collected for this Fleet prompt.
+	Value string `json:"value"`
+}
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleet struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatum `json:"transaction_data"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentMulticapture struct {
 	// Indicates whether or not multiple captures are supported.
@@ -752,7 +806,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string                                                                                      `json:"fingerprint"`
+	Fleet       *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentFleet `json:"fleet,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding string `json:"funding"`
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
@@ -968,6 +1023,7 @@ type ConfirmationTokenPaymentMethodPreviewCashApp struct {
 }
 type ConfirmationTokenPaymentMethodPreviewCrypto struct{}
 type ConfirmationTokenPaymentMethodPreviewCustomerBalance struct{}
+type ConfirmationTokenPaymentMethodPreviewDbarai struct{}
 type ConfirmationTokenPaymentMethodPreviewEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
 	Bank ConfirmationTokenPaymentMethodPreviewEPSBank `json:"bank"`
@@ -1076,6 +1132,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	PersistentToken string `json:"persistent_token,omitempty"`
 }
 type ConfirmationTokenPaymentMethodPreviewMbWay struct{}
+type ConfirmationTokenPaymentMethodPreviewMerpay struct{}
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
 type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
@@ -1246,6 +1303,7 @@ type ConfirmationTokenPaymentMethodPreviewZip struct{}
 // Payment details collected by the Payment Element, used to create a PaymentMethod when a PaymentIntent or SetupIntent is confirmed with this ConfirmationToken.
 type ConfirmationTokenPaymentMethodPreview struct {
 	ACSSDebit        *ConfirmationTokenPaymentMethodPreviewACSSDebit        `json:"acss_debit,omitempty"`
+	AeonPay          *ConfirmationTokenPaymentMethodPreviewAeonPay          `json:"aeon_pay,omitempty"`
 	Affirm           *ConfirmationTokenPaymentMethodPreviewAffirm           `json:"affirm,omitempty"`
 	AfterpayClearpay *ConfirmationTokenPaymentMethodPreviewAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay,omitempty"`
@@ -1254,6 +1312,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Alma           *ConfirmationTokenPaymentMethodPreviewAlma           `json:"alma,omitempty"`
 	AmazonPay      *ConfirmationTokenPaymentMethodPreviewAmazonPay      `json:"amazon_pay,omitempty"`
 	AUBECSDebit    *ConfirmationTokenPaymentMethodPreviewAUBECSDebit    `json:"au_becs_debit,omitempty"`
+	AuPay          *ConfirmationTokenPaymentMethodPreviewAuPay          `json:"au_pay,omitempty"`
 	BACSDebit      *ConfirmationTokenPaymentMethodPreviewBACSDebit      `json:"bacs_debit,omitempty"`
 	Bancontact     *ConfirmationTokenPaymentMethodPreviewBancontact     `json:"bancontact,omitempty"`
 	Billie         *ConfirmationTokenPaymentMethodPreviewBillie         `json:"billie,omitempty"`
@@ -1270,6 +1329,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Customer        *Customer                                             `json:"customer"`
 	CustomerAccount string                                                `json:"customer_account"`
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance,omitempty"`
+	Dbarai          *ConfirmationTokenPaymentMethodPreviewDbarai          `json:"dbarai,omitempty"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps,omitempty"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx,omitempty"`
 	Getflex         *ConfirmationTokenPaymentMethodPreviewGetflex         `json:"getflex,omitempty"`
@@ -1286,6 +1346,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	KrCard          *ConfirmationTokenPaymentMethodPreviewKrCard          `json:"kr_card,omitempty"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link,omitempty"`
 	MbWay           *ConfirmationTokenPaymentMethodPreviewMbWay           `json:"mb_way,omitempty"`
+	Merpay          *ConfirmationTokenPaymentMethodPreviewMerpay          `json:"merpay,omitempty"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay,omitempty"`
 	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco,omitempty"`
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay,omitempty"`

@@ -134,6 +134,8 @@ type ReportingReportRunParameters struct {
 	Payout string `json:"payout,omitempty"`
 	// Category of balance transactions to be included in the report run.
 	ReportingCategory string `json:"reporting_category,omitempty"`
+	// The tax invoice month in YYYY-MM format.
+	TaxInvoiceMonth string `json:"tax_invoice_month,omitempty"`
 	// Defaults to `Etc/UTC`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones). Has no effect on `interval_start` or `interval_end`.
 	Timezone string `json:"timezone,omitempty"`
 }

@@ -225,6 +225,40 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion231 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.3.1"
 )
 
+// The prompt that the Terminal SDK displays to collect this Fleet value.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData1    PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_1"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptAdditionalFleetData2    PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "additional_fleet_data_2"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptDriverID                PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "driver_id"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEmployeeNumber          PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "employee_number"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataAlphanumeric PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_alphanumeric"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptEnteredDataNumeric      PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "entered_data_numeric"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptGenericID               PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "generic_id"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptInvoiceNumber           PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "invoice_number"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptOdometer                PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "odometer"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptPostalCode              PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "postal_code"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReeferHours             PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "reefer_hours"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptReplacementCar          PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "replacement_car"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTrailerNumber           PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trailer_number"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptTripNumber              PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "trip_number"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptUnitNumber              PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "unit_number"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleID               PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_id"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptVehicleTag              PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "vehicle_tag"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPromptWorkOrder               PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt = "work_order"
+)
+
+// Whether the collected value is printed on the receipt.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorOmit  PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "omit"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehaviorPrint PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior = "print"
+)
+
 // Indicates whether or not multiple captures are supported.
 type PaymentAttemptRecordPaymentMethodDetailsCardPresentMulticaptureStatus string
 
@@ -666,6 +700,34 @@ func (p *PaymentAttemptRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Populated if this transaction used 3D Secure authentication.
+type PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsCardThreeDSecureParams struct {
+	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
+	AuthenticationFlow *string `form:"authentication_flow" json:"authentication_flow,omitempty"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result *string `form:"result" json:"result"`
+	// The version of 3D Secure that was used.
+	Version *string `form:"version" json:"version"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsCardParams struct {
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Report that the specified Payment Attempt Record was authenticated.
 type PaymentAttemptRecordReportAuthenticatedParams struct {
 	Params `form:"*"`
@@ -674,8 +736,10 @@ type PaymentAttemptRecordReportAuthenticatedParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                         `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentAttemptRecordReportAuthenticatedParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
+	UnsetFields          []PaymentAttemptRecordReportAuthenticatedParamsUnsetField          `form:"-" json:"-"`
 }
 
 // PaymentAttemptRecordReportAuthenticatedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportAuthenticatedParams.
@@ -1279,6 +1343,30 @@ type PaymentAttemptRecordCustomerDetails struct {
 	// The customer's phone number.
 	Phone string `json:"phone"`
 }
+
+// Total amounts reinstated across all disputes, keyed by currency, with each value containing the total for that currency. Withdrawals are not subtracted from these totals.
+type PaymentAttemptRecordDisputeDetailsReinstated struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// Total amounts withdrawn across all disputes, keyed by currency, with each value containing the total for that currency. Reinstatements are not subtracted from these totals.
+type PaymentAttemptRecordDisputeDetailsWithdrawn struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// Summary information about disputes associated with this Payment Attempt Record.
+type PaymentAttemptRecordDisputeDetails struct {
+	// Total amounts reinstated across all disputes, keyed by currency, with each value containing the total for that currency. Withdrawals are not subtracted from these totals.
+	Reinstated map[string]*PaymentAttemptRecordDisputeDetailsReinstated `json:"reinstated"`
+	// Total amounts withdrawn across all disputes, keyed by currency, with each value containing the total for that currency. Reinstatements are not subtracted from these totals.
+	Withdrawn map[string]*PaymentAttemptRecordDisputeDetailsWithdrawn `json:"withdrawn"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsACHCreditTransfer struct {
 	// Account number to transfer funds to.
 	AccountNumber string `json:"account_number"`
@@ -1319,6 +1407,7 @@ type PaymentAttemptRecordPaymentMethodDetailsACSSDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsAeonPay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsAffirm struct {
 	// ID of the location that this reader is assigned to.
 	Location string `json:"location,omitempty"`
@@ -1388,6 +1477,7 @@ type PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit struct {
 	// ID of the mandate used to make this payment.
 	Mandate string `json:"mandate,omitempty"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsAuPay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsBACSDebit struct {
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
 	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
@@ -1567,6 +1657,20 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *PaymentAttemptRecordPaymentMethodDetailsCardWallet `json:"wallet"`
 }
+
+// Fleet prompts and values collected for this transaction.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatum struct {
+	// The prompt that the Terminal SDK displays to collect this Fleet value.
+	Prompt PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumPrompt `json:"prompt"`
+	// Whether the collected value is printed on the receipt.
+	ReceiptBehavior PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatumReceiptBehavior `json:"receipt_behavior"`
+	// The value collected for this Fleet prompt.
+	Value string `json:"value"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentFleet struct {
+	// Fleet prompts and values collected for this transaction.
+	TransactionData []*PaymentAttemptRecordPaymentMethodDetailsCardPresentFleetTransactionDatum `json:"transaction_data"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsCardPresentMulticapture struct {
 	// Indicates whether or not multiple captures are supported.
 	Status PaymentAttemptRecordPaymentMethodDetailsCardPresentMulticaptureStatus `json:"status"`
@@ -1635,7 +1739,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string                                                    `json:"fingerprint"`
+	Fleet       *PaymentAttemptRecordPaymentMethodDetailsCardPresentFleet `json:"fleet,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding string `json:"funding"`
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
@@ -1709,6 +1814,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCustom struct {
 	Type string `json:"type"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCustomerBalance struct{}
+type PaymentAttemptRecordPaymentMethodDetailsDbarai struct{}
 type PaymentAttemptRecordPaymentMethodDetailsEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`
 	Bank PaymentAttemptRecordPaymentMethodDetailsEPSBank `json:"bank"`
@@ -1920,6 +2026,7 @@ type PaymentAttemptRecordPaymentMethodDetailsLink struct {
 	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsMerpay struct{}
 
 // Internal card details
 type PaymentAttemptRecordPaymentMethodDetailsMobilepayCard struct {
@@ -2038,6 +2145,8 @@ type PaymentAttemptRecordPaymentMethodDetailsPaypal struct {
 	VerifiedName string `json:"verified_name,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsPaypay struct {
+	// Uniquely identifies this particular PayPay account. You can use this attribute to check whether two PayPay accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// ID of the multi-use Mandate created by, or used to make, this PayPay payment.
 	Mandate string `json:"mandate,omitempty"`
 }
@@ -2234,12 +2343,14 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	ACHCreditTransfer *PaymentAttemptRecordPaymentMethodDetailsACHCreditTransfer `json:"ach_credit_transfer,omitempty"`
 	ACHDebit          *PaymentAttemptRecordPaymentMethodDetailsACHDebit          `json:"ach_debit,omitempty"`
 	ACSSDebit         *PaymentAttemptRecordPaymentMethodDetailsACSSDebit         `json:"acss_debit,omitempty"`
+	AeonPay           *PaymentAttemptRecordPaymentMethodDetailsAeonPay           `json:"aeon_pay,omitempty"`
 	Affirm            *PaymentAttemptRecordPaymentMethodDetailsAffirm            `json:"affirm,omitempty"`
 	AfterpayClearpay  *PaymentAttemptRecordPaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay,omitempty"`
 	Alipay            *PaymentAttemptRecordPaymentMethodDetailsAlipay            `json:"alipay,omitempty"`
 	Alma              *PaymentAttemptRecordPaymentMethodDetailsAlma              `json:"alma,omitempty"`
 	AmazonPay         *PaymentAttemptRecordPaymentMethodDetailsAmazonPay         `json:"amazon_pay,omitempty"`
 	AUBECSDebit       *PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit,omitempty"`
+	AuPay             *PaymentAttemptRecordPaymentMethodDetailsAuPay             `json:"au_pay,omitempty"`
 	BACSDebit         *PaymentAttemptRecordPaymentMethodDetailsBACSDebit         `json:"bacs_debit,omitempty"`
 	Bancontact        *PaymentAttemptRecordPaymentMethodDetailsBancontact        `json:"bancontact,omitempty"`
 	Billie            *PaymentAttemptRecordPaymentMethodDetailsBillie            `json:"billie,omitempty"`
@@ -2259,6 +2370,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	// used for this payment attempt.
 	Custom          *PaymentAttemptRecordPaymentMethodDetailsCustom          `json:"custom,omitempty"`
 	CustomerBalance *PaymentAttemptRecordPaymentMethodDetailsCustomerBalance `json:"customer_balance,omitempty"`
+	Dbarai          *PaymentAttemptRecordPaymentMethodDetailsDbarai          `json:"dbarai,omitempty"`
 	EPS             *PaymentAttemptRecordPaymentMethodDetailsEPS             `json:"eps,omitempty"`
 	FPX             *PaymentAttemptRecordPaymentMethodDetailsFPX             `json:"fpx,omitempty"`
 	Getflex         *PaymentAttemptRecordPaymentMethodDetailsGetflex         `json:"getflex,omitempty"`
@@ -2275,6 +2387,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	KrCard          *PaymentAttemptRecordPaymentMethodDetailsKrCard          `json:"kr_card,omitempty"`
 	Link            *PaymentAttemptRecordPaymentMethodDetailsLink            `json:"link,omitempty"`
 	MbWay           *PaymentAttemptRecordPaymentMethodDetailsMbWay           `json:"mb_way,omitempty"`
+	Merpay          *PaymentAttemptRecordPaymentMethodDetailsMerpay          `json:"merpay,omitempty"`
 	Mobilepay       *PaymentAttemptRecordPaymentMethodDetailsMobilepay       `json:"mobilepay,omitempty"`
 	Momo            *PaymentAttemptRecordPaymentMethodDetailsMomo            `json:"momo,omitempty"`
 	Multibanco      *PaymentAttemptRecordPaymentMethodDetailsMultibanco      `json:"multibanco,omitempty"`
@@ -2405,6 +2518,8 @@ type PaymentAttemptRecord struct {
 	CustomerPresence PaymentAttemptRecordCustomerPresence `json:"customer_presence"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// Summary information about disputes associated with this Payment Attempt Record.
+	DisputeDetails *PaymentAttemptRecordDisputeDetails `json:"dispute_details,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

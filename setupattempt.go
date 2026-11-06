@@ -308,7 +308,10 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 }
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
-type SetupAttemptPaymentMethodDetailsPaypay struct{}
+type SetupAttemptPaymentMethodDetailsPaypay struct {
+	// Uniquely identifies this particular PayPay account. You can use this attribute to check whether two PayPay accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsPix struct {
 	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.

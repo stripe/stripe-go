@@ -938,6 +938,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationRakutenPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationRakutenPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationRakutenPayDisplayPreferencePreferenceNone PaymentMethodConfigurationRakutenPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationRakutenPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationRakutenPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationRakutenPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationRakutenPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationRakutenPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationRakutenPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationRakutenPayDisplayPreferenceValueOff PaymentMethodConfigurationRakutenPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationRakutenPayDisplayPreferenceValueOn  PaymentMethodConfigurationRakutenPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationRevolutPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationRevolutPayDisplayPreferencePreference can take
@@ -1870,6 +1889,18 @@ type PaymentMethodConfigurationQrisParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationRakutenPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationRakutenPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationRakutenPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2174,6 +2205,8 @@ type PaymentMethodConfigurationParams struct {
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 	Qris *PaymentMethodConfigurationQrisParams `form:"qris" json:"qris,omitempty"`
+	// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	RakutenPay *PaymentMethodConfigurationRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
@@ -2826,6 +2859,18 @@ type PaymentMethodConfigurationCreateQrisParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateRakutenPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateRakutenPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateRakutenPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3128,6 +3173,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 	Qris *PaymentMethodConfigurationCreateQrisParams `form:"qris" json:"qris,omitempty"`
+	// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	RakutenPay *PaymentMethodConfigurationCreateRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
@@ -3792,6 +3839,18 @@ type PaymentMethodConfigurationUpdateQrisParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateRakutenPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateRakutenPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateRakutenPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -4094,6 +4153,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 	Qris *PaymentMethodConfigurationUpdateQrisParams `form:"qris" json:"qris,omitempty"`
+	// Rakuten Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Rakuten Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	RakutenPay *PaymentMethodConfigurationUpdateRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
@@ -4770,6 +4831,19 @@ type PaymentMethodConfigurationQris struct {
 	Available         bool                                             `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationQrisDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationRakutenPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationRakutenPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationRakutenPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationRakutenPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationRakutenPayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationRevolutPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -5060,6 +5134,7 @@ type PaymentMethodConfiguration struct {
 	Pix           *PaymentMethodConfigurationPix           `json:"pix,omitempty"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay,omitempty"`
 	Qris          *PaymentMethodConfigurationQris          `json:"qris,omitempty"`
+	RakutenPay    *PaymentMethodConfigurationRakutenPay    `json:"rakuten_pay,omitempty"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay,omitempty"`
 	SamsungPay    *PaymentMethodConfigurationSamsungPay    `json:"samsung_pay,omitempty"`
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`

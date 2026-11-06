@@ -2353,6 +2353,18 @@ func (h *eventNotificationHandlerBase) OnV2ExtendExtensionRunFailed(callback fun
 	return registerTypedHandler(h, "v2.extend.extension_run.failed", callback)
 }
 
+// OnV2ExtendObjectDefinitionCreated registers a callback to handle notifications about the "v2.extend.object_definition.created" event.
+func (h *eventNotificationHandlerBase) OnV2ExtendObjectDefinitionCreated(callback func(ctx context.Context, notif *V2ExtendObjectDefinitionCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.extend.object_definition.created", callback)
+}
+
+// OnV2ExtendObjectDefinitionVersionCreated registers a callback to handle notifications about the "v2.extend.object_definition_version.created" event.
+func (h *eventNotificationHandlerBase) OnV2ExtendObjectDefinitionVersionCreated(callback func(ctx context.Context, notif *V2ExtendObjectDefinitionVersionCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.extend.object_definition_version.created", callback)
+}
+
 // OnV2ExtendWorkflowRunFailed registers a callback to handle notifications about the "v2.extend.workflow_run.failed" event.
 func (h *eventNotificationHandlerBase) OnV2ExtendWorkflowRunFailed(callback func(ctx context.Context, notif *V2ExtendWorkflowRunFailedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.extend.workflow_run.failed", callback)

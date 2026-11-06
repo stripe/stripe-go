@@ -91,13 +91,291 @@ func (p *TaxFormListParams) AddExpand(f string) {
 // Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 type TaxFormParams struct {
 	Params `form:"*"`
+	// The ID of the filed tax form to correct.
+	ID *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Replacement payee details. Cannot be combined with numerical correction fields. Omitted fields remain unchanged.
+	PayeeDetails *TaxFormPayeeDetailsParams `form:"payee_details" json:"payee_details,omitempty"`
+	// Whether a second TIN notice was received. Supported for K and MISC forms only; cannot be supplied without a substantive correction.
+	SecondTinNotice *bool `form:"second_tin_notice" json:"second_tin_notice,omitempty"`
+	// Replacement numerical values for a 1099-K. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099K *TaxFormUS1099KParams `form:"us_1099_k" json:"us_1099_k,omitempty"`
+	// Replacement numerical values for a 1099-MISC. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099MISC *TaxFormUS1099MISCParams `form:"us_1099_misc" json:"us_1099_misc,omitempty"`
+	// Replacement numerical values for a 1099-NEC. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099Nec *TaxFormUS1099NecParams `form:"us_1099_nec" json:"us_1099_nec,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *TaxFormParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Replacement payee details. Cannot be combined with numerical correction fields. Omitted fields remain unchanged.
+type TaxFormPayeeDetailsParams struct {
+	// The payee's replacement address fields. Omitted fields remain unchanged.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// The payee's merchant category code.
+	MerchantCategoryCode *string `form:"merchant_category_code" json:"merchant_category_code,omitempty"`
+	// The first line of the payee's name.
+	NameLine1 *string `form:"name_line_1" json:"name_line_1,omitempty"`
+	// The second line of the payee's name. An empty string clears this field.
+	NameLine2 *string `form:"name_line_2" json:"name_line_2,omitempty"`
+	// The payee's US taxpayer identification number.
+	TaxIDNumber *string `form:"tax_id_number" json:"tax_id_number,omitempty"`
+	// The payee's Treasury tipped occupation code, where supported by the reporting year and form type.
+	TreasuryTippedOccupationCode *string `form:"treasury_tipped_occupation_code" json:"treasury_tipped_occupation_code,omitempty"`
+}
+
+// Replacement card-not-present transaction amount.
+type TaxFormUS1099KCardNotPresentTransactionsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormUS1099KCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormUS1099KFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement amounts for all twelve months, from January through December.
+type TaxFormUS1099KMonthlyVolumeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement payment transaction count.
+type TaxFormUS1099KPaymentTransactionsCountParams struct {
+	// The replacement non-negative transaction count.
+	Count *int64 `form:"count" json:"count"`
+}
+
+// Replacement state income tax withheld.
+type TaxFormUS1099KStateIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-K. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormUS1099KParams struct {
+	// Replacement card-not-present transaction amount.
+	CardNotPresentTransactions *TaxFormUS1099KCardNotPresentTransactionsParams `form:"card_not_present_transactions" json:"card_not_present_transactions,omitempty"`
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormUS1099KCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormUS1099KFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement amounts for all twelve months, from January through December.
+	MonthlyVolumes []*TaxFormUS1099KMonthlyVolumeParams `form:"monthly_volumes" json:"monthly_volumes,omitempty"`
+	// Replacement payment transaction count.
+	PaymentTransactionsCount *TaxFormUS1099KPaymentTransactionsCountParams `form:"payment_transactions_count" json:"payment_transactions_count,omitempty"`
+	// Replacement state income tax withheld.
+	StateIncomeTaxWithheld *TaxFormUS1099KStateIncomeTaxWithheldParams `form:"state_income_tax_withheld" json:"state_income_tax_withheld,omitempty"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormUS1099MISCCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement crop insurance proceeds.
+type TaxFormUS1099MISCCropInsuranceProceedsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement excess golden parachute payments, where supported by the reporting year.
+type TaxFormUS1099MISCExcessGoldenParachutePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormUS1099MISCFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement fish purchased for resale.
+type TaxFormUS1099MISCFishPurchasedForResaleParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement fishing boat proceeds.
+type TaxFormUS1099MISCFishingBoatProceedsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement gross proceeds paid to an attorney.
+type TaxFormUS1099MISCGrossProceedsPaidToAnAttorneyParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement medical and health care payments.
+type TaxFormUS1099MISCMedicalAndHealthCarePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement nonqualified deferred compensation.
+type TaxFormUS1099MISCNonqualifiedDeferredCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement other income.
+type TaxFormUS1099MISCOtherIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement overtime compensation, where supported by the reporting year.
+type TaxFormUS1099MISCOvertimeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement rents.
+type TaxFormUS1099MISCRentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement royalties.
+type TaxFormUS1099MISCRoyaltiesParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement section 409A deferrals.
+type TaxFormUS1099MISCSection409aDeferralsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state income.
+type TaxFormUS1099MISCStateIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state tax withheld.
+type TaxFormUS1099MISCStateTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement substitute payments.
+type TaxFormUS1099MISCSubstitutePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-MISC. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormUS1099MISCParams struct {
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormUS1099MISCCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement crop insurance proceeds.
+	CropInsuranceProceeds *TaxFormUS1099MISCCropInsuranceProceedsParams `form:"crop_insurance_proceeds" json:"crop_insurance_proceeds,omitempty"`
+	// Replacement direct-sales-for-resale indicator.
+	DirectSalesForResale *bool `form:"direct_sales_for_resale" json:"direct_sales_for_resale,omitempty"`
+	// Replacement excess golden parachute payments, where supported by the reporting year.
+	ExcessGoldenParachutePayments *TaxFormUS1099MISCExcessGoldenParachutePaymentsParams `form:"excess_golden_parachute_payments" json:"excess_golden_parachute_payments,omitempty"`
+	// Replacement FATCA filing requirement; cannot be supplied without a substantive correction.
+	FatcaFilingRequired *bool `form:"fatca_filing_required" json:"fatca_filing_required,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormUS1099MISCFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement fishing boat proceeds.
+	FishingBoatProceeds *TaxFormUS1099MISCFishingBoatProceedsParams `form:"fishing_boat_proceeds" json:"fishing_boat_proceeds,omitempty"`
+	// Replacement fish purchased for resale.
+	FishPurchasedForResale *TaxFormUS1099MISCFishPurchasedForResaleParams `form:"fish_purchased_for_resale" json:"fish_purchased_for_resale,omitempty"`
+	// Replacement gross proceeds paid to an attorney.
+	GrossProceedsPaidToAnAttorney *TaxFormUS1099MISCGrossProceedsPaidToAnAttorneyParams `form:"gross_proceeds_paid_to_an_attorney" json:"gross_proceeds_paid_to_an_attorney,omitempty"`
+	// Replacement medical and health care payments.
+	MedicalAndHealthCarePayments *TaxFormUS1099MISCMedicalAndHealthCarePaymentsParams `form:"medical_and_health_care_payments" json:"medical_and_health_care_payments,omitempty"`
+	// Replacement nonqualified deferred compensation.
+	NonqualifiedDeferredCompensation *TaxFormUS1099MISCNonqualifiedDeferredCompensationParams `form:"nonqualified_deferred_compensation" json:"nonqualified_deferred_compensation,omitempty"`
+	// Replacement other income.
+	OtherIncome *TaxFormUS1099MISCOtherIncomeParams `form:"other_income" json:"other_income,omitempty"`
+	// Replacement overtime compensation, where supported by the reporting year.
+	OvertimeCompensation *TaxFormUS1099MISCOvertimeCompensationParams `form:"overtime_compensation" json:"overtime_compensation,omitempty"`
+	// Replacement rents.
+	Rents *TaxFormUS1099MISCRentsParams `form:"rents" json:"rents,omitempty"`
+	// Replacement royalties.
+	Royalties *TaxFormUS1099MISCRoyaltiesParams `form:"royalties" json:"royalties,omitempty"`
+	// Replacement section 409A deferrals.
+	Section409aDeferrals *TaxFormUS1099MISCSection409aDeferralsParams `form:"section_409a_deferrals" json:"section_409a_deferrals,omitempty"`
+	// Replacement state income.
+	StateIncome *TaxFormUS1099MISCStateIncomeParams `form:"state_income" json:"state_income,omitempty"`
+	// Replacement state tax withheld.
+	StateTaxWithheld *TaxFormUS1099MISCStateTaxWithheldParams `form:"state_tax_withheld" json:"state_tax_withheld,omitempty"`
+	// Replacement substitute payments.
+	SubstitutePayments *TaxFormUS1099MISCSubstitutePaymentsParams `form:"substitute_payments" json:"substitute_payments,omitempty"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormUS1099NecCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormUS1099NecFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement nonemployee compensation.
+type TaxFormUS1099NecNonemployeeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement overtime compensation, where supported by the reporting year.
+type TaxFormUS1099NecOvertimeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state income.
+type TaxFormUS1099NecStateIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state tax withheld.
+type TaxFormUS1099NecStateTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-NEC. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormUS1099NecParams struct {
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormUS1099NecCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement direct-sales indicator.
+	DirectSalesIndicator *bool `form:"direct_sales_indicator" json:"direct_sales_indicator,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormUS1099NecFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement nonemployee compensation.
+	NonemployeeCompensation *TaxFormUS1099NecNonemployeeCompensationParams `form:"nonemployee_compensation" json:"nonemployee_compensation,omitempty"`
+	// Replacement overtime compensation, where supported by the reporting year.
+	OvertimeCompensation *TaxFormUS1099NecOvertimeCompensationParams `form:"overtime_compensation" json:"overtime_compensation,omitempty"`
+	// Replacement state income.
+	StateIncome *TaxFormUS1099NecStateIncomeParams `form:"state_income" json:"state_income,omitempty"`
+	// Replacement state tax withheld.
+	StateTaxWithheld *TaxFormUS1099NecStateTaxWithheldParams `form:"state_tax_withheld" json:"state_tax_withheld,omitempty"`
 }
 
 // Download the PDF for a tax form.
@@ -121,6 +399,296 @@ type TaxFormRetrieveParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TaxFormRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Replacement payee details. Cannot be combined with numerical correction fields. Omitted fields remain unchanged.
+type TaxFormCreatePayeeDetailsParams struct {
+	// The payee's replacement address fields. Omitted fields remain unchanged.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// The payee's merchant category code.
+	MerchantCategoryCode *string `form:"merchant_category_code" json:"merchant_category_code,omitempty"`
+	// The first line of the payee's name.
+	NameLine1 *string `form:"name_line_1" json:"name_line_1,omitempty"`
+	// The second line of the payee's name. An empty string clears this field.
+	NameLine2 *string `form:"name_line_2" json:"name_line_2,omitempty"`
+	// The payee's US taxpayer identification number.
+	TaxIDNumber *string `form:"tax_id_number" json:"tax_id_number,omitempty"`
+	// The payee's Treasury tipped occupation code, where supported by the reporting year and form type.
+	TreasuryTippedOccupationCode *string `form:"treasury_tipped_occupation_code" json:"treasury_tipped_occupation_code,omitempty"`
+}
+
+// Replacement card-not-present transaction amount.
+type TaxFormCreateUS1099KCardNotPresentTransactionsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormCreateUS1099KCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormCreateUS1099KFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement amounts for all twelve months, from January through December.
+type TaxFormCreateUS1099KMonthlyVolumeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement payment transaction count.
+type TaxFormCreateUS1099KPaymentTransactionsCountParams struct {
+	// The replacement non-negative transaction count.
+	Count *int64 `form:"count" json:"count"`
+}
+
+// Replacement state income tax withheld.
+type TaxFormCreateUS1099KStateIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-K. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormCreateUS1099KParams struct {
+	// Replacement card-not-present transaction amount.
+	CardNotPresentTransactions *TaxFormCreateUS1099KCardNotPresentTransactionsParams `form:"card_not_present_transactions" json:"card_not_present_transactions,omitempty"`
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormCreateUS1099KCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormCreateUS1099KFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement amounts for all twelve months, from January through December.
+	MonthlyVolumes []*TaxFormCreateUS1099KMonthlyVolumeParams `form:"monthly_volumes" json:"monthly_volumes,omitempty"`
+	// Replacement payment transaction count.
+	PaymentTransactionsCount *TaxFormCreateUS1099KPaymentTransactionsCountParams `form:"payment_transactions_count" json:"payment_transactions_count,omitempty"`
+	// Replacement state income tax withheld.
+	StateIncomeTaxWithheld *TaxFormCreateUS1099KStateIncomeTaxWithheldParams `form:"state_income_tax_withheld" json:"state_income_tax_withheld,omitempty"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormCreateUS1099MISCCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement crop insurance proceeds.
+type TaxFormCreateUS1099MISCCropInsuranceProceedsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement excess golden parachute payments, where supported by the reporting year.
+type TaxFormCreateUS1099MISCExcessGoldenParachutePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormCreateUS1099MISCFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement fish purchased for resale.
+type TaxFormCreateUS1099MISCFishPurchasedForResaleParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement fishing boat proceeds.
+type TaxFormCreateUS1099MISCFishingBoatProceedsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement gross proceeds paid to an attorney.
+type TaxFormCreateUS1099MISCGrossProceedsPaidToAnAttorneyParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement medical and health care payments.
+type TaxFormCreateUS1099MISCMedicalAndHealthCarePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement nonqualified deferred compensation.
+type TaxFormCreateUS1099MISCNonqualifiedDeferredCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement other income.
+type TaxFormCreateUS1099MISCOtherIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement overtime compensation, where supported by the reporting year.
+type TaxFormCreateUS1099MISCOvertimeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement rents.
+type TaxFormCreateUS1099MISCRentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement royalties.
+type TaxFormCreateUS1099MISCRoyaltiesParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement section 409A deferrals.
+type TaxFormCreateUS1099MISCSection409aDeferralsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state income.
+type TaxFormCreateUS1099MISCStateIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state tax withheld.
+type TaxFormCreateUS1099MISCStateTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement substitute payments.
+type TaxFormCreateUS1099MISCSubstitutePaymentsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-MISC. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormCreateUS1099MISCParams struct {
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormCreateUS1099MISCCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement crop insurance proceeds.
+	CropInsuranceProceeds *TaxFormCreateUS1099MISCCropInsuranceProceedsParams `form:"crop_insurance_proceeds" json:"crop_insurance_proceeds,omitempty"`
+	// Replacement direct-sales-for-resale indicator.
+	DirectSalesForResale *bool `form:"direct_sales_for_resale" json:"direct_sales_for_resale,omitempty"`
+	// Replacement excess golden parachute payments, where supported by the reporting year.
+	ExcessGoldenParachutePayments *TaxFormCreateUS1099MISCExcessGoldenParachutePaymentsParams `form:"excess_golden_parachute_payments" json:"excess_golden_parachute_payments,omitempty"`
+	// Replacement FATCA filing requirement; cannot be supplied without a substantive correction.
+	FatcaFilingRequired *bool `form:"fatca_filing_required" json:"fatca_filing_required,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormCreateUS1099MISCFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement fishing boat proceeds.
+	FishingBoatProceeds *TaxFormCreateUS1099MISCFishingBoatProceedsParams `form:"fishing_boat_proceeds" json:"fishing_boat_proceeds,omitempty"`
+	// Replacement fish purchased for resale.
+	FishPurchasedForResale *TaxFormCreateUS1099MISCFishPurchasedForResaleParams `form:"fish_purchased_for_resale" json:"fish_purchased_for_resale,omitempty"`
+	// Replacement gross proceeds paid to an attorney.
+	GrossProceedsPaidToAnAttorney *TaxFormCreateUS1099MISCGrossProceedsPaidToAnAttorneyParams `form:"gross_proceeds_paid_to_an_attorney" json:"gross_proceeds_paid_to_an_attorney,omitempty"`
+	// Replacement medical and health care payments.
+	MedicalAndHealthCarePayments *TaxFormCreateUS1099MISCMedicalAndHealthCarePaymentsParams `form:"medical_and_health_care_payments" json:"medical_and_health_care_payments,omitempty"`
+	// Replacement nonqualified deferred compensation.
+	NonqualifiedDeferredCompensation *TaxFormCreateUS1099MISCNonqualifiedDeferredCompensationParams `form:"nonqualified_deferred_compensation" json:"nonqualified_deferred_compensation,omitempty"`
+	// Replacement other income.
+	OtherIncome *TaxFormCreateUS1099MISCOtherIncomeParams `form:"other_income" json:"other_income,omitempty"`
+	// Replacement overtime compensation, where supported by the reporting year.
+	OvertimeCompensation *TaxFormCreateUS1099MISCOvertimeCompensationParams `form:"overtime_compensation" json:"overtime_compensation,omitempty"`
+	// Replacement rents.
+	Rents *TaxFormCreateUS1099MISCRentsParams `form:"rents" json:"rents,omitempty"`
+	// Replacement royalties.
+	Royalties *TaxFormCreateUS1099MISCRoyaltiesParams `form:"royalties" json:"royalties,omitempty"`
+	// Replacement section 409A deferrals.
+	Section409aDeferrals *TaxFormCreateUS1099MISCSection409aDeferralsParams `form:"section_409a_deferrals" json:"section_409a_deferrals,omitempty"`
+	// Replacement state income.
+	StateIncome *TaxFormCreateUS1099MISCStateIncomeParams `form:"state_income" json:"state_income,omitempty"`
+	// Replacement state tax withheld.
+	StateTaxWithheld *TaxFormCreateUS1099MISCStateTaxWithheldParams `form:"state_tax_withheld" json:"state_tax_withheld,omitempty"`
+	// Replacement substitute payments.
+	SubstitutePayments *TaxFormCreateUS1099MISCSubstitutePaymentsParams `form:"substitute_payments" json:"substitute_payments,omitempty"`
+}
+
+// Replacement cash tips, where supported by the reporting year.
+type TaxFormCreateUS1099NecCashTipsParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement federal income tax withheld.
+type TaxFormCreateUS1099NecFederalIncomeTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement nonemployee compensation.
+type TaxFormCreateUS1099NecNonemployeeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement overtime compensation, where supported by the reporting year.
+type TaxFormCreateUS1099NecOvertimeCompensationParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state income.
+type TaxFormCreateUS1099NecStateIncomeParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement state tax withheld.
+type TaxFormCreateUS1099NecStateTaxWithheldParams struct {
+	// The replacement amount in major currency units, with at most two decimal places. Must be non-negative.
+	VolumeDecimal *string `form:"volume_decimal" json:"volume_decimal"`
+}
+
+// Replacement numerical values for a 1099-NEC. Supply only the group matching the original form. Omitted fields remain unchanged.
+type TaxFormCreateUS1099NecParams struct {
+	// Replacement cash tips, where supported by the reporting year.
+	CashTips *TaxFormCreateUS1099NecCashTipsParams `form:"cash_tips" json:"cash_tips,omitempty"`
+	// Replacement direct-sales indicator.
+	DirectSalesIndicator *bool `form:"direct_sales_indicator" json:"direct_sales_indicator,omitempty"`
+	// Replacement federal income tax withheld.
+	FederalIncomeTaxWithheld *TaxFormCreateUS1099NecFederalIncomeTaxWithheldParams `form:"federal_income_tax_withheld" json:"federal_income_tax_withheld,omitempty"`
+	// Replacement nonemployee compensation.
+	NonemployeeCompensation *TaxFormCreateUS1099NecNonemployeeCompensationParams `form:"nonemployee_compensation" json:"nonemployee_compensation,omitempty"`
+	// Replacement overtime compensation, where supported by the reporting year.
+	OvertimeCompensation *TaxFormCreateUS1099NecOvertimeCompensationParams `form:"overtime_compensation" json:"overtime_compensation,omitempty"`
+	// Replacement state income.
+	StateIncome *TaxFormCreateUS1099NecStateIncomeParams `form:"state_income" json:"state_income,omitempty"`
+	// Replacement state tax withheld.
+	StateTaxWithheld *TaxFormCreateUS1099NecStateTaxWithheldParams `form:"state_tax_withheld" json:"state_tax_withheld,omitempty"`
+}
+
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+type TaxFormCreateParams struct {
+	Params `form:"*"`
+	// The ID of the filed tax form to correct.
+	ID *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Replacement payee details. Cannot be combined with numerical correction fields. Omitted fields remain unchanged.
+	PayeeDetails *TaxFormCreatePayeeDetailsParams `form:"payee_details" json:"payee_details,omitempty"`
+	// Whether a second TIN notice was received. Supported for K and MISC forms only; cannot be supplied without a substantive correction.
+	SecondTinNotice *bool `form:"second_tin_notice" json:"second_tin_notice,omitempty"`
+	// Replacement numerical values for a 1099-K. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099K *TaxFormCreateUS1099KParams `form:"us_1099_k" json:"us_1099_k,omitempty"`
+	// Replacement numerical values for a 1099-MISC. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099MISC *TaxFormCreateUS1099MISCParams `form:"us_1099_misc" json:"us_1099_misc,omitempty"`
+	// Replacement numerical values for a 1099-NEC. Supply only the group matching the original form. Omitted fields remain unchanged.
+	US1099Nec *TaxFormCreateUS1099NecParams `form:"us_1099_nec" json:"us_1099_nec,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxFormCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

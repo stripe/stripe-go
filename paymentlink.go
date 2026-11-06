@@ -223,6 +223,7 @@ const (
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSunbit           PaymentLinkPaymentMethodType = "sunbit"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
+	PaymentLinkPaymentMethodTypeTamara           PaymentLinkPaymentMethodType = "tamara"
 	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
 	PaymentLinkPaymentMethodTypeUpi              PaymentLinkPaymentMethodType = "upi"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"

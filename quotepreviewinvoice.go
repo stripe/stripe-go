@@ -305,6 +305,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerification
 // List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod can take
 const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodInstant               QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "instant"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 

@@ -710,6 +710,17 @@ type V2CoreAccountSessionComponentsBills struct {
 }
 
 // The scopes available to this embedded component.
+type V2CoreAccountSessionComponentsBusinessProfileManagementScopes struct{}
+
+// Settings for the Business Profile Management embedded component.
+type V2CoreAccountSessionComponentsBusinessProfileManagement struct {
+	// Whether this embedded component is enabled.
+	Enabled bool `json:"enabled"`
+	// The scopes available to this embedded component.
+	Scopes *V2CoreAccountSessionComponentsBusinessProfileManagementScopes `json:"scopes"`
+}
+
+// The scopes available to this embedded component.
 type V2CoreAccountSessionComponentsCapitalFinancingScopes struct{}
 
 // Settings for the Capital Financing embedded component.
@@ -1185,6 +1196,8 @@ type V2CoreAccountSessionComponents struct {
 	Balances *V2CoreAccountSessionComponentsBalances `json:"balances"`
 	// Settings for the Bills embedded component.
 	Bills *V2CoreAccountSessionComponentsBills `json:"bills"`
+	// Settings for the Business Profile Management embedded component.
+	BusinessProfileManagement *V2CoreAccountSessionComponentsBusinessProfileManagement `json:"business_profile_management"`
 	// Settings for the Capital Financing embedded component.
 	CapitalFinancing *V2CoreAccountSessionComponentsCapitalFinancing `json:"capital_financing"`
 	// Settings for the Capital Financing Application embedded component.
