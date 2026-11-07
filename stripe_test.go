@@ -10,6 +10,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
+	"path/filepath"
 	"reflect"
 	"regexp"
 	"runtime"
@@ -789,7 +791,9 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 			// the first request should not receive any metrics
 			assert.Equal(t, telemetryStr, "")
 			time.Sleep(21 * time.Millisecond)
-		case 2:
+		case 2, 4:
+			assert.Empty(t, telemetryStr, "disabled requests should not send metrics")
+		case 3:
 			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
 
 			var telemetry requestTelemetry
@@ -797,13 +801,12 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
 
-			// the second request should include the metrics for the first request
+			// The enabled follow-up should report its own previous request.
 			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
 			assert.True(t, *telemetry.LastRequestMetrics.RequestDurationMS > 20,
 				"request_duration_ms should be > 20ms")
 
-			// The telemetry in the second request should contain the
-			// expected usage
+			// The enabled follow-up should retain the expected usage.
 			assert.ElementsMatch(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
@@ -838,16 +841,23 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 		Foo: "bar",
 	}
 	params.InternalSetUsage([]string{"llama", "bufo"})
+	disabledBackend := GetBackendWithConfig(APIBackend, &BackendConfig{
+		EnableTelemetry:   Bool(false),
+		LeveledLogger:     debugLeveledLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String(testServer.URL),
+	}).(*BackendImplementation)
 	for i := 0; i < 2; i++ {
-		var response testServerResponse
-		err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", params, &response)
+		for _, client := range []*BackendImplementation{backend, disabledBackend} {
+			var response testServerResponse
+			err := client.Call(http.MethodGet, "/v1/hello", "", params, &response)
 
-		assert.NoError(t, err)
-		assert.Equal(t, message, response.Message)
+			assert.NoError(t, err)
+			assert.Equal(t, message, response.Message)
+		}
 	}
 
-	// We should have seen exactly two requests.
-	assert.Equal(t, 2, requestNum)
+	assert.Equal(t, 4, requestNum)
 }
 
 // This test does not perform any super valuable assertions - instead, it checks
@@ -2218,31 +2228,141 @@ func TestStripeClientUserAgent(t *testing.T) {
 	assert.Equal(t, expectedPlatform, userAgent["platform"])
 }
 
-func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
-	appInfo := &AppInfo{
-		Name:    "MyAwesomePlugin",
-		URL:     "https://myawesomeplugin.info",
-		Version: "1.2.34",
+func TestStripeClientUserAgentTelemetryIsolation(t *testing.T) {
+	for _, firstEnabled := range []bool{true, false} {
+		t.Run(fmt.Sprintf("first_enabled_%t", firstEnabled), func(t *testing.T) {
+			resetTelemetryID()
+			configDirOverride = t.TempDir()
+			initUserAgent()
+			t.Cleanup(func() {
+				resetTelemetryID()
+				initUserAgent()
+			})
+
+			const seededID = "aabbccddeeff00112233445566778899"
+			assert.NoError(t, os.WriteFile(filepath.Join(configDirOverride, "telemetry_id"), []byte(seededID), 0600))
+			enabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(true)}).(*BackendImplementation)
+			disabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(false)}).(*BackendImplementation)
+			var firstHeader string
+			for i, enableTelemetry := range []bool{firstEnabled, !firstEnabled, firstEnabled} {
+				backend := disabled
+				if enableTelemetry {
+					backend = enabled
+				}
+				req, err := backend.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
+				assert.NoError(t, err)
+				encoded := req.Header.Get("X-Stripe-Client-User-Agent")
+				switch i {
+				case 0:
+					firstHeader = encoded
+				case 2:
+					assert.Equal(t, firstHeader, encoded)
+				}
+				var userAgent map[string]string
+				assert.NoError(t, json.Unmarshal([]byte(encoded), &userAgent))
+				assert.Equal(t, "go", userAgent["lang"])
+				assert.Equal(t, runtime.Version(), userAgent["lang_version"])
+				if enableTelemetry {
+					assert.Equal(t, seededID, userAgent["telemetry_id"])
+					assert.Equal(t, runtime.GOOS+" "+runtime.GOARCH, userAgent["platform"])
+				} else {
+					assert.NotContains(t, userAgent, "telemetry_id")
+					assert.NotContains(t, userAgent, "platform")
+				}
+			}
+		})
 	}
-	SetAppInfo(appInfo)
-	defer SetAppInfo(nil)
+}
 
-	c := GetBackend(APIBackend).(*BackendImplementation)
+func TestStripeClientUserAgentConcurrentTelemetryIsolation(t *testing.T) {
+	resetTelemetryID()
+	configDirOverride = t.TempDir()
+	initUserAgent()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		initUserAgent()
+	})
 
-	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
-	assert.NoError(t, err)
+	const seededID = "aabbccddeeff00112233445566778899"
+	assert.NoError(t, os.WriteFile(filepath.Join(configDirOverride, "telemetry_id"), []byte(seededID), 0600))
+	enabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(true)}).(*BackendImplementation)
+	disabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(false)}).(*BackendImplementation)
 
-	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
-	assert.NotEmpty(t, encodedUserAgent)
+	const workers = 32
+	requests := make([]*http.Request, workers)
+	errors := make([]error, workers)
+	start := make(chan struct{})
+	var wg sync.WaitGroup
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			backend := disabled
+			if i%2 == 0 {
+				backend = enabled
+			}
+			<-start
+			requests[i], errors[i] = backend.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
+		}(i)
+	}
+	close(start)
+	wg.Wait()
 
-	var userAgent map[string]interface{}
-	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
-	assert.NoError(t, err)
+	for i, req := range requests {
+		assert.NoError(t, errors[i])
+		var userAgent map[string]string
+		assert.NoError(t, json.Unmarshal([]byte(req.Header.Get("X-Stripe-Client-User-Agent")), &userAgent))
+		assert.Equal(t, "go", userAgent["lang"])
+		assert.Equal(t, runtime.Version(), userAgent["lang_version"])
+		if i%2 == 0 {
+			assert.Equal(t, seededID, userAgent["telemetry_id"])
+			assert.Equal(t, runtime.GOOS+" "+runtime.GOARCH, userAgent["platform"])
+		} else {
+			assert.NotContains(t, userAgent, "telemetry_id")
+			assert.NotContains(t, userAgent, "platform")
+		}
+	}
+}
 
-	decodedAppInfo := userAgent["application"].(map[string]interface{})
-	assert.Equal(t, appInfo.Name, decodedAppInfo["name"])
-	assert.Equal(t, appInfo.URL, decodedAppInfo["url"])
-	assert.Equal(t, appInfo.Version, decodedAppInfo["version"])
+func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
+	originalAppInfo := appInfo
+	resetTelemetryID()
+	configDirOverride = t.TempDir()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		SetAppInfo(originalAppInfo)
+	})
+
+	enabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(true)}).(*BackendImplementation)
+	disabled := GetBackendWithConfig(APIBackend, &BackendConfig{EnableTelemetry: Bool(false)}).(*BackendImplementation)
+	for _, info := range []*AppInfo{
+		{Name: "ExamplePlugin", URL: "https://example.com/plugin", Version: "1.2.34"},
+		{Name: "ReplacementPlugin", URL: "https://example.com/replacement", Version: "2.0.0"},
+	} {
+		SetAppInfo(info)
+		for _, backend := range []*BackendImplementation{enabled, disabled} {
+			req, err := backend.NewRequest("", "/v1/hello", "", "", nil)
+			assert.NoError(t, err)
+
+			encoded := req.Header.Get("X-Stripe-Client-User-Agent")
+			assert.NotEmpty(t, encoded)
+			var userAgent map[string]interface{}
+			assert.NoError(t, json.Unmarshal([]byte(encoded), &userAgent))
+
+			decodedAppInfo := userAgent["application"].(map[string]interface{})
+			assert.Equal(t, info.Name, decodedAppInfo["name"])
+			assert.Equal(t, info.URL, decodedAppInfo["url"])
+			assert.Equal(t, info.Version, decodedAppInfo["version"])
+			if backend.enableTelemetry {
+				assert.Equal(t, telemetryIDValue, userAgent["telemetry_id"])
+				assert.NotEmpty(t, userAgent["telemetry_id"])
+				assert.Equal(t, runtime.GOOS+" "+runtime.GOARCH, userAgent["platform"])
+			} else {
+				assert.NotContains(t, userAgent, "telemetry_id")
+				assert.NotContains(t, userAgent, "platform")
+			}
+		}
+	}
 }
 
 func TestDetectAIAgent(t *testing.T) {
@@ -2301,16 +2421,13 @@ func TestUserAgentWithAIAgent(t *testing.T) {
 }
 
 func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
-	// Save and restore the original state
-	originalEncoded := encodedStripeUserAgent
-	originalReady := encodedStripeUserAgentReady
-	defer func() {
-		encodedStripeUserAgent = originalEncoded
-		encodedStripeUserAgentReady = originalReady
-	}()
-
-	// Reset so getEncodedStripeUserAgent re-computes
-	encodedStripeUserAgentReady = &sync.Once{}
+	resetTelemetryID()
+	configDirOverride = t.TempDir()
+	initUserAgent()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		initUserAgent()
+	})
 
 	encoded := getEncodedStripeUserAgent(true)
 	var userAgent map[string]interface{}
@@ -2327,37 +2444,14 @@ func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
 	}
 }
 
-func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
-	originalEncoded := encodedStripeUserAgent
-	originalReady := encodedStripeUserAgentReady
-	defer func() {
-		encodedStripeUserAgent = originalEncoded
-		encodedStripeUserAgentReady = originalReady
-	}()
-
-	encodedStripeUserAgentReady = &sync.Once{}
-
-	encoded := getEncodedStripeUserAgent(false)
-	var userAgent map[string]string
-	err := json.Unmarshal([]byte(encoded), &userAgent)
-	assert.NoError(t, err)
-
-	assert.Equal(t, "go", userAgent["lang"])
-	assert.Empty(t, userAgent["platform"])
-}
-
 func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
-	originalEncoded := encodedStripeUserAgent
-	originalReady := encodedStripeUserAgentReady
-	defer func() {
-		encodedStripeUserAgent = originalEncoded
-		encodedStripeUserAgentReady = originalReady
-		resetTelemetryID()
-	}()
-
 	resetTelemetryID()
 	configDirOverride = t.TempDir()
-	encodedStripeUserAgentReady = &sync.Once{}
+	initUserAgent()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		initUserAgent()
+	})
 
 	encoded := getEncodedStripeUserAgent(true)
 	var userAgent map[string]interface{}
@@ -2374,25 +2468,25 @@ func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
 	assert.Regexp(t, `^[0-9a-f]{32}$`, telemetryIDStr, "expected 'telemetry_id' to be a 32-char lowercase hex string")
 }
 
-func TestStripeClientUserAgentOmitsTelemetryIDWhenDisabled(t *testing.T) {
-	originalEncoded := encodedStripeUserAgent
-	originalReady := encodedStripeUserAgentReady
-	defer func() {
-		encodedStripeUserAgent = originalEncoded
-		encodedStripeUserAgentReady = originalReady
-		resetTelemetryID()
-	}()
-
+func TestStripeClientUserAgentOmitsTelemetryIDAndPlatformWhenDisabled(t *testing.T) {
 	resetTelemetryID()
-	encodedStripeUserAgentReady = &sync.Once{}
+	configDirOverride = t.TempDir()
+	initUserAgent()
+	t.Cleanup(func() {
+		resetTelemetryID()
+		initUserAgent()
+	})
 
 	encoded := getEncodedStripeUserAgent(false)
 	var userAgent map[string]interface{}
 	err := json.Unmarshal([]byte(encoded), &userAgent)
 	assert.NoError(t, err)
 
-	_, ok := userAgent["telemetry_id"]
-	assert.False(t, ok, "expected 'telemetry_id' field to be absent from X-Stripe-Client-User-Agent when telemetry is disabled")
+	assert.NotContains(t, userAgent, "telemetry_id")
+	assert.NotContains(t, userAgent, "platform")
+	assert.Empty(t, telemetryIDValue)
+	_, err = os.Stat(filepath.Join(configDirOverride, "telemetry_id"))
+	assert.True(t, os.IsNotExist(err), "disabled telemetry must not create an ID file")
 }
 
 func TestResponseToError(t *testing.T) {

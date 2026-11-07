@@ -2233,8 +2233,10 @@ type requestTelemetry struct {
 
 var appInfo *AppInfo
 var backends Backends
-var encodedStripeUserAgent string
-var encodedStripeUserAgentReady *sync.Once
+var encodedStripeUserAgentWithTelemetry string
+var encodedStripeUserAgentWithTelemetryReady *sync.Once
+var encodedStripeUserAgentWithoutTelemetry string
+var encodedStripeUserAgentWithoutTelemetryReady *sync.Once
 var encodedUserAgent string
 
 // API Version with beta headers if any
@@ -2305,11 +2307,18 @@ func initUserAgent() {
 	if agent, ok := detectAIAgent(os.LookupEnv); ok {
 		encodedUserAgent += " AIAgent/" + agent
 	}
-	encodedStripeUserAgentReady = &sync.Once{}
+	encodedStripeUserAgentWithTelemetryReady = &sync.Once{}
+	encodedStripeUserAgentWithoutTelemetryReady = &sync.Once{}
 }
 
 func getEncodedStripeUserAgent(enableTelemetry bool) string {
-	encodedStripeUserAgentReady.Do(func() {
+	encoded := &encodedStripeUserAgentWithoutTelemetry
+	ready := encodedStripeUserAgentWithoutTelemetryReady
+	if enableTelemetry {
+		encoded = &encodedStripeUserAgentWithTelemetry
+		ready = encodedStripeUserAgentWithTelemetryReady
+	}
+	ready.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
 			Application:     appInfo,
 			BindingsVersion: clientversion,
@@ -2329,9 +2338,9 @@ func getEncodedStripeUserAgent(enableTelemetry bool) string {
 		if err != nil {
 			panic(err)
 		}
-		encodedStripeUserAgent = string(marshaled)
+		*encoded = string(marshaled)
 	})
-	return encodedStripeUserAgent
+	return *encoded
 }
 
 func isHTTPWriteMethod(method string) bool {
