@@ -1,0 +1,73 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+package stripe
+
+import (
+	"context"
+	"net/http"
+)
+
+// v2MoneyManagementPayoutMethodService is used to invoke payoutmethod related APIs.
+type v2MoneyManagementPayoutMethodService struct {
+	B   Backend
+	Key string
+}
+
+// Retrieve a PayoutMethod object.
+func (c v2MoneyManagementPayoutMethodService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodRetrieveParams) (*V2MoneyManagementPayoutMethod, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutMethodRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_methods/%s", id)
+	payoutmethod := &V2MoneyManagementPayoutMethod{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, payoutmethod)
+	return payoutmethod, err
+}
+
+// Archive a `PayoutMethod`. Archiving prevents the Payout Method from being used for outbound payments
+// or transfers and omits it from normal list results. To restore list visibility, use the
+// [unarchive endpoint](https://docs.stripe.com/api/v2/money-management/payout-methods/unarchive).
+func (c v2MoneyManagementPayoutMethodService) Archive(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodArchiveParams) (*V2MoneyManagementPayoutMethod, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutMethodArchiveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_methods/%s/archive", id)
+	payoutmethod := &V2MoneyManagementPayoutMethod{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutmethod)
+	return payoutmethod, err
+}
+
+// Unarchive a `PayoutMethod`. Unarchiving restores the Payout Method to normal list results and clears
+// only its archived state. It doesn't guarantee that the Payout Method can be used.
+func (c v2MoneyManagementPayoutMethodService) Unarchive(ctx context.Context, id string, params *V2MoneyManagementPayoutMethodUnarchiveParams) (*V2MoneyManagementPayoutMethod, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutMethodUnarchiveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_methods/%s/unarchive", id)
+	payoutmethod := &V2MoneyManagementPayoutMethod{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutmethod)
+	return payoutmethod, err
+}
+
+// List objects that adhere to the PayoutMethod interface.
+func (c v2MoneyManagementPayoutMethodService) List(ctx context.Context, listParams *V2MoneyManagementPayoutMethodListParams) *V2List[*V2MoneyManagementPayoutMethod] {
+	if listParams == nil {
+		listParams = &V2MoneyManagementPayoutMethodListParams{}
+	}
+	listParams.Context = ctx
+	return newV2List(ctx, "/v2/money_management/payout_methods", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementPayoutMethod], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		page := &V2Page[*V2MoneyManagementPayoutMethod]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	})
+}

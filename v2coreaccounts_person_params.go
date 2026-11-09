@@ -16,7 +16,7 @@ type V2CoreAccountsPersonListParams struct {
 	Params `form:"*"`
 	// Account the Persons are associated with.
 	AccountID *string `form:"-" json:"-"` // Included in URL
-	// The upper limit on the number of accounts returned by the List Account request.
+	// The maximum number of items returned by the list request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
@@ -98,7 +98,7 @@ type V2CoreAccountsPersonDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountsPersonDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -106,39 +106,39 @@ type V2CoreAccountsPersonDocumentsCompanyAuthorizationParams struct {
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountsPersonDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountsPersonDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountsPersonDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -146,7 +146,7 @@ type V2CoreAccountsPersonDocumentsSecondaryVerificationParams struct {
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountsPersonDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -394,7 +394,7 @@ type V2CoreAccountsPersonCreateDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountsPersonCreateDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -402,39 +402,39 @@ type V2CoreAccountsPersonCreateDocumentsCompanyAuthorizationParams struct {
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountsPersonCreateDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonCreateDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountsPersonCreateDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonCreateDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonCreateDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountsPersonCreateDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonCreateDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -442,7 +442,7 @@ type V2CoreAccountsPersonCreateDocumentsSecondaryVerificationParams struct {
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountsPersonCreateDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -704,7 +704,7 @@ type V2CoreAccountsPersonUpdateDateOfBirthParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountsPersonUpdateDocumentsCompanyAuthorizationParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
@@ -712,39 +712,39 @@ type V2CoreAccountsPersonUpdateDocumentsCompanyAuthorizationParams struct {
 
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountsPersonUpdateDocumentsPassportParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonUpdateDocumentsPrimaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document showing the person's name, either a passport or local ID card.
 type V2CoreAccountsPersonUpdateDocumentsPrimaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonUpdateDocumentsPrimaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
 }
 
-// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 type V2CoreAccountsPersonUpdateDocumentsSecondaryVerificationFrontBackParams struct {
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back" json:"back,omitempty"`
-	// A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// A [file upload](https://docs.stripe.com/api/files/create) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type V2CoreAccountsPersonUpdateDocumentsSecondaryVerificationParams struct {
-	// The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+	// The [file upload](https://docs.stripe.com/api/files/create) tokens referring to each side of the document.
 	FrontBack *V2CoreAccountsPersonUpdateDocumentsSecondaryVerificationFrontBackParams `form:"front_back" json:"front_back"`
 	// The format of the verification document. Currently supports `front_back` only.
 	Type *string `form:"type" json:"type"`
@@ -752,7 +752,7 @@ type V2CoreAccountsPersonUpdateDocumentsSecondaryVerificationParams struct {
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountsPersonUpdateDocumentsVisaParams struct {
-	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/files/create) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`

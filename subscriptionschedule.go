@@ -782,7 +782,7 @@ type SubscriptionScheduleParams struct {
 	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
+	// The subscription's pause behavior and optional resume behavior. You can provide one entry. Include its `key` to update an existing pause schedule. Omit `pause_schedules` to leave the existing schedule unchanged, or pass an empty string (`""`) to clear it.
 	PauseSchedules []*SubscriptionSchedulePauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases" json:"phases,omitempty"`
@@ -1597,7 +1597,7 @@ type SubscriptionScheduleUpdatePauseScheduleResumeParams struct {
 	Settings *SubscriptionScheduleUpdatePauseScheduleResumeSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
-// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
+// The subscription's pause behavior and optional resume behavior. You can provide one entry. Include its `key` to update an existing pause schedule. Omit `pause_schedules` to leave the existing schedule unchanged, or pass an empty string (`""`) to clear it.
 type SubscriptionScheduleUpdatePauseScheduleParams struct {
 	// A unique identifier for this pause schedule entry.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -1946,7 +1946,7 @@ type SubscriptionScheduleUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
+	// The subscription's pause behavior and optional resume behavior. You can provide one entry. Include its `key` to update an existing pause schedule. Omit `pause_schedules` to leave the existing schedule unchanged, or pass an empty string (`""`) to clear it.
 	PauseSchedules []*SubscriptionScheduleUpdatePauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases" json:"phases,omitempty"`
@@ -2341,7 +2341,7 @@ type SubscriptionSchedule struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The pause schedules for this subscription schedule.
-	PauseSchedules []*SubscriptionSchedulePauseSchedule `json:"pause_schedules,omitempty"`
+	PauseSchedules []*SubscriptionSchedulePauseSchedule `json:"pause_schedules"`
 	// Configuration for the subscription schedule's phases.
 	Phases []*SubscriptionSchedulePhase `json:"phases"`
 	// Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.

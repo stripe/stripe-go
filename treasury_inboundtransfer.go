@@ -232,6 +232,8 @@ type TreasuryInboundTransferStatusTransitions struct {
 	SucceededAt int64 `json:"succeeded_at"`
 }
 
+// Legacy InboundTransfers are part of the v1 version of Treasury for platforms and do not support many of the features introduced in [Treasury for platforms v2](https://docs.stripe.com/treasury/connect). Use [Inbound Transfers](https://docs.stripe.com/api/v2/money-management/inbound-transfers) instead of building a new v1 integration.
+//
 // Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://docs.stripe.com/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 //
 // Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)

@@ -1310,6 +1310,160 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 
 	// errorTypeSwitch: The beginning of the section generated from our OpenAPI spec
 	switch *raw.Error.Type {
+	case "already_canceled":
+		tmp := struct {
+			Error *AlreadyCanceledError `json:"error"`
+		}{
+			Error: &AlreadyCanceledError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "blocked_by_stripe":
+		tmp := struct {
+			Error *BlockedByStripeError `json:"error"`
+		}{
+			Error: &BlockedByStripeError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "cannot_proceed":
+		tmp := struct {
+			Error *CannotProceedError `json:"error"`
+		}{
+			Error: &CannotProceedError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "capability_not_enabled":
+		tmp := struct {
+			Error *CapabilityNotEnabledError `json:"error"`
+		}{
+			Error: &CapabilityNotEnabledError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "controlled_by_alternate_resource":
+		tmp := struct {
+			Error *ControlledByAlternateResourceError `json:"error"`
+		}{
+			Error: &ControlledByAlternateResourceError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "feature_not_enabled":
+		tmp := struct {
+			Error *FeatureNotEnabledError `json:"error"`
+		}{
+			Error: &FeatureNotEnabledError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "financial_account_not_open":
+		tmp := struct {
+			Error *FinancialAccountNotOpenError `json:"error"`
+		}{
+			Error: &FinancialAccountNotOpenError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "fx_quote_needs_refresh":
+		tmp := struct {
+			Error *FxQuoteNeedsRefreshError `json:"error"`
+		}{
+			Error: &FxQuoteNeedsRefreshError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "insufficient_funds":
+		tmp := struct {
+			Error *InsufficientFundsError `json:"error"`
+		}{
+			Error: &InsufficientFundsError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_payment_method":
+		tmp := struct {
+			Error *InvalidPaymentMethodError `json:"error"`
+		}{
+			Error: &InvalidPaymentMethodError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_payout_method":
+		tmp := struct {
+			Error *InvalidPayoutMethodError `json:"error"`
+		}{
+			Error: &InvalidPayoutMethodError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_vaulted_credential":
+		tmp := struct {
+			Error *InvalidVaultedCredentialError `json:"error"`
+		}{
+			Error: &InvalidVaultedCredentialError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "not_cancelable":
+		tmp := struct {
+			Error *NotCancelableError `json:"error"`
+		}{
+			Error: &NotCancelableError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "quota_exceeded":
+		tmp := struct {
+			Error *QuotaExceededError `json:"error"`
+		}{
+			Error: &QuotaExceededError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "rate_limit":
 		tmp := struct {
 			Error *RateLimitError `json:"error"`
@@ -1321,11 +1475,55 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "recipient_not_notifiable":
+		tmp := struct {
+			Error *RecipientNotNotifiableError `json:"error"`
+		}{
+			Error: &RecipientNotNotifiableError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "temporary_session_expired":
 		tmp := struct {
 			Error *TemporarySessionExpiredError `json:"error"`
 		}{
 			Error: &TemporarySessionExpiredError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_attempt_failed":
+		tmp := struct {
+			Error *VerificationAttemptFailedError `json:"error"`
+		}{
+			Error: &VerificationAttemptFailedError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_expired":
+		tmp := struct {
+			Error *VerificationExpiredError `json:"error"`
+		}{
+			Error: &VerificationExpiredError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "verification_not_initiated":
+		tmp := struct {
+			Error *VerificationNotInitiatedError `json:"error"`
+		}{
+			Error: &VerificationNotInitiatedError{},
 		}
 		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -1880,7 +2078,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "87.0.0"
+const clientversion = "87.1.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
@@ -1942,8 +2140,10 @@ type requestTelemetry struct {
 
 var appInfo *AppInfo
 var backends Backends
-var encodedStripeUserAgent string
-var encodedStripeUserAgentReady *sync.Once
+var encodedStripeUserAgentWithTelemetry string
+var encodedStripeUserAgentWithTelemetryReady *sync.Once
+var encodedStripeUserAgentWithoutTelemetry string
+var encodedStripeUserAgentWithoutTelemetryReady *sync.Once
 var encodedUserAgent string
 
 // The default HTTP client used for communication with any of Stripe's
@@ -2011,11 +2211,18 @@ func initUserAgent() {
 	if agent, ok := detectAIAgent(os.LookupEnv); ok {
 		encodedUserAgent += " AIAgent/" + agent
 	}
-	encodedStripeUserAgentReady = &sync.Once{}
+	encodedStripeUserAgentWithTelemetryReady = &sync.Once{}
+	encodedStripeUserAgentWithoutTelemetryReady = &sync.Once{}
 }
 
 func getEncodedStripeUserAgent(enableTelemetry bool) string {
-	encodedStripeUserAgentReady.Do(func() {
+	encoded := &encodedStripeUserAgentWithoutTelemetry
+	ready := encodedStripeUserAgentWithoutTelemetryReady
+	if enableTelemetry {
+		encoded = &encodedStripeUserAgentWithTelemetry
+		ready = encodedStripeUserAgentWithTelemetryReady
+	}
+	ready.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
 			Application:     appInfo,
 			BindingsVersion: clientversion,
@@ -2035,9 +2242,9 @@ func getEncodedStripeUserAgent(enableTelemetry bool) string {
 		if err != nil {
 			panic(err)
 		}
-		encodedStripeUserAgent = string(marshaled)
+		*encoded = string(marshaled)
 	})
-	return encodedStripeUserAgent
+	return *encoded
 }
 
 func isHTTPWriteMethod(method string) bool {

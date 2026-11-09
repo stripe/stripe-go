@@ -81,7 +81,8 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
@@ -175,7 +176,8 @@ func (p *PaymentSourceVerifyParams) AddExpand(f string) {
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceCreateParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// Unique identifier for the object.
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
