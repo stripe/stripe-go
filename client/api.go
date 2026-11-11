@@ -310,6 +310,7 @@ import (
 	v2moneymanagementrewardprogram "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprogram"
 	v2moneymanagementrewardprogramenrollment "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprogramenrollment"
 	v2moneymanagementrewardprogramsrule "github.com/stripe/stripe-go/v87/v2/moneymanagement/rewardprograms/rule"
+	v2moneymanagementspendingmandate "github.com/stripe/stripe-go/v87/v2/moneymanagement/spendingmandate"
 	v2moneymanagementtesthelper "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelper"
 	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v87/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v87/v2/moneymanagement/transaction"
@@ -943,6 +944,8 @@ type API struct {
 	V2MoneyManagementRewardPrograms *v2moneymanagementrewardprogram.Client
 	// V2MoneyManagementRewardProgramsRules is the client used to invoke /v2/money_management/reward_programs/{reward_program_id}/rules APIs.
 	V2MoneyManagementRewardProgramsRules *v2moneymanagementrewardprogramsrule.Client
+	// V2MoneyManagementSpendingMandates is the client used to invoke /v2/money_management/spending_mandates APIs.
+	V2MoneyManagementSpendingMandates *v2moneymanagementspendingmandate.Client
 	// V2MoneyManagementTestHelpers is the client used to invoke testhelper related APIs.
 	V2MoneyManagementTestHelpers *v2moneymanagementtesthelper.Client
 	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
@@ -1318,6 +1321,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementRewardProgramEnrollments = &v2moneymanagementrewardprogramenrollment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementRewardPrograms = &v2moneymanagementrewardprogram.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementRewardProgramsRules = &v2moneymanagementrewardprogramsrule.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementSpendingMandates = &v2moneymanagementspendingmandate.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpers = &v2moneymanagementtesthelper.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}

@@ -46,7 +46,7 @@ const (
 	ReserveHoldSourceTypeFPX         ReserveHoldSourceType = "fpx"
 )
 
-// Returns a list of ReserveHolds previously created. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
+// Returns a list of ReserveHolds on your account or on one of your connected accounts. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
 type ReserveHoldListParams struct {
 	ListParams `form:"*"`
 	// Only return ReserveHolds associated with the currency specified by this currency code. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -69,7 +69,7 @@ func (p *ReserveHoldListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReserveHold.
+// Retrieve a ReserveHold on your account or on one of your connected accounts.
 type ReserveHoldParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -81,7 +81,7 @@ func (p *ReserveHoldParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReserveHold.
+// Retrieve a ReserveHold on your account or on one of your connected accounts.
 type ReserveHoldRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -107,7 +107,7 @@ type ReserveHoldReleaseSchedule struct {
 	ScheduledRelease int64 `json:"scheduled_release"`
 }
 
-// ReserveHolds are used to place a temporary ReserveHold on a merchant's funds.
+// A ReserveHold holds a portion of an account's funds until it's released. Stripe or the account's platform can create a ReserveHold directly, and a ReservePlan creates ReserveHolds automatically from incoming Charges.
 type ReserveHold struct {
 	APIResource
 	// Amount reserved. A positive integer representing how much is reserved in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).

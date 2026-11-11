@@ -17,6 +17,7 @@ type v2MoneyManagementReceivedDebitMandateService struct {
 	Key string
 }
 
+// Deprecated: Use RetrieveSpendingMandate instead.
 // Retrieves the details of an existing ReceivedDebitMandate.
 func (c v2MoneyManagementReceivedDebitMandateService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementReceivedDebitMandateRetrieveParams) (*V2MoneyManagementReceivedDebitMandate, error) {
 	if params == nil {
@@ -29,6 +30,7 @@ func (c v2MoneyManagementReceivedDebitMandateService) Retrieve(ctx context.Conte
 	return receiveddebitmandate, err
 }
 
+// Deprecated: Use CancelSpendingMandate instead.
 // Cancels an active ReceivedDebitMandate.
 func (c v2MoneyManagementReceivedDebitMandateService) Cancel(ctx context.Context, id string, params *V2MoneyManagementReceivedDebitMandateCancelParams) (*V2MoneyManagementReceivedDebitMandate, error) {
 	if params == nil {
@@ -42,6 +44,7 @@ func (c v2MoneyManagementReceivedDebitMandateService) Cancel(ctx context.Context
 	return receiveddebitmandate, err
 }
 
+// Deprecated: Use ListSpendingMandates instead.
 // Returns a list of ReceivedDebitMandates.
 func (c v2MoneyManagementReceivedDebitMandateService) List(ctx context.Context, listParams *V2MoneyManagementReceivedDebitMandateListParams) *V2List[*V2MoneyManagementReceivedDebitMandate] {
 	if listParams == nil {

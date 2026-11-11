@@ -602,6 +602,8 @@ type Client struct {
 	V2MoneyManagementRewardPrograms *v2MoneyManagementRewardProgramService
 	// V2MoneyManagementRewardProgramsRules is the service used to invoke /v2/money_management/reward_programs/{reward_program_id}/rules APIs.
 	V2MoneyManagementRewardProgramsRules *v2MoneyManagementRewardProgramsRuleService
+	// V2MoneyManagementSpendingMandates is the service used to invoke /v2/money_management/spending_mandates APIs.
+	V2MoneyManagementSpendingMandates *v2MoneyManagementSpendingMandateService
 	// V2MoneyManagementTestHelpers is the service used to invoke testhelper related APIs.
 	V2MoneyManagementTestHelpers *v2MoneyManagementTestHelperService
 	// V2MoneyManagementTestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
@@ -998,6 +1000,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementRewardProgramEnrollments = &v2MoneyManagementRewardProgramEnrollmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementRewardPrograms = &v2MoneyManagementRewardProgramService{B: backends.API, Key: key}
 	client.V2MoneyManagementRewardProgramsRules = &v2MoneyManagementRewardProgramsRuleService{B: backends.API, Key: key}
+	client.V2MoneyManagementSpendingMandates = &v2MoneyManagementSpendingMandateService{B: backends.API, Key: key}
 	client.V2MoneyManagementTestHelpers = &v2MoneyManagementTestHelperService{B: backends.API, Key: key}
 	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}

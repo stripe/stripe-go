@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a ReserveRelease.
+// Retrieve a ReserveRelease on your account or on one of your connected accounts.
 func Get(id string, params *stripe.ReserveReleaseParams) (*stripe.ReserveRelease, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieve a ReserveRelease.
+// Retrieve a ReserveRelease on your account or on one of your connected accounts.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Get(id string, params *stripe.ReserveReleaseParams) (*stripe.Res
 	return release, err
 }
 
-// Returns a list of ReserveReleases previously created. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
+// Returns a list of ReserveReleases on your account or on one of your connected accounts. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
 func List(params *stripe.ReserveReleaseListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of ReserveReleases previously created. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
+// Returns a list of ReserveReleases on your account or on one of your connected accounts. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

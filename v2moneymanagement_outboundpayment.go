@@ -74,6 +74,9 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundPaymentStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonCheckAttachmentTooLarge                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "check_attachment_too_large"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonCheckExpired                            V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "check_expired"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonCheckUndeliverable                      V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "check_undeliverable"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonFxRateDriftExceededAfterReview          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "fx_rate_drift_exceeded_after_review"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckAttachmentTooLarge            V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_attachment_too_large"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckExpired                       V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_expired"
@@ -149,6 +152,15 @@ const (
 	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
 )
 
+// Open Enum. Shipping speed of the check. Defaults to standard.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeed string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeed can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeedPriority V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeed = "priority"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeedStandard V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeed = "standard"
+)
+
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 // `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
 // This status may not align with the OutboundPayment or OutboundTransfer status and can remain `pending`
@@ -160,6 +172,25 @@ const (
 	V2MoneyManagementOutboundPaymentTraceIDStatusPending     V2MoneyManagementOutboundPaymentTraceIDStatus = "pending"
 	V2MoneyManagementOutboundPaymentTraceIDStatusSupported   V2MoneyManagementOutboundPaymentTraceIDStatus = "supported"
 	V2MoneyManagementOutboundPaymentTraceIDStatusUnsupported V2MoneyManagementOutboundPaymentTraceIDStatus = "unsupported"
+)
+
+// Open Enum. Carrier of the check.
+type V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrier string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrier can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrierFedEx V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrier = "fedex"
+	V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrierUSPS  V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrier = "usps"
+)
+
+// Open Enum. Tracking status of the check.
+type V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatusDelivered V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus = "delivered"
+	V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatusInTransit V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus = "in_transit"
+	V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatusMailed    V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus = "mailed"
 )
 
 // Open Enum. Carrier of the paper check.
@@ -308,10 +339,24 @@ type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount struct {
 	PreferredNetworks []V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks,omitempty"`
 }
 
+// Options for check send payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSend struct {
+	// The ID of a file to include as an attachment with the check.
+	AttachmentFile string `json:"attachment_file,omitempty"`
+	// Memo printed on the memo field of the check.
+	Memo string `json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the check. Defaults to standard.
+	ShippingSpeed V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendShippingSpeed `json:"shipping_speed,omitempty"`
+	// Signature printed on the check.
+	Signature string `json:"signature"`
+}
+
 // Payout method options for the OutboundPayment.
 type V2MoneyManagementOutboundPaymentToPayoutMethodOptions struct {
 	// Options for bank account payout methods.
 	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+	// Options for check send payout methods.
+	CheckSend *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSend `json:"check_send,omitempty"`
 }
 
 // To which payout method the OutboundPayment was sent.
@@ -349,6 +394,26 @@ type V2MoneyManagementOutboundPaymentTrackingDetailsCard struct {
 	RetrievalReference string `json:"retrieval_reference,omitempty"`
 }
 
+// Check send tracking details.
+type V2MoneyManagementOutboundPaymentTrackingDetailsCheckSend struct {
+	// Open Enum. Carrier of the check.
+	Carrier V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendCarrier `json:"carrier"`
+	// Check number.
+	CheckNumber string `json:"check_number"`
+	// Postal code of the latest tracking update.
+	CurrentPostalCode string `json:"current_postal_code"`
+	// The ID of a file containing a preview image of the mailed check.
+	MailedCheckPreviewFile string `json:"mailed_check_preview_file,omitempty"`
+	// Mailing address of the check.
+	MailingAddress *Address `json:"mailing_address"`
+	// Tracking number for the check.
+	TrackingNumber string `json:"tracking_number"`
+	// Open Enum. Tracking status of the check.
+	TrackingStatus V2MoneyManagementOutboundPaymentTrackingDetailsCheckSendTrackingStatus `json:"tracking_status"`
+	// When the tracking details were last updated.
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // Crypto wallet tracking details.
 type V2MoneyManagementOutboundPaymentTrackingDetailsCryptoWallet struct {
 	// A unique identifier that can be used to track this OutboundPayment with the recipient crypto wallet.
@@ -379,6 +444,8 @@ type V2MoneyManagementOutboundPaymentTrackingDetails struct {
 	BankAccount *V2MoneyManagementOutboundPaymentTrackingDetailsBankAccount `json:"bank_account,omitempty"`
 	// Card tracking details.
 	Card *V2MoneyManagementOutboundPaymentTrackingDetailsCard `json:"card,omitempty"`
+	// Check send tracking details.
+	CheckSend *V2MoneyManagementOutboundPaymentTrackingDetailsCheckSend `json:"check_send,omitempty"`
 	// Crypto wallet tracking details.
 	CryptoWallet *V2MoneyManagementOutboundPaymentTrackingDetailsCryptoWallet `json:"crypto_wallet,omitempty"`
 	// Paper check tracking details.

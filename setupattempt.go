@@ -187,9 +187,9 @@ type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
 // Check results by Card networks on Card address and CVC at the time of authorization
 type SetupAttemptPaymentMethodDetailsCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check string `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck string `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck string `json:"cvc_check"`
@@ -341,6 +341,10 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type SetupAttemptPaymentMethodDetailsStripeBalance struct{}
+type SetupAttemptPaymentMethodDetailsTossPay struct {
+	// The buyer identifier provided by NICE for this Toss Pay account, when available.
+	BuyerID string `json:"buyer_id"`
+}
 type SetupAttemptPaymentMethodDetailsTWINT struct{}
 type SetupAttemptPaymentMethodDetailsUpi struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
@@ -372,6 +376,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit,omitempty"`
 	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort,omitempty"`
 	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance,omitempty"`
+	TossPay        *SetupAttemptPaymentMethodDetailsTossPay        `json:"toss_pay,omitempty"`
 	TWINT          *SetupAttemptPaymentMethodDetailsTWINT          `json:"twint,omitempty"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`

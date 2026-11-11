@@ -65,6 +65,8 @@ type SharedPaymentIssuedTokenParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod that is going to be shared by the SharedPaymentIssuedToken.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// Referral fee details for this SharedPaymentToken.
+	ReferralFeeDetails *SharedPaymentIssuedTokenReferralFeeDetailsParams `form:"referral_fee_details" json:"referral_fee_details,omitempty"`
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
@@ -82,6 +84,16 @@ type SharedPaymentIssuedTokenParams struct {
 // AddExpand appends a new field to expand.
 func (p *SharedPaymentIssuedTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Referral fee details for this SharedPaymentToken.
+type SharedPaymentIssuedTokenReferralFeeDetailsParams struct {
+	// The Customer to be invoiced for fees assessed.
+	Customer *string `form:"customer" json:"customer,omitempty"`
+	// The account with a Customer configuration to be invoiced for fees assessed.
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
+	// The percentage of the payment to charge as a referral fee, from 0 through 50 with at most two decimal places.
+	ReferralFeePercent *float64 `form:"referral_fee_percent" json:"referral_fee_percent"`
 }
 
 // Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
@@ -138,6 +150,16 @@ func (p *SharedPaymentIssuedTokenRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Referral fee details for this SharedPaymentToken.
+type SharedPaymentIssuedTokenCreateReferralFeeDetailsParams struct {
+	// The Customer to be invoiced for fees assessed.
+	Customer *string `form:"customer" json:"customer,omitempty"`
+	// The account with a Customer configuration to be invoiced for fees assessed.
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
+	// The percentage of the payment to charge as a referral fee, from 0 through 50 with at most two decimal places.
+	ReferralFeePercent *float64 `form:"referral_fee_percent" json:"referral_fee_percent"`
+}
+
 // Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
 type SharedPaymentIssuedTokenCreateSellerDetailsParams struct {
 	// A unique id within a network that identifies a logical seller, usually this would be the unique merchant id.
@@ -175,6 +197,8 @@ type SharedPaymentIssuedTokenCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod that is going to be shared by the SharedPaymentIssuedToken.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
+	// Referral fee details for this SharedPaymentToken.
+	ReferralFeeDetails *SharedPaymentIssuedTokenCreateReferralFeeDetailsParams `form:"referral_fee_details" json:"referral_fee_details,omitempty"`
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
@@ -216,6 +240,16 @@ type SharedPaymentIssuedTokenNextAction struct {
 	Type SharedPaymentIssuedTokenNextActionType `json:"type"`
 	// Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.
 	UseStripeSDK *SharedPaymentIssuedTokenNextActionUseStripeSDK `json:"use_stripe_sdk"`
+}
+
+// Referral fee details of the SharedPaymentIssuedToken.
+type SharedPaymentIssuedTokenReferralFeeDetails struct {
+	// The Customer to be invoiced for fees assessed.
+	Customer string `json:"customer"`
+	// The account to be invoiced for fees assessed.
+	CustomerAccount string `json:"customer_account"`
+	// The percentage of the payment charged as a referral fee.
+	ReferralFeePercent float64 `json:"referral_fee_percent"`
 }
 
 // Bot risk insight.
@@ -341,6 +375,8 @@ type SharedPaymentIssuedToken struct {
 	Object string `json:"object"`
 	// ID of an existing PaymentMethod.
 	PaymentMethod string `json:"payment_method"`
+	// Referral fee details of the SharedPaymentIssuedToken.
+	ReferralFeeDetails *SharedPaymentIssuedTokenReferralFeeDetails `json:"referral_fee_details,omitempty"`
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL string `json:"return_url,omitempty"`
 	// Risk details of the SharedPaymentIssuedToken.

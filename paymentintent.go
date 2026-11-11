@@ -21662,6 +21662,20 @@ type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 	// An universal link that redirect to WeChat Pay app
 	NativeURL string `json:"native_url"`
 }
+type PaymentIntentNextActionWeChatPayRedirectToMiniProgram struct {
+	// Mini Program ID registered on WeChat Open Platform
+	AppID string `json:"app_id"`
+	// Random string
+	NonceStr string `json:"nonce_str"`
+	// Unique trading ID assigned by WeChat Pay
+	PrepayID string `json:"prepay_id"`
+	// Signature
+	Sign string `json:"sign"`
+	// Signature type
+	SignType string `json:"sign_type"`
+	// Current time in epoch format
+	Timestamp string `json:"timestamp"`
+}
 
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
@@ -21685,12 +21699,13 @@ type PaymentIntentNextAction struct {
 	Type                             PaymentIntentNextActionType                              `json:"type"`
 	UpiHandleRedirectOrDisplayQRCode *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code,omitempty"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-	UseStripeSDK                  map[string]any                                        `json:"use_stripe_sdk,omitempty"`
-	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits,omitempty"`
-	WeChatPayDisplayQRCode        *PaymentIntentNextActionWeChatPayDisplayQRCode        `json:"wechat_pay_display_qr_code,omitempty"`
-	WeChatPayHandleAppRedirect    *PaymentIntentNextActionWeChatPayHandleAppRedirect    `json:"wechat_pay_handle_app_redirect,omitempty"`
-	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app,omitempty"`
-	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app,omitempty"`
+	UseStripeSDK                   map[string]any                                         `json:"use_stripe_sdk,omitempty"`
+	VerifyWithMicrodeposits        *PaymentIntentNextActionVerifyWithMicrodeposits        `json:"verify_with_microdeposits,omitempty"`
+	WeChatPayDisplayQRCode         *PaymentIntentNextActionWeChatPayDisplayQRCode         `json:"wechat_pay_display_qr_code,omitempty"`
+	WeChatPayHandleAppRedirect     *PaymentIntentNextActionWeChatPayHandleAppRedirect     `json:"wechat_pay_handle_app_redirect,omitempty"`
+	WeChatPayRedirectToAndroidApp  *PaymentIntentNextActionWeChatPayRedirectToAndroidApp  `json:"wechat_pay_redirect_to_android_app,omitempty"`
+	WeChatPayRedirectToIOSApp      *PaymentIntentNextActionWeChatPayRedirectToIOSApp      `json:"wechat_pay_redirect_to_ios_app,omitempty"`
+	WeChatPayRedirectToMiniProgram *PaymentIntentNextActionWeChatPayRedirectToMiniProgram `json:"wechat_pay_redirect_to_mini_program,omitempty"`
 }
 type PaymentIntentPaymentDetailsBenefitFRMealVoucher struct {
 	// Whether meal voucher benefit is enabled for this payment.

@@ -22,6 +22,7 @@ type Client struct {
 	Key string
 }
 
+// Deprecated: Use RetrieveSpendingMandate instead.
 // Retrieves the details of an existing ReceivedDebitMandate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -35,6 +36,7 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementReceivedDebitMand
 	return receiveddebitmandate, err
 }
 
+// Deprecated: Use CancelSpendingMandate instead.
 // Cancels an active ReceivedDebitMandate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -48,6 +50,7 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementReceivedDebitM
 	return receiveddebitmandate, err
 }
 
+// Deprecated: Use ListSpendingMandates instead.
 // Returns a list of ReceivedDebitMandates.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

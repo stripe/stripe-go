@@ -73,7 +73,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
 )
 
-// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
@@ -306,6 +306,16 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypeCredit   PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "credit"
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
+)
+
+// Where the message must be printed or displayed. An empty list means the message must not be shown.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationCardholderReceipt PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "cardholder_receipt"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationMerchantReceipt   PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "merchant_receipt"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationPointOfSale       PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "point_of_sale"
 )
 
 // The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
@@ -737,6 +747,8 @@ type PaymentAttemptRecordReportAuthenticatedParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
 	// Information about the Payment Method debited for this payment.
 	PaymentMethodDetails *PaymentAttemptRecordReportAuthenticatedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	UnsetFields          []PaymentAttemptRecordReportAuthenticatedParamsUnsetField          `form:"-" json:"-"`
@@ -778,10 +790,28 @@ type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardChecksParams st
 	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
 }
 
+// Populated if this transaction used 3D Secure authentication.
+type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardThreeDSecureParams struct {
+	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
+	AuthenticationFlow *string `form:"authentication_flow" json:"authentication_flow,omitempty"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result *string `form:"result" json:"result"`
+	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
+	ResultReason *string `form:"result_reason" json:"result_reason,omitempty"`
+	// The version of 3D Secure that was used.
+	Version *string `form:"version" json:"version"`
+}
+
 // Information about the card payment method used to make this payment.
 type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardParams struct {
 	// Verification checks performed on the card.
 	Checks *PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
 }
 
 // Information about the Payment Method debited for this payment.
@@ -1036,10 +1066,28 @@ type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams st
 	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
 }
 
+// Populated if this transaction used 3D Secure authentication.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardThreeDSecureParams struct {
+	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
+	AuthenticationFlow *string `form:"authentication_flow" json:"authentication_flow,omitempty"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result *string `form:"result" json:"result"`
+	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
+	ResultReason *string `form:"result_reason" json:"result_reason,omitempty"`
+	// The version of 3D Secure that was used.
+	Version *string `form:"version" json:"version"`
+}
+
 // Information about the card payment method used to make this payment.
 type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardParams struct {
 	// Verification checks performed on the card.
 	Checks *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
 }
 
 // Information about the Payment Method debited for this payment.
@@ -1543,7 +1591,7 @@ type PaymentAttemptRecordPaymentMethodDetailsBoleto struct {
 type PaymentAttemptRecordPaymentMethodDetailsCardChecks struct {
 	// If you provide a value for `address.line1`, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If you provide a CVC, the check results is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
@@ -1690,6 +1738,14 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorization struct {
 	Status PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 
+// A message from the card issuer to show to the cardholder, and where it must be shown.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessage struct {
+	// Where the message must be printed or displayed. An empty list means the message must not be shown.
+	Destinations []PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination `json:"destinations"`
+	// The message from the card issuer, such as the remaining balance.
+	Value string `json:"value"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -1702,6 +1758,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt struct {
 	AuthorizationCode string `json:"authorization_code"`
 	// EMV tag 8A. A code returned by the card issuer.
 	AuthorizationResponseCode string `json:"authorization_response_code"`
+	// A message from the card issuer to show to the cardholder, and where it must be shown.
+	CardholderMessage *PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptCardholderMessage `json:"cardholder_message,omitempty"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
 	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.

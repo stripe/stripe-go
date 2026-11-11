@@ -1244,6 +1244,12 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 // If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
 
+// Additional fields for Financial Connections session creation.
+type SetupIntentPaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -1265,6 +1271,8 @@ func (p *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnsetF
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *SetupIntentPaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions     *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	VerificationMethod *string                                                       `form:"verification_method" json:"verification_method,omitempty"`
@@ -3202,6 +3210,12 @@ type SetupIntentCreatePaymentMethodOptionsACSSDebitParams struct {
 // If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 type SetupIntentCreatePaymentMethodOptionsAmazonPayParams struct{}
 
+// Additional fields for Financial Connections session creation.
+type SetupIntentCreatePaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -3223,6 +3237,8 @@ func (p *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams) Add
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *SetupIntentCreatePaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions     *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	VerificationMethod *string                                                             `form:"verification_method" json:"verification_method,omitempty"`
@@ -4432,6 +4448,12 @@ type SetupIntentUpdatePaymentMethodOptionsACSSDebitParams struct {
 // If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 type SetupIntentUpdatePaymentMethodOptionsAmazonPayParams struct{}
 
+// Additional fields for Financial Connections session creation.
+type SetupIntentUpdatePaymentMethodOptionsBACSDebitFinancialConnectionsParams struct {
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -4453,6 +4475,8 @@ func (p *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams) Add
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Financial Connections session creation.
+	FinancialConnections *SetupIntentUpdatePaymentMethodOptionsBACSDebitFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Additional fields for Mandate creation
 	MandateOptions     *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	VerificationMethod *string                                                             `form:"verification_method" json:"verification_method,omitempty"`
@@ -5109,13 +5133,17 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsAmazonPay struct{}
+type SetupIntentPaymentMethodOptionsBACSDebitFinancialConnections struct {
+	ReturnURL string `json:"return_url,omitempty"`
+}
 type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBACSDebit struct {
-	MandateOptions     *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions    `json:"mandate_options,omitempty"`
-	VerificationMethod SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
+	FinancialConnections *SetupIntentPaymentMethodOptionsBACSDebitFinancialConnections `json:"financial_connections,omitempty"`
+	MandateOptions       *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions       `json:"mandate_options,omitempty"`
+	VerificationMethod   SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod    `json:"verification_method,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBizum struct{}
 type SetupIntentPaymentMethodOptionsBLIKMandateOptions struct {

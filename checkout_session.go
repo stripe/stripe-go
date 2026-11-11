@@ -4693,6 +4693,8 @@ type CheckoutSessionCheckoutItemParams struct {
 }
 
 // Creates a Checkout Session object.
+//
+// Validate requests on your server and protect your application's Session-creation endpoint with access controls and limits on repeated creation. See [Protect your Session-creation endpoint](https://docs.stripe.com/payments/accept-a-payment?payment-ui=elements&api-integration=checkout#protect-session-creation).
 type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -4858,6 +4860,8 @@ type CheckoutSessionParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
+	// Token used to resolve the presentment currency for this Checkout Session.
+	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
@@ -7593,6 +7597,8 @@ type CheckoutSessionCreateCheckoutItemParams struct {
 }
 
 // Creates a Checkout Session object.
+//
+// Validate requests on your server and protect your application's Session-creation endpoint with access controls and limits on repeated creation. See [Protect your Session-creation endpoint](https://docs.stripe.com/payments/accept-a-payment?payment-ui=elements&api-integration=checkout#protect-session-creation).
 type CheckoutSessionCreateParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -7754,6 +7760,8 @@ type CheckoutSessionCreateParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionCreatePhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
+	// Token used to resolve the presentment currency for this Checkout Session.
+	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the

@@ -937,7 +937,7 @@ func (e *InvalidVaultedCredentialError) canRetry() bool {
 }
 
 // MerchantNotGatedError is the Go struct corresponding to the error type "merchant_not_gated".
-// Returned when raw PAN permissions are not enabled for the account.
+// Returned when the account doesn't have permission to create network tokens from raw card details or to generate `dynamic_cvc` cryptograms.
 type MerchantNotGatedError struct {
 	APIResource
 	Code        string    `json:"code"`

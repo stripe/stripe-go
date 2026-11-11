@@ -33,7 +33,7 @@ const (
 	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
 )
 
-// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentMethodCardChecksAddressLine1Check string
 
 // List of values that PaymentMethodCardChecksAddressLine1Check can take
@@ -44,7 +44,7 @@ const (
 	PaymentMethodCardChecksAddressLine1CheckUnchecked   PaymentMethodCardChecksAddressLine1Check = "unchecked"
 )
 
-// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentMethodCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentMethodCardChecksAddressPostalCodeCheck can take
@@ -147,6 +147,16 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypeCredit   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "credit"
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
+)
+
+// Where the message must be printed or displayed. An empty list means the message must not be shown.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationCardholderReceipt PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "cardholder_receipt"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationMerchantReceipt   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "merchant_receipt"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationPointOfSale       PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "point_of_sale"
 )
 
 // The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
@@ -2013,9 +2023,9 @@ type PaymentMethodCardBenefits struct {
 
 // Checks on Card address and CVC if provided.
 type PaymentMethodCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check PaymentMethodCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentMethodCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`
@@ -2053,6 +2063,14 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizatio
 	Status PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 
+// A message from the card issuer to show to the cardholder, and where it must be shown.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessage struct {
+	// Where the message must be printed or displayed. An empty list means the message must not be shown.
+	Destinations []PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination `json:"destinations"`
+	// The message from the card issuer, such as the remaining balance.
+	Value string `json:"value"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -2065,6 +2083,8 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct
 	AuthorizationCode string `json:"authorization_code"`
 	// EMV tag 8A. A code returned by the card issuer.
 	AuthorizationResponseCode string `json:"authorization_response_code"`
+	// A message from the card issuer to show to the cardholder, and where it must be shown.
+	CardholderMessage *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessage `json:"cardholder_message,omitempty"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
 	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.

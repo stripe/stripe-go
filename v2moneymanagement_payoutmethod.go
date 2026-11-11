@@ -61,6 +61,7 @@ const (
 	V2MoneyManagementPayoutMethodTypeApplePay                     V2MoneyManagementPayoutMethodType = "apple_pay"
 	V2MoneyManagementPayoutMethodTypeBankAccount                  V2MoneyManagementPayoutMethodType = "bank_account"
 	V2MoneyManagementPayoutMethodTypeCard                         V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeCheckSend                    V2MoneyManagementPayoutMethodType = "check_send"
 	V2MoneyManagementPayoutMethodTypeCryptoWallet                 V2MoneyManagementPayoutMethodType = "crypto_wallet"
 	V2MoneyManagementPayoutMethodTypeNetworkBusinessProfileWallet V2MoneyManagementPayoutMethodType = "network_business_profile_wallet"
 	V2MoneyManagementPayoutMethodTypePix                          V2MoneyManagementPayoutMethodType = "pix"
@@ -159,6 +160,14 @@ type V2MoneyManagementPayoutMethodCard struct {
 	SupportedCurrencies []Currency `json:"supported_currencies"`
 }
 
+// The PayoutMethodCheckSend object details.
+type V2MoneyManagementPayoutMethodCheckSend struct {
+	// The US mailing address the check is sent to.
+	MailingAddress *Address `json:"mailing_address"`
+	// The name printed on the check's payee line.
+	PayeeName string `json:"payee_name"`
+}
+
 // The PayoutMethodCryptoWallet object details.
 type V2MoneyManagementPayoutMethodCryptoWallet struct {
 	// Destination wallet address.
@@ -214,6 +223,8 @@ type V2MoneyManagementPayoutMethod struct {
 	BankAccount *V2MoneyManagementPayoutMethodBankAccount `json:"bank_account,omitempty"`
 	// The PayoutMethodCard object details.
 	Card *V2MoneyManagementPayoutMethodCard `json:"card,omitempty"`
+	// The PayoutMethodCheckSend object details.
+	CheckSend *V2MoneyManagementPayoutMethodCheckSend `json:"check_send,omitempty"`
 	// Created timestamp.
 	Created time.Time `json:"created"`
 	// The PayoutMethodCryptoWallet object details.

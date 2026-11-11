@@ -6,6 +6,7 @@
 
 package stripe
 
+// Deprecated: Use ListSpendingMandates instead.
 // Returns a list of ReceivedDebitMandates.
 type V2MoneyManagementReceivedDebitMandateListParams struct {
 	Params `form:"*"`
@@ -19,16 +20,19 @@ type V2MoneyManagementReceivedDebitMandateListParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
+// Deprecated: Use RetrieveSpendingMandate instead.
 // Retrieves the details of an existing ReceivedDebitMandate.
 type V2MoneyManagementReceivedDebitMandateParams struct {
 	Params `form:"*"`
 }
 
+// Deprecated: Use CancelSpendingMandate instead.
 // Cancels an active ReceivedDebitMandate.
 type V2MoneyManagementReceivedDebitMandateCancelParams struct {
 	Params `form:"*"`
 }
 
+// Deprecated: Use RetrieveSpendingMandate instead.
 // Retrieves the details of an existing ReceivedDebitMandate.
 type V2MoneyManagementReceivedDebitMandateRetrieveParams struct {
 	Params `form:"*"`
