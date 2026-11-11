@@ -132,6 +132,7 @@ type V2MoneyManagementReceivedDebitBankTransferGBBankAccount struct {
 	// Open Enum. The bank network the debit was originated on.
 	Network V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork `json:"network"`
 	// The ID of the mandate associated with this debit.
+	// Deprecated: use `bank_transfer.spending_mandate` instead.
 	ReceivedDebitMandate string `json:"received_debit_mandate,omitempty"`
 	// The sort code of the bank that originated the debit.
 	SortCode string `json:"sort_code,omitempty"`
@@ -187,6 +188,8 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	OriginType V2MoneyManagementReceivedDebitBankTransferOriginType `json:"origin_type"`
 	// Open Enum. The type of the payment method used to originate the debit.
 	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
+	// The ID of the SpendingMandate associated with this debit.
+	SpendingMandate string `json:"spending_mandate,omitempty"`
 	// The statement descriptor set by the originator of the debit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 	// Object containing details of the US Bank Account that originated the debit.

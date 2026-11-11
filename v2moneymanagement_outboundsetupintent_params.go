@@ -59,6 +59,14 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams struct {
 	Number *string `form:"number" json:"number,omitempty"`
 }
 
+// The type specific details of the check send payout method.
+type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCheckSendParams struct {
+	// The US mailing address the check is sent to.
+	MailingAddress *AddressParams `form:"mailing_address" json:"mailing_address"`
+	// The name printed on the check's payee line.
+	PayeeName *string `form:"payee_name" json:"payee_name"`
+}
+
 // The type specific details of the crypto wallet payout method.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCryptoWalletParams struct {
 	// Crypto wallet address.
@@ -88,6 +96,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type specific details of the check send payout method.
+	CheckSend *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCheckSendParams `form:"check_send" json:"check_send,omitempty"`
 	// The type specific details of the crypto wallet payout method.
 	CryptoWallet *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The type specific details of the PIX payout method.
@@ -164,6 +174,14 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams struct
 	Number *string `form:"number" json:"number"`
 }
 
+// The type specific details of the check send payout method.
+type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCheckSendParams struct {
+	// The US mailing address the check is sent to.
+	MailingAddress *AddressParams `form:"mailing_address" json:"mailing_address"`
+	// The name printed on the check's payee line.
+	PayeeName *string `form:"payee_name" json:"payee_name"`
+}
+
 // The type specific details of the crypto wallet payout method.
 type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCryptoWalletParams struct {
 	// Crypto wallet address.
@@ -193,6 +211,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type specific details of the check send payout method.
+	CheckSend *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCheckSendParams `form:"check_send" json:"check_send,omitempty"`
 	// The type specific details of the crypto wallet payout method.
 	CryptoWallet *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The type specific details of the PIX payout method.

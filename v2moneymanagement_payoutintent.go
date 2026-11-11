@@ -115,6 +115,9 @@ type V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason string
 // List of values that V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason can take
 const (
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonAccountNotConfiguredAsRecipient                V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "account_not_configured_as_recipient"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCheckAttachmentTooLarge                        V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "check_attachment_too_large"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCheckExpired                                   V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "check_expired"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCheckUndeliverable                             V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "check_undeliverable"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCurrencyNotSupportedForFinancialAccountBalance V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "currency_not_supported_for_financial_account_balance"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFeatureNotActiveForRecipient                   V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "feature_not_active_for_recipient"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFxRateDriftExceededAfterReview                 V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "fx_rate_drift_exceeded_after_review"
@@ -235,6 +238,15 @@ const (
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+)
+
+// Open Enum. Shipping speed of the check. Defaults to standard.
+type V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeed string
+
+// List of values that V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeed can take
+const (
+	V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeedPriority V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeed = "priority"
+	V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeedStandard V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeed = "standard"
 )
 
 // ACH-specific network fee options.
@@ -417,10 +429,24 @@ type V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccount struct {
 	PreferredNetworks []V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks,omitempty"`
 }
 
+// Options for check send payout methods.
+type V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSend struct {
+	// The ID of a file to include as an attachment with the check.
+	AttachmentFile string `json:"attachment_file,omitempty"`
+	// Memo printed on the memo field of the check.
+	Memo string `json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the check. Defaults to standard.
+	ShippingSpeed V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSendShippingSpeed `json:"shipping_speed,omitempty"`
+	// Signature printed on the check.
+	Signature string `json:"signature"`
+}
+
 // Payout method options for the PayoutIntent.
 type V2MoneyManagementPayoutIntentToPayoutMethodOptions struct {
 	// Options for bank account payout methods.
 	BankAccount *V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+	// Options for check send payout methods.
+	CheckSend *V2MoneyManagementPayoutIntentToPayoutMethodOptionsCheckSend `json:"check_send,omitempty"`
 }
 
 // To which payout method the payout is sent.

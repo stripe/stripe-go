@@ -1147,6 +1147,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationTossPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationTossPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationTossPayDisplayPreferencePreferenceNone PaymentMethodConfigurationTossPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationTossPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationTossPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationTossPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationTossPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationTossPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationTossPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationTossPayDisplayPreferenceValueOff PaymentMethodConfigurationTossPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationTossPayDisplayPreferenceValueOn  PaymentMethodConfigurationTossPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationTWINTDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationTWINTDisplayPreferencePreference can take
@@ -2021,6 +2040,18 @@ type PaymentMethodConfigurationSwishParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationTossPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+type PaymentMethodConfigurationTossPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationTossPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2227,6 +2258,8 @@ type PaymentMethodConfigurationParams struct {
 	Sunbit *PaymentMethodConfigurationSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationSwishParams `form:"swish" json:"swish,omitempty"`
+	// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+	TossPay *PaymentMethodConfigurationTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
@@ -2991,6 +3024,18 @@ type PaymentMethodConfigurationCreateSwishParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateTossPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+type PaymentMethodConfigurationCreateTossPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateTossPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3195,6 +3240,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Sunbit *PaymentMethodConfigurationCreateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationCreateSwishParams `form:"swish" json:"swish,omitempty"`
+	// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+	TossPay *PaymentMethodConfigurationCreateTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationCreateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
@@ -3971,6 +4018,18 @@ type PaymentMethodConfigurationUpdateSwishParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateTossPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+type PaymentMethodConfigurationUpdateTossPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateTossPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -4175,6 +4234,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Sunbit *PaymentMethodConfigurationUpdateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationUpdateSwishParams `form:"swish" json:"swish,omitempty"`
+	// Customers are redirected to Toss Pay to authenticate their payment, then return to your website or app. You receive immediate notification of whether the payment succeeded or failed. With recurring access, customers can authorize a reusable mandate for future off-session payments.
+	TossPay *PaymentMethodConfigurationUpdateTossPayParams `form:"toss_pay" json:"toss_pay,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationUpdateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
@@ -4974,6 +5035,19 @@ type PaymentMethodConfigurationSwish struct {
 	Available         bool                                              `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationTossPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationTossPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationTossPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationTossPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationTossPayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationTWINTDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -5145,6 +5219,7 @@ type PaymentMethodConfiguration struct {
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
 	Sunbit        *PaymentMethodConfigurationSunbit        `json:"sunbit,omitempty"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish,omitempty"`
+	TossPay       *PaymentMethodConfigurationTossPay       `json:"toss_pay,omitempty"`
 	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint,omitempty"`
 	Upi           *PaymentMethodConfigurationUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account,omitempty"`

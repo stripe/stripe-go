@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a ReserveHold.
+// Retrieve a ReserveHold on your account or on one of your connected accounts.
 func Get(id string, params *stripe.ReserveHoldParams) (*stripe.ReserveHold, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieve a ReserveHold.
+// Retrieve a ReserveHold on your account or on one of your connected accounts.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Get(id string, params *stripe.ReserveHoldParams) (*stripe.Reserv
 	return hold, err
 }
 
-// Returns a list of ReserveHolds previously created. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
+// Returns a list of ReserveHolds on your account or on one of your connected accounts. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
 func List(params *stripe.ReserveHoldListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of ReserveHolds previously created. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
+// Returns a list of ReserveHolds on your account or on one of your connected accounts. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

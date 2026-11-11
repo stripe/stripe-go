@@ -13967,7 +13967,7 @@ func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) Fe
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
-// This event occurs when an account is closed.
+// Occurs when an Account is closed.
 type V2CoreAccountClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -13980,7 +13980,7 @@ func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2C
 }
 
 // V2CoreAccountClosedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.closed"
-// This event occurs when an account is closed.
+// Occurs when an Account is closed.
 type V2CoreAccountClosedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -14505,7 +14505,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
-// This event occurs when account defaults are created or updated.
+// Occurs when an Account's defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -14518,7 +14518,7 @@ func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx cont
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[defaults].updated"
-// This event occurs when account defaults are created or updated.
+// Occurs when an Account's defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -20677,6 +20677,7 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 }
 
 // V2MoneyManagementReceivedDebitMandateCanceledEvent is the Go struct for the "v2.money_management.received_debit_mandate.canceled" event.
+// Deprecated: Use v2.money_management.spending_mandate.canceled instead.
 // Occurs when a ReceivedDebitMandate is successfully canceled.
 type V2MoneyManagementReceivedDebitMandateCanceledEvent struct {
 	V2BaseEvent
@@ -20690,6 +20691,7 @@ func (e *V2MoneyManagementReceivedDebitMandateCanceledEvent) FetchRelatedObject(
 }
 
 // V2MoneyManagementReceivedDebitMandateCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.canceled"
+// Deprecated: Use v2.money_management.spending_mandate.canceled instead.
 // Occurs when a ReceivedDebitMandate is successfully canceled.
 type V2MoneyManagementReceivedDebitMandateCanceledEventNotification struct {
 	V2CoreEventNotification
@@ -20718,6 +20720,7 @@ func (n *V2MoneyManagementReceivedDebitMandateCanceledEventNotification) FetchRe
 }
 
 // V2MoneyManagementReceivedDebitMandateCreatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.created" event.
+// Deprecated: Use v2.money_management.spending_mandate.created instead.
 // Occurs when a ReceivedDebitMandate is created by an external party.
 type V2MoneyManagementReceivedDebitMandateCreatedEvent struct {
 	V2BaseEvent
@@ -20731,6 +20734,7 @@ func (e *V2MoneyManagementReceivedDebitMandateCreatedEvent) FetchRelatedObject(c
 }
 
 // V2MoneyManagementReceivedDebitMandateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.created"
+// Deprecated: Use v2.money_management.spending_mandate.created instead.
 // Occurs when a ReceivedDebitMandate is created by an external party.
 type V2MoneyManagementReceivedDebitMandateCreatedEventNotification struct {
 	V2CoreEventNotification
@@ -20759,6 +20763,7 @@ func (n *V2MoneyManagementReceivedDebitMandateCreatedEventNotification) FetchRel
 }
 
 // V2MoneyManagementReceivedDebitMandateExpiredEvent is the Go struct for the "v2.money_management.received_debit_mandate.expired" event.
+// Deprecated: Use v2.money_management.spending_mandate.expired instead.
 // Occurs when a ReceivedDebitMandate expires.
 type V2MoneyManagementReceivedDebitMandateExpiredEvent struct {
 	V2BaseEvent
@@ -20772,6 +20777,7 @@ func (e *V2MoneyManagementReceivedDebitMandateExpiredEvent) FetchRelatedObject(c
 }
 
 // V2MoneyManagementReceivedDebitMandateExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.expired"
+// Deprecated: Use v2.money_management.spending_mandate.expired instead.
 // Occurs when a ReceivedDebitMandate expires.
 type V2MoneyManagementReceivedDebitMandateExpiredEventNotification struct {
 	V2CoreEventNotification
@@ -20800,6 +20806,7 @@ func (n *V2MoneyManagementReceivedDebitMandateExpiredEventNotification) FetchRel
 }
 
 // V2MoneyManagementReceivedDebitMandatePendingCancellationEvent is the Go struct for the "v2.money_management.received_debit_mandate.pending_cancellation" event.
+// Deprecated: Use v2.money_management.spending_mandate.pending_cancellation instead.
 // Occurs when a ReceivedDebitMandate transitions to pending_cancellation status.
 type V2MoneyManagementReceivedDebitMandatePendingCancellationEvent struct {
 	V2BaseEvent
@@ -20813,6 +20820,7 @@ func (e *V2MoneyManagementReceivedDebitMandatePendingCancellationEvent) FetchRel
 }
 
 // V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.pending_cancellation"
+// Deprecated: Use v2.money_management.spending_mandate.pending_cancellation instead.
 // Occurs when a ReceivedDebitMandate transitions to pending_cancellation status.
 type V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification struct {
 	V2CoreEventNotification
@@ -20841,6 +20849,7 @@ func (n *V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotificati
 }
 
 // V2MoneyManagementReceivedDebitMandateUpdatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.updated" event.
+// Deprecated: Use v2.money_management.spending_mandate.updated instead.
 // Occurs when a ReceivedDebitMandate is updated.
 type V2MoneyManagementReceivedDebitMandateUpdatedEvent struct {
 	V2BaseEvent
@@ -20854,6 +20863,7 @@ func (e *V2MoneyManagementReceivedDebitMandateUpdatedEvent) FetchRelatedObject(c
 }
 
 // V2MoneyManagementReceivedDebitMandateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.updated"
+// Deprecated: Use v2.money_management.spending_mandate.updated instead.
 // Occurs when a ReceivedDebitMandate is updated.
 type V2MoneyManagementReceivedDebitMandateUpdatedEventNotification struct {
 	V2CoreEventNotification
@@ -21048,6 +21058,213 @@ func (n *V2MoneyManagementRewardProgramRewardReversedEventNotification) FetchRel
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementRewardProgram{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementSpendingMandateCanceledEvent is the Go struct for the "v2.money_management.spending_mandate.canceled" event.
+// Occurs when a SpendingMandate is successfully canceled.
+type V2MoneyManagementSpendingMandateCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementSpendingMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (e *V2MoneyManagementSpendingMandateCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementSpendingMandateCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.spending_mandate.canceled"
+// Occurs when a SpendingMandate is successfully canceled.
+type V2MoneyManagementSpendingMandateCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementSpendingMandateCanceledEvent that created this Notification
+func (n *V2MoneyManagementSpendingMandateCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementSpendingMandateCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementSpendingMandateCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (n *V2MoneyManagementSpendingMandateCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementSpendingMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementSpendingMandateCreatedEvent is the Go struct for the "v2.money_management.spending_mandate.created" event.
+// Occurs when a SpendingMandate is created, either when a mandate is received from an external
+// party or when a user authorizes a counterparty to pull money from a Financial Account.
+type V2MoneyManagementSpendingMandateCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementSpendingMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (e *V2MoneyManagementSpendingMandateCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementSpendingMandateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.spending_mandate.created"
+// Occurs when a SpendingMandate is created, either when a mandate is received from an external
+// party or when a user authorizes a counterparty to pull money from a Financial Account.
+type V2MoneyManagementSpendingMandateCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementSpendingMandateCreatedEvent that created this Notification
+func (n *V2MoneyManagementSpendingMandateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementSpendingMandateCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementSpendingMandateCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (n *V2MoneyManagementSpendingMandateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementSpendingMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementSpendingMandateExpiredEvent is the Go struct for the "v2.money_management.spending_mandate.expired" event.
+// Occurs when a SpendingMandate expires.
+type V2MoneyManagementSpendingMandateExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementSpendingMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (e *V2MoneyManagementSpendingMandateExpiredEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementSpendingMandateExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.spending_mandate.expired"
+// Occurs when a SpendingMandate expires.
+type V2MoneyManagementSpendingMandateExpiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementSpendingMandateExpiredEvent that created this Notification
+func (n *V2MoneyManagementSpendingMandateExpiredEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementSpendingMandateExpiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementSpendingMandateExpiredEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (n *V2MoneyManagementSpendingMandateExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementSpendingMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementSpendingMandatePendingCancellationEvent is the Go struct for the "v2.money_management.spending_mandate.pending_cancellation" event.
+// Occurs when a SpendingMandate transitions to pending_cancellation status.
+type V2MoneyManagementSpendingMandatePendingCancellationEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementSpendingMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (e *V2MoneyManagementSpendingMandatePendingCancellationEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementSpendingMandatePendingCancellationEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.spending_mandate.pending_cancellation"
+// Occurs when a SpendingMandate transitions to pending_cancellation status.
+type V2MoneyManagementSpendingMandatePendingCancellationEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementSpendingMandatePendingCancellationEvent that created this Notification
+func (n *V2MoneyManagementSpendingMandatePendingCancellationEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementSpendingMandatePendingCancellationEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementSpendingMandatePendingCancellationEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (n *V2MoneyManagementSpendingMandatePendingCancellationEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementSpendingMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementSpendingMandateUpdatedEvent is the Go struct for the "v2.money_management.spending_mandate.updated" event.
+// Occurs when a SpendingMandate is updated.
+type V2MoneyManagementSpendingMandateUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementSpendingMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (e *V2MoneyManagementSpendingMandateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementSpendingMandateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.spending_mandate.updated"
+// Occurs when a SpendingMandate is updated.
+type V2MoneyManagementSpendingMandateUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementSpendingMandateUpdatedEvent that created this Notification
+func (n *V2MoneyManagementSpendingMandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementSpendingMandateUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementSpendingMandateUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementSpendingMandate related to the event.
+func (n *V2MoneyManagementSpendingMandateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementSpendingMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -31846,6 +32063,86 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.money_management.spending_mandate.canceled":
+		result := &V2MoneyManagementSpendingMandateCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementSpendingMandate, error) {
+			v := &V2MoneyManagementSpendingMandate{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.spending_mandate.created":
+		result := &V2MoneyManagementSpendingMandateCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementSpendingMandate, error) {
+			v := &V2MoneyManagementSpendingMandate{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.spending_mandate.expired":
+		result := &V2MoneyManagementSpendingMandateExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementSpendingMandate, error) {
+			v := &V2MoneyManagementSpendingMandate{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.spending_mandate.pending_cancellation":
+		result := &V2MoneyManagementSpendingMandatePendingCancellationEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementSpendingMandate, error) {
+			v := &V2MoneyManagementSpendingMandate{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.spending_mandate.updated":
+		result := &V2MoneyManagementSpendingMandateUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementSpendingMandate, error) {
+			v := &V2MoneyManagementSpendingMandate{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.transaction.created":
 		result := &V2MoneyManagementTransactionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -36054,6 +36351,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.reward_program.reward_reversed":
 		evt := V2MoneyManagementRewardProgramRewardReversedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.spending_mandate.canceled":
+		evt := V2MoneyManagementSpendingMandateCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.spending_mandate.created":
+		evt := V2MoneyManagementSpendingMandateCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.spending_mandate.expired":
+		evt := V2MoneyManagementSpendingMandateExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.spending_mandate.pending_cancellation":
+		evt := V2MoneyManagementSpendingMandatePendingCancellationEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.spending_mandate.updated":
+		evt := V2MoneyManagementSpendingMandateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

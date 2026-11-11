@@ -90,7 +90,7 @@ type CustomerParams struct {
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
-	// Advertising attribution information for this customer. Only one attribution is supported.
+	// Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
 	MarketingAttributions []*CustomerMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -218,6 +218,34 @@ func (p *CustomerInvoiceSettingsParams) AddUnsetField(field CustomerInvoiceSetti
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Information used when sending conversions to an advertising platform.
+type CustomerMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
+type CustomerMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CustomerMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
+}
+
 // The customer's shipping information. Appears on invoices emailed to this customer.
 type CustomerShippingParams struct {
 	// Customer shipping address.
@@ -272,34 +300,6 @@ type CustomerListParams struct {
 // AddExpand appends a new field to expand.
 func (p *CustomerListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// Information used when sending conversions to an advertising platform.
-type CustomerMarketingAttributionAdConversionParams struct {
-	// Whether the customer consented to sending conversion data to an advertising platform.
-	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
-}
-
-// Advertising attribution information for this customer. Only one attribution is supported.
-type CustomerMarketingAttributionParams struct {
-	// Information used when sending conversions to an advertising platform.
-	AdConversion *CustomerMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
-	// The advertising platform's click identifier.
-	ClickID *string `form:"click_id" json:"click_id,omitempty"`
-	// The Unix timestamp when the advertising interaction occurred.
-	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
-	// The advertising group ID from the `utm_adgroup` parameter.
-	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
-	// The advertising content identifier from the `utm_content` parameter.
-	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
-	// The advertising campaign ID from the `utm_id` parameter.
-	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
-	// The marketing medium from the `utm_medium` parameter.
-	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
-	// The referral source from the `utm_source` parameter.
-	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
-	// The paid search term from the `utm_term` parameter.
-	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
 }
 
 // The customer's tax IDs.
@@ -482,6 +482,34 @@ func (p *CustomerUpdateInvoiceSettingsParams) AddUnsetField(field CustomerUpdate
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Information used when sending conversions to an advertising platform.
+type CustomerUpdateMarketingAttributionAdConversionParams struct {
+	// Whether the customer consented to sending conversion data to an advertising platform.
+	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+}
+
+// Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
+type CustomerUpdateMarketingAttributionParams struct {
+	// Information used when sending conversions to an advertising platform.
+	AdConversion *CustomerUpdateMarketingAttributionAdConversionParams `form:"ad_conversion" json:"ad_conversion,omitempty"`
+	// The advertising platform's click identifier.
+	ClickID *string `form:"click_id" json:"click_id,omitempty"`
+	// The Unix timestamp when the advertising interaction occurred.
+	OccurredAt *int64 `form:"occurred_at" json:"occurred_at,omitempty"`
+	// The advertising group ID from the `utm_adgroup` parameter.
+	UtmAdgroup *string `form:"utm_adgroup" json:"utm_adgroup,omitempty"`
+	// The advertising content identifier from the `utm_content` parameter.
+	UtmContent *string `form:"utm_content" json:"utm_content,omitempty"`
+	// The advertising campaign ID from the `utm_id` parameter.
+	UtmID *string `form:"utm_id" json:"utm_id,omitempty"`
+	// The marketing medium from the `utm_medium` parameter.
+	UtmMedium *string `form:"utm_medium" json:"utm_medium,omitempty"`
+	// The referral source from the `utm_source` parameter.
+	UtmSource *string `form:"utm_source" json:"utm_source,omitempty"`
+	// The paid search term from the `utm_term` parameter.
+	UtmTerm *string `form:"utm_term" json:"utm_term,omitempty"`
+}
+
 // The customer's shipping information. Appears on invoices emailed to this customer.
 type CustomerUpdateShippingParams struct {
 	// Customer shipping address.
@@ -544,6 +572,8 @@ type CustomerUpdateParams struct {
 	InvoicePrefix *string `form:"invoice_prefix" json:"invoice_prefix,omitempty"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerUpdateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
+	// Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
+	MarketingAttributions []*CustomerUpdateMarketingAttributionParams `form:"marketing_attributions" json:"marketing_attributions,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The customer's full name or business name.

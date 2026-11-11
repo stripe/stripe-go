@@ -80,10 +80,24 @@ type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams stru
 	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
 }
 
+// Options for check send payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendParams struct {
+	// The ID of a file to include as an attachment with the check.
+	AttachmentFile *string `form:"attachment_file" json:"attachment_file,omitempty"`
+	// Memo printed on the memo field of the check.
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the check. Defaults to standard.
+	ShippingSpeed *string `form:"shipping_speed" json:"shipping_speed,omitempty"`
+	// Signature printed on the check.
+	Signature *string `form:"signature" json:"signature"`
+}
+
 // Payout method options for the OutboundPayment.
 type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams struct {
 	// Options for bank account payout methods.
 	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+	// Options for check send payout methods.
+	CheckSend *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsCheckSendParams `form:"check_send" json:"check_send,omitempty"`
 }
 
 // To which payout method to send the OutboundPayment.
@@ -206,10 +220,24 @@ type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParam
 	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks,omitempty"`
 }
 
+// Options for check send payout methods.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsCheckSendParams struct {
+	// The ID of a file to include as an attachment with the check.
+	AttachmentFile *string `form:"attachment_file" json:"attachment_file,omitempty"`
+	// Memo printed on the memo field of the check.
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the check. Defaults to standard.
+	ShippingSpeed *string `form:"shipping_speed" json:"shipping_speed,omitempty"`
+	// Signature printed on the check.
+	Signature *string `form:"signature" json:"signature"`
+}
+
 // Payout method options for the OutboundPayment.
 type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams struct {
 	// Options for bank account payout methods.
 	BankAccount *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+	// Options for check send payout methods.
+	CheckSend *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsCheckSendParams `form:"check_send" json:"check_send,omitempty"`
 }
 
 // To which payout method to send the OutboundPayment.

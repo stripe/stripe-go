@@ -230,6 +230,24 @@ const (
 )
 
 // Describes the presence of the customer during the payment.
+type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresence string
+
+// List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresence can take
+const (
+	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresenceOffSession RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresence = "off_session"
+	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresenceOnSession  RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresence = "on_session"
+)
+
+// Describes whether this payment is one-off or recurring.
+type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentType string
+
+// List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentType can take
+const (
+	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentTypeOneOff    RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentType = "one_off"
+	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentTypeRecurring RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentType = "recurring"
+)
+
+// Describes the presence of the customer during the payment.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountCustomerPresence string
 
 // List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsUSBankAccountCustomerPresence can take
@@ -372,6 +390,10 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitParams struct {
 	// Supply the SEPA Creditor Identifier configured for the intended debit with your selected processor. Obtain it from your processor's SEPA configuration API or onboarding/support information. Do not supply a statement descriptor, IBAN, processor merchant-account ID, or mandate reference. If the creditor identifier is unknown, omit it.
 	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+	// Describes the presence of the customer during the payment.
+	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
+	// Describes whether this payment is one-off or recurring.
+	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
 // Describes US bank account money movement details.
@@ -537,6 +559,10 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams st
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsSEPADebitParams struct {
 	// Supply the SEPA Creditor Identifier configured for the intended debit with your selected processor. Obtain it from your processor's SEPA configuration API or onboarding/support information. Do not supply a statement descriptor, IBAN, processor merchant-account ID, or mandate reference. If the creditor identifier is unknown, omit it.
 	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+	// Describes the presence of the customer during the payment.
+	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
+	// Describes whether this payment is one-off or recurring.
+	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
 // Describes US bank account money movement details.
@@ -824,6 +850,10 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebit struct {
 	// Creditor identifier used for the intended debit.
 	CreditorID string `json:"creditor_id"`
+	// Describes the presence of the customer during the payment.
+	CustomerPresence RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitCustomerPresence `json:"customer_presence"`
+	// Describes whether this payment is one-off or recurring.
+	PaymentType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsSEPADebitPaymentType `json:"payment_type"`
 }
 
 // Describes US bank account money movement details.

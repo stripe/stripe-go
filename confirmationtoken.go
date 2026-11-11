@@ -118,6 +118,16 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
 )
 
+// Where the message must be printed or displayed. An empty list means the message must not be shown.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationCardholderReceipt ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "cardholder_receipt"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationMerchantReceipt   ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "merchant_receipt"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestinationPointOfSale       ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination = "point_of_sale"
+)
+
 // The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType string
 
@@ -717,9 +727,9 @@ type ConfirmationTokenPaymentMethodPreviewCardBenefits struct {
 
 // Checks on Card address and CVC if provided.
 type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check string `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck string `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck string `json:"cvc_check"`
@@ -757,6 +767,14 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Status ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 
+// A message from the card issuer to show to the cardholder, and where it must be shown.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessage struct {
+	// Where the message must be printed or displayed. An empty list means the message must not be shown.
+	Destinations []ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessageDestination `json:"destinations"`
+	// The message from the card issuer, such as the remaining balance.
+	Value string `json:"value"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -769,6 +787,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	AuthorizationCode string `json:"authorization_code"`
 	// EMV tag 8A. A code returned by the card issuer.
 	AuthorizationResponseCode string `json:"authorization_response_code"`
+	// A message from the card issuer to show to the cardholder, and where it must be shown.
+	CardholderMessage *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptCardholderMessage `json:"cardholder_message,omitempty"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
 	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.

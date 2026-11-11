@@ -381,6 +381,42 @@ const (
 	IdentityVerificationReportSignalsFraudulentPhoneRiskLevelUnknown     IdentityVerificationReportSignalsFraudulentPhoneRiskLevel = "unknown"
 )
 
+// The effect this indicator had on the overall risk level.
+type IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact string
+
+// List of values that IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact can take
+const (
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpactDecrease       IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact = "decrease"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpactNeutral        IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact = "neutral"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpactSlightIncrease IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact = "slight_increase"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpactStrongIncrease IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact = "strong_increase"
+)
+
+// The name of the specific indicator used in the risk assessment.
+type IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator string
+
+// List of values that IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator can take
+const (
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicatorDuplicateSelfie               IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator = "duplicate_selfie"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicatorDuplicateSelfieMismatchedData IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator = "duplicate_selfie_mismatched_data"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicatorFaceMismatch                  IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator = "face_mismatch"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicatorOther                         IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator = "other"
+	IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicatorStaticSelfie                  IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator = "static_selfie"
+)
+
+// Categorical assessment of the selfie risk.
+type IdentityVerificationReportSignalsFraudulentSelfieRiskLevel string
+
+// List of values that IdentityVerificationReportSignalsFraudulentSelfieRiskLevel can take
+const (
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelElevated    IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "elevated"
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelHighest     IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "highest"
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelLow         IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "low"
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelNormal      IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "normal"
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelNotAssessed IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "not_assessed"
+	IdentityVerificationReportSignalsFraudulentSelfieRiskLevelUnknown     IdentityVerificationReportSignalsFraudulentSelfieRiskLevel = "unknown"
+)
+
 // Type of report.
 type IdentityVerificationReportType string
 
@@ -709,11 +745,28 @@ type IdentityVerificationReportSignalsFraudulentPhone struct {
 	// Categorical assessment of the phone risk.
 	RiskLevel IdentityVerificationReportSignalsFraudulentPhoneRiskLevel `json:"risk_level"`
 }
+
+// Array of objects representing individual factors that contributed to the calculated risk level.
+type IdentityVerificationReportSignalsFraudulentSelfieIndicator struct {
+	// A brief explanation of how this indicator contributed to the risk level.
+	Explanation string `json:"explanation"`
+	// The effect this indicator had on the overall risk level.
+	Impact IdentityVerificationReportSignalsFraudulentSelfieIndicatorImpact `json:"impact"`
+	// The name of the specific indicator used in the risk assessment.
+	Indicator IdentityVerificationReportSignalsFraudulentSelfieIndicatorIndicator `json:"indicator"`
+}
+type IdentityVerificationReportSignalsFraudulentSelfie struct {
+	// Array of objects representing individual factors that contributed to the calculated risk level.
+	Indicators []*IdentityVerificationReportSignalsFraudulentSelfieIndicator `json:"indicators"`
+	// Categorical assessment of the selfie risk.
+	RiskLevel IdentityVerificationReportSignalsFraudulentSelfieRiskLevel `json:"risk_level"`
+}
 type IdentityVerificationReportSignals struct {
 	FraudulentDocument *IdentityVerificationReportSignalsFraudulentDocument `json:"fraudulent_document,omitempty"`
 	FraudulentEmail    *IdentityVerificationReportSignalsFraudulentEmail    `json:"fraudulent_email,omitempty"`
 	FraudulentPerson   *IdentityVerificationReportSignalsFraudulentPerson   `json:"fraudulent_person,omitempty"`
 	FraudulentPhone    *IdentityVerificationReportSignalsFraudulentPhone    `json:"fraudulent_phone,omitempty"`
+	FraudulentSelfie   *IdentityVerificationReportSignalsFraudulentSelfie   `json:"fraudulent_selfie,omitempty"`
 }
 
 // A VerificationReport is the result of an attempt to collect and verify data from a user.

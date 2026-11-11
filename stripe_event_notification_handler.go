@@ -2948,6 +2948,36 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementRewardProgramRewardRev
 		h, "v2.money_management.reward_program.reward_reversed", callback)
 }
 
+// OnV2MoneyManagementSpendingMandateCanceled registers a callback to handle notifications about the "v2.money_management.spending_mandate.canceled" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementSpendingMandateCanceled(callback func(ctx context.Context, notif *V2MoneyManagementSpendingMandateCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.spending_mandate.canceled", callback)
+}
+
+// OnV2MoneyManagementSpendingMandateCreated registers a callback to handle notifications about the "v2.money_management.spending_mandate.created" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementSpendingMandateCreated(callback func(ctx context.Context, notif *V2MoneyManagementSpendingMandateCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.spending_mandate.created", callback)
+}
+
+// OnV2MoneyManagementSpendingMandateExpired registers a callback to handle notifications about the "v2.money_management.spending_mandate.expired" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementSpendingMandateExpired(callback func(ctx context.Context, notif *V2MoneyManagementSpendingMandateExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.spending_mandate.expired", callback)
+}
+
+// OnV2MoneyManagementSpendingMandatePendingCancellation registers a callback to handle notifications about the "v2.money_management.spending_mandate.pending_cancellation" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementSpendingMandatePendingCancellation(callback func(ctx context.Context, notif *V2MoneyManagementSpendingMandatePendingCancellationEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.spending_mandate.pending_cancellation", callback)
+}
+
+// OnV2MoneyManagementSpendingMandateUpdated registers a callback to handle notifications about the "v2.money_management.spending_mandate.updated" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementSpendingMandateUpdated(callback func(ctx context.Context, notif *V2MoneyManagementSpendingMandateUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.spending_mandate.updated", callback)
+}
+
 // OnV2MoneyManagementTransactionCreated registers a callback to handle notifications about the "v2.money_management.transaction.created" event.
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementTransactionCreated(callback func(ctx context.Context, notif *V2MoneyManagementTransactionCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(

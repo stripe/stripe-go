@@ -42,6 +42,14 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeLink   SharedPaymentGrantedTokenPaymentMethodDetailsType = "link"
 )
 
+// The type of fee rate.
+type SharedPaymentGrantedTokenReferralFeeDetailsRateType string
+
+// List of values that SharedPaymentGrantedTokenReferralFeeDetailsRateType can take
+const (
+	SharedPaymentGrantedTokenReferralFeeDetailsRateTypePercentage SharedPaymentGrantedTokenReferralFeeDetailsRateType = "percentage"
+)
+
 // The interval at which the shared payment token's amount usage restrictions reset.
 type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
 
@@ -101,9 +109,9 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails struct {
 
 // Checks on Card address and CVC if provided.
 type SharedPaymentGrantedTokenPaymentMethodDetailsCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check string `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck string `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck string `json:"cvc_check"`
@@ -220,6 +228,17 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Link           *SharedPaymentGrantedTokenPaymentMethodDetailsLink           `json:"link,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type SharedPaymentGrantedTokenPaymentMethodDetailsType `json:"type"`
+}
+type SharedPaymentGrantedTokenReferralFeeDetailsRate struct {
+	// The percentage of the payment amount which will be calculated as a fee.
+	Percentage float64 `json:"percentage"`
+	// The type of fee rate.
+	Type SharedPaymentGrantedTokenReferralFeeDetailsRateType `json:"type"`
+}
+
+// Referral fees may be charged when a SharedPaymentGrantedToken is used. This behavior is controlled by the issuer of the token. This field provides details about the referral fee rate.
+type SharedPaymentGrantedTokenReferralFeeDetails struct {
+	Rate *SharedPaymentGrantedTokenReferralFeeDetailsRate `json:"rate"`
 }
 
 // Bot risk insight.
@@ -338,6 +357,8 @@ type SharedPaymentGrantedToken struct {
 	Object string `json:"object"`
 	// Details of the PaymentMethod that was shared via this token.
 	PaymentMethodDetails *SharedPaymentGrantedTokenPaymentMethodDetails `json:"payment_method_details"`
+	// Referral fees may be charged when a SharedPaymentGrantedToken is used. This behavior is controlled by the issuer of the token. This field provides details about the referral fee rate.
+	ReferralFeeDetails *SharedPaymentGrantedTokenReferralFeeDetails `json:"referral_fee_details,omitempty"`
 	// Risk details of the SharedPaymentGrantedToken.
 	RiskDetails *SharedPaymentGrantedTokenRiskDetails `json:"risk_details,omitempty"`
 	// Metadata about the SharedPaymentGrantedToken.

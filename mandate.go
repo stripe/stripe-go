@@ -373,6 +373,10 @@ type MandatePaymentMethodDetailsSEPADebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
+type MandatePaymentMethodDetailsTossPay struct {
+	// The buyer identifier provided by NICE for this Toss Pay account, when available.
+	BuyerID string `json:"buyer_id"`
+}
 type MandatePaymentMethodDetailsTWINT struct{}
 type MandatePaymentMethodDetailsUpi struct {
 	// Amount to be charged for future payments.
@@ -407,6 +411,7 @@ type MandatePaymentMethodDetails struct {
 	Pix           *MandatePaymentMethodDetailsPix           `json:"pix,omitempty"`
 	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
 	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
+	TossPay       *MandatePaymentMethodDetailsTossPay       `json:"toss_pay,omitempty"`
 	TWINT         *MandatePaymentMethodDetailsTWINT         `json:"twint,omitempty"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
