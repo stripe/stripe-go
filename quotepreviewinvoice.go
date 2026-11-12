@@ -776,6 +776,16 @@ type QuotePreviewInvoiceManagedPayments struct {
 type QuotePreviewInvoiceParentBillingCadenceDetails struct {
 	// The billing cadence that generated this invoice
 	BillingCadence string `json:"billing_cadence"`
+	// The billing group that generated this invoice
+	BillingGroup string `json:"billing_group"`
+}
+
+// Details about the billing group that generated this invoice
+type QuotePreviewInvoiceParentBillingGroupDetails struct {
+	// The billing cadence that generated this invoice
+	BillingCadence string `json:"billing_cadence"`
+	// The billing group that generated this invoice
+	BillingGroup string `json:"billing_group"`
 }
 
 // Details about the quote that generated this invoice
@@ -817,6 +827,8 @@ type QuotePreviewInvoiceParentSubscriptionDetails struct {
 type QuotePreviewInvoiceParent struct {
 	// Details about the billing cadence that generated this invoice
 	BillingCadenceDetails *QuotePreviewInvoiceParentBillingCadenceDetails `json:"billing_cadence_details,omitempty"`
+	// Details about the billing group that generated this invoice
+	BillingGroupDetails *QuotePreviewInvoiceParentBillingGroupDetails `json:"billing_group_details,omitempty"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *QuotePreviewInvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the schedule that generated this invoice

@@ -368,6 +368,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationDbaraiDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationDbaraiDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceNone PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceOff  PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceOn   PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationDbaraiDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationDbaraiDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationDbaraiDisplayPreferenceValueOff PaymentMethodConfigurationDbaraiDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationDbaraiDisplayPreferenceValueOn  PaymentMethodConfigurationDbaraiDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationEPSDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationEPSDisplayPreferencePreference can take
@@ -1536,6 +1555,18 @@ type PaymentMethodConfigurationCustomerBalanceParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationEPSDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2168,6 +2199,8 @@ type PaymentMethodConfigurationParams struct {
 	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -2517,6 +2550,18 @@ type PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams stru
 type PaymentMethodConfigurationCreateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3150,6 +3195,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationCreateDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationCreateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -3511,6 +3558,18 @@ type PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams stru
 type PaymentMethodConfigurationUpdateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -4146,6 +4205,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationUpdateDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationUpdateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -4501,6 +4562,19 @@ type PaymentMethodConfigurationCustomerBalance struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                        `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationDbaraiDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationDbaraiDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationDbaraiDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationDbarai struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationDbaraiDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationEPSDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -5166,6 +5240,7 @@ type PaymentMethodConfiguration struct {
 	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp,omitempty"`
 	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto,omitempty"`
 	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance,omitempty"`
+	Dbarai          *PaymentMethodConfigurationDbarai          `json:"dbarai,omitempty"`
 	EPS             *PaymentMethodConfigurationEPS             `json:"eps,omitempty"`
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx,omitempty"`
 	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay,omitempty"`

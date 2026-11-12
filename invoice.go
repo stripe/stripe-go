@@ -1127,8 +1127,10 @@ type InvoiceTransferDataParams struct {
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 type InvoiceListParams struct {
 	ListParams `form:"*"`
-	// Only return invoices for the cadence specified by this billing cadence ID.
+	// Only return invoices for the billing cadence specified by this billing cadence ID.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Only return invoices for the billing group specified by this billing group ID.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Only return invoices that were created during the given date interval.
@@ -3693,6 +3695,8 @@ type InvoiceCreatePreviewParams struct {
 	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// The identifier of the billing cadence for which you'd like to retrieve the upcoming invoice. Cannot be provided when `subscription`, `schedule`, `subscription_details` or `schedule_details` are provided.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// The identifier of the billing group for which you'd like to retrieve the upcoming invoice. Cannot be provided when `subscription`, `schedule`, `subscription_details` or `schedule_details` are provided.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The identifier of the customer whose upcoming invoice you're retrieving. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
@@ -5208,6 +5212,16 @@ type InvoiceManagedPayments struct {
 type InvoiceParentBillingCadenceDetails struct {
 	// The billing cadence that generated this invoice
 	BillingCadence string `json:"billing_cadence"`
+	// The billing group that generated this invoice
+	BillingGroup string `json:"billing_group"`
+}
+
+// Details about the billing group that generated this invoice
+type InvoiceParentBillingGroupDetails struct {
+	// The billing cadence that generated this invoice
+	BillingCadence string `json:"billing_cadence"`
+	// The billing group that generated this invoice
+	BillingGroup string `json:"billing_group"`
 }
 
 // Details about the quote that generated this invoice
@@ -5249,6 +5263,8 @@ type InvoiceParentSubscriptionDetails struct {
 type InvoiceParent struct {
 	// Details about the billing cadence that generated this invoice
 	BillingCadenceDetails *InvoiceParentBillingCadenceDetails `json:"billing_cadence_details,omitempty"`
+	// Details about the billing group that generated this invoice
+	BillingGroupDetails *InvoiceParentBillingGroupDetails `json:"billing_group_details,omitempty"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *InvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the schedule that generated this invoice

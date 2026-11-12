@@ -342,6 +342,7 @@ const (
 	PaymentRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentRecordPaymentMethodDetailsCryptoNetwork = "solana"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkSui      PaymentRecordPaymentMethodDetailsCryptoNetwork = "sui"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentRecordPaymentMethodDetailsCryptoNetwork = "tempo"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkTron     PaymentRecordPaymentMethodDetailsCryptoNetwork = "tron"
 )
 
 // The token currency that the transaction was sent with.
@@ -1137,12 +1138,30 @@ type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardChecksParams
 	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
 }
 
+// Populated if this transaction used 3D Secure authentication.
+type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardThreeDSecureParams struct {
+	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
+	AuthenticationFlow *string `form:"authentication_flow" json:"authentication_flow,omitempty"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result *string `form:"result" json:"result"`
+	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
+	ResultReason *string `form:"result_reason" json:"result_reason,omitempty"`
+	// The version of 3D Secure that was used.
+	Version *string `form:"version" json:"version"`
+}
+
 // Information about the card payment method used to make this payment.
 type PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardParams struct {
 	// Verification checks performed on the card.
 	Checks *PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
 	// Decline code from the card network for the failed payment.
 	NetworkDeclineCode *string `form:"network_decline_code" json:"network_decline_code,omitempty"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *PaymentRecordReportPaymentAttemptFailedPaymentMethodDetailsCardThreeDSecureParams `form:"three_d_secure" json:"three_d_secure,omitempty"`
 }
 
 // Details about the US bank account payment method.

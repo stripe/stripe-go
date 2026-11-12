@@ -17,7 +17,7 @@ type v1TestHelpersTreasuryReceivedDebitService struct {
 	Key string
 }
 
-// Use this endpoint to simulate a test mode ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebits initiated by third parties.
+// Simulates a test ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebit objects initiated by third parties.
 func (c v1TestHelpersTreasuryReceivedDebitService) Create(ctx context.Context, params *TestHelpersTreasuryReceivedDebitCreateParams) (*TreasuryReceivedDebit, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryReceivedDebitCreateParams{}

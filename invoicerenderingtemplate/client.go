@@ -23,6 +23,23 @@ type Client struct {
 	Key string
 }
 
+// Creates an invoice rendering template.
+func New(params *stripe.InvoiceRenderingTemplateParams) (*stripe.InvoiceRenderingTemplate, error) {
+	return getC().New(params)
+}
+
+// Creates an invoice rendering template.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) New(params *stripe.InvoiceRenderingTemplateParams) (*stripe.InvoiceRenderingTemplate, error) {
+	invoicerenderingtemplate := &stripe.InvoiceRenderingTemplate{}
+	err := c.B.Call(
+		http.MethodPost, "/v1/invoice_rendering_templates", c.Key, params, invoicerenderingtemplate)
+	return invoicerenderingtemplate, err
+}
+
 // Retrieves an invoice rendering template with the given ID. It by default returns the latest version of the template. Optionally, specify a version to see previous versions.
 func Get(id string, params *stripe.InvoiceRenderingTemplateParams) (*stripe.InvoiceRenderingTemplate, error) {
 	return getC().Get(id, params)
@@ -37,6 +54,24 @@ func (c Client) Get(id string, params *stripe.InvoiceRenderingTemplateParams) (*
 	path := stripe.FormatURLPath("/v1/invoice_rendering_templates/%s", id)
 	invoicerenderingtemplate := &stripe.InvoiceRenderingTemplate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoicerenderingtemplate)
+	return invoicerenderingtemplate, err
+}
+
+// Updates an existing invoice rendering template.
+func Update(id string, params *stripe.InvoiceRenderingTemplateParams) (*stripe.InvoiceRenderingTemplate, error) {
+	return getC().Update(id, params)
+}
+
+// Updates an existing invoice rendering template.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.InvoiceRenderingTemplateParams) (*stripe.InvoiceRenderingTemplate, error) {
+	path := stripe.FormatURLPath("/v1/invoice_rendering_templates/%s", id)
+	invoicerenderingtemplate := &stripe.InvoiceRenderingTemplate{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, invoicerenderingtemplate)
 	return invoicerenderingtemplate, err
 }
 

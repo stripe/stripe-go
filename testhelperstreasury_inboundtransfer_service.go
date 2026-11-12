@@ -17,7 +17,7 @@ type v1TestHelpersTreasuryInboundTransferService struct {
 	Key string
 }
 
-// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 func (c v1TestHelpersTreasuryInboundTransferService) Fail(ctx context.Context, id string, params *TestHelpersTreasuryInboundTransferFailParams) (*TreasuryInboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryInboundTransferFailParams{}
@@ -30,7 +30,7 @@ func (c v1TestHelpersTreasuryInboundTransferService) Fail(ctx context.Context, i
 	return inboundtransfer, err
 }
 
-// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
+// Marks the test InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 func (c v1TestHelpersTreasuryInboundTransferService) ReturnInboundTransfer(ctx context.Context, id string, params *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) (*TreasuryInboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
@@ -43,7 +43,7 @@ func (c v1TestHelpersTreasuryInboundTransferService) ReturnInboundTransfer(ctx c
 	return inboundtransfer, err
 }
 
-// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 func (c v1TestHelpersTreasuryInboundTransferService) Succeed(ctx context.Context, id string, params *TestHelpersTreasuryInboundTransferSucceedParams) (*TreasuryInboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryInboundTransferSucceedParams{}

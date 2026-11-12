@@ -46,6 +46,8 @@ const (
 
 // The bank account credential used to fund the InboundTransfer (for example, a US bank account), not a Payments API `pm_` PaymentMethod.
 type V2MoneyManagementInboundTransferFromPaymentMethod struct {
+	// The Australian bank account credential used for AU BECS Direct Debit.
+	AUBECSDebit string `json:"au_becs_debit,omitempty"`
 	// The Bacs Direct Debit PaymentMethod identifier.
 	BACSDebit string `json:"bacs_debit,omitempty"`
 	// The type of PaymentMethod used to create the InboundTransfer. Clients should tolerate future values.

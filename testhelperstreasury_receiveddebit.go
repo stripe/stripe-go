@@ -38,7 +38,7 @@ type TestHelpersTreasuryReceivedDebitNetworkDetailsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebits initiated by third parties.
+// Simulates a test ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebit objects initiated by third parties.
 type TestHelpersTreasuryReceivedDebitParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
@@ -96,7 +96,7 @@ type TestHelpersTreasuryReceivedDebitCreateNetworkDetailsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebits initiated by third parties.
+// Simulates a test ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebit objects initiated by third parties.
 type TestHelpersTreasuryReceivedDebitCreateParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.

@@ -12,7 +12,7 @@ type TestHelpersTreasuryInboundTransferFailFailureDetailsParams struct {
 	Code *string `form:"code" json:"code,omitempty"`
 }
 
-// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 type TestHelpersTreasuryInboundTransferFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -26,7 +26,7 @@ func (p *TestHelpersTreasuryInboundTransferFailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
+// Marks the test InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 type TestHelpersTreasuryInboundTransferReturnInboundTransferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -38,7 +38,7 @@ func (p *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) AddExpan
 	p.Expand = append(p.Expand, &f)
 }
 
-// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 type TestHelpersTreasuryInboundTransferSucceedParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

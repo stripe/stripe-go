@@ -389,6 +389,7 @@ type RefundDestinationDetailsAfterpayClearpay struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsAlipay struct{}
+type RefundDestinationDetailsAlipayPlus struct{}
 type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
 type RefundDestinationDetailsAuBankTransfer struct{}
@@ -532,6 +533,7 @@ type RefundDestinationDetails struct {
 	Affirm              *RefundDestinationDetailsAffirm              `json:"affirm,omitempty"`
 	AfterpayClearpay    *RefundDestinationDetailsAfterpayClearpay    `json:"afterpay_clearpay,omitempty"`
 	Alipay              *RefundDestinationDetailsAlipay              `json:"alipay,omitempty"`
+	AlipayPlus          *RefundDestinationDetailsAlipayPlus          `json:"alipay_plus,omitempty"`
 	Alma                *RefundDestinationDetailsAlma                `json:"alma,omitempty"`
 	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay,omitempty"`
 	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer,omitempty"`

@@ -35,6 +35,7 @@ type PaymentLinkAutomaticSurchargeProvider string
 // List of values that PaymentLinkAutomaticSurchargeProvider can take
 const (
 	PaymentLinkAutomaticSurchargeProviderDaikin        PaymentLinkAutomaticSurchargeProvider = "daikin"
+	PaymentLinkAutomaticSurchargeProviderDealerfx      PaymentLinkAutomaticSurchargeProvider = "dealerfx"
 	PaymentLinkAutomaticSurchargeProviderInterpayments PaymentLinkAutomaticSurchargeProvider = "interpayments"
 	PaymentLinkAutomaticSurchargeProviderProserv       PaymentLinkAutomaticSurchargeProvider = "proserv"
 	PaymentLinkAutomaticSurchargeProviderYeeld         PaymentLinkAutomaticSurchargeProvider = "yeeld"

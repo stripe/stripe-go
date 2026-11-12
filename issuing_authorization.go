@@ -1697,6 +1697,8 @@ type IssuingAuthorizationTokenDetailsNetworkDataVisa struct {
 	TokenRequestorID string `json:"token_requestor_id"`
 	// Degree of risk associated with the token between `01` and `99`, with higher number indicating higher risk. A `00` value indicates the token was not scored by Visa.
 	TokenRiskScore string `json:"token_risk_score,omitempty"`
+	// The ID of the token service provider, specific to Visa.
+	TokenServiceProviderID string `json:"token_service_provider_id,omitempty"`
 }
 type IssuingAuthorizationTokenDetailsNetworkDataWalletProvider struct {
 	// An evaluation on the trustworthiness of the wallet account between 1 and 5. A higher score indicates more trustworthy.

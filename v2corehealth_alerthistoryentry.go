@@ -258,6 +258,7 @@ const (
 	V2CoreHealthAlertHistoryEntryTypeAPIError                           V2CoreHealthAlertHistoryEntryType = "api_error"
 	V2CoreHealthAlertHistoryEntryTypeAPILatency                         V2CoreHealthAlertHistoryEntryType = "api_latency"
 	V2CoreHealthAlertHistoryEntryTypeAuthorizationRateDrop              V2CoreHealthAlertHistoryEntryType = "authorization_rate_drop"
+	V2CoreHealthAlertHistoryEntryTypeCustomPaymentMethodAdapterDegraded V2CoreHealthAlertHistoryEntryType = "custom_payment_method_adapter_degraded"
 	V2CoreHealthAlertHistoryEntryTypeElementsError                      V2CoreHealthAlertHistoryEntryType = "elements_error"
 	V2CoreHealthAlertHistoryEntryTypeEventGenerationFailure             V2CoreHealthAlertHistoryEntryType = "event_generation_failure"
 	V2CoreHealthAlertHistoryEntryTypeFraudRate                          V2CoreHealthAlertHistoryEntryType = "fraud_rate"
@@ -348,6 +349,28 @@ type V2CoreHealthAlertHistoryEntryAuthorizationRateDrop struct {
 	PaymentMethodType V2CoreHealthAlertHistoryEntryAuthorizationRateDropPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
 	PreviousPercentage decimal.Decimal `json:"previous_percentage"`
+}
+
+// The custom payment method type whose adapter is unhealthy.
+type V2CoreHealthAlertHistoryEntryCustomPaymentMethodAdapterDegradedCustomPaymentMethodTypeDetails struct {
+	// The time when the custom payment method was automatically disabled. Null when it is enabled.
+	AutoDisabledAt time.Time `json:"auto_disabled_at,omitempty"`
+	// The display name of the custom payment method type.
+	DisplayName string `json:"display_name"`
+	// The URL of the user's self-hosted adapter endpoint.
+	ReverseAPIURL string `json:"reverse_api_url"`
+	// The identifier of the custom payment method type (e.g., "cpmt_...").
+	Type string `json:"type"`
+}
+
+// Populated when type is custom_payment_method_adapter_degraded.
+type V2CoreHealthAlertHistoryEntryCustomPaymentMethodAdapterDegraded struct {
+	// Whether the custom payment method was disabled in Checkout as a result of the degradation. True while the alert is open and false when it is resolved.
+	CustomPaymentMethodDisabledFromCheckout bool `json:"custom_payment_method_disabled_from_checkout"`
+	// The custom payment method type whose adapter is unhealthy.
+	CustomPaymentMethodTypeDetails *V2CoreHealthAlertHistoryEntryCustomPaymentMethodAdapterDegradedCustomPaymentMethodTypeDetails `json:"custom_payment_method_type_details"`
+	// The reason the adapter's health is degraded.
+	DegradedHealthReason string `json:"degraded_health_reason"`
 }
 
 // Populated when type is elements_error.
@@ -495,6 +518,8 @@ type V2CoreHealthAlertHistoryEntry struct {
 	At time.Time `json:"at"`
 	// Populated when type is authorization_rate_drop.
 	AuthorizationRateDrop *V2CoreHealthAlertHistoryEntryAuthorizationRateDrop `json:"authorization_rate_drop,omitempty"`
+	// Populated when type is custom_payment_method_adapter_degraded.
+	CustomPaymentMethodAdapterDegraded *V2CoreHealthAlertHistoryEntryCustomPaymentMethodAdapterDegraded `json:"custom_payment_method_adapter_degraded,omitempty"`
 	// Populated when type is elements_error.
 	ElementsError *V2CoreHealthAlertHistoryEntryElementsError `json:"elements_error,omitempty"`
 	// Populated when type is event_generation_failure.

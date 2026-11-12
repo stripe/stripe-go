@@ -124,7 +124,7 @@ func (p *CouponListParams) AddExpand(f string) {
 
 // A hash containing directions for what this Coupon will apply discounts to.
 type CouponAppliesToParams struct {
-	// An array of Product IDs that this Coupon will apply to.
+	// An array of up to 100 Product IDs that this Coupon will apply to.
 	Products []*string `form:"products" json:"products,omitempty"`
 }
 
@@ -219,7 +219,7 @@ func (p *CouponUpdateParams) AddMetadata(key string, value string) {
 
 // A hash containing directions for what this Coupon will apply discounts to.
 type CouponCreateAppliesToParams struct {
-	// An array of Product IDs that this Coupon will apply to.
+	// An array of up to 100 Product IDs that this Coupon will apply to.
 	Products []*string `form:"products" json:"products,omitempty"`
 }
 

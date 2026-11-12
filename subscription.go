@@ -1283,6 +1283,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams stru
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
@@ -2325,6 +2327,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
@@ -3306,6 +3310,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }

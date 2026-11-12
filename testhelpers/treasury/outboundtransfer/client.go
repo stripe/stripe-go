@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and can't be in the canceled or failed states.
 func Update(id string, params *stripe.TestHelpersTreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Update(id, params)
 }
 
-// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and can't be in the canceled or failed states.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundTran
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 func Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransferFailParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Fail(id, params)
 }
 
-// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,12 +58,12 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransf
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 func Post(id string, params *stripe.TestHelpersTreasuryOutboundTransferPostParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Post(id, params)
 }
 
-// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -76,12 +76,12 @@ func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundTransf
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the returned status. The OutboundTransfer must already be in the posted state.
 func ReturnOutboundTransfer(id string, params *stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().ReturnOutboundTransfer(id, params)
 }
 
-// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the returned status. The OutboundTransfer must already be in the posted state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
