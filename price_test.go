@@ -59,6 +59,23 @@ func TestPrice_Unmarshal(t *testing.T) {
 	assert.True(t, price.UnitAmountDecimal.Equal(roundTripped.UnitAmountDecimal))
 }
 
+func TestPrice_UnmarshalRejectsExcessiveDecimalExponent(t *testing.T) {
+	for _, test := range []struct {
+		name string
+		data string
+	}{
+		{"quoted positive exponent", `{"unit_amount_decimal":"1e10001"}`},
+		{"quoted negative exponent", `{"unit_amount_decimal":"1e-10001"}`},
+		{"unquoted positive exponent", `{"unit_amount_decimal":1e10001}`},
+		{"unquoted negative exponent", `{"unit_amount_decimal":1e-10001}`},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			var price Price
+			assert.Error(t, json.Unmarshal([]byte(test.data), &price))
+		})
+	}
+}
+
 func TestPriceParams_ExactDecimalSerialization(t *testing.T) {
 	value := decimal.RequireFromString("12345678901234567890.123456789012")
 	params := &PriceParams{UnitAmountDecimal: &value}
