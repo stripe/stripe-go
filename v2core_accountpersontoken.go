@@ -9,6 +9,8 @@ package stripe
 import "time"
 
 // Person Tokens are single-use tokens which tokenize person information, and are used for creating or updating a Person.
+// In live mode, you must create person tokens using a live publishable key.
+// In a sandbox, you can create person tokens with secret or publishable keys.
 type V2CoreAccountPersonToken struct {
 	APIResource
 	// Time at which the token was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.

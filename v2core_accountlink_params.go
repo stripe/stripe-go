@@ -6,6 +6,13 @@
 
 package stripe
 
+// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+type V2CoreAccountLinkUseCaseAccountDashboardParams struct {
+	// The URL to redirect to if the Account Link has expired or has already
+	// been used. Authenticate the user before generating a replacement link.
+	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
+}
+
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 type V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
@@ -46,6 +53,8 @@ type V2CoreAccountLinkUseCaseAccountUpdateParams struct {
 // `account_onboarding`—to configure the flow, including which Account configurations to collect information for and
 // any flow-specific collection or redirect options.
 type V2CoreAccountLinkUseCaseParams struct {
+	// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+	AccountDashboard *V2CoreAccountLinkUseCaseAccountDashboardParams `form:"account_dashboard" json:"account_dashboard,omitempty"`
 	// Hash containing configuration options for an Account Link object that onboards a new account.
 	AccountOnboarding *V2CoreAccountLinkUseCaseAccountOnboardingParams `form:"account_onboarding" json:"account_onboarding,omitempty"`
 	// Hash containing configuration options for an Account Link that updates an existing account.
@@ -54,7 +63,7 @@ type V2CoreAccountLinkUseCaseParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+// Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
 type V2CoreAccountLinkParams struct {
 	Params `form:"*"`
 	// The ID of the Account to create link for.
@@ -63,6 +72,13 @@ type V2CoreAccountLinkParams struct {
 	// `account_onboarding`—to configure the flow, including which Account configurations to collect information for and
 	// any flow-specific collection or redirect options.
 	UseCase *V2CoreAccountLinkUseCaseParams `form:"use_case" json:"use_case"`
+}
+
+// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+type V2CoreAccountLinkCreateUseCaseAccountDashboardParams struct {
+	// The URL to redirect to if the Account Link has expired or has already
+	// been used. Authenticate the user before generating a replacement link.
+	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
 }
 
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
@@ -105,6 +121,8 @@ type V2CoreAccountLinkCreateUseCaseAccountUpdateParams struct {
 // `account_onboarding`—to configure the flow, including which Account configurations to collect information for and
 // any flow-specific collection or redirect options.
 type V2CoreAccountLinkCreateUseCaseParams struct {
+	// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+	AccountDashboard *V2CoreAccountLinkCreateUseCaseAccountDashboardParams `form:"account_dashboard" json:"account_dashboard,omitempty"`
 	// Hash containing configuration options for an Account Link object that onboards a new account.
 	AccountOnboarding *V2CoreAccountLinkCreateUseCaseAccountOnboardingParams `form:"account_onboarding" json:"account_onboarding,omitempty"`
 	// Hash containing configuration options for an Account Link that updates an existing account.
@@ -113,7 +131,7 @@ type V2CoreAccountLinkCreateUseCaseParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+// Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
 type V2CoreAccountLinkCreateParams struct {
 	Params `form:"*"`
 	// The ID of the Account to create link for.

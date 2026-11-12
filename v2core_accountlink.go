@@ -49,9 +49,17 @@ type V2CoreAccountLinkUseCaseType string
 
 // List of values that V2CoreAccountLinkUseCaseType can take
 const (
+	V2CoreAccountLinkUseCaseTypeAccountDashboard  V2CoreAccountLinkUseCaseType = "account_dashboard"
 	V2CoreAccountLinkUseCaseTypeAccountOnboarding V2CoreAccountLinkUseCaseType = "account_onboarding"
 	V2CoreAccountLinkUseCaseTypeAccountUpdate     V2CoreAccountLinkUseCaseType = "account_update"
 )
+
+// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+type V2CoreAccountLinkUseCaseAccountDashboard struct {
+	// The URL to redirect to if the Account Link has expired or has already
+	// been used. Authenticate the user before generating a replacement link.
+	RefreshURL string `json:"refresh_url"`
+}
 
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 type V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptions struct {
@@ -91,6 +99,8 @@ type V2CoreAccountLinkUseCaseAccountUpdate struct {
 
 // Describes the Stripe-hosted flow for this Account Link, including its type and flow-specific configuration.
 type V2CoreAccountLinkUseCase struct {
+	// Hash containing configuration options for an Account Link that provides access to the account's Stripe-hosted Dashboard.
+	AccountDashboard *V2CoreAccountLinkUseCaseAccountDashboard `json:"account_dashboard,omitempty"`
 	// Hash containing configuration options for an Account Link object that onboards a new account.
 	AccountOnboarding *V2CoreAccountLinkUseCaseAccountOnboarding `json:"account_onboarding,omitempty"`
 	// Hash containing configuration options for an Account Link that updates an existing account.
@@ -99,7 +109,7 @@ type V2CoreAccountLinkUseCase struct {
 	Type V2CoreAccountLinkUseCaseType `json:"type"`
 }
 
-// Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+// Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
 type V2CoreAccountLink struct {
 	APIResource
 	// The ID of the connected account this Account Link applies to.

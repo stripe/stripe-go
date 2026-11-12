@@ -74,26 +74,27 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 
 	// V2 error types
-	ErrorTypeAlreadyCanceled               ErrorType = "already_canceled"
-	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
-	ErrorTypeCannotProceed                 ErrorType = "cannot_proceed"
-	ErrorTypeCapabilityNotEnabled          ErrorType = "capability_not_enabled"
-	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
-	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
-	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
-	ErrorTypeFxQuoteNeedsRefresh           ErrorType = "fx_quote_needs_refresh"
-	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
-	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
-	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
-	ErrorTypeInvalidVaultedCredential      ErrorType = "invalid_vaulted_credential"
-	ErrorTypeNotCancelable                 ErrorType = "not_cancelable"
-	ErrorTypeQuotaExceeded                 ErrorType = "quota_exceeded"
-	ErrorTypeRateLimit                     ErrorType = "rate_limit"
-	ErrorTypeRecipientNotNotifiable        ErrorType = "recipient_not_notifiable"
-	ErrorTypeTemporarySessionExpired       ErrorType = "temporary_session_expired"
-	ErrorTypeVerificationAttemptFailed     ErrorType = "verification_attempt_failed"
-	ErrorTypeVerificationExpired           ErrorType = "verification_expired"
-	ErrorTypeVerificationNotInitiated      ErrorType = "verification_not_initiated"
+	ErrorTypeAlreadyCanceled                          ErrorType = "already_canceled"
+	ErrorTypeBlockedByStripe                          ErrorType = "blocked_by_stripe"
+	ErrorTypeCannotProceed                            ErrorType = "cannot_proceed"
+	ErrorTypeCapabilityNotEnabled                     ErrorType = "capability_not_enabled"
+	ErrorTypeControlledByAlternateResource            ErrorType = "controlled_by_alternate_resource"
+	ErrorTypeFeatureNotEnabled                        ErrorType = "feature_not_enabled"
+	ErrorTypeFinancialAccountNotOpen                  ErrorType = "financial_account_not_open"
+	ErrorTypeFxQuoteNeedsRefresh                      ErrorType = "fx_quote_needs_refresh"
+	ErrorTypeInactiveAPIOperationConfirmationRequired ErrorType = "inactive_api_operation_confirmation_required"
+	ErrorTypeInsufficientFunds                        ErrorType = "insufficient_funds"
+	ErrorTypeInvalidPaymentMethod                     ErrorType = "invalid_payment_method"
+	ErrorTypeInvalidPayoutMethod                      ErrorType = "invalid_payout_method"
+	ErrorTypeInvalidVaultedCredential                 ErrorType = "invalid_vaulted_credential"
+	ErrorTypeNotCancelable                            ErrorType = "not_cancelable"
+	ErrorTypeQuotaExceeded                            ErrorType = "quota_exceeded"
+	ErrorTypeRateLimit                                ErrorType = "rate_limit"
+	ErrorTypeRecipientNotNotifiable                   ErrorType = "recipient_not_notifiable"
+	ErrorTypeTemporarySessionExpired                  ErrorType = "temporary_session_expired"
+	ErrorTypeVerificationAttemptFailed                ErrorType = "verification_attempt_failed"
+	ErrorTypeVerificationExpired                      ErrorType = "verification_expired"
+	ErrorTypeVerificationNotInitiated                 ErrorType = "verification_not_initiated"
 )
 
 // errorTypes: The end of the section generated from our OpenAPI spec
@@ -181,6 +182,7 @@ const (
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
 	ErrorCodeForwardingAPIUpstreamError                                  ErrorCode = "forwarding_api_upstream_error"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
+	ErrorCodeInactiveAPIOperationConfirmationRequired                    ErrorCode = "inactive_api_operation_confirmation_required"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
 	ErrorCodeIncorrectNumber                                             ErrorCode = "incorrect_number"
@@ -754,6 +756,34 @@ func (e *FxQuoteNeedsRefreshError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *FxQuoteNeedsRefreshError) canRetry() bool {
+	return false
+}
+
+// InactiveAPIOperationConfirmationRequiredError is the Go struct corresponding to the error type "inactive_api_operation_confirmation_required".
+// Account creation is temporarily restricted. Confirm in the Stripe Dashboard
+// that you intended to create this account, then retry.
+type InactiveAPIOperationConfirmationRequiredError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InactiveAPIOperationConfirmationRequiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InactiveAPIOperationConfirmationRequiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InactiveAPIOperationConfirmationRequiredError) canRetry() bool {
 	return false
 }
 

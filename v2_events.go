@@ -22,6 +22,7 @@ const (
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingTenantPayloadKeys        V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_tenant_payload_keys"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
@@ -39,6 +40,7 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingTenantPayloadKeys        V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_tenant_payload_keys"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
@@ -57,55 +59,62 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData
 
 // List of values that V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACHDebitPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ach_debit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACSSDebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "acss_debit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAffirmPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "affirm_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments      V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBACSDebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bacs_debit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBancontactPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bancontact_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKRecurringPayments    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_recurring_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBoletoPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "boleto_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCardPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "card_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCartesBancairesPayments  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cartes_bancaires_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCashAppPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cashapp_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityEPSPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "eps_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityFPXPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "fpx_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGBBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "gb_bank_transfer_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGrabpayPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "grabpay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityIDEALPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ideal_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJCBPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jcb_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJPBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jp_bank_transfer_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKakaoPayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kakao_pay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKlarnaPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "klarna_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKonbiniPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "konbini_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKrCardPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kr_card_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityLinkPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "link_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMobilepayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mobilepay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMultibancoPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "multibanco_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMXBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mx_bank_transfer_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNaverPayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "naver_pay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityOXXOPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "oxxo_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityP24Payments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "p24_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaycoPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "payco_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayNowPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paynow_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts     V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayByBankPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pay_by_bank_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySatispayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "satispay_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySequraPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sequra_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySunbitPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sunbit_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
-	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACHDebitPayments               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ach_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACSSDebitPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "acss_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAffirmPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "affirm_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAutomaticIndirectTax           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "automatic_indirect_tax"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBACSDebitPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bacs_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBancontactPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bancontact_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBilliePayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "billie_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKRecurringPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_recurring_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBoletoPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "boleto_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCardPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "card_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCartesBancairesPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cartes_bancaires_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCashAppPayments                V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cashapp_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityEPSPayments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "eps_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityFPXPayments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "fpx_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGBBankTransferPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "gb_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGrabpayPayments                V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "grabpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityIDEALPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ideal_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJCBPayments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jcb_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJPBankTransferPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jp_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKakaoPayPayments               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kakao_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKlarnaPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "klarna_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKonbiniPayments                V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "konbini_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKrCardPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kr_card_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityLinkPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "link_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMbWayPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mb_way_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMobilepayPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mobilepay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMomoPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "momo_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMultibancoPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "multibanco_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMXBankTransferPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mx_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNaverPayPayments               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "naver_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNzBankAccountBECSDebitPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "nz_bank_account_becs_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityOXXOPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "oxxo_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityP24Payments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "p24_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaycoPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "payco_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayNowPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paynow_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaypayPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paypay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayByBankPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pay_by_bank_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPixPayments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pix_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySatispayPayments               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "satispay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySequraPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sequra_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySunbitPayments                 V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sunbit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments                    V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -120,7 +129,6 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsRTP              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.rtp"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSEPA             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.sepa"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSwift            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.swift"
-	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts         V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
@@ -420,6 +428,129 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ApplicationFee{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1AppsInstallCreatedEvent is the Go struct for the "v1.apps.install.created" event.
+// Occurs whenever a user installs a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallCreatedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.created"
+// Occurs whenever a user installs a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallCreatedEvent that created this Notification
+func (n *V1AppsInstallCreatedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1AppsInstallDeletedEvent is the Go struct for the "v1.apps.install.deleted" event.
+// Occurs whenever a user uninstalls a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallDeletedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.deleted"
+// Occurs whenever a user uninstalls a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallDeletedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallDeletedEvent that created this Notification
+func (n *V1AppsInstallDeletedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallDeletedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallDeletedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1AppsInstallUpdatedEvent is the Go struct for the "v1.apps.install.updated" event.
+// Occurs whenever a user updates a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallUpdatedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.updated"
+// Occurs whenever a user updates a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallUpdatedEvent that created this Notification
+func (n *V1AppsInstallUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -2476,25 +2607,6 @@ func (n *V1CustomerDiscountDeletedEventNotification) FetchRelatedObject(ctx cont
 	return relatedObj, err
 }
 
-// V1CustomerDiscountSourceChangedEvent is the Go struct for the "v1.customer.discount.source_changed" event.
-// Occurs whenever the source of a customer's discount changes.
-type V1CustomerDiscountSourceChangedEvent struct{ V2BaseEvent }
-
-// V1CustomerDiscountSourceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.source_changed"
-// Occurs whenever the source of a customer's discount changes.
-type V1CustomerDiscountSourceChangedEventNotification struct {
-	V2CoreEventNotification
-}
-
-// FetchEvent retrieves the V1CustomerDiscountSourceChangedEvent that created this Notification
-func (n *V1CustomerDiscountSourceChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDiscountSourceChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerDiscountSourceChangedEvent), nil
-}
-
 // V1CustomerDiscountUpdatedEvent is the Go struct for the "v1.customer.discount.updated" event.
 // Occurs whenever a customer is switched from one coupon to another.
 type V1CustomerDiscountUpdatedEvent struct {
@@ -2531,88 +2643,6 @@ func (n *V1CustomerDiscountUpdatedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Discount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionActiveEvent is the Go struct for the "v1.customer.subscription.active" event.
-// Occurs whenever a subscription's status becomes active.
-type V1CustomerSubscriptionActiveEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionActiveEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionActiveEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.active"
-// Occurs whenever a subscription's status becomes active.
-type V1CustomerSubscriptionActiveEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionActiveEvent that created this Notification
-func (n *V1CustomerSubscriptionActiveEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionActiveEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionActiveEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionActiveEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionCancelAtChangedEvent is the Go struct for the "v1.customer.subscription.cancel_at_changed" event.
-// Occurs whenever a subscription's scheduled cancellation date changes.
-type V1CustomerSubscriptionCancelAtChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionCancelAtChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionCancelAtChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.cancel_at_changed"
-// Occurs whenever a subscription's scheduled cancellation date changes.
-type V1CustomerSubscriptionCancelAtChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionCancelAtChangedEvent that created this Notification
-func (n *V1CustomerSubscriptionCancelAtChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCancelAtChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionCancelAtChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionCancelAtChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -2659,47 +2689,6 @@ func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx 
 	return relatedObj, err
 }
 
-// V1CustomerSubscriptionDefaultPaymentMethodChangedEvent is the Go struct for the "v1.customer.subscription.default_payment_method_changed" event.
-// Occurs whenever a subscription's default payment method changes.
-type V1CustomerSubscriptionDefaultPaymentMethodChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionDefaultPaymentMethodChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.default_payment_method_changed"
-// Occurs whenever a subscription's default payment method changes.
-type V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionDefaultPaymentMethodChangedEvent that created this Notification
-func (n *V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDefaultPaymentMethodChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionDefaultPaymentMethodChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1CustomerSubscriptionDeletedEvent is the Go struct for the "v1.customer.subscription.deleted" event.
 // Occurs whenever a customer's subscription ends.
 type V1CustomerSubscriptionDeletedEvent struct {
@@ -2731,334 +2720,6 @@ func (n *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionIncompleteEvent is the Go struct for the "v1.customer.subscription.incomplete" event.
-// Occurs whenever a subscription's status becomes incomplete.
-type V1CustomerSubscriptionIncompleteEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionIncompleteEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionIncompleteEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.incomplete"
-// Occurs whenever a subscription's status becomes incomplete.
-type V1CustomerSubscriptionIncompleteEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionIncompleteEvent that created this Notification
-func (n *V1CustomerSubscriptionIncompleteEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionIncompleteEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionIncompleteEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionIncompleteEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionIncompleteExpiredEvent is the Go struct for the "v1.customer.subscription.incomplete_expired" event.
-// Occurs whenever a subscription's status becomes incomplete_expired.
-type V1CustomerSubscriptionIncompleteExpiredEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionIncompleteExpiredEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionIncompleteExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.incomplete_expired"
-// Occurs whenever a subscription's status becomes incomplete_expired.
-type V1CustomerSubscriptionIncompleteExpiredEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionIncompleteExpiredEvent that created this Notification
-func (n *V1CustomerSubscriptionIncompleteExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionIncompleteExpiredEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionIncompleteExpiredEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionIncompleteExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionItemAddedEvent is the Go struct for the "v1.customer.subscription.item_added" event.
-// Occurs whenever an item is added to a subscription.
-type V1CustomerSubscriptionItemAddedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionItemAddedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionItemAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_added"
-// Occurs whenever an item is added to a subscription.
-type V1CustomerSubscriptionItemAddedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionItemAddedEvent that created this Notification
-func (n *V1CustomerSubscriptionItemAddedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionItemAddedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionItemAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionItemPriceChangedEvent is the Go struct for the "v1.customer.subscription.item_price_changed" event.
-// Occurs whenever the price of a subscription item changes.
-type V1CustomerSubscriptionItemPriceChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionItemPriceChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionItemPriceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_price_changed"
-// Occurs whenever the price of a subscription item changes.
-type V1CustomerSubscriptionItemPriceChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionItemPriceChangedEvent that created this Notification
-func (n *V1CustomerSubscriptionItemPriceChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemPriceChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionItemPriceChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionItemPriceChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionItemQuantityChangedEvent is the Go struct for the "v1.customer.subscription.item_quantity_changed" event.
-// Occurs whenever the quantity of a subscription item changes.
-type V1CustomerSubscriptionItemQuantityChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionItemQuantityChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionItemQuantityChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_quantity_changed"
-// Occurs whenever the quantity of a subscription item changes.
-type V1CustomerSubscriptionItemQuantityChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionItemQuantityChangedEvent that created this Notification
-func (n *V1CustomerSubscriptionItemQuantityChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemQuantityChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionItemQuantityChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionItemQuantityChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionItemRemovedEvent is the Go struct for the "v1.customer.subscription.item_removed" event.
-// Occurs whenever an item is removed from a subscription.
-type V1CustomerSubscriptionItemRemovedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionItemRemovedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionItemRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_removed"
-// Occurs whenever an item is removed from a subscription.
-type V1CustomerSubscriptionItemRemovedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionItemRemovedEvent that created this Notification
-func (n *V1CustomerSubscriptionItemRemovedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionItemRemovedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionItemRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionItemTaxRatesChangedEvent is the Go struct for the "v1.customer.subscription.item_tax_rates_changed" event.
-// Occurs whenever the tax rates of a subscription item change.
-type V1CustomerSubscriptionItemTaxRatesChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionItemTaxRatesChangedEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionItemTaxRatesChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.item_tax_rates_changed"
-// Occurs whenever the tax rates of a subscription item change.
-type V1CustomerSubscriptionItemTaxRatesChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionItemTaxRatesChangedEvent that created this Notification
-func (n *V1CustomerSubscriptionItemTaxRatesChangedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionItemTaxRatesChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionItemTaxRatesChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionItemTaxRatesChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionPastDueEvent is the Go struct for the "v1.customer.subscription.past_due" event.
-// Occurs whenever a subscription's status becomes past_due.
-type V1CustomerSubscriptionPastDueEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionPastDueEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionPastDueEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.past_due"
-// Occurs whenever a subscription's status becomes past_due.
-type V1CustomerSubscriptionPastDueEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionPastDueEvent that created this Notification
-func (n *V1CustomerSubscriptionPastDueEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPastDueEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionPastDueEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3264,88 +2925,6 @@ func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx con
 
 // FetchRelatedObject fetches the Subscription related to the event.
 func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionTrialingEvent is the Go struct for the "v1.customer.subscription.trialing" event.
-// Occurs whenever a subscription's status becomes trialing.
-type V1CustomerSubscriptionTrialingEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionTrialingEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionTrialingEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.trialing"
-// Occurs whenever a subscription's status becomes trialing.
-type V1CustomerSubscriptionTrialingEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionTrialingEvent that created this Notification
-func (n *V1CustomerSubscriptionTrialingEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialingEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionTrialingEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionTrialingEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Subscription{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerSubscriptionUnpaidEvent is the Go struct for the "v1.customer.subscription.unpaid" event.
-// Occurs whenever a subscription's status becomes unpaid.
-type V1CustomerSubscriptionUnpaidEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Subscription, error)
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (e *V1CustomerSubscriptionUnpaidEvent) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerSubscriptionUnpaidEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.unpaid"
-// Occurs whenever a subscription's status becomes unpaid.
-type V1CustomerSubscriptionUnpaidEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1CustomerSubscriptionUnpaidEvent that created this Notification
-func (n *V1CustomerSubscriptionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUnpaidEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerSubscriptionUnpaidEvent), nil
-}
-
-// FetchRelatedObject fetches the Subscription related to the event.
-func (n *V1CustomerSubscriptionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3602,56 +3181,24 @@ func (n *V1CustomerCashBalanceTransactionCreatedEventNotification) FetchRelatedO
 	return relatedObj, err
 }
 
-// V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_added" event.
-// Occurs when an entitlement is added to a customer's active entitlement summary.
-type V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent struct {
-	V2BaseEvent
-}
-
-// V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.entitlement_added"
-// Occurs when an entitlement is added to a customer's active entitlement summary.
-type V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification struct {
-	V2CoreEventNotification
-}
-
-// FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent that created this Notification
-func (n *V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification) FetchEvent(ctx context.Context) (*V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent), nil
-}
-
-// V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_removed" event.
-// Occurs when an entitlement is removed from a customer's active entitlement summary.
-type V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent struct {
-	V2BaseEvent
-}
-
-// V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.entitlement_removed"
-// Occurs when an entitlement is removed from a customer's active entitlement summary.
-type V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification struct {
-	V2CoreEventNotification
-}
-
-// FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent that created this Notification
-func (n *V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification) FetchEvent(ctx context.Context) (*V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent), nil
-}
-
 // V1EntitlementsActiveEntitlementSummaryUpdatedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.updated" event.
 // Occurs whenever a customer's entitlements change.
-type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct{ V2BaseEvent }
+type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Customer, error)
+}
+
+// FetchRelatedObject fetches the Customer related to the event.
+func (e *V1EntitlementsActiveEntitlementSummaryUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	return e.fetchRelatedObject()
+}
 
 // V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.updated"
 // Occurs whenever a customer's entitlements change.
 type V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification struct {
 	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryUpdatedEvent that created this Notification
@@ -3661,6 +3208,18 @@ func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchEv
 		return nil, err
 	}
 	return evt.(*V1EntitlementsActiveEntitlementSummaryUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the Customer related to the event.
+func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Customer{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V1FileCreatedEvent is the Go struct for the "v1.file.created" event.
@@ -3735,88 +3294,6 @@ func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) Fe
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountBalanceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_failed" event.
-// Occurs when a balance refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountBalanceRefreshFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountBalanceRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.balance_refresh_failed"
-// Occurs when a balance refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountBalanceRefreshFailedEvent that created this Notification
-func (n *V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountBalanceRefreshFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountBalanceRefreshFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountBalanceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_succeeded" event.
-// Occurs when a balance refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountBalanceRefreshSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountBalanceRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.balance_refresh_succeeded"
-// Occurs when a balance refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountBalanceRefreshSucceededEvent that created this Notification
-func (n *V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountBalanceRefreshSucceededEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountBalanceRefreshSucceededEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3991,170 +3468,6 @@ func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotifi
 	return relatedObj, err
 }
 
-// V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_failed" event.
-// Occurs when an inferred-balances refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.inferred_balances_refresh_failed"
-// Occurs when an inferred-balances refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent that created this Notification
-func (n *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_succeeded" event.
-// Occurs when an inferred-balances refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.inferred_balances_refresh_succeeded"
-// Occurs when an inferred-balances refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent that created this Notification
-func (n *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountOwnershipRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_failed" event.
-// Occurs when an ownership refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountOwnershipRefreshFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountOwnershipRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.ownership_refresh_failed"
-// Occurs when an ownership refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountOwnershipRefreshFailedEvent that created this Notification
-func (n *V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountOwnershipRefreshFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountOwnershipRefreshFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_succeeded" event.
-// Occurs when an ownership refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.ownership_refresh_succeeded"
-// Occurs when an ownership refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent that created this Notification
-func (n *V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1FinancialConnectionsAccountReactivatedEvent is the Go struct for the "v1.financial_connections.account.reactivated" event.
 // Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
 type V1FinancialConnectionsAccountReactivatedEvent struct {
@@ -4319,88 +3632,6 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 	return relatedObj, err
 }
 
-// V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_failed" event.
-// Occurs when a risk-intelligence refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.risk_intelligence_refresh_failed"
-// Occurs when a risk-intelligence refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent that created this Notification
-func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_succeeded" event.
-// Occurs when a risk-intelligence refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.risk_intelligence_refresh_succeeded"
-// Occurs when a risk-intelligence refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent that created this Notification
-func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent is the Go struct for the "v1.financial_connections.account.supported_payment_method_types_updated" event.
 // Occurs when the supported_payment_method_types array on a Financial Connections account changes.
 type V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent struct {
@@ -4432,88 +3663,6 @@ func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNot
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountTransactionsRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_failed" event.
-// Occurs when a transactions refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountTransactionsRefreshFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountTransactionsRefreshFailedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.transactions_refresh_failed"
-// Occurs when a transactions refresh on a Financial Connections account fails.
-type V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountTransactionsRefreshFailedEvent that created this Notification
-func (n *V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountTransactionsRefreshFailedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountTransactionsRefreshFailedEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &FinancialConnectionsAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_succeeded" event.
-// Occurs when a transactions refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (e *V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.transactions_refresh_succeeded"
-// Occurs when a transactions refresh on a Financial Connections account completes successfully.
-type V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent that created this Notification
-func (n *V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent), nil
-}
-
-// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (n *V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -4934,88 +4083,6 @@ func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 	return relatedObj, err
 }
 
-// V1InvoiceDiscountAddedEvent is the Go struct for the "v1.invoice.discount_added" event.
-// Occurs when a discount is added to an invoice.
-type V1InvoiceDiscountAddedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceDiscountAddedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceDiscountAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.discount_added"
-// Occurs when a discount is added to an invoice.
-type V1InvoiceDiscountAddedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceDiscountAddedEvent that created this Notification
-func (n *V1InvoiceDiscountAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDiscountAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceDiscountAddedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceDiscountAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceDiscountRemovedEvent is the Go struct for the "v1.invoice.discount_removed" event.
-// Occurs when a discount is removed from an invoice.
-type V1InvoiceDiscountRemovedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceDiscountRemovedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceDiscountRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.discount_removed"
-// Occurs when a discount is removed from an invoice.
-type V1InvoiceDiscountRemovedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceDiscountRemovedEvent that created this Notification
-func (n *V1InvoiceDiscountRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDiscountRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceDiscountRemovedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceDiscountRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1InvoiceFinalizationFailedEvent is the Go struct for the "v1.invoice.finalization_failed" event.
 // Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
 type V1InvoiceFinalizationFailedEvent struct {
@@ -5088,170 +4155,6 @@ func (n *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceLineItemAddedEvent is the Go struct for the "v1.invoice.line_item_added" event.
-// Occurs whenever a line item is added to a draft invoice.
-type V1InvoiceLineItemAddedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceLineItemAddedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceLineItemAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_added"
-// Occurs whenever a line item is added to a draft invoice.
-type V1InvoiceLineItemAddedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceLineItemAddedEvent that created this Notification
-func (n *V1InvoiceLineItemAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceLineItemAddedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceLineItemAddedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceLineItemPricingChangedEvent is the Go struct for the "v1.invoice.line_item_pricing_changed" event.
-// Occurs when an invoice line item's pricing changes.
-type V1InvoiceLineItemPricingChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceLineItemPricingChangedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceLineItemPricingChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_pricing_changed"
-// Occurs when an invoice line item's pricing changes.
-type V1InvoiceLineItemPricingChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceLineItemPricingChangedEvent that created this Notification
-func (n *V1InvoiceLineItemPricingChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemPricingChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceLineItemPricingChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceLineItemPricingChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceLineItemQuantityChangedEvent is the Go struct for the "v1.invoice.line_item_quantity_changed" event.
-// Occurs when an invoice line item's quantity changes.
-type V1InvoiceLineItemQuantityChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceLineItemQuantityChangedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceLineItemQuantityChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_quantity_changed"
-// Occurs when an invoice line item's quantity changes.
-type V1InvoiceLineItemQuantityChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceLineItemQuantityChangedEvent that created this Notification
-func (n *V1InvoiceLineItemQuantityChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemQuantityChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceLineItemQuantityChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceLineItemQuantityChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Invoice{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceLineItemRemovedEvent is the Go struct for the "v1.invoice.line_item_removed" event.
-// Occurs whenever a line item is removed from a draft invoice.
-type V1InvoiceLineItemRemovedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Invoice, error)
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (e *V1InvoiceLineItemRemovedEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceLineItemRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.line_item_removed"
-// Occurs whenever a line item is removed from a draft invoice.
-type V1InvoiceLineItemRemovedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceLineItemRemovedEvent that created this Notification
-func (n *V1InvoiceLineItemRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceLineItemRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceLineItemRemovedEvent), nil
-}
-
-// FetchRelatedObject fetches the Invoice related to the event.
-func (n *V1InvoiceLineItemRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -5774,88 +4677,6 @@ func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Con
 	return relatedObj, err
 }
 
-// V1InvoicePaymentCanceledEvent is the Go struct for the "v1.invoice_payment.canceled" event.
-// Occurs whenever an invoice payment is canceled.
-type V1InvoicePaymentCanceledEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*InvoicePayment, error)
-}
-
-// FetchRelatedObject fetches the InvoicePayment related to the event.
-func (e *V1InvoicePaymentCanceledEvent) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoicePaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.canceled"
-// Occurs whenever an invoice payment is canceled.
-type V1InvoicePaymentCanceledEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoicePaymentCanceledEvent that created this Notification
-func (n *V1InvoicePaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentCanceledEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoicePaymentCanceledEvent), nil
-}
-
-// FetchRelatedObject fetches the InvoicePayment related to the event.
-func (n *V1InvoicePaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &InvoicePayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoicePaymentOpenEvent is the Go struct for the "v1.invoice_payment.open" event.
-// Occurs whenever an invoice payment record is created in open status.
-type V1InvoicePaymentOpenEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*InvoicePayment, error)
-}
-
-// FetchRelatedObject fetches the InvoicePayment related to the event.
-func (e *V1InvoicePaymentOpenEvent) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoicePaymentOpenEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.open"
-// Occurs whenever an invoice payment record is created in open status.
-type V1InvoicePaymentOpenEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoicePaymentOpenEvent that created this Notification
-func (n *V1InvoicePaymentOpenEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentOpenEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoicePaymentOpenEvent), nil
-}
-
-// FetchRelatedObject fetches the InvoicePayment related to the event.
-func (n *V1InvoicePaymentOpenEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &InvoicePayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1InvoicePaymentPaidEvent is the Go struct for the "v1.invoice_payment.paid" event.
 // Occurs when an InvoicePayment is successfully paid.
 type V1InvoicePaymentPaidEvent struct {
@@ -5892,47 +4713,6 @@ func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoicePayment{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceitemAmountChangedEvent is the Go struct for the "v1.invoiceitem.amount_changed" event.
-// Occurs when an invoice item's amount changes.
-type V1InvoiceitemAmountChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*InvoiceItem, error)
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (e *V1InvoiceitemAmountChangedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceitemAmountChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.amount_changed"
-// Occurs when an invoice item's amount changes.
-type V1InvoiceitemAmountChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceitemAmountChangedEvent that created this Notification
-func (n *V1InvoiceitemAmountChangedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemAmountChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceitemAmountChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (n *V1InvoiceitemAmountChangedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -6020,90 +4800,8 @@ func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.C
 	return relatedObj, err
 }
 
-// V1InvoiceitemDiscountAddedEvent is the Go struct for the "v1.invoiceitem.discount_added" event.
-// Occurs when a discount is added to an invoice item.
-type V1InvoiceitemDiscountAddedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*InvoiceItem, error)
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (e *V1InvoiceitemDiscountAddedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceitemDiscountAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.discount_added"
-// Occurs when a discount is added to an invoice item.
-type V1InvoiceitemDiscountAddedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceitemDiscountAddedEvent that created this Notification
-func (n *V1InvoiceitemDiscountAddedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDiscountAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceitemDiscountAddedEvent), nil
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (n *V1InvoiceitemDiscountAddedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &InvoiceItem{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1InvoiceitemDiscountRemovedEvent is the Go struct for the "v1.invoiceitem.discount_removed" event.
-// Occurs when a discount is removed from an invoice item.
-type V1InvoiceitemDiscountRemovedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*InvoiceItem, error)
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (e *V1InvoiceitemDiscountRemovedEvent) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1InvoiceitemDiscountRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.discount_removed"
-// Occurs when a discount is removed from an invoice item.
-type V1InvoiceitemDiscountRemovedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1InvoiceitemDiscountRemovedEvent that created this Notification
-func (n *V1InvoiceitemDiscountRemovedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDiscountRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1InvoiceitemDiscountRemovedEvent), nil
-}
-
-// FetchRelatedObject fetches the InvoiceItem related to the event.
-func (n *V1InvoiceitemDiscountRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &InvoiceItem{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1IssuingAuthorizationCreatedEvent is the Go struct for the "v1.issuing_authorization.created" event.
-// Occurs whenever an authorization is created.
+// Occurs whenever an authorization is created. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -6116,7 +4814,7 @@ func (e *V1IssuingAuthorizationCreatedEvent) FetchRelatedObject(ctx context.Cont
 }
 
 // V1IssuingAuthorizationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.created"
-// Occurs whenever an authorization is created.
+// Occurs whenever an authorization is created. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationCreatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -6143,49 +4841,8 @@ func (n *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx 
 	return relatedObj, err
 }
 
-// V1IssuingAuthorizationRequestEvent is the Go struct for the "v1.issuing_authorization.request" event.
-// Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
-type V1IssuingAuthorizationRequestEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*IssuingAuthorization, error)
-}
-
-// FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (e *V1IssuingAuthorizationRequestEvent) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1IssuingAuthorizationRequestEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.request"
-// Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
-type V1IssuingAuthorizationRequestEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
-func (n *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1IssuingAuthorizationRequestEvent), nil
-}
-
-// FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &IssuingAuthorization{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1IssuingAuthorizationUpdatedEvent is the Go struct for the "v1.issuing_authorization.updated" event.
-// Occurs whenever an authorization is updated.
+// Occurs whenever an authorization is updated. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -6198,7 +4855,7 @@ func (e *V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject(ctx context.Cont
 }
 
 // V1IssuingAuthorizationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.updated"
-// Occurs whenever an authorization is updated.
+// Occurs whenever an authorization is updated. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationUpdatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -8111,47 +6768,6 @@ func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context)
 	return relatedObj, err
 }
 
-// V1PriceActivatedEvent is the Go struct for the "v1.price.activated" event.
-// Occurs whenever a price is activated.
-type V1PriceActivatedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Price, error)
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (e *V1PriceActivatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1PriceActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.activated"
-// Occurs whenever a price is activated.
-type V1PriceActivatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1PriceActivatedEvent that created this Notification
-func (n *V1PriceActivatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceActivatedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1PriceActivatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (n *V1PriceActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Price{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1PriceCreatedEvent is the Go struct for the "v1.price.created" event.
 // Occurs whenever a price is created.
 type V1PriceCreatedEvent struct {
@@ -8183,47 +6799,6 @@ func (n *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1Pr
 
 // FetchRelatedObject fetches the Price related to the event.
 func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Price{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1PriceDeactivatedEvent is the Go struct for the "v1.price.deactivated" event.
-// Occurs whenever a price is deactivated.
-type V1PriceDeactivatedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Price, error)
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (e *V1PriceDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1PriceDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.deactivated"
-// Occurs whenever a price is deactivated.
-type V1PriceDeactivatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1PriceDeactivatedEvent that created this Notification
-func (n *V1PriceDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeactivatedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1PriceDeactivatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (n *V1PriceDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -8275,88 +6850,6 @@ func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context
 	return relatedObj, err
 }
 
-// V1PriceLookupKeyChangedEvent is the Go struct for the "v1.price.lookup_key_changed" event.
-// Occurs whenever a price's lookup key changes.
-type V1PriceLookupKeyChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Price, error)
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (e *V1PriceLookupKeyChangedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1PriceLookupKeyChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.lookup_key_changed"
-// Occurs whenever a price's lookup key changes.
-type V1PriceLookupKeyChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1PriceLookupKeyChangedEvent that created this Notification
-func (n *V1PriceLookupKeyChangedEventNotification) FetchEvent(ctx context.Context) (*V1PriceLookupKeyChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1PriceLookupKeyChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (n *V1PriceLookupKeyChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Price{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1PriceTaxBehaviorChangedEvent is the Go struct for the "v1.price.tax_behavior_changed" event.
-// Occurs whenever a price's tax behavior changes.
-type V1PriceTaxBehaviorChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Price, error)
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (e *V1PriceTaxBehaviorChangedEvent) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1PriceTaxBehaviorChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.tax_behavior_changed"
-// Occurs whenever a price's tax behavior changes.
-type V1PriceTaxBehaviorChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1PriceTaxBehaviorChangedEvent that created this Notification
-func (n *V1PriceTaxBehaviorChangedEventNotification) FetchEvent(ctx context.Context) (*V1PriceTaxBehaviorChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1PriceTaxBehaviorChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Price related to the event.
-func (n *V1PriceTaxBehaviorChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Price{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1PriceUpdatedEvent is the Go struct for the "v1.price.updated" event.
 // Occurs whenever a price is updated.
 type V1PriceUpdatedEvent struct {
@@ -8393,47 +6886,6 @@ func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1ProductActivatedEvent is the Go struct for the "v1.product.activated" event.
-// Occurs whenever a product is activated.
-type V1ProductActivatedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Product, error)
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (e *V1ProductActivatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1ProductActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.activated"
-// Occurs whenever a product is activated.
-type V1ProductActivatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1ProductActivatedEvent that created this Notification
-func (n *V1ProductActivatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductActivatedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1ProductActivatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (n *V1ProductActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -8480,88 +6932,6 @@ func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 	return relatedObj, err
 }
 
-// V1ProductDeactivatedEvent is the Go struct for the "v1.product.deactivated" event.
-// Occurs whenever a product is deactivated.
-type V1ProductDeactivatedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Product, error)
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (e *V1ProductDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1ProductDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.deactivated"
-// Occurs whenever a product is deactivated.
-type V1ProductDeactivatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1ProductDeactivatedEvent that created this Notification
-func (n *V1ProductDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeactivatedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1ProductDeactivatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (n *V1ProductDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Product{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1ProductDefaultPriceChangedEvent is the Go struct for the "v1.product.default_price_changed" event.
-// Occurs whenever a product's default price changes.
-type V1ProductDefaultPriceChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Product, error)
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (e *V1ProductDefaultPriceChangedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1ProductDefaultPriceChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.default_price_changed"
-// Occurs whenever a product's default price changes.
-type V1ProductDefaultPriceChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1ProductDefaultPriceChangedEvent that created this Notification
-func (n *V1ProductDefaultPriceChangedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDefaultPriceChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1ProductDefaultPriceChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (n *V1ProductDefaultPriceChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Product{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1ProductDeletedEvent is the Go struct for the "v1.product.deleted" event.
 // Occurs whenever a product is deleted.
 type V1ProductDeletedEvent struct {
@@ -8593,47 +6963,6 @@ func (n *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1
 
 // FetchRelatedObject fetches the Product related to the event.
 func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &Product{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1ProductTaxCodeChangedEvent is the Go struct for the "v1.product.tax_code_changed" event.
-// Occurs whenever a product's tax code changes.
-type V1ProductTaxCodeChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Product, error)
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (e *V1ProductTaxCodeChangedEvent) FetchRelatedObject(ctx context.Context) (*Product, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1ProductTaxCodeChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.tax_code_changed"
-// Occurs whenever a product's tax code changes.
-type V1ProductTaxCodeChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1ProductTaxCodeChangedEvent that created this Notification
-func (n *V1ProductTaxCodeChangedEventNotification) FetchEvent(ctx context.Context) (*V1ProductTaxCodeChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1ProductTaxCodeChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the Product related to the event.
-func (n *V1ProductTaxCodeChangedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -8716,47 +7045,6 @@ func (n *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
 func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &PromotionCode{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1PromotionCodeFullyRedeemedEvent is the Go struct for the "v1.promotion_code.fully_redeemed" event.
-// Occurs whenever a promotion code is fully redeemed.
-type V1PromotionCodeFullyRedeemedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*PromotionCode, error)
-}
-
-// FetchRelatedObject fetches the PromotionCode related to the event.
-func (e *V1PromotionCodeFullyRedeemedEvent) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1PromotionCodeFullyRedeemedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.fully_redeemed"
-// Occurs whenever a promotion code is fully redeemed.
-type V1PromotionCodeFullyRedeemedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1PromotionCodeFullyRedeemedEvent that created this Notification
-func (n *V1PromotionCodeFullyRedeemedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeFullyRedeemedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1PromotionCodeFullyRedeemedEvent), nil
-}
-
-// FetchRelatedObject fetches the PromotionCode related to the event.
-func (n *V1PromotionCodeFullyRedeemedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -9874,211 +8162,6 @@ func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx
 	return relatedObj, err
 }
 
-// V1SubscriptionSchedulePhaseAddedEvent is the Go struct for the "v1.subscription_schedule.phase_added" event.
-// Occurs whenever a phase is added to a subscription schedule.
-type V1SubscriptionSchedulePhaseAddedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*SubscriptionSchedule, error)
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (e *V1SubscriptionSchedulePhaseAddedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1SubscriptionSchedulePhaseAddedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_added"
-// Occurs whenever a phase is added to a subscription schedule.
-type V1SubscriptionSchedulePhaseAddedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1SubscriptionSchedulePhaseAddedEvent that created this Notification
-func (n *V1SubscriptionSchedulePhaseAddedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseAddedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1SubscriptionSchedulePhaseAddedEvent), nil
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (n *V1SubscriptionSchedulePhaseAddedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &SubscriptionSchedule{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent is the Go struct for the "v1.subscription_schedule.phase_default_tax_rates_changed" event.
-// Occurs whenever a subscription schedule phase's default tax rates change.
-type V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*SubscriptionSchedule, error)
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (e *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_default_tax_rates_changed"
-// Occurs whenever a subscription schedule phase's default tax rates change.
-type V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent that created this Notification
-func (n *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (n *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &SubscriptionSchedule{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1SubscriptionSchedulePhaseEndDateChangedEvent is the Go struct for the "v1.subscription_schedule.phase_end_date_changed" event.
-// Occurs whenever a subscription schedule phase's end date changes.
-type V1SubscriptionSchedulePhaseEndDateChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*SubscriptionSchedule, error)
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (e *V1SubscriptionSchedulePhaseEndDateChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1SubscriptionSchedulePhaseEndDateChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_end_date_changed"
-// Occurs whenever a subscription schedule phase's end date changes.
-type V1SubscriptionSchedulePhaseEndDateChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1SubscriptionSchedulePhaseEndDateChangedEvent that created this Notification
-func (n *V1SubscriptionSchedulePhaseEndDateChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseEndDateChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1SubscriptionSchedulePhaseEndDateChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (n *V1SubscriptionSchedulePhaseEndDateChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &SubscriptionSchedule{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1SubscriptionSchedulePhaseRemovedEvent is the Go struct for the "v1.subscription_schedule.phase_removed" event.
-// Occurs whenever a phase is removed from a subscription schedule.
-type V1SubscriptionSchedulePhaseRemovedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*SubscriptionSchedule, error)
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (e *V1SubscriptionSchedulePhaseRemovedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1SubscriptionSchedulePhaseRemovedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_removed"
-// Occurs whenever a phase is removed from a subscription schedule.
-type V1SubscriptionSchedulePhaseRemovedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1SubscriptionSchedulePhaseRemovedEvent that created this Notification
-func (n *V1SubscriptionSchedulePhaseRemovedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseRemovedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1SubscriptionSchedulePhaseRemovedEvent), nil
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (n *V1SubscriptionSchedulePhaseRemovedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &SubscriptionSchedule{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V1SubscriptionSchedulePhaseTrialEndChangedEvent is the Go struct for the "v1.subscription_schedule.phase_trial_end_changed" event.
-// Occurs whenever a subscription schedule phase's trial end changes.
-type V1SubscriptionSchedulePhaseTrialEndChangedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*SubscriptionSchedule, error)
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (e *V1SubscriptionSchedulePhaseTrialEndChangedEvent) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1SubscriptionSchedulePhaseTrialEndChangedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.phase_trial_end_changed"
-// Occurs whenever a subscription schedule phase's trial end changes.
-type V1SubscriptionSchedulePhaseTrialEndChangedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1SubscriptionSchedulePhaseTrialEndChangedEvent that created this Notification
-func (n *V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionSchedulePhaseTrialEndChangedEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1SubscriptionSchedulePhaseTrialEndChangedEvent), nil
-}
-
-// FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (n *V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &SubscriptionSchedule{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V1SubscriptionScheduleReleasedEvent is the Go struct for the "v1.subscription_schedule.released" event.
 // Occurs whenever a new subscription schedule is released.
 type V1SubscriptionScheduleReleasedEvent struct {
@@ -11105,7 +9188,7 @@ func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) Fe
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
-// This event occurs when an account is closed.
+// Occurs when an Account is closed.
 type V2CoreAccountClosedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -11118,7 +9201,7 @@ func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2C
 }
 
 // V2CoreAccountClosedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.closed"
-// This event occurs when an account is closed.
+// Occurs when an Account is closed.
 type V2CoreAccountClosedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -11477,7 +9560,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
-// This event occurs when account defaults are created or updated.
+// Occurs when an Account's defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -11490,7 +9573,7 @@ func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx cont
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[defaults].updated"
-// This event occurs when account defaults are created or updated.
+// Occurs when an Account's defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -11783,6 +9866,211 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccountPerson{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreClaimableSandboxClaimedEvent is the Go struct for the "v2.core.claimable_sandbox.claimed" event.
+// Occurs when a claimable sandbox is claimed.
+type V2CoreClaimableSandboxClaimedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (e *V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxClaimedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.claimed"
+// Occurs when a claimable sandbox is claimed.
+type V2CoreClaimableSandboxClaimedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreClaimableSandboxClaimedEvent that created this Notification
+func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxClaimedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreClaimableSandboxClaimedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreClaimableSandbox{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreClaimableSandboxCreatedEvent is the Go struct for the "v2.core.claimable_sandbox.created" event.
+// Occurs when a claimable sandbox is created.
+type V2CoreClaimableSandboxCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (e *V2CoreClaimableSandboxCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.created"
+// Occurs when a claimable sandbox is created.
+type V2CoreClaimableSandboxCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreClaimableSandboxCreatedEvent that created this Notification
+func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreClaimableSandboxCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreClaimableSandbox{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreClaimableSandboxExpiredEvent is the Go struct for the "v2.core.claimable_sandbox.expired" event.
+// Occurs when a claimable sandbox expires.
+type V2CoreClaimableSandboxExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (e *V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.expired"
+// Occurs when a claimable sandbox expires.
+type V2CoreClaimableSandboxExpiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreClaimableSandboxExpiredEvent that created this Notification
+func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreClaimableSandboxExpiredEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreClaimableSandbox{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreClaimableSandboxExpiringEvent is the Go struct for the "v2.core.claimable_sandbox.expiring" event.
+// Occurs when a claimable sandbox is expiring in 7 days.
+type V2CoreClaimableSandboxExpiringEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (e *V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.expiring"
+// Occurs when a claimable sandbox is expiring in 7 days.
+type V2CoreClaimableSandboxExpiringEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreClaimableSandboxExpiringEvent that created this Notification
+func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiringEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreClaimableSandboxExpiringEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreClaimableSandbox{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreClaimableSandboxUpdatedEvent is the Go struct for the "v2.core.claimable_sandbox.updated" event.
+// Occurs when a claimable sandbox object is updated.
+type V2CoreClaimableSandboxUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (e *V2CoreClaimableSandboxUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.updated"
+// Occurs when a claimable sandbox object is updated.
+type V2CoreClaimableSandboxUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreClaimableSandboxUpdatedEvent that created this Notification
+func (n *V2CoreClaimableSandboxUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreClaimableSandboxUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
+func (n *V2CoreClaimableSandboxUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -13524,6 +11812,54 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v1.apps.install.created":
+		result := &V1AppsInstallCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.apps.install.deleted":
+		result := &V1AppsInstallDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.apps.install.updated":
+		result := &V1AppsInstallUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v1.balance.available":
 		result := &V1BalanceAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -14322,48 +12658,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.customer.discount.source_changed":
-		result := &V1CustomerDiscountSourceChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		return result, nil
 	case "v1.customer.discount.updated":
 		result := &V1CustomerDiscountUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = V2CoreEventRelatedSingletonObject{Type: event.RelatedObject.Type, URL: event.RelatedObject.URL}
 		result.fetchRelatedObject = func() (*Discount, error) {
 			v := &Discount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.active":
-		result := &V1CustomerSubscriptionActiveEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.cancel_at_changed":
-		result := &V1CustomerSubscriptionCancelAtChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
 			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
@@ -14390,152 +12690,8 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.customer.subscription.default_payment_method_changed":
-		result := &V1CustomerSubscriptionDefaultPaymentMethodChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.customer.subscription.deleted":
 		result := &V1CustomerSubscriptionDeletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.incomplete":
-		result := &V1CustomerSubscriptionIncompleteEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.incomplete_expired":
-		result := &V1CustomerSubscriptionIncompleteExpiredEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.item_added":
-		result := &V1CustomerSubscriptionItemAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.item_price_changed":
-		result := &V1CustomerSubscriptionItemPriceChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.item_quantity_changed":
-		result := &V1CustomerSubscriptionItemQuantityChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.item_removed":
-		result := &V1CustomerSubscriptionItemRemovedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.item_tax_rates_changed":
-		result := &V1CustomerSubscriptionItemTaxRatesChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.past_due":
-		result := &V1CustomerSubscriptionPastDueEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Subscription, error) {
@@ -14616,38 +12772,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.customer.subscription.trial_will_end":
 		result := &V1CustomerSubscriptionTrialWillEndEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.trialing":
-		result := &V1CustomerSubscriptionTrialingEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Subscription, error) {
-			v := &Subscription{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.subscription.unpaid":
-		result := &V1CustomerSubscriptionUnpaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Subscription, error) {
@@ -14758,17 +12882,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.entitlements.active_entitlement_summary.entitlement_added":
-		result := &V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		return result, nil
-	case "v1.entitlements.active_entitlement_summary.entitlement_removed":
-		result := &V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		return result, nil
 	case "v1.entitlements.active_entitlement_summary.updated":
 		result := &V1EntitlementsActiveEntitlementSummaryUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Customer, error) {
+			v := &Customer{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
 		return result, nil
 	case "v1.file.created":
 		result := &V1FileCreatedEvent{}
@@ -14788,38 +12916,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.financial_connections.account.account_numbers_updated":
 		result := &V1FinancialConnectionsAccountAccountNumbersUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.balance_refresh_failed":
-		result := &V1FinancialConnectionsAccountBalanceRefreshFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.balance_refresh_succeeded":
-		result := &V1FinancialConnectionsAccountBalanceRefreshSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
@@ -14898,70 +12994,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.financial_connections.account.inferred_balances_refresh_failed":
-		result := &V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.inferred_balances_refresh_succeeded":
-		result := &V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.ownership_refresh_failed":
-		result := &V1FinancialConnectionsAccountOwnershipRefreshFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.ownership_refresh_succeeded":
-		result := &V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.financial_connections.account.reactivated":
 		result := &V1FinancialConnectionsAccountReactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -15026,72 +13058,8 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.financial_connections.account.risk_intelligence_refresh_failed":
-		result := &V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.risk_intelligence_refresh_succeeded":
-		result := &V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.financial_connections.account.supported_payment_method_types_updated":
 		result := &V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.transactions_refresh_failed":
-		result := &V1FinancialConnectionsAccountTransactionsRefreshFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
-			v := &FinancialConnectionsAccount{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.financial_connections.account.transactions_refresh_succeeded":
-		result := &V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
@@ -15266,38 +13234,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.invoice.discount_added":
-		result := &V1InvoiceDiscountAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice.discount_removed":
-		result := &V1InvoiceDiscountRemovedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.invoice.finalization_failed":
 		result := &V1InvoiceFinalizationFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -15316,70 +13252,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.invoice.finalized":
 		result := &V1InvoiceFinalizedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice.line_item_added":
-		result := &V1InvoiceLineItemAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice.line_item_pricing_changed":
-		result := &V1InvoiceLineItemPricingChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice.line_item_quantity_changed":
-		result := &V1InvoiceLineItemQuantityChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Invoice, error) {
-			v := &Invoice{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice.line_item_removed":
-		result := &V1InvoiceLineItemRemovedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Invoice, error) {
@@ -15593,60 +13465,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.invoice_payment.canceled":
-		result := &V1InvoicePaymentCanceledEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*InvoicePayment, error) {
-			v := &InvoicePayment{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoice_payment.open":
-		result := &V1InvoicePaymentOpenEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*InvoicePayment, error) {
-			v := &InvoicePayment{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.invoice_payment.paid":
 		result := &V1InvoicePaymentPaidEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*InvoicePayment, error) {
 			v := &InvoicePayment{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoiceitem.amount_changed":
-		result := &V1InvoiceitemAmountChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*InvoiceItem, error) {
-			v := &InvoiceItem{}
 			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
@@ -15689,56 +13513,8 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.invoiceitem.discount_added":
-		result := &V1InvoiceitemDiscountAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*InvoiceItem, error) {
-			v := &InvoiceItem{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.invoiceitem.discount_removed":
-		result := &V1InvoiceitemDiscountRemovedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*InvoiceItem, error) {
-			v := &InvoiceItem{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.issuing_authorization.created":
 		result := &V1IssuingAuthorizationCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
-			v := &IssuingAuthorization{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.issuing_authorization.request":
-		result := &V1IssuingAuthorizationRequestEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
@@ -16505,40 +14281,8 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.price.activated":
-		result := &V1PriceActivatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Price, error) {
-			v := &Price{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.price.created":
 		result := &V1PriceCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Price, error) {
-			v := &Price{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.price.deactivated":
-		result := &V1PriceDeactivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Price, error) {
@@ -16569,60 +14313,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.price.lookup_key_changed":
-		result := &V1PriceLookupKeyChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Price, error) {
-			v := &Price{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.price.tax_behavior_changed":
-		result := &V1PriceTaxBehaviorChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Price, error) {
-			v := &Price{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.price.updated":
 		result := &V1PriceUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Price, error) {
 			v := &Price{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.product.activated":
-		result := &V1ProductActivatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Product, error) {
-			v := &Product{}
 			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
@@ -16649,56 +14345,8 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
-	case "v1.product.deactivated":
-		result := &V1ProductDeactivatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Product, error) {
-			v := &Product{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.product.default_price_changed":
-		result := &V1ProductDefaultPriceChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Product, error) {
-			v := &Product{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.product.deleted":
 		result := &V1ProductDeletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Product, error) {
-			v := &Product{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.product.tax_code_changed":
-		result := &V1ProductTaxCodeChangedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Product, error) {
@@ -16731,22 +14379,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.promotion_code.created":
 		result := &V1PromotionCodeCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*PromotionCode, error) {
-			v := &PromotionCode{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.promotion_code.fully_redeemed":
-		result := &V1PromotionCodeFullyRedeemedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*PromotionCode, error) {
@@ -17179,86 +14811,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.subscription_schedule.expiring":
 		result := &V1SubscriptionScheduleExpiringEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
-			v := &SubscriptionSchedule{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.subscription_schedule.phase_added":
-		result := &V1SubscriptionSchedulePhaseAddedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
-			v := &SubscriptionSchedule{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.subscription_schedule.phase_default_tax_rates_changed":
-		result := &V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
-			v := &SubscriptionSchedule{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.subscription_schedule.phase_end_date_changed":
-		result := &V1SubscriptionSchedulePhaseEndDateChangedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
-			v := &SubscriptionSchedule{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.subscription_schedule.phase_removed":
-		result := &V1SubscriptionSchedulePhaseRemovedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
-			v := &SubscriptionSchedule{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.subscription_schedule.phase_trial_end_changed":
-		result := &V1SubscriptionSchedulePhaseTrialEndChangedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
@@ -17954,6 +15506,86 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.claimable_sandbox.claimed":
+		result := &V2CoreClaimableSandboxClaimedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.created":
+		result := &V2CoreClaimableSandboxCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expired":
+		result := &V2CoreClaimableSandboxExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expiring":
+		result := &V2CoreClaimableSandboxExpiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.updated":
+		result := &V2CoreClaimableSandboxUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.event_destination.ping":
 		result := &V2CoreEventDestinationPingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -18633,6 +16265,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.apps.install.created":
+		evt := V1AppsInstallCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.apps.install.deleted":
+		evt := V1AppsInstallDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.apps.install.updated":
+		evt := V1AppsInstallUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.balance.available":
 		evt := V1BalanceAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -18990,29 +16643,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.customer.discount.source_changed":
-		evt := V1CustomerDiscountSourceChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.customer.discount.updated":
 		evt := V1CustomerDiscountUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.active":
-		evt := V1CustomerSubscriptionActiveEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.cancel_at_changed":
-		evt := V1CustomerSubscriptionCancelAtChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19025,71 +16657,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.customer.subscription.default_payment_method_changed":
-		evt := V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.customer.subscription.deleted":
 		evt := V1CustomerSubscriptionDeletedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.incomplete":
-		evt := V1CustomerSubscriptionIncompleteEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.incomplete_expired":
-		evt := V1CustomerSubscriptionIncompleteExpiredEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.item_added":
-		evt := V1CustomerSubscriptionItemAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.item_price_changed":
-		evt := V1CustomerSubscriptionItemPriceChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.item_quantity_changed":
-		evt := V1CustomerSubscriptionItemQuantityChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.item_removed":
-		evt := V1CustomerSubscriptionItemRemovedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.item_tax_rates_changed":
-		evt := V1CustomerSubscriptionItemTaxRatesChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.past_due":
-		evt := V1CustomerSubscriptionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19125,20 +16694,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.customer.subscription.trial_will_end":
 		evt := V1CustomerSubscriptionTrialWillEndEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.trialing":
-		evt := V1CustomerSubscriptionTrialingEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.subscription.unpaid":
-		evt := V1CustomerSubscriptionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19186,20 +16741,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.entitlements.active_entitlement_summary.entitlement_added":
-		evt := V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.entitlements.active_entitlement_summary.entitlement_removed":
-		evt := V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.entitlements.active_entitlement_summary.updated":
 		evt := V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -19216,20 +16757,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.financial_connections.account.account_numbers_updated":
 		evt := V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.balance_refresh_failed":
-		evt := V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.balance_refresh_succeeded":
-		evt := V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19263,34 +16790,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.financial_connections.account.inferred_balances_refresh_failed":
-		evt := V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.inferred_balances_refresh_succeeded":
-		evt := V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.ownership_refresh_failed":
-		evt := V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.ownership_refresh_succeeded":
-		evt := V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.financial_connections.account.reactivated":
 		evt := V1FinancialConnectionsAccountReactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -19319,36 +16818,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.financial_connections.account.risk_intelligence_refresh_failed":
-		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.risk_intelligence_refresh_succeeded":
-		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.financial_connections.account.supported_payment_method_types_updated":
 		evt := V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.transactions_refresh_failed":
-		evt := V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.financial_connections.account.transactions_refresh_succeeded":
-		evt := V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19424,20 +16895,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.invoice.discount_added":
-		evt := V1InvoiceDiscountAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice.discount_removed":
-		evt := V1InvoiceDiscountRemovedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.invoice.finalization_failed":
 		evt := V1InvoiceFinalizationFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -19447,34 +16904,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.invoice.finalized":
 		evt := V1InvoiceFinalizedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice.line_item_added":
-		evt := V1InvoiceLineItemAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice.line_item_pricing_changed":
-		evt := V1InvoiceLineItemPricingChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice.line_item_quantity_changed":
-		evt := V1InvoiceLineItemQuantityChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice.line_item_removed":
-		evt := V1InvoiceLineItemRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19571,29 +17000,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.invoice_payment.canceled":
-		evt := V1InvoicePaymentCanceledEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoice_payment.open":
-		evt := V1InvoicePaymentOpenEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.invoice_payment.paid":
 		evt := V1InvoicePaymentPaidEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoiceitem.amount_changed":
-		evt := V1InvoiceitemAmountChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19613,29 +17021,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.invoiceitem.discount_added":
-		evt := V1InvoiceitemDiscountAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.invoiceitem.discount_removed":
-		evt := V1InvoiceitemDiscountRemovedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.issuing_authorization.created":
 		evt := V1IssuingAuthorizationCreatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.issuing_authorization.request":
-		evt := V1IssuingAuthorizationRequestEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19970,22 +17357,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.price.activated":
-		evt := V1PriceActivatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.price.created":
 		evt := V1PriceCreatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.price.deactivated":
-		evt := V1PriceDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -19998,29 +17371,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.price.lookup_key_changed":
-		evt := V1PriceLookupKeyChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.price.tax_behavior_changed":
-		evt := V1PriceTaxBehaviorChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.price.updated":
 		evt := V1PriceUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.product.activated":
-		evt := V1ProductActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -20033,29 +17385,8 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-	case "v1.product.deactivated":
-		evt := V1ProductDeactivatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.product.default_price_changed":
-		evt := V1ProductDefaultPriceChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
 	case "v1.product.deleted":
 		evt := V1ProductDeletedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.product.tax_code_changed":
-		evt := V1ProductTaxCodeChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -20070,13 +17401,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.promotion_code.created":
 		evt := V1PromotionCodeCreatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.promotion_code.fully_redeemed":
-		evt := V1PromotionCodeFullyRedeemedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -20266,41 +17590,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.subscription_schedule.expiring":
 		evt := V1SubscriptionScheduleExpiringEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.subscription_schedule.phase_added":
-		evt := V1SubscriptionSchedulePhaseAddedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.subscription_schedule.phase_default_tax_rates_changed":
-		evt := V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.subscription_schedule.phase_end_date_changed":
-		evt := V1SubscriptionSchedulePhaseEndDateChangedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.subscription_schedule.phase_removed":
-		evt := V1SubscriptionSchedulePhaseRemovedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.subscription_schedule.phase_trial_end_changed":
-		evt := V1SubscriptionSchedulePhaseTrialEndChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -20595,6 +17884,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account_person.updated":
 		evt := V2CoreAccountPersonUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.claimable_sandbox.claimed":
+		evt := V2CoreClaimableSandboxClaimedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.claimable_sandbox.created":
+		evt := V2CoreClaimableSandboxCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.claimable_sandbox.expired":
+		evt := V2CoreClaimableSandboxExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.claimable_sandbox.expiring":
+		evt := V2CoreClaimableSandboxExpiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.claimable_sandbox.updated":
+		evt := V2CoreClaimableSandboxUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

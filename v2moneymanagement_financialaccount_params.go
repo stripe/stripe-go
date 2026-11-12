@@ -11,7 +11,7 @@ type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// The page limit.
+	// Maximum number of results to return. Default: 10. Valid range: 1-20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Return FinancialAccounts whose `status` matches any of the provided values.
 	// If omitted, closed FinancialAccounts are not returned.

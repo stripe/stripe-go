@@ -15,6 +15,7 @@ type V2MoneyManagementTransactionEntryTransactionDetailsCategory string
 const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryAdjustment               V2MoneyManagementTransactionEntryTransactionDetailsCategory = "adjustment"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryCurrencyConversion       V2MoneyManagementTransactionEntryTransactionDetailsCategory = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryHold                     V2MoneyManagementTransactionEntryTransactionDetailsCategory = "hold"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransferReversal  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPayment          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment"
@@ -37,6 +38,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeBatch           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_batch"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeHold               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "hold"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
@@ -67,6 +69,8 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
 	// If applicable, the ID of the FeeBatch that created this Transaction.
 	FeeBatch string `json:"fee_batch,omitempty"`
+	// If applicable, the ID of the Hold that created this Transaction.
+	Hold string `json:"hold,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.

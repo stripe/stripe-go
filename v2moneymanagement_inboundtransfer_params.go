@@ -41,8 +41,19 @@ type V2MoneyManagementInboundTransferParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// The verified bank account credential to debit for this InboundTransfer.
 	From *V2MoneyManagementInboundTransferFromParams `form:"from" json:"from,omitempty"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The FinancialAccount and currency to credit with the transferred funds.
 	To *V2MoneyManagementInboundTransferToParams `form:"to" json:"to,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementInboundTransferParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The verified bank account credential to debit for this InboundTransfer.
@@ -71,8 +82,19 @@ type V2MoneyManagementInboundTransferCreateParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// The verified bank account credential to debit for this InboundTransfer.
 	From *V2MoneyManagementInboundTransferCreateFromParams `form:"from" json:"from"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The FinancialAccount and currency to credit with the transferred funds.
 	To *V2MoneyManagementInboundTransferCreateToParams `form:"to" json:"to"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementInboundTransferCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Retrieve an InboundTransfer by ID.

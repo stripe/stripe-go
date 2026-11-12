@@ -254,7 +254,7 @@ func (p *QuoteInvoiceSettingsParams) AddUnsetField(field QuoteInvoiceSettingsPar
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// The discounts applied to this line item.
+// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 type QuoteLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon" json:"coupon,omitempty"`
@@ -290,7 +290,7 @@ type QuoteLineItemPriceDataParams struct {
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteLineItemParams struct {
-	// The discounts applied to this line item.
+	// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 	Discounts []*QuoteLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the quote.
 	ID *string `form:"id" json:"id,omitempty"`
@@ -627,7 +627,7 @@ func (p *QuoteCreateInvoiceSettingsParams) AddUnsetField(field QuoteCreateInvoic
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// The discounts applied to this line item.
+// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 type QuoteCreateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon" json:"coupon,omitempty"`
@@ -663,7 +663,7 @@ type QuoteCreateLineItemPriceDataParams struct {
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteCreateLineItemParams struct {
-	// The discounts applied to this line item.
+	// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 	Discounts []*QuoteCreateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
@@ -923,7 +923,7 @@ func (p *QuoteUpdateInvoiceSettingsParams) AddUnsetField(field QuoteUpdateInvoic
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// The discounts applied to this line item.
+// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 type QuoteUpdateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon" json:"coupon,omitempty"`
@@ -959,7 +959,7 @@ type QuoteUpdateLineItemPriceDataParams struct {
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteUpdateLineItemParams struct {
-	// The discounts applied to this line item.
+	// The discounts applied to this line item. Repeating coupons are only supported for recurring prices.
 	Discounts []*QuoteUpdateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the quote.
 	ID *string `form:"id" json:"id,omitempty"`

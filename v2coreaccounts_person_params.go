@@ -321,7 +321,7 @@ type V2CoreAccountsPersonCreateAdditionalAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -369,7 +369,7 @@ type V2CoreAccountsPersonCreateAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -495,7 +495,7 @@ type V2CoreAccountsPersonCreateScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -513,7 +513,7 @@ type V2CoreAccountsPersonCreateScriptAddressesKanjiParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).

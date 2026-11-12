@@ -290,6 +290,12 @@ type RefundDestinationDetailsAlipay struct{}
 type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
 type RefundDestinationDetailsAuBankTransfer struct{}
+type RefundDestinationDetailsBizum struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsBLIK struct {
 	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
 	NetworkDeclineCode string `json:"network_decline_code"`
@@ -400,6 +406,12 @@ type RefundDestinationDetailsTHBankTransfer struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsTWINT struct{}
+type RefundDestinationDetailsUpi struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsUSBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -415,6 +427,7 @@ type RefundDestinationDetails struct {
 	Alma                *RefundDestinationDetailsAlma                `json:"alma,omitempty"`
 	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay,omitempty"`
 	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer,omitempty"`
+	Bizum               *RefundDestinationDetailsBizum               `json:"bizum,omitempty"`
 	BLIK                *RefundDestinationDetailsBLIK                `json:"blik,omitempty"`
 	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer,omitempty"`
 	Card                *RefundDestinationDetailsCard                `json:"card,omitempty"`
@@ -444,6 +457,7 @@ type RefundDestinationDetails struct {
 	TWINT               *RefundDestinationDetailsTWINT               `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
+	Upi            *RefundDestinationDetailsUpi            `json:"upi,omitempty"`
 	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer,omitempty"`
 	WeChatPay      *RefundDestinationDetailsWeChatPay      `json:"wechat_pay,omitempty"`
 	Zip            *RefundDestinationDetailsZip            `json:"zip,omitempty"`

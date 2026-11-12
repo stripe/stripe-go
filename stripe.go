@@ -1398,6 +1398,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "inactive_api_operation_confirmation_required":
+		tmp := struct {
+			Error *InactiveAPIOperationConfirmationRequiredError `json:"error"`
+		}{
+			Error: &InactiveAPIOperationConfirmationRequiredError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "insufficient_funds":
 		tmp := struct {
 			Error *InsufficientFundsError `json:"error"`

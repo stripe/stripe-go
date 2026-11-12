@@ -60,7 +60,7 @@ type ReserveHoldReleaseSchedule struct {
 	ScheduledRelease int64 `json:"scheduled_release"`
 }
 
-// ReserveHolds are used to place a temporary ReserveHold on a merchant's funds.
+// A ReserveHold holds a portion of an account's funds until it's released. Stripe or the account's platform can create a ReserveHold directly, and a ReservePlan creates ReserveHolds automatically from incoming Charges.
 type ReserveHold struct {
 	// Amount reserved. A positive integer representing how much is reserved in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
