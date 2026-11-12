@@ -24,7 +24,7 @@ type V2BillingProfile struct {
 	Created time.Time `json:"created"`
 	// The ID of the customer object.
 	Customer string `json:"customer,omitempty"`
-	// The ID of the payment method object.
+	// The ID of the payment method object. If set to nil, the customer payment method is used.
 	DefaultPaymentMethod string `json:"default_payment_method,omitempty"`
 	// A customer-facing name for the billing profile.
 	// Maximum length of 250 characters.

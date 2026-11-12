@@ -822,7 +822,7 @@ type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
 	AccessActivityLog string `json:"access_activity_log"`
 	// Appeal evidence submitted during the appeal stage.
-	Appeal *DisputeEvidenceAppeal `json:"appeal,omitempty"`
+	Appeal *DisputeEvidenceAppeal `json:"appeal"`
 	// The billing address provided by the customer.
 	BillingAddress string `json:"billing_address"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.

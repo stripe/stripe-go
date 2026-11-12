@@ -24,6 +24,7 @@ type CouponType string
 // List of values that CouponType can take
 const (
 	CouponTypeAmountOff  CouponType = "amount_off"
+	CouponTypeCustom     CouponType = "custom"
 	CouponTypePercentOff CouponType = "percent_off"
 	CouponTypeScript     CouponType = "script"
 )
@@ -39,6 +40,8 @@ type CouponParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
+	// The custom coupon calculation configuration.
+	Custom *CouponCustomParams `form:"custom" json:"custom,omitempty"`
 	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
 	Duration *string `form:"duration" json:"duration,omitempty"`
 	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
@@ -58,7 +61,9 @@ type CouponParams struct {
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by" json:"redeem_by,omitempty"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
-	Script      *CouponScriptParams      `form:"script" json:"script,omitempty"`
+	Script *CouponScriptParams `form:"script" json:"script,omitempty"`
+	// The coupon calculation type. Must be `custom` when `custom` is provided.
+	Type        *string                  `form:"type" json:"type,omitempty"`
 	UnsetFields []CouponParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -114,6 +119,22 @@ func (p *CouponListParams) AddExpand(f string) {
 type CouponAppliesToParams struct {
 	// An array of Product IDs that this Coupon will apply to.
 	Products []*string `form:"products" json:"products,omitempty"`
+}
+
+// The extension used to calculate the coupon.
+type CouponCustomExtensionParams struct {
+	// The Extension Prototype ID.
+	ID *string `form:"id" json:"id"`
+	// The semantic version of the extension.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// The custom coupon calculation configuration.
+type CouponCustomParams struct {
+	// The configuration values of the extension. The keys and values are specific to the extension implementation. May be omitted for extensions that have no configuration schema, in which case an empty configuration is used.
+	Configuration map[string]any `form:"configuration" json:"configuration,omitempty"`
+	// The extension used to calculate the coupon.
+	Extension *CouponCustomExtensionParams `form:"extension" json:"extension"`
 }
 
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
@@ -199,6 +220,22 @@ type CouponCreateCurrencyOptionsParams struct {
 	AmountOff *int64 `form:"amount_off" json:"amount_off"`
 }
 
+// The extension used to calculate the coupon.
+type CouponCreateCustomExtensionParams struct {
+	// The Extension Prototype ID.
+	ID *string `form:"id" json:"id"`
+	// The semantic version of the extension.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// The custom coupon calculation configuration.
+type CouponCreateCustomParams struct {
+	// The configuration values of the extension. The keys and values are specific to the extension implementation. May be omitted for extensions that have no configuration schema, in which case an empty configuration is used.
+	Configuration map[string]any `form:"configuration" json:"configuration,omitempty"`
+	// The extension used to calculate the coupon.
+	Extension *CouponCreateCustomExtensionParams `form:"extension" json:"extension"`
+}
+
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponCreateScriptParams struct {
 	// The configuration values of the script. The keys and values are specific to the script implementation.
@@ -220,6 +257,8 @@ type CouponCreateParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Coupons defined in each available currency option (only supported if `amount_off` is passed). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCreateCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
+	// The custom coupon calculation configuration.
+	Custom *CouponCreateCustomParams `form:"custom" json:"custom,omitempty"`
 	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
 	Duration *string `form:"duration" json:"duration,omitempty"`
 	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
@@ -239,7 +278,9 @@ type CouponCreateParams struct {
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by" json:"redeem_by,omitempty"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
-	Script      *CouponCreateScriptParams      `form:"script" json:"script,omitempty"`
+	Script *CouponCreateScriptParams `form:"script" json:"script,omitempty"`
+	// The coupon calculation type. Must be `custom` when `custom` is provided.
+	Type        *string                        `form:"type" json:"type,omitempty"`
 	UnsetFields []CouponCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -279,6 +320,17 @@ type CouponCurrencyOptions struct {
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
 	AmountOff int64 `json:"amount_off"`
 }
+type CouponCustomExtension struct {
+	// The Extension Prototype ID.
+	ID string `json:"id"`
+	// The semantic version of the extension.
+	Version string `json:"version"`
+}
+type CouponCustom struct {
+	// The configuration supplied to the extension.
+	Configuration map[string]any         `json:"configuration"`
+	Extension     *CouponCustomExtension `json:"extension"`
+}
 
 // Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 type CouponScript struct {
@@ -290,9 +342,12 @@ type CouponScript struct {
 	ID string `json:"id"`
 }
 
-// A coupon contains information about a percent-off or amount-off discount you
-// might want to apply to a customer. Coupons may be applied to [subscriptions](https://docs.stripe.com/api#subscriptions), [invoices](https://docs.stripe.com/api#invoices),
-// [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://docs.stripe.com/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
+// A coupon defines a fixed or custom discount. Fixed discounts take a percentage or amount off, while
+// [custom coupons](https://docs.stripe.com/billing/subscriptions/script-coupons) use scripts to calculate discounts dynamically for subscriptions and invoices.
+// You can apply coupons to customers' [subscriptions](https://docs.stripe.com/api#subscriptions), [invoices](https://docs.stripe.com/api#invoices),
+// [Checkout Sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://docs.stripe.com/api#quotes), and other supported billing objects.
+// The optional [applies_to.products](https://docs.stripe.com/api/coupons/object#coupon_object-applies_to-products) property limits which product line items are eligible for the discount, independently of where you apply the coupon.
+// Coupons don't work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
 type Coupon struct {
 	APIResource
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
@@ -304,6 +359,7 @@ type Coupon struct {
 	Currency Currency `json:"currency"`
 	// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptions `json:"currency_options,omitempty"`
+	Custom          *CouponCustom                     `json:"custom,omitempty"`
 	Deleted         bool                              `json:"deleted,omitempty"`
 	// One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount.
 	Duration CouponDuration `json:"duration"`

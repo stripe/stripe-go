@@ -155,6 +155,8 @@ type V2BillingCadenceBillingCycleYearParams struct {
 type V2BillingCadenceBillingCycleParams struct {
 	// Specific configuration for determining billing dates when type=day.
 	Day *V2BillingCadenceBillingCycleDayParams `form:"day" json:"day,omitempty"`
+	// When the anchor for the cadence should be set. Defaults to `now`.
+	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 	// The number of intervals (specified in the interval attribute) between
 	// cadence billings. For example, type=month and interval_count=3 bills every
 	// 3 months. If not provided, this defaults to 1.
@@ -367,6 +369,8 @@ type V2BillingCadenceCreateBillingCycleYearParams struct {
 type V2BillingCadenceCreateBillingCycleParams struct {
 	// Specific configuration for determining billing dates when type=day.
 	Day *V2BillingCadenceCreateBillingCycleDayParams `form:"day" json:"day,omitempty"`
+	// When the anchor for the cadence should be set. Defaults to `now`.
+	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 	// The number of intervals (specified in the interval attribute) between
 	// cadence billings. For example, type=month and interval_count=3 bills every
 	// 3 months. If not provided, this defaults to 1.

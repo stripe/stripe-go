@@ -43,6 +43,7 @@ const (
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_expired"
+	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodInvalidAccountNumber        V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_invalid_account_number"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUnsupported                 V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_unsupported"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUsageFrequencyLimitExceeded V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_usage_frequency_limit_exceeded"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonReviewRejected                          V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "review_rejected"
@@ -62,6 +63,7 @@ type V2MoneyManagementOutboundTransferStatusDetailsReturnedReason string
 
 // List of values that V2MoneyManagementOutboundTransferStatusDetailsReturnedReason can take
 const (
+	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodAccountTypeIncorrect   V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_account_type_incorrect"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodCanceledByCustomer     V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_canceled_by_customer"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodClosed                 V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_closed"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodCurrencyUnsupported    V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_currency_unsupported"

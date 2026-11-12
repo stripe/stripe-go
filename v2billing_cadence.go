@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// When the anchor for the cadence should be set. Defaults to `now`.
+type V2BillingCadenceBillingCycleEffectiveAt string
+
+// List of values that V2BillingCadenceBillingCycleEffectiveAt can take
+const (
+	V2BillingCadenceBillingCycleEffectiveAtNow          V2BillingCadenceBillingCycleEffectiveAt = "now"
+	V2BillingCadenceBillingCycleEffectiveAtOnActivation V2BillingCadenceBillingCycleEffectiveAt = "on_activation"
+)
+
 // The frequency at which a cadence bills.
 type V2BillingCadenceBillingCycleType string
 
@@ -189,8 +198,9 @@ type V2BillingCadenceStatus string
 
 // List of values that V2BillingCadenceStatus can take
 const (
-	V2BillingCadenceStatusActive   V2BillingCadenceStatus = "active"
-	V2BillingCadenceStatusCanceled V2BillingCadenceStatus = "canceled"
+	V2BillingCadenceStatusActive       V2BillingCadenceStatus = "active"
+	V2BillingCadenceStatusCanceled     V2BillingCadenceStatus = "canceled"
+	V2BillingCadenceStatusInitializing V2BillingCadenceStatus = "initializing"
 )
 
 // The time at which the billing cycle ends.
@@ -293,6 +303,8 @@ type V2BillingCadenceBillingCycleYear struct {
 type V2BillingCadenceBillingCycle struct {
 	// Specific configuration for determining billing dates when type=day.
 	Day *V2BillingCadenceBillingCycleDay `json:"day,omitempty"`
+	// When the anchor for the cadence should be set. Defaults to `now`.
+	EffectiveAt V2BillingCadenceBillingCycleEffectiveAt `json:"effective_at"`
 	// The number of intervals (specified in the interval attribute) between cadence billings. For example, type=month and interval_count=3 bills every 3 months.
 	IntervalCount int64 `json:"interval_count"`
 	// Specific configuration for determining billing dates when type=month.
@@ -526,6 +538,14 @@ type V2BillingCadenceSettingsData struct {
 	Collection *V2BillingCadenceSettingsDataCollection `json:"collection"`
 }
 
+// Timestamps for billing cadence status transitions.
+type V2BillingCadenceStatusTransitions struct {
+	// When the billing cadence status transitioned to activated.
+	ActivatedAt string `json:"activated_at,omitempty"`
+	// When the billing cadence status transitioned to canceled.
+	CanceledAt string `json:"canceled_at,omitempty"`
+}
+
 // A Cadence represents a billing schedule applied to a customer, defining when and how often to generate invoices, such as on monthly or annual billing cycle.
 type V2BillingCadence struct {
 	APIResource
@@ -553,6 +573,8 @@ type V2BillingCadence struct {
 	SettingsData *V2BillingCadenceSettingsData `json:"settings_data,omitempty"`
 	// The current status of the cadence.
 	Status V2BillingCadenceStatus `json:"status"`
+	// Timestamps for billing cadence status transitions.
+	StatusTransitions *V2BillingCadenceStatusTransitions `json:"status_transitions,omitempty"`
 	// The ID of the Test Clock.
 	TestClock string `json:"test_clock,omitempty"`
 }

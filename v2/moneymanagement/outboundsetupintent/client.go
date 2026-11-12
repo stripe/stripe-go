@@ -73,6 +73,18 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementOutboundSetupI
 	return outboundsetupintent, err
 }
 
+// Create an OutboundSetupIntent object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) FromFinancialConnections(params *stripe.V2MoneyManagementOutboundSetupIntentFromFinancialConnectionsParams) (*stripe.V2MoneyManagementOutboundSetupIntent, error) {
+	outboundsetupintent := &stripe.V2MoneyManagementOutboundSetupIntent{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/outbound_setup_intents/from_financial_connections", c.Key, params, outboundsetupintent)
+	return outboundsetupintent, err
+}
+
 // List the OutboundSetupIntent objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

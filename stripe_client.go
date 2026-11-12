@@ -294,6 +294,8 @@ type Client struct {
 	V1TerminalReaderCollectedData *v1TerminalReaderCollectedDataService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TerminalReaders *v1TerminalReaderService
+	// V1TestHelpersCapitalFinancingOffers is the service used to invoke /v1/capital/financing_offers APIs.
+	V1TestHelpersCapitalFinancingOffers *v1TestHelpersCapitalFinancingOfferService
 	// V1TestHelpersConfirmationTokens is the service used to invoke /v1/confirmation_tokens APIs.
 	V1TestHelpersConfirmationTokens *v1TestHelpersConfirmationTokenService
 	// V1TestHelpersCustomers is the service used to invoke /v1/customers APIs.
@@ -392,6 +394,8 @@ type Client struct {
 	V2CoreApprovalRequests *v2CoreApprovalRequestService
 	// V2CoreBatchJobs is the service used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2CoreBatchJobService
+	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -454,6 +458,8 @@ type Client struct {
 	V2NetworkBusinessProfiles *v2NetworkBusinessProfileService
 	// V2OrchestratedCommerceAgreements is the service used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2OrchestratedCommerceAgreementService
+	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
+	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
 	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2SignalsAccountActivityService
 	// V2SignalsAccountEvaluations is the service used to invoke /v2/signals/account_evaluations APIs.
@@ -644,6 +650,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersCapitalFinancingOffers = &v1TestHelpersCapitalFinancingOfferService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
@@ -693,6 +700,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreApprovalRequests = &v2CoreApprovalRequestService{B: backends.API, Key: key}
 	client.V2CoreBatchJobs = &v2CoreBatchJobService{B: backends.API, Key: key}
+	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
@@ -724,6 +732,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
 	client.V2OrchestratedCommerceAgreements = &v2OrchestratedCommerceAgreementService{B: backends.API, Key: key}
+	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}

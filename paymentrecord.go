@@ -75,7 +75,7 @@ const (
 	PaymentRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
 )
 
-// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
@@ -1401,7 +1401,7 @@ type PaymentRecordPaymentMethodDetailsBoleto struct {
 type PaymentRecordPaymentMethodDetailsCardChecks struct {
 	// If you provide a value for `address.line1`, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If you provide a CVC, the check results is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentRecordPaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
@@ -1932,7 +1932,10 @@ type PaymentRecordPaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name,omitempty"`
 }
-type PaymentRecordPaymentMethodDetailsPaypay struct{}
+type PaymentRecordPaymentMethodDetailsPaypay struct {
+	// Uniquely identifies this particular PayPay account. You can use this attribute to check whether two PayPay accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type PaymentRecordPaymentMethodDetailsPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`

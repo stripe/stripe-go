@@ -1348,6 +1348,12 @@ type AccountSessionComponentsDocuments struct {
 	Enabled  bool                                       `json:"enabled"`
 	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
 }
+type AccountSessionComponentsExportTaxTransactionsFeatures struct{}
+type AccountSessionComponentsExportTaxTransactions struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                   `json:"enabled"`
+	Features *AccountSessionComponentsExportTaxTransactionsFeatures `json:"features"`
+}
 type AccountSessionComponentsFinancialAccountFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -1521,6 +1527,12 @@ type AccountSessionComponentsPayoutsList struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsListFeatures `json:"features"`
 }
+type AccountSessionComponentsProductTaxCodeSelectorFeatures struct{}
+type AccountSessionComponentsProductTaxCodeSelector struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                    `json:"enabled"`
+	Features *AccountSessionComponentsProductTaxCodeSelectorFeatures `json:"features"`
+}
 type AccountSessionComponentsReportingChartFeatures struct{}
 type AccountSessionComponentsReportingChart struct {
 	// Whether the embedded component is enabled.
@@ -1538,6 +1550,12 @@ type AccountSessionComponentsTaxSettings struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
+}
+type AccountSessionComponentsTaxThresholdMonitoringFeatures struct{}
+type AccountSessionComponentsTaxThresholdMonitoring struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                    `json:"enabled"`
+	Features *AccountSessionComponentsTaxThresholdMonitoringFeatures `json:"features"`
 }
 type AccountSessionComponentsTerminalHardwareOrdersFeatures struct{}
 type AccountSessionComponentsTerminalHardwareOrders struct {
@@ -1561,6 +1579,7 @@ type AccountSessionComponents struct {
 	CapitalFinancingPromotion    *AccountSessionComponentsCapitalFinancingPromotion    `json:"capital_financing_promotion,omitempty"`
 	DisputesList                 *AccountSessionComponentsDisputesList                 `json:"disputes_list"`
 	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
+	ExportTaxTransactions        *AccountSessionComponentsExportTaxTransactions        `json:"export_tax_transactions,omitempty"`
 	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactions `json:"financial_account_transactions"`
 	InstantPayoutsPromotion      *AccountSessionComponentsInstantPayoutsPromotion      `json:"instant_payouts_promotion"`
@@ -1575,9 +1594,11 @@ type AccountSessionComponents struct {
 	PayoutReconciliationReport   *AccountSessionComponentsPayoutReconciliationReport   `json:"payout_reconciliation_report"`
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
+	ProductTaxCodeSelector       *AccountSessionComponentsProductTaxCodeSelector       `json:"product_tax_code_selector,omitempty"`
 	ReportingChart               *AccountSessionComponentsReportingChart               `json:"reporting_chart"`
 	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
 	TaxSettings                  *AccountSessionComponentsTaxSettings                  `json:"tax_settings"`
+	TaxThresholdMonitoring       *AccountSessionComponentsTaxThresholdMonitoring       `json:"tax_threshold_monitoring,omitempty"`
 	TerminalHardwareOrders       *AccountSessionComponentsTerminalHardwareOrders       `json:"terminal_hardware_orders"`
 	TerminalHardwareShop         *AccountSessionComponentsTerminalHardwareShop         `json:"terminal_hardware_shop"`
 }

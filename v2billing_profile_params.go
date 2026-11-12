@@ -31,7 +31,7 @@ type V2BillingProfileParams struct {
 	Params `form:"*"`
 	// The ID of the customer object.
 	Customer *string `form:"customer" json:"customer,omitempty"`
-	// The ID of the payment method object.
+	// The ID of the payment method object. If set to nil, the customer payment method is used.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// A customer-facing name for the billing profile.
 	// Maximum length of 250 characters.
@@ -59,7 +59,7 @@ type V2BillingProfileCreateParams struct {
 	Params `form:"*"`
 	// The ID of the customer object.
 	Customer *string `form:"customer" json:"customer"`
-	// The ID of the payment method object.
+	// The ID of the payment method object. If set to nil, the customer payment method is used.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// A customer-facing name for the billing profile.
 	// Maximum length of 250 characters.
@@ -88,7 +88,7 @@ type V2BillingProfileRetrieveParams struct {
 // Update a BillingProfile object.
 type V2BillingProfileUpdateParams struct {
 	Params `form:"*"`
-	// The ID of the payment method object.
+	// The ID of the payment method object. If set to nil, the customer payment method is used.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// A customer-facing name for the billing profile.
 	// Maximum length of 250 characters.

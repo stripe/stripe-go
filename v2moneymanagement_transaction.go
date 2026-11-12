@@ -15,6 +15,7 @@ type V2MoneyManagementTransactionCategory string
 const (
 	V2MoneyManagementTransactionCategoryAdjustment               V2MoneyManagementTransactionCategory = "adjustment"
 	V2MoneyManagementTransactionCategoryCurrencyConversion       V2MoneyManagementTransactionCategory = "currency_conversion"
+	V2MoneyManagementTransactionCategoryHold                     V2MoneyManagementTransactionCategory = "hold"
 	V2MoneyManagementTransactionCategoryInboundTransfer          V2MoneyManagementTransactionCategory = "inbound_transfer"
 	V2MoneyManagementTransactionCategoryInboundTransferReversal  V2MoneyManagementTransactionCategory = "inbound_transfer_reversal"
 	V2MoneyManagementTransactionCategoryOutboundPayment          V2MoneyManagementTransactionCategory = "outbound_payment"
@@ -37,6 +38,7 @@ const (
 	V2MoneyManagementTransactionFlowTypeAdjustment         V2MoneyManagementTransactionFlowType = "adjustment"
 	V2MoneyManagementTransactionFlowTypeCurrencyConversion V2MoneyManagementTransactionFlowType = "currency_conversion"
 	V2MoneyManagementTransactionFlowTypeFeeBatch           V2MoneyManagementTransactionFlowType = "fee_batch"
+	V2MoneyManagementTransactionFlowTypeHold               V2MoneyManagementTransactionFlowType = "hold"
 	V2MoneyManagementTransactionFlowTypeInboundTransfer    V2MoneyManagementTransactionFlowType = "inbound_transfer"
 	V2MoneyManagementTransactionFlowTypeOutboundPayment    V2MoneyManagementTransactionFlowType = "outbound_payment"
 	V2MoneyManagementTransactionFlowTypeOutboundTransfer   V2MoneyManagementTransactionFlowType = "outbound_transfer"
@@ -97,6 +99,8 @@ type V2MoneyManagementTransactionFlow struct {
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
 	// If applicable, the ID of the FeeBatch that created this Transaction.
 	FeeBatch string `json:"fee_batch,omitempty"`
+	// If applicable, the ID of the Hold that created this Transaction.
+	Hold string `json:"hold,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.

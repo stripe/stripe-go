@@ -43,7 +43,7 @@ const (
 	ChargePaymentMethodDetailsAmazonPayFundingTypeCard ChargePaymentMethodDetailsAmazonPayFundingType = "card"
 )
 
-// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
 
 // List of values that ChargePaymentMethodDetailsCardChecksAddressLine1Check can take
@@ -54,7 +54,7 @@ const (
 	ChargePaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   ChargePaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
 )
 
-// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck string
 
 // List of values that ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
@@ -239,6 +239,96 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// Status of a card based on the card issuer.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatus string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatus can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatusRegulated   ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatus = "regulated"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatusUnregulated ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatus = "unregulated"
+)
+
+// For authenticated transactions: how the customer was authenticated by
+// the issuing bank.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlow string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlow can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlowChallenge    ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlow = "challenge"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlow = "frictionless"
+)
+
+// The Electronic Commerce Indicator (ECI). A protocol-level field
+// indicating what degree of authentication was performed.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator01 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "01"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator02 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "02"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator05 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "05"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator06 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "06"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator07 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicator can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicatorLowRisk ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicator = "low_risk"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicatorNone    ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicator = "none"
+)
+
+// Indicates the outcome of 3D Secure authentication.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "attempt_acknowledged"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultDataShareOnly       ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "data_share_only"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultExempted            ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "exempted"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "failed"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "not_supported"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult = "processing_error"
+)
+
+// Additional information about why 3D Secure succeeded or failed based
+// on the `result`.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonAbandoned           ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "abandoned"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonBypassed            ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "bypassed"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonCanceled            ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "canceled"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonCardNotEnrolled     ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "card_not_enrolled"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonNetworkNotSupported ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "network_not_supported"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonProtocolError       ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "protocol_error"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason = "rejected"
+)
+
+// The version of 3D Secure that was used.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion102 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion = "1.0.2"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion210 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion = "2.1.0"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion220 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion = "2.2.0"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion230 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion = "2.3.0"
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion231 ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion = "2.3.1"
+)
+
+// The type of funding source used for this Link payment.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceType string
+
+// List of values that ChargePaymentMethodDetailsCardWalletLinkFundingSourceType can take
+const (
+	ChargePaymentMethodDetailsCardWalletLinkFundingSourceTypeCard ChargePaymentMethodDetailsCardWalletLinkFundingSourceType = "card"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
@@ -376,6 +466,96 @@ const (
 	ChargePaymentMethodDetailsKrCardBrandSuhyup      ChargePaymentMethodDetailsKrCardBrand = "suhyup"
 	ChargePaymentMethodDetailsKrCardBrandTossbank    ChargePaymentMethodDetailsKrCardBrand = "tossbank"
 	ChargePaymentMethodDetailsKrCardBrandWoori       ChargePaymentMethodDetailsKrCardBrand = "woori"
+)
+
+// Status of a card based on the card issuer.
+type ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatus string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatus can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatusRegulated   ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatus = "regulated"
+	ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatusUnregulated ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatus = "unregulated"
+)
+
+// For authenticated transactions: how the customer was authenticated by
+// the issuing bank.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlow string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlow can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlowChallenge    ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlow = "challenge"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlow = "frictionless"
+)
+
+// The Electronic Commerce Indicator (ECI). A protocol-level field
+// indicating what degree of authentication was performed.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator01 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "01"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator02 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "02"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator05 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "05"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator06 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "06"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator07 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicator string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicator can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicatorLowRisk ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicator = "low_risk"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicatorNone    ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicator = "none"
+)
+
+// Indicates the outcome of 3D Secure authentication.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "attempt_acknowledged"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultDataShareOnly       ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "data_share_only"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultExempted            ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "exempted"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultFailed              ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "failed"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "not_supported"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult = "processing_error"
+)
+
+// Additional information about why 3D Secure succeeded or failed based
+// on the `result`.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonAbandoned           ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "abandoned"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonBypassed            ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "bypassed"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonCanceled            ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "canceled"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonCardNotEnrolled     ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "card_not_enrolled"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonNetworkNotSupported ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "network_not_supported"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonProtocolError       ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "protocol_error"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason = "rejected"
+)
+
+// The version of 3D Secure that was used.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion102 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion = "1.0.2"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion210 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion = "2.1.0"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion220 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion = "2.2.0"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion230 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion = "2.3.0"
+	ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion231 ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion = "2.3.1"
+)
+
+// The type of funding source used for this Link payment.
+type ChargePaymentMethodDetailsLinkFundingSourceType string
+
+// List of values that ChargePaymentMethodDetailsLinkFundingSourceType can take
+const (
+	ChargePaymentMethodDetailsLinkFundingSourceTypeCard ChargePaymentMethodDetailsLinkFundingSourceType = "card"
 )
 
 // An array of conditions that are covered for the transaction, if applicable.
@@ -3655,9 +3835,9 @@ type ChargePaymentMethodDetailsBoleto struct {
 
 // Check results by Card networks on Card address and CVC at time of payment.
 type ChargePaymentMethodDetailsCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check ChargePaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck ChargePaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
@@ -3730,9 +3910,103 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
+
+// Check results by Card networks on Card address and CVC at time of payment.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardChecks struct {
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressLine1Check string `json:"address_line1_check"`
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	CVCCheck string `json:"cvc_check"`
+}
+
+// If this card has network token credentials, this contains the details of the network token credentials.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardNetworkToken struct {
+	// Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
+	Used bool `json:"used"`
+}
+
+// Populated if this transaction used 3D Secure authentication.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecure struct {
+	// For authenticated transactions: how the customer was authenticated by
+	// the issuing bank.
+	AuthenticationFlow ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field
+	// indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
+	// the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResult `json:"result"`
+	// Additional information about why 3D Secure succeeded or failed based
+	// on the `result`.
+	ResultReason ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureResultReason `json:"result_reason"`
+	// The 3D Secure 1 XID or 3D Secure 2 Directory Server Transaction ID
+	// (dsTransId) for this payment.
+	TransactionID string `json:"transaction_id"`
+	// The version of 3D Secure that was used.
+	Version ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecureVersion `json:"version"`
+}
+type ChargePaymentMethodDetailsCardWalletLinkFundingSourceCard struct {
+	// The authorized amount.
+	AmountAuthorized int64 `json:"amount_authorized"`
+	// Authorization code on the charge.
+	AuthorizationCode string `json:"authorization_code"`
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	Brand string `json:"brand"`
+	// Check results by Card networks on Card address and CVC at time of payment.
+	Checks *ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardChecks `json:"checks"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description,omitempty"`
+	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. This is the network's final ECI and can differ from the request value. An authenticated ECI alone doesn't determine liability shift.
+	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint,omitempty"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin,omitempty"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer,omitempty"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
+	// If this card has network token credentials, this contains the details of the network token credentials.
+	NetworkToken *ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardNetworkToken `json:"network_token,omitempty"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	NetworkTransactionID string `json:"network_transaction_id"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardRegulatedStatus `json:"regulated_status"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *ChargePaymentMethodDetailsCardWalletLinkFundingSourceCardThreeDSecure `json:"three_d_secure"`
+	// Transaction Link ID (TLID) is a unique identifier for a transaction. This is used by some card networks, such as Mastercard, for transaction linking, in addition to Network Transaction IDs. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	TransactionLinkID string `json:"transaction_link_id"`
+}
+
+// Details about the funding sources used for this Link payment.
+type ChargePaymentMethodDetailsCardWalletLinkFundingSource struct {
+	Card *ChargePaymentMethodDetailsCardWalletLinkFundingSourceCard `json:"card"`
+	// The type of funding source used for this Link payment.
+	Type ChargePaymentMethodDetailsCardWalletLinkFundingSourceType `json:"type"`
+}
 type ChargePaymentMethodDetailsCardWalletLink struct {
 	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
 	FundingSourceGroup string `json:"funding_source_group"`
+	// Details about the funding sources used for this Link payment.
+	FundingSources []*ChargePaymentMethodDetailsCardWalletLinkFundingSource `json:"funding_sources,omitempty"`
 }
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
 	// Owner's verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
@@ -4134,12 +4408,106 @@ type ChargePaymentMethodDetailsKrCard struct {
 	// The Korean Card transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
+
+// Check results by Card networks on Card address and CVC at time of payment.
+type ChargePaymentMethodDetailsLinkFundingSourceCardChecks struct {
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressLine1Check string `json:"address_line1_check"`
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	CVCCheck string `json:"cvc_check"`
+}
+
+// If this card has network token credentials, this contains the details of the network token credentials.
+type ChargePaymentMethodDetailsLinkFundingSourceCardNetworkToken struct {
+	// Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
+	Used bool `json:"used"`
+}
+
+// Populated if this transaction used 3D Secure authentication.
+type ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecure struct {
+	// For authenticated transactions: how the customer was authenticated by
+	// the issuing bank.
+	AuthenticationFlow ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field
+	// indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
+	// the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied,omitempty"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResult `json:"result"`
+	// Additional information about why 3D Secure succeeded or failed based
+	// on the `result`.
+	ResultReason ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureResultReason `json:"result_reason"`
+	// The 3D Secure 1 XID or 3D Secure 2 Directory Server Transaction ID
+	// (dsTransId) for this payment.
+	TransactionID string `json:"transaction_id"`
+	// The version of 3D Secure that was used.
+	Version ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecureVersion `json:"version"`
+}
+type ChargePaymentMethodDetailsLinkFundingSourceCard struct {
+	// The authorized amount.
+	AmountAuthorized int64 `json:"amount_authorized"`
+	// Authorization code on the charge.
+	AuthorizationCode string `json:"authorization_code"`
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	Brand string `json:"brand"`
+	// Check results by Card networks on Card address and CVC at time of payment.
+	Checks *ChargePaymentMethodDetailsLinkFundingSourceCardChecks `json:"checks"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description,omitempty"`
+	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. This is the network's final ECI and can differ from the request value. An authenticated ECI alone doesn't determine liability shift.
+	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint,omitempty"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin,omitempty"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer,omitempty"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
+	// If this card has network token credentials, this contains the details of the network token credentials.
+	NetworkToken *ChargePaymentMethodDetailsLinkFundingSourceCardNetworkToken `json:"network_token,omitempty"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	NetworkTransactionID string `json:"network_transaction_id"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus ChargePaymentMethodDetailsLinkFundingSourceCardRegulatedStatus `json:"regulated_status"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *ChargePaymentMethodDetailsLinkFundingSourceCardThreeDSecure `json:"three_d_secure"`
+	// Transaction Link ID (TLID) is a unique identifier for a transaction. This is used by some card networks, such as Mastercard, for transaction linking, in addition to Network Transaction IDs. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	TransactionLinkID string `json:"transaction_link_id"`
+}
+
+// Details about the funding sources used for this Link payment.
+type ChargePaymentMethodDetailsLinkFundingSource struct {
+	Card *ChargePaymentMethodDetailsLinkFundingSourceCard `json:"card"`
+	// The type of funding source used for this Link payment.
+	Type ChargePaymentMethodDetailsLinkFundingSourceType `json:"type"`
+}
 type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
 	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
 	FundingSourceGroup string `json:"funding_source_group,omitempty"`
+	// Details about the funding sources used for this Link payment.
+	FundingSources []*ChargePaymentMethodDetailsLinkFundingSource `json:"funding_sources,omitempty"`
 }
 type ChargePaymentMethodDetailsMbWay struct{}
 
@@ -4255,7 +4623,10 @@ type ChargePaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name,omitempty"`
 }
-type ChargePaymentMethodDetailsPaypay struct{}
+type ChargePaymentMethodDetailsPaypay struct {
+	// Uniquely identifies this particular PayPay account. You can use this attribute to check whether two PayPay accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
 type ChargePaymentMethodDetailsPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`

@@ -33,7 +33,7 @@ const (
 	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
 )
 
-// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentMethodCardChecksAddressLine1Check string
 
 // List of values that PaymentMethodCardChecksAddressLine1Check can take
@@ -44,7 +44,7 @@ const (
 	PaymentMethodCardChecksAddressLine1CheckUnchecked   PaymentMethodCardChecksAddressLine1Check = "unchecked"
 )
 
-// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentMethodCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentMethodCardChecksAddressPostalCodeCheck can take
@@ -1784,9 +1784,9 @@ type PaymentMethodBoleto struct {
 
 // Checks on Card address and CVC if provided.
 type PaymentMethodCardChecks struct {
-	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check PaymentMethodCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If an address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentMethodCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`

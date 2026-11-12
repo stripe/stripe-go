@@ -170,6 +170,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsParams str
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process BACS Direct Debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -178,6 +184,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsParams struc
 
 // Allow the merchant to process Bancontact payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -290,6 +302,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process MobilePay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -310,6 +328,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams 
 
 // Allow the merchant to process Naver Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -340,6 +364,18 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsParams struct {
 
 // Allow the merchant to process PayNow payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -432,10 +468,14 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	AmazonPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
 	// Allow the merchant to process Australian BECS Direct Debit payments.
 	AUBECSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
+	// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+	AutomaticIndirectTax *V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 	// Allow the merchant to process BACS Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -472,6 +512,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -480,6 +522,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -490,6 +534,10 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -550,8 +598,51 @@ type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams struct {
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -650,6 +741,8 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA Direct Debit payments.
@@ -670,6 +763,12 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUD
 
 // Can receive business storage-type funds on Stripe in CAD.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in DKK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -698,6 +797,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundPar
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
@@ -714,6 +815,12 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAU
 
 // Can send business storage-type funds on Stripe in CAD.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in DKK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -742,6 +849,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundPa
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
@@ -938,7 +1047,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -946,7 +1055,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -962,7 +1071,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -978,7 +1087,7 @@ type V2CoreAccountConfigurationParams struct {
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
 	MoneyManager *V2CoreAccountConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -994,9 +1103,9 @@ type V2CoreAccountDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations. Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 }
 
@@ -1084,6 +1193,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
+	// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+	CryptoTransfersZerohashRecipient *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams `form:"crypto_transfers_zerohash_recipient" json:"crypto_transfers_zerohash_recipient,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	MoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
@@ -1698,7 +1809,7 @@ type V2CoreAccountParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountDefaultsParams `form:"defaults" json:"defaults,omitempty"`
@@ -1723,6 +1834,16 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value *string) {
 
 // Details on the Account's acceptance of Crypto-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -1880,6 +2001,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesAUBECSDebitPaymentsPara
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process BACS Direct Debit payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -1888,6 +2015,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams
 
 // Allow the merchant to process Bancontact payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2000,6 +2133,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesLinkPaymentsParams stru
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process MobilePay payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesMobilepayPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2020,6 +2159,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesMXBankTransferPaymentsP
 
 // Allow the merchant to process Naver Pay payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2050,6 +2195,18 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesPaycoPaymentsParams str
 
 // Allow the merchant to process PayNow payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2142,10 +2299,14 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	AmazonPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
 	// Allow the merchant to process Australian BECS Direct Debit payments.
 	AUBECSDebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
+	// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+	AutomaticIndirectTax *V2CoreAccountCreateConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 	// Allow the merchant to process BACS Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -2182,6 +2343,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -2190,6 +2353,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -2200,6 +2365,10 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -2260,8 +2429,51 @@ type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams struct
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -2319,7 +2531,7 @@ type V2CoreAccountCreateConfigurationMerchantSupportAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2358,6 +2570,8 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA Direct Debit payments.
@@ -2378,6 +2592,12 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 
 // Can receive business storage-type funds on Stripe in CAD.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe in DKK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2406,6 +2626,8 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
@@ -2422,6 +2644,12 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 
 // Can send business storage-type funds on Stripe in CAD.
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe in DKK.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2450,6 +2678,8 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
@@ -2644,7 +2874,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams st
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2652,7 +2882,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -2668,7 +2898,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountCreateConfigurationRecipientParams struct {
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountCreateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
@@ -2682,7 +2912,7 @@ type V2CoreAccountCreateConfigurationParams struct {
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
 	MoneyManager *V2CoreAccountCreateConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountCreateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -2698,9 +2928,9 @@ type V2CoreAccountCreateDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountCreateDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk).
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 }
 
@@ -2827,7 +3057,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3017,7 +3247,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanaParams struct 
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3035,7 +3265,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanjiParams struct
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3111,7 +3341,7 @@ type V2CoreAccountCreateIdentityIndividualAdditionalAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3143,7 +3373,7 @@ type V2CoreAccountCreateIdentityIndividualAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3263,7 +3493,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3281,7 +3511,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanjiParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3398,7 +3628,7 @@ type V2CoreAccountCreateParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountCreateDefaultsParams `form:"defaults" json:"defaults,omitempty"`
@@ -3576,6 +3806,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesAUBECSDebitPaymentsPara
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process BACS Direct Debit payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3584,6 +3820,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams
 
 // Allow the merchant to process Bancontact payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3696,6 +3938,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesLinkPaymentsParams stru
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process MobilePay payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMobilepayPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3716,6 +3964,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMXBankTransferPaymentsP
 
 // Allow the merchant to process Naver Pay payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3746,6 +4000,18 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaycoPaymentsParams str
 
 // Allow the merchant to process PayNow payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3838,10 +4104,14 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	AmazonPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
 	// Allow the merchant to process Australian BECS Direct Debit payments.
 	AUBECSDebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
+	// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+	AutomaticIndirectTax *V2CoreAccountUpdateConfigurationMerchantCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 	// Allow the merchant to process BACS Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -3878,6 +4148,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -3886,6 +4158,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -3896,6 +4170,10 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -3956,8 +4234,51 @@ type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams struct
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -4056,6 +4377,8 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings for SEPA Direct Debit payments.
@@ -4076,6 +4399,12 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 
 // Can receive business storage-type funds on Stripe in CAD.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in DKK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -4104,6 +4433,8 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInbo
 	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
@@ -4120,6 +4451,12 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 
 // Can send business storage-type funds on Stripe in CAD.
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in DKK.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -4148,6 +4485,8 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutb
 	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKParams `form:"dkk" json:"dkk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
@@ -4344,7 +4683,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams st
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -4352,7 +4691,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -4368,7 +4707,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -4384,7 +4723,7 @@ type V2CoreAccountUpdateConfigurationParams struct {
 	Merchant *V2CoreAccountUpdateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
 	MoneyManager *V2CoreAccountUpdateConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountUpdateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -4400,9 +4739,9 @@ type V2CoreAccountUpdateDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountUpdateDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations. Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 }
 
@@ -4484,6 +4823,16 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerPara
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4500,6 +4849,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
+	// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+	CryptoTransfersZerohashRecipient *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams `form:"crypto_transfers_zerohash_recipient" json:"crypto_transfers_zerohash_recipient,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	MoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
@@ -5114,7 +5465,7 @@ type V2CoreAccountUpdateParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountUpdateDefaultsParams `form:"defaults" json:"defaults,omitempty"`

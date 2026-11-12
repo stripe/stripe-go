@@ -66,6 +66,18 @@ func (c v2MoneyManagementOutboundSetupIntentService) Cancel(ctx context.Context,
 	return outboundsetupintent, err
 }
 
+// Create an OutboundSetupIntent object.
+func (c v2MoneyManagementOutboundSetupIntentService) FromFinancialConnections(ctx context.Context, params *V2MoneyManagementOutboundSetupIntentFromFinancialConnectionsParams) (*V2MoneyManagementOutboundSetupIntent, error) {
+	if params == nil {
+		params = &V2MoneyManagementOutboundSetupIntentFromFinancialConnectionsParams{}
+	}
+	params.Context = ctx
+	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/outbound_setup_intents/from_financial_connections", c.Key, params, outboundsetupintent)
+	return outboundsetupintent, err
+}
+
 // List the OutboundSetupIntent objects.
 func (c v2MoneyManagementOutboundSetupIntentService) List(ctx context.Context, listParams *V2MoneyManagementOutboundSetupIntentListParams) *V2List[*V2MoneyManagementOutboundSetupIntent] {
 	if listParams == nil {
