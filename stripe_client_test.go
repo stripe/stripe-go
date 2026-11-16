@@ -1,10 +1,12 @@
 package stripe_test
 
 import (
+	"bytes"
 	"context"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -210,6 +212,38 @@ func TestParseUnknownEventNotification(t *testing.T) {
 	// just returns nill
 	_, err = notif.FetchRelatedObject(context.TODO())
 	assert.Nil(t, err)
+}
+
+// Integrations commonly log webhook payloads with fmt or slog, so neither may
+// print the API key held by the client.
+func formatsWithoutKey(t *testing.T, v interface{}, key string) {
+	t.Helper()
+	for _, verb := range []string{"%v", "%+v", "%#v", "%s", "%q"} {
+		assert.NotContains(t, fmt.Sprintf(verb, v), key, verb)
+	}
+	var buf bytes.Buffer
+	slog.New(slog.NewTextHandler(&buf, nil)).Info("event", "value", v)
+	assert.NotContains(t, buf.String(), key, "slog.TextHandler")
+}
+
+func TestPrintingEventNotificationDoesNotLeakAPIKey(t *testing.T) {
+	key := "sk_test_do_not_print"
+	client := stripe.NewClient(key)
+	for _, payload := range []string{
+		`{"id": "evt_123", "object": "v2.core.event", "type": "v1.billing.meter.error_report_triggered", "related_object": {"id": "mtr_123", "type": "billing.meter", "url": "/v1/billing/meters/mtr_123"}}`,
+		`{"id": "evt_456", "object": "v2.core.event", "type": "imaginary"}`,
+	} {
+		notif, err := client.ParseEventNotificationWithoutVerification([]byte(payload))
+		assert.NoError(t, err)
+		formatsWithoutKey(t, notif, key)
+	}
+}
+
+func TestPrintingClientDoesNotLeakAPIKey(t *testing.T) {
+	key := "sk_test_do_not_print"
+	client := stripe.NewClient(key)
+	formatsWithoutKey(t, client, key)
+	assert.Equal(t, fmt.Sprintf("stripe.Client(%p)", client), fmt.Sprintf("%+v", client))
 }
 
 func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {

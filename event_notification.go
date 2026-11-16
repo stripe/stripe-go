@@ -27,7 +27,7 @@ type V2CoreEventNotification struct {
 	// [Optional] Reason for the event
 	Reason *V2CoreEventReason `json:"reason"`
 
-	client Client
+	client *Client
 }
 
 func (n *V2CoreEventNotification) GetEventNotification() *V2CoreEventNotification {
@@ -85,6 +85,6 @@ func (n *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 
-	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
+	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, *n.client.key, params, obj)
 	return obj, err
 }
