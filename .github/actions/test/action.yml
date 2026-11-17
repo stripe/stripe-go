@@ -80,7 +80,7 @@ runs:
       uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
         go-version: ${{ inputs.go-version }}
-    - uses: stripe/openapi/actions/stripe-mock@master
+    - uses: stripe/openapi/actions/stripe-mock@zacchua/pin-stripe-mock
       with:
         openapi_version: ${{ steps.openapi.outputs.version }}
         spec_path: ${{ steps.openapi.outputs.spec_path }}
