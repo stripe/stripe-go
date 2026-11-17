@@ -243,7 +243,9 @@ func TestPrintingClientDoesNotLeakAPIKey(t *testing.T) {
 	key := "sk_test_do_not_print"
 	client := stripe.NewClient(key)
 	formatsWithoutKey(t, client, key)
-	assert.Equal(t, fmt.Sprintf("stripe.Client(%p)", client), fmt.Sprintf("%+v", client))
+	formatsWithoutKey(t, *client, key)
+	assert.Equal(t, "stripe.Client{...}", fmt.Sprintf("%+v", client))
+	assert.Equal(t, "stripe.Client{...}", fmt.Sprintf("%+v", *client))
 }
 
 func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {

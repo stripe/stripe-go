@@ -595,9 +595,10 @@ func WithBackends(backends *Backends) ClientOption {
 }
 
 // Format implements [fmt.Formatter] so that printing a Client with fmt or
-// slog's TextHandler doesn't write out its API key.
-func (c *Client) Format(f fmt.State, verb rune) {
-	_, _ = fmt.Fprintf(f, "stripe.Client(%p)", c)
+// slog's TextHandler doesn't write out its API key. It has a value receiver so
+// that it also covers Client values, not just pointers.
+func (c Client) Format(f fmt.State, verb rune) {
+	_, _ = fmt.Fprint(f, "stripe.Client{...}")
 }
 
 // ConstructEvent constructs a [snapshot event] from an incoming webhook after
