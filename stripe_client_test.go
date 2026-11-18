@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 	"time"
 
@@ -229,13 +230,44 @@ func formatsWithoutKey(t *testing.T, v interface{}, key string) {
 func TestPrintingEventNotificationDoesNotLeakAPIKey(t *testing.T) {
 	key := "sk_test_do_not_print"
 	client := stripe.NewClient(key)
-	for _, payload := range []string{
-		`{"id": "evt_123", "object": "v2.core.event", "type": "v1.billing.meter.error_report_triggered", "related_object": {"id": "mtr_123", "type": "billing.meter", "url": "/v1/billing/meters/mtr_123"}}`,
-		`{"id": "evt_456", "object": "v2.core.event", "type": "imaginary"}`,
-	} {
-		notif, err := client.ParseEventNotificationWithoutVerification([]byte(payload))
-		assert.NoError(t, err)
-		formatsWithoutKey(t, notif, key)
+	tests := []struct {
+		name    string
+		payload string
+		// printed output must still include this, so redaction doesn't drop fields
+		wantInOutput string
+	}{
+		{
+			name:         "with related object",
+			payload:      `{"id": "evt_123", "object": "v2.core.event", "type": "v1.billing.meter.error_report_triggered", "related_object": {"id": "mtr_123", "type": "billing.meter", "url": "/v1/billing/meters/mtr_123"}}`,
+			wantInOutput: "RelatedObject:{ID:mtr_123",
+		},
+		{
+			name:         "with singleton related object",
+			payload:      `{"id": "evt_234", "object": "v2.core.event", "type": "v1.balance.available", "related_object": {"type": "balance", "url": "/v1/balance"}}`,
+			wantInOutput: "RelatedObject:{Type:balance URL:/v1/balance}",
+		},
+		{
+			name:         "without related object",
+			payload:      `{"id": "evt_345", "object": "v2.core.event", "type": "v1.account.application.authorized"}`,
+			wantInOutput: "ID:evt_345",
+		},
+		{
+			name:         "unknown event type",
+			payload:      `{"id": "evt_456", "object": "v2.core.event", "type": "imaginary", "related_object": {"id": "llama_123", "type": "llama", "url": "/v1/llamas/llama_123"}}`,
+			wantInOutput: "RelatedObject:0x",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			notif, err := client.ParseEventNotificationWithoutVerification([]byte(tt.payload))
+			assert.NoError(t, err)
+
+			formatsWithoutKey(t, notif, key)
+			formatsWithoutKey(t, reflect.ValueOf(notif).Elem().Interface(), key)
+			formatsWithoutKey(t, notif.GetEventNotification(), key)
+			formatsWithoutKey(t, *notif.GetEventNotification(), key)
+			assert.Contains(t, fmt.Sprintf("%+v", notif), tt.wantInOutput)
+		})
 	}
 }
 

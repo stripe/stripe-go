@@ -361,9 +361,7 @@ type Client struct {
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
 	backends *Backends
-	// A pointer, not a string, so that fmt prints an address rather than the
-	// key when it reaches a Client through an unexported field.
-	key *string
+	key      string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -394,7 +392,7 @@ func initClient(client *Client, cfg clientConfig) {
 	backends := cfg.backends
 	key := cfg.key
 	client.backends = backends
-	client.key = &key
+	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}

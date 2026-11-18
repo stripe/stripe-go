@@ -527,7 +527,7 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 	var receivedContext *string
 
 	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
-		receivedAPIKey = *client.key
+		receivedAPIKey = client.key
 		receivedContext = client.backends.config.StripeContext
 		return nil
 	}
