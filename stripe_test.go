@@ -2010,6 +2010,52 @@ func TestIdempotencyKey(t *testing.T) {
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
 }
 
+func TestIdempotencyKey_GeneratedForWriteWithoutParams(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+
+	req, err := c.NewRequest(http.MethodPost, "/v1/hello", "", "", nil)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req.Header.Get("Idempotency-Key"))
+
+	req, err = c.NewRequest(http.MethodGet, "/v1/hello", "", "", nil)
+	assert.NoError(t, err)
+	assert.Empty(t, req.Header.Get("Idempotency-Key"))
+}
+
+func TestRawRequest_RetriesReuseIdempotencyKeyWithoutParams(t *testing.T) {
+	var keys []string
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		keys = append(keys, r.Header.Get("Idempotency-Key"))
+		if len(keys) < 3 {
+			w.WriteHeader(http.StatusInternalServerError)
+			_, err := w.Write([]byte(`{"error":{"type":"api_error"}}`))
+			assert.NoError(t, err)
+			return
+		}
+		_, err := w.Write([]byte(`{"id":"ch_123","object":"charge"}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     nullLeveledLogger,
+			MaxNetworkRetries: Int64(2),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+	backend.SetNetworkRetriesSleep(false)
+
+	_, err := backend.RawRequest(http.MethodPost, "/v1/charges", "sk_test_123", "amount=100&currency=usd", nil)
+	assert.NoError(t, err)
+
+	assert.Len(t, keys, 3)
+	assert.NotEmpty(t, keys[0])
+	assert.Equal(t, keys[0], keys[1])
+	assert.Equal(t, keys[0], keys[2])
+}
+
 func TestNewBackends(t *testing.T) {
 	httpClient := &http.Client{}
 	backends := NewBackends(httpClient)

@@ -32,7 +32,7 @@ type TestHelpersTreasuryOutboundTransferTrackingDetailsParams struct {
 	USDomesticWire *TestHelpersTreasuryOutboundTransferTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
-// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and can't be in the canceled or failed states.
 type TestHelpersTreasuryOutboundTransferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -46,7 +46,7 @@ func (p *TestHelpersTreasuryOutboundTransferParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 type TestHelpersTreasuryOutboundTransferFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -58,7 +58,7 @@ func (p *TestHelpersTreasuryOutboundTransferFailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 type TestHelpersTreasuryOutboundTransferPostParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -76,7 +76,7 @@ type TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsPar
 	Code *string `form:"code" json:"code,omitempty"`
 }
 
-// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the returned status. The OutboundTransfer must already be in the posted state.
 type TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -116,7 +116,7 @@ type TestHelpersTreasuryOutboundTransferUpdateTrackingDetailsParams struct {
 	USDomesticWire *TestHelpersTreasuryOutboundTransferUpdateTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
-// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and can't be in the canceled or failed states.
 type TestHelpersTreasuryOutboundTransferUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

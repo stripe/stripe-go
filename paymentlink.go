@@ -699,6 +699,7 @@ type PaymentLinkPaymentIntentDataParams struct {
 type PaymentLinkPaymentIntentDataParamsUnsetField string
 
 const (
+	PaymentLinkPaymentIntentDataParamsUnsetFieldCaptureMethod             PaymentLinkPaymentIntentDataParamsUnsetField = "capture_method"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldDescription               PaymentLinkPaymentIntentDataParamsUnsetField = "description"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldMetadata                  PaymentLinkPaymentIntentDataParamsUnsetField = "metadata"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldSetupFutureUsage          PaymentLinkPaymentIntentDataParamsUnsetField = "setup_future_usage"
@@ -1506,7 +1507,20 @@ type PaymentLinkCreatePaymentIntentDataParams struct {
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
-	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
+	TransferGroup *string                                              `form:"transfer_group" json:"transfer_group,omitempty"`
+	UnsetFields   []PaymentLinkCreatePaymentIntentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkCreatePaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreatePaymentIntentDataParams.
+type PaymentLinkCreatePaymentIntentDataParamsUnsetField string
+
+const (
+	PaymentLinkCreatePaymentIntentDataParamsUnsetFieldCaptureMethod PaymentLinkCreatePaymentIntentDataParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkCreatePaymentIntentDataParams) AddUnsetField(field PaymentLinkCreatePaymentIntentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2100,6 +2114,8 @@ type PaymentLinkUpdateOptionalItemParams struct {
 
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type PaymentLinkUpdatePaymentIntentDataParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
@@ -2131,6 +2147,7 @@ type PaymentLinkUpdatePaymentIntentDataParams struct {
 type PaymentLinkUpdatePaymentIntentDataParamsUnsetField string
 
 const (
+	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldCaptureMethod             PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "capture_method"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldDescription               PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "description"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldMetadata                  PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "metadata"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldSetupFutureUsage          PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "setup_future_usage"

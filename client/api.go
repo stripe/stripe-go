@@ -158,6 +158,7 @@ import (
 	terminalonboardinglink "github.com/stripe/stripe-go/v87/terminal/onboardinglink"
 	terminalreader "github.com/stripe/stripe-go/v87/terminal/reader"
 	terminalreadercollecteddata "github.com/stripe/stripe-go/v87/terminal/readercollecteddata"
+	testhelperscapitalfinancingoffer "github.com/stripe/stripe-go/v87/testhelpers/capital/financingoffer"
 	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v87/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v87/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v87/testhelpers/issuing/authorization"
@@ -190,7 +191,6 @@ import (
 	treasurytransactionentry "github.com/stripe/stripe-go/v87/treasury/transactionentry"
 	v2billingbillsetting "github.com/stripe/stripe-go/v87/v2/billing/billsetting"
 	v2billingbillsettingsversion "github.com/stripe/stripe-go/v87/v2/billing/billsettings/version"
-	v2billingcadence "github.com/stripe/stripe-go/v87/v2/billing/cadence"
 	v2billingcollectionsetting "github.com/stripe/stripe-go/v87/v2/billing/collectionsetting"
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v87/v2/billing/collectionsettings/version"
 	v2billingmeterevent "github.com/stripe/stripe-go/v87/v2/billing/meterevent"
@@ -205,6 +205,7 @@ import (
 	v2coreaccounttoken "github.com/stripe/stripe-go/v87/v2/core/accounttoken"
 	v2coreapprovalrequest "github.com/stripe/stripe-go/v87/v2/core/approvalrequest"
 	v2corebatchjob "github.com/stripe/stripe-go/v87/v2/core/batchjob"
+	v2coreclaimablesandbox "github.com/stripe/stripe-go/v87/v2/core/claimablesandbox"
 	v2coreevent "github.com/stripe/stripe-go/v87/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v87/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v87/v2/core/vault/gbbankaccount"
@@ -539,6 +540,8 @@ type API struct {
 	TerminalReaderCollectedData *terminalreadercollecteddata.Client
 	// TerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
+	// TestHelpersCapitalFinancingOffers is the client used to invoke /v1/capital/financing_offers APIs.
+	TestHelpersCapitalFinancingOffers *testhelperscapitalfinancingoffer.Client
 	// TestHelpersConfirmationTokens is the client used to invoke /v1/confirmation_tokens APIs.
 	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
 	// TestHelpersCustomers is the client used to invoke /v1/customers APIs.
@@ -603,8 +606,6 @@ type API struct {
 	V2BillingBillSettings *v2billingbillsetting.Client
 	// V2BillingBillSettingsVersions is the client used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
 	V2BillingBillSettingsVersions *v2billingbillsettingsversion.Client
-	// V2BillingCadences is the client used to invoke /v2/billing/cadences APIs.
-	V2BillingCadences *v2billingcadence.Client
 	// V2BillingCollectionSettings is the client used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2billingcollectionsetting.Client
 	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
@@ -633,6 +634,8 @@ type API struct {
 	V2CoreApprovalRequests *v2coreapprovalrequest.Client
 	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2corebatchjob.Client
+	// V2CoreClaimableSandboxes is the client used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2coreclaimablesandbox.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -866,6 +869,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalOnboardingLinks = &terminalonboardinglink.Client{B: backends.API, Key: key}
 	a.TerminalReaderCollectedData = &terminalreadercollecteddata.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.TestHelpersCapitalFinancingOffers = &testhelperscapitalfinancingoffer.Client{B: backends.API, Key: key}
 	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
@@ -898,7 +902,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
-	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
@@ -913,6 +916,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
 	a.V2CoreApprovalRequests = &v2coreapprovalrequest.Client{B: backends.API, Key: key}
 	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
+	a.V2CoreClaimableSandboxes = &v2coreclaimablesandbox.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}

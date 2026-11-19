@@ -19,7 +19,7 @@ type v1ReservePlanService struct {
 	Key string
 }
 
-// Retrieve a ReservePlan.
+// Retrieve a ReservePlan on your account or on one of your connected accounts.
 func (c v1ReservePlanService) Retrieve(ctx context.Context, id string, params *ReservePlanRetrieveParams) (*ReservePlan, error) {
 	if params == nil {
 		params = &ReservePlanRetrieveParams{}
@@ -31,7 +31,7 @@ func (c v1ReservePlanService) Retrieve(ctx context.Context, id string, params *R
 	return plan, err
 }
 
-// Returns a list of ReservePlans previously created. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
+// Returns a list of ReservePlans on your account or on one of your connected accounts. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
 func (c v1ReservePlanService) List(ctx context.Context, listParams *ReservePlanListParams) *V1List[*ReservePlan] {
 	if listParams == nil {
 		listParams = &ReservePlanListParams{}

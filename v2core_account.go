@@ -493,6 +493,50 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatus can take
@@ -1285,6 +1329,50 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatus can take
@@ -1458,6 +1546,50 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution = "provide_info"
 )
 
 // The status of the Capability.
@@ -1678,6 +1810,94 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution = "provide_info"
 )
 
 // The status of the Capability.
@@ -2250,6 +2470,25 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The type of goods sold by the merchant for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsType string
+
+// List of values that V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsType can take
+const (
+	V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsTypeDigitalContent V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsType = "digital_content"
+	V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsTypeOther          V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsType = "other"
+)
+
+// The status of the business's website.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType string
+
+// List of values that V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType can take
+const (
+	V2CoreAccountConfigurationMerchantPaypayPaymentsSiteTypeAccessible    V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType = "accessible"
+	V2CoreAccountConfigurationMerchantPaypayPaymentsSiteTypeInDevelopment V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType = "in_development"
+	V2CoreAccountConfigurationMerchantPaypayPaymentsSiteTypeRestricted    V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType = "restricted"
 )
 
 // The preference for automatic dispute responses.
@@ -3547,7 +3786,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailResolution = "provide_info"
 )
 
-// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 type V2CoreAccountDashboard string
 
 // List of values that V2CoreAccountDashboard can take
@@ -3557,7 +3796,7 @@ const (
 	V2CoreAccountDashboardNone    V2CoreAccountDashboard = "none"
 )
 
-// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
+// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 type V2CoreAccountDefaultsResponsibilitiesFeesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesFeesCollector can take
@@ -3568,7 +3807,7 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
-// A value indicating the responsibility for losses on this account.
+// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk).
 type V2CoreAccountDefaultsResponsibilitiesLossesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesLossesCollector can take
@@ -3859,6 +4098,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsSEPA                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.sepa"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsSwift                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.swift"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsWire                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.wire"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBilliePayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "billie_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "blik_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKRecurringPayments              V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "blik_recurring_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBoletoPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "boleto_payments"
@@ -3890,10 +4130,12 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKonbiniPayments                    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "konbini_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKrCardPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "kr_card_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityLinkPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "link_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMbWayPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "mb_way_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMobilepayPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "mobilepay_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMultibancoPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "multibanco_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMXBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "mx_bank_transfer_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityNaverPayPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "naver_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityNzBankAccountBECSDebitPayments     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "nz_bank_account_becs_debit_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards              V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
@@ -3903,7 +4145,9 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaypayPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paypay_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPixPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pix_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPromptPayPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "promptpay_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedCreditsBankAccounts        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "received_credits.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedDebitsBankAccounts         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "received_debits.bank_accounts"
@@ -4688,6 +4932,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsSEPA                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.sepa"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsSwift                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.swift"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsWire                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.wire"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBilliePayments                     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "billie_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "blik_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKRecurringPayments              V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "blik_recurring_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBoletoPayments                     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "boleto_payments"
@@ -4719,10 +4964,12 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityKonbiniPayments                    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "konbini_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityKrCardPayments                     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "kr_card_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityLinkPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "link_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityMbWayPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "mb_way_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityMobilepayPayments                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "mobilepay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityMultibancoPayments                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "multibanco_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityMXBankTransferPayments             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "mx_bank_transfer_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityNaverPayPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "naver_pay_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityNzBankAccountBECSDebitPayments     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "nz_bank_account_becs_debit_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards              V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
@@ -4732,7 +4979,9 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaypayPayments                     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paypay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPixPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "pix_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPromptPayPayments                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "promptpay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedCreditsBankAccounts        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "received_credits.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityReceivedDebitsBankAccounts         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "received_debits.bank_accounts"
@@ -5082,6 +5331,22 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPayments struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode `json:"code"`
@@ -5370,6 +5635,22 @@ type V2CoreAccountConfigurationMerchantCapabilitiesLinkPayments struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode `json:"code"`
@@ -5431,6 +5712,22 @@ type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPayments struct {
 	Status V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatus `json:"status"`
 	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsStatusDetail `json:"status_details"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
@@ -5511,6 +5808,38 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPayments struct {
 	Status V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatus `json:"status"`
 	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsStatusDetail `json:"status_details"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
@@ -5747,6 +6076,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPayments `json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPayments `json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountConfigurationMerchantCapabilitiesBilliePayments `json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPayments `json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -5783,6 +6114,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	KrCardPayments *V2CoreAccountConfigurationMerchantCapabilitiesKrCardPayments `json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountConfigurationMerchantCapabilitiesLinkPayments `json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMbWayPayments `json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPayments `json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -5791,6 +6124,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	MXBankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPayments `json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPayments `json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPayments `json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountConfigurationMerchantCapabilitiesOXXOPayments `json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -5801,6 +6136,10 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	PaycoPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaycoPayments `json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountConfigurationMerchantCapabilitiesPayNowPayments `json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaypayPayments `json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountConfigurationMerchantCapabilitiesPixPayments `json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPayments `json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -5863,8 +6202,51 @@ type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport struct {
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountConfigurationMerchantKonbiniPayments struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial string `json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport `json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessible struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopment struct {
+	// Whether a password needed to access the business's website has been provided.
+	PasswordProvided bool `json:"password_provided"`
+	// The username needed to access the business's website.
+	Username string `json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestricted struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile string `json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSite struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessible `json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopment `json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestricted `json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteType `json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPayments struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []string `json:"additional_files"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType V2CoreAccountConfigurationMerchantPaypayPaymentsGoodsType `json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountConfigurationMerchantPaypayPaymentsSite `json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL string `json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -5965,6 +6347,8 @@ type V2CoreAccountConfigurationMerchant struct {
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPayments `json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantPaypayPayments `json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptor `json:"script_statement_descriptor,omitempty"`
 	// Settings for SEPA Direct Debit payments.
@@ -6607,9 +6991,9 @@ type V2CoreAccountDefaultsProfile struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilities struct {
-	// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector,omitempty"`
-	// A value indicating the responsibility for losses on this account.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk).
 	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector,omitempty"`
 	// A value indicating responsibility for collecting requirements on this account.
 	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`
@@ -7657,7 +8041,7 @@ type V2CoreAccount struct {
 	ContactPhone string `json:"contact_phone,omitempty"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard V2CoreAccountDashboard `json:"dashboard,omitempty"`
 	// Default values for settings shared across Account configurations.
 	Defaults *V2CoreAccountDefaults `json:"defaults,omitempty"`

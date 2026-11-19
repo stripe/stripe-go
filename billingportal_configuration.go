@@ -339,7 +339,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products" json:"products,omitempty"`
-	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. If omitted, the proration behavior is unchanged.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end" json:"schedule_at_period_end,omitempty"`
@@ -621,7 +621,7 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductParams `form:"products" json:"products,omitempty"`
-	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to `none`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end" json:"schedule_at_period_end,omitempty"`
@@ -925,7 +925,7 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductParams `form:"products" json:"products,omitempty"`
-	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. If omitted, the proration behavior is unchanged.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end" json:"schedule_at_period_end,omitempty"`

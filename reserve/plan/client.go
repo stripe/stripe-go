@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a ReservePlan.
+// Retrieve a ReservePlan on your account or on one of your connected accounts.
 func Get(id string, params *stripe.ReservePlanParams) (*stripe.ReservePlan, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieve a ReservePlan.
+// Retrieve a ReservePlan on your account or on one of your connected accounts.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Get(id string, params *stripe.ReservePlanParams) (*stripe.Reserv
 	return plan, err
 }
 
-// Returns a list of ReservePlans previously created. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
+// Returns a list of ReservePlans on your account or on one of your connected accounts. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
 func List(params *stripe.ReservePlanListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of ReservePlans previously created. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
+// Returns a list of ReservePlans on your account or on one of your connected accounts. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

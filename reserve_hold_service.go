@@ -19,7 +19,7 @@ type v1ReserveHoldService struct {
 	Key string
 }
 
-// Retrieve a ReserveHold.
+// Retrieve a ReserveHold on your account or on one of your connected accounts.
 func (c v1ReserveHoldService) Retrieve(ctx context.Context, id string, params *ReserveHoldRetrieveParams) (*ReserveHold, error) {
 	if params == nil {
 		params = &ReserveHoldRetrieveParams{}
@@ -31,7 +31,7 @@ func (c v1ReserveHoldService) Retrieve(ctx context.Context, id string, params *R
 	return hold, err
 }
 
-// Returns a list of ReserveHolds previously created. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
+// Returns a list of ReserveHolds on your account or on one of your connected accounts. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
 func (c v1ReserveHoldService) List(ctx context.Context, listParams *ReserveHoldListParams) *V1List[*ReserveHold] {
 	if listParams == nil {
 		listParams = &ReserveHoldListParams{}

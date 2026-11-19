@@ -9,6 +9,8 @@ package stripe
 // Retrieves a list of ReceivedDebits, given the selected filters.
 type V2MoneyManagementReceivedDebitListParams struct {
 	Params `form:"*"`
+	// Filter ReceivedDebits by their creation time.
+	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }

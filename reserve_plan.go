@@ -49,7 +49,7 @@ const (
 	ReservePlanTypeRollingRelease ReservePlanType = "rolling_release"
 )
 
-// Returns a list of ReservePlans previously created. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
+// Returns a list of ReservePlans on your account or on one of your connected accounts. The ReservePlans are returned in sorted order, with the most recent ReservePlans appearing first.
 type ReservePlanListParams struct {
 	ListParams `form:"*"`
 	// Only return ReservePlans with the specified destination. If omitted, returns ReservePlans with any destination.
@@ -65,7 +65,7 @@ func (p *ReservePlanListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReservePlan.
+// Retrieve a ReservePlan on your account or on one of your connected accounts.
 type ReservePlanParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -77,7 +77,7 @@ func (p *ReservePlanParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReservePlan.
+// Retrieve a ReservePlan on your account or on one of your connected accounts.
 type ReservePlanRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
