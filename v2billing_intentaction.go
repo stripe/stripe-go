@@ -32,12 +32,13 @@ const (
 	V2BillingIntentActionApplyEffectiveAtTypeTimestamp                 V2BillingIntentActionApplyEffectiveAtType = "timestamp"
 )
 
-// The entity that the discount rule applies to, for example, the Billing Cadence.
+// The entity that the discount rule applies to, for example, the Billing Group.
 type V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo string
 
 // List of values that V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo can take
 const (
 	V2BillingIntentActionApplyInvoiceDiscountRuleAppliesToCadence V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo = "cadence"
+	V2BillingIntentActionApplyInvoiceDiscountRuleAppliesToGroup   V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo = "group"
 )
 
 // The type of maximum applications configuration.
@@ -321,7 +322,7 @@ type V2BillingIntentActionApplyEffectiveAt struct {
 	Type V2BillingIntentActionApplyEffectiveAtType `json:"type"`
 }
 
-// The maximum number of times this discount can be applied for this Billing Cadence.
+// The maximum number of times this discount can be applied for this billing group.
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications struct {
 	// The type of maximum applications configuration.
 	Type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsType `json:"type"`
@@ -329,7 +330,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications 
 
 // Configuration for percentage off discount.
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOff struct {
-	// The maximum number of times this discount can be applied for this Billing Cadence.
+	// The maximum number of times this discount can be applied for this billing group.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff decimal.Decimal `json:"percent_off"`
@@ -337,7 +338,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOff struct {
 
 // Details for applying a discount rule to future invoices.
 type V2BillingIntentActionApplyInvoiceDiscountRule struct {
-	// The entity that the discount rule applies to, for example, the Billing Cadence.
+	// The entity that the discount rule applies to, for example, the Billing Group.
 	AppliesTo V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo `json:"applies_to"`
 	// The ID of the created discount rule. This is only present once the Billing Intent is committed and the discount rule is created.
 	InvoiceDiscountRule string `json:"invoice_discount_rule,omitempty"`

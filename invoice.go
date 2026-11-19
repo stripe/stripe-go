@@ -119,10 +119,10 @@ type InvoiceParentType string
 
 // List of values that InvoiceParentType can take
 const (
-	InvoiceParentTypeBillingCadenceDetails InvoiceParentType = "billing_cadence_details"
-	InvoiceParentTypeQuoteDetails          InvoiceParentType = "quote_details"
-	InvoiceParentTypeScheduleDetails       InvoiceParentType = "schedule_details"
-	InvoiceParentTypeSubscriptionDetails   InvoiceParentType = "subscription_details"
+	InvoiceParentTypeBillingGroupDetails InvoiceParentType = "billing_group_details"
+	InvoiceParentTypeQuoteDetails        InvoiceParentType = "quote_details"
+	InvoiceParentTypeScheduleDetails     InvoiceParentType = "schedule_details"
+	InvoiceParentTypeSubscriptionDetails InvoiceParentType = "subscription_details"
 )
 
 // Transaction type of the mandate.
@@ -1127,8 +1127,8 @@ type InvoiceTransferDataParams struct {
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 type InvoiceListParams struct {
 	ListParams `form:"*"`
-	// Only return invoices for the cadence specified by this billing cadence ID.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Only return invoices for the billing group specified by this billing group ID.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Only return invoices that were created during the given date interval.
@@ -3691,8 +3691,8 @@ type InvoiceCreatePreviewParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// The identifier of the billing cadence for which you'd like to retrieve the upcoming invoice. Cannot be provided when `subscription`, `schedule`, `subscription_details` or `schedule_details` are provided.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// The identifier of the billing group for which you'd like to retrieve the upcoming invoice. Cannot be provided when `subscription`, `schedule`, `subscription_details` or `schedule_details` are provided.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The identifier of the customer whose upcoming invoice you're retrieving. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
@@ -5116,6 +5116,18 @@ type InvoiceAmountsDue struct {
 	Status InvoiceAmountsDueStatus `json:"status"`
 }
 
+// The Credit Memos with credit currently applied to this invoice, with one entry per Credit Memo. An invoice can have credit applied from at most 10 Credit Memos, so the list is returned in full.
+type InvoiceAppliedCreditMemosData struct {
+	// The credit currently applied to this invoice from the Credit Memo, in cents (or local equivalent). Applying credit reduces `amount_due` and `amount_remaining` without changing `amount_paid`.
+	AppliedAmount int64 `json:"applied_amount"`
+	// The ID of the Credit Memo whose credit is applied to this invoice.
+	CreditMemo string `json:"credit_memo"`
+}
+type InvoiceAppliedCreditMemos struct {
+	// The Credit Memos with credit currently applied to this invoice, with one entry per Credit Memo. An invoice can have credit applied from at most 10 Credit Memos, so the list is returned in full.
+	Data []*InvoiceAppliedCreditMemosData `json:"data"`
+}
+
 // Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
 type InvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
 	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
@@ -5204,10 +5216,10 @@ type InvoiceManagedPayments struct {
 	Enabled bool `json:"enabled"`
 }
 
-// Details about the billing cadence that generated this invoice
-type InvoiceParentBillingCadenceDetails struct {
-	// The billing cadence that generated this invoice
-	BillingCadence string `json:"billing_cadence"`
+// Details about the billing group that generated this invoice
+type InvoiceParentBillingGroupDetails struct {
+	// The billing group that generated this invoice
+	BillingGroup string `json:"billing_group"`
 }
 
 // Details about the quote that generated this invoice
@@ -5247,8 +5259,8 @@ type InvoiceParentSubscriptionDetails struct {
 
 // The parent that generated this invoice
 type InvoiceParent struct {
-	// Details about the billing cadence that generated this invoice
-	BillingCadenceDetails *InvoiceParentBillingCadenceDetails `json:"billing_cadence_details,omitempty"`
+	// Details about the billing group that generated this invoice
+	BillingGroupDetails *InvoiceParentBillingGroupDetails `json:"billing_group_details,omitempty"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *InvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the schedule that generated this invoice
@@ -5643,7 +5655,8 @@ type Invoice struct {
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
-	Application *Application `json:"application"`
+	Application        *Application               `json:"application"`
+	AppliedCreditMemos *InvoiceAppliedCreditMemos `json:"applied_credit_memos,omitempty"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule. If a failure is returned with a non-retryable return code, the invoice can no longer be retried unless a new payment method is obtained. Retries will continue to be scheduled, and attempt_count will continue to increment, but retries will only be executed if a new payment method is obtained.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.

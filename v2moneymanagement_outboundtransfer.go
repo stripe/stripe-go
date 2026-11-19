@@ -91,6 +91,7 @@ const (
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkTips        V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "tips"
 )
 
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to

@@ -102,23 +102,6 @@ const (
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
-// The overall device health of the reader: `healthy` or `unhealthy`. Renamed to `no_issues_detected` and `needs_attention` respectively; see `device_health_details` for the specific conditions.
-type TerminalReaderDeviceHealth string
-
-// List of values that TerminalReaderDeviceHealth can take
-const (
-	TerminalReaderDeviceHealthHealthy   TerminalReaderDeviceHealth = "healthy"
-	TerminalReaderDeviceHealthUnhealthy TerminalReaderDeviceHealth = "unhealthy"
-)
-
-// The type of condition affecting the reader's device health.
-type TerminalReaderDeviceHealthDetailType string
-
-// List of values that TerminalReaderDeviceHealthDetailType can take
-const (
-	TerminalReaderDeviceHealthDetailTypeUnrecoverableTamper TerminalReaderDeviceHealthDetailType = "unrecoverable_tamper"
-)
-
 // Device type of the reader.
 type TerminalReaderDeviceType string
 
@@ -138,13 +121,18 @@ const (
 	TerminalReaderDeviceTypeSimulatedWisePOSE      TerminalReaderDeviceType = "simulated_wisepos_e"
 	TerminalReaderDeviceTypeStripeM2               TerminalReaderDeviceType = "stripe_m2"
 	TerminalReaderDeviceTypeStripeS700             TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeStripeS700Devkit       TerminalReaderDeviceType = "stripe_s700_devkit"
 	TerminalReaderDeviceTypeStripeS710             TerminalReaderDeviceType = "stripe_s710"
+	TerminalReaderDeviceTypeStripeS710Devkit       TerminalReaderDeviceType = "stripe_s710_devkit"
 	TerminalReaderDeviceTypeStripeT600             TerminalReaderDeviceType = "stripe_t600"
+	TerminalReaderDeviceTypeStripeT600Devkit       TerminalReaderDeviceType = "stripe_t600_devkit"
 	TerminalReaderDeviceTypeVerifoneP400           TerminalReaderDeviceType = "verifone_P400"
 	TerminalReaderDeviceTypeVerifoneM425           TerminalReaderDeviceType = "verifone_m425"
 	TerminalReaderDeviceTypeVerifoneP630           TerminalReaderDeviceType = "verifone_p630"
 	TerminalReaderDeviceTypeVerifoneUx700          TerminalReaderDeviceType = "verifone_ux700"
+	TerminalReaderDeviceTypeVerifoneUx700Devkit    TerminalReaderDeviceType = "verifone_ux700_devkit"
 	TerminalReaderDeviceTypeVerifoneV660p          TerminalReaderDeviceType = "verifone_v660p"
+	TerminalReaderDeviceTypeVerifoneV660pDevkit    TerminalReaderDeviceType = "verifone_v660p_devkit"
 )
 
 // The networking status of the reader. This value is `null` for mobile readers. We do not recommend using this field in flows that may block taking payments.
@@ -1051,12 +1039,6 @@ type TerminalReaderAction struct {
 	Type TerminalReaderActionType `json:"type"`
 }
 
-// The set of conditions affecting the reader's device health. Empty when there are no conditions.
-type TerminalReaderDeviceHealthDetail struct {
-	// The type of condition affecting the reader's device health.
-	Type TerminalReaderDeviceHealthDetailType `json:"type"`
-}
-
 // A Reader represents a physical device for accepting payment details.
 //
 // Related guide: [Connecting to a reader](https://docs.stripe.com/terminal/payments/connect-reader)
@@ -1065,10 +1047,6 @@ type TerminalReader struct {
 	// The most recent action performed by the reader.
 	Action  *TerminalReaderAction `json:"action"`
 	Deleted bool                  `json:"deleted,omitempty"`
-	// The overall device health of the reader: `healthy` or `unhealthy`. Renamed to `no_issues_detected` and `needs_attention` respectively; see `device_health_details` for the specific conditions.
-	DeviceHealth TerminalReaderDeviceHealth `json:"device_health"`
-	// The set of conditions affecting the reader's device health. Empty when there are no conditions.
-	DeviceHealthDetails []*TerminalReaderDeviceHealthDetail `json:"device_health_details"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
 	// Device type of the reader.

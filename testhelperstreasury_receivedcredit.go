@@ -38,7 +38,7 @@ type TestHelpersTreasuryReceivedCreditNetworkDetailsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
+// Simulates a test ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredit objects initiated by third parties.
 type TestHelpersTreasuryReceivedCreditParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
@@ -96,7 +96,7 @@ type TestHelpersTreasuryReceivedCreditCreateNetworkDetailsParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
+// Simulates a test ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredit objects initiated by third parties.
 type TestHelpersTreasuryReceivedCreditCreateParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.

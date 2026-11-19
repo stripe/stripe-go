@@ -44,6 +44,7 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSEPA        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "sepa"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSEPAInstant V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "sepa_instant"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkSwift       V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "swift"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetworkTips        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeNetworkFeeDetailsNetwork = "tips"
 )
 
 // Open Enum. ACH submission timing.
@@ -122,6 +123,7 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkTips        V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "tips"
 )
 
 // Delivery options to be used to send the OutboundPayment.

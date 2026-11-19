@@ -761,6 +761,26 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1121,6 +1141,26 @@ type V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsParams struct {
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1196,6 +1236,26 @@ type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsProtectionsPa
 type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -1296,6 +1356,46 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsProtectionsPara
 type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -1501,6 +1601,46 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Touch 'n Go payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process TrueMoney payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1581,6 +1721,66 @@ type V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsParams struct {
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Wero payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1622,6 +1822,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -1658,6 +1860,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -1666,6 +1870,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -1676,6 +1882,10 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -1696,6 +1906,10 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	SunbitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
+	// Allow the merchant to process Touch 'n Go payments.
+	TouchNGoPayments *V2CoreAccountConfigurationMerchantCapabilitiesTouchNGoPaymentsParams `form:"touch_n_go_payments" json:"touch_n_go_payments,omitempty"`
+	// Allow the merchant to process TrueMoney payments.
+	TruemoneyPayments *V2CoreAccountConfigurationMerchantCapabilitiesTruemoneyPaymentsParams `form:"truemoney_payments" json:"truemoney_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
 	TWINTPayments *V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process UPI payments.
@@ -1704,6 +1918,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	USBankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Vipps payments.
 	VippsPayments *V2CoreAccountConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+	WeChatPayMobileWebPayments *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams `form:"wechat_pay_mobile_web_payments" json:"wechat_pay_mobile_web_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay payments.
+	WeChatPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
+	// Allow the merchant to process Wero payments.
+	WeroPayments *V2CoreAccountConfigurationMerchantCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -1748,8 +1968,51 @@ type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams struct {
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -1850,6 +2113,8 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA Direct Debit payments.
@@ -1964,6 +2229,66 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageP
 	Inbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
 	// Can send business custodial storage-type funds on Stripe.
 	Outbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams struct {
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Inbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Outbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -3748,6 +4073,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsParams stru
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesParams struct {
 	// Can send or receive business custodial storage-type funds on Stripe.
 	BusinessCustodialStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
+	// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThirdStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams `form:"business_demand_deposit_account_fifth_third_storage" json:"business_demand_deposit_account_fifth_third_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -4026,6 +4353,26 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSwiftParams stru
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams struct {
 	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
@@ -4050,6 +4397,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams struct {
 	SEPAInstant *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSEPAInstantParams `form:"sepa_instant" json:"sepa_instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
 	Swift *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+	Tips *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsTipsParams `form:"tips" json:"tips,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -4232,9 +4581,9 @@ type V2CoreAccountDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations. Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 	// A value indicating the party responsible for collecting requirements on this account.
 	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
@@ -4300,6 +4649,16 @@ type V2CoreAccountIdentityAttestationsRepresentativeDeclarationParams struct {
 
 // Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -4934,6 +5293,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThird *V2CoreAccountIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams `form:"business_demand_deposit_account_fifth_third" json:"business_demand_deposit_account_fifth_third,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// Details on the Account's acceptance of Consumer-specific terms of service.
@@ -5558,7 +5919,7 @@ type V2CoreAccountParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountDefaultsParams `form:"defaults" json:"defaults,omitempty"`
@@ -6341,6 +6702,26 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParam
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -6701,6 +7082,26 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesLinkPaymentsParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesMobilepayPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -6776,6 +7177,26 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsProtect
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -6876,6 +7297,46 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsProtectio
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -7081,6 +7542,46 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams str
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Touch 'n Go payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process TrueMoney payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesTWINTPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7161,6 +7662,66 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsParams str
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Wero payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -7202,6 +7763,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	BACSDebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -7238,6 +7801,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -7246,6 +7811,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -7256,6 +7823,10 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -7276,6 +7847,10 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	SunbitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
+	// Allow the merchant to process Touch 'n Go payments.
+	TouchNGoPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesTouchNGoPaymentsParams `form:"touch_n_go_payments" json:"touch_n_go_payments,omitempty"`
+	// Allow the merchant to process TrueMoney payments.
+	TruemoneyPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesTruemoneyPaymentsParams `form:"truemoney_payments" json:"truemoney_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
 	TWINTPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process UPI payments.
@@ -7284,6 +7859,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	USBankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Vipps payments.
 	VippsPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+	WeChatPayMobileWebPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams `form:"wechat_pay_mobile_web_payments" json:"wechat_pay_mobile_web_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay payments.
+	WeChatPayPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
+	// Allow the merchant to process Wero payments.
+	WeroPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -7328,8 +7909,51 @@ type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams struct
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountCreateConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -7428,6 +8052,8 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountCreateConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA Direct Debit payments.
@@ -7542,6 +8168,66 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialSt
 	Inbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
 	// Can send business custodial storage-type funds on Stripe.
 	Outbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams struct {
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Inbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Outbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -9326,6 +10012,8 @@ type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsParam
 type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesParams struct {
 	// Can send or receive business custodial storage-type funds on Stripe.
 	BusinessCustodialStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
+	// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThirdStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams `form:"business_demand_deposit_account_fifth_third_storage" json:"business_demand_deposit_account_fifth_third_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -9602,6 +10290,26 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSwiftParam
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams struct {
 	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
@@ -9626,6 +10334,8 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams str
 	SEPAInstant *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSEPAInstantParams `form:"sepa_instant" json:"sepa_instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
 	Swift *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+	Tips *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsTipsParams `form:"tips" json:"tips,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -9806,9 +10516,9 @@ type V2CoreAccountCreateDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountCreateDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk).
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 	// A value indicating the party responsible for collecting requirements on this account.
 	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
@@ -9872,6 +10582,16 @@ type V2CoreAccountCreateIdentityAttestationsRepresentativeDeclarationParams stru
 
 // Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -10504,6 +11224,8 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceMoneyManagerParams str
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThird *V2CoreAccountCreateIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams `form:"business_demand_deposit_account_fifth_third" json:"business_demand_deposit_account_fifth_third,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// Details on the Account's acceptance of Consumer-specific terms of service.
@@ -11128,7 +11850,7 @@ type V2CoreAccountCreateParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountCreateDefaultsParams `form:"defaults" json:"defaults,omitempty"`
@@ -11893,6 +12615,26 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParam
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Billie payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12253,6 +12995,26 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesLinkPaymentsParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process MB WAY payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesMobilepayPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12328,6 +13090,26 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsProtect
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process New Zealand BECS Direct Debit payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -12428,6 +13210,46 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsProtectio
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsParams struct {
 	// Protection types to request for this capability (e.g. "psp_migration").
 	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Pix payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -12633,6 +13455,46 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams str
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Touch 'n Go payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process TrueMoney payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesTWINTPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12713,6 +13575,66 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsParams str
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process WeChat Pay payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process Wero payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesZipPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -12754,6 +13676,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	BACSDebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
 	BancontactPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
+	// Allow the merchant to process Billie payments.
+	BilliePayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// Allow the merchant to process recurring BLIK payments.
@@ -12790,6 +13714,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	KrCardPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesKrCardPaymentsParams `form:"kr_card_payments" json:"kr_card_payments,omitempty"`
 	// Allow the merchant to process Link payments.
 	LinkPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesLinkPaymentsParams `form:"link_payments" json:"link_payments,omitempty"`
+	// Allow the merchant to process MB WAY payments.
+	MbWayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMbWayPaymentsParams `form:"mb_way_payments" json:"mb_way_payments,omitempty"`
 	// Allow the merchant to process MobilePay payments.
 	MobilepayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments" json:"mobilepay_payments,omitempty"`
 	// Allow the merchant to process Multibanco payments.
@@ -12798,6 +13724,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	MXBankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments" json:"mx_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Naver Pay payments.
 	NaverPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments" json:"naver_pay_payments,omitempty"`
+	// Allow the merchant to process New Zealand BECS Direct Debit payments.
+	NzBankAccountBECSDebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments" json:"nz_bank_account_becs_debit_payments,omitempty"`
 	// Allow the merchant to process OXXO payments.
 	OXXOPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesOXXOPaymentsParams `form:"oxxo_payments" json:"oxxo_payments,omitempty"`
 	// Allow the merchant to process Przelewy24 (P24) payments.
@@ -12808,6 +13736,10 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	PaycoPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaycoPaymentsParams `form:"payco_payments" json:"payco_payments,omitempty"`
 	// Allow the merchant to process PayNow payments.
 	PayNowPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPayNowPaymentsParams `form:"paynow_payments" json:"paynow_payments,omitempty"`
+	// Allow the merchant to process PayPay payments.
+	PaypayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Allow the merchant to process Pix payments.
+	PixPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPixPaymentsParams `form:"pix_payments" json:"pix_payments,omitempty"`
 	// Allow the merchant to process PromptPay payments.
 	PromptPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments" json:"promptpay_payments,omitempty"`
 	// Allow the merchant to process Revolut Pay payments.
@@ -12828,6 +13760,10 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	SunbitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
+	// Allow the merchant to process Touch 'n Go payments.
+	TouchNGoPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTouchNGoPaymentsParams `form:"touch_n_go_payments" json:"touch_n_go_payments,omitempty"`
+	// Allow the merchant to process TrueMoney payments.
+	TruemoneyPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTruemoneyPaymentsParams `form:"truemoney_payments" json:"truemoney_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
 	TWINTPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
 	// Allow the merchant to process UPI payments.
@@ -12836,6 +13772,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	USBankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments" json:"us_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process Vipps payments.
 	VippsPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesVippsPaymentsParams `form:"vipps_payments" json:"vipps_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay mobile web payments. Requires the wechat_pay_payments capability.
+	WeChatPayMobileWebPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayMobileWebPaymentsParams `form:"wechat_pay_mobile_web_payments" json:"wechat_pay_mobile_web_payments,omitempty"`
+	// Allow the merchant to process WeChat Pay payments.
+	WeChatPayPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
+	// Allow the merchant to process Wero payments.
+	WeroPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesWeroPaymentsParams `form:"wero_payments" json:"wero_payments,omitempty"`
 	// Allow the merchant to process Zip payments.
 	ZipPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesZipPaymentsParams `form:"zip_payments" json:"zip_payments,omitempty"`
 }
@@ -12880,8 +13822,51 @@ type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams struct
 
 // Settings specific to Konbini payments on the account.
 type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Information provided to support the onboarding process for Konbini payments.
+	AdditionalMaterial *string `form:"additional_material" json:"additional_material,omitempty"`
 	// Support for Konbini payments.
 	Support *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// Additional information about the business's website when it's accessible.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about the business's website when it's in development.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access the business's website.
+	Password *string `form:"password" json:"password,omitempty"`
+	// The username needed to access the business's website.
+	Username *string `form:"username" json:"username,omitempty"`
+}
+
+// Additional information about the business's website when it has restricted access.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for the business.
+	PaymentFlowFile *string `form:"payment_flow_file" json:"payment_flow_file,omitempty"`
+}
+
+// The business's website for PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteParams struct {
+	// Additional information about the business's website when it's accessible.
+	Accessible *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteAccessibleParams `form:"accessible" json:"accessible,omitempty"`
+	// Additional information about the business's website when it's in development.
+	InDevelopment *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteInDevelopmentParams `form:"in_development" json:"in_development,omitempty"`
+	// Additional information about the business's website when it has restricted access.
+	Restricted *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteRestrictedParams `form:"restricted" json:"restricted,omitempty"`
+	// The status of the business's website.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Settings for PayPay payments.
+type V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsParams struct {
+	// Additional files supporting PayPay payments configuration.
+	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
+	// The type of goods sold by the merchant for PayPay payments.
+	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
+	// The business's website for PayPay payments.
+	Site *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
+	// URL to the Specified Commercial Transactions Act page for PayPay payments.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url" json:"specified_commercial_transactions_act_url,omitempty"`
 }
 
 // The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -12982,6 +13967,8 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	KonbiniPayments *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for PayPay payments.
+	PaypayPayments *V2CoreAccountUpdateConfigurationMerchantPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Settings for SEPA Direct Debit payments.
@@ -13096,6 +14083,66 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialSt
 	Inbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
 	// Can send business custodial storage-type funds on Stripe.
 	Outbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams struct {
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts in USD.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams struct {
+	// Can receive funds in business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Inbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send funds from business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	Outbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -14880,6 +15927,8 @@ type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsParam
 type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesParams struct {
 	// Can send or receive business custodial storage-type funds on Stripe.
 	BusinessCustodialStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessCustodialStorageParams `form:"business_custodial_storage" json:"business_custodial_storage,omitempty"`
+	// Capabilities related to business storage FinancialAccounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThirdStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessDemandDepositAccountFifthThirdStorageParams `form:"business_demand_deposit_account_fifth_third_storage" json:"business_demand_deposit_account_fifth_third_storage,omitempty"`
 	// Can send or receive business storage-type funds on Stripe.
 	BusinessStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
 	// Can send or receive consumer storage-type funds on Stripe.
@@ -15158,6 +16207,26 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSwiftParam
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams struct {
 	// Enables this Account to receive OutboundPayments to linked bank accounts over ACH rails.
@@ -15182,6 +16251,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams str
 	SEPAInstant *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSEPAInstantParams `form:"sepa_instant" json:"sepa_instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over SWIFT.
 	Swift *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsSwiftParams `form:"swift" json:"swift,omitempty"`
+	// Enables this Account to receive OutboundPayments to linked bank accounts over TIPS rails.
+	Tips *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsTipsParams `form:"tips" json:"tips,omitempty"`
 }
 
 // Parameter to request psp_migration protection.
@@ -15364,9 +16435,9 @@ type V2CoreAccountUpdateDefaultsProfileParams struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountUpdateDefaultsResponsibilitiesParams struct {
-	// A value indicating the party responsible for collecting fees from this account.
+	// Controls who pays Stripe fees for direct charges and other pricing-control-eligible Stripe products. For new integrations, setting `losses_collector=application` requires `fees_collector=application`; legacy Custom and Express accounts can also use `application_custom` or `application_express`. For destination charges and separate charges and transfers, Stripe bills the platform regardless of this setting. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior), including application fees and pricing considerations. Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+	// Controls who is responsible for payment-related negative balances on this account. The platform remains liable for negative balances on its own account. To use Stripe negative balance liability, your integration must meet [Managed Risk requirements](https://docs.stripe.com/connect/risk-management/managed-risk). Set this value when adding an applicable configuration to the account. You can't change it after it's set.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
 	// A value indicating the party responsible for collecting requirements on this account.
 	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
@@ -15432,6 +16503,16 @@ type V2CoreAccountUpdateIdentityAttestationsRepresentativeDeclarationParams stru
 
 // Details on the Account's acceptance of the Stripe Services Agreement.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -16064,6 +17145,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams str
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the Stripe Services Agreement.
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Terms of service acceptances for financial accounts backed by Fifth Third demand deposit accounts.
+	BusinessDemandDepositAccountFifthThird *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceBusinessDemandDepositAccountFifthThirdParams `form:"business_demand_deposit_account_fifth_third" json:"business_demand_deposit_account_fifth_third,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
 	// Details on the Account's acceptance of Consumer-specific terms of service.
@@ -16688,7 +17771,7 @@ type V2CoreAccountUpdateParams struct {
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
-	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
+	// Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access).
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
 	Defaults *V2CoreAccountUpdateDefaultsParams `form:"defaults" json:"defaults,omitempty"`

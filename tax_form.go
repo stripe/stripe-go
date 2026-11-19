@@ -668,7 +668,9 @@ type TaxFormCreateUS1099NecParams struct {
 	StateTaxWithheld *TaxFormCreateUS1099NecStateTaxWithheldParams `form:"state_tax_withheld" json:"state_tax_withheld,omitempty"`
 }
 
-// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type.
+//
+// Private preview. API access is invite-only. Contact Stripe to request access. Creating a correction doesn't file it; review, attestation, and filing remain in the Dashboard.
 type TaxFormCreateParams struct {
 	Params `form:"*"`
 	// The ID of the filed tax form to correct.

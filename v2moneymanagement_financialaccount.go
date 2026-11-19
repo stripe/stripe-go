@@ -91,6 +91,15 @@ const (
 	V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityTypeFdicPassthrough V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibilityType = "fdic_passthrough"
 )
 
+// How funds in this FinancialAccount are held. Defaults to `for_benefit_of` if not specified.
+type V2MoneyManagementFinancialAccountStorageFundsHoldingStructure string
+
+// List of values that V2MoneyManagementFinancialAccountStorageFundsHoldingStructure can take
+const (
+	V2MoneyManagementFinancialAccountStorageFundsHoldingStructureDemandDepositAccount V2MoneyManagementFinancialAccountStorageFundsHoldingStructure = "demand_deposit_account"
+	V2MoneyManagementFinancialAccountStorageFundsHoldingStructureForBenefitOf         V2MoneyManagementFinancialAccountStorageFundsHoldingStructure = "for_benefit_of"
+)
+
 // The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 type V2MoneyManagementFinancialAccountStorageFundsUsageType string
 
@@ -291,6 +300,8 @@ type V2MoneyManagementFinancialAccountStorage struct {
 	Crypto *V2MoneyManagementFinancialAccountStorageCrypto `json:"crypto,omitempty"`
 	// Array of eligibility objects, segmented by bank name and deposit insurance scheme.
 	DepositInsuranceEligibility []*V2MoneyManagementFinancialAccountStorageDepositInsuranceEligibility `json:"deposit_insurance_eligibility,omitempty"`
+	// How funds in this FinancialAccount are held. Defaults to `for_benefit_of` if not specified.
+	FundsHoldingStructure V2MoneyManagementFinancialAccountStorageFundsHoldingStructure `json:"funds_holding_structure,omitempty"`
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType V2MoneyManagementFinancialAccountStorageFundsUsageType `json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.

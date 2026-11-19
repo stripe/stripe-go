@@ -150,6 +150,7 @@ const (
 	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkTips        V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "tips"
 )
 
 // Open Enum. Shipping speed of the check. Defaults to standard.

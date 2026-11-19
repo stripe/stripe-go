@@ -34,8 +34,6 @@ type BillingAlertNotificationListParams struct {
 	Action *string `form:"action" json:"action,omitempty"`
 	// Filter results to only include notifications for the given billing group.
 	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
-	// Filter results to only include notifications for the given cadence.
-	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// The customer to list notifications for.
 	Customer *string `form:"customer" json:"customer"`
 	// Specifies which fields in the response should be expanded.
@@ -69,8 +67,6 @@ type BillingAlertNotification struct {
 	AlertType BillingAlertNotificationAlertType `json:"alert_type"`
 	// The billing group associated with this notification. Only present for spend threshold alerts grouped by billing group.
 	BillingGroup string `json:"billing_group"`
-	// The cadence associated with this notification. Only present for spend threshold alerts grouped by cadence.
-	Cadence string `json:"cadence"`
 	// Three-letter ISO currency code for the value, in lowercase. Only present for spend and credit balance threshold alerts.
 	Currency Currency `json:"currency"`
 	// ID of the customer for which the alert notification was sent.

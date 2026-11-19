@@ -22,8 +22,8 @@ type Client struct {
 	Key string
 }
 
-// Create an anonymous, claimable sandbox. This sandbox can be prefilled with data. The response will include
-// a claim URL that allow a user to claim the account.
+// Create a claimable sandbox with prefilled data. The response includes an onboarding link that lets
+// a user claim the sandbox into a new or existing Stripe account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -49,7 +49,7 @@ func (c Client) Get(id string, params *stripe.V2CoreClaimableSandboxParams) (*st
 	return claimablesandbox, err
 }
 
-// Renew the claimable sandbox onboarding link. This will invalidate any existing onboarding links.
+// Renew the claimable sandbox onboarding link. This invalidates the existing onboarding link.
 // The endpoint only works on a claimable sandbox with status `unclaimed` or `claimed`.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

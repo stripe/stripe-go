@@ -418,24 +418,24 @@ type Client struct {
 	V2BillingBillSettings *v2BillingBillSettingService
 	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
 	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
-	// V2BillingCadences is the service used to invoke /v2/billing/cadences APIs.
-	V2BillingCadences *v2BillingCadenceService
-	// V2BillingCadencesSpendModifierRules is the service used to invoke /v2/billing/cadences/{cadence_id}/spend_modifier_rules APIs.
-	V2BillingCadencesSpendModifierRules *v2BillingCadencesSpendModifierRuleService
 	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2BillingCollectionSettingService
 	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
 	V2BillingCollectionSettingsVersions *v2BillingCollectionSettingsVersionService
 	// V2BillingContracts is the service used to invoke /v2/billing/contracts APIs.
 	V2BillingContracts *v2BillingContractService
-	// V2BillingContractsPricingLinesQuantityChanges is the service used to invoke quantitychange related APIs.
-	V2BillingContractsPricingLinesQuantityChanges *v2BillingContractsPricingLinesQuantityChangeService
 	// V2BillingContractsTerms is the service used to invoke term related APIs.
 	V2BillingContractsTerms *v2BillingContractsTermService
 	// V2BillingContractsTermsQuantityChanges is the service used to invoke quantitychange related APIs.
 	V2BillingContractsTermsQuantityChanges *v2BillingContractsTermsQuantityChangeService
 	// V2BillingCustomPricingUnits is the service used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2BillingCustomPricingUnitService
+	// V2BillingGroups is the service used to invoke /v2/billing/groups APIs.
+	V2BillingGroups *v2BillingGroupService
+	// V2BillingGroupsInvoices is the service used to invoke /v2/billing/groups/{id}/invoices APIs.
+	V2BillingGroupsInvoices *v2BillingGroupsInvoiceService
+	// V2BillingGroupsSpendModifierRules is the service used to invoke /v2/billing/groups/{group_id}/spend_modifier_rules APIs.
+	V2BillingGroupsSpendModifierRules *v2BillingGroupsSpendModifierRuleService
 	// V2BillingIntents is the service used to invoke /v2/billing/intents APIs.
 	V2BillingIntents *v2BillingIntentService
 	// V2BillingIntentsActions is the service used to invoke /v2/billing/intents/{intent_id}/actions APIs.
@@ -908,15 +908,15 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
 	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
 	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
-	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
-	client.V2BillingCadencesSpendModifierRules = &v2BillingCadencesSpendModifierRuleService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingContracts = &v2BillingContractService{B: backends.API, Key: key}
-	client.V2BillingContractsPricingLinesQuantityChanges = &v2BillingContractsPricingLinesQuantityChangeService{B: backends.API, Key: key}
 	client.V2BillingContractsTerms = &v2BillingContractsTermService{B: backends.API, Key: key}
 	client.V2BillingContractsTermsQuantityChanges = &v2BillingContractsTermsQuantityChangeService{B: backends.API, Key: key}
 	client.V2BillingCustomPricingUnits = &v2BillingCustomPricingUnitService{B: backends.API, Key: key}
+	client.V2BillingGroups = &v2BillingGroupService{B: backends.API, Key: key}
+	client.V2BillingGroupsInvoices = &v2BillingGroupsInvoiceService{B: backends.API, Key: key}
+	client.V2BillingGroupsSpendModifierRules = &v2BillingGroupsSpendModifierRuleService{B: backends.API, Key: key}
 	client.V2BillingIntents = &v2BillingIntentService{B: backends.API, Key: key}
 	client.V2BillingIntentsActions = &v2BillingIntentsActionService{B: backends.API, Key: key}
 	client.V2BillingLicensedItems = &v2BillingLicensedItemService{B: backends.API, Key: key}

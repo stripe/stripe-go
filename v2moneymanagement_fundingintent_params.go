@@ -50,7 +50,7 @@ type V2MoneyManagementFundingIntentParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// Updates to the key-value pairs attached to the FundingIntent.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// Controls when the funds become available after processing.
+	// The updated settlement timing. Omit to retain the existing timing.
 	SettlementTiming *V2MoneyManagementFundingIntentSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 	// The destination for the funds.
 	To *V2MoneyManagementFundingIntentToParams `form:"to" json:"to,omitempty"`
@@ -142,6 +142,12 @@ type V2MoneyManagementFundingIntentUpdateCheckParams struct {
 	FrontImage *string `form:"front_image" json:"front_image,omitempty"`
 }
 
+// The updated settlement timing. Omit to retain the existing timing.
+type V2MoneyManagementFundingIntentUpdateSettlementTimingParams struct {
+	// The number of days to delay the availability of funds after processing completes.
+	DelayDaysOverride *int64 `form:"delay_days_override" json:"delay_days_override,omitempty"`
+}
+
 // Updates the mutable details of a FundingIntent.
 type V2MoneyManagementFundingIntentUpdateParams struct {
 	Params `form:"*"`
@@ -155,6 +161,8 @@ type V2MoneyManagementFundingIntentUpdateParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// Updates to the key-value pairs attached to the FundingIntent.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+	// The updated settlement timing. Omit to retain the existing timing.
+	SettlementTiming *V2MoneyManagementFundingIntentUpdateSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

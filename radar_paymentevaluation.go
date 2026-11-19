@@ -277,6 +277,18 @@ const (
 	RadarPaymentEvaluationRecommendedActionReroute                  RadarPaymentEvaluationRecommendedAction = "reroute"
 )
 
+// The signals requested for this payment evaluation. Only returned when creating a payment evaluation. Includes the default signal list when `requested_signals` is omitted from the request.
+type RadarPaymentEvaluationRequestedSignal string
+
+// List of values that RadarPaymentEvaluationRequestedSignal can take
+const (
+	RadarPaymentEvaluationRequestedSignalBankInitiatedReturn RadarPaymentEvaluationRequestedSignal = "bank_initiated_return"
+	RadarPaymentEvaluationRequestedSignalCardTesting         RadarPaymentEvaluationRequestedSignal = "card_testing"
+	RadarPaymentEvaluationRequestedSignalEarlyFraudWarning   RadarPaymentEvaluationRequestedSignal = "early_fraud_warning"
+	RadarPaymentEvaluationRequestedSignalFraudulentDispute   RadarPaymentEvaluationRequestedSignal = "fraudulent_dispute"
+	RadarPaymentEvaluationRequestedSignalFraudulentPayment   RadarPaymentEvaluationRequestedSignal = "fraudulent_payment"
+)
+
 // Risk level of this signal, based on the score.
 type RadarPaymentEvaluationSignalsBankInitiatedReturnRiskLevel string
 
@@ -495,6 +507,8 @@ type RadarPaymentEvaluationParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Details about the payment.
 	PaymentDetails *RadarPaymentEvaluationPaymentDetailsParams `form:"payment_details" json:"payment_details"`
+	// The signals to return in the Payment Evaluation response. Must include `fraudulent_payment`. If omitted, only `fraudulent_payment` is returned.
+	RequestedSignals []*string `form:"requested_signals" json:"requested_signals,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -664,6 +678,8 @@ type RadarPaymentEvaluationCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Details about the payment.
 	PaymentDetails *RadarPaymentEvaluationCreatePaymentDetailsParams `form:"payment_details" json:"payment_details"`
+	// The signals to return in the Payment Evaluation response. Must include `fraudulent_payment`. If omitted, only `fraudulent_payment` is returned.
+	RequestedSignals []*string `form:"requested_signals" json:"requested_signals,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1035,6 +1051,8 @@ type RadarPaymentEvaluation struct {
 	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
 	// Recommended action for this payment based on its evaluated signals and rules.
 	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
+	// The signals requested for this payment evaluation. Only returned when creating a payment evaluation. Includes the default signal list when `requested_signals` is omitted from the request.
+	RequestedSignals []RadarPaymentEvaluationRequestedSignal `json:"requested_signals,omitempty"`
 	// Details about Radar Rules associated with the payment evaluation.
 	Rules *RadarPaymentEvaluationRules `json:"rules,omitempty"`
 	// Collection of signals for this payment evaluation.

@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Create a tax certificate associated with a tax exemption.
+// Creates a Tax Certificate associated with a tax exemption. Before creating the certificate, [upload a file](https://docs.stripe.com/api/files/create) with purpose tax_certificate.
 func New(params *stripe.TaxCertificateParams) (*stripe.TaxCertificate, error) {
 	return getC().New(params)
 }
 
-// Create a tax certificate associated with a tax exemption.
+// Creates a Tax Certificate associated with a tax exemption. Before creating the certificate, [upload a file](https://docs.stripe.com/api/files/create) with purpose tax_certificate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) New(params *stripe.TaxCertificateParams) (*stripe.TaxCertificate
 	return certificate, err
 }
 
-// Retrieve a tax certificate associated with a tax exemption.
+// Retrieves a Tax Certificate. Deleted certificates remain retrievable with all their fields and deleted set to true.
 func Get(id string, params *stripe.TaxCertificateParams) (*stripe.TaxCertificate, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieve a tax certificate associated with a tax exemption.
+// Retrieves a Tax Certificate. Deleted certificates remain retrievable with all their fields and deleted set to true.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -57,12 +57,12 @@ func (c Client) Get(id string, params *stripe.TaxCertificateParams) (*stripe.Tax
 	return certificate, err
 }
 
-// Delete a tax certificate associated with a tax exemption.
+// Deletes a Tax Certificate without deleting its uploaded file. You can reuse the file to create another certificate, and you can still retrieve the deleted certificate.
 func Del(id string, params *stripe.TaxCertificateParams) (*stripe.TaxCertificate, error) {
 	return getC().Del(id, params)
 }
 
-// Delete a tax certificate associated with a tax exemption.
+// Deletes a Tax Certificate without deleting its uploaded file. You can reuse the file to create another certificate, and you can still retrieve the deleted certificate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -74,12 +74,12 @@ func (c Client) Del(id string, params *stripe.TaxCertificateParams) (*stripe.Tax
 	return certificate, err
 }
 
-// List certificates for an existing tax exemption.
+// Lists a tax exemption's certificates, ordered from newest to oldest. The list excludes deleted certificates.
 func List(params *stripe.TaxCertificateListParams) *Iter {
 	return getC().List(params)
 }
 
-// List certificates for an existing tax exemption.
+// Lists a tax exemption's certificates, ordered from newest to oldest. The list excludes deleted certificates.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

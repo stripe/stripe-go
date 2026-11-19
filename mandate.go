@@ -76,6 +76,15 @@ const (
 	MandatePaymentMethodDetailsBLIKTypeOffSession MandatePaymentMethodDetailsBLIKType = "off_session"
 )
 
+// Whether the registered amount is fixed or a maximum.
+type MandatePaymentMethodDetailsCardIndiaAmountType string
+
+// List of values that MandatePaymentMethodDetailsCardIndiaAmountType can take
+const (
+	MandatePaymentMethodDetailsCardIndiaAmountTypeFixed   MandatePaymentMethodDetailsCardIndiaAmountType = "fixed"
+	MandatePaymentMethodDetailsCardIndiaAmountTypeMaximum MandatePaymentMethodDetailsCardIndiaAmountType = "maximum"
+)
+
 // The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
 type MandatePaymentMethodDetailsCardIndiaInactiveReason string
 
@@ -88,6 +97,18 @@ const (
 	MandatePaymentMethodDetailsCardIndiaInactiveReasonIssuerNotSupported   MandatePaymentMethodDetailsCardIndiaInactiveReason = "issuer_not_supported"
 	MandatePaymentMethodDetailsCardIndiaInactiveReasonProcessingError      MandatePaymentMethodDetailsCardIndiaInactiveReason = "processing_error"
 	MandatePaymentMethodDetailsCardIndiaInactiveReasonUndetermined         MandatePaymentMethodDetailsCardIndiaInactiveReason = "undetermined"
+)
+
+// The registered payment interval. This can differ from the interval originally requested.
+type MandatePaymentMethodDetailsCardIndiaInterval string
+
+// List of values that MandatePaymentMethodDetailsCardIndiaInterval can take
+const (
+	MandatePaymentMethodDetailsCardIndiaIntervalDay      MandatePaymentMethodDetailsCardIndiaInterval = "day"
+	MandatePaymentMethodDetailsCardIndiaIntervalMonth    MandatePaymentMethodDetailsCardIndiaInterval = "month"
+	MandatePaymentMethodDetailsCardIndiaIntervalSporadic MandatePaymentMethodDetailsCardIndiaInterval = "sporadic"
+	MandatePaymentMethodDetailsCardIndiaIntervalWeek     MandatePaymentMethodDetailsCardIndiaInterval = "week"
+	MandatePaymentMethodDetailsCardIndiaIntervalYear     MandatePaymentMethodDetailsCardIndiaInterval = "year"
 )
 
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
@@ -312,8 +333,26 @@ type MandatePaymentMethodDetailsBLIK struct {
 	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
 }
 type MandatePaymentMethodDetailsCardIndia struct {
+	// The registered amount in the smallest currency unit. For a maximum amount mandate, this is the authorized ceiling.
+	Amount int64 `json:"amount,omitempty"`
+	// Whether the registered amount is fixed or a maximum.
+	AmountType MandatePaymentMethodDetailsCardIndiaAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// The stored mandate description, before SIHub registration removes non-alphanumeric characters.
+	Description string `json:"description,omitempty"`
+	// The registered end date, represented as midnight in India Standard Time, if specified.
+	EndDate int64 `json:"end_date,omitempty"`
 	// The reason why the mandate has an `inactive` status. This field is only populated if the mandate is inactive.
 	InactiveReason MandatePaymentMethodDetailsCardIndiaInactiveReason `json:"inactive_reason"`
+	// The registered payment interval. This can differ from the interval originally requested.
+	Interval MandatePaymentMethodDetailsCardIndiaInterval `json:"interval,omitempty"`
+	// The number of intervals between registered payments. Null for sporadic mandates.
+	IntervalCount int64 `json:"interval_count,omitempty"`
+	// The reference registered for this mandate.
+	Reference string `json:"reference,omitempty"`
+	// The registered start date, represented as midnight in India Standard Time.
+	StartDate int64 `json:"start_date,omitempty"`
 }
 type MandatePaymentMethodDetailsCard struct {
 	India *MandatePaymentMethodDetailsCardIndia `json:"india,omitempty"`

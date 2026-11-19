@@ -176,7 +176,7 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 type FinancialConnectionsSessionFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// Country from which to collect accounts.
+	// Country from which to collect accounts. Supported values are `US` and `CA`.
 	Country *string `form:"country" json:"country,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`
@@ -251,7 +251,7 @@ type FinancialConnectionsSessionCreateAccountHolderParams struct {
 type FinancialConnectionsSessionCreateFiltersParams struct {
 	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
-	// Country from which to collect accounts.
+	// Country from which to collect accounts. Supported values are `US` and `CA`.
 	Country *string `form:"country" json:"country,omitempty"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution *string `form:"institution" json:"institution,omitempty"`

@@ -17,8 +17,8 @@ type v2CoreClaimableSandboxService struct {
 	Key string
 }
 
-// Create an anonymous, claimable sandbox. This sandbox can be prefilled with data. The response will include
-// a claim URL that allow a user to claim the account.
+// Create a claimable sandbox with prefilled data. The response includes an onboarding link that lets
+// a user claim the sandbox into a new or existing Stripe account.
 func (c v2CoreClaimableSandboxService) Create(ctx context.Context, params *V2CoreClaimableSandboxCreateParams) (*V2CoreClaimableSandbox, error) {
 	if params == nil {
 		params = &V2CoreClaimableSandboxCreateParams{}
@@ -44,7 +44,7 @@ func (c v2CoreClaimableSandboxService) Retrieve(ctx context.Context, id string, 
 	return claimablesandbox, err
 }
 
-// Renew the claimable sandbox onboarding link. This will invalidate any existing onboarding links.
+// Renew the claimable sandbox onboarding link. This invalidates the existing onboarding link.
 // The endpoint only works on a claimable sandbox with status `unclaimed` or `claimed`.
 func (c v2CoreClaimableSandboxService) RenewOnboardingLink(ctx context.Context, id string, params *V2CoreClaimableSandboxRenewOnboardingLinkParams) (*V2CoreClaimableSandbox, error) {
 	if params == nil {

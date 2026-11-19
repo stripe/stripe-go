@@ -1549,21 +1549,6 @@ func (h *eventNotificationHandlerBase) OnV1TransferUpdated(callback func(ctx con
 	return registerTypedHandler(h, "v1.transfer.updated", callback)
 }
 
-// OnV2BillingCadenceBilled registers a callback to handle notifications about the "v2.billing.cadence.billed" event.
-func (h *eventNotificationHandlerBase) OnV2BillingCadenceBilled(callback func(ctx context.Context, notif *V2BillingCadenceBilledEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v2.billing.cadence.billed", callback)
-}
-
-// OnV2BillingCadenceCanceled registers a callback to handle notifications about the "v2.billing.cadence.canceled" event.
-func (h *eventNotificationHandlerBase) OnV2BillingCadenceCanceled(callback func(ctx context.Context, notif *V2BillingCadenceCanceledEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v2.billing.cadence.canceled", callback)
-}
-
-// OnV2BillingCadenceCreated registers a callback to handle notifications about the "v2.billing.cadence.created" event.
-func (h *eventNotificationHandlerBase) OnV2BillingCadenceCreated(callback func(ctx context.Context, notif *V2BillingCadenceCreatedEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v2.billing.cadence.created", callback)
-}
-
 // OnV2BillingContractActivated registers a callback to handle notifications about the "v2.billing.contract.activated" event.
 func (h *eventNotificationHandlerBase) OnV2BillingContractActivated(callback func(ctx context.Context, notif *V2BillingContractActivatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.billing.contract.activated", callback)
@@ -1621,6 +1606,42 @@ func (h *eventNotificationHandlerBase) OnV2BillingContractTermCreated(callback f
 // OnV2BillingContractTermDeleted registers a callback to handle notifications about the "v2.billing.contract_term.deleted" event.
 func (h *eventNotificationHandlerBase) OnV2BillingContractTermDeleted(callback func(ctx context.Context, notif *V2BillingContractTermDeletedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.billing.contract_term.deleted", callback)
+}
+
+// OnV2BillingContractTermPricingOverrideEnded registers a callback to handle notifications about the "v2.billing.contract_term.pricing_override_ended" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermPricingOverrideEnded(callback func(ctx context.Context, notif *V2BillingContractTermPricingOverrideEndedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.pricing_override_ended", callback)
+}
+
+// OnV2BillingContractTermPricingOverrideStarted registers a callback to handle notifications about the "v2.billing.contract_term.pricing_override_started" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermPricingOverrideStarted(callback func(ctx context.Context, notif *V2BillingContractTermPricingOverrideStartedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.pricing_override_started", callback)
+}
+
+// OnV2BillingContractTermRecurringPriceEnded registers a callback to handle notifications about the "v2.billing.contract_term.recurring_price_ended" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermRecurringPriceEnded(callback func(ctx context.Context, notif *V2BillingContractTermRecurringPriceEndedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.recurring_price_ended", callback)
+}
+
+// OnV2BillingContractTermRecurringPriceStarted registers a callback to handle notifications about the "v2.billing.contract_term.recurring_price_started" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermRecurringPriceStarted(callback func(ctx context.Context, notif *V2BillingContractTermRecurringPriceStartedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.recurring_price_started", callback)
+}
+
+// OnV2BillingContractTermScheduledFeeServicePeriodEnded registers a callback to handle notifications about the "v2.billing.contract_term.scheduled_fee_service_period_ended" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermScheduledFeeServicePeriodEnded(callback func(ctx context.Context, notif *V2BillingContractTermScheduledFeeServicePeriodEndedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.scheduled_fee_service_period_ended", callback)
+}
+
+// OnV2BillingContractTermScheduledFeeServicePeriodStarted registers a callback to handle notifications about the "v2.billing.contract_term.scheduled_fee_service_period_started" event.
+func (h *eventNotificationHandlerBase) OnV2BillingContractTermScheduledFeeServicePeriodStarted(callback func(ctx context.Context, notif *V2BillingContractTermScheduledFeeServicePeriodStartedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.billing.contract_term.scheduled_fee_service_period_started", callback)
 }
 
 // OnV2BillingContractTermUpdated registers a callback to handle notifications about the "v2.billing.contract_term.updated" event.
@@ -2121,6 +2142,18 @@ func (h *eventNotificationHandlerBase) OnV2CoreHealthAuthorizationRateDropFiring
 func (h *eventNotificationHandlerBase) OnV2CoreHealthAuthorizationRateDropResolved(callback func(ctx context.Context, notif *V2CoreHealthAuthorizationRateDropResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.authorization_rate_drop.resolved", callback)
+}
+
+// OnV2CoreHealthCustomPaymentMethodAdapterDegradedFiring registers a callback to handle notifications about the "v2.core.health.custom_payment_method_adapter_degraded.firing" event.
+func (h *eventNotificationHandlerBase) OnV2CoreHealthCustomPaymentMethodAdapterDegradedFiring(callback func(ctx context.Context, notif *V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.custom_payment_method_adapter_degraded.firing", callback)
+}
+
+// OnV2CoreHealthCustomPaymentMethodAdapterDegradedResolved registers a callback to handle notifications about the "v2.core.health.custom_payment_method_adapter_degraded.resolved" event.
+func (h *eventNotificationHandlerBase) OnV2CoreHealthCustomPaymentMethodAdapterDegradedResolved(callback func(ctx context.Context, notif *V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.custom_payment_method_adapter_degraded.resolved", callback)
 }
 
 // OnV2CoreHealthElementsErrorFiring registers a callback to handle notifications about the "v2.core.health.elements_error.firing" event.
@@ -3182,6 +3215,36 @@ func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalMerchantDelinquen
 func (h *eventNotificationHandlerBase) OnV2SignalsAccountSignalPaymentDelinquencyExposureReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.signals.account_signal.payment_delinquency_exposure_ready", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationCanceled registers a callback to handle notifications about the "v2.signals.payment_retry_evaluation.canceled" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationCanceled(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluation.canceled", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationCompleted registers a callback to handle notifications about the "v2.signals.payment_retry_evaluation.completed" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationCompleted(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationCompletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluation.completed", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationCreated registers a callback to handle notifications about the "v2.signals.payment_retry_evaluation.created" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationCreated(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluation.created", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationExpired registers a callback to handle notifications about the "v2.signals.payment_retry_evaluation.expired" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationExpired(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluation.expired", callback)
+}
+
+// OnV2SignalsPaymentRetryEvaluationUpdated registers a callback to handle notifications about the "v2.signals.payment_retry_evaluation.updated" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsPaymentRetryEvaluationUpdated(callback func(ctx context.Context, notif *V2SignalsPaymentRetryEvaluationUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.payment_retry_evaluation.updated", callback)
 }
 
 // OnV2SignalsPaymentRetryEvaluationsRetryRecommended registers a callback to handle notifications about the "v2.signals.payment_retry_evaluations.retry_recommended" event.

@@ -20,7 +20,9 @@ type v1TaxFormService struct {
 	Key      string
 }
 
-// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type.
+//
+// Private preview. API access is invite-only. Contact Stripe to request access. Creating a correction doesn't file it; review, attestation, and filing remain in the Dashboard.
 func (c v1TaxFormService) Create(ctx context.Context, params *TaxFormCreateParams) (*TaxFormCorrection, error) {
 	if params == nil {
 		params = &TaxFormCreateParams{}

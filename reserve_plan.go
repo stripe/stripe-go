@@ -99,6 +99,8 @@ type ReservePlanManualRelease struct{}
 type ReservePlanRollingRelease struct {
 	// The number of days to reserve funds before releasing.
 	DaysAfterCharge int64 `json:"days_after_charge"`
+	// The number of days after the PaymentIntent's `fulfillment_date` to reserve funds before releasing. Charges without a `fulfillment_date` use `days_after_charge`.
+	DaysAfterFulfillment int64 `json:"days_after_fulfillment,omitempty"`
 	// The time at which the ReservePlan expires.
 	ExpiresOn int64 `json:"expires_on"`
 }

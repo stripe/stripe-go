@@ -24,12 +24,16 @@ type Client struct {
 	Key      string
 }
 
-// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type.
+//
+// Private preview. API access is invite-only. Contact Stripe to request access. Creating a correction doesn't file it; review, attestation, and filing remain in the Dashboard.
 func New(params *stripe.TaxFormParams) (*stripe.TaxFormCorrection, error) {
 	return getC().New(params)
 }
 
-// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type. Created correction forms are not filed automatically.
+// Creates a correction for a filed tax form. Supply either payee details or numerical values for the tax form type.
+//
+// Private preview. API access is invite-only. Contact Stripe to request access. Creating a correction doesn't file it; review, attestation, and filing remain in the Dashboard.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
