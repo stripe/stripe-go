@@ -1675,6 +1675,31 @@ func (h *eventNotificationHandlerBase) OnV2CoreAccountPersonUpdated(callback fun
 	return registerTypedHandler(h, "v2.core.account_person.updated", callback)
 }
 
+// OnV2CoreClaimableSandboxClaimed registers a callback to handle notifications about the "v2.core.claimable_sandbox.claimed" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxClaimed(callback func(ctx context.Context, notif *V2CoreClaimableSandboxClaimedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.claimed", callback)
+}
+
+// OnV2CoreClaimableSandboxCreated registers a callback to handle notifications about the "v2.core.claimable_sandbox.created" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxCreated(callback func(ctx context.Context, notif *V2CoreClaimableSandboxCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.created", callback)
+}
+
+// OnV2CoreClaimableSandboxExpired registers a callback to handle notifications about the "v2.core.claimable_sandbox.expired" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxExpired(callback func(ctx context.Context, notif *V2CoreClaimableSandboxExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.expired", callback)
+}
+
+// OnV2CoreClaimableSandboxExpiring registers a callback to handle notifications about the "v2.core.claimable_sandbox.expiring" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxExpiring(callback func(ctx context.Context, notif *V2CoreClaimableSandboxExpiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.expiring", callback)
+}
+
+// OnV2CoreClaimableSandboxUpdated registers a callback to handle notifications about the "v2.core.claimable_sandbox.updated" event.
+func (h *eventNotificationHandlerBase) OnV2CoreClaimableSandboxUpdated(callback func(ctx context.Context, notif *V2CoreClaimableSandboxUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.claimable_sandbox.updated", callback)
+}
+
 // OnV2CoreEventDestinationPing registers a callback to handle notifications about the "v2.core.event_destination.ping" event.
 func (h *eventNotificationHandlerBase) OnV2CoreEventDestinationPing(callback func(ctx context.Context, notif *V2CoreEventDestinationPingEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.event_destination.ping", callback)

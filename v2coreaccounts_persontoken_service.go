@@ -18,7 +18,8 @@ type v2CoreAccountsPersonTokenService struct {
 }
 
 // Creates a single-use token that represents the details for a person. Use this when you create or update persons associated with an Account v2. Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
-// You can only create person tokens with your application's publishable key and in live mode. You can use your application's secret key to create person tokens only in test mode.
+// In live mode, you must create person tokens using a live publishable key.
+// In a sandbox, you can create person tokens with secret or publishable keys.
 func (c v2CoreAccountsPersonTokenService) Create(ctx context.Context, params *V2CoreAccountsPersonTokenCreateParams) (*V2CoreAccountPersonToken, error) {
 	if params == nil {
 		params = &V2CoreAccountsPersonTokenCreateParams{}

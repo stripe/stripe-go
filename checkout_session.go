@@ -11,6 +11,15 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+// Controls how much address information Checkout collects when automatic tax is enabled.
+type CheckoutSessionAutomaticTaxAddressCollectionPrecision string
+
+// List of values that CheckoutSessionAutomaticTaxAddressCollectionPrecision can take
+const (
+	CheckoutSessionAutomaticTaxAddressCollectionPrecisionFull    CheckoutSessionAutomaticTaxAddressCollectionPrecision = "full"
+	CheckoutSessionAutomaticTaxAddressCollectionPrecisionMinimal CheckoutSessionAutomaticTaxAddressCollectionPrecision = "minimal"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -1609,6 +1618,12 @@ type CheckoutSessionAutomaticTaxLiabilityParams struct {
 
 // Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
+	// Controls how much address information Checkout collects when [automatic_tax](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-automatic_tax-enabled) is enabled.
+	//
+	// Defaults to `full`, which collects the address fields needed for the most accurate tax calculation. Set to `minimal` to collect only the fields required for tax in the buyer's country, accepting potentially less precise tax calculation in exchange for a streamlined form.
+	//
+	// Only honored when `automatic_tax.enabled` is `true`, `billing_address_collection` is `auto`, the resolved tax address source is the session billing address, and `ui_mode` is `form`.
+	AddressCollectionPrecision *string `form:"address_collection_precision" json:"address_collection_precision,omitempty"`
 	// Set to `true` to [calculate tax automatically](https://docs.stripe.com/tax) using the customer's location.
 	//
 	// Enabling this parameter causes Checkout to collect any billing address information necessary for tax calculation.
@@ -3528,6 +3543,8 @@ type CheckoutSessionWalletOptionsParams struct {
 }
 
 // Creates a Checkout Session object.
+//
+// Validate requests on your server and protect your application's Session-creation endpoint with access controls and limits on repeated creation. See [Protect your Session-creation endpoint](https://docs.stripe.com/payments/accept-a-payment?payment-ui=elements&api-integration=checkout#protect-session-creation).
 type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -3804,6 +3821,12 @@ type CheckoutSessionCreateAutomaticTaxLiabilityParams struct {
 
 // Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionCreateAutomaticTaxParams struct {
+	// Controls how much address information Checkout collects when [automatic_tax](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-automatic_tax-enabled) is enabled.
+	//
+	// Defaults to `full`, which collects the address fields needed for the most accurate tax calculation. Set to `minimal` to collect only the fields required for tax in the buyer's country, accepting potentially less precise tax calculation in exchange for a streamlined form.
+	//
+	// Only honored when `automatic_tax.enabled` is `true`, `billing_address_collection` is `auto`, the resolved tax address source is the session billing address, and `ui_mode` is `form`.
+	AddressCollectionPrecision *string `form:"address_collection_precision" json:"address_collection_precision,omitempty"`
 	// Set to `true` to [calculate tax automatically](https://docs.stripe.com/tax) using the customer's location.
 	//
 	// Enabling this parameter causes Checkout to collect any billing address information necessary for tax calculation.
@@ -5685,6 +5708,8 @@ type CheckoutSessionCreateWalletOptionsParams struct {
 }
 
 // Creates a Checkout Session object.
+//
+// Validate requests on your server and protect your application's Session-creation endpoint with access controls and limits on repeated creation. See [Protect your Session-creation endpoint](https://docs.stripe.com/payments/accept-a-payment?payment-ui=elements&api-integration=checkout#protect-session-creation).
 type CheckoutSessionCreateParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -6263,6 +6288,8 @@ type CheckoutSessionAutomaticTaxLiability struct {
 	Type CheckoutSessionAutomaticTaxLiabilityType `json:"type"`
 }
 type CheckoutSessionAutomaticTax struct {
+	// Controls how much address information Checkout collects when automatic tax is enabled.
+	AddressCollectionPrecision CheckoutSessionAutomaticTaxAddressCollectionPrecision `json:"address_collection_precision,omitempty"`
 	// Indicates whether automatic tax is enabled for the session
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.

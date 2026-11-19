@@ -1,0 +1,59 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+package stripe
+
+import (
+	"context"
+	"net/http"
+)
+
+// v2CoreClaimableSandboxService is used to invoke claimablesandbox related APIs.
+type v2CoreClaimableSandboxService struct {
+	B   Backend
+	Key string
+}
+
+// Create a claimable sandbox with prefilled data. The response includes an onboarding link that lets
+// a user claim the sandbox into a new or existing Stripe account.
+func (c v2CoreClaimableSandboxService) Create(ctx context.Context, params *V2CoreClaimableSandboxCreateParams) (*V2CoreClaimableSandbox, error) {
+	if params == nil {
+		params = &V2CoreClaimableSandboxCreateParams{}
+	}
+	params.Context = ctx
+	claimablesandbox := &V2CoreClaimableSandbox{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/core/claimable_sandboxes", c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}
+
+// Retrieves the details of a claimable sandbox that was previously been created.
+// Supply the unique claimable sandbox ID that was returned from your creation request,
+// and Stripe will return the corresponding sandbox information.
+func (c v2CoreClaimableSandboxService) Retrieve(ctx context.Context, id string, params *V2CoreClaimableSandboxRetrieveParams) (*V2CoreClaimableSandbox, error) {
+	if params == nil {
+		params = &V2CoreClaimableSandboxRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/claimable_sandboxes/%s", id)
+	claimablesandbox := &V2CoreClaimableSandbox{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}
+
+// Renew the claimable sandbox onboarding link. This invalidates the existing onboarding link.
+// The endpoint only works on a claimable sandbox with status `unclaimed` or `claimed`.
+func (c v2CoreClaimableSandboxService) RenewOnboardingLink(ctx context.Context, id string, params *V2CoreClaimableSandboxRenewOnboardingLinkParams) (*V2CoreClaimableSandbox, error) {
+	if params == nil {
+		params = &V2CoreClaimableSandboxRenewOnboardingLinkParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/claimable_sandboxes/%s/renew_onboarding_link", id)
+	claimablesandbox := &V2CoreClaimableSandbox{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}

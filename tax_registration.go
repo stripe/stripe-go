@@ -421,6 +421,15 @@ const (
 	TaxRegistrationCountryOptionsEgTypeSimplified TaxRegistrationCountryOptionsEgType = "simplified"
 )
 
+// Place of supply scheme used in an IGIC registration.
+type TaxRegistrationCountryOptionsESIgicPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsESIgicPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsESIgicPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsESIgicPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsESIgicPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsESIgicPlaceOfSupplyScheme = "standard"
+)
+
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme string
 
@@ -436,6 +445,7 @@ type TaxRegistrationCountryOptionsESType string
 
 // List of values that TaxRegistrationCountryOptionsESType can take
 const (
+	TaxRegistrationCountryOptionsESTypeIgic        TaxRegistrationCountryOptionsESType = "igic"
 	TaxRegistrationCountryOptionsESTypeIoss        TaxRegistrationCountryOptionsESType = "ioss"
 	TaxRegistrationCountryOptionsESTypeOssNonUnion TaxRegistrationCountryOptionsESType = "oss_non_union"
 	TaxRegistrationCountryOptionsESTypeOssUnion    TaxRegistrationCountryOptionsESType = "oss_union"
@@ -1709,6 +1719,12 @@ type TaxRegistrationCountryOptionsEgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the IGIC registration.
+type TaxRegistrationCountryOptionsESIgicParams struct {
+	// Place of supply scheme used in an IGIC registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsESStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1717,6 +1733,8 @@ type TaxRegistrationCountryOptionsESStandardParams struct {
 
 // Options for the registration in ES.
 type TaxRegistrationCountryOptionsESParams struct {
+	// Options for the IGIC registration.
+	Igic *TaxRegistrationCountryOptionsESIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in ES.
@@ -3184,6 +3202,12 @@ type TaxRegistrationCreateCountryOptionsEgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the IGIC registration.
+type TaxRegistrationCreateCountryOptionsESIgicParams struct {
+	// Place of supply scheme used in an IGIC registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsESStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3192,6 +3216,8 @@ type TaxRegistrationCreateCountryOptionsESStandardParams struct {
 
 // Options for the registration in ES.
 type TaxRegistrationCreateCountryOptionsESParams struct {
+	// Options for the IGIC registration.
+	Igic *TaxRegistrationCreateCountryOptionsESIgicParams `form:"igic" json:"igic,omitempty"`
 	// Options for the standard registration.
 	Standard *TaxRegistrationCreateCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in ES.
@@ -4511,11 +4537,16 @@ type TaxRegistrationCountryOptionsEg struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsEgType `json:"type"`
 }
+type TaxRegistrationCountryOptionsESIgic struct {
+	// Place of supply scheme used in an IGIC registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsESIgicPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsESStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsES struct {
+	Igic     *TaxRegistrationCountryOptionsESIgic     `json:"igic,omitempty"`
 	Standard *TaxRegistrationCountryOptionsESStandard `json:"standard,omitempty"`
 	// Type of registration in ES.
 	Type TaxRegistrationCountryOptionsESType `json:"type"`
