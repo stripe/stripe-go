@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2496
 semver_level: minor
 is_stripe_api_change: true
+released_in_version: 87.2.0
 ---
 
 * Add support for new resource `V2CoreClaimableSandbox`
