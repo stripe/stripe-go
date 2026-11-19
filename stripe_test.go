@@ -2358,7 +2358,7 @@ func TestResponseToError(t *testing.T) {
 	stripeErr := err.(*Error)
 
 	assert.Equal(t, expectedErr.Code, stripeErr.Code)
-	assert.Equal(t, expectedErr.Msg, stripeErr.Msg)
+	assert.Equal(t, "["+res.Header.Get("Request-Id")+"] "+expectedErr.Msg, stripeErr.Msg)
 	assert.Equal(t, expectedErr.Param, stripeErr.Param)
 	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.RequestID)
 	assert.Equal(t, res.StatusCode, stripeErr.HTTPStatusCode)
@@ -2817,8 +2817,9 @@ func TestHandleV2ErrorWhenKnownError(t *testing.T) {
 }
 
 func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
+	requestID := "req_123"
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Request-Id", "req_123")
+		w.Header().Add("Request-Id", requestID)
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"type":"unknown_type","message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -2837,14 +2838,15 @@ func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	assert.Error(t, err)
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
-	assert.Equal(t, "Some message", stripeErr.Message)
-	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, "["+requestID+"] Some message", stripeErr.Message)
+	assert.Equal(t, requestID, stripeErr.RequestID)
 	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
 }
 
 func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
+	requestID := "req_123"
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Request-Id", "req_123")
+		w.Header().Add("Request-Id", requestID)
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -2863,8 +2865,8 @@ func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	assert.Error(t, err)
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
-	assert.Equal(t, "Some message", stripeErr.Message)
-	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, "["+requestID+"] Some message", stripeErr.Message)
+	assert.Equal(t, requestID, stripeErr.RequestID)
 	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
 }
 
