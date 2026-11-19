@@ -3,6 +3,7 @@ title: Update generated code
 pr_url: https://github.com/stripe/stripe-go/pull/2497
 semver_level: major
 is_stripe_api_change: true
+released_in_version: 87.3.0-alpha.1
 ---
 
 * Add support for new resources `V2BillingGroupInvoice`, `V2BillingGroupSpendModifier`, and `V2BillingGroup`
