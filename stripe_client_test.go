@@ -219,7 +219,8 @@ func TestParseUnknownEventNotification(t *testing.T) {
 // print the API key held by the client.
 func formatsWithoutKey(t *testing.T, v interface{}, key string) {
 	t.Helper()
-	for _, verb := range []string{"%v", "%+v", "%#v", "%s", "%q"} {
+	// %p skips Format entirely, so it exercises the key's pointer indirection.
+	for _, verb := range []string{"%v", "%+v", "%#v", "%s", "%q", "%p"} {
 		assert.NotContains(t, fmt.Sprintf(verb, v), key, verb)
 	}
 	var buf bytes.Buffer

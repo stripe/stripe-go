@@ -1902,7 +1902,7 @@ func (h *eventNotificationHandlerBase) createClientWithContext(stripeContext *st
 	}
 	newConfig := *baseConfig
 	newConfig.StripeContext = stripeContext
-	return NewClient(h.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
+	return NewClient(*h.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
 }
 
 // Handle processes an incoming webhook payload by routing it to the appropriate CallbackFunc (or the FallbackCallbackFunc if none is available).
