@@ -102,8 +102,23 @@ func (p *ProductParams) AddMetadata(key string, value string) {
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 type ProductMarketingFeatureParams struct {
+	// Optional text that describes what a customer loses by canceling, shown for this marketing feature in the Customer Portal cancellation flow. Up to 80 characters long. If you omit it when you update `marketing_features`, Stripe keeps the message stored for the feature with the same name. Duplicate names are matched in order. Set it to an empty string to remove the override. When no override is stored, eligible cancellation flows use the marketing feature name. A renamed feature is treated as a new feature, so send the message again to keep it.
+	LossMessage *string `form:"loss_message" json:"loss_message,omitempty"`
 	// The marketing feature name. Up to 80 characters long.
-	Name *string `form:"name" json:"name"`
+	Name        *string                                   `form:"name" json:"name"`
+	UnsetFields []ProductMarketingFeatureParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductMarketingFeatureParamsUnsetField is the list of fields that can be cleared/unset on ProductMarketingFeatureParams.
+type ProductMarketingFeatureParamsUnsetField string
+
+const (
+	ProductMarketingFeatureParamsUnsetFieldLossMessage ProductMarketingFeatureParamsUnsetField = "loss_message"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductMarketingFeatureParams) AddUnsetField(field ProductMarketingFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The dimensions of this product for shipping purposes.
@@ -298,8 +313,23 @@ func (p *ProductRetrieveParams) AddExpand(f string) {
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 type ProductUpdateMarketingFeatureParams struct {
+	// Optional text that describes what a customer loses by canceling, shown for this marketing feature in the Customer Portal cancellation flow. Up to 80 characters long. If you omit it when you update `marketing_features`, Stripe keeps the message stored for the feature with the same name. Duplicate names are matched in order. Set it to an empty string to remove the override. When no override is stored, eligible cancellation flows use the marketing feature name. A renamed feature is treated as a new feature, so send the message again to keep it.
+	LossMessage *string `form:"loss_message" json:"loss_message,omitempty"`
 	// The marketing feature name. Up to 80 characters long.
-	Name *string `form:"name" json:"name"`
+	Name        *string                                         `form:"name" json:"name"`
+	UnsetFields []ProductUpdateMarketingFeatureParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductUpdateMarketingFeatureParamsUnsetField is the list of fields that can be cleared/unset on ProductUpdateMarketingFeatureParams.
+type ProductUpdateMarketingFeatureParamsUnsetField string
+
+const (
+	ProductUpdateMarketingFeatureParamsUnsetFieldLossMessage ProductUpdateMarketingFeatureParamsUnsetField = "loss_message"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductUpdateMarketingFeatureParams) AddUnsetField(field ProductUpdateMarketingFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The dimensions of this product for shipping purposes.
@@ -507,8 +537,23 @@ func (p *ProductCreateDefaultPriceDataParams) AddMetadata(key string, value stri
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 type ProductCreateMarketingFeatureParams struct {
+	// Optional text that describes what a customer loses by canceling, shown for this marketing feature in the Customer Portal cancellation flow. Up to 80 characters long. If you omit it when you update `marketing_features`, Stripe keeps the message stored for the feature with the same name. Duplicate names are matched in order. Set it to an empty string to remove the override. When no override is stored, eligible cancellation flows use the marketing feature name. A renamed feature is treated as a new feature, so send the message again to keep it.
+	LossMessage *string `form:"loss_message" json:"loss_message,omitempty"`
 	// The marketing feature name. Up to 80 characters long.
-	Name *string `form:"name" json:"name"`
+	Name        *string                                         `form:"name" json:"name"`
+	UnsetFields []ProductCreateMarketingFeatureParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductCreateMarketingFeatureParamsUnsetField is the list of fields that can be cleared/unset on ProductCreateMarketingFeatureParams.
+type ProductCreateMarketingFeatureParamsUnsetField string
+
+const (
+	ProductCreateMarketingFeatureParamsUnsetFieldLossMessage ProductCreateMarketingFeatureParamsUnsetField = "loss_message"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductCreateMarketingFeatureParams) AddUnsetField(field ProductCreateMarketingFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The dimensions of this product for shipping purposes.
@@ -602,6 +647,8 @@ func (p *ProductCreateParams) AddMetadata(key string, value string) {
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 type ProductMarketingFeature struct {
+	// Optional text that describes what a customer loses by canceling, shown for this marketing feature in the Customer Portal cancellation flow. Up to 80 characters long. If you omit it when you update `marketing_features`, Stripe keeps the message stored for the feature with the same name. Duplicate names are matched in order. Set it to an empty string to remove the override. When no override is stored, eligible cancellation flows use the marketing feature name. A renamed feature is treated as a new feature, so send the message again to keep it.
+	LossMessage string `json:"loss_message,omitempty"`
 	// The marketing feature name. Up to 80 characters long.
 	Name string `json:"name,omitempty"`
 }

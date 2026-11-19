@@ -4562,7 +4562,7 @@ type SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
 	QRCode                *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
-	// The timestamp when the microdeposits are expected to land.
+	// The timestamp when the microdeposits are expected to land. Null for instant microdeposits.
 	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`

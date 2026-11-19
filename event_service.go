@@ -31,7 +31,7 @@ func (c v1EventService) Retrieve(ctx context.Context, id string, params *EventRe
 	return event, err
 }
 
-// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
+// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object api_version attribute (not according to your current Stripe API version or Stripe-Version header). The list includes only events for the account that makes the request. A platform's list doesn't include events from its connected accounts. To list a connected account's events, make the request <a href="https://docs.stripe.com/connect/authentication">as the connected account](https://docs.stripe.com/api/events/object) using the Stripe-Account header.
 func (c v1EventService) List(ctx context.Context, listParams *EventListParams) *V1List[*Event] {
 	if listParams == nil {
 		listParams = &EventListParams{}

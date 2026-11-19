@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and can't be in the canceled or failed states.
 func Update(id string, params *stripe.TestHelpersTreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Update(id, params)
 }
 
-// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and can't be in the canceled or failed states.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundPaym
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
 func Fail(id string, params *stripe.TestHelpersTreasuryOutboundPaymentFailParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Fail(id, params)
 }
 
-// Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,12 +58,12 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundPaymen
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
 func Post(id string, params *stripe.TestHelpersTreasuryOutboundPaymentPostParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Post(id, params)
 }
 
-// Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -76,12 +76,12 @@ func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundPaymen
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the returned status. The OutboundPayment must already be in the posted state.
 func ReturnOutboundPayment(id string, params *stripe.TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().ReturnOutboundPayment(id, params)
 }
 
-// Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the returned status. The OutboundPayment must already be in the posted state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

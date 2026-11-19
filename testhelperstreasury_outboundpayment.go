@@ -32,7 +32,7 @@ type TestHelpersTreasuryOutboundPaymentTrackingDetailsParams struct {
 	USDomesticWire *TestHelpersTreasuryOutboundPaymentTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
-// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and can't be in the canceled or failed states.
 type TestHelpersTreasuryOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -46,7 +46,7 @@ func (p *TestHelpersTreasuryOutboundPaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -58,7 +58,7 @@ func (p *TestHelpersTreasuryOutboundPaymentFailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentPostParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -76,7 +76,7 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParam
 	Code *string `form:"code" json:"code,omitempty"`
 }
 
-// Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the returned status. The OutboundPayment must already be in the posted state.
 type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -116,7 +116,7 @@ type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams struct {
 	USDomesticWire *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
-// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and can't be in the canceled or failed states.
 type TestHelpersTreasuryOutboundPaymentUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

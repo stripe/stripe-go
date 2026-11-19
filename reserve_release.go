@@ -44,7 +44,7 @@ const (
 	ReserveReleaseSourceTransactionTypeRefund  ReserveReleaseSourceTransactionType = "refund"
 )
 
-// Returns a list of ReserveReleases previously created. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
+// Returns a list of ReserveReleases on your account or on one of your connected accounts. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
 type ReserveReleaseListParams struct {
 	ListParams `form:"*"`
 	// Only return ReserveReleases associated with the currency specified by this currency code. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -62,7 +62,7 @@ func (p *ReserveReleaseListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReserveRelease.
+// Retrieve a ReserveRelease on your account or on one of your connected accounts.
 type ReserveReleaseParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -74,7 +74,7 @@ func (p *ReserveReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve a ReserveRelease.
+// Retrieve a ReserveRelease on your account or on one of your connected accounts.
 type ReserveReleaseRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

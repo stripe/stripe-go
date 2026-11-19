@@ -19,7 +19,7 @@ type v1ReserveReleaseService struct {
 	Key string
 }
 
-// Retrieve a ReserveRelease.
+// Retrieve a ReserveRelease on your account or on one of your connected accounts.
 func (c v1ReserveReleaseService) Retrieve(ctx context.Context, id string, params *ReserveReleaseRetrieveParams) (*ReserveRelease, error) {
 	if params == nil {
 		params = &ReserveReleaseRetrieveParams{}
@@ -31,7 +31,7 @@ func (c v1ReserveReleaseService) Retrieve(ctx context.Context, id string, params
 	return release, err
 }
 
-// Returns a list of ReserveReleases previously created. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
+// Returns a list of ReserveReleases on your account or on one of your connected accounts. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
 func (c v1ReserveReleaseService) List(ctx context.Context, listParams *ReserveReleaseListParams) *V1List[*ReserveRelease] {
 	if listParams == nil {
 		listParams = &ReserveReleaseListParams{}

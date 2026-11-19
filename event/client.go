@@ -40,12 +40,12 @@ func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error
 	return event, err
 }
 
-// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
+// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object api_version attribute (not according to your current Stripe API version or Stripe-Version header). The list includes only events for the account that makes the request. A platform's list doesn't include events from its connected accounts. To list a connected account's events, make the request <a href="https://docs.stripe.com/connect/authentication">as the connected account](https://docs.stripe.com/api/events/object) using the Stripe-Account header.
 func List(params *stripe.EventListParams) *Iter {
 	return getC().List(params)
 }
 
-// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
+// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object api_version attribute (not according to your current Stripe API version or Stripe-Version header). The list includes only events for the account that makes the request. A platform's list doesn't include events from its connected accounts. To list a connected account's events, make the request <a href="https://docs.stripe.com/connect/authentication">as the connected account](https://docs.stripe.com/api/events/object) using the Stripe-Account header.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

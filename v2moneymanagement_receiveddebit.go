@@ -8,6 +8,23 @@ package stripe
 
 import "time"
 
+// The bank network the debit was originated on.
+type V2MoneyManagementReceivedDebitBankTransferNetwork string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferNetwork can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferNetworkACH V2MoneyManagementReceivedDebitBankTransferNetwork = "ach"
+)
+
+// The credential type identifying the originating bank account.
+type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountTypeABA V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType = "aba"
+)
+
+// Deprecated: Use `bank_transfer.originating_bank_account.type` instead.
 // Open Enum. The type of the payment method used to originate the debit.
 type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
 
@@ -56,6 +73,25 @@ const (
 	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
 )
 
+// Details of the originating account. Present when type is `aba`.
+type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountABA struct {
+	// The name of the account holder that originated the debit, as provided by the ACH network.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The name of the bank the debit originated from.
+	BankName string `json:"bank_name,omitempty"`
+	// The routing number of the bank that originated the debit.
+	RoutingNumber string `json:"routing_number,omitempty"`
+}
+
+// The originating bank account's credential details.
+type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccount struct {
+	// Details of the originating account. Present when type is `aba`.
+	ABA *V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountABA `json:"aba,omitempty"`
+	// The credential type identifying the originating bank account.
+	Type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType `json:"type"`
+}
+
+// Deprecated: Use `bank_transfer.originating_bank_account.aba` instead.
 // Object containing details of the US Bank Account that originated the debit.
 // Present when the debit was originated via ACH.
 type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
@@ -71,10 +107,16 @@ type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 type V2MoneyManagementReceivedDebitBankTransfer struct {
 	// The Financial Address that was debited.
 	FinancialAddress string `json:"financial_address"`
+	// The bank network the debit was originated on.
+	Network V2MoneyManagementReceivedDebitBankTransferNetwork `json:"network"`
+	// The originating bank account's credential details.
+	OriginatingBankAccount *V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccount `json:"originating_bank_account"`
+	// Deprecated: Use `bank_transfer.originating_bank_account.type` instead.
 	// Open Enum. The type of the payment method used to originate the debit.
 	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
 	// The statement descriptor set by the originator of the debit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+	// Deprecated: Use `bank_transfer.originating_bank_account.aba` instead.
 	// Object containing details of the US Bank Account that originated the debit.
 	// Present when the debit was originated via ACH.
 	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account,omitempty"`

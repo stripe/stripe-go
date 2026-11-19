@@ -365,10 +365,26 @@ type TreasuryOutboundTransferNetworkDetails struct {
 	Type TreasuryOutboundTransferNetworkDetailsType `json:"type"`
 }
 
+// ACH return details.
+type TreasuryOutboundTransferReturnedDetailsNetworkDetailsACH struct {
+	// NACHA ACH return code.
+	ReturnCode string `json:"return_code"`
+	// NACHA ACH return reason.
+	ReturnReason string `json:"return_reason"`
+}
+
+// Money movement network-specific details regarding the failure.
+type TreasuryOutboundTransferReturnedDetailsNetworkDetails struct {
+	// ACH return details.
+	ACH *TreasuryOutboundTransferReturnedDetailsNetworkDetailsACH `json:"ach"`
+}
+
 // Details about a returned OutboundTransfer. Only set when the status is `returned`.
 type TreasuryOutboundTransferReturnedDetails struct {
 	// Reason for the return.
 	Code TreasuryOutboundTransferReturnedDetailsCode `json:"code"`
+	// Money movement network-specific details regarding the failure.
+	NetworkDetails *TreasuryOutboundTransferReturnedDetailsNetworkDetails `json:"network_details"`
 	// The Transaction associated with this object.
 	Transaction *TreasuryTransaction `json:"transaction"`
 }

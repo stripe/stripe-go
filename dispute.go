@@ -822,7 +822,7 @@ type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
 	AccessActivityLog string `json:"access_activity_log"`
 	// Appeal evidence submitted during the appeal stage.
-	Appeal *DisputeEvidenceAppeal `json:"appeal,omitempty"`
+	Appeal *DisputeEvidenceAppeal `json:"appeal"`
 	// The billing address provided by the customer.
 	BillingAddress string `json:"billing_address"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
@@ -959,7 +959,7 @@ type Dispute struct {
 	APIResource
 	// Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
 	Amount int64 `json:"amount"`
-	// List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
+	// List of balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
 	// ID of the charge that's disputed.
 	Charge *Charge `json:"charge"`

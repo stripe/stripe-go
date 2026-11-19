@@ -294,6 +294,8 @@ type Client struct {
 	V1TerminalReaderCollectedData *v1TerminalReaderCollectedDataService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TerminalReaders *v1TerminalReaderService
+	// V1TestHelpersCapitalFinancingOffers is the service used to invoke /v1/capital/financing_offers APIs.
+	V1TestHelpersCapitalFinancingOffers *v1TestHelpersCapitalFinancingOfferService
 	// V1TestHelpersConfirmationTokens is the service used to invoke /v1/confirmation_tokens APIs.
 	V1TestHelpersConfirmationTokens *v1TestHelpersConfirmationTokenService
 	// V1TestHelpersCustomers is the service used to invoke /v1/customers APIs.
@@ -360,8 +362,6 @@ type Client struct {
 	V2BillingBillSettings *v2BillingBillSettingService
 	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
 	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
-	// V2BillingCadences is the service used to invoke /v2/billing/cadences APIs.
-	V2BillingCadences *v2BillingCadenceService
 	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2BillingCollectionSettingService
 	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
@@ -392,6 +392,8 @@ type Client struct {
 	V2CoreApprovalRequests *v2CoreApprovalRequestService
 	// V2CoreBatchJobs is the service used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2CoreBatchJobService
+	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -644,6 +646,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersCapitalFinancingOffers = &v1TestHelpersCapitalFinancingOfferService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
@@ -677,7 +680,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
 	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
 	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
-	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
@@ -693,6 +695,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreApprovalRequests = &v2CoreApprovalRequestService{B: backends.API, Key: key}
 	client.V2CoreBatchJobs = &v2CoreBatchJobService{B: backends.API, Key: key}
+	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}

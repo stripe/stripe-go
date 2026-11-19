@@ -73,7 +73,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
 )
 
-// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
@@ -278,6 +278,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "solana"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSui      PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "sui"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "tempo"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkTron     PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "tron"
 )
 
 // The token currency that the transaction was sent with.
@@ -888,7 +889,7 @@ type PaymentAttemptRecordPaymentMethodDetailsBoleto struct {
 type PaymentAttemptRecordPaymentMethodDetailsCardChecks struct {
 	// If you provide a value for `address.line1`, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
-	// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	// If you provide an address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If you provide a CVC, the check results is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
@@ -996,7 +997,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
-	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
+	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1419,7 +1420,10 @@ type PaymentAttemptRecordPaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name,omitempty"`
 }
-type PaymentAttemptRecordPaymentMethodDetailsPaypay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsPaypay struct {
+	// Uniquely identifies this particular PayPay account. You can use this attribute to check whether two PayPay accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`

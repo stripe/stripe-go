@@ -641,7 +641,7 @@ func (p *IssuingCardUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate.
 type IssuingCardLatestFraudWarning struct {
 	// Timestamp of the most recent fraud warning.
 	StartedAt int64 `json:"started_at"`
@@ -692,7 +692,7 @@ type IssuingCardShipping struct {
 	// Additional information that may be required for clearing customs.
 	Customs *IssuingCardShippingCustoms `json:"customs"`
 	// The time the card was reported as delivered. Null for undelivered or untracked shipments, or if Stripe has not recorded a delivery time.
-	DeliveredAt int64 `json:"delivered_at,omitempty"`
+	DeliveredAt int64 `json:"delivered_at"`
 	// A unix timestamp representing a best estimate of when the card will be delivered.
 	ETA int64 `json:"eta"`
 	// Recipient name.
@@ -704,7 +704,7 @@ type IssuingCardShipping struct {
 	// Shipment service, such as `standard` or `express`.
 	Service IssuingCardShippingService `json:"service"`
 	// The time the card was reported as shipped. Null if Stripe has not recorded a shipment time.
-	ShippedAt int64 `json:"shipped_at,omitempty"`
+	ShippedAt int64 `json:"shipped_at"`
 	// The delivery status of the card.
 	Status IssuingCardShippingStatus `json:"status"`
 	// A tracking number for a card shipment.
@@ -790,7 +790,7 @@ type IssuingCard struct {
 	ID string `json:"id"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
-	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate.
 	LatestFraudWarning *IssuingCardLatestFraudWarning `json:"latest_fraud_warning"`
 	// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
 	LifecycleControls *IssuingCardLifecycleControls `json:"lifecycle_controls"`
