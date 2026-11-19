@@ -24,7 +24,7 @@ type TestHelpersTreasuryReceivedDebitInitiatingPaymentMethodDetailsParams struct
 	USBankAccount *TestHelpersTreasuryReceivedDebitInitiatingPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebits initiated by third parties.
+// Simulates a test ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebit objects initiated by third parties.
 type TestHelpersTreasuryReceivedDebitParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
@@ -66,7 +66,7 @@ type TestHelpersTreasuryReceivedDebitCreateInitiatingPaymentMethodDetailsParams 
 	USBankAccount *TestHelpersTreasuryReceivedDebitCreateInitiatingPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
 
-// Use this endpoint to simulate a test mode ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebits initiated by third parties.
+// Simulates a test ReceivedDebit initiated by a third party. In live mode, you can't directly create ReceivedDebit objects initiated by third parties.
 type TestHelpersTreasuryReceivedDebitCreateParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.

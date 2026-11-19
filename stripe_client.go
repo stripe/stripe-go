@@ -318,6 +318,8 @@ type Client struct {
 	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
 	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2CoreAccountTokenService
+	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -550,6 +552,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
+	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}

@@ -17,7 +17,7 @@ type v1TestHelpersTreasuryOutboundTransferService struct {
 	Key string
 }
 
-// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and can't be in the canceled or failed states.
 func (c v1TestHelpersTreasuryOutboundTransferService) Update(ctx context.Context, id string, params *TestHelpersTreasuryOutboundTransferUpdateParams) (*TreasuryOutboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundTransferUpdateParams{}
@@ -29,7 +29,7 @@ func (c v1TestHelpersTreasuryOutboundTransferService) Update(ctx context.Context
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 func (c v1TestHelpersTreasuryOutboundTransferService) Fail(ctx context.Context, id string, params *TestHelpersTreasuryOutboundTransferFailParams) (*TreasuryOutboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundTransferFailParams{}
@@ -42,7 +42,7 @@ func (c v1TestHelpersTreasuryOutboundTransferService) Fail(ctx context.Context, 
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 func (c v1TestHelpersTreasuryOutboundTransferService) Post(ctx context.Context, id string, params *TestHelpersTreasuryOutboundTransferPostParams) (*TreasuryOutboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundTransferPostParams{}
@@ -55,7 +55,7 @@ func (c v1TestHelpersTreasuryOutboundTransferService) Post(ctx context.Context, 
 	return outboundtransfer, err
 }
 
-// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
+// Transitions a test OutboundTransfer to the returned status. The OutboundTransfer must already be in the posted state.
 func (c v1TestHelpersTreasuryOutboundTransferService) ReturnOutboundTransfer(ctx context.Context, id string, params *TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams) (*TreasuryOutboundTransfer, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{}

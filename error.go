@@ -181,6 +181,7 @@ const (
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
 	ErrorCodeForwardingAPIUpstreamError                                  ErrorCode = "forwarding_api_upstream_error"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
+	ErrorCodeInactiveAPIOperationConfirmationRequired                    ErrorCode = "inactive_api_operation_confirmation_required"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
 	ErrorCodeIncorrectNumber                                             ErrorCode = "incorrect_number"

@@ -292,6 +292,156 @@ const (
 	PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositTypeDescriptorCode PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = "descriptor_code"
 )
 
+// Unit for the distance.
+type PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumDistanceUnitKilometers PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit = "kilometers"
+	PaymentIntentPaymentDetailsCarRentalDatumDistanceUnitMiles      PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit = "miles"
+)
+
+// Type of insurance.
+type PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeLiabilitySupplement PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "liability_supplement"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeLossDamageWaiver    PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "loss_damage_waiver"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeOther               PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "other"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePartialDamageWaiver PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "partial_damage_waiver"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePersonalAccident    PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "personal_accident"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePersonalEffects     PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "personal_effects"
+)
+
+// Type of extra charge.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeExtraMileage   PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "extra_mileage"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeGas            PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "gas"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeGps            PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "gps"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeLateCharge     PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "late_charge"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeOneWayDropOff  PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "one_way_drop_off"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeOther          PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "other"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeParking        PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "parking"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypePhone          PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "phone"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeRegularMileage PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "regular_mileage"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeTowing         PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "towing"
+)
+
+// Unit for the rate.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnitKilometers PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit = "kilometers"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnitMiles      PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit = "miles"
+)
+
+// Type of the vehicle.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumVehicleType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeCargoVan            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "cargo_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeCompact             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "compact"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeEconomy             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "economy"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeExotic              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "exotic"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeExoticSuv           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "exotic_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFifteenPassengerVan PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "fifteen_passenger_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFourWheelDrive      PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "four_wheel_drive"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFullSize            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "full_size"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeIntermediate        PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "intermediate"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLargeSuv            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "large_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLargeTruck          PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "large_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLuxury              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "luxury"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMediumSuv           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "medium_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMidsize             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "midsize"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMini                PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "mini"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMinivan             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "minivan"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMiscellaneous       PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "miscellaneous"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMoped               PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "moped"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMovingVan           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "moving_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypePremium             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "premium"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeRegular             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "regular"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSmallMediumTruck    PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "small_medium_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSmallSuv            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "small_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSpecial             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "special"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeStandard            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "standard"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeStretch             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "stretch"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSubcompact          PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "subcompact"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTaxi                PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "taxi"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwelveFootTruck     PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twelve_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwelvePassengerVan  PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twelve_passenger_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentyFootTruck     PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentyFourFootTruck PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_four_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentySixFootTruck  PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_six_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeUnique              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "unique"
+)
+
+// Class of the vehicle.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassBusiness       PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "business"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassEconomy        PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "economy"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassFirstClass     PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "first_class"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassPremiumEconomy PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "premium_economy"
+)
+
+// Type of accommodation.
+type PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeApartment PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "apartment"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeCabana    PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "cabana"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeHouse     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "house"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypePenthouse PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "penthouse"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeRoom      PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "room"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeStandard  PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "standard"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeSuite     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "suite"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeVilla     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "villa"
+)
+
+// Type of host.
+type PaymentIntentPaymentDetailsLodgingDatumHostHostType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumHostHostType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeHostel       PaymentIntentPaymentDetailsLodgingDatumHostHostType = "hostel"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeHotel        PaymentIntentPaymentDetailsLodgingDatumHostHostType = "hotel"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeOwner        PaymentIntentPaymentDetailsLodgingDatumHostHostType = "owner"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeRentalAgency PaymentIntentPaymentDetailsLodgingDatumHostHostType = "rental_agency"
+)
+
+// Type of insurance coverage.
+type PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeBankruptcy  PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "bankruptcy"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeCancelation PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "cancelation"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeEmergency   PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "emergency"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeMedical     PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "medical"
+)
+
+// Type of extra charge.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeGiftShop   PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "gift_shop"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeLaundry    PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "laundry"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeMiniBar    PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "mini_bar"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeOther      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "other"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypePhone      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "phone"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeRestaurant PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "restaurant"
+)
+
 // Payment schedule for the mandate.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -1868,12 +2018,336 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance" json:"customer_acceptance"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Name of affiliate partner.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Distance details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit" json:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month" json:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year" json:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
+	// Driver's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentPaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentPaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentPaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentPaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make" json:"make,omitempty"`
+	// Model of the rental vehicle.
+	Model *string `form:"model" json:"model,omitempty"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
+	// Type of the rental vehicle.
+	Type *string `form:"type" json:"type,omitempty"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentPaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentPaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
+	// Distance details for the rental.
+	Distance *PaymentIntentPaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentPaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
+	// Drop-off location details.
+	DropOff *PaymentIntentPaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentPaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Pickup location details.
+	Pickup *PaymentIntentPaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentPaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentPaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
+}
+
+// Accommodation details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
+	// Bed type.
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentPaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Affiliate partner name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
+	// Type of host.
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentPaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentPaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentPaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentPaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentPaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentPaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
+	// Host details for the lodging.
+	Host *PaymentIntentPaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentPaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total details for the lodging.
+	Total *PaymentIntentPaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentPaymentDetailsParams struct {
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentPaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -1885,7 +2359,9 @@ type PaymentIntentPaymentDetailsParams struct {
 type PaymentIntentPaymentDetailsParamsUnsetField string
 
 const (
+	PaymentIntentPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentPaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -4314,7 +4790,7 @@ type PaymentIntentParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
@@ -4597,12 +5073,336 @@ type PaymentIntentCaptureHooksParams struct {
 	Inputs *PaymentIntentCaptureHooksInputsParams `form:"inputs" json:"inputs,omitempty"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Name of affiliate partner.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Distance details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit" json:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month" json:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year" json:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
+	// Driver's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make" json:"make,omitempty"`
+	// Model of the rental vehicle.
+	Model *string `form:"model" json:"model,omitempty"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
+	// Type of the rental vehicle.
+	Type *string `form:"type" json:"type,omitempty"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentCapturePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
+	// Distance details for the rental.
+	Distance *PaymentIntentCapturePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentCapturePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
+	// Drop-off location details.
+	DropOff *PaymentIntentCapturePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentCapturePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Pickup location details.
+	Pickup *PaymentIntentCapturePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentCapturePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
+}
+
+// Accommodation details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
+	// Bed type.
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentCapturePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Affiliate partner name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
+	// Type of host.
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentCapturePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentCapturePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCapturePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentCapturePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
+	// Host details for the lodging.
+	Host *PaymentIntentCapturePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentCapturePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total details for the lodging.
+	Total *PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCapturePaymentDetailsParams struct {
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentCapturePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -4614,7 +5414,9 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 type PaymentIntentCapturePaymentDetailsParamsUnsetField string
 
 const (
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCapturePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCapturePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -4863,12 +5665,336 @@ type PaymentIntentConfirmHooksParams struct {
 	Inputs *PaymentIntentConfirmHooksInputsParams `form:"inputs" json:"inputs,omitempty"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Name of affiliate partner.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Distance details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit" json:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month" json:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year" json:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
+	// Driver's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make" json:"make,omitempty"`
+	// Model of the rental vehicle.
+	Model *string `form:"model" json:"model,omitempty"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
+	// Type of the rental vehicle.
+	Type *string `form:"type" json:"type,omitempty"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentConfirmPaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
+	// Distance details for the rental.
+	Distance *PaymentIntentConfirmPaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
+	// Drop-off location details.
+	DropOff *PaymentIntentConfirmPaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentConfirmPaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Pickup location details.
+	Pickup *PaymentIntentConfirmPaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentConfirmPaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
+}
+
+// Accommodation details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
+	// Bed type.
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Affiliate partner name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
+	// Type of host.
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentConfirmPaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentConfirmPaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentConfirmPaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
+	// Host details for the lodging.
+	Host *PaymentIntentConfirmPaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentConfirmPaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total details for the lodging.
+	Total *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentConfirmPaymentDetailsParams struct {
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentConfirmPaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentConfirmPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -4880,7 +6006,9 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 type PaymentIntentConfirmPaymentDetailsParamsUnsetField string
 
 const (
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentConfirmPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -5534,12 +6662,336 @@ type PaymentIntentCreateMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentCreateMandateDataCustomerAcceptanceParams `form:"customer_acceptance" json:"customer_acceptance"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Name of affiliate partner.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Distance details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit" json:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month" json:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year" json:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
+	// Driver's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make" json:"make,omitempty"`
+	// Model of the rental vehicle.
+	Model *string `form:"model" json:"model,omitempty"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
+	// Type of the rental vehicle.
+	Type *string `form:"type" json:"type,omitempty"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentCreatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
+	// Distance details for the rental.
+	Distance *PaymentIntentCreatePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentCreatePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
+	// Drop-off location details.
+	DropOff *PaymentIntentCreatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentCreatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Pickup location details.
+	Pickup *PaymentIntentCreatePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentCreatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
+}
+
+// Accommodation details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
+	// Bed type.
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentCreatePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Affiliate partner name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
+	// Type of host.
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentCreatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentCreatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCreatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentCreatePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
+	// Host details for the lodging.
+	Host *PaymentIntentCreatePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentCreatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total details for the lodging.
+	Total *PaymentIntentCreatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCreatePaymentDetailsParams struct {
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentCreatePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentCreatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -5551,7 +7003,9 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 type PaymentIntentCreatePaymentDetailsParamsUnsetField string
 
 const (
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCreatePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCreatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -7980,7 +9434,7 @@ type PaymentIntentCreateParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// The parameters that you can use to automatically create a Transfer.
 	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
@@ -8214,12 +9668,336 @@ type PaymentIntentUpdateHooksParams struct {
 	Inputs *PaymentIntentUpdateHooksInputsParams `form:"inputs" json:"inputs,omitempty"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Name of affiliate partner.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Distance details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit" json:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month" json:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year" json:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
+	// Driver's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address" json:"address"`
+	// Location name.
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
+	// Timestamp for the location.
+	Time *int64 `form:"time" json:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make" json:"make,omitempty"`
+	// Model of the rental vehicle.
+	Model *string `form:"model" json:"model,omitempty"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
+	// Type of the rental vehicle.
+	Type *string `form:"type" json:"type,omitempty"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentUpdatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
+	// Distance details for the rental.
+	Distance *PaymentIntentUpdatePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
+	// Drop-off location details.
+	DropOff *PaymentIntentUpdatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentUpdatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Pickup location details.
+	Pickup *PaymentIntentUpdatePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentUpdatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
+}
+
+// Accommodation details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
+	// Bed type.
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code" json:"code,omitempty"`
+	// Affiliate partner name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name" json:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
+	// Type of host.
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Type of extra charge.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Tax rate.
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
+	// Type of tax applied.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
+}
+
+// Total details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentUpdatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentUpdatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentUpdatePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
+	// Host details for the lodging.
+	Host *PaymentIntentUpdatePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentUpdatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
+	// Total details for the lodging.
+	Total *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentUpdatePaymentDetailsParams struct {
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentUpdatePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -8231,7 +10009,9 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 type PaymentIntentUpdatePaymentDetailsParamsUnsetField string
 
 const (
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentUpdatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -10598,7 +12378,7 @@ type PaymentIntentUpdateParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentUpdateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
@@ -11016,7 +12796,7 @@ type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
 	QRCode                *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 type PaymentIntentNextActionVerifyWithMicrodeposits struct {
-	// The timestamp when the microdeposits are expected to land.
+	// The timestamp when the microdeposits are expected to land. Null for instant microdeposits.
 	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
@@ -11083,11 +12863,281 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app,omitempty"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app,omitempty"`
 }
+type PaymentIntentPaymentDetailsCarRentalDatumAffiliate struct {
+	// Affiliate code.
+	Code string `json:"code,omitempty"`
+	// Affiliate name.
+	Name string `json:"name,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDistance struct {
+	// Distance amount.
+	Amount int64 `json:"amount,omitempty"`
+	// Unit for the distance.
+	Unit PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit `json:"unit,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirth struct {
+	// Day of birth.
+	Day int64 `json:"day,omitempty"`
+	// Month of birth.
+	Month int64 `json:"month,omitempty"`
+	// Year of birth.
+	Year int64 `json:"year,omitempty"`
+}
+
+// The details of the drivers associated with the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDriver struct {
+	DateOfBirth *PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirth `json:"date_of_birth,omitempty"`
+	// Driver's identification number.
+	DriverIdentificationNumber string `json:"driver_identification_number,omitempty"`
+	// Driver's tax number.
+	DriverTaxNumber string `json:"driver_tax_number,omitempty"`
+	// Full name of the driver.
+	Name string `json:"name,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDropOff struct {
+	Address *Address `json:"address,omitempty"`
+	// Name of the location.
+	LocationName string `json:"location_name,omitempty"`
+	// Time associated with the location.
+	Time int64 `json:"time,omitempty"`
+}
+
+// Insurance details for the car rental.
+type PaymentIntentPaymentDetailsCarRentalDatumInsurance struct {
+	// Amount of the insurance.
+	Amount int64 `json:"amount,omitempty"`
+	// Currency for the insurance price.
+	Currency Currency `json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName string `json:"insurance_company_name,omitempty"`
+	// Type of insurance.
+	InsuranceType PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType `json:"insurance_type,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumPickup struct {
+	Address *Address `json:"address,omitempty"`
+	// Name of the location.
+	LocationName string `json:"location_name,omitempty"`
+	// Time associated with the location.
+	Time int64 `json:"time,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotalDiscounts struct {
+	// Corporate client discount code.
+	CorporateClientCode string `json:"corporate_client_code,omitempty"`
+	// Coupon code applied.
+	Coupon string `json:"coupon,omitempty"`
+	// Maximum free miles or kilometers included.
+	MaximumFreeMilesOrKilometers int64 `json:"maximum_free_miles_or_kilometers,omitempty"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraCharge struct {
+	// Amount of the extra charge.
+	Amount int64 `json:"amount,omitempty"`
+	// Type of extra charge.
+	Type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType `json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItem struct {
+	// Tax amount.
+	Amount int64 `json:"amount,omitempty"`
+	// Tax rate.
+	Rate int64 `json:"rate,omitempty"`
+	// Type of tax.
+	Type string `json:"type,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTax struct {
+	// Indicates whether the rental is tax-exempt.
+	TaxExemptIndicator bool `json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItem `json:"tax_items,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotal struct {
+	// Total amount.
+	Amount int64 `json:"amount,omitempty"`
+	// Currency for the total amount.
+	Currency  Currency                                                 `json:"currency,omitempty"`
+	Discounts *PaymentIntentPaymentDetailsCarRentalDatumTotalDiscounts `json:"discounts,omitempty"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentPaymentDetailsCarRentalDatumTotalExtraCharge `json:"extra_charges,omitempty"`
+	// Rate per unit.
+	RatePerUnit int64 `json:"rate_per_unit,omitempty"`
+	// Unit for the rate.
+	RateUnit PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit `json:"rate_unit,omitempty"`
+	Tax      *PaymentIntentPaymentDetailsCarRentalDatumTotalTax     `json:"tax,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumVehicle struct {
+	// Make of the vehicle.
+	Make string `json:"make,omitempty"`
+	// Model of the vehicle.
+	Model string `json:"model,omitempty"`
+	// Odometer reading.
+	Odometer int64 `json:"odometer,omitempty"`
+	// Type of the vehicle.
+	Type PaymentIntentPaymentDetailsCarRentalDatumVehicleType `json:"type,omitempty"`
+	// Class of the vehicle.
+	VehicleClass PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass `json:"vehicle_class,omitempty"`
+	// Vehicle identification number.
+	VehicleIdentificationNumber string `json:"vehicle_identification_number,omitempty"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatum struct {
+	Affiliate *PaymentIntentPaymentDetailsCarRentalDatumAffiliate `json:"affiliate,omitempty"`
+	// The booking number associated with the car rental.
+	BookingNumber string `json:"booking_number,omitempty"`
+	// The name of the car rental company.
+	CarrierName string `json:"carrier_name,omitempty"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
+	// Number of days the car is being rented.
+	DaysRented int64                                              `json:"days_rented,omitempty"`
+	Distance   *PaymentIntentPaymentDetailsCarRentalDatumDistance `json:"distance,omitempty"`
+	// The details of the drivers associated with the rental.
+	Drivers []*PaymentIntentPaymentDetailsCarRentalDatumDriver `json:"drivers,omitempty"`
+	DropOff *PaymentIntentPaymentDetailsCarRentalDatumDropOff  `json:"drop_off,omitempty"`
+	// Insurance details for the car rental.
+	Insurances []*PaymentIntentPaymentDetailsCarRentalDatumInsurance `json:"insurances,omitempty"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShowIndicator bool                                             `json:"no_show_indicator,omitempty"`
+	Pickup          *PaymentIntentPaymentDetailsCarRentalDatumPickup `json:"pickup,omitempty"`
+	// Name of the person renting the vehicle.
+	RenterName string                                            `json:"renter_name,omitempty"`
+	Total      *PaymentIntentPaymentDetailsCarRentalDatumTotal   `json:"total,omitempty"`
+	Vehicle    *PaymentIntentPaymentDetailsCarRentalDatumVehicle `json:"vehicle,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumAccommodation struct {
+	// Type of accommodation.
+	AccommodationType PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType `json:"accommodation_type"`
+	// Bed type.
+	BedType string `json:"bed_type,omitempty"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount int64 `json:"daily_rate_amount,omitempty"`
+	// Number of nights.
+	Nights int64 `json:"nights,omitempty"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms int64 `json:"number_of_rooms,omitempty"`
+	// Rate type.
+	RateType string `json:"rate_type,omitempty"`
+	// Whether smoking is allowed.
+	SmokingIndicator bool `json:"smoking_indicator,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumAffiliate struct {
+	// Affiliate partner code.
+	Code string `json:"code,omitempty"`
+	// Affiliate partner name.
+	Name string `json:"name,omitempty"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumGuest struct {
+	// Guest's full name.
+	Name string `json:"name,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumHost struct {
+	Address *Address `json:"address,omitempty"`
+	// Host's country of domicile.
+	CountryOfDomicile string `json:"country_of_domicile,omitempty"`
+	// Reference number for the host.
+	HostReference string `json:"host_reference,omitempty"`
+	// Type of host.
+	HostType PaymentIntentPaymentDetailsLodgingDatumHostHostType `json:"host_type,omitempty"`
+	// Name of the lodging property or host.
+	Name string `json:"name,omitempty"`
+	// Total number of reservations for the host.
+	NumberOfReservations int64 `json:"number_of_reservations,omitempty"`
+	// Property phone number.
+	PropertyPhoneNumber string `json:"property_phone_number,omitempty"`
+	// Host's registration date.
+	RegisteredAt int64 `json:"registered_at,omitempty"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumInsurance struct {
+	// Price of the insurance coverage in cents.
+	Amount int64 `json:"amount,omitempty"`
+	// Currency of the insurance amount.
+	Currency Currency `json:"currency,omitempty"`
+	// Name of the insurance company.
+	InsuranceCompanyName string `json:"insurance_company_name,omitempty"`
+	// Type of insurance coverage.
+	InsuranceType PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType `json:"insurance_type,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotalDiscounts struct {
+	// Corporate client discount code.
+	CorporateClientCode string `json:"corporate_client_code,omitempty"`
+	// Coupon code.
+	Coupon string `json:"coupon,omitempty"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraCharge struct {
+	// Amount of the extra charge in cents.
+	Amount int64 `json:"amount,omitempty"`
+	// Type of extra charge.
+	Type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType `json:"type,omitempty"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItem struct {
+	// Tax amount in cents.
+	Amount int64 `json:"amount,omitempty"`
+	// Tax rate.
+	Rate int64 `json:"rate,omitempty"`
+	// Type of tax applied.
+	Type string `json:"type,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotalTax struct {
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator bool `json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItem `json:"tax_items,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotal struct {
+	// Total price of the lodging reservation in cents.
+	Amount int64 `json:"amount,omitempty"`
+	// Cash advances in cents.
+	CashAdvances int64 `json:"cash_advances,omitempty"`
+	// Currency of the total amount.
+	Currency  Currency                                               `json:"currency,omitempty"`
+	Discounts *PaymentIntentPaymentDetailsLodgingDatumTotalDiscounts `json:"discounts,omitempty"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentPaymentDetailsLodgingDatumTotalExtraCharge `json:"extra_charges,omitempty"`
+	// Prepaid amount in cents.
+	PrepaidAmount int64                                            `json:"prepaid_amount,omitempty"`
+	Tax           *PaymentIntentPaymentDetailsLodgingDatumTotalTax `json:"tax,omitempty"`
+}
+type PaymentIntentPaymentDetailsLodgingDatum struct {
+	Accommodation *PaymentIntentPaymentDetailsLodgingDatumAccommodation `json:"accommodation,omitempty"`
+	Affiliate     *PaymentIntentPaymentDetailsLodgingDatumAffiliate     `json:"affiliate,omitempty"`
+	// Booking confirmation number for the lodging.
+	BookingNumber string `json:"booking_number,omitempty"`
+	// Check-in date.
+	CheckinAt int64 `json:"checkin_at,omitempty"`
+	// Check-out date.
+	CheckoutAt int64 `json:"checkout_at,omitempty"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator bool `json:"fire_safety_act_compliance_indicator,omitempty"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentPaymentDetailsLodgingDatumGuest `json:"guests,omitempty"`
+	Host   *PaymentIntentPaymentDetailsLodgingDatumHost    `json:"host,omitempty"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentPaymentDetailsLodgingDatumInsurance `json:"insurances,omitempty"`
+	// Whether the renter is a no-show.
+	NoShowIndicator bool `json:"no_show_indicator,omitempty"`
+	// Renter ID number for the lodging.
+	RenterIDNumber string `json:"renter_id_number,omitempty"`
+	// Renter name for the lodging.
+	RenterName string                                        `json:"renter_name,omitempty"`
+	Total      *PaymentIntentPaymentDetailsLodgingDatumTotal `json:"total,omitempty"`
+}
 type PaymentIntentPaymentDetails struct {
+	CarRentalData []*PaymentIntentPaymentDetailsCarRentalDatum `json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference string `json:"customer_reference"`
+	CustomerReference string                                     `json:"customer_reference"`
+	LodgingData       []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.

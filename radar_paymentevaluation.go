@@ -215,7 +215,7 @@ const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeCard RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "card"
 )
 
-// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block`, `continue` and `request_three_d_secure`.
+// Recommended action for this payment based on its evaluated signals and rules.
 type RadarPaymentEvaluationRecommendedAction string
 
 // List of values that RadarPaymentEvaluationRecommendedAction can take
@@ -758,7 +758,7 @@ type RadarPaymentEvaluation struct {
 	Outcome *RadarPaymentEvaluationOutcome `json:"outcome,omitempty"`
 	// Payment details attached to this payment evaluation.
 	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
-	// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block`, `continue` and `request_three_d_secure`.
+	// Recommended action for this payment based on its evaluated signals and rules.
 	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
 	// Collection of signals for this payment evaluation.
 	Signals *RadarPaymentEvaluationSignals `json:"signals"`

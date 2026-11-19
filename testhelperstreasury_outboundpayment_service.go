@@ -17,7 +17,7 @@ type v1TestHelpersTreasuryOutboundPaymentService struct {
 	Key string
 }
 
-// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+// Updates a test OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and can't be in the canceled or failed states.
 func (c v1TestHelpersTreasuryOutboundPaymentService) Update(ctx context.Context, id string, params *TestHelpersTreasuryOutboundPaymentUpdateParams) (*TreasuryOutboundPayment, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundPaymentUpdateParams{}
@@ -29,7 +29,7 @@ func (c v1TestHelpersTreasuryOutboundPaymentService) Update(ctx context.Context,
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
 func (c v1TestHelpersTreasuryOutboundPaymentService) Fail(ctx context.Context, id string, params *TestHelpersTreasuryOutboundPaymentFailParams) (*TreasuryOutboundPayment, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundPaymentFailParams{}
@@ -42,7 +42,7 @@ func (c v1TestHelpersTreasuryOutboundPaymentService) Fail(ctx context.Context, i
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
 func (c v1TestHelpersTreasuryOutboundPaymentService) Post(ctx context.Context, id string, params *TestHelpersTreasuryOutboundPaymentPostParams) (*TreasuryOutboundPayment, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundPaymentPostParams{}
@@ -55,7 +55,7 @@ func (c v1TestHelpersTreasuryOutboundPaymentService) Post(ctx context.Context, i
 	return outboundpayment, err
 }
 
-// Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
+// Transitions a test OutboundPayment to the returned status. The OutboundPayment must already be in the posted state.
 func (c v1TestHelpersTreasuryOutboundPaymentService) ReturnOutboundPayment(ctx context.Context, id string, params *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams) (*TreasuryOutboundPayment, error) {
 	if params == nil {
 		params = &TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams{}

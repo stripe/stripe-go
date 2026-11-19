@@ -116,13 +116,18 @@ const (
 	TerminalReaderDeviceTypeSimulatedWisePOSE      TerminalReaderDeviceType = "simulated_wisepos_e"
 	TerminalReaderDeviceTypeStripeM2               TerminalReaderDeviceType = "stripe_m2"
 	TerminalReaderDeviceTypeStripeS700             TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeStripeS700Devkit       TerminalReaderDeviceType = "stripe_s700_devkit"
 	TerminalReaderDeviceTypeStripeS710             TerminalReaderDeviceType = "stripe_s710"
+	TerminalReaderDeviceTypeStripeS710Devkit       TerminalReaderDeviceType = "stripe_s710_devkit"
 	TerminalReaderDeviceTypeStripeT600             TerminalReaderDeviceType = "stripe_t600"
+	TerminalReaderDeviceTypeStripeT600Devkit       TerminalReaderDeviceType = "stripe_t600_devkit"
 	TerminalReaderDeviceTypeVerifoneP400           TerminalReaderDeviceType = "verifone_P400"
 	TerminalReaderDeviceTypeVerifoneM425           TerminalReaderDeviceType = "verifone_m425"
 	TerminalReaderDeviceTypeVerifoneP630           TerminalReaderDeviceType = "verifone_p630"
 	TerminalReaderDeviceTypeVerifoneUx700          TerminalReaderDeviceType = "verifone_ux700"
+	TerminalReaderDeviceTypeVerifoneUx700Devkit    TerminalReaderDeviceType = "verifone_ux700_devkit"
 	TerminalReaderDeviceTypeVerifoneV660p          TerminalReaderDeviceType = "verifone_v660p"
+	TerminalReaderDeviceTypeVerifoneV660pDevkit    TerminalReaderDeviceType = "verifone_v660p_devkit"
 )
 
 // The networking status of the reader. This value is `null` for mobile readers. We do not recommend using this field in flows that may block taking payments.
