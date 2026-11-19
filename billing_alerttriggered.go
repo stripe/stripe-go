@@ -13,7 +13,7 @@ type BillingAlertTriggeredGroupByType string
 
 // List of values that BillingAlertTriggeredGroupByType can take
 const (
-	BillingAlertTriggeredGroupByTypeBillingCadence          BillingAlertTriggeredGroupByType = "billing_cadence"
+	BillingAlertTriggeredGroupByTypeBillingGroup            BillingAlertTriggeredGroupByType = "billing_group"
 	BillingAlertTriggeredGroupByTypePricingPlanSubscription BillingAlertTriggeredGroupByType = "pricing_plan_subscription"
 )
 
@@ -27,8 +27,6 @@ type BillingAlertTriggeredAggregationPeriod struct {
 
 // Populated specifically for spend alerts to notify merchants which group_by entity has the exceeded spend
 type BillingAlertTriggeredGroupBy struct {
-	// The billing cadence ID, populated when type is `billing_cadence`
-	BillingCadence string `json:"billing_cadence"`
 	// The billing group ID, populated when type is `billing_group`
 	BillingGroup string `json:"billing_group"`
 	// The pricing plan subscription ID, populated when type is `pricing_plan_subscription`

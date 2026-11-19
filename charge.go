@@ -476,6 +476,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
 	ChargePaymentMethodDetailsCryptoNetworkSui      ChargePaymentMethodDetailsCryptoNetwork = "sui"
 	ChargePaymentMethodDetailsCryptoNetworkTempo    ChargePaymentMethodDetailsCryptoNetwork = "tempo"
+	ChargePaymentMethodDetailsCryptoNetworkTron     ChargePaymentMethodDetailsCryptoNetwork = "tron"
 )
 
 // The token currency that the transaction was sent with.

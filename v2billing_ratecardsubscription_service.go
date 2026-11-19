@@ -17,7 +17,7 @@ type v2BillingRateCardSubscriptionService struct {
 	Key string
 }
 
-// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Cadence.
+// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Group.
 func (c v2BillingRateCardSubscriptionService) Create(ctx context.Context, params *V2BillingRateCardSubscriptionCreateParams) (*V2BillingRateCardSubscription, error) {
 	if params == nil {
 		params = &V2BillingRateCardSubscriptionCreateParams{}

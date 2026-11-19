@@ -884,20 +884,23 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 		req.Header.Set("Stripe-Context", *s.StripeContext)
 	}
 
+	// Write requests always get a key, even without params, because retries
+	// resend the same request and the key is what stops Stripe from applying it
+	// twice.
+	if params != nil && params.IdempotencyKey != nil {
+		idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
+		if len(idempotencyKey) > 255 {
+			return nil, errors.New("cannot use an idempotency key longer than 255 characters")
+		}
+
+		req.Header.Add("Idempotency-Key", idempotencyKey)
+	} else if isHTTPWriteMethod(method) {
+		req.Header.Add("Idempotency-Key", NewIdempotencyKey())
+	}
+
 	if params != nil {
 		if params.Context != nil {
 			req = req.WithContext(params.Context)
-		}
-
-		if params.IdempotencyKey != nil {
-			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
-			if len(idempotencyKey) > 255 {
-				return nil, errors.New("cannot use an idempotency key longer than 255 characters")
-			}
-
-			req.Header.Add("Idempotency-Key", idempotencyKey)
-		} else if isHTTPWriteMethod(method) {
-			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
 		}
 
 		if params.StripeAccount != nil {

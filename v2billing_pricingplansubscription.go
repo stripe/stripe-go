@@ -483,11 +483,11 @@ type V2BillingPricingPlanSubscriptionServicingStatusTransitions struct {
 
 // A Pricing Plan Subscription represents a customer's active subscription to a Pricing Plan. It tracks both the servicing
 // status (whether the customer is receiving service) and collection status (whether payments are current). Subscriptions
-// are created through Billing Intents and bill according to the associated Billing Cadence.
+// are created through Billing Intents and bill according to the associated Billing Group.
 type V2BillingPricingPlanSubscription struct {
 	APIResource
-	// The ID of the Billing Cadence this subscription is billed on.
-	BillingCadence string `json:"billing_cadence"`
+	// The ID of the Billing Group this subscription is billed on.
+	BillingGroup string `json:"billing_group"`
 	// Details about why the subscription was canceled, if applicable. Includes system-generated reason.
 	CancellationDetails *V2BillingPricingPlanSubscriptionCancellationDetails `json:"cancellation_details,omitempty"`
 	// Current collection status of this subscription.
@@ -516,6 +516,6 @@ type V2BillingPricingPlanSubscription struct {
 	ServicingStatus V2BillingPricingPlanSubscriptionServicingStatus `json:"servicing_status"`
 	// Timestamps for servicing status transitions.
 	ServicingStatusTransitions *V2BillingPricingPlanSubscriptionServicingStatusTransitions `json:"servicing_status_transitions"`
-	// The ID of the Test Clock of the associated Billing Cadence, if any.
+	// The ID of the Test Clock of the associated Billing Group, if any.
 	TestClock string `json:"test_clock,omitempty"`
 }

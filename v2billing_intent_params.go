@@ -36,7 +36,7 @@ type V2BillingIntentActionApplyEffectiveAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// The maximum number of times this discount can be applied for this cadence.
+// The maximum number of times this discount can be applied for this billing group.
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams struct {
 	// The type of maximum applications configuration.
 	Type *string `form:"type" json:"type"`
@@ -44,7 +44,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsP
 
 // Configuration for percentage off discount.
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams struct {
-	// The maximum number of times this discount can be applied for this cadence.
+	// The maximum number of times this discount can be applied for this billing group.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff *decimal.Decimal `form:"percent_off" json:"percent_off"`
@@ -52,7 +52,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams struct {
 
 // Details for applying a discount rule to future invoices.
 type V2BillingIntentActionApplyInvoiceDiscountRuleParams struct {
-	// The entity that the discount rule applies to, for example, the cadence.
+	// The entity that the discount rule applies to, for example, the billing group.
 	AppliesTo *string `form:"applies_to" json:"applies_to"`
 	// Configuration for percentage off discount.
 	PercentOff *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams `form:"percent_off" json:"percent_off,omitempty"`
@@ -402,203 +402,283 @@ type V2BillingIntentActionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCadenceDataBillingCycleDayTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// Controls emails for when the payment is due. Omit to use the applicable default.
+type V2BillingIntentBillingGroupDataBillingSettingsEmailDeliveryPaymentDueParams struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+	// If true the payment link to hosted invoice page would be included in email and PDF of the invoice.
+	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link,omitempty"`
+}
+
+// Email delivery setting.
+type V2BillingIntentBillingGroupDataBillingSettingsEmailDeliveryParams struct {
+	// Controls emails for when the payment is due. Omit to use the applicable default.
+	PaymentDue *V2BillingIntentBillingGroupDataBillingSettingsEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
+}
+
+// Settings for invoice presentation.
+type V2BillingIntentBillingGroupDataBillingSettingsInvoicePresentationParams struct {
+	// The ID of the invoice rendering template to be used when generating invoices. Omit to use the applicable default.
+	InvoiceRenderingTemplate *string `form:"invoice_rendering_template" json:"invoice_rendering_template,omitempty"`
+}
+
+// The amount of time until the invoice is overdue for payment.
+type V2BillingIntentBillingGroupDataBillingSettingsInvoiceTimeUntilDueParams struct {
+	// The interval unit for the time until due.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of interval units. For example, if interval=day and interval_count=30, the invoice is due in 30 days.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
+}
+
+// Additional fields for Mandate creation.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	// Transaction type of the mandate.
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
+}
+
+// This sub-hash contains details about the Canadian pre-authorized debit payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitParams struct {
+	// Additional fields for Mandate creation.
+	MandateOptions *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Verification method.
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// This sub-hash contains details about the Bancontact payment method.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsBancontactParams struct {
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
+}
+
+// Configuration options for setting up an eMandate for cards issued in India.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,string,omitempty"`
+	// The AmountType for the mandate. One of `fixed` or `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+}
+
+// This sub-hash contains details about the Card payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCardParams struct {
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Selected network to process the payment on. Depends on the available networks of the card.
+	Network *string `form:"network" json:"network,omitempty"`
+	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
+	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information.
+	Country *string `form:"country" json:"country"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
+	EUBankTransfer *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
+	// The bank transfer type that can be used for funding.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// This sub-hash contains details about the Bank transfer payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
+}
+
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsKonbiniParams struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
+// Provide filters for the linked accounts that the customer can select for the payment method.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
+	// The account subcategories to use to filter for selectable accounts.
+	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
+}
+
+// Additional fields for Financial Connections Session creation.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Provide filters for the linked accounts that the customer can select for the payment method.
+	Filters *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
+}
+
+// This sub-hash contains details about the ACH direct debit payment method options.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation.
+	FinancialConnections *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections" json:"financial_connections"`
+	// Verification method.
+	VerificationMethod *string `form:"verification_method" json:"verification_method"`
+}
+
+// Payment Method specific configuration to be stored on the object.
+type V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsParams struct {
+	// This sub-hash contains details about the Canadian pre-authorized debit payment method options.
+	ACSSDebit *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// This sub-hash contains details about the Bancontact payment method.
+	Bancontact *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Card payment method options.
+	Card *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains details about the Bank transfer payment method options.
+	CustomerBalance *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// This sub-hash contains details about the Konbini payment method options.
+	Konbini *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	// This sub-hash contains details about the SEPA Direct Debit payment method options.
+	SEPADebit *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// This sub-hash contains details about the ACH direct debit payment method options.
+	USBankAccount *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+}
+
+// Settings for calculating tax.
+type V2BillingIntentBillingGroupDataBillingSettingsTaxParams struct {
+	// Determines if tax is calculated automatically based on a product tax code or manually based on rules defined by the business. Omit to use the applicable default.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Billing setting overrides for the group. If omitted, the applicable defaults are used.
+type V2BillingIntentBillingGroupDataBillingSettingsParams struct {
+	// How Stripe collects payment.
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
+	// Email delivery setting.
+	EmailDelivery *V2BillingIntentBillingGroupDataBillingSettingsEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
+	// Settings for invoice presentation.
+	InvoicePresentation *V2BillingIntentBillingGroupDataBillingSettingsInvoicePresentationParams `form:"invoice_presentation" json:"invoice_presentation,omitempty"`
+	// The amount of time until the invoice is overdue for payment.
+	InvoiceTimeUntilDue *V2BillingIntentBillingGroupDataBillingSettingsInvoiceTimeUntilDueParams `form:"invoice_time_until_due" json:"invoice_time_until_due,omitempty"`
+	// The ID of the payment method configuration, which controls which payment methods are displayed to your customers.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
+	// Payment Method specific configuration to be stored on the object.
+	PaymentMethodOptions *V2BillingIntentBillingGroupDataBillingSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	// Settings for calculating tax.
+	Tax *V2BillingIntentBillingGroupDataBillingSettingsTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// The time at which the daily grouping interval begins.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceDayTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=day.
-type V2BillingIntentCadenceDataBillingCycleDayParams struct {
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
+// Daily cadence details.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceDayParams struct {
+	// The time at which the daily grouping interval begins.
+	Time *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceDayTimeParams `form:"time" json:"time"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCadenceDataBillingCycleMonthTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the monthly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceMonthTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=month.
-type V2BillingIntentCadenceDataBillingCycleMonthParams struct {
-	// The day to anchor the billing on for a type="month" billing cycle from
-	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this anchors to the last day of the month. If not provided,
-	// this defaults to the day the cadence was created.
+// Monthly cadence details.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceMonthParams struct {
+	// The day of month, from 1 through 31. For shorter months, the cadence anchors to the month's last day.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
-	// The month to anchor the billing on for a type="month" billing cycle from
-	// 1-12. If not provided, this defaults to the month the cadence was created.
-	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
-	// All occurrences are calculated from the month provided.
+	// The month of year, from 1 through 12, from which occurrences are calculated. Defaults to the month when the billing group was created.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
+	// The time at which the monthly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceMonthTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCadenceDataBillingCycleWeekTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the weekly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceWeekTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=week.
-type V2BillingIntentCadenceDataBillingCycleWeekParams struct {
-	// The day of the week to bill the type=week billing cycle on.
-	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
-	// week day numbering. If not provided, this defaults to the day the
-	// cadence was created.
+// Weekly cadence details.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceWeekParams struct {
+	// The ISO-8601 day of week, from 1 for Monday through 7 for Sunday.
 	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
+	// The time at which the weekly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceWeekTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCadenceDataBillingCycleYearTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the yearly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceYearTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=year.
-type V2BillingIntentCadenceDataBillingCycleYearParams struct {
-	// The day to anchor the billing on for a type="month" billing cycle from
-	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this anchors to the last day of the month. If not provided,
-	// this defaults to the day the cadence was created.
-	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
-	// The month to bill on from 1-12. If not provided, this defaults to the
-	// month the cadence was created.
-	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
+// Yearly cadence details.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceYearParams struct {
+	// The day of month, from 1 through 31. For shorter months, the cadence anchors to the month's last day.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month of year, from 1 through 12.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year"`
+	// The time at which the yearly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceYearTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The billing cycle configuration for this Cadence.
-type V2BillingIntentCadenceDataBillingCycleParams struct {
-	// Specific configuration for determining billing dates when type=day.
-	Day *V2BillingIntentCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
-	// The number of intervals (specified in the interval attribute) between
-	// cadence billings. For example, type=month and interval_count=3 bills every
-	// 3 months. If not provided, this defaults to 1.
+// The cadence configuration when type is `by_cadence`.
+type V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceParams struct {
+	// Timestamp that anchors the recurring grouping cadence.
+	BillingCycleAnchor *time.Time `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	// Daily cadence details.
+	Day *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceDayParams `form:"day" json:"day,omitempty"`
+	// The number of interval units between groups. Defaults to 1.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
-	// Specific configuration for determining billing dates when type=month.
-	Month *V2BillingIntentCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
-	// The frequency at which a cadence bills.
+	// Monthly cadence details.
+	Month *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceMonthParams `form:"month" json:"month,omitempty"`
+	// The interval unit for the cadence.
 	Type *string `form:"type" json:"type"`
-	// Specific configuration for determining billing dates when type=week.
-	Week *V2BillingIntentCadenceDataBillingCycleWeekParams `form:"week" json:"week,omitempty"`
-	// Specific configuration for determining billing dates when type=year.
-	Year *V2BillingIntentCadenceDataBillingCycleYearParams `form:"year" json:"year,omitempty"`
+	// Weekly cadence details.
+	Week *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceWeekParams `form:"week" json:"week,omitempty"`
+	// Yearly cadence details.
+	Year *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceYearParams `form:"year" json:"year,omitempty"`
 }
 
-// Data for creating a new profile.
-type V2BillingIntentCadenceDataPayerBillingProfileDataParams struct {
-	// The customer to associate with the profile.
+// The strategy used to group member invoices.
+type V2BillingIntentBillingGroupDataGroupingBehaviorParams struct {
+	// The cadence configuration when type is `by_cadence`.
+	ByCadence *V2BillingIntentBillingGroupDataGroupingBehaviorByCadenceParams `form:"by_cadence" json:"by_cadence,omitempty"`
+	// The grouping strategy.
+	Type *string `form:"type" json:"type"`
+}
+
+// Data for creating a new Billing Group.
+type V2BillingIntentBillingGroupDataParams struct {
+	// Billing setting overrides for the group. If omitted, the applicable defaults are used.
+	BillingSettings *V2BillingIntentBillingGroupDataBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
+	// The ID of the Customer object whose invoices are grouped.
 	Customer *string `form:"customer" json:"customer"`
-	// The default payment method to use when billing this profile.
-	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
-	// on commit is used to create the profile.
+	// The ID of the PaymentMethod object used by default. If unset, the customer's default payment method is used.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
-}
-
-// Information about the payer for this Cadence.
-type V2BillingIntentCadenceDataPayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill is paid.
-	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
-	// Data for creating a new profile.
-	BillingProfileData *V2BillingIntentCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
-}
-
-// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
-// If no setting is provided here, the settings from the customer referenced on the payer will be used.
-// If no customer settings are present, the merchant default settings will be used.
-type V2BillingIntentCadenceDataSettingsBillParams struct {
-	// The ID of the referenced settings object.
-	ID *string `form:"id" json:"id"`
-	// An optional field to specify the version of the Settings to use.
-	// If not provided, this defaults to the live version any time the settings are used.
-	Version *string `form:"version" json:"version,omitempty"`
-}
-
-// Settings that configure and manage the behavior of collecting payments.
-// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
-// If no customer settings are present, the merchant default settings will be used.
-type V2BillingIntentCadenceDataSettingsCollectionParams struct {
-	// The ID of the referenced settings object.
-	ID *string `form:"id" json:"id"`
-	// An optional field to specify the version of the Settings to use.
-	// If not provided, this defaults to the live version any time the settings are used.
-	Version *string `form:"version" json:"version,omitempty"`
-}
-
-// Settings for creating the Cadence.
-type V2BillingIntentCadenceDataSettingsParams struct {
-	// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
-	// If no setting is provided here, the settings from the customer referenced on the payer will be used.
-	// If no customer settings are present, the merchant default settings will be used.
-	Bill *V2BillingIntentCadenceDataSettingsBillParams `form:"bill" json:"bill,omitempty"`
-	// Settings that configure and manage the behavior of collecting payments.
-	// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
-	// If no customer settings are present, the merchant default settings will be used.
-	Collection *V2BillingIntentCadenceDataSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
-}
-
-// Data for creating a new Cadence.
-type V2BillingIntentCadenceDataParams struct {
-	// The billing cycle configuration for this Cadence.
-	BillingCycle *V2BillingIntentCadenceDataBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
-	// Information about the payer for this Cadence.
-	Payer *V2BillingIntentCadenceDataPayerParams `form:"payer" json:"payer"`
-	// Settings for creating the Cadence.
-	Settings *V2BillingIntentCadenceDataSettingsParams `form:"settings" json:"settings,omitempty"`
+	// The strategy used to group member invoices.
+	GroupingBehavior *V2BillingIntentBillingGroupDataGroupingBehaviorParams `form:"grouping_behavior" json:"grouping_behavior,omitempty"`
+	// An internal key you can use to find a particular billing group. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 }
 
 // Create a Billing Intent.
@@ -606,10 +686,10 @@ type V2BillingIntentParams struct {
 	Params `form:"*"`
 	// Actions to be performed by this Billing Intent.
 	Actions []*V2BillingIntentActionParams `form:"actions" json:"actions,omitempty"`
-	// ID of an existing Cadence to use.
-	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Data for creating a new Cadence.
-	CadenceData *V2BillingIntentCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
+	// ID of an existing Billing Group to use.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
+	// Data for creating a new Billing Group.
+	BillingGroupData *V2BillingIntentBillingGroupDataParams `form:"billing_group_data" json:"billing_group_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
@@ -654,7 +734,7 @@ type V2BillingIntentCreateActionApplyEffectiveAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// The maximum number of times this discount can be applied for this cadence.
+// The maximum number of times this discount can be applied for this billing group.
 type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams struct {
 	// The type of maximum applications configuration.
 	Type *string `form:"type" json:"type"`
@@ -662,7 +742,7 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplica
 
 // Configuration for percentage off discount.
 type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams struct {
-	// The maximum number of times this discount can be applied for this cadence.
+	// The maximum number of times this discount can be applied for this billing group.
 	MaximumApplications *V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff *decimal.Decimal `form:"percent_off" json:"percent_off"`
@@ -670,7 +750,7 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams struct 
 
 // Details for applying a discount rule to future invoices.
 type V2BillingIntentCreateActionApplyInvoiceDiscountRuleParams struct {
-	// The entity that the discount rule applies to, for example, the cadence.
+	// The entity that the discount rule applies to, for example, the billing group.
 	AppliesTo *string `form:"applies_to" json:"applies_to"`
 	// Configuration for percentage off discount.
 	PercentOff *V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams `form:"percent_off" json:"percent_off,omitempty"`
@@ -1020,203 +1100,283 @@ type V2BillingIntentCreateActionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// Controls emails for when the payment is due. Omit to use the applicable default.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsEmailDeliveryPaymentDueParams struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+	// If true the payment link to hosted invoice page would be included in email and PDF of the invoice.
+	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link,omitempty"`
+}
+
+// Email delivery setting.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsEmailDeliveryParams struct {
+	// Controls emails for when the payment is due. Omit to use the applicable default.
+	PaymentDue *V2BillingIntentCreateBillingGroupDataBillingSettingsEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
+}
+
+// Settings for invoice presentation.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsInvoicePresentationParams struct {
+	// The ID of the invoice rendering template to be used when generating invoices. Omit to use the applicable default.
+	InvoiceRenderingTemplate *string `form:"invoice_rendering_template" json:"invoice_rendering_template,omitempty"`
+}
+
+// The amount of time until the invoice is overdue for payment.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsInvoiceTimeUntilDueParams struct {
+	// The interval unit for the time until due.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of interval units. For example, if interval=day and interval_count=30, the invoice is due in 30 days.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
+}
+
+// Additional fields for Mandate creation.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	// Transaction type of the mandate.
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
+}
+
+// This sub-hash contains details about the Canadian pre-authorized debit payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitParams struct {
+	// Additional fields for Mandate creation.
+	MandateOptions *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Verification method.
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
+}
+
+// This sub-hash contains details about the Bancontact payment method.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsBancontactParams struct {
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
+}
+
+// Configuration options for setting up an eMandate for cards issued in India.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,string,omitempty"`
+	// The AmountType for the mandate. One of `fixed` or `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+}
+
+// This sub-hash contains details about the Card payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCardParams struct {
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Selected network to process the payment on. Depends on the available networks of the card.
+	Network *string `form:"network" json:"network,omitempty"`
+	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
+	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information.
+	Country *string `form:"country" json:"country"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
+	EUBankTransfer *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
+	// The bank transfer type that can be used for funding.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// This sub-hash contains details about the Bank transfer payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
+}
+
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsKonbiniParams struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
+// Provide filters for the linked accounts that the customer can select for the payment method.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
+	// The account subcategories to use to filter for selectable accounts.
+	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
+}
+
+// Additional fields for Financial Connections Session creation.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Provide filters for the linked accounts that the customer can select for the payment method.
+	Filters *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
+}
+
+// This sub-hash contains details about the ACH direct debit payment method options.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation.
+	FinancialConnections *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections" json:"financial_connections"`
+	// Verification method.
+	VerificationMethod *string `form:"verification_method" json:"verification_method"`
+}
+
+// Payment Method specific configuration to be stored on the object.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsParams struct {
+	// This sub-hash contains details about the Canadian pre-authorized debit payment method options.
+	ACSSDebit *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// This sub-hash contains details about the Bancontact payment method.
+	Bancontact *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Card payment method options.
+	Card *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains details about the Bank transfer payment method options.
+	CustomerBalance *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// This sub-hash contains details about the Konbini payment method options.
+	Konbini *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	// This sub-hash contains details about the SEPA Direct Debit payment method options.
+	SEPADebit *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// This sub-hash contains details about the ACH direct debit payment method options.
+	USBankAccount *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+}
+
+// Settings for calculating tax.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsTaxParams struct {
+	// Determines if tax is calculated automatically based on a product tax code or manually based on rules defined by the business. Omit to use the applicable default.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
+// Billing setting overrides for the group. If omitted, the applicable defaults are used.
+type V2BillingIntentCreateBillingGroupDataBillingSettingsParams struct {
+	// How Stripe collects payment.
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
+	// Email delivery setting.
+	EmailDelivery *V2BillingIntentCreateBillingGroupDataBillingSettingsEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
+	// Settings for invoice presentation.
+	InvoicePresentation *V2BillingIntentCreateBillingGroupDataBillingSettingsInvoicePresentationParams `form:"invoice_presentation" json:"invoice_presentation,omitempty"`
+	// The amount of time until the invoice is overdue for payment.
+	InvoiceTimeUntilDue *V2BillingIntentCreateBillingGroupDataBillingSettingsInvoiceTimeUntilDueParams `form:"invoice_time_until_due" json:"invoice_time_until_due,omitempty"`
+	// The ID of the payment method configuration, which controls which payment methods are displayed to your customers.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
+	// Payment Method specific configuration to be stored on the object.
+	PaymentMethodOptions *V2BillingIntentCreateBillingGroupDataBillingSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	// Settings for calculating tax.
+	Tax *V2BillingIntentCreateBillingGroupDataBillingSettingsTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
+// The time at which the daily grouping interval begins.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceDayTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=day.
-type V2BillingIntentCreateCadenceDataBillingCycleDayParams struct {
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
+// Daily cadence details.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceDayParams struct {
+	// The time at which the daily grouping interval begins.
+	Time *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceDayTimeParams `form:"time" json:"time"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the monthly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceMonthTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=month.
-type V2BillingIntentCreateCadenceDataBillingCycleMonthParams struct {
-	// The day to anchor the billing on for a type="month" billing cycle from
-	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this anchors to the last day of the month. If not provided,
-	// this defaults to the day the cadence was created.
+// Monthly cadence details.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceMonthParams struct {
+	// The day of month, from 1 through 31. For shorter months, the cadence anchors to the month's last day.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
-	// The month to anchor the billing on for a type="month" billing cycle from
-	// 1-12. If not provided, this defaults to the month the cadence was created.
-	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
-	// All occurrences are calculated from the month provided.
+	// The month of year, from 1 through 12, from which occurrences are calculated. Defaults to the month when the billing group was created.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
+	// The time at which the monthly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceMonthTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the weekly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceWeekTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=week.
-type V2BillingIntentCreateCadenceDataBillingCycleWeekParams struct {
-	// The day of the week to bill the type=week billing cycle on.
-	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
-	// week day numbering. If not provided, this defaults to the day the
-	// cadence was created.
+// Weekly cadence details.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceWeekParams struct {
+	// The ISO-8601 day of week, from 1 for Monday through 7 for Sunday.
 	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
+	// The time at which the weekly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceWeekTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The time at which the billing cycle ends.
-// This field is optional, and if not provided, it defaults to
-// the time at which the cadence was created in UTC timezone.
-type V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams struct {
-	// The hour at which the billing cycle ends.
-	// This must be an integer between 0 and 23, inclusive.
-	// 0 represents midnight, and 23 represents 11 PM.
+// The time at which the yearly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceYearTimeParams struct {
+	// The hour, from 0 through 23.
 	Hour *int64 `form:"hour" json:"hour"`
-	// The minute at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The minute, from 0 through 59.
 	Minute *int64 `form:"minute" json:"minute"`
-	// The second at which the billing cycle ends.
-	// Must be an integer between 0 and 59, inclusive.
+	// The second, from 0 through 59.
 	Second *int64 `form:"second" json:"second"`
 }
 
-// Specific configuration for determining billing dates when type=year.
-type V2BillingIntentCreateCadenceDataBillingCycleYearParams struct {
-	// The day to anchor the billing on for a type="month" billing cycle from
-	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this anchors to the last day of the month. If not provided,
-	// this defaults to the day the cadence was created.
-	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
-	// The month to bill on from 1-12. If not provided, this defaults to the
-	// month the cadence was created.
-	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
-	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it defaults to
-	// the time at which the cadence was created in UTC timezone.
-	Time *V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
+// Yearly cadence details.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceYearParams struct {
+	// The day of month, from 1 through 31. For shorter months, the cadence anchors to the month's last day.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month of year, from 1 through 12.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year"`
+	// The time at which the yearly grouping interval begins. Defaults to the time the billing group is created, in UTC.
+	Time *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceYearTimeParams `form:"time" json:"time,omitempty"`
 }
 
-// The billing cycle configuration for this Cadence.
-type V2BillingIntentCreateCadenceDataBillingCycleParams struct {
-	// Specific configuration for determining billing dates when type=day.
-	Day *V2BillingIntentCreateCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
-	// The number of intervals (specified in the interval attribute) between
-	// cadence billings. For example, type=month and interval_count=3 bills every
-	// 3 months. If not provided, this defaults to 1.
+// The cadence configuration when type is `by_cadence`.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceParams struct {
+	// Timestamp that anchors the recurring grouping cadence.
+	BillingCycleAnchor *time.Time `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	// Daily cadence details.
+	Day *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceDayParams `form:"day" json:"day,omitempty"`
+	// The number of interval units between groups. Defaults to 1.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
-	// Specific configuration for determining billing dates when type=month.
-	Month *V2BillingIntentCreateCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
-	// The frequency at which a cadence bills.
+	// Monthly cadence details.
+	Month *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceMonthParams `form:"month" json:"month,omitempty"`
+	// The interval unit for the cadence.
 	Type *string `form:"type" json:"type"`
-	// Specific configuration for determining billing dates when type=week.
-	Week *V2BillingIntentCreateCadenceDataBillingCycleWeekParams `form:"week" json:"week,omitempty"`
-	// Specific configuration for determining billing dates when type=year.
-	Year *V2BillingIntentCreateCadenceDataBillingCycleYearParams `form:"year" json:"year,omitempty"`
+	// Weekly cadence details.
+	Week *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceWeekParams `form:"week" json:"week,omitempty"`
+	// Yearly cadence details.
+	Year *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceYearParams `form:"year" json:"year,omitempty"`
 }
 
-// Data for creating a new profile.
-type V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams struct {
-	// The customer to associate with the profile.
+// The strategy used to group member invoices.
+type V2BillingIntentCreateBillingGroupDataGroupingBehaviorParams struct {
+	// The cadence configuration when type is `by_cadence`.
+	ByCadence *V2BillingIntentCreateBillingGroupDataGroupingBehaviorByCadenceParams `form:"by_cadence" json:"by_cadence,omitempty"`
+	// The grouping strategy.
+	Type *string `form:"type" json:"type"`
+}
+
+// Data for creating a new Billing Group.
+type V2BillingIntentCreateBillingGroupDataParams struct {
+	// Billing setting overrides for the group. If omitted, the applicable defaults are used.
+	BillingSettings *V2BillingIntentCreateBillingGroupDataBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
+	// The ID of the Customer object whose invoices are grouped.
 	Customer *string `form:"customer" json:"customer"`
-	// The default payment method to use when billing this profile.
-	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
-	// on commit is used to create the profile.
+	// The ID of the PaymentMethod object used by default. If unset, the customer's default payment method is used.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
-}
-
-// Information about the payer for this Cadence.
-type V2BillingIntentCreateCadenceDataPayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill is paid.
-	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
-	// Data for creating a new profile.
-	BillingProfileData *V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
-}
-
-// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
-// If no setting is provided here, the settings from the customer referenced on the payer will be used.
-// If no customer settings are present, the merchant default settings will be used.
-type V2BillingIntentCreateCadenceDataSettingsBillParams struct {
-	// The ID of the referenced settings object.
-	ID *string `form:"id" json:"id"`
-	// An optional field to specify the version of the Settings to use.
-	// If not provided, this defaults to the live version any time the settings are used.
-	Version *string `form:"version" json:"version,omitempty"`
-}
-
-// Settings that configure and manage the behavior of collecting payments.
-// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
-// If no customer settings are present, the merchant default settings will be used.
-type V2BillingIntentCreateCadenceDataSettingsCollectionParams struct {
-	// The ID of the referenced settings object.
-	ID *string `form:"id" json:"id"`
-	// An optional field to specify the version of the Settings to use.
-	// If not provided, this defaults to the live version any time the settings are used.
-	Version *string `form:"version" json:"version,omitempty"`
-}
-
-// Settings for creating the Cadence.
-type V2BillingIntentCreateCadenceDataSettingsParams struct {
-	// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
-	// If no setting is provided here, the settings from the customer referenced on the payer will be used.
-	// If no customer settings are present, the merchant default settings will be used.
-	Bill *V2BillingIntentCreateCadenceDataSettingsBillParams `form:"bill" json:"bill,omitempty"`
-	// Settings that configure and manage the behavior of collecting payments.
-	// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
-	// If no customer settings are present, the merchant default settings will be used.
-	Collection *V2BillingIntentCreateCadenceDataSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
-}
-
-// Data for creating a new Cadence.
-type V2BillingIntentCreateCadenceDataParams struct {
-	// The billing cycle configuration for this Cadence.
-	BillingCycle *V2BillingIntentCreateCadenceDataBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
-	// Information about the payer for this Cadence.
-	Payer *V2BillingIntentCreateCadenceDataPayerParams `form:"payer" json:"payer"`
-	// Settings for creating the Cadence.
-	Settings *V2BillingIntentCreateCadenceDataSettingsParams `form:"settings" json:"settings,omitempty"`
+	// The strategy used to group member invoices.
+	GroupingBehavior *V2BillingIntentCreateBillingGroupDataGroupingBehaviorParams `form:"grouping_behavior" json:"grouping_behavior,omitempty"`
+	// An internal key you can use to find a particular billing group. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 }
 
 // Create a Billing Intent.
@@ -1224,10 +1384,10 @@ type V2BillingIntentCreateParams struct {
 	Params `form:"*"`
 	// Actions to be performed by this Billing Intent.
 	Actions []*V2BillingIntentCreateActionParams `form:"actions" json:"actions"`
-	// ID of an existing Cadence to use.
-	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Data for creating a new Cadence.
-	CadenceData *V2BillingIntentCreateCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
+	// ID of an existing Billing Group to use.
+	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
+	// Data for creating a new Billing Group.
+	BillingGroupData *V2BillingIntentCreateBillingGroupDataParams `form:"billing_group_data" json:"billing_group_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
 }

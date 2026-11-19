@@ -219,15 +219,15 @@ import (
 	treasurytransactionentry "github.com/stripe/stripe-go/v87/treasury/transactionentry"
 	v2billingbillsetting "github.com/stripe/stripe-go/v87/v2/billing/billsetting"
 	v2billingbillsettingsversion "github.com/stripe/stripe-go/v87/v2/billing/billsettings/version"
-	v2billingcadence "github.com/stripe/stripe-go/v87/v2/billing/cadence"
-	v2billingcadencesspendmodifierrule "github.com/stripe/stripe-go/v87/v2/billing/cadences/spendmodifierrule"
 	v2billingcollectionsetting "github.com/stripe/stripe-go/v87/v2/billing/collectionsetting"
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v87/v2/billing/collectionsettings/version"
 	v2billingcontract "github.com/stripe/stripe-go/v87/v2/billing/contract"
-	v2billingcontractspricinglinesquantitychange "github.com/stripe/stripe-go/v87/v2/billing/contracts/pricinglines/quantitychange"
 	v2billingcontractsterm "github.com/stripe/stripe-go/v87/v2/billing/contracts/term"
 	v2billingcontractstermsquantitychange "github.com/stripe/stripe-go/v87/v2/billing/contracts/terms/quantitychange"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v87/v2/billing/custompricingunit"
+	v2billinggroup "github.com/stripe/stripe-go/v87/v2/billing/group"
+	v2billinggroupsinvoice "github.com/stripe/stripe-go/v87/v2/billing/groups/invoice"
+	v2billinggroupsspendmodifierrule "github.com/stripe/stripe-go/v87/v2/billing/groups/spendmodifierrule"
 	v2billingintent "github.com/stripe/stripe-go/v87/v2/billing/intent"
 	v2billingintentsaction "github.com/stripe/stripe-go/v87/v2/billing/intents/action"
 	v2billinglicenseditem "github.com/stripe/stripe-go/v87/v2/billing/licenseditem"
@@ -762,24 +762,24 @@ type API struct {
 	V2BillingBillSettings *v2billingbillsetting.Client
 	// V2BillingBillSettingsVersions is the client used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
 	V2BillingBillSettingsVersions *v2billingbillsettingsversion.Client
-	// V2BillingCadences is the client used to invoke /v2/billing/cadences APIs.
-	V2BillingCadences *v2billingcadence.Client
-	// V2BillingCadencesSpendModifierRules is the client used to invoke /v2/billing/cadences/{cadence_id}/spend_modifier_rules APIs.
-	V2BillingCadencesSpendModifierRules *v2billingcadencesspendmodifierrule.Client
 	// V2BillingCollectionSettings is the client used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2billingcollectionsetting.Client
 	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
 	V2BillingCollectionSettingsVersions *v2billingcollectionsettingsversion.Client
 	// V2BillingContracts is the client used to invoke /v2/billing/contracts APIs.
 	V2BillingContracts *v2billingcontract.Client
-	// V2BillingContractsPricingLinesQuantityChanges is the client used to invoke quantitychange related APIs.
-	V2BillingContractsPricingLinesQuantityChanges *v2billingcontractspricinglinesquantitychange.Client
 	// V2BillingContractsTerms is the client used to invoke term related APIs.
 	V2BillingContractsTerms *v2billingcontractsterm.Client
 	// V2BillingContractsTermsQuantityChanges is the client used to invoke quantitychange related APIs.
 	V2BillingContractsTermsQuantityChanges *v2billingcontractstermsquantitychange.Client
 	// V2BillingCustomPricingUnits is the client used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
+	// V2BillingGroups is the client used to invoke /v2/billing/groups APIs.
+	V2BillingGroups *v2billinggroup.Client
+	// V2BillingGroupsInvoices is the client used to invoke /v2/billing/groups/{id}/invoices APIs.
+	V2BillingGroupsInvoices *v2billinggroupsinvoice.Client
+	// V2BillingGroupsSpendModifierRules is the client used to invoke /v2/billing/groups/{group_id}/spend_modifier_rules APIs.
+	V2BillingGroupsSpendModifierRules *v2billinggroupsspendmodifierrule.Client
 	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
 	V2BillingIntents *v2billingintent.Client
 	// V2BillingIntentsActions is the client used to invoke /v2/billing/intents/{intent_id}/actions APIs.
@@ -1230,15 +1230,15 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
-	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
-	a.V2BillingCadencesSpendModifierRules = &v2billingcadencesspendmodifierrule.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingContracts = &v2billingcontract.Client{B: backends.API, Key: key}
-	a.V2BillingContractsPricingLinesQuantityChanges = &v2billingcontractspricinglinesquantitychange.Client{B: backends.API, Key: key}
 	a.V2BillingContractsTerms = &v2billingcontractsterm.Client{B: backends.API, Key: key}
 	a.V2BillingContractsTermsQuantityChanges = &v2billingcontractstermsquantitychange.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
+	a.V2BillingGroups = &v2billinggroup.Client{B: backends.API, Key: key}
+	a.V2BillingGroupsInvoices = &v2billinggroupsinvoice.Client{B: backends.API, Key: key}
+	a.V2BillingGroupsSpendModifierRules = &v2billinggroupsspendmodifierrule.Client{B: backends.API, Key: key}
 	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
 	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}
 	a.V2BillingLicensedItems = &v2billinglicenseditem.Client{B: backends.API, Key: key}

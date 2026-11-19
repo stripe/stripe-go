@@ -441,6 +441,10 @@ type RefundDestinationDetailsGBBankTransfer struct {
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
 	ReferenceStatus string `json:"reference_status"`
 }
+type RefundDestinationDetailsGiftCard struct {
+	// ID of the reload or activation GiftCardOperation created for this refund.
+	GiftCardOperation string `json:"gift_card_operation"`
+}
 type RefundDestinationDetailsGiropay struct{}
 type RefundDestinationDetailsGrabpay struct{}
 type RefundDestinationDetailsIDBankTransfer struct {
@@ -545,6 +549,7 @@ type RefundDestinationDetails struct {
 	EPS                 *RefundDestinationDetailsEPS                 `json:"eps,omitempty"`
 	EUBankTransfer      *RefundDestinationDetailsEUBankTransfer      `json:"eu_bank_transfer,omitempty"`
 	GBBankTransfer      *RefundDestinationDetailsGBBankTransfer      `json:"gb_bank_transfer,omitempty"`
+	GiftCard            *RefundDestinationDetailsGiftCard            `json:"gift_card,omitempty"`
 	Giropay             *RefundDestinationDetailsGiropay             `json:"giropay,omitempty"`
 	Grabpay             *RefundDestinationDetailsGrabpay             `json:"grabpay,omitempty"`
 	IDBankTransfer      *RefundDestinationDetailsIDBankTransfer      `json:"id_bank_transfer,omitempty"`
@@ -603,6 +608,8 @@ type Refund struct {
 	APIResource
 	// Amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
+	// ID of the Connect application that created the refund. This can differ from the application on the associated Charge or PaymentIntent. A null value does not necessarily mean the refund was created without a Connect application.
+	Application *Application `json:"application"`
 	// Balance transaction that describes the impact on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// ID of the charge that's refunded.

@@ -110,6 +110,7 @@ type V2ReportingReportRunStatusDetails struct {
 	ErrorMessage string `json:"error_message,omitempty"`
 }
 
+// The [Queries and Reports API](https://docs.stripe.com/data/api/reports) replaces this API. For new integrations, use `/v2/data/report_runs` instead.
 // The `ReportRun` object represents an instance of a `Report` generated with specific
 // run parameters. Once the object is created, Stripe begins processing the report. When
 // the report has finished running, it will give you a reference to the results.

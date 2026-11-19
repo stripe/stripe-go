@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Cadence.
+// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Group.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

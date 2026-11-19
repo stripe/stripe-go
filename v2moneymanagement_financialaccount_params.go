@@ -11,7 +11,7 @@ type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// The page limit.
+	// Maximum number of results to return. Default: 10. Valid range: 1-20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Return FinancialAccounts whose `status` matches any of the provided values.
 	// If omitted, closed FinancialAccounts are not returned.
@@ -39,6 +39,8 @@ type V2MoneyManagementFinancialAccountStorageParams struct {
 	// Crypto-specific storage configuration used when adding crypto to a fiat-only FinancialAccount.
 	// `custody_model` is required for the initial crypto update and cannot be changed afterward.
 	Crypto *V2MoneyManagementFinancialAccountStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// How funds in this FinancialAccount are held. Defaults to `for_benefit_of` if not specified.
+	FundsHoldingStructure *string `form:"funds_holding_structure" json:"funds_holding_structure,omitempty"`
 	// The usage type for funds in this FinancialAccount. Defaults to BUSINESS if not specified.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
@@ -125,6 +127,8 @@ type V2MoneyManagementFinancialAccountCreateStorageCryptoParams struct {
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 	// Crypto-specific storage configuration. Fiat currencies remain configured only through `holds_currencies`.
 	Crypto *V2MoneyManagementFinancialAccountCreateStorageCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// How funds in this FinancialAccount are held. Defaults to `for_benefit_of` if not specified.
+	FundsHoldingStructure *string `form:"funds_holding_structure" json:"funds_holding_structure,omitempty"`
 	// The usage type for funds in this FinancialAccount. Defaults to BUSINESS if not specified.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that the storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.

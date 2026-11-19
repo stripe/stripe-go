@@ -110,6 +110,7 @@ type V2DataReportingQueryRunStatusDetails struct {
 	ErrorMessage string `json:"error_message,omitempty"`
 }
 
+// The [Queries and Reports API](https://docs.stripe.com/data/api/query-runs) replaces this API. For new integrations, use `/v2/data/query_runs` instead.
 // The `QueryRun` object represents an ad-hoc SQL execution. Once created, Stripe processes the query. When
 // the query has finished running, the object provides a reference to the results.
 type V2DataReportingQueryRun struct {

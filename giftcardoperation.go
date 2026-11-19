@@ -95,7 +95,7 @@ type GiftCardOperationActivationBalance struct {
 // Details about a gift card activation operation.
 type GiftCardOperationActivation struct {
 	// The balance amount of a gift card, including currency and amount.
-	Balance *GiftCardOperationActivationBalance `json:"balance"`
+	Balance *GiftCardOperationActivationBalance `json:"balance,omitempty"`
 }
 
 // Details about a gift card activation void operation.
@@ -177,7 +177,7 @@ type GiftCardOperationReloadPreviousBalance struct {
 // Details about a gift card reload operation.
 type GiftCardOperationReload struct {
 	// The balance amount of a gift card, including currency and amount.
-	Balance *GiftCardOperationReloadBalance `json:"balance"`
+	Balance *GiftCardOperationReloadBalance `json:"balance,omitempty"`
 	// The balance before the operation.
 	PreviousBalance *GiftCardOperationReloadPreviousBalance `json:"previous_balance"`
 }

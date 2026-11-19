@@ -19,7 +19,7 @@ type v1TaxCertificateService struct {
 	Key string
 }
 
-// Create a tax certificate associated with a tax exemption.
+// Creates a Tax Certificate associated with a tax exemption. Before creating the certificate, [upload a file](https://docs.stripe.com/api/files/create) with purpose tax_certificate.
 func (c v1TaxCertificateService) Create(ctx context.Context, params *TaxCertificateCreateParams) (*TaxCertificate, error) {
 	if params == nil {
 		params = &TaxCertificateCreateParams{}
@@ -31,7 +31,7 @@ func (c v1TaxCertificateService) Create(ctx context.Context, params *TaxCertific
 	return certificate, err
 }
 
-// Retrieve a tax certificate associated with a tax exemption.
+// Retrieves a Tax Certificate. Deleted certificates remain retrievable with all their fields and deleted set to true.
 func (c v1TaxCertificateService) Retrieve(ctx context.Context, id string, params *TaxCertificateRetrieveParams) (*TaxCertificate, error) {
 	if params == nil {
 		params = &TaxCertificateRetrieveParams{}
@@ -43,7 +43,7 @@ func (c v1TaxCertificateService) Retrieve(ctx context.Context, id string, params
 	return certificate, err
 }
 
-// Delete a tax certificate associated with a tax exemption.
+// Deletes a Tax Certificate without deleting its uploaded file. You can reuse the file to create another certificate, and you can still retrieve the deleted certificate.
 func (c v1TaxCertificateService) Delete(ctx context.Context, id string, params *TaxCertificateDeleteParams) (*TaxCertificate, error) {
 	if params == nil {
 		params = &TaxCertificateDeleteParams{}
@@ -55,7 +55,7 @@ func (c v1TaxCertificateService) Delete(ctx context.Context, id string, params *
 	return certificate, err
 }
 
-// List certificates for an existing tax exemption.
+// Lists a tax exemption's certificates, ordered from newest to oldest. The list excludes deleted certificates.
 func (c v1TaxCertificateService) List(ctx context.Context, listParams *TaxCertificateListParams) *V1List[*TaxCertificate] {
 	if listParams == nil {
 		listParams = &TaxCertificateListParams{}

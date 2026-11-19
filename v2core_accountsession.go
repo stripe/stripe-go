@@ -388,7 +388,7 @@ const (
 	V2CoreAccountSessionComponentsIssuingCardsListScopesManageIssuingSpendingControlsEnabled  V2CoreAccountSessionComponentsIssuingCardsListScopesManageIssuingSpendingControls = "enabled"
 )
 
-// Whether to disable Stripe user authentication in the enabled components.
+// Whether to disable Stripe user authentication in this component.
 type V2CoreAccountSessionComponentsNotificationBannerScopesDisableStripeUserAuthentication string
 
 // List of values that V2CoreAccountSessionComponentsNotificationBannerScopesDisableStripeUserAuthentication can take
@@ -954,7 +954,7 @@ type V2CoreAccountSessionComponentsNetworkCostPassthroughReport struct {
 
 // The scopes available to this embedded component.
 type V2CoreAccountSessionComponentsNotificationBannerScopes struct {
-	// Whether to disable Stripe user authentication in the enabled components.
+	// Whether to disable Stripe user authentication in this component.
 	DisableStripeUserAuthentication V2CoreAccountSessionComponentsNotificationBannerScopesDisableStripeUserAuthentication `json:"disable_stripe_user_authentication"`
 	// Whether to allow managing payout methods.
 	ManagePayoutMethods V2CoreAccountSessionComponentsNotificationBannerScopesManagePayoutMethods `json:"manage_payout_methods"`

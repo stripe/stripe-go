@@ -69,6 +69,7 @@ type CheckoutSessionAutomaticSurchargeProvider string
 // List of values that CheckoutSessionAutomaticSurchargeProvider can take
 const (
 	CheckoutSessionAutomaticSurchargeProviderDaikin        CheckoutSessionAutomaticSurchargeProvider = "daikin"
+	CheckoutSessionAutomaticSurchargeProviderDealerfx      CheckoutSessionAutomaticSurchargeProvider = "dealerfx"
 	CheckoutSessionAutomaticSurchargeProviderInterpayments CheckoutSessionAutomaticSurchargeProvider = "interpayments"
 	CheckoutSessionAutomaticSurchargeProviderProserv       CheckoutSessionAutomaticSurchargeProvider = "proserv"
 	CheckoutSessionAutomaticSurchargeProviderYeeld         CheckoutSessionAutomaticSurchargeProvider = "yeeld"
@@ -4860,8 +4861,6 @@ type CheckoutSessionParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
-	// Token used to resolve the presentment currency for this Checkout Session.
-	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
@@ -7760,8 +7759,6 @@ type CheckoutSessionCreateParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionCreatePhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
-	// Token used to resolve the presentment currency for this Checkout Session.
-	PricingToken *string `form:"pricing_token" json:"pricing_token,omitempty"`
 	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
@@ -9072,6 +9069,16 @@ type CheckoutSessionOptionalItem struct {
 	Price              string                                         `json:"price"`
 	Quantity           int64                                          `json:"quantity"`
 }
+type CheckoutSessionPassThroughFeeCost struct {
+	// The pass-through fee before tax.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// The tax on the pass-through fee. Pass-through fees aren't taxed, so this is always 0.
+	AmountTax int64 `json:"amount_tax"`
+	// The pass-through fee after tax.
+	AmountTotal int64 `json:"amount_total"`
+	// The amount the provider calculated the fee on.
+	CalculationBasisAmount int64 `json:"calculation_basis_amount"`
+}
 
 // Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 type CheckoutSessionPaymentMethodConfigurationDetails struct {
@@ -10021,6 +10028,8 @@ type CheckoutSessionTotalDetailsBreakdown struct {
 type CheckoutSessionTotalDetails struct {
 	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
+	// The pass-through fee added to the Checkout Session, before tax.
+	AmountPassThroughFee int64 `json:"amount_pass_through_fee,omitempty"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// The surcharge amount that was applied to the Checkout Session.
@@ -10192,7 +10201,8 @@ type CheckoutSession struct {
 	// The optional items presented to the customer at checkout.
 	OptionalItems []*CheckoutSessionOptionalItem `json:"optional_items,omitempty"`
 	// Where the user is coming from. This informs the optimizations that are applied to the session.
-	OriginContext CheckoutSessionOriginContext `json:"origin_context"`
+	OriginContext      CheckoutSessionOriginContext       `json:"origin_context"`
+	PassThroughFeeCost *CheckoutSessionPassThroughFeeCost `json:"pass_through_fee_cost,omitempty"`
 	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://docs.stripe.com/api/checkout/sessions/expire) instead.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.

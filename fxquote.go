@@ -38,8 +38,6 @@ const (
 )
 
 // The transaction type for which the FX Quote will be used.
-//
-// Can be 'payment' or 'transfer'.
 type FxQuoteUsageType string
 
 // List of values that FxQuoteUsageType can take
@@ -87,8 +85,6 @@ type FxQuoteUsageParams struct {
 	// The transfer transaction details that are intended for the FX Quote.
 	Transfer *FxQuoteUsageTransferParams `form:"transfer" json:"transfer,omitempty"`
 	// Which transaction the FX Quote will be used for
-	//
-	// Can be “payment” | “transfer”
 	Type *string `form:"type" json:"type"`
 }
 
@@ -139,8 +135,6 @@ type FxQuoteCreateUsageParams struct {
 	// The transfer transaction details that are intended for the FX Quote.
 	Transfer *FxQuoteCreateUsageTransferParams `form:"transfer" json:"transfer,omitempty"`
 	// Which transaction the FX Quote will be used for
-	//
-	// Can be “payment” | “transfer”
 	Type *string `form:"type" json:"type"`
 }
 
@@ -221,8 +215,6 @@ type FxQuoteUsage struct {
 	// The details required to use an FX Quote for a transfer
 	Transfer *FxQuoteUsageTransfer `json:"transfer"`
 	// The transaction type for which the FX Quote will be used.
-	//
-	// Can be 'payment' or 'transfer'.
 	Type FxQuoteUsageType `json:"type"`
 }
 

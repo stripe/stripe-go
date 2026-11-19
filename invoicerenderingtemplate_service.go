@@ -20,6 +20,18 @@ type v1InvoiceRenderingTemplateService struct {
 	Key string
 }
 
+// Creates an invoice rendering template.
+func (c v1InvoiceRenderingTemplateService) Create(ctx context.Context, params *InvoiceRenderingTemplateCreateParams) (*InvoiceRenderingTemplate, error) {
+	if params == nil {
+		params = &InvoiceRenderingTemplateCreateParams{}
+	}
+	params.Context = ctx
+	invoicerenderingtemplate := &InvoiceRenderingTemplate{}
+	err := c.B.Call(
+		http.MethodPost, "/v1/invoice_rendering_templates", c.Key, params, invoicerenderingtemplate)
+	return invoicerenderingtemplate, err
+}
+
 // Retrieves an invoice rendering template with the given ID. It by default returns the latest version of the template. Optionally, specify a version to see previous versions.
 func (c v1InvoiceRenderingTemplateService) Retrieve(ctx context.Context, id string, params *InvoiceRenderingTemplateRetrieveParams) (*InvoiceRenderingTemplate, error) {
 	if params == nil {
@@ -29,6 +41,19 @@ func (c v1InvoiceRenderingTemplateService) Retrieve(ctx context.Context, id stri
 	path := FormatURLPath("/v1/invoice_rendering_templates/%s", id)
 	invoicerenderingtemplate := &InvoiceRenderingTemplate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoicerenderingtemplate)
+	return invoicerenderingtemplate, err
+}
+
+// Updates an existing invoice rendering template.
+func (c v1InvoiceRenderingTemplateService) Update(ctx context.Context, id string, params *InvoiceRenderingTemplateUpdateParams) (*InvoiceRenderingTemplate, error) {
+	if params == nil {
+		params = &InvoiceRenderingTemplateUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/invoice_rendering_templates/%s", id)
+	invoicerenderingtemplate := &InvoiceRenderingTemplate{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, invoicerenderingtemplate)
 	return invoicerenderingtemplate, err
 }
 

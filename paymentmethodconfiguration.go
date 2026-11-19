@@ -26,6 +26,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationAeonPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationAeonPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationAeonPayDisplayPreferencePreferenceNone PaymentMethodConfigurationAeonPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationAeonPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationAeonPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationAeonPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationAeonPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationAeonPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationAeonPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationAeonPayDisplayPreferenceValueOff PaymentMethodConfigurationAeonPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationAeonPayDisplayPreferenceValueOn  PaymentMethodConfigurationAeonPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationAffirmDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationAffirmDisplayPreferencePreference can take
@@ -156,6 +175,25 @@ type PaymentMethodConfigurationAUBECSDebitDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationAUBECSDebitDisplayPreferenceValueOff PaymentMethodConfigurationAUBECSDebitDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationAUBECSDebitDisplayPreferenceValueOn  PaymentMethodConfigurationAUBECSDebitDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationAuPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationAuPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationAuPayDisplayPreferencePreferenceNone PaymentMethodConfigurationAuPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationAuPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationAuPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationAuPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationAuPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationAuPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationAuPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationAuPayDisplayPreferenceValueOff PaymentMethodConfigurationAuPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationAuPayDisplayPreferenceValueOn  PaymentMethodConfigurationAuPayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -365,6 +403,25 @@ type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValueOff PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValueOn  PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationDbaraiDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationDbaraiDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceNone PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceOff  PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationDbaraiDisplayPreferencePreferenceOn   PaymentMethodConfigurationDbaraiDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationDbaraiDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationDbaraiDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationDbaraiDisplayPreferenceValueOff PaymentMethodConfigurationDbaraiDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationDbaraiDisplayPreferenceValueOn  PaymentMethodConfigurationDbaraiDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -650,6 +707,25 @@ type PaymentMethodConfigurationMbWayDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationMbWayDisplayPreferenceValueOff PaymentMethodConfigurationMbWayDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationMbWayDisplayPreferenceValueOn  PaymentMethodConfigurationMbWayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationMerpayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMerpayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMerpayDisplayPreferencePreferenceNone PaymentMethodConfigurationMerpayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMerpayDisplayPreferencePreferenceOff  PaymentMethodConfigurationMerpayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMerpayDisplayPreferencePreferenceOn   PaymentMethodConfigurationMerpayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMerpayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMerpayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMerpayDisplayPreferenceValueOff PaymentMethodConfigurationMerpayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMerpayDisplayPreferenceValueOn  PaymentMethodConfigurationMerpayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -1308,6 +1384,18 @@ type PaymentMethodConfigurationACSSDebitParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationAeonPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationAeonPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationAeonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAffirmDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -1401,6 +1489,18 @@ type PaymentMethodConfigurationAUBECSDebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationAuPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationAuPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationAuPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1533,6 +1633,18 @@ type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1725,6 +1837,18 @@ type PaymentMethodConfigurationMbWayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationMbWayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationMerpayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationMerpayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationMerpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2130,6 +2254,8 @@ type PaymentMethodConfigurationParams struct {
 	ACSSDebit *PaymentMethodConfigurationACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
 	Active *bool `form:"active" json:"active,omitempty"`
+	// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AeonPay *PaymentMethodConfigurationAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 	Affirm *PaymentMethodConfigurationAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
@@ -2146,6 +2272,8 @@ type PaymentMethodConfigurationParams struct {
 	ApplePayLater *PaymentMethodConfigurationApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 	AUBECSDebit *PaymentMethodConfigurationAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AuPay *PaymentMethodConfigurationAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
@@ -2168,6 +2296,8 @@ type PaymentMethodConfigurationParams struct {
 	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -2202,6 +2332,8 @@ type PaymentMethodConfigurationParams struct {
 	Link *PaymentMethodConfigurationLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 	MbWay *PaymentMethodConfigurationMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Merpay *PaymentMethodConfigurationMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -2289,6 +2421,18 @@ type PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateACSSDebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateAeonPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateAeonPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateAeonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2385,6 +2529,18 @@ type PaymentMethodConfigurationCreateAUBECSDebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateAuPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateAuPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateAuPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2517,6 +2673,18 @@ type PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams stru
 type PaymentMethodConfigurationCreateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2709,6 +2877,18 @@ type PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateMbWayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateMerpayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateMerpayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateMerpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3112,6 +3292,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Params `form:"*"`
 	// Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
 	ACSSDebit *PaymentMethodConfigurationCreateACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AeonPay *PaymentMethodConfigurationCreateAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 	Affirm *PaymentMethodConfigurationCreateAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
@@ -3128,6 +3310,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	ApplePayLater *PaymentMethodConfigurationCreateApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 	AUBECSDebit *PaymentMethodConfigurationCreateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AuPay *PaymentMethodConfigurationCreateAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 	BACSDebit *PaymentMethodConfigurationCreateBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
@@ -3150,6 +3334,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationCreateDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationCreateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -3184,6 +3370,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Link *PaymentMethodConfigurationCreateLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 	MbWay *PaymentMethodConfigurationCreateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Merpay *PaymentMethodConfigurationCreateMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationCreateMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -3286,6 +3474,18 @@ type PaymentMethodConfigurationUpdateACSSDebitParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateAeonPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateAeonPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateAeonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAffirmDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3379,6 +3579,18 @@ type PaymentMethodConfigurationUpdateAUBECSDebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateAuPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateAuPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateAuPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3511,6 +3723,18 @@ type PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams stru
 type PaymentMethodConfigurationUpdateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateDbaraiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateDbaraiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateDbaraiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3703,6 +3927,18 @@ type PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateMbWayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateMerpayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateMerpayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateMerpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -4108,6 +4344,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	ACSSDebit *PaymentMethodConfigurationUpdateACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
 	Active *bool `form:"active" json:"active,omitempty"`
+	// AEON Pay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with AEON Pay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AeonPay *PaymentMethodConfigurationUpdateAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 	Affirm *PaymentMethodConfigurationUpdateAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
@@ -4124,6 +4362,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	ApplePayLater *PaymentMethodConfigurationUpdateApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 	AUBECSDebit *PaymentMethodConfigurationUpdateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// au PAY is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with au PAY, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	AuPay *PaymentMethodConfigurationUpdateAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 	BACSDebit *PaymentMethodConfigurationUpdateBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
@@ -4146,6 +4386,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// d-Barai is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with d-Barai, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Dbarai *PaymentMethodConfigurationUpdateDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationUpdateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -4180,6 +4422,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 	MbWay *PaymentMethodConfigurationUpdateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// Merpay is a single-use payment method that requires customers to authenticate their payment. Customers pay by being redirected from your website or app, authorizing the payment with Merpay, then returning to your website or app. You get immediate notification of whether the payment succeeded or failed.
+	Merpay *PaymentMethodConfigurationUpdateMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationUpdateMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -4267,6 +4511,19 @@ type PaymentMethodConfigurationACSSDebit struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationACSSDebitDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationAeonPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationAeonPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationAeonPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationAeonPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationAeonPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAffirmDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4358,6 +4615,19 @@ type PaymentMethodConfigurationAUBECSDebit struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                    `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationAUBECSDebitDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationAuPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationAuPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationAuPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationAuPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationAuPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBACSDebitDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4501,6 +4771,19 @@ type PaymentMethodConfigurationCustomerBalance struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                        `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationDbaraiDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationDbaraiDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationDbaraiDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationDbarai struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationDbaraiDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationEPSDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4696,6 +4979,19 @@ type PaymentMethodConfigurationMbWay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                              `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationMerpayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMerpayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMerpayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMerpay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMerpayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationMobilepayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -5146,6 +5442,7 @@ type PaymentMethodConfiguration struct {
 	ACSSDebit *PaymentMethodConfigurationACSSDebit `json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
 	Active           bool                                        `json:"active"`
+	AeonPay          *PaymentMethodConfigurationAeonPay          `json:"aeon_pay,omitempty"`
 	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm,omitempty"`
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
 	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay,omitempty"`
@@ -5155,6 +5452,7 @@ type PaymentMethodConfiguration struct {
 	// For child configs, the Connect application associated with the configuration.
 	Application     string                                     `json:"application"`
 	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit,omitempty"`
+	AuPay           *PaymentMethodConfigurationAuPay           `json:"au_pay,omitempty"`
 	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit,omitempty"`
 	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact,omitempty"`
 	Billie          *PaymentMethodConfigurationBillie          `json:"billie,omitempty"`
@@ -5166,6 +5464,7 @@ type PaymentMethodConfiguration struct {
 	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp,omitempty"`
 	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto,omitempty"`
 	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance,omitempty"`
+	Dbarai          *PaymentMethodConfigurationDbarai          `json:"dbarai,omitempty"`
 	EPS             *PaymentMethodConfigurationEPS             `json:"eps,omitempty"`
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx,omitempty"`
 	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay,omitempty"`
@@ -5187,6 +5486,7 @@ type PaymentMethodConfiguration struct {
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode   bool                                  `json:"livemode"`
 	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way,omitempty"`
+	Merpay     *PaymentMethodConfigurationMerpay     `json:"merpay,omitempty"`
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay,omitempty"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco,omitempty"`
 	// The configuration's name.

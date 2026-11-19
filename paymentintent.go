@@ -1188,7 +1188,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardStoredCredentialUsageUnscheduled PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage = "unscheduled"
 )
 
-// The e-invoicing mode under which the mark was generated.
+// The e-invoicing mode under which the provider signature was generated.
 type PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode can take
@@ -2423,6 +2423,15 @@ const (
 	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryNft              PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "nft"
 	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryOtherNonFiat     PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "other_non_fiat"
 	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryStablecoin       PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "stablecoin"
+)
+
+// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsVippsRequestMulticapture string
+
+// List of values that PaymentIntentPaymentMethodOptionsVippsRequestMulticapture can take
+const (
+	PaymentIntentPaymentMethodOptionsVippsRequestMulticaptureIfAvailable PaymentIntentPaymentMethodOptionsVippsRequestMulticapture = "if_available"
+	PaymentIntentPaymentMethodOptionsVippsRequestMulticaptureNever       PaymentIntentPaymentMethodOptionsVippsRequestMulticapture = "never"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -4824,14 +4833,14 @@ func (p *PaymentIntentPaymentMethodOptionsCardParams) AddUnsetField(field Paymen
 
 // Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
 type PaymentIntentPaymentMethodOptionsCardPresentAadeDataParams struct {
-	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
-	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
-	// The e-invoicing mode under which the mark was generated.
+	// The e-invoicing mode under which the provider signature was generated.
 	Mode *string `form:"mode" json:"mode"`
-	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	// The AADE-assigned approval number of the e-invoicing provider that generated the provider signature. Required when `mode` is `standard`.
 	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
 	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
-	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	ProviderSignature *string `form:"provider_signature" json:"provider_signature,omitempty"`
+	// The canonical string that was signed by the e-invoicing provider to produce `provider_signature`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	ProviderSignatureData *string `form:"provider_signature_data" json:"provider_signature_data,omitempty"`
 	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
 	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
 }
@@ -7009,6 +7018,8 @@ type PaymentIntentPaymentMethodOptionsVippsParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -7304,6 +7315,8 @@ type PaymentIntentPaymentsOrchestrationParams struct {
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentRadarOptionsParams struct {
+	// Whether this transaction starts a free trial. Set to `true` for a free trial or `false` otherwise. If omitted, retains the previously set value. If never set, Stripe uses Billing or metadata to determine trial status.
+	IsFreeTrialTransaction *bool `form:"is_free_trial_transaction" json:"is_free_trial_transaction,omitempty"`
 	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
 	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -7509,7 +7522,7 @@ type PaymentIntentParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
@@ -10160,6 +10173,8 @@ func (p *PaymentIntentConfirmPaymentDetailsParams) AddUnsetField(field PaymentIn
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentConfirmRadarOptionsParams struct {
+	// Whether this transaction starts a free trial. Set to `true` for a free trial or `false` otherwise. If omitted, retains the previously set value. If never set, Stripe uses Billing or metadata to determine trial status.
+	IsFreeTrialTransaction *bool `form:"is_free_trial_transaction" json:"is_free_trial_transaction,omitempty"`
 	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
 	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -13439,14 +13454,14 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardParams) AddUnsetField(field 
 
 // Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
 type PaymentIntentCreatePaymentMethodOptionsCardPresentAadeDataParams struct {
-	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
-	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
-	// The e-invoicing mode under which the mark was generated.
+	// The e-invoicing mode under which the provider signature was generated.
 	Mode *string `form:"mode" json:"mode"`
-	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	// The AADE-assigned approval number of the e-invoicing provider that generated the provider signature. Required when `mode` is `standard`.
 	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
 	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
-	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	ProviderSignature *string `form:"provider_signature" json:"provider_signature,omitempty"`
+	// The canonical string that was signed by the e-invoicing provider to produce `provider_signature`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	ProviderSignatureData *string `form:"provider_signature_data" json:"provider_signature_data,omitempty"`
 	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
 	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
 }
@@ -15624,6 +15639,8 @@ type PaymentIntentCreatePaymentMethodOptionsVippsParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -15919,6 +15936,8 @@ type PaymentIntentCreatePaymentsOrchestrationParams struct {
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentCreateRadarOptionsParams struct {
+	// Whether this transaction starts a free trial. Set to `true` for a free trial or `false` otherwise. If omitted, retains the previously set value. If never set, Stripe uses Billing or metadata to determine trial status.
+	IsFreeTrialTransaction *bool `form:"is_free_trial_transaction" json:"is_free_trial_transaction,omitempty"`
 	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
 	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -16124,7 +16143,7 @@ type PaymentIntentCreateParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// The parameters that you can use to automatically create a Transfer.
 	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
@@ -18431,14 +18450,14 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardParams) AddUnsetField(field 
 
 // Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentAadeDataParams struct {
-	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
-	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
-	// The e-invoicing mode under which the mark was generated.
+	// The e-invoicing mode under which the provider signature was generated.
 	Mode *string `form:"mode" json:"mode"`
-	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	// The AADE-assigned approval number of the e-invoicing provider that generated the provider signature. Required when `mode` is `standard`.
 	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
 	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
-	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	ProviderSignature *string `form:"provider_signature" json:"provider_signature,omitempty"`
+	// The canonical string that was signed by the e-invoicing provider to produce `provider_signature`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	ProviderSignatureData *string `form:"provider_signature_data" json:"provider_signature_data,omitempty"`
 	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
 	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
 }
@@ -20616,6 +20635,8 @@ type PaymentIntentUpdatePaymentMethodOptionsVippsParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Payment details for payment method specific funding transaction fields.
 	PaymentDetails *PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -21043,7 +21064,7 @@ type PaymentIntentUpdateParams struct {
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
-	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. A suffix longer than 22 characters returns an error. If a valid suffix makes the complete statement descriptor longer than 22 characters, Stripe truncates the descriptor instead of returning an error. Learn how to [fit the suffix in the complete descriptor](https://docs.stripe.com/get-started/account/statement-descriptors#suffix-length).
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentUpdateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
@@ -22665,14 +22686,14 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	StoredCredentialUsage PaymentIntentPaymentMethodOptionsCardStoredCredentialUsage `json:"stored_credential_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresentAadeData struct {
-	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
-	MarkData string `json:"mark_data,omitempty"`
-	// The e-invoicing mode under which the mark was generated.
+	// The e-invoicing mode under which the provider signature was generated.
 	Mode PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode `json:"mode"`
-	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	// The AADE-assigned approval number of the e-invoicing provider that generated the provider signature. Required when `mode` is `standard`.
 	ProviderID int64 `json:"provider_id,omitempty"`
 	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
-	SignedMark string `json:"signed_mark,omitempty"`
+	ProviderSignature string `json:"provider_signature,omitempty"`
+	// The canonical string that was signed by the e-invoicing provider to produce `provider_signature`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	ProviderSignatureData string `json:"provider_signature_data,omitempty"`
 	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
 	UnboundPos PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos `json:"unbound_pos,omitempty"`
 }
@@ -23454,6 +23475,8 @@ type PaymentIntentPaymentMethodOptionsVipps struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod  PaymentIntentPaymentMethodOptionsVippsCaptureMethod   `json:"capture_method,omitempty"`
 	PaymentDetails *PaymentIntentPaymentMethodOptionsVippsPaymentDetails `json:"payment_details,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture PaymentIntentPaymentMethodOptionsVippsRequestMulticapture `json:"request_multicapture,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -23592,6 +23615,12 @@ type PaymentIntentProcessing struct {
 	Type PaymentIntentProcessingType `json:"type"`
 }
 
+// Options to configure Radar.
+type PaymentIntentRadarOptions struct {
+	// The value you provided for whether this transaction starts a free trial. This is null if you haven't explicitly set it.
+	IsFreeTrialTransaction bool `json:"is_free_trial_transaction,omitempty"`
+}
+
 // Redaction status of this PaymentIntent. If the PaymentIntent isn't redacted, this field is null.
 type PaymentIntentRedaction struct {
 	// Indicates whether this object and its related objects have been redacted or not.
@@ -23727,6 +23756,8 @@ type PaymentIntent struct {
 	PresentmentDetails    *PaymentIntentPresentmentDetails    `json:"presentment_details,omitempty"`
 	// If present, this property tells you about the processing state of the payment.
 	Processing *PaymentIntentProcessing `json:"processing"`
+	// Options to configure Radar.
+	RadarOptions *PaymentIntentRadarOptions `json:"radar_options,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail string `json:"receipt_email"`
 	// Redaction status of this PaymentIntent. If the PaymentIntent isn't redacted, this field is null.

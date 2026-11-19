@@ -579,8 +579,6 @@ type SubscriptionParams struct {
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
@@ -1190,6 +1188,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams str
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Controls early collection for eligible recurring payments on India-issued cards. Target-date billing aims to debit on the billing-cycle date but does not guarantee that date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
@@ -1257,6 +1257,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams stru
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Timing configuration for collecting funds from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
@@ -1283,6 +1285,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams stru
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account. Defaults to `not_specified`. Omit this parameter on an update to preserve the saved value; pass `not_specified` to clear it. Early collection is best effort and doesn't guarantee an exact debit date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
@@ -1467,8 +1471,6 @@ type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// Filter for subscriptions that have the specified billing group.
 	BillingGroup *string `form:"billing_group" json:"billing_group,omitempty"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
@@ -2232,6 +2234,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsPara
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Controls early collection for eligible recurring payments on India-issued cards. Target-date billing aims to debit on the billing-cycle date but does not guarantee that date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
@@ -2299,6 +2303,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Timing configuration for collecting funds from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
@@ -2325,6 +2331,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account. Defaults to `not_specified`. Omit this parameter on an update to preserve the saved value; pass `not_specified` to clear it. Early collection is best effort and doesn't guarantee an exact debit date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
@@ -2520,8 +2528,6 @@ type SubscriptionUpdateParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 	AutomaticTax *SubscriptionUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// Controls how the subscription's billing cycle anchor changes. Set `type` to `now` to reset the billing cycle anchor to the current time (in UTC), or `unchanged` to preserve it. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
@@ -3213,6 +3219,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsPara
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Controls early collection for eligible recurring payments on India-issued cards. Target-date billing aims to debit on the billing-cycle date but does not guarantee that date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
@@ -3280,6 +3288,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Timing configuration for collecting funds from the customer's account.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// Configuration options for setting up a mandate
@@ -3306,6 +3316,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 
 // This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Controls when the funds will be captured from the customer's account. Defaults to `not_specified`. Omit this parameter on an update to preserve the saved value; pass `not_specified` to clear it. Early collection is best effort and doesn't guarantee an exact debit date.
+	DebitBehavior *string `form:"debit_behavior" json:"debit_behavior,omitempty"`
 	// Configuration options for setting up an eMandate
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
@@ -3491,8 +3503,6 @@ type SubscriptionCreateParams struct {
 	AutomaticTax *SubscriptionCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
-	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
@@ -3871,6 +3881,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
 
 // This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
+	// Controls early collection for eligible recurring payments on India-issued cards. Target-date billing aims to debit on the billing-cycle date but does not guarantee that date.
+	DebitBehavior  string                                                             `json:"debit_behavior,omitempty"`
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions `json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
 	Network SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork `json:"network"`
@@ -3928,6 +3940,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions struct {
 
 // This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPix struct {
+	// Timing configuration for collecting funds from the customer's account.
+	DebitBehavior string `json:"debit_behavior,omitempty"`
 	// The number of seconds after PaymentIntent confirmation when the Pix expires (between 60 and 1209600, inclusive). If unspecified, defaults to 14400 seconds (4 hours).
 	ExpiresAfterSeconds int64                                                             `json:"expires_after_seconds,omitempty"`
 	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
@@ -3951,6 +3965,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
 
 // This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUpi struct {
+	// Controls when the funds will be captured from the customer's account. Defaults to `not_specified`. Omitting this parameter on an update preserves the saved value; passing `not_specified` clears it. Early collection is best effort and doesn't guarantee an exact debit date.
+	DebitBehavior  string                                                            `json:"debit_behavior,omitempty"`
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options,omitempty"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
@@ -4039,6 +4055,10 @@ type SubscriptionPendingInvoiceItemInterval struct {
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount int64 `json:"interval_count"`
 }
+type SubscriptionPendingUpdatePresentmentDetails struct {
+	// Currency used for customer payments.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 
 // If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 type SubscriptionPendingUpdate struct {
@@ -4055,7 +4075,8 @@ type SubscriptionPendingUpdate struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The number of iterations of prebilling to apply.
-	PrebillingIterations int64 `json:"prebilling_iterations,omitempty"`
+	PrebillingIterations int64                                        `json:"prebilling_iterations,omitempty"`
+	PresentmentDetails   *SubscriptionPendingUpdatePresentmentDetails `json:"presentment_details,omitempty"`
 	// List of subscription items, each with an attached plan, that will be set if the update is applied.
 	SubscriptionItems []*SubscriptionItem `json:"subscription_items"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
@@ -4134,8 +4155,6 @@ type Subscription struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
-	// The Billing Cadence which controls the timing of recurring invoice generation for this subscription. If unset, the subscription will bill according to its own configured schedule and create its own invoices. If set, this subscription will be billed by the cadence instead, potentially sharing invoices with the other subscriptions linked to that Cadence.
-	BillingCadence string `json:"billing_cadence,omitempty"`
 	// The reference point that aligns future [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle) dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.

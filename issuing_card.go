@@ -736,7 +736,7 @@ type IssuingCardCryptoWallet struct {
 	Type IssuingCardCryptoWalletType `json:"type"`
 }
 
-// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate.
 type IssuingCardLatestFraudWarning struct {
 	// Timestamp of the most recent fraud warning.
 	StartedAt int64 `json:"started_at"`
@@ -898,7 +898,7 @@ type IssuingCard struct {
 	ID string `json:"id"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
-	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate.
 	LatestFraudWarning *IssuingCardLatestFraudWarning `json:"latest_fraud_warning"`
 	// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
 	LifecycleControls *IssuingCardLifecycleControls `json:"lifecycle_controls"`

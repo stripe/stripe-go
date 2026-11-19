@@ -34,6 +34,7 @@ const (
 	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSEPA        V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "sepa"
 	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSEPAInstant V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "sepa_instant"
 	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkSwift       V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "swift"
+	V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetworkTips        V2MoneyManagementPayoutIntentEstimatedFeeNetworkFeeDetailsNetwork = "tips"
 )
 
 // Open Enum. ACH submission timing.
@@ -238,6 +239,7 @@ const (
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkTips        V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "tips"
 )
 
 // Open Enum. Shipping speed of the check. Defaults to standard.

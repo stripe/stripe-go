@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 func Fail(id string, params *stripe.TestHelpersTreasuryInboundTransferFailParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Fail(id, params)
 }
 
-// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryInboundTransfe
 	return inboundtransfer, err
 }
 
-// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
+// Marks the test InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 func ReturnInboundTransfer(id string, params *stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().ReturnInboundTransfer(id, params)
 }
 
-// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
+// Marks the test InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,12 +58,12 @@ func (c Client) ReturnInboundTransfer(id string, params *stripe.TestHelpersTreas
 	return inboundtransfer, err
 }
 
-// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 func Succeed(id string, params *stripe.TestHelpersTreasuryInboundTransferSucceedParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Succeed(id, params)
 }
 
-// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
+// Transitions a test InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
