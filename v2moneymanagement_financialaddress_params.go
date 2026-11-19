@@ -17,9 +17,9 @@ type V2MoneyManagementFinancialAddressListParams struct {
 
 // Properties for creating a bank account FinancialAddress.
 type V2MoneyManagementFinancialAddressBankAccountParams struct {
-	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	// The country where Stripe provisions the bank account. Each currency supports the country listed in its description. If omitted, Stripe selects that country.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision. Available currencies depend on your account's enabled features and rollout access; `eur` requires the Financial Address Global Payouts EU preview.
+	// The currency of the bank account to provision. Some currencies require preview or rollout access, as configured for your account.
 	Currency *string `form:"currency" json:"currency"`
 }
 
@@ -36,9 +36,9 @@ type V2MoneyManagementFinancialAddressParams struct {
 
 // Properties for creating a bank account FinancialAddress.
 type V2MoneyManagementFinancialAddressCreateBankAccountParams struct {
-	// The country for the bank account. Used to select the appropriate rails (e.g. for SEPA).
+	// The country where Stripe provisions the bank account. Each currency supports the country listed in its description. If omitted, Stripe selects that country.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The currency of the bank account to provision. Available currencies depend on your account's enabled features and rollout access; `eur` requires the Financial Address Global Payouts EU preview.
+	// The currency of the bank account to provision. Some currencies require preview or rollout access, as configured for your account.
 	Currency *string `form:"currency" json:"currency"`
 }
 

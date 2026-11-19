@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
+// Simulates a test ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredit objects initiated by third parties.
 func New(params *stripe.TestHelpersTreasuryReceivedCreditParams) (*stripe.TreasuryReceivedCredit, error) {
 	return getC().New(params)
 }
 
-// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
+// Simulates a test ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredit objects initiated by third parties.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
