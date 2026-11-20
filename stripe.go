@@ -741,9 +741,33 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 // webhook bodies), we have to be a little defensive.
 //
 // So, we require that a path starts with a leading slash.
+//
+// We also reject "." and ".." path segments, such as an ID of ".", because
+// FormatURLPath leaves dots unescaped. net/http sends these segments as
+// written, but a proxy, custom transport, or server that normalizes the path
+// would remove them and send the request to a different endpoint. Some decode
+// "%2E" to "." first, so we check encoded dots too.
 func validatePath(path string) error {
 	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
 		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
+	}
+
+	pathOnly := path
+	if i := strings.IndexAny(path, "?#"); i >= 0 {
+		pathOnly = path[:i]
+	}
+	for _, segment := range strings.Split(pathOnly, "/") {
+		segment = strings.ReplaceAll(strings.ToLower(segment), "%2e", ".")
+		if segment == "." || segment == ".." {
+			// Returned as an invalid_request_error *Error, like the API's own
+			// errors, so callers' existing handling for API errors keeps working.
+			stripeErr := &Error{
+				Type: ErrorTypeInvalidRequest,
+				Msg:  fmt.Sprintf(`Request path may not contain a "." or ".." segment, got %q`, path),
+			}
+			stripeErr.Err = &InvalidRequestError{stripeErr: stripeErr}
+			return stripeErr
+		}
 	}
 	return nil
 }
