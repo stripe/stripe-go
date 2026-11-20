@@ -34,7 +34,10 @@ func (c Client) Get(id string, params *stripe.V2CoreFeeBatchParams) (*stripe.V2C
 	return feebatch, err
 }
 
-// List FeeBatches optionally filtered by collection_record.
+// Lists FeeBatches, optionally filtered by `collection_record`, `statuses`, or
+// creation time. If `statuses` is omitted or empty, only pending and billed
+// FeeBatches are returned. Canceled FeeBatches are returned only when explicitly
+// requested.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

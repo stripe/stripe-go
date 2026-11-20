@@ -2734,6 +2734,8 @@ type PaymentLinkInvoiceCreationInvoiceDataRenderingOptions struct {
 	AmountTaxDisplay string `json:"amount_tax_display"`
 	// ID of the invoice rendering template to be used for the generated invoice.
 	Template string `json:"template"`
+	// The version of the invoice rendering template to be used for the generated invoice. If null, the latest version of the template will be used. Only available in unified mode.
+	TemplateVersion int64 `json:"template_version,omitempty"`
 }
 
 // Configuration for the invoice. Default invoice values will be used if unspecified.

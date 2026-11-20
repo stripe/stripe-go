@@ -17,6 +17,7 @@ type v2MoneyManagementDebitDisputeService struct {
 	Key string
 }
 
+// Deprecated: Use CreateDispute to create a Dispute instead.
 // Creates a new DebitDispute for a ReceivedDebit.
 func (c v2MoneyManagementDebitDisputeService) Create(ctx context.Context, params *V2MoneyManagementDebitDisputeCreateParams) (*V2MoneyManagementDebitDispute, error) {
 	if params == nil {

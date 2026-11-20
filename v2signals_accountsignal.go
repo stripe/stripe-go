@@ -168,6 +168,7 @@ const (
 	V2SignalsAccountSignalTypePaymentDelinquencyExposure V2SignalsAccountSignalType = "payment_delinquency_exposure"
 	V2SignalsAccountSignalTypeUserAccountSharing         V2SignalsAccountSignalType = "user_account_sharing"
 	V2SignalsAccountSignalTypeUserAffinity               V2SignalsAccountSignalType = "user_affinity"
+	V2SignalsAccountSignalTypeUserBuyerClassification    V2SignalsAccountSignalType = "user_buyer_classification"
 	V2SignalsAccountSignalTypeUserMultiAccounting        V2SignalsAccountSignalType = "user_multi_accounting"
 )
 
@@ -192,6 +193,15 @@ const (
 	V2SignalsAccountSignalUserAffinityLevelStrong     V2SignalsAccountSignalUserAffinityLevel = "strong"
 	V2SignalsAccountSignalUserAffinityLevelUnknown    V2SignalsAccountSignalUserAffinityLevel = "unknown"
 	V2SignalsAccountSignalUserAffinityLevelVeryStrong V2SignalsAccountSignalUserAffinityLevel = "very_strong"
+)
+
+// Predicted type of buyer behind the user.
+type V2SignalsAccountSignalUserBuyerClassificationBuyerType string
+
+// List of values that V2SignalsAccountSignalUserBuyerClassificationBuyerType can take
+const (
+	V2SignalsAccountSignalUserBuyerClassificationBuyerTypeBusiness V2SignalsAccountSignalUserBuyerClassificationBuyerType = "business"
+	V2SignalsAccountSignalUserBuyerClassificationBuyerTypeUnknown  V2SignalsAccountSignalUserBuyerClassificationBuyerType = "unknown"
 )
 
 // Categorical assessment of the multi-accounting risk.
@@ -357,6 +367,14 @@ type V2SignalsAccountSignalUserAffinity struct {
 	Score decimal.Decimal `json:"score,omitempty"`
 }
 
+// Data for the user buyer classification signal. Present only when type is user_buyer_classification.
+type V2SignalsAccountSignalUserBuyerClassification struct {
+	// Predicted type of buyer behind the user.
+	BuyerType V2SignalsAccountSignalUserBuyerClassificationBuyerType `json:"buyer_type"`
+	// The score for the predicted buyer type, between 0.00 and 100.00. Absent when buyer_type is unknown.
+	BuyerTypeScore decimal.Decimal `json:"buyer_type_score,omitempty"`
+}
+
 // Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
 type V2SignalsAccountSignalUserMultiAccounting struct {
 	// Categorical assessment of the multi-accounting risk.
@@ -402,6 +420,8 @@ type V2SignalsAccountSignal struct {
 	UserAccountSharing *V2SignalsAccountSignalUserAccountSharing `json:"user_account_sharing,omitempty"`
 	// Data for the user affinity signal. Present only when type is user_affinity.
 	UserAffinity *V2SignalsAccountSignalUserAffinity `json:"user_affinity,omitempty"`
+	// Data for the user buyer classification signal. Present only when type is user_buyer_classification.
+	UserBuyerClassification *V2SignalsAccountSignalUserBuyerClassification `json:"user_buyer_classification,omitempty"`
 	// Data for the user multi-accounting signal. Present only when type is user_multi_accounting.
 	UserMultiAccounting *V2SignalsAccountSignalUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }

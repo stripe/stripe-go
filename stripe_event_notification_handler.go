@@ -2501,6 +2501,34 @@ func (h *eventNotificationHandlerBase) OnV2MoneyManagementDebitDisputeSucceeded(
 		h, "v2.money_management.debit_dispute.succeeded", callback)
 }
 
+// OnV2MoneyManagementDisputeCreated registers a callback to handle notifications about the "v2.money_management.dispute.created" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementDisputeCreated(callback func(ctx context.Context, notif *V2MoneyManagementDisputeCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.dispute.created", callback)
+}
+
+// OnV2MoneyManagementDisputeLost registers a callback to handle notifications about the "v2.money_management.dispute.lost" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementDisputeLost(callback func(ctx context.Context, notif *V2MoneyManagementDisputeLostEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.money_management.dispute.lost", callback)
+}
+
+// OnV2MoneyManagementDisputeUpdated registers a callback to handle notifications about the "v2.money_management.dispute.updated" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementDisputeUpdated(callback func(ctx context.Context, notif *V2MoneyManagementDisputeUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.dispute.updated", callback)
+}
+
+// OnV2MoneyManagementDisputeWon registers a callback to handle notifications about the "v2.money_management.dispute.won" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementDisputeWon(callback func(ctx context.Context, notif *V2MoneyManagementDisputeWonEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.money_management.dispute.won", callback)
+}
+
+// OnV2MoneyManagementDisputeAdjustmentCreated registers a callback to handle notifications about the "v2.money_management.dispute_adjustment.created" event.
+func (h *eventNotificationHandlerBase) OnV2MoneyManagementDisputeAdjustmentCreated(callback func(ctx context.Context, notif *V2MoneyManagementDisputeAdjustmentCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.dispute_adjustment.created", callback)
+}
+
 // OnV2MoneyManagementEarnedCreditSucceeded registers a callback to handle notifications about the "v2.money_management.earned_credit.succeeded" event.
 func (h *eventNotificationHandlerBase) OnV2MoneyManagementEarnedCreditSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementEarnedCreditSucceededEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -3179,6 +3207,12 @@ func (h *eventNotificationHandlerBase) OnV2ReportingReportRunSucceeded(callback 
 // OnV2ReportingReportRunUpdated registers a callback to handle notifications about the "v2.reporting.report_run.updated" event.
 func (h *eventNotificationHandlerBase) OnV2ReportingReportRunUpdated(callback func(ctx context.Context, notif *V2ReportingReportRunUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.reporting.report_run.updated", callback)
+}
+
+// OnV2RiskEvaluationOutcomeDelinquencyReady registers a callback to handle notifications about the "v2.risk.evaluation_outcome.delinquency_ready" event.
+func (h *eventNotificationHandlerBase) OnV2RiskEvaluationOutcomeDelinquencyReady(callback func(ctx context.Context, notif *V2RiskEvaluationOutcomeDelinquencyReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.risk.evaluation_outcome.delinquency_ready", callback)
 }
 
 // OnV2SignalsAccountEvaluationComplete registers a callback to handle notifications about the "v2.signals.account_evaluation.complete" event.

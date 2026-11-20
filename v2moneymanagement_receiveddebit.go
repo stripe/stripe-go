@@ -104,10 +104,12 @@ type V2MoneyManagementReceivedDebitStatusDetailsFailedReason string
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsFailedReason can take
 const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonCapabilityInactive       V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "capability_inactive"
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonDebitsDisabled           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "debits_disabled"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonFinancialAddressInactive V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "financial_address_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonInsufficientFunds        V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "insufficient_funds"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonNoMandate                V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "no_mandate"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonTransactionLimitExceeded V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "transaction_limit_exceeded"
 )
 
 // Open Enum. The reason the ReceivedDebit was returned.
@@ -115,6 +117,7 @@ type V2MoneyManagementReceivedDebitStatusDetailsReturnedReason string
 
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsReturnedReason can take
 const (
+	V2MoneyManagementReceivedDebitStatusDetailsReturnedReasonDisputeWon          V2MoneyManagementReceivedDebitStatusDetailsReturnedReason = "dispute_won"
 	V2MoneyManagementReceivedDebitStatusDetailsReturnedReasonOriginatorInitiated V2MoneyManagementReceivedDebitStatusDetailsReturnedReason = "originator_initiated"
 )
 
@@ -357,6 +360,9 @@ type V2MoneyManagementReceivedDebit struct {
 	Created time.Time `json:"created"`
 	// Freeform string sent by the originator of the ReceivedDebit.
 	Description string `json:"description,omitempty"`
+	// Has the value `true` if the object has an associated Dispute otherwise or the value `false`.
+	// Use the Disputes List API with `target` to see details.
+	Disputed bool `json:"disputed"`
 	// The dispute details.
 	DisputeDetails *V2MoneyManagementReceivedDebitDisputeDetails `json:"dispute_details,omitempty"`
 	// The amount and currency of the original/external debit request.

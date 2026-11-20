@@ -23,6 +23,7 @@ type V2MoneyManagementDebitDisputeBankTransferParams struct {
 	Reason *string `form:"reason" json:"reason,omitempty"`
 }
 
+// Deprecated: Use CreateDispute to create a Dispute instead.
 // Creates a new DebitDispute for a ReceivedDebit.
 type V2MoneyManagementDebitDisputeParams struct {
 	Params `form:"*"`
@@ -38,6 +39,7 @@ type V2MoneyManagementDebitDisputeCreateBankTransferParams struct {
 	Reason *string `form:"reason" json:"reason,omitempty"`
 }
 
+// Deprecated: Use CreateDispute to create a Dispute instead.
 // Creates a new DebitDispute for a ReceivedDebit.
 type V2MoneyManagementDebitDisputeCreateParams struct {
 	Params `form:"*"`

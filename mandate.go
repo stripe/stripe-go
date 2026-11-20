@@ -307,11 +307,13 @@ type MandatePaymentMethodDetailsACSSDebit struct {
 	// Transaction type of the mandate.
 	TransactionType MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
 }
+type MandatePaymentMethodDetailsAeonPay struct{}
 type MandatePaymentMethodDetailsAmazonPay struct{}
 type MandatePaymentMethodDetailsAUBECSDebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
+type MandatePaymentMethodDetailsAuPay struct{}
 type MandatePaymentMethodDetailsBACSDebit struct {
 	// The display name for the account on this mandate.
 	DisplayName string `json:"display_name"`
@@ -358,10 +360,12 @@ type MandatePaymentMethodDetailsCard struct {
 	India *MandatePaymentMethodDetailsCardIndia `json:"india,omitempty"`
 }
 type MandatePaymentMethodDetailsCashApp struct{}
+type MandatePaymentMethodDetailsDbarai struct{}
 type MandatePaymentMethodDetailsKakaoPay struct{}
 type MandatePaymentMethodDetailsKlarna struct{}
 type MandatePaymentMethodDetailsKrCard struct{}
 type MandatePaymentMethodDetailsLink struct{}
+type MandatePaymentMethodDetailsMerpay struct{}
 type MandatePaymentMethodDetailsNaverPay struct{}
 type MandatePaymentMethodDetailsNzBankAccount struct{}
 type MandatePaymentMethodDetailsPaypal struct {
@@ -405,6 +409,7 @@ type MandatePaymentMethodDetailsPix struct {
 	// Start date of the mandate, in `YYYY-MM-DD`.
 	StartDate string `json:"start_date,omitempty"`
 }
+type MandatePaymentMethodDetailsRakutenPay struct{}
 type MandatePaymentMethodDetailsRevolutPay struct{}
 type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
@@ -433,21 +438,26 @@ type MandatePaymentMethodDetailsUSBankAccount struct {
 }
 type MandatePaymentMethodDetails struct {
 	ACSSDebit     *MandatePaymentMethodDetailsACSSDebit     `json:"acss_debit,omitempty"`
+	AeonPay       *MandatePaymentMethodDetailsAeonPay       `json:"aeon_pay,omitempty"`
 	AmazonPay     *MandatePaymentMethodDetailsAmazonPay     `json:"amazon_pay,omitempty"`
 	AUBECSDebit   *MandatePaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
+	AuPay         *MandatePaymentMethodDetailsAuPay         `json:"au_pay,omitempty"`
 	BACSDebit     *MandatePaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
 	BLIK          *MandatePaymentMethodDetailsBLIK          `json:"blik,omitempty"`
 	Card          *MandatePaymentMethodDetailsCard          `json:"card,omitempty"`
 	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp,omitempty"`
+	Dbarai        *MandatePaymentMethodDetailsDbarai        `json:"dbarai,omitempty"`
 	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay,omitempty"`
 	Klarna        *MandatePaymentMethodDetailsKlarna        `json:"klarna,omitempty"`
 	KrCard        *MandatePaymentMethodDetailsKrCard        `json:"kr_card,omitempty"`
 	Link          *MandatePaymentMethodDetailsLink          `json:"link,omitempty"`
+	Merpay        *MandatePaymentMethodDetailsMerpay        `json:"merpay,omitempty"`
 	NaverPay      *MandatePaymentMethodDetailsNaverPay      `json:"naver_pay,omitempty"`
 	NzBankAccount *MandatePaymentMethodDetailsNzBankAccount `json:"nz_bank_account,omitempty"`
 	Paypal        *MandatePaymentMethodDetailsPaypal        `json:"paypal,omitempty"`
 	Payto         *MandatePaymentMethodDetailsPayto         `json:"payto,omitempty"`
 	Pix           *MandatePaymentMethodDetailsPix           `json:"pix,omitempty"`
+	RakutenPay    *MandatePaymentMethodDetailsRakutenPay    `json:"rakuten_pay,omitempty"`
 	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
 	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	TossPay       *MandatePaymentMethodDetailsTossPay       `json:"toss_pay,omitempty"`

@@ -11,6 +11,7 @@ type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType string
 
 // List of values that InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType can take
 const (
+	InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockTypeCustomPlainText               InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType = "custom_plain_text"
 	InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockTypeCustomPlainTextCel            InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType = "custom_plain_text_cel"
 	InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockTypeFooterContent                 InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType = "footer_content"
 	InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockTypeInvoiceDetails                InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockType = "invoice_details"
@@ -50,14 +51,22 @@ type InvoiceRenderingTemplateLineItemPolicyParams struct {
 	Display *string `form:"display" json:"display,omitempty"`
 }
 
+// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextParams struct {
+	// Literal text to render, preserving whitespace and newlines. Required, at most 10,000 characters; an empty string renders no text.
+	PlainText *string `form:"plain_text" json:"plain_text"`
+}
+
 // Configuration for a custom CEL text block.
 type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams struct {
 	// A CEL expression that returns text using the invoice context.
 	CelExpression *string `form:"cel_expression" json:"cel_expression"`
 }
 
-// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+// Ordered invoice PDF blocks, at most 20. Include every default type exactly once; custom text blocks may repeat.
 type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockParams struct {
+	// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+	CustomPlainText *InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextParams `form:"custom_plain_text" json:"custom_plain_text,omitempty"`
 	// Configuration for a custom CEL text block.
 	CustomPlainTextCel *InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams `form:"custom_plain_text_cel" json:"custom_plain_text_cel,omitempty"`
 	// A unique key within this template's blocks. Generated when omitted.
@@ -68,7 +77,7 @@ type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockParams struct {
 
 // Rendering settings for the invoice PDF.
 type InvoiceRenderingTemplateRenderingSettingsInvoicePDFParams struct {
-	// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+	// The complete replacement order of at most 20 invoice PDF blocks. Keys retain saved configuration when its hash is omitted. Omitted custom blocks are removed; include every default type exactly once. Omit blocks to preserve settings, or supply an empty string to reset to defaults.
 	Blocks      []*InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockParams     `form:"blocks" json:"blocks,omitempty"`
 	UnsetFields []InvoiceRenderingTemplateRenderingSettingsInvoicePDFParamsUnsetField `form:"-" json:"-"`
 }
@@ -178,14 +187,22 @@ type InvoiceRenderingTemplateCreateLineItemPolicyParams struct {
 	Display *string `form:"display" json:"display,omitempty"`
 }
 
+// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+type InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockCustomPlainTextParams struct {
+	// Literal text to render, preserving whitespace and newlines. Required, at most 10,000 characters; an empty string renders no text.
+	PlainText *string `form:"plain_text" json:"plain_text"`
+}
+
 // Configuration for a custom CEL text block.
 type InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams struct {
 	// A CEL expression that returns text using the invoice context.
 	CelExpression *string `form:"cel_expression" json:"cel_expression"`
 }
 
-// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+// Ordered invoice PDF blocks, at most 20. Include every default type exactly once; custom text blocks may repeat.
 type InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockParams struct {
+	// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+	CustomPlainText *InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockCustomPlainTextParams `form:"custom_plain_text" json:"custom_plain_text,omitempty"`
 	// Configuration for a custom CEL text block.
 	CustomPlainTextCel *InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams `form:"custom_plain_text_cel" json:"custom_plain_text_cel,omitempty"`
 	// A unique key within this template's blocks. Generated when omitted.
@@ -196,7 +213,7 @@ type InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockParams struct
 
 // Rendering settings for the invoice PDF.
 type InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFParams struct {
-	// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+	// Ordered invoice PDF blocks, at most 20. Include every default type exactly once; custom text blocks may repeat.
 	Blocks      []*InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFBlockParams     `form:"blocks" json:"blocks,omitempty"`
 	UnsetFields []InvoiceRenderingTemplateCreateRenderingSettingsInvoicePDFParamsUnsetField `form:"-" json:"-"`
 }
@@ -279,14 +296,22 @@ type InvoiceRenderingTemplateUpdateLineItemPolicyParams struct {
 	Display *string `form:"display" json:"display,omitempty"`
 }
 
+// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+type InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockCustomPlainTextParams struct {
+	// Literal text to render, preserving whitespace and newlines. Required, at most 10,000 characters; an empty string renders no text.
+	PlainText *string `form:"plain_text" json:"plain_text"`
+}
+
 // Configuration for a custom CEL text block.
 type InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams struct {
 	// A CEL expression that returns text using the invoice context.
 	CelExpression *string `form:"cel_expression" json:"cel_expression"`
 }
 
-// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+// The complete replacement order of at most 20 invoice PDF blocks. Keys retain saved configuration when its hash is omitted. Omitted custom blocks are removed; include every default type exactly once. Omit blocks to preserve settings, or supply an empty string to reset to defaults.
 type InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockParams struct {
+	// Configuration for a repeatable literal text block. Omit this hash on a keyed update to retain saved text; supply it to replace the text.
+	CustomPlainText *InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockCustomPlainTextParams `form:"custom_plain_text" json:"custom_plain_text,omitempty"`
 	// Configuration for a custom CEL text block.
 	CustomPlainTextCel *InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockCustomPlainTextCelParams `form:"custom_plain_text_cel" json:"custom_plain_text_cel,omitempty"`
 	// A unique key within this template's blocks. Generated when omitted.
@@ -297,7 +322,7 @@ type InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockParams struct
 
 // Rendering settings for the invoice PDF.
 type InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFParams struct {
-	// Ordered invoice PDF blocks. A maximum of 20 blocks is allowed.
+	// The complete replacement order of at most 20 invoice PDF blocks. Keys retain saved configuration when its hash is omitted. Omitted custom blocks are removed; include every default type exactly once. Omit blocks to preserve settings, or supply an empty string to reset to defaults.
 	Blocks      []*InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFBlockParams     `form:"blocks" json:"blocks,omitempty"`
 	UnsetFields []InvoiceRenderingTemplateUpdateRenderingSettingsInvoicePDFParamsUnsetField `form:"-" json:"-"`
 }
@@ -383,6 +408,10 @@ type InvoiceRenderingTemplateLineItemPolicy struct {
 	//  If 'visible', the line item will be shown regardless of the line item's amount.
 	Display string `json:"display"`
 }
+type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainText struct {
+	// Literal text to render, preserving whitespace and newlines.
+	PlainText string `json:"plain_text"`
+}
 type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextCel struct {
 	// A CEL expression that returns text using the invoice context.
 	CelExpression string `json:"cel_expression"`
@@ -390,6 +419,7 @@ type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextCel 
 
 // The ordered invoice PDF blocks.
 type InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlock struct {
+	CustomPlainText    *InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainText    `json:"custom_plain_text,omitempty"`
 	CustomPlainTextCel *InvoiceRenderingTemplateRenderingSettingsInvoicePDFBlockCustomPlainTextCel `json:"custom_plain_text_cel,omitempty"`
 	// The key of this block in the template.
 	Key string `json:"key"`

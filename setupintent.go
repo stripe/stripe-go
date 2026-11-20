@@ -5329,7 +5329,7 @@ type SetupIntentPaymentMethodOptions struct {
 
 // Options to configure Radar.
 type SetupIntentRadarOptions struct {
-	// The value you provided for whether this transaction starts a free trial. This is null if you haven't explicitly set it.
+	// The value you provided for whether this transaction starts a free trial. This field is omitted if you haven't explicitly set it.
 	IsFreeTrialTransaction bool `json:"is_free_trial_transaction,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session string `json:"session,omitempty"`

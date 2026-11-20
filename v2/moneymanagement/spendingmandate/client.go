@@ -22,6 +22,18 @@ type Client struct {
 	Key string
 }
 
+// Creates an active SpendingMandate authorizing an ACH originator to debit a Financial Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) New(params *stripe.V2MoneyManagementSpendingMandateParams) (*stripe.V2MoneyManagementSpendingMandate, error) {
+	spendingmandate := &stripe.V2MoneyManagementSpendingMandate{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/spending_mandates", c.Key, params, spendingmandate)
+	return spendingmandate, err
+}
+
 // Retrieves the details of an existing SpendingMandate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -31,6 +43,18 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementSpendingMandatePa
 	path := stripe.FormatURLPath("/v2/money_management/spending_mandates/%s", id)
 	spendingmandate := &stripe.V2MoneyManagementSpendingMandate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, spendingmandate)
+	return spendingmandate, err
+}
+
+// Updates an active ACH SpendingMandate.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.V2MoneyManagementSpendingMandateParams) (*stripe.V2MoneyManagementSpendingMandate, error) {
+	path := stripe.FormatURLPath("/v2/money_management/spending_mandates/%s", id)
+	spendingmandate := &stripe.V2MoneyManagementSpendingMandate{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, spendingmandate)
 	return spendingmandate, err
 }
 

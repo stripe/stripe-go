@@ -801,6 +801,8 @@ type TaxFormUS1099K struct {
 	// Year represented by the information reported on the tax form.
 	ReportingYear          int64                                 `json:"reporting_year"`
 	StateIncomeTaxWithheld *TaxFormUS1099KStateIncomeTaxWithheld `json:"state_income_tax_withheld,omitempty"`
+	// The Treasury Tipped Occupation Code stored on the form's payee identity, returned when present regardless of reporting year. Contains one three-digit code or two codes separated by `|`, preserving leading zeros. Uses the selected identity for draft forms and the identity snapshot for finalized forms. Omitted when no code is recorded.
+	TreasuryTippedOccupationCode string `json:"treasury_tipped_occupation_code,omitempty"`
 }
 type TaxFormUS1099MISCCashTips struct {
 	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
@@ -930,6 +932,8 @@ type TaxFormUS1099MISC struct {
 	StateIncome          *TaxFormUS1099MISCStateIncome          `json:"state_income,omitempty"`
 	StateTaxWithheld     *TaxFormUS1099MISCStateTaxWithheld     `json:"state_tax_withheld,omitempty"`
 	SubstitutePayments   *TaxFormUS1099MISCSubstitutePayments   `json:"substitute_payments,omitempty"`
+	// The Treasury Tipped Occupation Code stored on the form's payee identity, returned when present regardless of reporting year. Contains one three-digit code or two codes separated by `|`, preserving leading zeros. Uses the selected identity for draft forms and the identity snapshot for finalized forms. Omitted when no code is recorded.
+	TreasuryTippedOccupationCode string `json:"treasury_tipped_occupation_code,omitempty"`
 }
 type TaxFormUS1099NecCashTips struct {
 	// The signed adjustment included in the effective amount, as a decimal string. Only present for drafts.
@@ -982,6 +986,8 @@ type TaxFormUS1099Nec struct {
 	ReportingYear    int64                             `json:"reporting_year"`
 	StateIncome      *TaxFormUS1099NecStateIncome      `json:"state_income,omitempty"`
 	StateTaxWithheld *TaxFormUS1099NecStateTaxWithheld `json:"state_tax_withheld,omitempty"`
+	// The Treasury Tipped Occupation Code stored on the form's payee identity, returned when present regardless of reporting year. Contains one three-digit code or two codes separated by `|`, preserving leading zeros. Uses the selected identity for draft forms and the identity snapshot for finalized forms. Omitted when no code is recorded.
+	TreasuryTippedOccupationCode string `json:"treasury_tipped_occupation_code,omitempty"`
 }
 
 // Tax forms are legal documents which are delivered to one or more tax authorities for information reporting purposes.

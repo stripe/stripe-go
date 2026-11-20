@@ -29,7 +29,10 @@ func (c v2CoreFeeBatchService) Retrieve(ctx context.Context, id string, params *
 	return feebatch, err
 }
 
-// List FeeBatches optionally filtered by collection_record.
+// Lists FeeBatches, optionally filtered by `collection_record`, `statuses`, or
+// creation time. If `statuses` is omitted or empty, only pending and billed
+// FeeBatches are returned. Canceled FeeBatches are returned only when explicitly
+// requested.
 func (c v2CoreFeeBatchService) List(ctx context.Context, listParams *V2CoreFeeBatchListParams) *V2List[*V2CoreFeeBatch] {
 	if listParams == nil {
 		listParams = &V2CoreFeeBatchListParams{}

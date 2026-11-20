@@ -202,25 +202,37 @@ const (
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessDemandDepositAccountFifthThirdStorageInboundUSD  V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_demand_deposit_account_fifth_third_storage.inbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessDemandDepositAccountFifthThirdStorageOutboundUSD V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_demand_deposit_account_fifth_third_storage.outbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCAD                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.cad"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCHF                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.chf"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundCZK                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.czk"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundEUR                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundGBP                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundHKD                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.hkd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundHuf                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.huf"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundJPY                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.jpy"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundNOK                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.nok"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundOusd                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.ousd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundPLN                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.pln"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundRon                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.ron"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundSEK                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.sek"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUSD                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUsdc                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usdc"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundZar                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.zar"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCAD                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.cad"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCHF                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.chf"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundCZK                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.czk"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundEUR                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.eur"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundGBP                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundHKD                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.hkd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundHuf                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.huf"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundJPY                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.jpy"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundNOK                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.nok"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundOusd                              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.ousd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundPLN                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.pln"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundRon                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.ron"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundSEK                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.sek"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUSD                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUsdc                              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usdc"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundZar                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.zar"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageInboundUSD                                V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.inbound.usd"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageInboundUsdc                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.inbound.usdc"
 	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerStorageOutboundUSD                               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer_storage.outbound.usd"
@@ -17961,6 +17973,211 @@ func (n *V2MoneyManagementDebitDisputeSucceededEventNotification) FetchRelatedOb
 	return relatedObj, err
 }
 
+// V2MoneyManagementDisputeCreatedEvent is the Go struct for the "v2.money_management.dispute.created" event.
+// Occurs when a Dispute is created and is under review.
+type V2MoneyManagementDisputeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementDispute, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (e *V2MoneyManagementDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementDisputeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.dispute.created"
+// Occurs when a Dispute is created and is under review.
+type V2MoneyManagementDisputeCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementDisputeCreatedEvent that created this Notification
+func (n *V2MoneyManagementDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementDisputeCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementDisputeCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (n *V2MoneyManagementDisputeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementDispute{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementDisputeLostEvent is the Go struct for the "v2.money_management.dispute.lost" event.
+// Occurs when a Dispute is resolved against the account holder.
+type V2MoneyManagementDisputeLostEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementDispute, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (e *V2MoneyManagementDisputeLostEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementDisputeLostEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.dispute.lost"
+// Occurs when a Dispute is resolved against the account holder.
+type V2MoneyManagementDisputeLostEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementDisputeLostEvent that created this Notification
+func (n *V2MoneyManagementDisputeLostEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementDisputeLostEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementDisputeLostEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (n *V2MoneyManagementDisputeLostEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementDispute{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementDisputeUpdatedEvent is the Go struct for the "v2.money_management.dispute.updated" event.
+// Occurs when a Dispute changes, including when it is won or lost.
+type V2MoneyManagementDisputeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementDispute, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (e *V2MoneyManagementDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementDisputeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.dispute.updated"
+// Occurs when a Dispute changes, including when it is won or lost.
+type V2MoneyManagementDisputeUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementDisputeUpdatedEvent that created this Notification
+func (n *V2MoneyManagementDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementDisputeUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementDisputeUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (n *V2MoneyManagementDisputeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementDispute{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementDisputeWonEvent is the Go struct for the "v2.money_management.dispute.won" event.
+// Occurs when a Dispute is resolved in the account holder's favor.
+type V2MoneyManagementDisputeWonEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementDispute, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (e *V2MoneyManagementDisputeWonEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementDisputeWonEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.dispute.won"
+// Occurs when a Dispute is resolved in the account holder's favor.
+type V2MoneyManagementDisputeWonEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementDisputeWonEvent that created this Notification
+func (n *V2MoneyManagementDisputeWonEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementDisputeWonEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementDisputeWonEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDispute related to the event.
+func (n *V2MoneyManagementDisputeWonEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementDispute{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementDisputeAdjustmentCreatedEvent is the Go struct for the "v2.money_management.dispute_adjustment.created" event.
+// Occurs when a DisputeAdjustment records a money movement on the FinancialAccount for a Dispute.
+type V2MoneyManagementDisputeAdjustmentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementDisputeAdjustment, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDisputeAdjustment related to the event.
+func (e *V2MoneyManagementDisputeAdjustmentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDisputeAdjustment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementDisputeAdjustmentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.dispute_adjustment.created"
+// Occurs when a DisputeAdjustment records a money movement on the FinancialAccount for a Dispute.
+type V2MoneyManagementDisputeAdjustmentCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementDisputeAdjustmentCreatedEvent that created this Notification
+func (n *V2MoneyManagementDisputeAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementDisputeAdjustmentCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementDisputeAdjustmentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementDisputeAdjustment related to the event.
+func (n *V2MoneyManagementDisputeAdjustmentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementDisputeAdjustment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementDisputeAdjustment{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementEarnedCreditSucceededEvent is the Go struct for the "v2.money_management.earned_credit.succeeded" event.
 // Occurs when an EarnedCredit succeeds.
 type V2MoneyManagementEarnedCreditSucceededEvent struct {
@@ -22661,6 +22878,47 @@ func (n *V2ReportingReportRunUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ReportingReportRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2RiskEvaluationOutcomeDelinquencyReadyEvent is the Go struct for the "v2.risk.evaluation_outcome.delinquency_ready" event.
+// Occurs when a new Stripe-generated delinquency evaluation outcome is available.
+type V2RiskEvaluationOutcomeDelinquencyReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2RiskEvaluationOutcome, error)
+}
+
+// FetchRelatedObject fetches the V2RiskEvaluationOutcome related to the event.
+func (e *V2RiskEvaluationOutcomeDelinquencyReadyEvent) FetchRelatedObject(ctx context.Context) (*V2RiskEvaluationOutcome, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2RiskEvaluationOutcomeDelinquencyReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.risk.evaluation_outcome.delinquency_ready"
+// Occurs when a new Stripe-generated delinquency evaluation outcome is available.
+type V2RiskEvaluationOutcomeDelinquencyReadyEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2RiskEvaluationOutcomeDelinquencyReadyEvent that created this Notification
+func (n *V2RiskEvaluationOutcomeDelinquencyReadyEventNotification) FetchEvent(ctx context.Context) (*V2RiskEvaluationOutcomeDelinquencyReadyEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2RiskEvaluationOutcomeDelinquencyReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2RiskEvaluationOutcome related to the event.
+func (n *V2RiskEvaluationOutcomeDelinquencyReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2RiskEvaluationOutcome, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2RiskEvaluationOutcome{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -31373,6 +31631,86 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.dispute.created":
+		result := &V2MoneyManagementDisputeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementDispute, error) {
+			v := &V2MoneyManagementDispute{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.dispute.lost":
+		result := &V2MoneyManagementDisputeLostEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementDispute, error) {
+			v := &V2MoneyManagementDispute{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.dispute.updated":
+		result := &V2MoneyManagementDisputeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementDispute, error) {
+			v := &V2MoneyManagementDispute{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.dispute.won":
+		result := &V2MoneyManagementDisputeWonEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementDispute, error) {
+			v := &V2MoneyManagementDispute{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.dispute_adjustment.created":
+		result := &V2MoneyManagementDisputeAdjustmentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementDisputeAdjustment, error) {
+			v := &V2MoneyManagementDisputeAdjustment{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.earned_credit.succeeded":
 		result := &V2MoneyManagementEarnedCreditSucceededEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -33238,6 +33576,22 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.risk.evaluation_outcome.delinquency_ready":
+		result := &V2RiskEvaluationOutcomeDelinquencyReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2RiskEvaluationOutcome, error) {
+			v := &V2RiskEvaluationOutcome{}
 			params := &Params{}
 			params.SetStripeContext(event.Context)
 			params.Headers = make(http.Header)
@@ -36525,6 +36879,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.dispute.created":
+		evt := V2MoneyManagementDisputeCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.dispute.lost":
+		evt := V2MoneyManagementDisputeLostEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.dispute.updated":
+		evt := V2MoneyManagementDisputeUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.dispute.won":
+		evt := V2MoneyManagementDisputeWonEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.dispute_adjustment.created":
+		evt := V2MoneyManagementDisputeAdjustmentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.earned_credit.succeeded":
 		evt := V2MoneyManagementEarnedCreditSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -37318,6 +37707,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.reporting.report_run.updated":
 		evt := V2ReportingReportRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.risk.evaluation_outcome.delinquency_ready":
+		evt := V2RiskEvaluationOutcomeDelinquencyReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

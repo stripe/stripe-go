@@ -13,6 +13,7 @@ type V2MoneyManagementSpendingMandateBankTransferNetwork string
 
 // List of values that V2MoneyManagementSpendingMandateBankTransferNetwork can take
 const (
+	V2MoneyManagementSpendingMandateBankTransferNetworkACH  V2MoneyManagementSpendingMandateBankTransferNetwork = "ach"
 	V2MoneyManagementSpendingMandateBankTransferNetworkBACS V2MoneyManagementSpendingMandateBankTransferNetwork = "bacs"
 )
 
@@ -45,10 +46,20 @@ const (
 	V2MoneyManagementSpendingMandateTypeBankTransfer V2MoneyManagementSpendingMandateType = "bank_transfer"
 )
 
+// ACH-specific authorization details. Present when `network` is `ach`.
+type V2MoneyManagementSpendingMandateBankTransferACH struct {
+	// ACH Company ID used to identify the authorized originator.
+	OriginatorCompanyID string `json:"originator_company_id"`
+	// Maximum amount authorized for a single debit. If absent, the Financial Account limit applies.
+	TransactionLimit Amount `json:"transaction_limit,omitempty"`
+}
+
 // Bank transfer details. Present if `type` is `bank_transfer`.
 type V2MoneyManagementSpendingMandateBankTransfer struct {
 	// The name of the account holder that initiated the debit.
 	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// ACH-specific authorization details. Present when `network` is `ach`.
+	ACH *V2MoneyManagementSpendingMandateBankTransferACH `json:"ach,omitempty"`
 	// The financial address associated with this mandate.
 	FinancialAddress string `json:"financial_address"`
 	// The bank transfer network for this mandate.

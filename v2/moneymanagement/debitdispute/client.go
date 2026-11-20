@@ -22,6 +22,7 @@ type Client struct {
 	Key string
 }
 
+// Deprecated: Use CreateDispute to create a Dispute instead.
 // Creates a new DebitDispute for a ReceivedDebit.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

@@ -273,6 +273,7 @@ type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	Offline *SetupAttemptPaymentMethodDetailsCardPresentOffline `json:"offline"`
 }
 type SetupAttemptPaymentMethodDetailsCashApp struct{}
+type SetupAttemptPaymentMethodDetailsGetflex struct{}
 type SetupAttemptPaymentMethodDetailsIDBankTransfer struct {
 	// Bank where the account is located.
 	Bank SetupAttemptPaymentMethodDetailsIDBankTransferBank `json:"bank"`
@@ -317,6 +318,7 @@ type SetupAttemptPaymentMethodDetailsPix struct {
 	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
 	Fingerprint string `json:"fingerprint,omitempty"`
 }
+type SetupAttemptPaymentMethodDetailsRakutenPay struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSatispay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
@@ -359,6 +361,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Card           *SetupAttemptPaymentMethodDetailsCard           `json:"card,omitempty"`
 	CardPresent    *SetupAttemptPaymentMethodDetailsCardPresent    `json:"card_present,omitempty"`
 	CashApp        *SetupAttemptPaymentMethodDetailsCashApp        `json:"cashapp,omitempty"`
+	Getflex        *SetupAttemptPaymentMethodDetailsGetflex        `json:"getflex,omitempty"`
 	IDBankTransfer *SetupAttemptPaymentMethodDetailsIDBankTransfer `json:"id_bank_transfer,omitempty"`
 	IDEAL          *SetupAttemptPaymentMethodDetailsIDEAL          `json:"ideal,omitempty"`
 	KakaoPay       *SetupAttemptPaymentMethodDetailsKakaoPay       `json:"kakao_pay,omitempty"`
@@ -371,6 +374,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Paypay         *SetupAttemptPaymentMethodDetailsPaypay         `json:"paypay,omitempty"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto,omitempty"`
 	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix,omitempty"`
+	RakutenPay     *SetupAttemptPaymentMethodDetailsRakutenPay     `json:"rakuten_pay,omitempty"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay,omitempty"`
 	Satispay       *SetupAttemptPaymentMethodDetailsSatispay       `json:"satispay,omitempty"`
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit,omitempty"`

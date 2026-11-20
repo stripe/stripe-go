@@ -8,7 +8,10 @@ package stripe
 
 import "time"
 
-// List FeeBatches optionally filtered by collection_record.
+// Lists FeeBatches, optionally filtered by `collection_record`, `statuses`, or
+// creation time. If `statuses` is omitted or empty, only pending and billed
+// FeeBatches are returned. Canceled FeeBatches are returned only when explicitly
+// requested.
 type V2CoreFeeBatchListParams struct {
 	Params `form:"*"`
 	// Filter to return only FeeBatches associated with this collection record ID.
@@ -25,6 +28,10 @@ type V2CoreFeeBatchListParams struct {
 	CreatedLte *time.Time `form:"created_lte" json:"created_lte,omitempty"`
 	// Maximum number of results to return per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filters FeeBatches by status. Multiple values use OR semantics. When omitted or
+	// empty, returns `pending` and `billed` FeeBatches. To return canceled FeeBatches,
+	// include `canceled`.
+	Statuses []*string `form:"statuses" json:"statuses,omitempty"`
 }
 
 // Retrieve a FeeBatch by id.

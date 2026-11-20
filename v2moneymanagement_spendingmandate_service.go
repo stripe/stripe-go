@@ -17,6 +17,18 @@ type v2MoneyManagementSpendingMandateService struct {
 	Key string
 }
 
+// Creates an active SpendingMandate authorizing an ACH originator to debit a Financial Account.
+func (c v2MoneyManagementSpendingMandateService) Create(ctx context.Context, params *V2MoneyManagementSpendingMandateCreateParams) (*V2MoneyManagementSpendingMandate, error) {
+	if params == nil {
+		params = &V2MoneyManagementSpendingMandateCreateParams{}
+	}
+	params.Context = ctx
+	spendingmandate := &V2MoneyManagementSpendingMandate{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/spending_mandates", c.Key, params, spendingmandate)
+	return spendingmandate, err
+}
+
 // Retrieves the details of an existing SpendingMandate.
 func (c v2MoneyManagementSpendingMandateService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementSpendingMandateRetrieveParams) (*V2MoneyManagementSpendingMandate, error) {
 	if params == nil {
@@ -26,6 +38,18 @@ func (c v2MoneyManagementSpendingMandateService) Retrieve(ctx context.Context, i
 	path := FormatURLPath("/v2/money_management/spending_mandates/%s", id)
 	spendingmandate := &V2MoneyManagementSpendingMandate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, spendingmandate)
+	return spendingmandate, err
+}
+
+// Updates an active ACH SpendingMandate.
+func (c v2MoneyManagementSpendingMandateService) Update(ctx context.Context, id string, params *V2MoneyManagementSpendingMandateUpdateParams) (*V2MoneyManagementSpendingMandate, error) {
+	if params == nil {
+		params = &V2MoneyManagementSpendingMandateUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/spending_mandates/%s", id)
+	spendingmandate := &V2MoneyManagementSpendingMandate{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, spendingmandate)
 	return spendingmandate, err
 }
 

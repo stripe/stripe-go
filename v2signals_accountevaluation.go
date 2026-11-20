@@ -58,6 +58,15 @@ const (
 	V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevelVeryStrong V2SignalsAccountEvaluationEvaluatedSignalsUserAffinityLevel = "very_strong"
 )
 
+// Predicted type of buyer behind the user.
+type V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerType string
+
+// List of values that V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerType can take
+const (
+	V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerTypeBusiness V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerType = "business"
+	V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerTypeUnknown  V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerType = "unknown"
+)
+
 // Categorical assessment of the multi-accounting risk.
 type V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccountingRiskLevel string
 
@@ -75,11 +84,12 @@ type V2SignalsAccountEvaluationPendingSignal string
 
 // List of values that V2SignalsAccountEvaluationPendingSignal can take
 const (
-	V2SignalsAccountEvaluationPendingSignalAccountTakeover     V2SignalsAccountEvaluationPendingSignal = "account_takeover"
-	V2SignalsAccountEvaluationPendingSignalFraudulentWebsite   V2SignalsAccountEvaluationPendingSignal = "fraudulent_website"
-	V2SignalsAccountEvaluationPendingSignalUserAccountSharing  V2SignalsAccountEvaluationPendingSignal = "user_account_sharing"
-	V2SignalsAccountEvaluationPendingSignalUserAffinity        V2SignalsAccountEvaluationPendingSignal = "user_affinity"
-	V2SignalsAccountEvaluationPendingSignalUserMultiAccounting V2SignalsAccountEvaluationPendingSignal = "user_multi_accounting"
+	V2SignalsAccountEvaluationPendingSignalAccountTakeover         V2SignalsAccountEvaluationPendingSignal = "account_takeover"
+	V2SignalsAccountEvaluationPendingSignalFraudulentWebsite       V2SignalsAccountEvaluationPendingSignal = "fraudulent_website"
+	V2SignalsAccountEvaluationPendingSignalUserAccountSharing      V2SignalsAccountEvaluationPendingSignal = "user_account_sharing"
+	V2SignalsAccountEvaluationPendingSignalUserAffinity            V2SignalsAccountEvaluationPendingSignal = "user_affinity"
+	V2SignalsAccountEvaluationPendingSignalUserBuyerClassification V2SignalsAccountEvaluationPendingSignal = "user_buyer_classification"
+	V2SignalsAccountEvaluationPendingSignalUserMultiAccounting     V2SignalsAccountEvaluationPendingSignal = "user_multi_accounting"
 )
 
 // List of signals requested for evaluation.
@@ -87,11 +97,12 @@ type V2SignalsAccountEvaluationRequestedSignal string
 
 // List of values that V2SignalsAccountEvaluationRequestedSignal can take
 const (
-	V2SignalsAccountEvaluationRequestedSignalAccountTakeover     V2SignalsAccountEvaluationRequestedSignal = "account_takeover"
-	V2SignalsAccountEvaluationRequestedSignalFraudulentWebsite   V2SignalsAccountEvaluationRequestedSignal = "fraudulent_website"
-	V2SignalsAccountEvaluationRequestedSignalUserAccountSharing  V2SignalsAccountEvaluationRequestedSignal = "user_account_sharing"
-	V2SignalsAccountEvaluationRequestedSignalUserAffinity        V2SignalsAccountEvaluationRequestedSignal = "user_affinity"
-	V2SignalsAccountEvaluationRequestedSignalUserMultiAccounting V2SignalsAccountEvaluationRequestedSignal = "user_multi_accounting"
+	V2SignalsAccountEvaluationRequestedSignalAccountTakeover         V2SignalsAccountEvaluationRequestedSignal = "account_takeover"
+	V2SignalsAccountEvaluationRequestedSignalFraudulentWebsite       V2SignalsAccountEvaluationRequestedSignal = "fraudulent_website"
+	V2SignalsAccountEvaluationRequestedSignalUserAccountSharing      V2SignalsAccountEvaluationRequestedSignal = "user_account_sharing"
+	V2SignalsAccountEvaluationRequestedSignalUserAffinity            V2SignalsAccountEvaluationRequestedSignal = "user_affinity"
+	V2SignalsAccountEvaluationRequestedSignalUserBuyerClassification V2SignalsAccountEvaluationRequestedSignal = "user_buyer_classification"
+	V2SignalsAccountEvaluationRequestedSignalUserMultiAccounting     V2SignalsAccountEvaluationRequestedSignal = "user_multi_accounting"
 )
 
 // Account activity recorded alongside this evaluation, when applicable.
@@ -194,6 +205,18 @@ type V2SignalsAccountEvaluationEvaluatedSignalsUserAffinity struct {
 	Signal string `json:"signal,omitempty"`
 }
 
+// User buyer classification result for the evaluation, when available.
+type V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassification struct {
+	// Predicted type of buyer behind the user.
+	BuyerType V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassificationBuyerType `json:"buyer_type"`
+	// The score for the predicted buyer type, between 0.00 and 100.00. Absent when buyer_type is unknown.
+	BuyerTypeScore decimal.Decimal `json:"buyer_type_score,omitempty"`
+	// Timestamp at which the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at,omitempty"`
+	// The account signal ID containing the full user buyer classification signal result.
+	Signal string `json:"signal,omitempty"`
+}
+
 // User multi-accounting result for the evaluation, when available.
 type V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting struct {
 	// Timestamp at which the signal was evaluated.
@@ -216,6 +239,8 @@ type V2SignalsAccountEvaluationEvaluatedSignals struct {
 	UserAccountSharing *V2SignalsAccountEvaluationEvaluatedSignalsUserAccountSharing `json:"user_account_sharing,omitempty"`
 	// User affinity result for the evaluation, when available.
 	UserAffinity *V2SignalsAccountEvaluationEvaluatedSignalsUserAffinity `json:"user_affinity,omitempty"`
+	// User buyer classification result for the evaluation, when available.
+	UserBuyerClassification *V2SignalsAccountEvaluationEvaluatedSignalsUserBuyerClassification `json:"user_buyer_classification,omitempty"`
 	// User multi-accounting result for the evaluation, when available.
 	UserMultiAccounting *V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }

@@ -554,6 +554,10 @@ type Client struct {
 	V2MoneyManagementCurrencyConversions *v2MoneyManagementCurrencyConversionService
 	// V2MoneyManagementDebitDisputes is the service used to invoke /v2/money_management/debit_disputes APIs.
 	V2MoneyManagementDebitDisputes *v2MoneyManagementDebitDisputeService
+	// V2MoneyManagementDisputeAdjustments is the service used to invoke /v2/money_management/dispute_adjustments APIs.
+	V2MoneyManagementDisputeAdjustments *v2MoneyManagementDisputeAdjustmentService
+	// V2MoneyManagementDisputes is the service used to invoke /v2/money_management/disputes APIs.
+	V2MoneyManagementDisputes *v2MoneyManagementDisputeService
 	// V2MoneyManagementEarnedCredits is the service used to invoke /v2/money_management/earned_credits APIs.
 	V2MoneyManagementEarnedCredits *v2MoneyManagementEarnedCreditService
 	// V2MoneyManagementFinancialAccounts is the service used to invoke /v2/money_management/financial_accounts APIs.
@@ -644,6 +648,8 @@ type Client struct {
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
 	V2ReportingReports *v2ReportingReportService
+	// V2RiskEvaluationOutcomes is the service used to invoke /v2/risk/evaluation_outcomes APIs.
+	V2RiskEvaluationOutcomes *v2RiskEvaluationOutcomeService
 	// V2RiskForms is the service used to invoke form related APIs.
 	V2RiskForms *v2RiskFormService
 	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activities APIs.
@@ -976,6 +982,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementCurrencyConversions = &v2MoneyManagementCurrencyConversionService{B: backends.API, Key: key}
 	client.V2MoneyManagementDebitDisputes = &v2MoneyManagementDebitDisputeService{B: backends.API, Key: key}
+	client.V2MoneyManagementDisputeAdjustments = &v2MoneyManagementDisputeAdjustmentService{B: backends.API, Key: key}
+	client.V2MoneyManagementDisputes = &v2MoneyManagementDisputeService{B: backends.API, Key: key}
 	client.V2MoneyManagementEarnedCredits = &v2MoneyManagementEarnedCreditService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccountsStatements = &v2MoneyManagementFinancialAccountsStatementService{B: backends.API, Key: key}
@@ -1021,6 +1029,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2ProvisioningResources = &v2ProvisioningResourceService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
+	client.V2RiskEvaluationOutcomes = &v2RiskEvaluationOutcomeService{B: backends.API, Key: key}
 	client.V2RiskForms = &v2RiskFormService{B: backends.API, Key: key}
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
