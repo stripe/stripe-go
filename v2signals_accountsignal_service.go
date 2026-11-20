@@ -17,7 +17,7 @@ type v2SignalsAccountSignalService struct {
 	Key string
 }
 
-// Retrieves an AccountSignal by its ID when its created timestamp is no more than 90 days old.
+// Retrieves an AccountSignal by its ID for up to 180 days after creation. Signals more than 180 days old are inaccessible.
 func (c v2SignalsAccountSignalService) Retrieve(ctx context.Context, id string, params *V2SignalsAccountSignalRetrieveParams) (*V2SignalsAccountSignal, error) {
 	if params == nil {
 		params = &V2SignalsAccountSignalRetrieveParams{}
@@ -29,7 +29,9 @@ func (c v2SignalsAccountSignalService) Retrieve(ctx context.Context, id string, 
 	return accountsignal, err
 }
 
-// Lists AccountSignals whose created timestamps are no more than 90 days old for a given account or customer. Returns only the latest AccountSignal for each requested signal type.
+// Lists AccountSignals for a given account or customer, newest first. Signals more than 180 days old are omitted.
+// By default, returns only the latest matching AccountSignal for each requested signal type.
+// Set latest_per_type to false to include matching historical signals. Filtering and latest-per-type selection occur before pagination.
 func (c v2SignalsAccountSignalService) List(ctx context.Context, listParams *V2SignalsAccountSignalListParams) *V2List[*V2SignalsAccountSignal] {
 	if listParams == nil {
 		listParams = &V2SignalsAccountSignalListParams{}

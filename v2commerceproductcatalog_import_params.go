@@ -60,7 +60,7 @@ type V2CommerceProductCatalogImportCreateParams struct {
 	// The type of catalog data to import.
 	FeedType *string `form:"feed_type" json:"feed_type"`
 	// Additional information about the import in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The strategy for handling existing catalog data during import.
 	Mode *string `form:"mode" json:"mode"`
 }

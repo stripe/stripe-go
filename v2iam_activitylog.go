@@ -185,6 +185,25 @@ const (
 	V2IamActivityLogDetailsSsoMandateRequired V2IamActivityLogDetailsSsoMandate = "required"
 )
 
+// The level of Dashboard access granted.
+type V2IamActivityLogDetailsStripeAccessAccessType string
+
+// List of values that V2IamActivityLogDetailsStripeAccessAccessType can take
+const (
+	V2IamActivityLogDetailsStripeAccessAccessTypeDashboardReadOnly  V2IamActivityLogDetailsStripeAccessAccessType = "dashboard_read_only"
+	V2IamActivityLogDetailsStripeAccessAccessTypeDashboardReadWrite V2IamActivityLogDetailsStripeAccessAccessType = "dashboard_read_write"
+)
+
+// The type of reason for granting access.
+type V2IamActivityLogDetailsStripeAccessReasonType string
+
+// List of values that V2IamActivityLogDetailsStripeAccessReasonType can take
+const (
+	V2IamActivityLogDetailsStripeAccessReasonTypeAccessRequest       V2IamActivityLogDetailsStripeAccessReasonType = "access_request"
+	V2IamActivityLogDetailsStripeAccessReasonTypeSupportRelationship V2IamActivityLogDetailsStripeAccessReasonType = "support_relationship"
+	V2IamActivityLogDetailsStripeAccessReasonTypeSupportTicket       V2IamActivityLogDetailsStripeAccessReasonType = "support_ticket"
+)
+
 // The action group type of the activity log entry.
 type V2IamActivityLogDetailsType string
 
@@ -202,6 +221,7 @@ const (
 	V2IamActivityLogDetailsTypeRadar            V2IamActivityLogDetailsType = "radar"
 	V2IamActivityLogDetailsTypeScim             V2IamActivityLogDetailsType = "scim"
 	V2IamActivityLogDetailsTypeSso              V2IamActivityLogDetailsType = "sso"
+	V2IamActivityLogDetailsTypeStripeAccess     V2IamActivityLogDetailsType = "stripe_access"
 	V2IamActivityLogDetailsTypeUserAccess       V2IamActivityLogDetailsType = "user_access"
 	V2IamActivityLogDetailsTypeUserInvite       V2IamActivityLogDetailsType = "user_invite"
 	V2IamActivityLogDetailsTypeUserProfile      V2IamActivityLogDetailsType = "user_profile"
@@ -222,6 +242,7 @@ type V2IamActivityLogDetailsUserAccessSurface string
 // List of values that V2IamActivityLogDetailsUserAccessSurface can take
 const (
 	V2IamActivityLogDetailsUserAccessSurfaceDashboard V2IamActivityLogDetailsUserAccessSurface = "dashboard"
+	V2IamActivityLogDetailsUserAccessSurfaceEmbedded  V2IamActivityLogDetailsUserAccessSurface = "embedded"
 	V2IamActivityLogDetailsUserAccessSurfaceExpress   V2IamActivityLogDetailsUserAccessSurface = "express"
 )
 
@@ -313,6 +334,7 @@ const (
 	V2IamActivityLogTypeSsoSettingsCreated                      V2IamActivityLogType = "sso_settings_created"
 	V2IamActivityLogTypeSsoSettingsDeleted                      V2IamActivityLogType = "sso_settings_deleted"
 	V2IamActivityLogTypeSsoSettingsUpdated                      V2IamActivityLogType = "sso_settings_updated"
+	V2IamActivityLogTypeStripeAccessStarted                     V2IamActivityLogType = "stripe_access_started"
 	V2IamActivityLogTypeTwoStepAuthenticationMandateDisabled    V2IamActivityLogType = "two_step_authentication_mandate_disabled"
 	V2IamActivityLogTypeTwoStepAuthenticationMandateEnabled     V2IamActivityLogType = "two_step_authentication_mandate_enabled"
 	V2IamActivityLogTypeUserAccessStarted                       V2IamActivityLogType = "user_access_started"
@@ -350,6 +372,12 @@ type V2IamActivityLogActorAPIKey struct {
 	ID string `json:"id"`
 }
 
+// Set when a display name is available for an action performed by Stripe.
+type V2IamActivityLogActorStripeAction struct {
+	// Public display name captured when the action occurs.
+	DisplayName string `json:"display_name"`
+}
+
 // Set when the actor is a user.
 type V2IamActivityLogActorUser struct {
 	// Email address of the user.
@@ -360,6 +388,8 @@ type V2IamActivityLogActorUser struct {
 type V2IamActivityLogActor struct {
 	// Set when the actor is an API key.
 	APIKey *V2IamActivityLogActorAPIKey `json:"api_key,omitempty"`
+	// Set when a display name is available for an action performed by Stripe.
+	StripeAction *V2IamActivityLogActorStripeAction `json:"stripe_action,omitempty"`
 	// The type of actor.
 	Type V2IamActivityLogActorType `json:"type"`
 	// Set when the actor is a user.
@@ -708,6 +738,48 @@ type V2IamActivityLogDetailsSso struct {
 	Mandate V2IamActivityLogDetailsSsoMandate `json:"mandate,omitempty"`
 }
 
+// Set when access is granted through an access request.
+type V2IamActivityLogDetailsStripeAccessReasonAccessRequest struct {
+	// Identifier of the access request.
+	ID string `json:"id"`
+}
+
+// Set when access is granted through a support relationship.
+type V2IamActivityLogDetailsStripeAccessReasonSupportRelationship struct {
+	// Identifier of the support relationship.
+	ID string `json:"id"`
+	// Name of the support contact, when available.
+	Name string `json:"name,omitempty"`
+	// Role of the support contact, when available.
+	Role string `json:"role,omitempty"`
+}
+
+// Set when access is granted through a support ticket.
+type V2IamActivityLogDetailsStripeAccessReasonSupportTicket struct {
+	// Identifier of the support ticket.
+	ID string `json:"id"`
+}
+
+// The reason for granting Stripe access.
+type V2IamActivityLogDetailsStripeAccessReason struct {
+	// Set when access is granted through an access request.
+	AccessRequest *V2IamActivityLogDetailsStripeAccessReasonAccessRequest `json:"access_request,omitempty"`
+	// Set when access is granted through a support relationship.
+	SupportRelationship *V2IamActivityLogDetailsStripeAccessReasonSupportRelationship `json:"support_relationship,omitempty"`
+	// Set when access is granted through a support ticket.
+	SupportTicket *V2IamActivityLogDetailsStripeAccessReasonSupportTicket `json:"support_ticket,omitempty"`
+	// The type of reason for granting access.
+	Type V2IamActivityLogDetailsStripeAccessReasonType `json:"type"`
+}
+
+// Details of a Stripe access action.
+type V2IamActivityLogDetailsStripeAccess struct {
+	// The level of Dashboard access granted.
+	AccessType V2IamActivityLogDetailsStripeAccessAccessType `json:"access_type"`
+	// The reason for granting Stripe access.
+	Reason *V2IamActivityLogDetailsStripeAccessReason `json:"reason"`
+}
+
 // Dashboard client details for the user access action.
 type V2IamActivityLogDetailsUserAccessDashboardClient struct {
 	// User-Agent header for the user access action.
@@ -811,6 +883,8 @@ type V2IamActivityLogDetails struct {
 	Scim *V2IamActivityLogDetailsScim `json:"scim,omitempty"`
 	// Details of an SSO action.
 	Sso *V2IamActivityLogDetailsSso `json:"sso,omitempty"`
+	// Details of a Stripe access action.
+	StripeAccess *V2IamActivityLogDetailsStripeAccess `json:"stripe_access,omitempty"`
 	// The action group type of the activity log entry.
 	Type V2IamActivityLogDetailsType `json:"type"`
 	// Details of a user access action.

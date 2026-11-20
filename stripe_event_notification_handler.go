@@ -183,6 +183,21 @@ func (h *eventNotificationHandlerBase) OnV1ApplicationFeeRefunded(callback func(
 	return registerTypedHandler(h, "v1.application_fee.refunded", callback)
 }
 
+// OnV1AppsInstallCreated registers a callback to handle notifications about the "v1.apps.install.created" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallCreated(callback func(ctx context.Context, notif *V1AppsInstallCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.created", callback)
+}
+
+// OnV1AppsInstallDeleted registers a callback to handle notifications about the "v1.apps.install.deleted" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallDeleted(callback func(ctx context.Context, notif *V1AppsInstallDeletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.deleted", callback)
+}
+
+// OnV1AppsInstallUpdated registers a callback to handle notifications about the "v1.apps.install.updated" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallUpdated(callback func(ctx context.Context, notif *V1AppsInstallUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.updated", callback)
+}
+
 // OnV1BalanceAvailable registers a callback to handle notifications about the "v1.balance.available" event.
 func (h *eventNotificationHandlerBase) OnV1BalanceAvailable(callback func(ctx context.Context, notif *V1BalanceAvailableEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.balance.available", callback)
@@ -951,11 +966,6 @@ func (h *eventNotificationHandlerBase) OnV1InvoiceitemDiscountRemoved(callback f
 // OnV1IssuingAuthorizationCreated registers a callback to handle notifications about the "v1.issuing_authorization.created" event.
 func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationCreated(callback func(ctx context.Context, notif *V1IssuingAuthorizationCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.issuing_authorization.created", callback)
-}
-
-// OnV1IssuingAuthorizationRequest registers a callback to handle notifications about the "v1.issuing_authorization.request" event.
-func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationRequest(callback func(ctx context.Context, notif *V1IssuingAuthorizationRequestEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v1.issuing_authorization.request", callback)
 }
 
 // OnV1IssuingAuthorizationUpdated registers a callback to handle notifications about the "v1.issuing_authorization.updated" event.
@@ -2191,6 +2201,54 @@ func (h *eventNotificationHandlerBase) OnV2OrchestratedCommerceAgreementPartiall
 func (h *eventNotificationHandlerBase) OnV2OrchestratedCommerceAgreementTerminated(callback func(ctx context.Context, notif *V2OrchestratedCommerceAgreementTerminatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.orchestrated_commerce.agreement.terminated", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentAttemptFailed registers a callback to handle notifications about the "v2.payments.off_session_payment.attempt_failed" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentAttemptFailed(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentAttemptFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.attempt_failed", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentAttemptStarted registers a callback to handle notifications about the "v2.payments.off_session_payment.attempt_started" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentAttemptStarted(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentAttemptStartedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.attempt_started", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentCanceled registers a callback to handle notifications about the "v2.payments.off_session_payment.canceled" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentCanceled(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.canceled", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentCreated registers a callback to handle notifications about the "v2.payments.off_session_payment.created" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentCreated(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.created", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentFailed registers a callback to handle notifications about the "v2.payments.off_session_payment.failed" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentFailed(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.failed", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentPaused registers a callback to handle notifications about the "v2.payments.off_session_payment.paused" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentPaused(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentPausedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.paused", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentResumed registers a callback to handle notifications about the "v2.payments.off_session_payment.resumed" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentResumed(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentResumedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.resumed", callback)
+}
+
+// OnV2PaymentsOffSessionPaymentSucceeded registers a callback to handle notifications about the "v2.payments.off_session_payment.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2PaymentsOffSessionPaymentSucceeded(callback func(ctx context.Context, notif *V2PaymentsOffSessionPaymentSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.payments.off_session_payment.succeeded", callback)
 }
 
 // OnV2SignalsAccountEvaluationComplete registers a callback to handle notifications about the "v2.signals.account_evaluation.complete" event.

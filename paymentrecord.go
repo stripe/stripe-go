@@ -601,6 +601,7 @@ type PaymentRecordProcessorDetailsType string
 // List of values that PaymentRecordProcessorDetailsType can take
 const (
 	PaymentRecordProcessorDetailsTypeCustom PaymentRecordProcessorDetailsType = "custom"
+	PaymentRecordProcessorDetailsTypeStripe PaymentRecordProcessorDetailsType = "stripe"
 )
 
 // Indicates who reported the payment.
@@ -2206,12 +2207,20 @@ type PaymentRecordProcessorDetailsCustom struct {
 	PaymentReference string `json:"payment_reference"`
 }
 
+// Represents the Stripe processor. This resource consists of details specific to Stripe.
+type PaymentRecordProcessorDetailsStripe struct {
+	// Stripe balance transactions associated with this attempt, in no guaranteed order. References can appear at submission or after success. On a PaymentRecord, these references follow the latest attempt.
+	DerivedBalanceTransactions []string `json:"derived_balance_transactions,omitempty"`
+}
+
 // Processor information associated with this payment.
 type PaymentRecordProcessorDetails struct {
 	// Custom processors represent payment processors not modeled directly in
 	// the Stripe API. This resource consists of details about the custom processor
 	// used for this payment attempt.
 	Custom *PaymentRecordProcessorDetailsCustom `json:"custom,omitempty"`
+	// Represents the Stripe processor. This resource consists of details specific to Stripe.
+	Stripe *PaymentRecordProcessorDetailsStripe `json:"stripe,omitempty"`
 	// The processor used for this payment attempt.
 	Type PaymentRecordProcessorDetailsType `json:"type"`
 }
