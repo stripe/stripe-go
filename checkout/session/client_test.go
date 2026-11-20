@@ -1,6 +1,10 @@
 package session
 
 import (
+	"errors"
+	"net/http"
+	"net/http/httptest"
+	"sync/atomic"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -12,6 +16,30 @@ func TestCheckoutSessionGet(t *testing.T) {
 	session, err := Get("cs_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, session)
+}
+
+func TestCheckoutSessionGetRejectsDotIDWithoutSendingRequest(t *testing.T) {
+	var requests int32
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddInt32(&requests, 1)
+	}))
+	defer testServer.Close()
+
+	orig := stripe.GetBackend(stripe.APIBackend)
+	stripe.SetBackend(stripe.APIBackend, stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		LeveledLogger: &stripe.LeveledLogger{Level: stripe.LevelNull},
+		URL:           stripe.String(testServer.URL),
+	}))
+	defer stripe.SetBackend(stripe.APIBackend, orig)
+
+	for _, id := range []string{".", ".."} {
+		_, err := Get(id, nil)
+		var stripeErr *stripe.Error
+		assert.True(t, errors.As(err, &stripeErr), "expected a *stripe.Error for %q, got %v", id, err)
+		assert.Equal(t, stripe.ErrorTypeInvalidRequest, stripeErr.Type)
+	}
+
+	assert.Zero(t, atomic.LoadInt32(&requests))
 }
 
 func TestCheckoutSessionNew(t *testing.T) {
