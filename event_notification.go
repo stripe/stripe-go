@@ -33,11 +33,20 @@ type V2CoreEventNotification struct {
 	// [Optional] Reason for the event
 	Reason *V2CoreEventReason `json:"reason"`
 
-	client Client
+	client *Client
 }
 
 func (n *V2CoreEventNotification) GetEventNotification() *V2CoreEventNotification {
 	return n
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't
+// write out its client's API key.
+func (n V2CoreEventNotification) Format(f fmt.State, verb rune) {
+	type notification V2CoreEventNotification
+	p := notification(n)
+	p.client = nil
+	_, _ = fmt.Fprintf(f, fmt.FormatString(f, verb), p)
 }
 
 func (n *V2CoreEventNotification) fetchEvent(ctx context.Context) (V2CoreEvent, error) {
@@ -74,6 +83,21 @@ type UnknownEventNotification struct {
 	RelatedObject *V2CoreEventRelatedObject `json:"related_object"`
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't
+// write out its client's API key. The base notification's Format is promoted
+// to this type, so this prints the related object next to a method-less copy of
+// the base instead; the promoted Format would leave RelatedObject out.
+func (n UnknownEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           *V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
 func (n *UnknownEventNotification) FetchEvent(ctx context.Context) (V2CoreEvent, error) {
 	return n.fetchEvent(ctx)
 }
@@ -91,6 +115,6 @@ func (n *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 
-	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
+	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, *n.client.key, params, obj)
 	return obj, err
 }
