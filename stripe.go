@@ -1255,6 +1255,9 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	}
 	raw.Error.HTTPStatusCode = res.StatusCode
 	raw.Error.RequestID = res.Header.Get("Request-Id")
+	if raw.Error.RequestID != "" {
+		raw.Error.Msg = "[" + raw.Error.RequestID + "] " + raw.Error.Msg
+	}
 
 	var typedError error
 	switch raw.Error.Type {
@@ -1304,6 +1307,9 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	// not included in the response body.
 	raw.Error.HTTPStatusCode = res.StatusCode
 	raw.Error.RequestID = res.Header.Get("Request-Id")
+	if raw.Error.RequestID != "" {
+		raw.Error.Message = "[" + raw.Error.RequestID + "] " + raw.Error.Message
+	}
 
 	if raw.Error.Type == nil {
 		return raw.Error
