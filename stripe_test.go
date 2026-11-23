@@ -3107,6 +3107,8 @@ func TestAssertOriginRelativePath(t *testing.T) {
 		"/v1/customers?email=a..b%40example.com",
 		// A double-encoded dot reaches the API as the literal "%2E".
 		"/v1/customers/%252E",
+		// An encoded slash is fine as long as no piece around it is a dot segment.
+		"/v1/coupons/summer%2F2017",
 	}
 	for _, path := range originRelative {
 		assert.NoError(t, validatePath(path), "expected to accept %q", path)
@@ -3163,6 +3165,11 @@ var dotSegmentPaths = []string{
 	"/v1/checkout/sessions/%2E",
 	"/v1/checkout/sessions/%2e%2E",
 	"/v1/checkout/sessions/.%2E",
+	// A proxy that decodes "%2F" before removing dot segments turns these into
+	// real path separators.
+	"/v1/coupons/x%2F..%2F..%2Fcustomers%2Fcus_B",
+	"/v1/customers/cus_123/sources/..%2F..%2Fcus_B",
+	"/v1/coupons/..%2fsummer",
 }
 
 func assertDotSegmentError(t *testing.T, err error, input string) {
@@ -3222,6 +3229,17 @@ func TestClientRetrieveRejectsDotIDWithoutSendingRequest(t *testing.T) {
 		_, err := sc.V1CheckoutSessions.Retrieve(context.Background(), id, nil)
 		assertDotSegmentError(t, err, id)
 	}
+
+	assert.Zero(t, requests())
+}
+
+func TestClientRetrieveRejectsIDWithEncodedDotSegmentsWithoutSendingRequest(t *testing.T) {
+	config, requests := newRequestCountingConfig(t)
+	sc := NewClient("sk_test_123", WithBackends(NewBackendsWithConfig(config)))
+
+	id := "x/../../customers/cus_B"
+	_, err := sc.V1Coupons.Retrieve(context.Background(), id, nil)
+	assertDotSegmentError(t, err, id)
 
 	assert.Zero(t, requests())
 }
