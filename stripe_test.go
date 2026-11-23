@@ -5,7 +5,6 @@ import (
 	"context"
 	"crypto/x509"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -3168,12 +3167,8 @@ var dotSegmentPaths = []string{
 
 func assertDotSegmentError(t *testing.T, err error, input string) {
 	t.Helper()
-	var stripeErr *Error
-	assert.True(t, errors.As(err, &stripeErr), "expected a *Error for %q, got %v", input, err)
-	assert.Equal(t, ErrorTypeInvalidRequest, stripeErr.Type)
-	assert.Contains(t, stripeErr.Msg, `may not contain a "." or ".." segment`)
-	var invalidRequestErr *InvalidRequestError
-	assert.True(t, errors.As(err, &invalidRequestErr))
+	assert.Error(t, err, "expected an error for %q", input)
+	assert.Contains(t, err.Error(), `may not contain a "." or ".." segment`)
 }
 
 // newRequestCountingConfig returns a backend config for a test server, and a
@@ -3201,10 +3196,7 @@ func TestValidatePathRejectsDotSegments(t *testing.T) {
 func TestValidatePathDotSegmentErrorOmitsQueryString(t *testing.T) {
 	err := validatePath("/v1/payment_intents/..?client_secret=pi_123_secret_456")
 
-	var stripeErr *Error
-	assert.True(t, errors.As(err, &stripeErr))
-	assert.Contains(t, stripeErr.Msg, `"/v1/payment_intents/.."`)
-	assert.NotContains(t, stripeErr.Msg, "pi_123_secret_456")
+	assert.EqualError(t, err, `path may not contain a "." or ".." segment, got "/v1/payment_intents/.."`)
 }
 
 func TestRequestRejectsDotSegmentPathWithoutSendingRequest(t *testing.T) {

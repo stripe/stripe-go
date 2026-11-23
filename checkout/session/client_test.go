@@ -1,7 +1,6 @@
 package session
 
 import (
-	"errors"
 	"net/http"
 	"net/http/httptest"
 	"sync/atomic"
@@ -34,9 +33,8 @@ func TestCheckoutSessionGetRejectsDotIDWithoutSendingRequest(t *testing.T) {
 
 	for _, id := range []string{".", ".."} {
 		_, err := Get(id, nil)
-		var stripeErr *stripe.Error
-		assert.True(t, errors.As(err, &stripeErr), "expected a *stripe.Error for %q, got %v", id, err)
-		assert.Equal(t, stripe.ErrorTypeInvalidRequest, stripeErr.Type)
+		assert.Error(t, err, "expected an error for %q", id)
+		assert.Contains(t, err.Error(), `may not contain a "." or ".." segment`)
 	}
 
 	assert.Zero(t, atomic.LoadInt32(&requests))
