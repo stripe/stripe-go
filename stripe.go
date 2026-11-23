@@ -761,9 +761,11 @@ func validatePath(path string) error {
 		if segment == "." || segment == ".." {
 			// Returned as an invalid_request_error *Error, like the API's own
 			// errors, so callers' existing handling for API errors keeps working.
+			// The message leaves out the query string, which can carry secrets
+			// such as a client_secret.
 			stripeErr := &Error{
 				Type: ErrorTypeInvalidRequest,
-				Msg:  fmt.Sprintf(`Request path may not contain a "." or ".." segment, got %q`, path),
+				Msg:  fmt.Sprintf(`Request path may not contain a "." or ".." segment, got %q`, pathOnly),
 			}
 			stripeErr.Err = &InvalidRequestError{stripeErr: stripeErr}
 			return stripeErr

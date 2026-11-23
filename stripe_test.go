@@ -3198,6 +3198,15 @@ func TestValidatePathRejectsDotSegments(t *testing.T) {
 	}
 }
 
+func TestValidatePathDotSegmentErrorOmitsQueryString(t *testing.T) {
+	err := validatePath("/v1/payment_intents/..?client_secret=pi_123_secret_456")
+
+	var stripeErr *Error
+	assert.True(t, errors.As(err, &stripeErr))
+	assert.Contains(t, stripeErr.Msg, `"/v1/payment_intents/.."`)
+	assert.NotContains(t, stripeErr.Msg, "pi_123_secret_456")
+}
+
 func TestRequestRejectsDotSegmentPathWithoutSendingRequest(t *testing.T) {
 	config, requests := newRequestCountingConfig(t)
 	backend := GetBackendWithConfig(APIBackend, config).(*BackendImplementation)
