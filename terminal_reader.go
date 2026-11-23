@@ -64,6 +64,23 @@ const (
 	TerminalReaderActionRefundPaymentReasonRequestedByCustomer TerminalReaderActionRefundPaymentReason = "requested_by_customer"
 )
 
+// The brand of the destination gift card collected on the reader.
+type TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardBrand string
+
+// List of values that TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardBrand can take
+const (
+	TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardBrandSvs TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardBrand = "svs"
+)
+
+// The gift card operation to perform with the refund amount.
+type TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationType string
+
+// List of values that TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationType can take
+const (
+	TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationTypeActivation TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationType = "activation"
+	TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationTypeReload     TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationType = "reload"
+)
+
 // Type of information to be displayed by the reader. Only `cart` is currently supported.
 type TerminalReaderActionSetReaderDisplayType string
 
@@ -480,10 +497,20 @@ func (p *TerminalReaderProcessSetupIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Collect a destination gift card on the reader to reload or activate with the refund amount. If omitted, refund the original gift card without collecting card data.
+type TerminalReaderRefundPaymentRefundPaymentConfigGiftCardParams struct {
+	// The brand of the destination gift card to collect on the reader.
+	Brand *string `form:"brand" json:"brand"`
+	// The gift card operation to perform with the refund amount.
+	OperationType *string `form:"operation_type" json:"operation_type"`
+}
+
 // Configuration overrides for this refund, such as customer cancellation settings.
 type TerminalReaderRefundPaymentRefundPaymentConfigParams struct {
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
+	// Collect a destination gift card on the reader to reload or activate with the refund amount. If omitted, refund the original gift card without collecting card data.
+	GiftCard *TerminalReaderRefundPaymentRefundPaymentConfigGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 }
 
 // Initiates an in-person refund on a Reader. See [Refund an Interac Payment](https://docs.stripe.com/docs/terminal/payments/regional?integration-country=CA#refund-an-interac-payment) for more details.
@@ -931,10 +958,20 @@ type TerminalReaderActionProcessSetupIntent struct {
 	SetupIntent *SetupIntent `json:"setup_intent"`
 }
 
+// Represents the destination gift card configuration for a refund
+type TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCard struct {
+	// The brand of the destination gift card collected on the reader.
+	Brand TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardBrand `json:"brand"`
+	// The gift card operation to perform with the refund amount.
+	OperationType TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCardOperationType `json:"operation_type"`
+}
+
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionRefundPaymentRefundPaymentConfig struct {
 	// Enable customer-initiated cancellation when refunding this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation,omitempty"`
+	// Represents the destination gift card configuration for a refund
+	GiftCard *TerminalReaderActionRefundPaymentRefundPaymentConfigGiftCard `json:"gift_card,omitempty"`
 }
 
 // Represents a reader action to refund a payment

@@ -30,26 +30,42 @@ type V2MoneyManagementInboundTransferMandateAUBECSParams struct {
 
 // Optional Bacs-specific parameters.
 type V2MoneyManagementInboundTransferMandateBACSParams struct {
-	// Optional prefix for the generated mandate reference (max 10 chars).
+	// Optional prefix for the generated mandate reference. When nonempty, it must contain at most
+	// 10 letters, digits, or underscores. In live mode, Stripe uppercases the prefix.
+	// Prefixes beginning with DDIC or STRIPE are reserved regardless of case.
+	// In a Sandbox or test mode, set this parameter to one of the following exact,
+	// case-sensitive values to simulate a Bacs mandate outcome:
+	// - `ACTIVE`: Creates an active mandate immediately.
+	// - `PENDING`: Creates a pending mandate that does not automatically activate.
+	// - `FAIL`: Creates a canceled mandate with `status_details.canceled.reason` set to
+	// `refused_by_network`.
+	// - `EXPIRE`: Creates an expired mandate.
+	// - `VALIDATION_FAIL`: Returns an `inbound_mandate_cop_failed` error without creating a mandate.
+	// This test-only value is exempt from the normal 10-character prefix limit.
+	// If omitted, empty, or set to another valid prefix, creates an active mandate.
+	// These simulation values do not select test outcomes in live mode.
 	ReferencePrefix *string `form:"reference_prefix" json:"reference_prefix,omitempty"`
 }
 
 // Optional details for online acceptance.
 type V2MoneyManagementInboundTransferMandateUserAcceptedDetailsOnlineParams struct {
-	// The IP address from which the merchant accepted the mandate. For direct account requests,
-	// derived from the request when not supplied; rejected if obtainable from neither.
+	// The IP address from which the merchant accepted the mandate. For connected account
+	// requests, you must provide a valid IPv4 or IPv6 address. For direct account requests,
+	// Stripe derives the address from the request when you don't supply it and rejects the
+	// request if it can't obtain one.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// The user agent of the browser from which the merchant accepted the mandate. For direct
 	// account requests, derived from the request when not supplied.
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Optional acceptance evidence collected from the merchant. Direct account calls can omit
-// details that are derived from request metadata. Platform calls creating a mandate for a
-// connected account must provide accepted_at, online.ip_address, and online.user_agent.
+// Acceptance evidence collected from the account holder. Required when a platform creates a
+// mandate for a connected account. Include that account's ID in the [Stripe-Context
+// header](https://docs.stripe.com/context), and provide accepted_at, online.ip_address, and online.user_agent. Direct
+// account calls can omit details that Stripe derives from request metadata.
 type V2MoneyManagementInboundTransferMandateUserAcceptedDetailsParams struct {
-	// When the merchant accepted the mandate. Must be a past timestamp. For direct account
-	// requests, defaults to the mandate's creation time when not supplied.
+	// When the account holder accepted the mandate. Must be in the past.
+	// For direct account requests, defaults to the mandate's creation time when not supplied.
 	AcceptedAt *time.Time `form:"accepted_at" json:"accepted_at,omitempty"`
 	// Optional details for online acceptance.
 	Online *V2MoneyManagementInboundTransferMandateUserAcceptedDetailsOnlineParams `form:"online" json:"online,omitempty"`
@@ -57,9 +73,12 @@ type V2MoneyManagementInboundTransferMandateUserAcceptedDetailsParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// Create an InboundTransferMandate for a v2 credential. If a pending or
-// active mandate already exists for the same user and credential, that
-// mandate is returned instead of creating a new one.
+// Create an InboundTransferMandate for a v2 credential. If a pending or active mandate
+// already exists for the same user and credential, return that mandate instead of creating
+// another one. The existing mandate's reference and acceptance evidence are preserved.
+// Retry with the same idempotency key to replay a successful creation.
+// In a Sandbox or test mode, use bacs.reference_prefix to simulate Bacs mandate
+// outcomes. See the parameter description for supported values.
 type V2MoneyManagementInboundTransferMandateParams struct {
 	Params `form:"*"`
 	// Optional Australian BECS-specific parameters.
@@ -71,9 +90,10 @@ type V2MoneyManagementInboundTransferMandateParams struct {
 	Credential *string `form:"credential" json:"credential,omitempty"`
 	// The mandate scheme type.
 	Type *string `form:"type" json:"type,omitempty"`
-	// Optional acceptance evidence collected from the merchant. Direct account calls can omit
-	// details that are derived from request metadata. Platform calls creating a mandate for a
-	// connected account must provide accepted_at, online.ip_address, and online.user_agent.
+	// Acceptance evidence collected from the account holder. Required when a platform creates a
+	// mandate for a connected account. Include that account's ID in the [Stripe-Context
+	// header](https://docs.stripe.com/context), and provide accepted_at, online.ip_address, and online.user_agent. Direct
+	// account calls can omit details that Stripe derives from request metadata.
 	UserAcceptedDetails *V2MoneyManagementInboundTransferMandateUserAcceptedDetailsParams `form:"user_accepted_details" json:"user_accepted_details,omitempty"`
 }
 
@@ -91,26 +111,42 @@ type V2MoneyManagementInboundTransferMandateCreateAUBECSParams struct {
 
 // Optional Bacs-specific parameters.
 type V2MoneyManagementInboundTransferMandateCreateBACSParams struct {
-	// Optional prefix for the generated mandate reference (max 10 chars).
+	// Optional prefix for the generated mandate reference. When nonempty, it must contain at most
+	// 10 letters, digits, or underscores. In live mode, Stripe uppercases the prefix.
+	// Prefixes beginning with DDIC or STRIPE are reserved regardless of case.
+	// In a Sandbox or test mode, set this parameter to one of the following exact,
+	// case-sensitive values to simulate a Bacs mandate outcome:
+	// - `ACTIVE`: Creates an active mandate immediately.
+	// - `PENDING`: Creates a pending mandate that does not automatically activate.
+	// - `FAIL`: Creates a canceled mandate with `status_details.canceled.reason` set to
+	// `refused_by_network`.
+	// - `EXPIRE`: Creates an expired mandate.
+	// - `VALIDATION_FAIL`: Returns an `inbound_mandate_cop_failed` error without creating a mandate.
+	// This test-only value is exempt from the normal 10-character prefix limit.
+	// If omitted, empty, or set to another valid prefix, creates an active mandate.
+	// These simulation values do not select test outcomes in live mode.
 	ReferencePrefix *string `form:"reference_prefix" json:"reference_prefix,omitempty"`
 }
 
 // Optional details for online acceptance.
 type V2MoneyManagementInboundTransferMandateCreateUserAcceptedDetailsOnlineParams struct {
-	// The IP address from which the merchant accepted the mandate. For direct account requests,
-	// derived from the request when not supplied; rejected if obtainable from neither.
+	// The IP address from which the merchant accepted the mandate. For connected account
+	// requests, you must provide a valid IPv4 or IPv6 address. For direct account requests,
+	// Stripe derives the address from the request when you don't supply it and rejects the
+	// request if it can't obtain one.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// The user agent of the browser from which the merchant accepted the mandate. For direct
 	// account requests, derived from the request when not supplied.
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Optional acceptance evidence collected from the merchant. Direct account calls can omit
-// details that are derived from request metadata. Platform calls creating a mandate for a
-// connected account must provide accepted_at, online.ip_address, and online.user_agent.
+// Acceptance evidence collected from the account holder. Required when a platform creates a
+// mandate for a connected account. Include that account's ID in the [Stripe-Context
+// header](https://docs.stripe.com/context), and provide accepted_at, online.ip_address, and online.user_agent. Direct
+// account calls can omit details that Stripe derives from request metadata.
 type V2MoneyManagementInboundTransferMandateCreateUserAcceptedDetailsParams struct {
-	// When the merchant accepted the mandate. Must be a past timestamp. For direct account
-	// requests, defaults to the mandate's creation time when not supplied.
+	// When the account holder accepted the mandate. Must be in the past.
+	// For direct account requests, defaults to the mandate's creation time when not supplied.
 	AcceptedAt *time.Time `form:"accepted_at" json:"accepted_at,omitempty"`
 	// Optional details for online acceptance.
 	Online *V2MoneyManagementInboundTransferMandateCreateUserAcceptedDetailsOnlineParams `form:"online" json:"online,omitempty"`
@@ -118,9 +154,12 @@ type V2MoneyManagementInboundTransferMandateCreateUserAcceptedDetailsParams stru
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// Create an InboundTransferMandate for a v2 credential. If a pending or
-// active mandate already exists for the same user and credential, that
-// mandate is returned instead of creating a new one.
+// Create an InboundTransferMandate for a v2 credential. If a pending or active mandate
+// already exists for the same user and credential, return that mandate instead of creating
+// another one. The existing mandate's reference and acceptance evidence are preserved.
+// Retry with the same idempotency key to replay a successful creation.
+// In a Sandbox or test mode, use bacs.reference_prefix to simulate Bacs mandate
+// outcomes. See the parameter description for supported values.
 type V2MoneyManagementInboundTransferMandateCreateParams struct {
 	Params `form:"*"`
 	// Optional Australian BECS-specific parameters.
@@ -132,9 +171,10 @@ type V2MoneyManagementInboundTransferMandateCreateParams struct {
 	Credential *string `form:"credential" json:"credential"`
 	// The mandate scheme type.
 	Type *string `form:"type" json:"type"`
-	// Optional acceptance evidence collected from the merchant. Direct account calls can omit
-	// details that are derived from request metadata. Platform calls creating a mandate for a
-	// connected account must provide accepted_at, online.ip_address, and online.user_agent.
+	// Acceptance evidence collected from the account holder. Required when a platform creates a
+	// mandate for a connected account. Include that account's ID in the [Stripe-Context
+	// header](https://docs.stripe.com/context), and provide accepted_at, online.ip_address, and online.user_agent. Direct
+	// account calls can omit details that Stripe derives from request metadata.
 	UserAcceptedDetails *V2MoneyManagementInboundTransferMandateCreateUserAcceptedDetailsParams `form:"user_accepted_details" json:"user_accepted_details,omitempty"`
 }
 

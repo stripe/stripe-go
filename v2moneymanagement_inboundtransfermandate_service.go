@@ -17,9 +17,12 @@ type v2MoneyManagementInboundTransferMandateService struct {
 	Key string
 }
 
-// Create an InboundTransferMandate for a v2 credential. If a pending or
-// active mandate already exists for the same user and credential, that
-// mandate is returned instead of creating a new one.
+// Create an InboundTransferMandate for a v2 credential. If a pending or active mandate
+// already exists for the same user and credential, return that mandate instead of creating
+// another one. The existing mandate's reference and acceptance evidence are preserved.
+// Retry with the same idempotency key to replay a successful creation.
+// In a Sandbox or test mode, use bacs.reference_prefix to simulate Bacs mandate
+// outcomes. See the parameter description for supported values.
 func (c v2MoneyManagementInboundTransferMandateService) Create(ctx context.Context, params *V2MoneyManagementInboundTransferMandateCreateParams) (*V2MoneyManagementInboundTransferMandate, error) {
 	if params == nil {
 		params = &V2MoneyManagementInboundTransferMandateCreateParams{}

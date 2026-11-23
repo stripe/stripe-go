@@ -51,6 +51,41 @@ const (
 	V2BillingContractCollectionStatusUnpaid  V2BillingContractCollectionStatus = "unpaid"
 )
 
+// Defines whether the price override is billed per unit or by tiers.
+type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingScheme string
+
+// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingScheme can take
+const (
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingSchemePerUnit V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingScheme = "per_unit"
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingSchemeTiered  V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingScheme = "tiered"
+)
+
+// Defines whether the tiered price should be graduated or volume-based.
+type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode string
+
+// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode can take
+const (
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringModeGraduated V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode = "graduated"
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringModeVolume    V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode = "volume"
+)
+
+// No upper bound to this tier.
+type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf string
+
+// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf can take
+const (
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInfInf V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf = "inf"
+)
+
+// Defines whether the tiered price should be graduated or volume-based.
+type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersMode string
+
+// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersMode can take
+const (
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersModeGraduated V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersMode = "graduated"
+	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersModeVolume    V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersMode = "volume"
+)
+
 // The type of override.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataType string
 
@@ -213,8 +248,34 @@ type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataEnd
 	Timestamp time.Time `json:"timestamp"`
 }
 
+// Each element represents a pricing tier.
+type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTier struct {
+	// Price for the entire tier, represented as a decimal string in minor currency units.
+	FlatAmount string `json:"flat_amount,omitempty"`
+	// Price for the entire tier in minor currency units.
+	FlatAmountDecimal decimal.Decimal `json:"flat_amount_decimal,omitempty"`
+	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
+	UnitAmount string `json:"unit_amount,omitempty"`
+	// Per-unit price for units included in this tier in minor currency units.
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal,omitempty"`
+	// Up to and including this whole-number quantity is contained in the tier. If omitted, the tier has no upper bound.
+	UpTo int64 `json:"up_to,string,omitempty"`
+	// Up to and including this quantity will be contained in the tier.
+	UpToDecimal decimal.Decimal `json:"up_to_decimal,omitempty"`
+	// No upper bound to this tier.
+	UpToInf V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf `json:"up_to_inf,omitempty"`
+}
+
 // Details for an overwrite_price override.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePrice struct {
+	// Defines whether the price override is billed per unit or by tiers.
+	BillingScheme V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceBillingScheme `json:"billing_scheme,omitempty"`
+	// Defines whether the tiered price should be graduated or volume-based.
+	TieringMode V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode `json:"tiering_mode,omitempty"`
+	// Each element represents a pricing tier.
+	Tiers []*V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTier `json:"tiers,omitempty"`
+	// Defines whether the tiered price should be graduated or volume-based.
+	TiersMode V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTiersMode `json:"tiers_mode,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount string `json:"unit_amount,omitempty"`
 }

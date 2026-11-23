@@ -29,7 +29,9 @@ func (c v2CoreFeeEntryService) Retrieve(ctx context.Context, id string, params *
 	return feeentry, err
 }
 
-// List FeeEntries optionally filtered by incurred_by, fee_batch, or collection_record (at most one filter at a time).
+// Lists FeeEntries, optionally filtered by `incurred_by`, `fee_batch`, or
+// `collection_record`. When filtering by `fee_batch`, results reflect current
+// membership; historical membership is unavailable.
 func (c v2CoreFeeEntryService) List(ctx context.Context, listParams *V2CoreFeeEntryListParams) *V2List[*V2CoreFeeEntry] {
 	if listParams == nil {
 		listParams = &V2CoreFeeEntryListParams{}

@@ -29,6 +29,16 @@ const (
 	V2MoneyManagementFinancialAccountCreditFundedByTypeStripe   V2MoneyManagementFinancialAccountCreditFundedByType = "stripe"
 )
 
+// Controls whether ACH debits without a matching active SpendingMandate are allowed or rejected
+// Defaults to `optional`. Other restrictions still apply.
+type V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehavior string
+
+// List of values that V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehavior can take
+const (
+	V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehaviorOptional V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehavior = "optional"
+	V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehaviorRequired V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehavior = "required"
+)
+
 // The period over which interest accrues.
 type V2MoneyManagementFinancialAccountSavingsInterestRatePeriod string
 
@@ -163,6 +173,29 @@ type V2MoneyManagementFinancialAccountCredit struct {
 	FundedBy *V2MoneyManagementFinancialAccountCreditFundedBy `json:"funded_by,omitempty"`
 	// The currencies supported by this credit FinancialAccount.
 	SupportedCurrencies []Currency `json:"supported_currencies"`
+}
+
+// Settings for ACH received debits.
+type V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACH struct {
+	// Whether ACH received debits are enabled. Defaults to true. Other restrictions still apply.
+	Enabled bool `json:"enabled"`
+	// Controls whether ACH debits without a matching active SpendingMandate are allowed or rejected
+	// Defaults to `optional`. Other restrictions still apply.
+	MandateBehavior V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHMandateBehavior `json:"mandate_behavior"`
+	// Account-level per-debit limit. Set to null to clear the limit.
+	TransactionLimit Amount `json:"transaction_limit,omitempty"`
+}
+
+// Settings for received debit flows.
+type V2MoneyManagementFinancialAccountFlowSettingsReceivedDebits struct {
+	// Settings for ACH received debits.
+	ACH *V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACH `json:"ach,omitempty"`
+}
+
+// Settings that control behavior for money movement flows.
+type V2MoneyManagementFinancialAccountFlowSettings struct {
+	// Settings for received debit flows.
+	ReceivedDebits *V2MoneyManagementFinancialAccountFlowSettingsReceivedDebits `json:"received_debits,omitempty"`
 }
 
 // If this is a `multiprocessor_settlement` FinancialAccount, this hash includes details specific to `multiprocessor_settlement` FinancialAccounts.
@@ -324,6 +357,8 @@ type V2MoneyManagementFinancialAccount struct {
 	Credit *V2MoneyManagementFinancialAccountCredit `json:"credit,omitempty"`
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name appears in the Stripe Dashboard and embedded components.
 	DisplayName string `json:"display_name,omitempty"`
+	// Settings that control behavior for money movement flows.
+	FlowSettings *V2MoneyManagementFinancialAccountFlowSettings `json:"flow_settings,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

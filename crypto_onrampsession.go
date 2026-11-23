@@ -161,6 +161,8 @@ type CryptoOnrampSessionParams struct {
 	LockWalletAddress *bool `form:"lock_wallet_address" json:"lock_wallet_address,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// ID of a card PaymentMethod (pm_...) owned by the authenticated merchant. Only supported for headless sessions. Mutually exclusive with `payment_token`.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Speed at which the cryptocurrency is delivered to the wallet
 	// One of:
 	//  `instant` (default): crypto is delivered when payment is confirmed
@@ -325,6 +327,8 @@ type CryptoOnrampSessionCreateParams struct {
 	LockWalletAddress *bool `form:"lock_wallet_address" json:"lock_wallet_address,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// ID of a card PaymentMethod (pm_...) owned by the authenticated merchant. Only supported for headless sessions. Mutually exclusive with `payment_token`.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// Speed at which the cryptocurrency is delivered to the wallet
 	// One of:
 	//  `instant` (default): crypto is delivered when payment is confirmed

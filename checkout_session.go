@@ -643,6 +643,7 @@ type CheckoutSessionItemType string
 // List of values that CheckoutSessionItemType can take
 const (
 	CheckoutSessionItemTypeMetronomeCommit CheckoutSessionItemType = "metronome_commit"
+	CheckoutSessionItemTypeOneTimePrice    CheckoutSessionItemType = "one_time_price"
 	CheckoutSessionItemTypeSubscription    CheckoutSessionItemType = "subscription"
 )
 
@@ -2395,8 +2396,10 @@ type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for this invoice.
-	Template    *string                                                                     `form:"template" json:"template,omitempty"`
-	UnsetFields []CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
+	Template *string `form:"template" json:"template,omitempty"`
+	// The specific version of the invoice rendering template to use for this invoice. If not specified, the latest version of the template will be used. Only available in unified mode.
+	TemplateVersion *int64                                                                      `form:"template_version" json:"template_version,omitempty"`
+	UnsetFields     []CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams.
@@ -2595,6 +2598,113 @@ type CheckoutSessionItemMetronomeCommitParams struct {
 	PriceConfiguration *CheckoutSessionItemMetronomeCommitPriceConfigurationParams `form:"price_configuration" json:"price_configuration"`
 }
 
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionItemOneTimePriceItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
+}
+
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+type CheckoutSessionItemOneTimePriceItemPriceDataProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images" json:"images,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name" json:"name"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *CheckoutSessionItemOneTimePriceItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionItemOneTimePriceItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+type CheckoutSessionItemOneTimePriceItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
+	Product *string `form:"product" json:"product,omitempty"`
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+	ProductData *CheckoutSessionItemOneTimePriceItemPriceDataProductDataParams `form:"product_data" json:"product_data,omitempty"`
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+}
+
+// The list of items for the one-time price.
+type CheckoutSessionItemOneTimePriceItemParams struct {
+	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+	AdjustableQuantity *CheckoutSessionItemOneTimePriceItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	PriceData *CheckoutSessionItemOneTimePriceItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The [tax rates](https://docs.stripe.com/api/tax_rates) which apply to this line item.
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
+}
+
+// Configuration for the one-time price item.
+type CheckoutSessionItemOneTimePriceParams struct {
+	// The one-time price's description, meant to be displayable to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The list of items for the one-time price.
+	Items []*CheckoutSessionItemOneTimePriceItemParams `form:"items" json:"items"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionItemOneTimePriceParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 type CheckoutSessionItemSubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
@@ -2788,6 +2898,8 @@ func (p *CheckoutSessionItemSubscriptionParams) AddMetadata(key string, value st
 type CheckoutSessionItemParams struct {
 	// Configuration for the Metronome commit item.
 	MetronomeCommit *CheckoutSessionItemMetronomeCommitParams `form:"metronome_commit" json:"metronome_commit,omitempty"`
+	// Configuration for the one-time price item.
+	OneTimePrice *CheckoutSessionItemOneTimePriceParams `form:"one_time_price" json:"one_time_price,omitempty"`
 	// Configuration for the subscription item.
 	Subscription *CheckoutSessionItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
@@ -2933,6 +3045,10 @@ type CheckoutSessionManagedPaymentsParams struct {
 type CheckoutSessionMarketingAttributionAdConversionParams struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL *string `form:"source_url" json:"source_url,omitempty"`
+	// The user agent of the browser where the customer converted.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Advertising attribution information for this Checkout Session. Only one attribution is supported.
@@ -3301,9 +3417,16 @@ type CheckoutSessionPaymentMethodOptionsBLIKMandateOptionsParams struct {
 // contains details about the BLIK payment method options.
 type CheckoutSessionPaymentMethodOptionsBLIKParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions   *CheckoutSessionPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
-	SetupFutureUsage *string                                                      `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	UnsetFields      []CheckoutSessionPaymentMethodOptionsBLIKParamsUnsetField    `form:"-" json:"-"`
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []CheckoutSessionPaymentMethodOptionsBLIKParamsUnsetField `form:"-" json:"-"`
 }
 
 // CheckoutSessionPaymentMethodOptionsBLIKParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionPaymentMethodOptionsBLIKParams.
@@ -5363,8 +5486,10 @@ type CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParams struc
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for this invoice.
-	Template    *string                                                                           `form:"template" json:"template,omitempty"`
-	UnsetFields []CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
+	Template *string `form:"template" json:"template,omitempty"`
+	// The specific version of the invoice rendering template to use for this invoice. If not specified, the latest version of the template will be used. Only available in unified mode.
+	TemplateVersion *int64                                                                            `form:"template_version" json:"template_version,omitempty"`
+	UnsetFields     []CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParams.
@@ -5563,6 +5688,113 @@ type CheckoutSessionCreateItemMetronomeCommitParams struct {
 	PriceConfiguration *CheckoutSessionCreateItemMetronomeCommitPriceConfigurationParams `form:"price_configuration" json:"price_configuration"`
 }
 
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionCreateItemOneTimePriceItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
+	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
+}
+
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+type CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images" json:"images,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name" json:"name"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+type CheckoutSessionCreateItemOneTimePriceItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
+	Product *string `form:"product" json:"product,omitempty"`
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+	ProductData *CheckoutSessionCreateItemOneTimePriceItemPriceDataProductDataParams `form:"product_data" json:"product_data,omitempty"`
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+}
+
+// The list of items for the one-time price.
+type CheckoutSessionCreateItemOneTimePriceItemParams struct {
+	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+	AdjustableQuantity *CheckoutSessionCreateItemOneTimePriceItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
+	PriceData *CheckoutSessionCreateItemOneTimePriceItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The [tax rates](https://docs.stripe.com/api/tax_rates) which apply to this line item.
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
+}
+
+// Configuration for the one-time price item.
+type CheckoutSessionCreateItemOneTimePriceParams struct {
+	// The one-time price's description, meant to be displayable to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The list of items for the one-time price.
+	Items []*CheckoutSessionCreateItemOneTimePriceItemParams `form:"items" json:"items"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateItemOneTimePriceParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 type CheckoutSessionCreateItemSubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
@@ -5756,6 +5988,8 @@ func (p *CheckoutSessionCreateItemSubscriptionParams) AddMetadata(key string, va
 type CheckoutSessionCreateItemParams struct {
 	// Configuration for the Metronome commit item.
 	MetronomeCommit *CheckoutSessionCreateItemMetronomeCommitParams `form:"metronome_commit" json:"metronome_commit,omitempty"`
+	// Configuration for the one-time price item.
+	OneTimePrice *CheckoutSessionCreateItemOneTimePriceParams `form:"one_time_price" json:"one_time_price,omitempty"`
 	// Configuration for the subscription item.
 	Subscription *CheckoutSessionCreateItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
@@ -5885,6 +6119,10 @@ type CheckoutSessionCreateManagedPaymentsParams struct {
 type CheckoutSessionCreateMarketingAttributionAdConversionParams struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL *string `form:"source_url" json:"source_url,omitempty"`
+	// The user agent of the browser where the customer converted.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Advertising attribution information for this Checkout Session. Only one attribution is supported.
@@ -6230,9 +6468,16 @@ type CheckoutSessionCreatePaymentMethodOptionsBLIKMandateOptionsParams struct {
 // contains details about the BLIK payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsBLIKParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions   *CheckoutSessionCreatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
-	SetupFutureUsage *string                                                            `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	UnsetFields      []CheckoutSessionCreatePaymentMethodOptionsBLIKParamsUnsetField    `form:"-" json:"-"`
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []CheckoutSessionCreatePaymentMethodOptionsBLIKParamsUnsetField `form:"-" json:"-"`
 }
 
 // CheckoutSessionCreatePaymentMethodOptionsBLIKParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreatePaymentMethodOptionsBLIKParams.
@@ -8256,7 +8501,7 @@ func (p *CheckoutSessionUpdateSubscriptionDataParams) AddUnsetField(field Checko
 
 // Updates a Checkout Session object.
 //
-// Related guide: [Dynamically update a Checkout Session](https://docs.stripe.com/payments/advanced/dynamic-updates)
+// Related guide: [Dynamically update a Checkout Session](https://docs.stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
@@ -8774,6 +9019,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
 	AmountTaxDisplay string `json:"amount_tax_display"`
 	// ID of the invoice rendering template to be used for the generated invoice.
 	Template string `json:"template"`
+	// The version of the invoice rendering template to be used for the generated invoice. If null, the latest version of the template will be used. Only available in unified mode.
+	TemplateVersion int64 `json:"template_version,omitempty"`
 }
 type CheckoutSessionInvoiceCreationInvoiceData struct {
 	// The account tax IDs associated with the invoice.
@@ -8926,6 +9173,36 @@ type CheckoutSessionItemMetronomeCommit struct {
 	PriceConfiguration *CheckoutSessionItemMetronomeCommitPriceConfiguration `json:"price_configuration"`
 }
 
+// The adjustable quantity settings for this one-time price item.
+type CheckoutSessionItemOneTimePriceItemAdjustableQuantity struct {
+	// Whether the quantity is adjustable.
+	Enabled bool `json:"enabled"`
+	// The maximum quantity the customer can purchase.
+	Maximum int64 `json:"maximum"`
+	// The minimum quantity the customer can purchase.
+	Minimum int64 `json:"minimum"`
+}
+
+// The items in the one-time price configuration.
+type CheckoutSessionItemOneTimePriceItem struct {
+	// The adjustable quantity settings for this one-time price item.
+	AdjustableQuantity *CheckoutSessionItemOneTimePriceItemAdjustableQuantity `json:"adjustable_quantity"`
+	// The price for this one-time price item.
+	Price *Price `json:"price"`
+	// The quantity for this one-time price item.
+	Quantity int64 `json:"quantity"`
+	// The [tax rates](https://docs.stripe.com/api/tax_rates) which apply to this line item.
+	TaxRates []string `json:"tax_rates"`
+}
+type CheckoutSessionItemOneTimePrice struct {
+	// The description for the one-time price.
+	Description string `json:"description"`
+	// The items in the one-time price configuration.
+	Items []*CheckoutSessionItemOneTimePriceItem `json:"items"`
+	// Set of key-value pairs attached to the one-time price.
+	Metadata map[string]string `json:"metadata"`
+}
+
 // The adjustable quantity settings for this subscription item.
 type CheckoutSessionItemSubscriptionItemAdjustableQuantity struct {
 	// Whether the quantity is adjustable.
@@ -9003,6 +9280,7 @@ type CheckoutSessionItem struct {
 	// The key of the item. Guaranteed to be a unique ID within this checkout session's items.
 	Key             string                              `json:"key"`
 	MetronomeCommit *CheckoutSessionItemMetronomeCommit `json:"metronome_commit,omitempty"`
+	OneTimePrice    *CheckoutSessionItemOneTimePrice    `json:"one_time_price,omitempty"`
 	Subscription    *CheckoutSessionItemSubscription    `json:"subscription,omitempty"`
 	// The type of the item.
 	Type CheckoutSessionItemType `json:"type"`
@@ -9016,6 +9294,10 @@ type CheckoutSessionManagedPayments struct {
 type CheckoutSessionMarketingAttributionAdConversion struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected bool `json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL string `json:"source_url"`
+	// The user agent of the browser where the customer converted.
+	UserAgent string `json:"user_agent"`
 }
 
 // Advertising attribution information for this Checkout Session.

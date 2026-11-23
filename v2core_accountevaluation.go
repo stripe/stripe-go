@@ -13,11 +13,12 @@ type V2CoreAccountEvaluationEvaluationsTriggered string
 
 // List of values that V2CoreAccountEvaluationEvaluationsTriggered can take
 const (
-	V2CoreAccountEvaluationEvaluationsTriggeredAccountTakeover     V2CoreAccountEvaluationEvaluationsTriggered = "account_takeover"
-	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite   V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
-	V2CoreAccountEvaluationEvaluationsTriggeredUserAccountSharing  V2CoreAccountEvaluationEvaluationsTriggered = "user_account_sharing"
-	V2CoreAccountEvaluationEvaluationsTriggeredUserAffinity        V2CoreAccountEvaluationEvaluationsTriggered = "user_affinity"
-	V2CoreAccountEvaluationEvaluationsTriggeredUserMultiAccounting V2CoreAccountEvaluationEvaluationsTriggered = "user_multi_accounting"
+	V2CoreAccountEvaluationEvaluationsTriggeredAccountTakeover         V2CoreAccountEvaluationEvaluationsTriggered = "account_takeover"
+	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite       V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserAccountSharing      V2CoreAccountEvaluationEvaluationsTriggered = "user_account_sharing"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserAffinity            V2CoreAccountEvaluationEvaluationsTriggered = "user_affinity"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserBuyerClassification V2CoreAccountEvaluationEvaluationsTriggered = "user_buyer_classification"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserMultiAccounting     V2CoreAccountEvaluationEvaluationsTriggered = "user_multi_accounting"
 )
 
 // Account profile data.

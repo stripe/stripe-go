@@ -47,7 +47,7 @@ func (c v1CheckoutSessionService) Retrieve(ctx context.Context, id string, param
 
 // Updates a Checkout Session object.
 //
-// Related guide: [Dynamically update a Checkout Session](https://docs.stripe.com/payments/advanced/dynamic-updates)
+// Related guide: [Dynamically update a Checkout Session](https://docs.stripe.com/payments/checkout/dynamic-updates)
 func (c v1CheckoutSessionService) Update(ctx context.Context, id string, params *CheckoutSessionUpdateParams) (*CheckoutSession, error) {
 	if params == nil {
 		params = &CheckoutSessionUpdateParams{}

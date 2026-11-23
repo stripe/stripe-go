@@ -29,6 +29,14 @@ const (
 	IssuingCardCryptoWalletTypeStandard     IssuingCardCryptoWalletType = "standard"
 )
 
+// The funding source that this credential can support.
+type IssuingCardFlexibleCredentialSecondaryCredentialFunding string
+
+// List of values that IssuingCardFlexibleCredentialSecondaryCredentialFunding can take
+const (
+	IssuingCardFlexibleCredentialSecondaryCredentialFundingCredit IssuingCardFlexibleCredentialSecondaryCredentialFunding = "credit"
+)
+
 // The type of fraud warning that most recently took place on this card. This field updates with every new fraud warning, so the value changes over time. If populated, cancel and reissue the card.
 type IssuingCardLatestFraudWarningType string
 
@@ -736,6 +744,18 @@ type IssuingCardCryptoWallet struct {
 	Type IssuingCardCryptoWalletType `json:"type"`
 }
 
+// Details about the secondary credentials for this card.
+type IssuingCardFlexibleCredentialSecondaryCredential struct {
+	// The funding source that this credential can support.
+	Funding IssuingCardFlexibleCredentialSecondaryCredentialFunding `json:"funding,omitempty"`
+}
+
+// Details about the flexible credential configuration for this card. This is only populated when enrolled to flex credentials, and is omitted unless you explicitly request it with `include[]=flexible_credential`.
+type IssuingCardFlexibleCredential struct {
+	// Details about the secondary credentials for this card.
+	SecondaryCredentials []*IssuingCardFlexibleCredentialSecondaryCredential `json:"secondary_credentials,omitempty"`
+}
+
 // Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate.
 type IssuingCardLatestFraudWarning struct {
 	// Timestamp of the most recent fraud warning.
@@ -894,6 +914,8 @@ type IssuingCard struct {
 	ExpYear int64 `json:"exp_year"`
 	// The financial account this card is attached to.
 	FinancialAccount string `json:"financial_account,omitempty"`
+	// Details about the flexible credential configuration for this card. This is only populated when enrolled to flex credentials, and is omitted unless you explicitly request it with `include[]=flexible_credential`.
+	FlexibleCredential *IssuingCardFlexibleCredential `json:"flexible_credential,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last 4 digits of the card number.

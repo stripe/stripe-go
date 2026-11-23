@@ -31,6 +31,18 @@ const (
 	V2CoreFeeEntryReasonTierTrueUp    V2CoreFeeEntryReason = "tier_true_up"
 )
 
+// The current billing status of the fee. Every FeeEntry eventually transitions
+// from `assessed` to `billed` when its associated FeeBatch is billed. While
+// `assessed`, its FeeBatch association can change if the assigned batch is canceled.
+// Once `billed`, the status and FeeBatch association are terminal.
+type V2CoreFeeEntryStatus string
+
+// List of values that V2CoreFeeEntryStatus can take
+const (
+	V2CoreFeeEntryStatusAssessed V2CoreFeeEntryStatus = "assessed"
+	V2CoreFeeEntryStatusBilled   V2CoreFeeEntryStatus = "billed"
+)
+
 // The category of this fee.
 type V2CoreFeeEntryType string
 
@@ -105,7 +117,9 @@ type V2CoreFeeEntryTax struct {
 	Amount *V2CoreFeeEntryTaxAmount `json:"amount"`
 }
 
-// A FeeEntry is the atomic, append-only record of an assessed fee.
+// A FeeEntry is an atomic record of an assessed fee. Its assessment attributes are
+// immutable, while its FeeBatch association and derived status can change as the fee
+// progresses through billing.
 type V2CoreFeeEntry struct {
 	APIResource
 	// The fee amount.
@@ -114,7 +128,10 @@ type V2CoreFeeEntry struct {
 	ChargedBy *V2CoreFeeEntryChargedBy `json:"charged_by"`
 	// Timestamp of when this fee entry was created.
 	Created time.Time `json:"created"`
-	// The ID of the FeeBatch that collected this fee, if any.
+	// The ID of the FeeBatch currently assigned to collect this fee, if any. If Stripe
+	// cancels the assigned FeeBatch before billing, Stripe reassigns the FeeEntry to a
+	// replacement FeeBatch. During reassociation, this field can temporarily continue
+	// to reference the canceled FeeBatch.
 	FeeBatch string `json:"fee_batch,omitempty"`
 	// Unique identifier for the FeeEntry.
 	ID string `json:"id"`
@@ -126,6 +143,11 @@ type V2CoreFeeEntry struct {
 	Object string `json:"object"`
 	// The reason this fee entry was created.
 	Reason V2CoreFeeEntryReason `json:"reason"`
+	// The current billing status of the fee. Every FeeEntry eventually transitions
+	// from `assessed` to `billed` when its associated FeeBatch is billed. While
+	// `assessed`, its FeeBatch association can change if the assigned batch is canceled.
+	// Once `billed`, the status and FeeBatch association are terminal.
+	Status V2CoreFeeEntryStatus `json:"status"`
 	// The tax portion of the fee, if applicable.
 	Tax *V2CoreFeeEntryTax `json:"tax,omitempty"`
 	// The category of this fee.

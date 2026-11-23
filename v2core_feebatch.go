@@ -35,8 +35,9 @@ type V2CoreFeeBatchStatus string
 
 // List of values that V2CoreFeeBatchStatus can take
 const (
-	V2CoreFeeBatchStatusBilled  V2CoreFeeBatchStatus = "billed"
-	V2CoreFeeBatchStatusPending V2CoreFeeBatchStatus = "pending"
+	V2CoreFeeBatchStatusBilled   V2CoreFeeBatchStatus = "billed"
+	V2CoreFeeBatchStatusCanceled V2CoreFeeBatchStatus = "canceled"
+	V2CoreFeeBatchStatusPending  V2CoreFeeBatchStatus = "pending"
 )
 
 // The amount of tax adjusted for this batch.
@@ -113,6 +114,9 @@ type V2CoreFeeBatchCollectionRecord struct {
 type V2CoreFeeBatchStatusTransitions struct {
 	// Timestamp of when the batch transitioned to BILLED, if applicable.
 	BilledAt time.Time `json:"billed_at,omitempty"`
+	// Present only when `status=canceled`;
+	// `billed_at` and `canceled_at` are mutually exclusive.
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
 }
 
 // The tax amount included in this batch.

@@ -20,6 +20,24 @@ const (
 	V2BillingContractTermPricingOverrideCriterionTypeInclude V2BillingContractTermPricingOverrideCriterionType = "include"
 )
 
+// Whether the replacement pricing is per unit or tiered.
+type V2BillingContractTermPricingOverrideOverwriteBillingScheme string
+
+// List of values that V2BillingContractTermPricingOverrideOverwriteBillingScheme can take
+const (
+	V2BillingContractTermPricingOverrideOverwriteBillingSchemePerUnit V2BillingContractTermPricingOverrideOverwriteBillingScheme = "per_unit"
+	V2BillingContractTermPricingOverrideOverwriteBillingSchemeTiered  V2BillingContractTermPricingOverrideOverwriteBillingScheme = "tiered"
+)
+
+// How the pricing tiers are applied.
+type V2BillingContractTermPricingOverrideOverwriteTiersMode string
+
+// List of values that V2BillingContractTermPricingOverrideOverwriteTiersMode can take
+const (
+	V2BillingContractTermPricingOverrideOverwriteTiersModeGraduated V2BillingContractTermPricingOverrideOverwriteTiersMode = "graduated"
+	V2BillingContractTermPricingOverrideOverwriteTiersModeVolume    V2BillingContractTermPricingOverrideOverwriteTiersMode = "volume"
+)
+
 // The pricing operation.
 type V2BillingContractTermPricingOverrideType string
 
@@ -67,8 +85,24 @@ type V2BillingContractTermPricingOverrideMultiply struct {
 	Factor decimal.Decimal `json:"factor"`
 }
 
+// Replacement pricing tiers.
+type V2BillingContractTermPricingOverrideOverwriteTier struct {
+	// Flat amount in minor currency units.
+	FlatAmountDecimal decimal.Decimal `json:"flat_amount_decimal,omitempty"`
+	// Per-unit amount in minor currency units.
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal,omitempty"`
+	// Inclusive whole-number upper bound. Omitted for an unbounded final tier.
+	UpTo int64 `json:"up_to,string,omitempty"`
+}
+
 // Present when type is overwrite.
 type V2BillingContractTermPricingOverrideOverwrite struct {
+	// Whether the replacement pricing is per unit or tiered.
+	BillingScheme V2BillingContractTermPricingOverrideOverwriteBillingScheme `json:"billing_scheme,omitempty"`
+	// Replacement pricing tiers.
+	Tiers []*V2BillingContractTermPricingOverrideOverwriteTier `json:"tiers,omitempty"`
+	// How the pricing tiers are applied.
+	TiersMode V2BillingContractTermPricingOverrideOverwriteTiersMode `json:"tiers_mode,omitempty"`
 	// The replacement per-unit amount in minor currency units.
 	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal,omitempty"`
 }
@@ -129,10 +163,12 @@ type V2BillingContractTermScheduledFeeBillScheduleCustomBillAt struct {
 
 // Scheduled installments and billed history.
 type V2BillingContractTermScheduledFeeBillScheduleCustom struct {
-	// Amount in the contract's currency.
-	Amount Amount `json:"amount"`
 	// The resolved bill date.
 	BillAt *V2BillingContractTermScheduledFeeBillScheduleCustomBillAt `json:"bill_at"`
+	// Resolved installment quantity. Always present; defaults to 1 when omitted on input.
+	Quantity decimal.Decimal `json:"quantity"`
+	// Unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal decimal.Decimal `json:"unit_amount_decimal"`
 }
 
 // Explicit bill dates and amounts, including billed history.

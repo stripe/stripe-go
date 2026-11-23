@@ -222,6 +222,10 @@ func (p *CustomerInvoiceSettingsParams) AddUnsetField(field CustomerInvoiceSetti
 type CustomerMarketingAttributionAdConversionParams struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL *string `form:"source_url" json:"source_url,omitempty"`
+	// The user agent of the browser where the customer converted.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
@@ -486,6 +490,10 @@ func (p *CustomerUpdateInvoiceSettingsParams) AddUnsetField(field CustomerUpdate
 type CustomerUpdateMarketingAttributionAdConversionParams struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL *string `form:"source_url" json:"source_url,omitempty"`
+	// The user agent of the browser where the customer converted.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Advertising attribution information for this customer. Only one attribution is supported, and it can only be set once.
@@ -699,6 +707,10 @@ func (p *CustomerCreateInvoiceSettingsParams) AddUnsetField(field CustomerCreate
 type CustomerCreateMarketingAttributionAdConversionParams struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected *bool `form:"consent_collected" json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL *string `form:"source_url" json:"source_url,omitempty"`
+	// The user agent of the browser where the customer converted.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Advertising attribution information for this customer. Only one attribution is supported.
@@ -872,6 +884,10 @@ type CustomerInvoiceSettings struct {
 type CustomerMarketingAttributionAdConversion struct {
 	// Whether the customer consented to sending conversion data to an advertising platform.
 	ConsentCollected bool `json:"consent_collected"`
+	// The URL of the web page where the customer converted.
+	SourceURL string `json:"source_url"`
+	// The user agent of the browser where the customer converted.
+	UserAgent string `json:"user_agent"`
 }
 
 // Advertising attribution information for this customer.

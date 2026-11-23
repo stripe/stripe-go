@@ -8,7 +8,9 @@ package stripe
 
 import "time"
 
-// List FeeEntries optionally filtered by incurred_by, fee_batch, or collection_record (at most one filter at a time).
+// Lists FeeEntries, optionally filtered by `incurred_by`, `fee_batch`, or
+// `collection_record`. When filtering by `fee_batch`, results reflect current
+// membership; historical membership is unavailable.
 type V2CoreFeeEntryListParams struct {
 	Params `form:"*"`
 	// Filter by money movement id (e.g. txn_xxx, bt_xxx).

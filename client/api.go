@@ -286,6 +286,8 @@ import (
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v87/v2/moneymanagement/adjustment"
 	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v87/v2/moneymanagement/currencyconversion"
 	v2moneymanagementdebitdispute "github.com/stripe/stripe-go/v87/v2/moneymanagement/debitdispute"
+	v2moneymanagementdispute "github.com/stripe/stripe-go/v87/v2/moneymanagement/dispute"
+	v2moneymanagementdisputeadjustment "github.com/stripe/stripe-go/v87/v2/moneymanagement/disputeadjustment"
 	v2moneymanagementearnedcredit "github.com/stripe/stripe-go/v87/v2/moneymanagement/earnedcredit"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccount"
 	v2moneymanagementfinancialaccountsstatement "github.com/stripe/stripe-go/v87/v2/moneymanagement/financialaccounts/statement"
@@ -331,6 +333,7 @@ import (
 	v2provisioningresource "github.com/stripe/stripe-go/v87/v2/provisioning/resource"
 	v2reportingreport "github.com/stripe/stripe-go/v87/v2/reporting/report"
 	v2reportingreportrun "github.com/stripe/stripe-go/v87/v2/reporting/reportrun"
+	v2riskevaluationoutcome "github.com/stripe/stripe-go/v87/v2/risk/evaluationoutcome"
 	v2riskform "github.com/stripe/stripe-go/v87/v2/risk/form"
 	v2signalsaccountactivity "github.com/stripe/stripe-go/v87/v2/signals/accountactivity"
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v87/v2/signals/accountevaluation"
@@ -896,6 +899,10 @@ type API struct {
 	V2MoneyManagementCurrencyConversions *v2moneymanagementcurrencyconversion.Client
 	// V2MoneyManagementDebitDisputes is the client used to invoke /v2/money_management/debit_disputes APIs.
 	V2MoneyManagementDebitDisputes *v2moneymanagementdebitdispute.Client
+	// V2MoneyManagementDisputeAdjustments is the client used to invoke /v2/money_management/dispute_adjustments APIs.
+	V2MoneyManagementDisputeAdjustments *v2moneymanagementdisputeadjustment.Client
+	// V2MoneyManagementDisputes is the client used to invoke /v2/money_management/disputes APIs.
+	V2MoneyManagementDisputes *v2moneymanagementdispute.Client
 	// V2MoneyManagementEarnedCredits is the client used to invoke /v2/money_management/earned_credits APIs.
 	V2MoneyManagementEarnedCredits *v2moneymanagementearnedcredit.Client
 	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
@@ -986,6 +993,8 @@ type API struct {
 	V2ReportingReportRuns *v2reportingreportrun.Client
 	// V2ReportingReports is the client used to invoke report related APIs.
 	V2ReportingReports *v2reportingreport.Client
+	// V2RiskEvaluationOutcomes is the client used to invoke /v2/risk/evaluation_outcomes APIs.
+	V2RiskEvaluationOutcomes *v2riskevaluationoutcome.Client
 	// V2RiskForms is the client used to invoke form related APIs.
 	V2RiskForms *v2riskform.Client
 	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activities APIs.
@@ -1297,6 +1306,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementDebitDisputes = &v2moneymanagementdebitdispute.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementDisputeAdjustments = &v2moneymanagementdisputeadjustment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementDisputes = &v2moneymanagementdispute.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementEarnedCredits = &v2moneymanagementearnedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccountsStatements = &v2moneymanagementfinancialaccountsstatement.Client{B: backends.API, Key: key}
@@ -1342,6 +1353,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2ProvisioningResources = &v2provisioningresource.Client{B: backends.API, Key: key}
 	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
 	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
+	a.V2RiskEvaluationOutcomes = &v2riskevaluationoutcome.Client{B: backends.API, Key: key}
 	a.V2RiskForms = &v2riskform.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}

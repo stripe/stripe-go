@@ -4338,6 +4338,15 @@ type ChargePaymentMethodDetailsCard struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer,omitempty"`
 }
+type ChargePaymentMethodDetailsCardPresentBenefitsFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor used for this charge.
+	Siret string `json:"siret"`
+}
+type ChargePaymentMethodDetailsCardPresentBenefits struct {
+	FRMealVoucher *ChargePaymentMethodDetailsCardPresentBenefitsFRMealVoucher `json:"fr_meal_voucher,omitempty"`
+	// Issuer of the benefit card utilized on this payment
+	Issuer string `json:"issuer"`
+}
 
 // Fleet prompts and values collected for this transaction.
 type ChargePaymentMethodDetailsCardPresentFleetTransactionDatum struct {
@@ -4408,7 +4417,8 @@ type ChargePaymentMethodDetailsCardPresentWallet struct {
 }
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
-	AmountAuthorized int64 `json:"amount_authorized"`
+	AmountAuthorized int64                                          `json:"amount_authorized"`
+	Benefits         *ChargePaymentMethodDetailsCardPresentBenefits `json:"benefits,omitempty"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.

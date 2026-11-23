@@ -34,7 +34,9 @@ func (c Client) Get(id string, params *stripe.V2CoreFeeEntryParams) (*stripe.V2C
 	return feeentry, err
 }
 
-// List FeeEntries optionally filtered by incurred_by, fee_batch, or collection_record (at most one filter at a time).
+// Lists FeeEntries, optionally filtered by `incurred_by`, `fee_batch`, or
+// `collection_record`. When filtering by `fee_batch`, results reflect current
+// membership; historical membership is unavailable.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

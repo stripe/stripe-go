@@ -317,9 +317,11 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTok
 
 // List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency can take
 const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdc"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdg PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdg"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdp PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdp"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyOusd        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "ousd"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyPhantomCash PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "phantom_cash"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdc        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdc"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdg        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdg"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdp        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdp"
 )
 
 // The supported token currency.
@@ -327,9 +329,11 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupporte
 
 // List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency can take
 const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdc"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdg PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdg"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdp PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdp"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyOusd        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "ousd"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyPhantomCash PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "phantom_cash"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdc        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdc"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdg        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdg"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrencyUsdp        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesEthereumSupportedTokenTokenCurrency = "usdp"
 )
 
 // The supported token currency.
@@ -337,9 +341,11 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupported
 
 // List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency can take
 const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdc"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdg PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdg"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdp PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdp"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyOusd        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "ousd"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyPhantomCash PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "phantom_cash"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdc        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdc"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdg        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdg"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrencyUsdp        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesPolygonSupportedTokenTokenCurrency = "usdp"
 )
 
 // The supported token currency.
@@ -347,9 +353,11 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedT
 
 // List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency can take
 const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdc"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdg PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdg"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdp PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdp"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyOusd        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "ousd"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyPhantomCash PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "phantom_cash"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdc        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdc"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdg        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdg"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdp        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdp"
 )
 
 // The supported token currency.
@@ -357,9 +365,11 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTo
 
 // List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency can take
 const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdc"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdg PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdg"
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdp PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdp"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyOusd        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "ousd"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyPhantomCash PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "phantom_cash"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdc        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdc"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdg        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdg"
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdp        PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdp"
 )
 
 // The payment networks supported by this FinancialAddress
@@ -756,6 +766,21 @@ const (
 	PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsage = "off_session"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsAffirmCaptureMethod string
 
@@ -860,6 +885,21 @@ const (
 	PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsage = "on_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1462,6 +1502,21 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsEPSSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsEPSSetupFutureUsage can take
@@ -1722,6 +1777,21 @@ type PaymentIntentPaymentMethodOptionsMbWaySetupFutureUsage string
 // List of values that PaymentIntentPaymentMethodOptionsMbWaySetupFutureUsage can take
 const (
 	PaymentIntentPaymentMethodOptionsMbWaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsMbWaySetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -2057,6 +2127,21 @@ type PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage string
 // List of values that PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage can take
 const (
 	PaymentIntentPaymentMethodOptionsQrisSetupFutureUsageNone PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -4189,6 +4274,31 @@ func (p *PaymentIntentPaymentMethodOptionsACSSDebitParams) AddUnsetField(field P
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+type PaymentIntentPaymentMethodOptionsAeonPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                    `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsAeonPayParams.
+type PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsAeonPayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsAeonPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 type PaymentIntentPaymentMethodOptionsAffirmParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -4368,6 +4478,31 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentPaymentMethodOptionsAUBECSDebitParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsAUBECSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+type PaymentIntentPaymentMethodOptionsAuPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                  `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsAuPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsAuPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsAuPayParams.
+type PaymentIntentPaymentMethodOptionsAuPayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsAuPayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsAuPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsAuPayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsAuPayParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -5110,6 +5245,31 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+type PaymentIntentPaymentMethodOptionsDbaraiParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsDbaraiParams.
+type PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsDbaraiParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsDbaraiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -6036,6 +6196,31 @@ type PaymentIntentPaymentMethodOptionsMbWayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+type PaymentIntentPaymentMethodOptionsMerpayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsMerpayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsMerpayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsMerpayParams.
+type PaymentIntentPaymentMethodOptionsMerpayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsMerpayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsMerpayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsMerpayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsMerpayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 type PaymentIntentPaymentMethodOptionsMobilepayParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -6450,6 +6635,31 @@ type PaymentIntentPaymentMethodOptionsQrisParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+type PaymentIntentPaymentMethodOptionsRakutenPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                       `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsRakutenPayParams.
+type PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsRakutenPayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsRakutenPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
@@ -7083,6 +7293,8 @@ type PaymentIntentPaymentMethodOptionsZipParams struct {
 type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` PaymentMethod, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *PaymentIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+	AeonPay *PaymentIntentPaymentMethodOptionsAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 	Affirm *PaymentIntentPaymentMethodOptionsAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is a `afterpay_clearpay` PaymentMethod, this sub-hash contains details about the Afterpay Clearpay payment method options.
@@ -7095,6 +7307,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	AmazonPay *PaymentIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 	AUBECSDebit *PaymentIntentPaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+	AuPay *PaymentIntentPaymentMethodOptionsAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
@@ -7119,6 +7333,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Crypto *PaymentIntentPaymentMethodOptionsCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+	Dbarai *PaymentIntentPaymentMethodOptionsDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
 	EPS *PaymentIntentPaymentMethodOptionsEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
@@ -7151,6 +7367,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Link *PaymentIntentPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentPaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+	Merpay *PaymentIntentPaymentMethodOptionsMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 	Mobilepay *PaymentIntentPaymentMethodOptionsMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
@@ -7181,6 +7399,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// If this is a `qris` PaymentMethod, this sub-hash contains details about the QRIS payment method options.
 	Qris *PaymentIntentPaymentMethodOptionsQrisParams `form:"qris" json:"qris,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+	RakutenPay *PaymentIntentPaymentMethodOptionsRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
 	Rechnung *PaymentIntentPaymentMethodOptionsRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
@@ -7229,12 +7449,14 @@ type PaymentIntentPaymentMethodOptionsParamsUnsetField string
 
 const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldACSSDebit        PaymentIntentPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAeonPay          PaymentIntentPaymentMethodOptionsParamsUnsetField = "aeon_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAffirm           PaymentIntentPaymentMethodOptionsParamsUnsetField = "affirm"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAfterpayClearpay PaymentIntentPaymentMethodOptionsParamsUnsetField = "afterpay_clearpay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAlipay           PaymentIntentPaymentMethodOptionsParamsUnsetField = "alipay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAlma             PaymentIntentPaymentMethodOptionsParamsUnsetField = "alma"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAmazonPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "amazon_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAUBECSDebit      PaymentIntentPaymentMethodOptionsParamsUnsetField = "au_becs_debit"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldAuPay            PaymentIntentPaymentMethodOptionsParamsUnsetField = "au_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentPaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentPaymentMethodOptionsParamsUnsetField = "billie"
@@ -7247,6 +7469,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldCashApp          PaymentIntentPaymentMethodOptionsParamsUnsetField = "cashapp"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldCrypto           PaymentIntentPaymentMethodOptionsParamsUnsetField = "crypto"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldCustomerBalance  PaymentIntentPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldDbarai           PaymentIntentPaymentMethodOptionsParamsUnsetField = "dbarai"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentPaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentPaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldGetflex          PaymentIntentPaymentMethodOptionsParamsUnsetField = "getflex"
@@ -7263,6 +7486,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldKrCard           PaymentIntentPaymentMethodOptionsParamsUnsetField = "kr_card"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldLink             PaymentIntentPaymentMethodOptionsParamsUnsetField = "link"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldMbWay            PaymentIntentPaymentMethodOptionsParamsUnsetField = "mb_way"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldMerpay           PaymentIntentPaymentMethodOptionsParamsUnsetField = "merpay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldMobilepay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "mobilepay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldMultibanco       PaymentIntentPaymentMethodOptionsParamsUnsetField = "multibanco"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldNaverPay         PaymentIntentPaymentMethodOptionsParamsUnsetField = "naver_pay"
@@ -7278,6 +7502,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentPaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "promptpay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentPaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRakutenPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "rakuten_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentPaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "samsung_pay"
@@ -12810,6 +13035,31 @@ func (p *PaymentIntentCreatePaymentMethodOptionsACSSDebitParams) AddUnsetField(f
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsAeonPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsAeonPayParams.
+type PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsAeonPayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsAeonPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 type PaymentIntentCreatePaymentMethodOptionsAffirmParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -12989,6 +13239,31 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentCreatePaymentMethodOptionsAUBECSDebitParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsAUBECSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+type PaymentIntentCreatePaymentMethodOptionsAuPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsAuPayParams.
+type PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsAuPayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsAuPayParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -13731,6 +14006,31 @@ type PaymentIntentCreatePaymentMethodOptionsCustomerBalanceParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+type PaymentIntentCreatePaymentMethodOptionsDbaraiParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsDbaraiParams.
+type PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsDbaraiParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsDbaraiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -14657,6 +14957,31 @@ type PaymentIntentCreatePaymentMethodOptionsMbWayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsMerpayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsMerpayParams.
+type PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsMerpayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsMerpayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 type PaymentIntentCreatePaymentMethodOptionsMobilepayParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -15071,6 +15396,31 @@ type PaymentIntentCreatePaymentMethodOptionsQrisParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsRakutenPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                             `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsRakutenPayParams.
+type PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsRakutenPayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsRakutenPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
@@ -15704,6 +16054,8 @@ type PaymentIntentCreatePaymentMethodOptionsZipParams struct {
 type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` PaymentMethod, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *PaymentIntentCreatePaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+	AeonPay *PaymentIntentCreatePaymentMethodOptionsAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 	Affirm *PaymentIntentCreatePaymentMethodOptionsAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is a `afterpay_clearpay` PaymentMethod, this sub-hash contains details about the Afterpay Clearpay payment method options.
@@ -15716,6 +16068,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	AmazonPay *PaymentIntentCreatePaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 	AUBECSDebit *PaymentIntentCreatePaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+	AuPay *PaymentIntentCreatePaymentMethodOptionsAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 	BACSDebit *PaymentIntentCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
@@ -15740,6 +16094,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Crypto *PaymentIntentCreatePaymentMethodOptionsCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+	Dbarai *PaymentIntentCreatePaymentMethodOptionsDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
 	EPS *PaymentIntentCreatePaymentMethodOptionsEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
@@ -15772,6 +16128,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Link *PaymentIntentCreatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentCreatePaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+	Merpay *PaymentIntentCreatePaymentMethodOptionsMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 	Mobilepay *PaymentIntentCreatePaymentMethodOptionsMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
@@ -15802,6 +16160,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	PromptPay *PaymentIntentCreatePaymentMethodOptionsPromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// If this is a `qris` PaymentMethod, this sub-hash contains details about the QRIS payment method options.
 	Qris *PaymentIntentCreatePaymentMethodOptionsQrisParams `form:"qris" json:"qris,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+	RakutenPay *PaymentIntentCreatePaymentMethodOptionsRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
 	Rechnung *PaymentIntentCreatePaymentMethodOptionsRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
@@ -15850,12 +16210,14 @@ type PaymentIntentCreatePaymentMethodOptionsParamsUnsetField string
 
 const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldACSSDebit        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "acss_debit"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAeonPay          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "aeon_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAffirm           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "affirm"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAfterpayClearpay PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "afterpay_clearpay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAlipay           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "alipay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAlma             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "alma"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAmazonPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "amazon_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAUBECSDebit      PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "au_becs_debit"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldAuPay            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "au_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "billie"
@@ -15868,6 +16230,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldCashApp          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "cashapp"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldCrypto           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "crypto"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldCustomerBalance  PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "customer_balance"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldDbarai           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "dbarai"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldGetflex          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "getflex"
@@ -15884,6 +16247,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldKrCard           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "kr_card"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldLink             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "link"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldMbWay            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "mb_way"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldMerpay           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "merpay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldMobilepay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "mobilepay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldMultibanco       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "multibanco"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldNaverPay         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "naver_pay"
@@ -15899,6 +16263,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "promptpay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRakutenPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "rakuten_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
@@ -17806,6 +18171,31 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsACSSDebitParams) AddUnsetField(f
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsAeonPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsAeonPayParams.
+type PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsAeonPayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsAeonPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsAffirmParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -17985,6 +18375,31 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentUpdatePaymentMethodOptionsAUBECSDebitParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsAUBECSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsAuPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsAuPayParams.
+type PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsAuPayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsAuPayParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -18727,6 +19142,31 @@ type PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsDbaraiParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsDbaraiParams.
+type PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsDbaraiParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsDbaraiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -19653,6 +20093,31 @@ type PaymentIntentUpdatePaymentMethodOptionsMbWayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsMerpayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsMerpayParams.
+type PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsMerpayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsMerpayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsMobilepayParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -20067,6 +20532,31 @@ type PaymentIntentUpdatePaymentMethodOptionsQrisParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsRakutenPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                             `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsRakutenPayParams.
+type PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsRakutenPayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsRakutenPayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
@@ -20700,6 +21190,8 @@ type PaymentIntentUpdatePaymentMethodOptionsZipParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` PaymentMethod, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *PaymentIntentUpdatePaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
+	// If this is a `aeon_pay` PaymentMethod, this sub-hash contains details about the AEON Pay payment method options.
+	AeonPay *PaymentIntentUpdatePaymentMethodOptionsAeonPayParams `form:"aeon_pay" json:"aeon_pay,omitempty"`
 	// If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 	Affirm *PaymentIntentUpdatePaymentMethodOptionsAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// If this is a `afterpay_clearpay` PaymentMethod, this sub-hash contains details about the Afterpay Clearpay payment method options.
@@ -20712,6 +21204,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	AmazonPay *PaymentIntentUpdatePaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 	AUBECSDebit *PaymentIntentUpdatePaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
+	// If this is a `au_pay` PaymentMethod, this sub-hash contains details about the au PAY payment method options.
+	AuPay *PaymentIntentUpdatePaymentMethodOptionsAuPayParams `form:"au_pay" json:"au_pay,omitempty"`
 	// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
 	BACSDebit *PaymentIntentUpdatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
@@ -20736,6 +21230,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Crypto *PaymentIntentUpdatePaymentMethodOptionsCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
+	// If this is a `dbarai` PaymentMethod, this sub-hash contains details about the d-Barai payment method options.
+	Dbarai *PaymentIntentUpdatePaymentMethodOptionsDbaraiParams `form:"dbarai" json:"dbarai,omitempty"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
 	EPS *PaymentIntentUpdatePaymentMethodOptionsEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
@@ -20768,6 +21264,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Link *PaymentIntentUpdatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentUpdatePaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
+	// If this is a `merpay` PaymentMethod, this sub-hash contains details about the Merpay payment method options.
+	Merpay *PaymentIntentUpdatePaymentMethodOptionsMerpayParams `form:"merpay" json:"merpay,omitempty"`
 	// If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 	Mobilepay *PaymentIntentUpdatePaymentMethodOptionsMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
@@ -20798,6 +21296,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	PromptPay *PaymentIntentUpdatePaymentMethodOptionsPromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// If this is a `qris` PaymentMethod, this sub-hash contains details about the QRIS payment method options.
 	Qris *PaymentIntentUpdatePaymentMethodOptionsQrisParams `form:"qris" json:"qris,omitempty"`
+	// If this is a `rakuten_pay` PaymentMethod, this sub-hash contains details about the Rakuten Pay payment method options.
+	RakutenPay *PaymentIntentUpdatePaymentMethodOptionsRakutenPayParams `form:"rakuten_pay" json:"rakuten_pay,omitempty"`
 	// If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
 	Rechnung *PaymentIntentUpdatePaymentMethodOptionsRechnungParams `form:"rechnung" json:"rechnung,omitempty"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
@@ -20846,12 +21346,14 @@ type PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField string
 
 const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldACSSDebit        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "acss_debit"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAeonPay          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "aeon_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAffirm           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "affirm"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAfterpayClearpay PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "afterpay_clearpay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAlipay           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "alipay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAlma             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "alma"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAmazonPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "amazon_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAUBECSDebit      PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "au_becs_debit"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldAuPay            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "au_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "billie"
@@ -20864,6 +21366,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldCashApp          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "cashapp"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldCrypto           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "crypto"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldCustomerBalance  PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "customer_balance"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldDbarai           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "dbarai"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldGetflex          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "getflex"
@@ -20880,6 +21383,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldKrCard           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "kr_card"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldLink             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "link"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldMbWay            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "mb_way"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldMerpay           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "merpay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldMobilepay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "mobilepay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldMultibanco       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "multibanco"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldNaverPay         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "naver_pay"
@@ -20895,6 +21399,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "promptpay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRakutenPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "rakuten_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
@@ -22411,6 +22916,16 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsAeonPay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsAeonPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsAffirm struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsAffirmCaptureMethod `json:"capture_method,omitempty"`
@@ -22477,6 +22992,16 @@ type PaymentIntentPaymentMethodOptionsAUBECSDebit struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsAuPay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsAuPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsBACSDebitFinancialConnections struct {
 	ReturnURL string `json:"return_url,omitempty"`
@@ -22840,6 +23365,16 @@ type PaymentIntentPaymentMethodOptionsCustomerBalance struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsDbarai struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsDbaraiSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsEPS struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -23015,6 +23550,16 @@ type PaymentIntentPaymentMethodOptionsMbWay struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsMbWaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsMerpay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsMerpaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsMobilepay struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -23245,6 +23790,16 @@ type PaymentIntentPaymentMethodOptionsQris struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsRakutenPay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsRakutenPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsRechnung struct{}
 type PaymentIntentPaymentMethodOptionsRevolutPay struct {
@@ -23516,12 +24071,14 @@ type PaymentIntentPaymentMethodOptionsZip struct {
 // Payment-method-specific configuration for this PaymentIntent.
 type PaymentIntentPaymentMethodOptions struct {
 	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebit        `json:"acss_debit,omitempty"`
+	AeonPay          *PaymentIntentPaymentMethodOptionsAeonPay          `json:"aeon_pay,omitempty"`
 	Affirm           *PaymentIntentPaymentMethodOptionsAffirm           `json:"affirm,omitempty"`
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay,omitempty"`
 	Alma             *PaymentIntentPaymentMethodOptionsAlma             `json:"alma,omitempty"`
 	AmazonPay        *PaymentIntentPaymentMethodOptionsAmazonPay        `json:"amazon_pay,omitempty"`
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit,omitempty"`
+	AuPay            *PaymentIntentPaymentMethodOptionsAuPay            `json:"au_pay,omitempty"`
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit,omitempty"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact,omitempty"`
 	Billie           *PaymentIntentPaymentMethodOptionsBillie           `json:"billie,omitempty"`
@@ -23534,6 +24091,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	CashApp          *PaymentIntentPaymentMethodOptionsCashApp          `json:"cashapp,omitempty"`
 	Crypto           *PaymentIntentPaymentMethodOptionsCrypto           `json:"crypto,omitempty"`
 	CustomerBalance  *PaymentIntentPaymentMethodOptionsCustomerBalance  `json:"customer_balance,omitempty"`
+	Dbarai           *PaymentIntentPaymentMethodOptionsDbarai           `json:"dbarai,omitempty"`
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps,omitempty"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx,omitempty"`
 	Getflex          *PaymentIntentPaymentMethodOptionsGetflex          `json:"getflex,omitempty"`
@@ -23550,6 +24108,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	KrCard           *PaymentIntentPaymentMethodOptionsKrCard           `json:"kr_card,omitempty"`
 	Link             *PaymentIntentPaymentMethodOptionsLink             `json:"link,omitempty"`
 	MbWay            *PaymentIntentPaymentMethodOptionsMbWay            `json:"mb_way,omitempty"`
+	Merpay           *PaymentIntentPaymentMethodOptionsMerpay           `json:"merpay,omitempty"`
 	Mobilepay        *PaymentIntentPaymentMethodOptionsMobilepay        `json:"mobilepay,omitempty"`
 	Multibanco       *PaymentIntentPaymentMethodOptionsMultibanco       `json:"multibanco,omitempty"`
 	NaverPay         *PaymentIntentPaymentMethodOptionsNaverPay         `json:"naver_pay,omitempty"`
@@ -23565,6 +24124,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix,omitempty"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay,omitempty"`
 	Qris             *PaymentIntentPaymentMethodOptionsQris             `json:"qris,omitempty"`
+	RakutenPay       *PaymentIntentPaymentMethodOptionsRakutenPay       `json:"rakuten_pay,omitempty"`
 	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung,omitempty"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay,omitempty"`
 	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay,omitempty"`
@@ -23617,7 +24177,7 @@ type PaymentIntentProcessing struct {
 
 // Options to configure Radar.
 type PaymentIntentRadarOptions struct {
-	// The value you provided for whether this transaction starts a free trial. This is null if you haven't explicitly set it.
+	// The value you provided for whether this transaction starts a free trial. This field is omitted if you haven't explicitly set it.
 	IsFreeTrialTransaction bool `json:"is_free_trial_transaction,omitempty"`
 }
 

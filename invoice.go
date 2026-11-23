@@ -5116,18 +5116,6 @@ type InvoiceAmountsDue struct {
 	Status InvoiceAmountsDueStatus `json:"status"`
 }
 
-// The Credit Memos with credit currently applied to this invoice, with one entry per Credit Memo. An invoice can have credit applied from at most 10 Credit Memos, so the list is returned in full.
-type InvoiceAppliedCreditMemosData struct {
-	// The credit currently applied to this invoice from the Credit Memo, in cents (or local equivalent). Applying credit reduces `amount_due` and `amount_remaining` without changing `amount_paid`.
-	AppliedAmount int64 `json:"applied_amount"`
-	// The ID of the Credit Memo whose credit is applied to this invoice.
-	CreditMemo string `json:"credit_memo"`
-}
-type InvoiceAppliedCreditMemos struct {
-	// The Credit Memos with credit currently applied to this invoice, with one entry per Credit Memo. An invoice can have credit applied from at most 10 Credit Memos, so the list is returned in full.
-	Data []*InvoiceAppliedCreditMemosData `json:"data"`
-}
-
 // Present when `source=tax_integration_configuration`, `automatic_tax[enabled]=false`, and a conflicting parameter is recorded.
 type InvoiceAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
 	// The parameter that prevented `automatic_tax` from being enabled (for example `default_tax_rates`).
@@ -5655,8 +5643,7 @@ type Invoice struct {
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
-	Application        *Application               `json:"application"`
-	AppliedCreditMemos *InvoiceAppliedCreditMemos `json:"applied_credit_memos,omitempty"`
+	Application *Application `json:"application"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule. If a failure is returned with a non-retryable return code, the invoice can no longer be retried unless a new payment method is obtained. Retries will continue to be scheduled, and attempt_count will continue to increment, but retries will only be executed if a new payment method is obtained.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.

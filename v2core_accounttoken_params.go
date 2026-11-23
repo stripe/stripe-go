@@ -782,7 +782,10 @@ type V2CoreAccountTokenIdentityIndividualParams struct {
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
-	// The individual's phone number.
+	// The individual's phone number. You can include a country calling code prefixed with `+`,
+	// for example `+12025550123`, or omit it, for example `2025550123`. Spaces, hyphens, periods,
+	// and parentheses are optional and accepted. Numbers beginning with `+` are checked against
+	// the numbering rules for their country calling code, including valid prefixes and number lengths.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
 	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`
@@ -1608,7 +1611,10 @@ type V2CoreAccountTokenCreateIdentityIndividualParams struct {
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
-	// The individual's phone number.
+	// The individual's phone number. You can include a country calling code prefixed with `+`,
+	// for example `+12025550123`, or omit it, for example `2025550123`. Spaces, hyphens, periods,
+	// and parentheses are optional and accepted. Numbers beginning with `+` are checked against
+	// the numbering rules for their country calling code, including valid prefixes and number lengths.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
 	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`

@@ -156,8 +156,10 @@ func (p *SetupAttemptListParams) AddExpand(f string) {
 }
 
 type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
+type SetupAttemptPaymentMethodDetailsAeonPay struct{}
 type SetupAttemptPaymentMethodDetailsAmazonPay struct{}
 type SetupAttemptPaymentMethodDetailsAUBECSDebit struct{}
+type SetupAttemptPaymentMethodDetailsAuPay struct{}
 type SetupAttemptPaymentMethodDetailsBACSDebit struct{}
 type SetupAttemptPaymentMethodDetailsBancontact struct {
 	// Bank code of bank associated with the bank account.
@@ -272,7 +274,10 @@ type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	// Details about payments collected offline.
 	Offline *SetupAttemptPaymentMethodDetailsCardPresentOffline `json:"offline"`
 }
+type SetupAttemptPaymentMethodDetailsCarecredit struct{}
 type SetupAttemptPaymentMethodDetailsCashApp struct{}
+type SetupAttemptPaymentMethodDetailsDbarai struct{}
+type SetupAttemptPaymentMethodDetailsGetflex struct{}
 type SetupAttemptPaymentMethodDetailsIDBankTransfer struct {
 	// Bank where the account is located.
 	Bank SetupAttemptPaymentMethodDetailsIDBankTransferBank `json:"bank"`
@@ -302,6 +307,7 @@ type SetupAttemptPaymentMethodDetailsKakaoPay struct{}
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
 type SetupAttemptPaymentMethodDetailsKrCard struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
+type SetupAttemptPaymentMethodDetailsMerpay struct{}
 type SetupAttemptPaymentMethodDetailsNaverPay struct {
 	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
 	BuyerID string `json:"buyer_id,omitempty"`
@@ -317,6 +323,7 @@ type SetupAttemptPaymentMethodDetailsPix struct {
 	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
 	Fingerprint string `json:"fingerprint,omitempty"`
 }
+type SetupAttemptPaymentMethodDetailsRakutenPay struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSatispay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
@@ -350,27 +357,34 @@ type SetupAttemptPaymentMethodDetailsUpi struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit,omitempty"`
+	AeonPay        *SetupAttemptPaymentMethodDetailsAeonPay        `json:"aeon_pay,omitempty"`
 	AmazonPay      *SetupAttemptPaymentMethodDetailsAmazonPay      `json:"amazon_pay,omitempty"`
 	AUBECSDebit    *SetupAttemptPaymentMethodDetailsAUBECSDebit    `json:"au_becs_debit,omitempty"`
+	AuPay          *SetupAttemptPaymentMethodDetailsAuPay          `json:"au_pay,omitempty"`
 	BACSDebit      *SetupAttemptPaymentMethodDetailsBACSDebit      `json:"bacs_debit,omitempty"`
 	Bancontact     *SetupAttemptPaymentMethodDetailsBancontact     `json:"bancontact,omitempty"`
 	BLIK           *SetupAttemptPaymentMethodDetailsBLIK           `json:"blik,omitempty"`
 	Boleto         *SetupAttemptPaymentMethodDetailsBoleto         `json:"boleto,omitempty"`
 	Card           *SetupAttemptPaymentMethodDetailsCard           `json:"card,omitempty"`
 	CardPresent    *SetupAttemptPaymentMethodDetailsCardPresent    `json:"card_present,omitempty"`
+	Carecredit     *SetupAttemptPaymentMethodDetailsCarecredit     `json:"carecredit,omitempty"`
 	CashApp        *SetupAttemptPaymentMethodDetailsCashApp        `json:"cashapp,omitempty"`
+	Dbarai         *SetupAttemptPaymentMethodDetailsDbarai         `json:"dbarai,omitempty"`
+	Getflex        *SetupAttemptPaymentMethodDetailsGetflex        `json:"getflex,omitempty"`
 	IDBankTransfer *SetupAttemptPaymentMethodDetailsIDBankTransfer `json:"id_bank_transfer,omitempty"`
 	IDEAL          *SetupAttemptPaymentMethodDetailsIDEAL          `json:"ideal,omitempty"`
 	KakaoPay       *SetupAttemptPaymentMethodDetailsKakaoPay       `json:"kakao_pay,omitempty"`
 	Klarna         *SetupAttemptPaymentMethodDetailsKlarna         `json:"klarna,omitempty"`
 	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card,omitempty"`
 	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link,omitempty"`
+	Merpay         *SetupAttemptPaymentMethodDetailsMerpay         `json:"merpay,omitempty"`
 	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay,omitempty"`
 	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account,omitempty"`
 	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal,omitempty"`
 	Paypay         *SetupAttemptPaymentMethodDetailsPaypay         `json:"paypay,omitempty"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto,omitempty"`
 	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix,omitempty"`
+	RakutenPay     *SetupAttemptPaymentMethodDetailsRakutenPay     `json:"rakuten_pay,omitempty"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay,omitempty"`
 	Satispay       *SetupAttemptPaymentMethodDetailsSatispay       `json:"satispay,omitempty"`
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit,omitempty"`

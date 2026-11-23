@@ -31,6 +31,7 @@ type V2MoneyManagementReceivedDebitBankTransferNetwork string
 const (
 	V2MoneyManagementReceivedDebitBankTransferNetworkACH  V2MoneyManagementReceivedDebitBankTransferNetwork = "ach"
 	V2MoneyManagementReceivedDebitBankTransferNetworkBACS V2MoneyManagementReceivedDebitBankTransferNetwork = "bacs"
+	V2MoneyManagementReceivedDebitBankTransferNetworkSEPA V2MoneyManagementReceivedDebitBankTransferNetwork = "sepa"
 )
 
 // Open Enum. The standard entry class code for the ACH debit.
@@ -54,8 +55,9 @@ type V2MoneyManagementReceivedDebitBankTransferOriginType string
 
 // List of values that V2MoneyManagementReceivedDebitBankTransferOriginType can take
 const (
-	V2MoneyManagementReceivedDebitBankTransferOriginTypeGBBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "gb_bank_account"
-	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedDebitBankTransferOriginType = "gb_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "sepa_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
 )
 
 // The credential type identifying the originating bank account.
@@ -64,6 +66,7 @@ type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType string
 // List of values that V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType can take
 const (
 	V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountTypeABA      V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType = "aba"
+	V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountTypeIBAN     V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType = "iban"
 	V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountTypeSortCode V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountType = "sort_code"
 )
 
@@ -73,8 +76,9 @@ type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
 
 // List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
 const (
-	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeGBBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "gb_bank_account"
-	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeGBBankAccount   V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "gb_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeSEPABankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "sepa_bank_account"
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount   V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
 )
 
 // Open Enum. The bank network the debit was originated on.
@@ -104,10 +108,12 @@ type V2MoneyManagementReceivedDebitStatusDetailsFailedReason string
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsFailedReason can take
 const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonCapabilityInactive       V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "capability_inactive"
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonDebitsDisabled           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "debits_disabled"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonFinancialAddressInactive V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "financial_address_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonInsufficientFunds        V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "insufficient_funds"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonNoMandate                V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "no_mandate"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonTransactionLimitExceeded V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "transaction_limit_exceeded"
 )
 
 // Open Enum. The reason the ReceivedDebit was returned.
@@ -115,6 +121,7 @@ type V2MoneyManagementReceivedDebitStatusDetailsReturnedReason string
 
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsReturnedReason can take
 const (
+	V2MoneyManagementReceivedDebitStatusDetailsReturnedReasonDisputeWon          V2MoneyManagementReceivedDebitStatusDetailsReturnedReason = "dispute_won"
 	V2MoneyManagementReceivedDebitStatusDetailsReturnedReasonOriginatorInitiated V2MoneyManagementReceivedDebitStatusDetailsReturnedReason = "originator_initiated"
 )
 
@@ -195,6 +202,20 @@ type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountABA struct 
 	RoutingNumber string `json:"routing_number,omitempty"`
 }
 
+// Creditor details. Present when type is `iban`.
+type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountIBAN struct {
+	// The creditor's name.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The name of the creditor's bank.
+	BankName string `json:"bank_name,omitempty"`
+	// The Bank Identifier Code (BIC) of the creditor's bank.
+	BIC string `json:"bic,omitempty"`
+	// Uppercase ISO 3166-1 alpha-2 country code of the creditor's bank account.
+	Country string `json:"country,omitempty"`
+	// The creditor's IBAN, masked with X except for the country code and last four characters.
+	IBAN string `json:"iban,omitempty"`
+}
+
 // Details of the originating account. Present when type is `sort_code`.
 type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountSortCode struct {
 	// The name of the account holder that originated the debit.
@@ -211,6 +232,8 @@ type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountSortCode st
 type V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccount struct {
 	// Details of the originating account. Present when type is `aba`.
 	ABA *V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountABA `json:"aba,omitempty"`
+	// Creditor details. Present when type is `iban`.
+	IBAN *V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountIBAN `json:"iban,omitempty"`
 	// Details of the originating account. Present when type is `sort_code`.
 	SortCode *V2MoneyManagementReceivedDebitBankTransferOriginatingBankAccountSortCode `json:"sort_code,omitempty"`
 	// The credential type identifying the originating bank account.
@@ -357,6 +380,9 @@ type V2MoneyManagementReceivedDebit struct {
 	Created time.Time `json:"created"`
 	// Freeform string sent by the originator of the ReceivedDebit.
 	Description string `json:"description,omitempty"`
+	// Has the value `true` if the object has an associated Dispute otherwise or the value `false`.
+	// Use the Disputes List API with `target` to see details.
+	Disputed bool `json:"disputed"`
 	// The dispute details.
 	DisputeDetails *V2MoneyManagementReceivedDebitDisputeDetails `json:"dispute_details,omitempty"`
 	// The amount and currency of the original/external debit request.

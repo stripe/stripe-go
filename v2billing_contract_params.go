@@ -142,8 +142,24 @@ type V2BillingContractTermPricingOverrideMultiplyParams struct {
 	Factor *decimal.Decimal `form:"factor" json:"factor"`
 }
 
+// Replacement pricing tiers.
+type V2BillingContractTermPricingOverrideOverwriteTierParams struct {
+	// Flat amount in minor currency units.
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	// Per-unit amount in minor currency units.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	// Inclusive whole-number upper bound. Omitted for an unbounded final tier.
+	UpTo *int64 `form:"up_to" json:"up_to,string,omitempty"`
+}
+
 // Required when type is overwrite.
 type V2BillingContractTermPricingOverrideOverwriteParams struct {
+	// Whether the replacement pricing is per unit or tiered.
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
+	// Replacement pricing tiers.
+	Tiers []*V2BillingContractTermPricingOverrideOverwriteTierParams `form:"tiers" json:"tiers,omitempty"`
+	// How the pricing tiers are applied.
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// The replacement per-unit amount in minor currency units.
 	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
@@ -212,10 +228,12 @@ type V2BillingContractTermScheduledFeeBillScheduleCustomBillAtParams struct {
 
 // Between one and ten installments. Empty schedules are allowed only on update.
 type V2BillingContractTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Explicit bill dates and amounts.
@@ -350,8 +368,24 @@ type V2BillingContractActionAddTermPricingOverrideMultiplyParams struct {
 	Factor *decimal.Decimal `form:"factor" json:"factor"`
 }
 
+// Replacement pricing tiers.
+type V2BillingContractActionAddTermPricingOverrideOverwriteTierParams struct {
+	// Flat amount in minor currency units.
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	// Per-unit amount in minor currency units.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	// Inclusive whole-number upper bound. Omitted for an unbounded final tier.
+	UpTo *int64 `form:"up_to" json:"up_to,string,omitempty"`
+}
+
 // Required when type is overwrite.
 type V2BillingContractActionAddTermPricingOverrideOverwriteParams struct {
+	// Whether the replacement pricing is per unit or tiered.
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
+	// Replacement pricing tiers.
+	Tiers []*V2BillingContractActionAddTermPricingOverrideOverwriteTierParams `form:"tiers" json:"tiers,omitempty"`
+	// How the pricing tiers are applied.
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// The replacement per-unit amount in minor currency units.
 	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
@@ -420,10 +454,12 @@ type V2BillingContractActionAddTermScheduledFeeBillScheduleCustomBillAtParams st
 
 // Between one and ten installments. Empty schedules are allowed only on update.
 type V2BillingContractActionAddTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractActionAddTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Explicit bill dates and amounts.
@@ -570,10 +606,12 @@ type V2BillingContractActionUpdateTermScheduledFeeBillScheduleCustomBillAtParams
 
 // Full replacement of up to ten unbilled installments. An explicit empty array cancels all of them.
 type V2BillingContractActionUpdateTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractActionUpdateTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Replace remaining unbilled installments. Billed entries remain immutable.
@@ -816,8 +854,24 @@ type V2BillingContractCreateTermPricingOverrideMultiplyParams struct {
 	Factor *decimal.Decimal `form:"factor" json:"factor"`
 }
 
+// Replacement pricing tiers.
+type V2BillingContractCreateTermPricingOverrideOverwriteTierParams struct {
+	// Flat amount in minor currency units.
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	// Per-unit amount in minor currency units.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	// Inclusive whole-number upper bound. Omitted for an unbounded final tier.
+	UpTo *int64 `form:"up_to" json:"up_to,string,omitempty"`
+}
+
 // Required when type is overwrite.
 type V2BillingContractCreateTermPricingOverrideOverwriteParams struct {
+	// Whether the replacement pricing is per unit or tiered.
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
+	// Replacement pricing tiers.
+	Tiers []*V2BillingContractCreateTermPricingOverrideOverwriteTierParams `form:"tiers" json:"tiers,omitempty"`
+	// How the pricing tiers are applied.
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// The replacement per-unit amount in minor currency units.
 	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
@@ -886,10 +940,12 @@ type V2BillingContractCreateTermScheduledFeeBillScheduleCustomBillAtParams struc
 
 // Between one and ten installments. Empty schedules are allowed only on update.
 type V2BillingContractCreateTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractCreateTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Explicit bill dates and amounts.
@@ -1035,8 +1091,24 @@ type V2BillingContractUpdateActionAddTermPricingOverrideMultiplyParams struct {
 	Factor *decimal.Decimal `form:"factor" json:"factor"`
 }
 
+// Replacement pricing tiers.
+type V2BillingContractUpdateActionAddTermPricingOverrideOverwriteTierParams struct {
+	// Flat amount in minor currency units.
+	FlatAmountDecimal *decimal.Decimal `form:"flat_amount_decimal" json:"flat_amount_decimal,omitempty"`
+	// Per-unit amount in minor currency units.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
+	// Inclusive whole-number upper bound. Omitted for an unbounded final tier.
+	UpTo *int64 `form:"up_to" json:"up_to,string,omitempty"`
+}
+
 // Required when type is overwrite.
 type V2BillingContractUpdateActionAddTermPricingOverrideOverwriteParams struct {
+	// Whether the replacement pricing is per unit or tiered.
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
+	// Replacement pricing tiers.
+	Tiers []*V2BillingContractUpdateActionAddTermPricingOverrideOverwriteTierParams `form:"tiers" json:"tiers,omitempty"`
+	// How the pricing tiers are applied.
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// The replacement per-unit amount in minor currency units.
 	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal,omitempty"`
 }
@@ -1105,10 +1177,12 @@ type V2BillingContractUpdateActionAddTermScheduledFeeBillScheduleCustomBillAtPar
 
 // Between one and ten installments. Empty schedules are allowed only on update.
 type V2BillingContractUpdateActionAddTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractUpdateActionAddTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Explicit bill dates and amounts.
@@ -1255,10 +1329,12 @@ type V2BillingContractUpdateActionUpdateTermScheduledFeeBillScheduleCustomBillAt
 
 // Full replacement of up to ten unbilled installments. An explicit empty array cancels all of them.
 type V2BillingContractUpdateActionUpdateTermScheduledFeeBillScheduleCustomParams struct {
-	// Non-negative amount with an explicit currency that must match the contract's currency.
-	Amount *Amount `form:"amount" json:"amount"`
 	// A finite bill date. Resolved once per request, including on idempotent retries.
 	BillAt *V2BillingContractUpdateActionUpdateTermScheduledFeeBillScheduleCustomBillAtParams `form:"bill_at" json:"bill_at"`
+	// Positive installment quantity. Defaults to 1 when omitted.
+	Quantity *decimal.Decimal `form:"quantity" json:"quantity,omitempty"`
+	// Positive unit price in minor units of the contract's currency, before multiplying by quantity.
+	UnitAmountDecimal *decimal.Decimal `form:"unit_amount_decimal" json:"unit_amount_decimal"`
 }
 
 // Replace remaining unbilled installments. Billed entries remain immutable.

@@ -54,6 +54,8 @@ type V2MoneyManagementFinancialAccountParams struct {
 	Params `form:"*"`
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Sparse flow setting updates. Omitting a field leaves its current value unchanged.
+	FlowSettings *V2MoneyManagementFinancialAccountFlowSettingsParams `form:"flow_settings" json:"flow_settings,omitempty"`
 	// Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 	ForwardingSettings *V2MoneyManagementFinancialAccountForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
 	// Additional fields to include in the response.
@@ -76,6 +78,28 @@ func (p *V2MoneyManagementFinancialAccountParams) AddMetadata(key string, value 
 	}
 
 	p.Metadata[key] = value
+}
+
+// Settings for ACH received debits.
+type V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHParams struct {
+	// Whether ACH received debits are enabled. Omit to preserve the current setting, which defaults to true. Other restrictions still apply.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+	// Controls whether ACH debits without a matching active mandate are allowed or rejected.
+	MandateBehavior *string `form:"mandate_behavior" json:"mandate_behavior,omitempty"`
+	// Account-level per-debit limit. Set to null to clear the limit.
+	TransactionLimit *Amount `form:"transaction_limit" json:"transaction_limit,omitempty"`
+}
+
+// Settings for received debit flows.
+type V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsParams struct {
+	// Settings for ACH received debits.
+	ACH *V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Sparse flow setting updates. Omitting a field leaves its current value unchanged.
+type V2MoneyManagementFinancialAccountFlowSettingsParams struct {
+	// Settings for received debit flows.
+	ReceivedDebits *V2MoneyManagementFinancialAccountFlowSettingsReceivedDebitsParams `form:"received_debits" json:"received_debits,omitempty"`
 }
 
 // Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
@@ -167,6 +191,28 @@ type V2MoneyManagementFinancialAccountRetrieveParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
+// Settings for ACH received debits.
+type V2MoneyManagementFinancialAccountUpdateFlowSettingsReceivedDebitsACHParams struct {
+	// Whether ACH received debits are enabled. Omit to preserve the current setting, which defaults to true. Other restrictions still apply.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+	// Controls whether ACH debits without a matching active mandate are allowed or rejected.
+	MandateBehavior *string `form:"mandate_behavior" json:"mandate_behavior,omitempty"`
+	// Account-level per-debit limit. Set to null to clear the limit.
+	TransactionLimit *Amount `form:"transaction_limit" json:"transaction_limit,omitempty"`
+}
+
+// Settings for received debit flows.
+type V2MoneyManagementFinancialAccountUpdateFlowSettingsReceivedDebitsParams struct {
+	// Settings for ACH received debits.
+	ACH *V2MoneyManagementFinancialAccountUpdateFlowSettingsReceivedDebitsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Sparse flow setting updates. Omitting a field leaves its current value unchanged.
+type V2MoneyManagementFinancialAccountUpdateFlowSettingsParams struct {
+	// Settings for received debit flows.
+	ReceivedDebits *V2MoneyManagementFinancialAccountUpdateFlowSettingsReceivedDebitsParams `form:"received_debits" json:"received_debits,omitempty"`
+}
+
 // Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 type V2MoneyManagementFinancialAccountUpdateForwardingSettingsParams struct {
 	// ID of the FinancialAccount that supplies funds to cover negative balances
@@ -203,6 +249,8 @@ type V2MoneyManagementFinancialAccountUpdateParams struct {
 	Params `form:"*"`
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name appears in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Sparse flow setting updates. Omitting a field leaves its current value unchanged.
+	FlowSettings *V2MoneyManagementFinancialAccountUpdateFlowSettingsParams `form:"flow_settings" json:"flow_settings,omitempty"`
 	// Forwarding settings for a closed FinancialAccount. Post-close forwarding updates are not yet implemented.
 	ForwardingSettings *V2MoneyManagementFinancialAccountUpdateForwardingSettingsParams `form:"forwarding_settings" json:"forwarding_settings,omitempty"`
 	// Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting

@@ -21,7 +21,9 @@ type CryptoDepositAddressSupportedTokenTokenCurrency string
 
 // List of values that CryptoDepositAddressSupportedTokenTokenCurrency can take
 const (
-	CryptoDepositAddressSupportedTokenTokenCurrencyUsdc CryptoDepositAddressSupportedTokenTokenCurrency = "usdc"
+	CryptoDepositAddressSupportedTokenTokenCurrencyOusd        CryptoDepositAddressSupportedTokenTokenCurrency = "ousd"
+	CryptoDepositAddressSupportedTokenTokenCurrencyPhantomCash CryptoDepositAddressSupportedTokenTokenCurrency = "phantom_cash"
+	CryptoDepositAddressSupportedTokenTokenCurrencyUsdc        CryptoDepositAddressSupportedTokenTokenCurrency = "usdc"
 )
 
 // Lists crypto deposit addresses for the authenticated merchant.

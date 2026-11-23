@@ -2030,6 +2030,15 @@ type PaymentMethodCardChecks struct {
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`
 }
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentBenefitsFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor used for this charge.
+	Siret string `json:"siret"`
+}
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentBenefits struct {
+	FRMealVoucher *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentBenefitsFRMealVoucher `json:"fr_meal_voucher,omitempty"`
+	// Issuer of the benefit card utilized on this payment
+	Issuer string `json:"issuer"`
+}
 
 // Fleet prompts and values collected for this transaction.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentFleetTransactionDatum struct {
@@ -2100,7 +2109,8 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct 
 }
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
-	AmountAuthorized int64 `json:"amount_authorized"`
+	AmountAuthorized int64                                                                  `json:"amount_authorized"`
+	Benefits         *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentBenefits `json:"benefits,omitempty"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
@@ -2275,6 +2285,12 @@ type PaymentMethodCard struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer,omitempty"`
 }
+type PaymentMethodCardPresentBenefits struct {
+	// Issuer of this benefit card
+	Issuer string `json:"issuer"`
+	// Available benefit programs for this card
+	Programs []string `json:"programs"`
+}
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardPresentNetworks struct {
@@ -2296,6 +2312,7 @@ type PaymentMethodCardPresentWallet struct {
 	Type PaymentMethodCardPresentWalletType `json:"type"`
 }
 type PaymentMethodCardPresent struct {
+	Benefits *PaymentMethodCardPresentBenefits `json:"benefits,omitempty"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.

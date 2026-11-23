@@ -675,6 +675,7 @@ const (
 	PaymentRecordProcessorDetailsTypeCustom          PaymentRecordProcessorDetailsType = "custom"
 	PaymentRecordProcessorDetailsTypeFiservValuelink PaymentRecordProcessorDetailsType = "fiserv_valuelink"
 	PaymentRecordProcessorDetailsTypeGivex           PaymentRecordProcessorDetailsType = "givex"
+	PaymentRecordProcessorDetailsTypeStripe          PaymentRecordProcessorDetailsType = "stripe"
 	PaymentRecordProcessorDetailsTypeSvs             PaymentRecordProcessorDetailsType = "svs"
 )
 
@@ -2014,6 +2015,15 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *PaymentRecordPaymentMethodDetailsCardWallet `json:"wallet"`
 }
+type PaymentRecordPaymentMethodDetailsCardPresentBenefitsFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor used for this charge.
+	Siret string `json:"siret"`
+}
+type PaymentRecordPaymentMethodDetailsCardPresentBenefits struct {
+	FRMealVoucher *PaymentRecordPaymentMethodDetailsCardPresentBenefitsFRMealVoucher `json:"fr_meal_voucher,omitempty"`
+	// Issuer of the benefit card utilized on this payment
+	Issuer string `json:"issuer"`
+}
 
 // Fleet prompts and values collected for this transaction.
 type PaymentRecordPaymentMethodDetailsCardPresentFleetTransactionDatum struct {
@@ -2084,7 +2094,8 @@ type PaymentRecordPaymentMethodDetailsCardPresentWallet struct {
 }
 type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
-	AmountAuthorized int64 `json:"amount_authorized"`
+	AmountAuthorized int64                                                 `json:"amount_authorized"`
+	Benefits         *PaymentRecordPaymentMethodDetailsCardPresentBenefits `json:"benefits,omitempty"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
@@ -2823,6 +2834,12 @@ type PaymentRecordProcessorDetailsGivex struct {
 	PaymentReference string `json:"payment_reference"`
 }
 
+// Represents the Stripe processor. This resource consists of details specific to Stripe.
+type PaymentRecordProcessorDetailsStripe struct {
+	// Stripe balance transactions associated with this attempt, in no guaranteed order. References can appear at submission or after success. On a PaymentRecord, these references follow the latest attempt.
+	DerivedBalanceTransactions []string `json:"derived_balance_transactions,omitempty"`
+}
+
 // Represents the SVS gift card processor.
 type PaymentRecordProcessorDetailsSvs struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -2839,6 +2856,8 @@ type PaymentRecordProcessorDetails struct {
 	FiservValuelink *PaymentRecordProcessorDetailsFiservValuelink `json:"fiserv_valuelink,omitempty"`
 	// Represents the Givex gift card processor.
 	Givex *PaymentRecordProcessorDetailsGivex `json:"givex,omitempty"`
+	// Represents the Stripe processor. This resource consists of details specific to Stripe.
+	Stripe *PaymentRecordProcessorDetailsStripe `json:"stripe,omitempty"`
 	// Represents the SVS gift card processor.
 	Svs *PaymentRecordProcessorDetailsSvs `json:"svs,omitempty"`
 	// The processor used for this payment attempt.
