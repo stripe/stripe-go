@@ -3099,6 +3099,16 @@ func TestAssertOriginRelativePath(t *testing.T) {
 		"/v1/invoices/in_123@456",
 		// A backslash does not open an authority: the "/" already closed it.
 		`/v1/\evil.example`,
+		// Dots are fine anywhere other than a whole "." or ".." segment.
+		"/v1/reporting/report_types/balance.summary.1",
+		"/v1/customers/...",
+		"/v1/customers/.cus_123",
+		"/v1/customers/cus_123..",
+		"/v1/customers?email=a..b%40example.com",
+		// A double-encoded dot reaches the API as the literal "%2E".
+		"/v1/customers/%252E",
+		// An encoded slash is fine as long as no piece around it is a dot segment.
+		"/v1/coupons/summer%2F2017",
 	}
 	for _, path := range originRelative {
 		assert.NoError(t, validatePath(path), "expected to accept %q", path)
@@ -3140,4 +3150,108 @@ func TestRawRequestRejectsHostilePath(t *testing.T) {
 	_, err := backend.RawRequest(http.MethodGet, "@evil.example/v1/leak", "sk_test_123", "", nil)
 
 	assert.Error(t, err)
+}
+
+// A proxy or server that normalizes these paths would send each request to a
+// different endpoint than the one the path was built for.
+var dotSegmentPaths = []string{
+	"/v1/checkout/sessions/.",
+	"/v1/checkout/sessions/..",
+	"/v1/customers/../payment_methods/pm_123",
+	"/v1/customers/./payment_methods/pm_123",
+	"/v1/customers/cus_123/sources/..?expand[]=customer",
+	"/v2/core/accounts/.",
+	// Some normalizers decode "%2E" to "." before removing dot segments.
+	"/v1/checkout/sessions/%2E",
+	"/v1/checkout/sessions/%2e%2E",
+	"/v1/checkout/sessions/.%2E",
+	// A proxy that decodes "%2F" before removing dot segments turns these into
+	// real path separators.
+	"/v1/coupons/x%2F..%2F..%2Fcustomers%2Fcus_B",
+	"/v1/customers/cus_123/sources/..%2F..%2Fcus_B",
+	"/v1/coupons/..%2fsummer",
+}
+
+func assertDotSegmentError(t *testing.T, err error, input string) {
+	t.Helper()
+	assert.Error(t, err, "expected an error for %q", input)
+	assert.Contains(t, err.Error(), `may not contain a "." or ".." segment`)
+}
+
+// newRequestCountingConfig returns a backend config for a test server, and a
+// function that reports how many requests the server has received.
+func newRequestCountingConfig(t *testing.T) (*BackendConfig, func() int32) {
+	var requests int32
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddInt32(&requests, 1)
+	}))
+	t.Cleanup(testServer.Close)
+
+	config := &BackendConfig{
+		LeveledLogger: nullLeveledLogger,
+		URL:           String(testServer.URL),
+	}
+	return config, func() int32 { return atomic.LoadInt32(&requests) }
+}
+
+func TestValidatePathRejectsDotSegments(t *testing.T) {
+	for _, path := range dotSegmentPaths {
+		assertDotSegmentError(t, validatePath(path), path)
+	}
+}
+
+func TestValidatePathDotSegmentErrorOmitsQueryString(t *testing.T) {
+	err := validatePath("/v1/payment_intents/..?client_secret=pi_123_secret_456")
+
+	assert.EqualError(t, err, `path may not contain a "." or ".." segment, got "/v1/payment_intents/.."`)
+}
+
+func TestRequestRejectsDotSegmentPathWithoutSendingRequest(t *testing.T) {
+	config, requests := newRequestCountingConfig(t)
+	backend := GetBackendWithConfig(APIBackend, config).(*BackendImplementation)
+
+	for _, path := range dotSegmentPaths {
+		err := backend.Call(http.MethodGet, path, "sk_test_123", nil, &CheckoutSession{})
+		assertDotSegmentError(t, err, path)
+
+		_, err = backend.RawRequest(http.MethodGet, path, "sk_test_123", "", nil)
+		assertDotSegmentError(t, err, path)
+	}
+
+	assert.Zero(t, requests())
+}
+
+func TestClientRetrieveRejectsDotIDWithoutSendingRequest(t *testing.T) {
+	config, requests := newRequestCountingConfig(t)
+	sc := NewClient("sk_test_123", WithBackends(NewBackendsWithConfig(config)))
+
+	for _, id := range []string{".", ".."} {
+		_, err := sc.V1CheckoutSessions.Retrieve(context.Background(), id, nil)
+		assertDotSegmentError(t, err, id)
+	}
+
+	assert.Zero(t, requests())
+}
+
+func TestClientRetrieveRejectsIDWithEncodedDotSegmentsWithoutSendingRequest(t *testing.T) {
+	config, requests := newRequestCountingConfig(t)
+	sc := NewClient("sk_test_123", WithBackends(NewBackendsWithConfig(config)))
+
+	id := "x/../../customers/cus_B"
+	_, err := sc.V1Coupons.Retrieve(context.Background(), id, nil)
+	assertDotSegmentError(t, err, id)
+
+	assert.Zero(t, requests())
+}
+
+func TestClientNestedRetrieveRejectsDotParentIDWithoutSendingRequest(t *testing.T) {
+	config, requests := newRequestCountingConfig(t)
+	sc := NewClient("sk_test_123", WithBackends(NewBackendsWithConfig(config)))
+
+	_, err := sc.V1Customers.RetrievePaymentMethod(context.Background(), "pm_123", &CustomerRetrievePaymentMethodParams{
+		Customer: String(".."),
+	})
+	assertDotSegmentError(t, err, "..")
+
+	assert.Zero(t, requests())
 }
