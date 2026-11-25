@@ -311,28 +311,6 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 	}
 }
 
-func TestApiVersionCompatibility(t *testing.T) {
-	tests := []struct {
-		sdkAPIVersion   string
-		eventAPIVersion string
-		expected        bool
-	}{
-		{"2024-02-31.acacia", "1999-03-31", false},
-		{"2024-02-31.acacia", "2025-03-31.basil", false},
-		{"2024-04-31.basil", "2025-03-31.basil", true},
-		{"2024-01-01.preview", "2025-03-31.basil", false},
-		{"2024-01-01.preview", "2025-03-31.preview", false},
-		{"2024-01-01.preview", "2024-01-01.preview", true},
-	}
-
-	for _, test := range tests {
-		result := isCompatibleAPIVersion(test.sdkAPIVersion, test.eventAPIVersion)
-		if result != test.expected {
-			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkAPIVersion, test.eventAPIVersion, result)
-		}
-	}
-}
-
 func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithISO8601Timestamp

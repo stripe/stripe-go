@@ -1,6 +1,9 @@
 package stripe
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 // Client is the Stripe client. It contains all the different services available.
 type Client struct {
@@ -644,6 +647,9 @@ func (c *Client) ConstructEventWithoutVerification(payload []byte, opts ...Webho
 //
 // [thin event notification]: https://docs.stripe.com/event-destinations#thin-payload
 func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
+	// Verify and parse a private copy, so both steps see the same bytes even if
+	// the caller's slice changes during the call.
+	payload = bytes.Clone(payload)
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
