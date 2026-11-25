@@ -1,6 +1,7 @@
 package webhook
 
 import (
+	"bytes"
 	"encoding/hex"
 	"fmt"
 	"strings"
@@ -311,6 +312,28 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 	}
 }
 
+func TestApiVersionCompatibility(t *testing.T) {
+	tests := []struct {
+		sdkAPIVersion   string
+		eventAPIVersion string
+		expected        bool
+	}{
+		{"2024-02-31.acacia", "1999-03-31", false},
+		{"2024-02-31.acacia", "2025-03-31.basil", false},
+		{"2024-04-31.basil", "2025-03-31.basil", true},
+		{"2024-01-01.preview", "2025-03-31.basil", false},
+		{"2024-01-01.preview", "2025-03-31.preview", false},
+		{"2024-01-01.preview", "2024-01-01.preview", true},
+	}
+
+	for _, test := range tests {
+		result := isCompatibleAPIVersion(test.sdkAPIVersion, test.eventAPIVersion)
+		if result != test.expected {
+			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkAPIVersion, test.eventAPIVersion, result)
+		}
+	}
+}
+
 func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithISO8601Timestamp
@@ -386,4 +409,58 @@ func TestValidatePayload_NonBlankSecret(t *testing.T) {
 			}
 		})
 	}
+}
+
+// overwritePayloadAfterVerification makes constructEvent's verification
+// overwrite buf with replacement once the real check passes, as if another
+// goroutine changed the caller's slice between verification and parsing.
+//
+// It swaps the package-level verifyPayload for the rest of the test, so tests
+// that use it must not call t.Parallel().
+func overwritePayloadAfterVerification(t *testing.T, buf []byte, replacement []byte) {
+	t.Helper()
+	assert.Len(t, replacement, len(buf))
+	orig := verifyPayload
+	verifyPayload = func(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+		err := orig(payload, sigHeader, secret, tolerance, enforceTolerance)
+		copy(buf, replacement)
+		return err
+	}
+	t.Cleanup(func() { verifyPayload = orig })
+}
+
+func TestConstructEvent_ReturnsVerifiedEventWhenPayloadChangesAfterVerification(t *testing.T) {
+	for name, construct := range map[string]func(payload []byte, header string, secret string) (stripe.Event, error){
+		"ConstructEvent":                  ConstructEvent,
+		"ConstructEventIgnoringTolerance": ConstructEventIgnoringTolerance,
+		"ConstructEventWithTolerance": func(payload []byte, header string, secret string) (stripe.Event, error) {
+			return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
+		},
+		"ConstructEventWithOptions": func(payload []byte, header string, secret string) (stripe.Event, error) {
+			return ConstructEventWithOptions(payload, header, secret, ConstructEventOptions{})
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			p := newSignedPayload()
+			replacement := bytes.Replace(p.Payload, []byte("evt_test_webhook"), []byte("evt_fake_webhook"), 1)
+			// newSignedPayload shares testPayload's backing array, so overwrite a copy.
+			payload := bytes.Clone(p.Payload)
+			overwritePayloadAfterVerification(t, payload, replacement)
+
+			event, err := construct(payload, p.Header, p.Secret)
+
+			assert.NoError(t, err)
+			assert.Equal(t, replacement, payload)
+			assert.Equal(t, "evt_test_webhook", event.ID)
+		})
+	}
+}
+
+func TestConstructEvent_RejectsReplacementPayload(t *testing.T) {
+	p := newSignedPayload()
+	replacement := bytes.Replace(p.Payload, []byte("evt_test_webhook"), []byte("evt_fake_webhook"), 1)
+
+	_, err := ConstructEvent(replacement, p.Header, p.Secret)
+
+	assert.ErrorIs(t, err, ErrNoValidSignature)
 }

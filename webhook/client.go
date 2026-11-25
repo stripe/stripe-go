@@ -4,8 +4,11 @@
 package webhook
 
 import (
+	"bytes"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/stripe/stripe-go/v87"
@@ -169,24 +172,79 @@ type ConstructEventOptions struct {
 }
 
 //
+// Private variables
+//
+
+// verifyPayload is validatePayload as called by constructEvent. Tests replace
+// it to change the payload between verification and parsing.
+var verifyPayload = validatePayload
+
+//
 // Private functions
 //
 
-func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
-	// Event construction lives in the root stripe package, like signature
-	// verification; this package only maps its options. An unset Tolerance
-	// falls through to stripe's default, which equals DefaultTolerance.
-	var opts []stripe.WebhookOption
-	if options.IgnoreTolerance {
-		opts = append(opts, stripe.WithIgnoreTolerance())
-	} else if options.Tolerance != 0 {
-		opts = append(opts, stripe.WithTolerance(options.Tolerance))
-	}
-	if options.IgnoreAPIVersionMismatch {
-		opts = append(opts, stripe.WithIgnoreAPIVersionMismatch())
+func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
+	// If the event api version is from before we started adding
+	// a release train, there's no way its compatible with this
+	// version
+	if !strings.Contains(eventAPIVersion, ".") {
+		return false
 	}
 
-	return stripe.ConstructEvent(payload, sigHeader, secret, opts...)
+	// if the SDK is pinned to a preview version, the event's API version must match exactly
+	var currentReleaseTrain = strings.Split(sdkAPIVersion, ".")[1]
+	if currentReleaseTrain == "preview" {
+		return sdkAPIVersion == eventAPIVersion
+	}
+
+	// versions are yyyy-MM-dd.train
+	var eventReleaseTrain = strings.Split(eventAPIVersion, ".")[1]
+	return eventReleaseTrain == currentReleaseTrain
+}
+
+func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
+	// Verify and parse a private copy, so both steps see the same bytes even if
+	// the caller's slice changes during the call.
+	payload = bytes.Clone(payload)
+	e := stripe.Event{}
+
+	tolerance := options.Tolerance
+	if options.Tolerance == 0 && !options.IgnoreTolerance {
+		tolerance = DefaultTolerance
+	}
+
+	if err := verifyPayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
+		return e, err
+	}
+
+	if err := checkEventNotification(payload); err != nil {
+		return e, err
+	}
+
+	if err := json.Unmarshal(payload, &e); err != nil {
+		return e, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
+	}
+
+	if !options.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(stripe.APIVersion, e.APIVersion) {
+		return e, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
+	}
+
+	return e, nil
+}
+
+func checkEventNotification(payload []byte) error {
+	e := struct {
+		Object string `json:"object"`
+	}{}
+	if err := json.Unmarshal(payload, &e); err != nil {
+		return fmt.Errorf("failed to parse webhook body json: %s", err.Error())
+	}
+
+	if e.Object != "event" {
+		return fmt.Errorf("did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead")
+	}
+
+	return nil
 }
 
 func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
