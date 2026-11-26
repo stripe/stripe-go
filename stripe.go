@@ -741,9 +741,31 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 // webhook bodies), we have to be a little defensive.
 //
 // So, we require that a path starts with a leading slash.
+//
+// We also reject "." and ".." path segments, such as an ID of ".", because
+// FormatURLPath leaves dots unescaped. net/http sends these segments as
+// written, but a proxy, custom transport, or server that normalizes the path
+// would remove them and send the request to a different endpoint. Some decode
+// "%2E" to "." first, so we check encoded dots too. An encoded slash ("%2F")
+// also counts as a separator for this check, because a proxy that decodes the
+// path before normalizing it (nginx's proxy_pass, for example) turns it into a
+// real one.
 func validatePath(path string) error {
 	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
 		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
+	}
+
+	pathOnly := path
+	if i := strings.IndexAny(path, "?#"); i >= 0 {
+		pathOnly = path[:i]
+	}
+	for _, segment := range strings.Split(strings.ReplaceAll(strings.ToLower(pathOnly), "%2f", "/"), "/") {
+		segment = strings.ReplaceAll(segment, "%2e", ".")
+		if segment == "." || segment == ".." {
+			// The message leaves out the query string, which can carry secrets
+			// such as a client_secret.
+			return fmt.Errorf("path may not contain a \".\" or \"..\" segment, got %q", pathOnly)
+		}
 	}
 	return nil
 }
