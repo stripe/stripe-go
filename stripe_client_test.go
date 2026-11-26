@@ -488,6 +488,90 @@ func TestFetchRelatedObject(t *testing.T) {
 	assert.Equal(t, "", event.LastResponse.Header.Get("Stripe-Context"))
 }
 
+func TestV2ListKeepsRequestHeadersAcrossPages(t *testing.T) {
+	for _, tc := range []struct {
+		name        string
+		context     *string
+		headers     http.Header
+		wantContext string
+	}{
+		{name: "request scope", context: stripe.String("acct_request"), wantContext: "acct_request"},
+		{name: "backend scope", wantContext: "acct_default"},
+		{name: "explicitly empty scope", context: stripe.String(""), wantContext: ""},
+		{
+			name:        "header override",
+			context:     stripe.String("acct_request"),
+			headers:     http.Header{"Stripe-Context": {"acct_override"}, "X-Custom": {"value"}},
+			wantContext: "acct_override",
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			const firstURI = "/v2/core/accounts?limit=1"
+			const nextURI = "/v2/core/accounts?page=second"
+			requests := make(chan *http.Request, 2)
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				select {
+				case requests <- r:
+				default:
+					http.Error(w, "unexpected request", http.StatusBadRequest)
+					return
+				}
+				switch r.RequestURI {
+				case firstURI:
+					fmt.Fprintf(w, `{"data":[{"id":"acct_first"}],"next_page_url":%q}`, nextURI)
+				case nextURI:
+					fmt.Fprint(w, `{"data":[{"id":"acct_second"}]}`)
+				default:
+					http.Error(w, "unexpected request", http.StatusBadRequest)
+				}
+			}))
+			defer server.Close()
+
+			backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+				URL:               stripe.String(server.URL),
+				StripeContext:     stripe.String("acct_default"),
+				MaxNetworkRetries: stripe.Int64(0),
+			})
+			client := stripe.NewClient(TestAPIKey, stripe.WithBackends(&stripe.Backends{API: backend}))
+			params := &stripe.V2CoreAccountListParams{
+				Params: stripe.Params{
+					StripeAccount: stripe.String("acct_connected"),
+					StripeContext: tc.context,
+					Headers:       tc.headers,
+				},
+				Limit: stripe.Int64(1),
+			}
+			pages := client.V2CoreAccounts.List(context.Background(), params)
+
+			*params.StripeAccount = "acct_changed"
+			if params.StripeContext != nil {
+				*params.StripeContext = "acct_changed"
+			}
+			if params.Headers != nil {
+				params.Headers.Set("Stripe-Context", "acct_changed")
+			}
+
+			var ids []string
+			for account, err := range pages.All(context.Background()) {
+				assert.NoError(t, err)
+				ids = append(ids, account.ID)
+			}
+			assert.Equal(t, []string{"acct_first", "acct_second"}, ids)
+			assert.Len(t, requests, 2)
+			for _, uri := range []string{firstURI, nextURI} {
+				req := <-requests
+				assert.Equal(t, uri, req.RequestURI)
+				assert.Equal(t, http.MethodGet, req.Method)
+				assert.Equal(t, "acct_connected", req.Header.Get("Stripe-Account"))
+				assert.Equal(t, []string{tc.wantContext}, req.Header.Values("Stripe-Context"))
+				if tc.headers != nil {
+					assert.Equal(t, "value", req.Header.Get("X-Custom"))
+				}
+			}
+		})
+	}
+}
+
 func TestFetchedEventRelatedObjectUsesEventContext(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "acct_child", r.Header.Get("Stripe-Context"))
