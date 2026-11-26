@@ -1,6 +1,9 @@
 package session
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"sync/atomic"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -12,6 +15,29 @@ func TestCheckoutSessionGet(t *testing.T) {
 	session, err := Get("cs_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, session)
+}
+
+func TestCheckoutSessionGetRejectsDotIDWithoutSendingRequest(t *testing.T) {
+	var requests int32
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddInt32(&requests, 1)
+	}))
+	defer testServer.Close()
+
+	orig := stripe.GetBackend(stripe.APIBackend)
+	stripe.SetBackend(stripe.APIBackend, stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		LeveledLogger: &stripe.LeveledLogger{Level: stripe.LevelNull},
+		URL:           stripe.String(testServer.URL),
+	}))
+	defer stripe.SetBackend(stripe.APIBackend, orig)
+
+	for _, id := range []string{".", ".."} {
+		_, err := Get(id, nil)
+		assert.Error(t, err, "expected an error for %q", id)
+		assert.Contains(t, err.Error(), `may not contain a "." or ".." segment`)
+	}
+
+	assert.Zero(t, atomic.LoadInt32(&requests))
 }
 
 func TestCheckoutSessionNew(t *testing.T) {

@@ -1125,6 +1125,16 @@ func (n *V1AccountApplicationAuthorizedEventNotification) FetchEvent(ctx context
 	return evt.(*V1AccountApplicationAuthorizedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountApplicationAuthorizedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V1AccountApplicationDeauthorizedEvent is the Go struct for the "v1.account.application.deauthorized" event.
 // Occurs whenever a user deauthorizes an application. Sent to the related application only.
 type V1AccountApplicationDeauthorizedEvent struct{ V2BaseEvent }
@@ -1142,6 +1152,16 @@ func (n *V1AccountApplicationDeauthorizedEventNotification) FetchEvent(ctx conte
 		return nil, err
 	}
 	return evt.(*V1AccountApplicationDeauthorizedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountApplicationDeauthorizedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1AccountExternalAccountCreatedEvent is the Go struct for the "v1.account.external_account.created" event.
@@ -1163,6 +1183,16 @@ func (n *V1AccountExternalAccountCreatedEventNotification) FetchEvent(ctx contex
 	return evt.(*V1AccountExternalAccountCreatedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountExternalAccountCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V1AccountExternalAccountDeletedEvent is the Go struct for the "v1.account.external_account.deleted" event.
 // Occurs whenever an external account is deleted.
 type V1AccountExternalAccountDeletedEvent struct{ V2BaseEvent }
@@ -1182,6 +1212,16 @@ func (n *V1AccountExternalAccountDeletedEventNotification) FetchEvent(ctx contex
 	return evt.(*V1AccountExternalAccountDeletedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountExternalAccountDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V1AccountExternalAccountUpdatedEvent is the Go struct for the "v1.account.external_account.updated" event.
 // Occurs whenever an external account is updated.
 type V1AccountExternalAccountUpdatedEvent struct{ V2BaseEvent }
@@ -1199,6 +1239,16 @@ func (n *V1AccountExternalAccountUpdatedEventNotification) FetchEvent(ctx contex
 		return nil, err
 	}
 	return evt.(*V1AccountExternalAccountUpdatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountExternalAccountUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1AccountUpdatedEvent is the Go struct for the "v1.account.updated" event.
@@ -1238,8 +1288,22 @@ func (n *V1AccountUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Account{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1AccountSignalsIncludingDelinquencyCreatedEvent is the Go struct for the "v1.account_signals[delinquency].created" event.
@@ -1262,6 +1326,16 @@ func (n *V1AccountSignalsIncludingDelinquencyCreatedEventNotification) FetchEven
 		return nil, err
 	}
 	return evt.(*V1AccountSignalsIncludingDelinquencyCreatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AccountSignalsIncludingDelinquencyCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1ApplicationFeeCreatedEvent is the Go struct for the "v1.application_fee.created" event.
@@ -1301,8 +1375,22 @@ func (n *V1ApplicationFeeCreatedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ApplicationFee{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ApplicationFeeCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ApplicationFeeRefundUpdatedEvent is the Go struct for the "v1.application_fee.refund.updated" event.
@@ -1342,8 +1430,22 @@ func (n *V1ApplicationFeeRefundUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FeeRefund{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ApplicationFeeRefundUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ApplicationFeeRefundedEvent is the Go struct for the "v1.application_fee.refunded" event.
@@ -1383,8 +1485,22 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ApplicationFee{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ApplicationFeeRefundedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BalanceAvailableEvent is the Go struct for the "v1.balance.available" event.
@@ -1424,8 +1540,22 @@ func (n *V1BalanceAvailableEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Balance{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BalanceAvailableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedSingletonObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BalanceSettingsUpdatedEvent is the Go struct for the "v1.balance_settings.updated" event.
@@ -1465,8 +1595,22 @@ func (n *V1BalanceSettingsUpdatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BalanceSettings{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BalanceSettingsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedSingletonObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingAlertTriggeredEvent is the Go struct for the "v1.billing.alert.triggered" event.
@@ -1506,8 +1650,22 @@ func (n *V1BillingAlertTriggeredEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingAlert{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingAlertTriggeredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingCreditBalanceTransactionCreatedEvent is the Go struct for the "v1.billing.credit_balance_transaction.created" event.
@@ -1547,8 +1705,22 @@ func (n *V1BillingCreditBalanceTransactionCreatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingCreditBalanceTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingCreditBalanceTransactionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingCreditGrantCreatedEvent is the Go struct for the "v1.billing.credit_grant.created" event.
@@ -1588,8 +1760,22 @@ func (n *V1BillingCreditGrantCreatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingCreditGrant{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingCreditGrantCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingCreditGrantUpdatedEvent is the Go struct for the "v1.billing.credit_grant.updated" event.
@@ -1629,8 +1815,22 @@ func (n *V1BillingCreditGrantUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingCreditGrant{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingCreditGrantUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingMeterCreatedEvent is the Go struct for the "v1.billing.meter.created" event.
@@ -1670,8 +1870,22 @@ func (n *V1BillingMeterCreatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingMeterDeactivatedEvent is the Go struct for the "v1.billing.meter.deactivated" event.
@@ -1711,8 +1925,22 @@ func (n *V1BillingMeterDeactivatedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
@@ -1753,8 +1981,22 @@ func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterErrorReportTriggeredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
@@ -1777,6 +2019,16 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 		return nil, err
 	}
 	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterNoMeterFoundEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1BillingMeterReactivatedEvent is the Go struct for the "v1.billing.meter.reactivated" event.
@@ -1816,8 +2068,22 @@ func (n *V1BillingMeterReactivatedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterReactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingMeterUpdatedEvent is the Go struct for the "v1.billing.meter.updated" event.
@@ -1857,8 +2123,22 @@ func (n *V1BillingMeterUpdatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingMeterUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingPortalConfigurationCreatedEvent is the Go struct for the "v1.billing_portal.configuration.created" event.
@@ -1898,8 +2178,22 @@ func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingPortalConfiguration{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingPortalConfigurationCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingPortalConfigurationUpdatedEvent is the Go struct for the "v1.billing_portal.configuration.updated" event.
@@ -1939,8 +2233,22 @@ func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingPortalConfiguration{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingPortalConfigurationUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1BillingPortalSessionCreatedEvent is the Go struct for the "v1.billing_portal.session.created" event.
@@ -1960,6 +2268,16 @@ func (n *V1BillingPortalSessionCreatedEventNotification) FetchEvent(ctx context.
 		return nil, err
 	}
 	return evt.(*V1BillingPortalSessionCreatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1BillingPortalSessionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1CapabilityUpdatedEvent is the Go struct for the "v1.capability.updated" event.
@@ -1999,8 +2317,22 @@ func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Capability{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CapabilityUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CashBalanceFundsAvailableEvent is the Go struct for the "v1.cash_balance.funds_available" event.
@@ -2040,8 +2372,22 @@ func (n *V1CashBalanceFundsAvailableEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CashBalance{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CashBalanceFundsAvailableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedSingletonObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeCapturedEvent is the Go struct for the "v1.charge.captured" event.
@@ -2081,8 +2427,22 @@ func (n *V1ChargeCapturedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeCapturedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeDisputeClosedEvent is the Go struct for the "v1.charge.dispute.closed" event.
@@ -2122,8 +2482,22 @@ func (n *V1ChargeDisputeClosedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Dispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeDisputeClosedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeDisputeCreatedEvent is the Go struct for the "v1.charge.dispute.created" event.
@@ -2163,8 +2537,22 @@ func (n *V1ChargeDisputeCreatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Dispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeDisputeCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeDisputeFundsReinstatedEvent is the Go struct for the "v1.charge.dispute.funds_reinstated" event.
@@ -2204,8 +2592,22 @@ func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Dispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeDisputeFundsReinstatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeDisputeFundsWithdrawnEvent is the Go struct for the "v1.charge.dispute.funds_withdrawn" event.
@@ -2245,8 +2647,22 @@ func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Dispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeDisputeFundsWithdrawnEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeDisputeUpdatedEvent is the Go struct for the "v1.charge.dispute.updated" event.
@@ -2286,8 +2702,22 @@ func (n *V1ChargeDisputeUpdatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Dispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeDisputeUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeExpiredEvent is the Go struct for the "v1.charge.expired" event.
@@ -2327,8 +2757,22 @@ func (n *V1ChargeExpiredEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeFailedEvent is the Go struct for the "v1.charge.failed" event.
@@ -2368,8 +2812,22 @@ func (n *V1ChargeFailedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargePendingEvent is the Go struct for the "v1.charge.pending" event.
@@ -2409,8 +2867,22 @@ func (n *V1ChargePendingEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargePendingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeRefundUpdatedEvent is the Go struct for the "v1.charge.refund.updated" event.
@@ -2450,8 +2922,22 @@ func (n *V1ChargeRefundUpdatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Refund{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeRefundUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeRefundedEvent is the Go struct for the "v1.charge.refunded" event.
@@ -2491,8 +2977,22 @@ func (n *V1ChargeRefundedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeRefundedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeSucceededEvent is the Go struct for the "v1.charge.succeeded" event.
@@ -2532,8 +3032,22 @@ func (n *V1ChargeSucceededEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ChargeUpdatedEvent is the Go struct for the "v1.charge.updated" event.
@@ -2573,8 +3087,22 @@ func (n *V1ChargeUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Charge{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ChargeUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CheckoutSessionAsyncPaymentFailedEvent is the Go struct for the "v1.checkout.session.async_payment_failed" event.
@@ -2614,8 +3142,22 @@ func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CheckoutSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CheckoutSessionAsyncPaymentFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CheckoutSessionAsyncPaymentSucceededEvent is the Go struct for the "v1.checkout.session.async_payment_succeeded" event.
@@ -2655,8 +3197,22 @@ func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CheckoutSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CheckoutSessionAsyncPaymentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CheckoutSessionCompletedEvent is the Go struct for the "v1.checkout.session.completed" event.
@@ -2696,8 +3252,22 @@ func (n *V1CheckoutSessionCompletedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CheckoutSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CheckoutSessionCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CheckoutSessionExpiredEvent is the Go struct for the "v1.checkout.session.expired" event.
@@ -2737,8 +3307,22 @@ func (n *V1CheckoutSessionExpiredEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CheckoutSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CheckoutSessionExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateOrderCanceledEvent is the Go struct for the "v1.climate.order.canceled" event.
@@ -2778,8 +3362,22 @@ func (n *V1ClimateOrderCanceledEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateOrder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateOrderCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateOrderCreatedEvent is the Go struct for the "v1.climate.order.created" event.
@@ -2819,8 +3417,22 @@ func (n *V1ClimateOrderCreatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateOrder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateOrderCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateOrderDelayedEvent is the Go struct for the "v1.climate.order.delayed" event.
@@ -2860,8 +3472,22 @@ func (n *V1ClimateOrderDelayedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateOrder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateOrderDelayedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateOrderDeliveredEvent is the Go struct for the "v1.climate.order.delivered" event.
@@ -2901,8 +3527,22 @@ func (n *V1ClimateOrderDeliveredEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateOrder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateOrderDeliveredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateOrderProductSubstitutedEvent is the Go struct for the "v1.climate.order.product_substituted" event.
@@ -2942,8 +3582,22 @@ func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateOrder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateOrderProductSubstitutedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateProductCreatedEvent is the Go struct for the "v1.climate.product.created" event.
@@ -2983,8 +3637,22 @@ func (n *V1ClimateProductCreatedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateProduct{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateProductCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ClimateProductPricingUpdatedEvent is the Go struct for the "v1.climate.product.pricing_updated" event.
@@ -3024,8 +3692,22 @@ func (n *V1ClimateProductPricingUpdatedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &ClimateProduct{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ClimateProductPricingUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CouponCreatedEvent is the Go struct for the "v1.coupon.created" event.
@@ -3065,8 +3747,22 @@ func (n *V1CouponCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Coupon{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CouponCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CouponDeletedEvent is the Go struct for the "v1.coupon.deleted" event.
@@ -3106,8 +3802,22 @@ func (n *V1CouponDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Coupon{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CouponDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CouponUpdatedEvent is the Go struct for the "v1.coupon.updated" event.
@@ -3147,8 +3857,22 @@ func (n *V1CouponUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Coupon{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CouponUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CreditNoteCreatedEvent is the Go struct for the "v1.credit_note.created" event.
@@ -3188,8 +3912,22 @@ func (n *V1CreditNoteCreatedEventNotification) FetchRelatedObject(ctx context.Co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CreditNote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CreditNoteCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CreditNoteUpdatedEvent is the Go struct for the "v1.credit_note.updated" event.
@@ -3229,8 +3967,22 @@ func (n *V1CreditNoteUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CreditNote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CreditNoteUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CreditNoteVoidedEvent is the Go struct for the "v1.credit_note.voided" event.
@@ -3270,8 +4022,22 @@ func (n *V1CreditNoteVoidedEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CreditNote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CreditNoteVoidedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerCreatedEvent is the Go struct for the "v1.customer.created" event.
@@ -3311,8 +4077,22 @@ func (n *V1CustomerCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Customer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerDeletedEvent is the Go struct for the "v1.customer.deleted" event.
@@ -3352,8 +4132,22 @@ func (n *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Customer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerDiscountSourceChangedEvent is the Go struct for the "v1.customer.discount.source_changed" event.
@@ -3373,6 +4167,16 @@ func (n *V1CustomerDiscountSourceChangedEventNotification) FetchEvent(ctx contex
 		return nil, err
 	}
 	return evt.(*V1CustomerDiscountSourceChangedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerDiscountSourceChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1CustomerSubscriptionActiveEvent is the Go struct for the "v1.customer.subscription.active" event.
@@ -3412,8 +4216,22 @@ func (n *V1CustomerSubscriptionActiveEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionActiveEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionCancelAtChangedEvent is the Go struct for the "v1.customer.subscription.cancel_at_changed" event.
@@ -3453,8 +4271,22 @@ func (n *V1CustomerSubscriptionCancelAtChangedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionCancelAtChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionCreatedEvent is the Go struct for the "v1.customer.subscription.created" event.
@@ -3494,8 +4326,22 @@ func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionDefaultPaymentMethodChangedEvent is the Go struct for the "v1.customer.subscription.default_payment_method_changed" event.
@@ -3535,8 +4381,22 @@ func (n *V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionDeletedEvent is the Go struct for the "v1.customer.subscription.deleted" event.
@@ -3576,8 +4436,22 @@ func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionIncompleteEvent is the Go struct for the "v1.customer.subscription.incomplete" event.
@@ -3617,8 +4491,22 @@ func (n *V1CustomerSubscriptionIncompleteEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionIncompleteEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionIncompleteExpiredEvent is the Go struct for the "v1.customer.subscription.incomplete_expired" event.
@@ -3658,8 +4546,22 @@ func (n *V1CustomerSubscriptionIncompleteExpiredEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionIncompleteExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionItemAddedEvent is the Go struct for the "v1.customer.subscription.item_added" event.
@@ -3699,8 +4601,22 @@ func (n *V1CustomerSubscriptionItemAddedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionItemAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionItemPriceChangedEvent is the Go struct for the "v1.customer.subscription.item_price_changed" event.
@@ -3740,8 +4656,22 @@ func (n *V1CustomerSubscriptionItemPriceChangedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionItemPriceChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionItemQuantityChangedEvent is the Go struct for the "v1.customer.subscription.item_quantity_changed" event.
@@ -3781,8 +4711,22 @@ func (n *V1CustomerSubscriptionItemQuantityChangedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionItemQuantityChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionItemRemovedEvent is the Go struct for the "v1.customer.subscription.item_removed" event.
@@ -3822,8 +4766,22 @@ func (n *V1CustomerSubscriptionItemRemovedEventNotification) FetchRelatedObject(
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionItemRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionItemTaxRatesChangedEvent is the Go struct for the "v1.customer.subscription.item_tax_rates_changed" event.
@@ -3863,8 +4821,22 @@ func (n *V1CustomerSubscriptionItemTaxRatesChangedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionItemTaxRatesChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionPastDueEvent is the Go struct for the "v1.customer.subscription.past_due" event.
@@ -3904,8 +4876,22 @@ func (n *V1CustomerSubscriptionPastDueEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionPastDueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionPausedEvent is the Go struct for the "v1.customer.subscription.paused" event.
@@ -3945,8 +4931,22 @@ func (n *V1CustomerSubscriptionPausedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionPendingUpdateAppliedEvent is the Go struct for the "v1.customer.subscription.pending_update_applied" event.
@@ -3986,8 +4986,22 @@ func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionPendingUpdateAppliedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionPendingUpdateExpiredEvent is the Go struct for the "v1.customer.subscription.pending_update_expired" event.
@@ -4027,8 +5041,22 @@ func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionPendingUpdateExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionResumedEvent is the Go struct for the "v1.customer.subscription.resumed" event.
@@ -4068,8 +5096,22 @@ func (n *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionResumedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionTrialWillEndEvent is the Go struct for the "v1.customer.subscription.trial_will_end" event.
@@ -4109,8 +5151,22 @@ func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionTrialWillEndEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionTrialingEvent is the Go struct for the "v1.customer.subscription.trialing" event.
@@ -4150,8 +5206,22 @@ func (n *V1CustomerSubscriptionTrialingEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionTrialingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionUnpaidEvent is the Go struct for the "v1.customer.subscription.unpaid" event.
@@ -4191,8 +5261,22 @@ func (n *V1CustomerSubscriptionUnpaidEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionUnpaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerSubscriptionUpdatedEvent is the Go struct for the "v1.customer.subscription.updated" event.
@@ -4232,8 +5316,22 @@ func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Subscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerSubscriptionUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerTaxIDCreatedEvent is the Go struct for the "v1.customer.tax_id.created" event.
@@ -4273,8 +5371,22 @@ func (n *V1CustomerTaxIDCreatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxID{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerTaxIDCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerTaxIDDeletedEvent is the Go struct for the "v1.customer.tax_id.deleted" event.
@@ -4314,8 +5426,22 @@ func (n *V1CustomerTaxIDDeletedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxID{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerTaxIDDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerTaxIDUpdatedEvent is the Go struct for the "v1.customer.tax_id.updated" event.
@@ -4355,8 +5481,22 @@ func (n *V1CustomerTaxIDUpdatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxID{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerTaxIDUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerUpdatedEvent is the Go struct for the "v1.customer.updated" event.
@@ -4396,8 +5536,22 @@ func (n *V1CustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Customer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1CustomerCashBalanceTransactionCreatedEvent is the Go struct for the "v1.customer_cash_balance_transaction.created" event.
@@ -4437,8 +5591,22 @@ func (n *V1CustomerCashBalanceTransactionCreatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &CustomerCashBalanceTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1CustomerCashBalanceTransactionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_added" event.
@@ -4462,6 +5630,16 @@ func (n *V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification
 	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.entitlement_removed" event.
 // Occurs when an entitlement is removed from a customer's active entitlement summary.
 type V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent struct {
@@ -4483,6 +5661,16 @@ func (n *V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotificati
 	return evt.(*V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V1EntitlementsActiveEntitlementSummaryUpdatedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.updated" event.
 // Occurs whenever a customer's entitlements change.
 type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct{ V2BaseEvent }
@@ -4500,6 +5688,16 @@ func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchEv
 		return nil, err
 	}
 	return evt.(*V1EntitlementsActiveEntitlementSummaryUpdatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1FileCreatedEvent is the Go struct for the "v1.file.created" event.
@@ -4539,8 +5737,22 @@ func (n *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &File{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FileCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountAccountNumbersUpdatedEvent is the Go struct for the "v1.financial_connections.account.account_numbers_updated" event.
@@ -4580,8 +5792,22 @@ func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountBalanceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_failed" event.
@@ -4621,8 +5847,22 @@ func (n *V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountBalanceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.balance_refresh_succeeded" event.
@@ -4662,8 +5902,22 @@ func (n *V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountCreatedEvent is the Go struct for the "v1.financial_connections.account.created" event.
@@ -4703,8 +5957,22 @@ func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountDeactivatedEvent is the Go struct for the "v1.financial_connections.account.deactivated" event.
@@ -4744,8 +6012,22 @@ func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountDisconnectedEvent is the Go struct for the "v1.financial_connections.account.disconnected" event.
@@ -4785,8 +6067,22 @@ func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountDisconnectedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent is the Go struct for the "v1.financial_connections.account.expected_deactivation_date_updated" event.
@@ -4826,8 +6122,22 @@ func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotifi
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_failed" event.
@@ -4867,8 +6177,22 @@ func (n *V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotifica
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.inferred_balances_refresh_succeeded" event.
@@ -4908,8 +6232,22 @@ func (n *V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotif
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountOwnershipRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_failed" event.
@@ -4949,8 +6287,22 @@ func (n *V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) F
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.ownership_refresh_succeeded" event.
@@ -4990,8 +6342,22 @@ func (n *V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountReactivatedEvent is the Go struct for the "v1.financial_connections.account.reactivated" event.
@@ -5031,8 +6397,22 @@ func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountReactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountRefreshedBalanceEvent is the Go struct for the "v1.financial_connections.account.refreshed_balance" event.
@@ -5072,8 +6452,22 @@ func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountRefreshedBalanceEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountRefreshedOwnershipEvent is the Go struct for the "v1.financial_connections.account.refreshed_ownership" event.
@@ -5113,8 +6507,22 @@ func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountRefreshedTransactionsEvent is the Go struct for the "v1.financial_connections.account.refreshed_transactions" event.
@@ -5154,8 +6562,22 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_failed" event.
@@ -5195,8 +6617,22 @@ func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotifica
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.risk_intelligence_refresh_succeeded" event.
@@ -5236,8 +6672,22 @@ func (n *V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotif
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent is the Go struct for the "v1.financial_connections.account.supported_payment_method_types_updated" event.
@@ -5277,8 +6727,22 @@ func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNot
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountTransactionsRefreshFailedEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_failed" event.
@@ -5318,8 +6782,22 @@ func (n *V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent is the Go struct for the "v1.financial_connections.account.transactions_refresh_succeeded" event.
@@ -5359,8 +6837,22 @@ func (n *V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotificat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent is the Go struct for the "v1.financial_connections.account.upcoming_account_number_expiry" event.
@@ -5400,8 +6892,22 @@ func (n *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotificati
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FinancialConnectionsAccountUpcomingDeactivationEvent is the Go struct for the "v1.financial_connections.account.upcoming_deactivation" event.
@@ -5441,8 +6947,22 @@ func (n *V1FinancialConnectionsAccountUpcomingDeactivationEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &FinancialConnectionsAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1FinancialConnectionsAccountUpcomingDeactivationEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionCanceledEvent is the Go struct for the "v1.identity.verification_session.canceled" event.
@@ -5482,8 +7002,22 @@ func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionCreatedEvent is the Go struct for the "v1.identity.verification_session.created" event.
@@ -5523,8 +7057,22 @@ func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionProcessingEvent is the Go struct for the "v1.identity.verification_session.processing" event.
@@ -5564,8 +7112,22 @@ func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionRedactedEvent is the Go struct for the "v1.identity.verification_session.redacted" event.
@@ -5605,8 +7167,22 @@ func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionRedactedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionRequiresInputEvent is the Go struct for the "v1.identity.verification_session.requires_input" event.
@@ -5646,8 +7222,22 @@ func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionRequiresInputEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IdentityVerificationSessionVerifiedEvent is the Go struct for the "v1.identity.verification_session.verified" event.
@@ -5687,8 +7277,22 @@ func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IdentityVerificationSession{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IdentityVerificationSessionVerifiedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceCreatedEvent is the Go struct for the "v1.invoice.created" event.
@@ -5728,8 +7332,22 @@ func (n *V1InvoiceCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceDeletedEvent is the Go struct for the "v1.invoice.deleted" event.
@@ -5769,8 +7387,22 @@ func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceDiscountAddedEvent is the Go struct for the "v1.invoice.discount_added" event.
@@ -5810,8 +7442,22 @@ func (n *V1InvoiceDiscountAddedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceDiscountAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceDiscountRemovedEvent is the Go struct for the "v1.invoice.discount_removed" event.
@@ -5851,8 +7497,22 @@ func (n *V1InvoiceDiscountRemovedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceDiscountRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceFinalizationFailedEvent is the Go struct for the "v1.invoice.finalization_failed" event.
@@ -5892,8 +7552,22 @@ func (n *V1InvoiceFinalizationFailedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceFinalizationFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceFinalizedEvent is the Go struct for the "v1.invoice.finalized" event.
@@ -5933,8 +7607,22 @@ func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceFinalizedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceLineItemAddedEvent is the Go struct for the "v1.invoice.line_item_added" event.
@@ -5974,8 +7662,22 @@ func (n *V1InvoiceLineItemAddedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceLineItemAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceLineItemPricingChangedEvent is the Go struct for the "v1.invoice.line_item_pricing_changed" event.
@@ -6015,8 +7717,22 @@ func (n *V1InvoiceLineItemPricingChangedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceLineItemPricingChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceLineItemQuantityChangedEvent is the Go struct for the "v1.invoice.line_item_quantity_changed" event.
@@ -6056,8 +7772,22 @@ func (n *V1InvoiceLineItemQuantityChangedEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceLineItemQuantityChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceLineItemRemovedEvent is the Go struct for the "v1.invoice.line_item_removed" event.
@@ -6097,8 +7827,22 @@ func (n *V1InvoiceLineItemRemovedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceLineItemRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceMarkedUncollectibleEvent is the Go struct for the "v1.invoice.marked_uncollectible" event.
@@ -6138,8 +7882,22 @@ func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceMarkedUncollectibleEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceOverdueEvent is the Go struct for the "v1.invoice.overdue" event.
@@ -6179,8 +7937,22 @@ func (n *V1InvoiceOverdueEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceOverdueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceOverpaidEvent is the Go struct for the "v1.invoice.overpaid" event.
@@ -6220,8 +7992,22 @@ func (n *V1InvoiceOverpaidEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceOverpaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaidEvent is the Go struct for the "v1.invoice.paid" event.
@@ -6261,8 +8047,22 @@ func (n *V1InvoicePaidEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentActionRequiredEvent is the Go struct for the "v1.invoice.payment_action_required" event.
@@ -6302,8 +8102,22 @@ func (n *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentActionRequiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentAttemptRequiredEvent is the Go struct for the "v1.invoice.payment_attempt_required" event.
@@ -6343,8 +8157,22 @@ func (n *V1InvoicePaymentAttemptRequiredEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentAttemptRequiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentFailedEvent is the Go struct for the "v1.invoice.payment_failed" event.
@@ -6384,8 +8212,22 @@ func (n *V1InvoicePaymentFailedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentSucceededEvent is the Go struct for the "v1.invoice.payment_succeeded" event.
@@ -6425,8 +8267,22 @@ func (n *V1InvoicePaymentSucceededEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceSentEvent is the Go struct for the "v1.invoice.sent" event.
@@ -6466,8 +8322,22 @@ func (n *V1InvoiceSentEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceSentEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceUpcomingEvent is the Go struct for the "v1.invoice.upcoming" event.
@@ -6488,6 +8358,16 @@ func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V
 		return nil, err
 	}
 	return evt.(*V1InvoiceUpcomingEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceUpcomingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V1InvoiceUpdatedEvent is the Go struct for the "v1.invoice.updated" event.
@@ -6527,8 +8407,22 @@ func (n *V1InvoiceUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceVoidedEvent is the Go struct for the "v1.invoice.voided" event.
@@ -6568,8 +8462,22 @@ func (n *V1InvoiceVoidedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceVoidedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceWillBeDueEvent is the Go struct for the "v1.invoice.will_be_due" event.
@@ -6609,8 +8517,22 @@ func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Invoice{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceWillBeDueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentCanceledEvent is the Go struct for the "v1.invoice_payment.canceled" event.
@@ -6650,8 +8572,22 @@ func (n *V1InvoicePaymentCanceledEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoicePayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentOpenEvent is the Go struct for the "v1.invoice_payment.open" event.
@@ -6691,8 +8627,22 @@ func (n *V1InvoicePaymentOpenEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoicePayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentOpenEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoicePaymentPaidEvent is the Go struct for the "v1.invoice_payment.paid" event.
@@ -6732,8 +8682,22 @@ func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoicePayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoicePaymentPaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceitemAmountChangedEvent is the Go struct for the "v1.invoiceitem.amount_changed" event.
@@ -6773,8 +8737,22 @@ func (n *V1InvoiceitemAmountChangedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceitemAmountChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceitemCreatedEvent is the Go struct for the "v1.invoiceitem.created" event.
@@ -6814,8 +8792,22 @@ func (n *V1InvoiceitemCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceitemCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceitemDeletedEvent is the Go struct for the "v1.invoiceitem.deleted" event.
@@ -6855,8 +8847,22 @@ func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceitemDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceitemDiscountAddedEvent is the Go struct for the "v1.invoiceitem.discount_added" event.
@@ -6896,8 +8902,22 @@ func (n *V1InvoiceitemDiscountAddedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceitemDiscountAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1InvoiceitemDiscountRemovedEvent is the Go struct for the "v1.invoiceitem.discount_removed" event.
@@ -6937,8 +8957,22 @@ func (n *V1InvoiceitemDiscountRemovedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &InvoiceItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1InvoiceitemDiscountRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingAuthorizationCreatedEvent is the Go struct for the "v1.issuing_authorization.created" event.
@@ -6978,8 +9012,22 @@ func (n *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingAuthorization{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingAuthorizationCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingAuthorizationRequestEvent is the Go struct for the "v1.issuing_authorization.request" event.
@@ -7019,8 +9067,22 @@ func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingAuthorization{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingAuthorizationRequestEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingAuthorizationUpdatedEvent is the Go struct for the "v1.issuing_authorization.updated" event.
@@ -7060,8 +9122,22 @@ func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingAuthorization{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingAuthorizationUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingCardCreatedEvent is the Go struct for the "v1.issuing_card.created" event.
@@ -7101,8 +9177,22 @@ func (n *V1IssuingCardCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingCard{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingCardCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingCardUpdatedEvent is the Go struct for the "v1.issuing_card.updated" event.
@@ -7142,8 +9232,22 @@ func (n *V1IssuingCardUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingCard{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingCardUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingCardholderCreatedEvent is the Go struct for the "v1.issuing_cardholder.created" event.
@@ -7183,8 +9287,22 @@ func (n *V1IssuingCardholderCreatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingCardholder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingCardholderCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingCardholderUpdatedEvent is the Go struct for the "v1.issuing_cardholder.updated" event.
@@ -7224,8 +9342,22 @@ func (n *V1IssuingCardholderUpdatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingCardholder{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingCardholderUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeClosedEvent is the Go struct for the "v1.issuing_dispute.closed" event.
@@ -7265,8 +9397,22 @@ func (n *V1IssuingDisputeClosedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeClosedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeCreatedEvent is the Go struct for the "v1.issuing_dispute.created" event.
@@ -7306,8 +9452,22 @@ func (n *V1IssuingDisputeCreatedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeFundsReinstatedEvent is the Go struct for the "v1.issuing_dispute.funds_reinstated" event.
@@ -7347,8 +9507,22 @@ func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeFundsReinstatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeFundsRescindedEvent is the Go struct for the "v1.issuing_dispute.funds_rescinded" event.
@@ -7388,8 +9562,22 @@ func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeFundsRescindedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeSubmittedEvent is the Go struct for the "v1.issuing_dispute.submitted" event.
@@ -7429,8 +9617,22 @@ func (n *V1IssuingDisputeSubmittedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeSubmittedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingDisputeUpdatedEvent is the Go struct for the "v1.issuing_dispute.updated" event.
@@ -7470,8 +9672,22 @@ func (n *V1IssuingDisputeUpdatedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingDisputeUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingPersonalizationDesignActivatedEvent is the Go struct for the "v1.issuing_personalization_design.activated" event.
@@ -7511,8 +9727,22 @@ func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingPersonalizationDesign{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingPersonalizationDesignActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingPersonalizationDesignDeactivatedEvent is the Go struct for the "v1.issuing_personalization_design.deactivated" event.
@@ -7552,8 +9782,22 @@ func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingPersonalizationDesign{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingPersonalizationDesignDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingPersonalizationDesignRejectedEvent is the Go struct for the "v1.issuing_personalization_design.rejected" event.
@@ -7593,8 +9837,22 @@ func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingPersonalizationDesign{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingPersonalizationDesignRejectedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingPersonalizationDesignUpdatedEvent is the Go struct for the "v1.issuing_personalization_design.updated" event.
@@ -7634,8 +9892,22 @@ func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingPersonalizationDesign{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingPersonalizationDesignUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingTokenCreatedEvent is the Go struct for the "v1.issuing_token.created" event.
@@ -7675,8 +9947,22 @@ func (n *V1IssuingTokenCreatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingTokenCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingTokenUpdatedEvent is the Go struct for the "v1.issuing_token.updated" event.
@@ -7716,8 +10002,22 @@ func (n *V1IssuingTokenUpdatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingTokenUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingTransactionCreatedEvent is the Go struct for the "v1.issuing_transaction.created" event.
@@ -7757,8 +10057,22 @@ func (n *V1IssuingTransactionCreatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingTransactionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent is the Go struct for the "v1.issuing_transaction.purchase_details_receipt_updated" event.
@@ -7798,8 +10112,22 @@ func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1IssuingTransactionUpdatedEvent is the Go struct for the "v1.issuing_transaction.updated" event.
@@ -7839,8 +10167,22 @@ func (n *V1IssuingTransactionUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &IssuingTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1IssuingTransactionUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1MandateUpdatedEvent is the Go struct for the "v1.mandate.updated" event.
@@ -7880,8 +10222,22 @@ func (n *V1MandateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Mandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1MandateUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentAmountCapturableUpdatedEvent is the Go struct for the "v1.payment_intent.amount_capturable_updated" event.
@@ -7921,8 +10277,22 @@ func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentAmountCapturableUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentCanceledEvent is the Go struct for the "v1.payment_intent.canceled" event.
@@ -7962,8 +10332,22 @@ func (n *V1PaymentIntentCanceledEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentCreatedEvent is the Go struct for the "v1.payment_intent.created" event.
@@ -8003,8 +10387,22 @@ func (n *V1PaymentIntentCreatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentPartiallyFundedEvent is the Go struct for the "v1.payment_intent.partially_funded" event.
@@ -8044,8 +10442,22 @@ func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentPartiallyFundedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentPaymentFailedEvent is the Go struct for the "v1.payment_intent.payment_failed" event.
@@ -8085,8 +10497,22 @@ func (n *V1PaymentIntentPaymentFailedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentPaymentFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentProcessingEvent is the Go struct for the "v1.payment_intent.processing" event.
@@ -8126,8 +10552,22 @@ func (n *V1PaymentIntentProcessingEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentRequiresActionEvent is the Go struct for the "v1.payment_intent.requires_action" event.
@@ -8167,8 +10607,22 @@ func (n *V1PaymentIntentRequiresActionEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentRequiresActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentIntentSucceededEvent is the Go struct for the "v1.payment_intent.succeeded" event.
@@ -8208,8 +10662,22 @@ func (n *V1PaymentIntentSucceededEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentIntentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentLinkCreatedEvent is the Go struct for the "v1.payment_link.created" event.
@@ -8249,8 +10717,22 @@ func (n *V1PaymentLinkCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentLink{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentLinkCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentLinkUpdatedEvent is the Go struct for the "v1.payment_link.updated" event.
@@ -8290,8 +10772,22 @@ func (n *V1PaymentLinkUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentLink{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentLinkUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentMethodAttachedEvent is the Go struct for the "v1.payment_method.attached" event.
@@ -8331,8 +10827,22 @@ func (n *V1PaymentMethodAttachedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentMethodAttachedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentMethodAutomaticallyUpdatedEvent is the Go struct for the "v1.payment_method.automatically_updated" event.
@@ -8372,8 +10882,22 @@ func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentMethodAutomaticallyUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentMethodDetachedEvent is the Go struct for the "v1.payment_method.detached" event.
@@ -8413,8 +10937,22 @@ func (n *V1PaymentMethodDetachedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentMethodDetachedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PaymentMethodUpdatedEvent is the Go struct for the "v1.payment_method.updated" event.
@@ -8454,8 +10992,22 @@ func (n *V1PaymentMethodUpdatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PaymentMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PaymentMethodUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutCanceledEvent is the Go struct for the "v1.payout.canceled" event.
@@ -8495,8 +11047,22 @@ func (n *V1PayoutCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutCreatedEvent is the Go struct for the "v1.payout.created" event.
@@ -8536,8 +11102,22 @@ func (n *V1PayoutCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutFailedEvent is the Go struct for the "v1.payout.failed" event.
@@ -8577,8 +11157,22 @@ func (n *V1PayoutFailedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutPaidEvent is the Go struct for the "v1.payout.paid" event.
@@ -8618,8 +11212,22 @@ func (n *V1PayoutPaidEventNotification) FetchRelatedObject(ctx context.Context) 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutPaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutReconciliationCompletedEvent is the Go struct for the "v1.payout.reconciliation_completed" event.
@@ -8659,8 +11267,22 @@ func (n *V1PayoutReconciliationCompletedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutReconciliationCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PayoutUpdatedEvent is the Go struct for the "v1.payout.updated" event.
@@ -8700,8 +11322,22 @@ func (n *V1PayoutUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Payout{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PayoutUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PersonCreatedEvent is the Go struct for the "v1.person.created" event.
@@ -8741,8 +11377,22 @@ func (n *V1PersonCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Person{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PersonCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PersonDeletedEvent is the Go struct for the "v1.person.deleted" event.
@@ -8782,8 +11432,22 @@ func (n *V1PersonDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Person{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PersonDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PersonUpdatedEvent is the Go struct for the "v1.person.updated" event.
@@ -8823,8 +11487,22 @@ func (n *V1PersonUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Person{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PersonUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PlanCreatedEvent is the Go struct for the "v1.plan.created" event.
@@ -8864,8 +11542,22 @@ func (n *V1PlanCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Plan{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PlanCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PlanDeletedEvent is the Go struct for the "v1.plan.deleted" event.
@@ -8905,8 +11597,22 @@ func (n *V1PlanDeletedEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Plan{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PlanDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PlanUpdatedEvent is the Go struct for the "v1.plan.updated" event.
@@ -8946,8 +11652,22 @@ func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Plan{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PlanUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceActivatedEvent is the Go struct for the "v1.price.activated" event.
@@ -8987,8 +11707,22 @@ func (n *V1PriceActivatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceCreatedEvent is the Go struct for the "v1.price.created" event.
@@ -9028,8 +11762,22 @@ func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceDeactivatedEvent is the Go struct for the "v1.price.deactivated" event.
@@ -9069,8 +11817,22 @@ func (n *V1PriceDeactivatedEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceDeletedEvent is the Go struct for the "v1.price.deleted" event.
@@ -9110,8 +11872,22 @@ func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceLookupKeyChangedEvent is the Go struct for the "v1.price.lookup_key_changed" event.
@@ -9151,8 +11927,22 @@ func (n *V1PriceLookupKeyChangedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceLookupKeyChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceTaxBehaviorChangedEvent is the Go struct for the "v1.price.tax_behavior_changed" event.
@@ -9192,8 +11982,22 @@ func (n *V1PriceTaxBehaviorChangedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceTaxBehaviorChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PriceUpdatedEvent is the Go struct for the "v1.price.updated" event.
@@ -9233,8 +12037,22 @@ func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Price{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PriceUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductActivatedEvent is the Go struct for the "v1.product.activated" event.
@@ -9274,8 +12092,22 @@ func (n *V1ProductActivatedEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductCreatedEvent is the Go struct for the "v1.product.created" event.
@@ -9315,8 +12147,22 @@ func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductDeactivatedEvent is the Go struct for the "v1.product.deactivated" event.
@@ -9356,8 +12202,22 @@ func (n *V1ProductDeactivatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductDefaultPriceChangedEvent is the Go struct for the "v1.product.default_price_changed" event.
@@ -9397,8 +12257,22 @@ func (n *V1ProductDefaultPriceChangedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductDefaultPriceChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductDeletedEvent is the Go struct for the "v1.product.deleted" event.
@@ -9438,8 +12312,22 @@ func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductTaxCodeChangedEvent is the Go struct for the "v1.product.tax_code_changed" event.
@@ -9479,8 +12367,22 @@ func (n *V1ProductTaxCodeChangedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductTaxCodeChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ProductUpdatedEvent is the Go struct for the "v1.product.updated" event.
@@ -9520,8 +12422,22 @@ func (n *V1ProductUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Product{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ProductUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PromotionCodeCreatedEvent is the Go struct for the "v1.promotion_code.created" event.
@@ -9561,8 +12477,22 @@ func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PromotionCode{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PromotionCodeCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PromotionCodeFullyRedeemedEvent is the Go struct for the "v1.promotion_code.fully_redeemed" event.
@@ -9602,8 +12532,22 @@ func (n *V1PromotionCodeFullyRedeemedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PromotionCode{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PromotionCodeFullyRedeemedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1PromotionCodeUpdatedEvent is the Go struct for the "v1.promotion_code.updated" event.
@@ -9643,8 +12587,22 @@ func (n *V1PromotionCodeUpdatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &PromotionCode{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1PromotionCodeUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1QuoteAcceptedEvent is the Go struct for the "v1.quote.accepted" event.
@@ -9684,8 +12642,22 @@ func (n *V1QuoteAcceptedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Quote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1QuoteAcceptedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1QuoteCanceledEvent is the Go struct for the "v1.quote.canceled" event.
@@ -9725,8 +12697,22 @@ func (n *V1QuoteCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Quote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1QuoteCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1QuoteCreatedEvent is the Go struct for the "v1.quote.created" event.
@@ -9766,8 +12752,22 @@ func (n *V1QuoteCreatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Quote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1QuoteCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1QuoteFinalizedEvent is the Go struct for the "v1.quote.finalized" event.
@@ -9807,8 +12807,22 @@ func (n *V1QuoteFinalizedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Quote{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1QuoteFinalizedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1RadarEarlyFraudWarningCreatedEvent is the Go struct for the "v1.radar.early_fraud_warning.created" event.
@@ -9848,8 +12862,22 @@ func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &RadarEarlyFraudWarning{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1RadarEarlyFraudWarningCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1RadarEarlyFraudWarningUpdatedEvent is the Go struct for the "v1.radar.early_fraud_warning.updated" event.
@@ -9889,8 +12917,22 @@ func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &RadarEarlyFraudWarning{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1RadarEarlyFraudWarningUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1RefundCreatedEvent is the Go struct for the "v1.refund.created" event.
@@ -9930,8 +12972,22 @@ func (n *V1RefundCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Refund{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1RefundCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1RefundFailedEvent is the Go struct for the "v1.refund.failed" event.
@@ -9971,8 +13027,22 @@ func (n *V1RefundFailedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Refund{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1RefundFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1RefundUpdatedEvent is the Go struct for the "v1.refund.updated" event.
@@ -10012,8 +13082,22 @@ func (n *V1RefundUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Refund{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1RefundUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ReviewClosedEvent is the Go struct for the "v1.review.closed" event.
@@ -10053,8 +13137,22 @@ func (n *V1ReviewClosedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Review{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ReviewClosedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1ReviewOpenedEvent is the Go struct for the "v1.review.opened" event.
@@ -10094,8 +13192,22 @@ func (n *V1ReviewOpenedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Review{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1ReviewOpenedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SetupIntentCanceledEvent is the Go struct for the "v1.setup_intent.canceled" event.
@@ -10135,8 +13247,22 @@ func (n *V1SetupIntentCanceledEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SetupIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SetupIntentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SetupIntentCreatedEvent is the Go struct for the "v1.setup_intent.created" event.
@@ -10176,8 +13302,22 @@ func (n *V1SetupIntentCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SetupIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SetupIntentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SetupIntentRequiresActionEvent is the Go struct for the "v1.setup_intent.requires_action" event.
@@ -10217,8 +13357,22 @@ func (n *V1SetupIntentRequiresActionEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SetupIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SetupIntentRequiresActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SetupIntentSetupFailedEvent is the Go struct for the "v1.setup_intent.setup_failed" event.
@@ -10258,8 +13412,22 @@ func (n *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SetupIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SetupIntentSetupFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SetupIntentSucceededEvent is the Go struct for the "v1.setup_intent.succeeded" event.
@@ -10299,8 +13467,22 @@ func (n *V1SetupIntentSucceededEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SetupIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SetupIntentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SigmaScheduledQueryRunCreatedEvent is the Go struct for the "v1.sigma.scheduled_query_run.created" event.
@@ -10340,8 +13522,22 @@ func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SigmaScheduledQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SigmaScheduledQueryRunCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SourceCanceledEvent is the Go struct for the "v1.source.canceled" event.
@@ -10381,8 +13577,22 @@ func (n *V1SourceCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Source{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SourceCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SourceChargeableEvent is the Go struct for the "v1.source.chargeable" event.
@@ -10422,8 +13632,22 @@ func (n *V1SourceChargeableEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Source{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SourceChargeableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SourceFailedEvent is the Go struct for the "v1.source.failed" event.
@@ -10463,8 +13687,22 @@ func (n *V1SourceFailedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Source{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SourceFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SourceRefundAttributesRequiredEvent is the Go struct for the "v1.source.refund_attributes_required" event.
@@ -10504,8 +13742,22 @@ func (n *V1SourceRefundAttributesRequiredEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Source{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SourceRefundAttributesRequiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleAbortedEvent is the Go struct for the "v1.subscription_schedule.aborted" event.
@@ -10545,8 +13797,22 @@ func (n *V1SubscriptionScheduleAbortedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleAbortedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleCanceledEvent is the Go struct for the "v1.subscription_schedule.canceled" event.
@@ -10586,8 +13852,22 @@ func (n *V1SubscriptionScheduleCanceledEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleCompletedEvent is the Go struct for the "v1.subscription_schedule.completed" event.
@@ -10627,8 +13907,22 @@ func (n *V1SubscriptionScheduleCompletedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleCreatedEvent is the Go struct for the "v1.subscription_schedule.created" event.
@@ -10668,8 +13962,22 @@ func (n *V1SubscriptionScheduleCreatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleExpiringEvent is the Go struct for the "v1.subscription_schedule.expiring" event.
@@ -10709,8 +14017,22 @@ func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleExpiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionSchedulePhaseAddedEvent is the Go struct for the "v1.subscription_schedule.phase_added" event.
@@ -10750,8 +14072,22 @@ func (n *V1SubscriptionSchedulePhaseAddedEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionSchedulePhaseAddedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent is the Go struct for the "v1.subscription_schedule.phase_default_tax_rates_changed" event.
@@ -10791,8 +14127,22 @@ func (n *V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionSchedulePhaseEndDateChangedEvent is the Go struct for the "v1.subscription_schedule.phase_end_date_changed" event.
@@ -10832,8 +14182,22 @@ func (n *V1SubscriptionSchedulePhaseEndDateChangedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionSchedulePhaseEndDateChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionSchedulePhaseRemovedEvent is the Go struct for the "v1.subscription_schedule.phase_removed" event.
@@ -10873,8 +14237,22 @@ func (n *V1SubscriptionSchedulePhaseRemovedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionSchedulePhaseRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionSchedulePhaseTrialEndChangedEvent is the Go struct for the "v1.subscription_schedule.phase_trial_end_changed" event.
@@ -10914,8 +14292,22 @@ func (n *V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionSchedulePhaseTrialEndChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleReleasedEvent is the Go struct for the "v1.subscription_schedule.released" event.
@@ -10955,8 +14347,22 @@ func (n *V1SubscriptionScheduleReleasedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleReleasedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1SubscriptionScheduleUpdatedEvent is the Go struct for the "v1.subscription_schedule.updated" event.
@@ -10996,8 +14402,22 @@ func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &SubscriptionSchedule{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1SubscriptionScheduleUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TaxSettingsUpdatedEvent is the Go struct for the "v1.tax.settings.updated" event.
@@ -11037,8 +14457,22 @@ func (n *V1TaxSettingsUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxSettings{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TaxSettingsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedSingletonObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TaxRateCreatedEvent is the Go struct for the "v1.tax_rate.created" event.
@@ -11078,8 +14512,22 @@ func (n *V1TaxRateCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxRate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TaxRateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TaxRateUpdatedEvent is the Go struct for the "v1.tax_rate.updated" event.
@@ -11119,8 +14567,22 @@ func (n *V1TaxRateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TaxRate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TaxRateUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TerminalReaderActionFailedEvent is the Go struct for the "v1.terminal.reader.action_failed" event.
@@ -11160,8 +14622,22 @@ func (n *V1TerminalReaderActionFailedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TerminalReader{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TerminalReaderActionFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TerminalReaderActionSucceededEvent is the Go struct for the "v1.terminal.reader.action_succeeded" event.
@@ -11201,8 +14677,22 @@ func (n *V1TerminalReaderActionSucceededEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TerminalReader{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TerminalReaderActionSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TerminalReaderActionUpdatedEvent is the Go struct for the "v1.terminal.reader.action_updated" event.
@@ -11242,8 +14732,22 @@ func (n *V1TerminalReaderActionUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TerminalReader{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TerminalReaderActionUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TestHelpersTestClockAdvancingEvent is the Go struct for the "v1.test_helpers.test_clock.advancing" event.
@@ -11283,8 +14787,22 @@ func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TestHelpersTestClock{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TestHelpersTestClockAdvancingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TestHelpersTestClockCreatedEvent is the Go struct for the "v1.test_helpers.test_clock.created" event.
@@ -11324,8 +14842,22 @@ func (n *V1TestHelpersTestClockCreatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TestHelpersTestClock{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TestHelpersTestClockCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TestHelpersTestClockDeletedEvent is the Go struct for the "v1.test_helpers.test_clock.deleted" event.
@@ -11365,8 +14897,22 @@ func (n *V1TestHelpersTestClockDeletedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TestHelpersTestClock{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TestHelpersTestClockDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TestHelpersTestClockInternalFailureEvent is the Go struct for the "v1.test_helpers.test_clock.internal_failure" event.
@@ -11406,8 +14952,22 @@ func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TestHelpersTestClock{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TestHelpersTestClockInternalFailureEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TestHelpersTestClockReadyEvent is the Go struct for the "v1.test_helpers.test_clock.ready" event.
@@ -11447,8 +15007,22 @@ func (n *V1TestHelpersTestClockReadyEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &TestHelpersTestClock{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TestHelpersTestClockReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TopupCanceledEvent is the Go struct for the "v1.topup.canceled" event.
@@ -11488,8 +15062,22 @@ func (n *V1TopupCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Topup{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TopupCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TopupCreatedEvent is the Go struct for the "v1.topup.created" event.
@@ -11529,8 +15117,22 @@ func (n *V1TopupCreatedEventNotification) FetchRelatedObject(ctx context.Context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Topup{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TopupCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TopupFailedEvent is the Go struct for the "v1.topup.failed" event.
@@ -11570,8 +15172,22 @@ func (n *V1TopupFailedEventNotification) FetchRelatedObject(ctx context.Context)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Topup{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TopupFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TopupReversedEvent is the Go struct for the "v1.topup.reversed" event.
@@ -11611,8 +15227,22 @@ func (n *V1TopupReversedEventNotification) FetchRelatedObject(ctx context.Contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Topup{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TopupReversedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TopupSucceededEvent is the Go struct for the "v1.topup.succeeded" event.
@@ -11652,8 +15282,22 @@ func (n *V1TopupSucceededEventNotification) FetchRelatedObject(ctx context.Conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Topup{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TopupSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TransferCreatedEvent is the Go struct for the "v1.transfer.created" event.
@@ -11693,8 +15337,22 @@ func (n *V1TransferCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Transfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TransferCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TransferReversedEvent is the Go struct for the "v1.transfer.reversed" event.
@@ -11734,8 +15392,22 @@ func (n *V1TransferReversedEventNotification) FetchRelatedObject(ctx context.Con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Transfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TransferReversedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1TransferUpdatedEvent is the Go struct for the "v1.transfer.updated" event.
@@ -11775,8 +15447,22 @@ func (n *V1TransferUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &Transfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1TransferUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractActivatedEvent is the Go struct for the "v2.billing.contract.activated" event.
@@ -11816,8 +15502,22 @@ func (n *V2BillingContractActivatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCanceledEvent is the Go struct for the "v2.billing.contract.canceled" event.
@@ -11857,8 +15557,22 @@ func (n *V2BillingContractCanceledEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCollectionBlockedEvent is the Go struct for the "v2.billing.contract.collection_blocked" event.
@@ -11898,8 +15612,22 @@ func (n *V2BillingContractCollectionBlockedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCollectionBlockedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCollectionCurrentEvent is the Go struct for the "v2.billing.contract.collection_current" event.
@@ -11939,8 +15667,22 @@ func (n *V2BillingContractCollectionCurrentEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCollectionCurrentEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCollectionPastDueEvent is the Go struct for the "v2.billing.contract.collection_past_due" event.
@@ -11980,8 +15722,22 @@ func (n *V2BillingContractCollectionPastDueEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCollectionPastDueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCollectionUnpaidEvent is the Go struct for the "v2.billing.contract.collection_unpaid" event.
@@ -12021,8 +15777,22 @@ func (n *V2BillingContractCollectionUnpaidEventNotification) FetchRelatedObject(
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCollectionUnpaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractCreatedEvent is the Go struct for the "v2.billing.contract.created" event.
@@ -12062,8 +15832,22 @@ func (n *V2BillingContractCreatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractEndedEvent is the Go struct for the "v2.billing.contract.ended" event.
@@ -12103,8 +15887,22 @@ func (n *V2BillingContractEndedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractEndedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractUpdatedEvent is the Go struct for the "v2.billing.contract.updated" event.
@@ -12144,8 +15942,22 @@ func (n *V2BillingContractUpdatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContract{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermCreatedEvent is the Go struct for the "v2.billing.contract_term.created" event.
@@ -12186,8 +15998,22 @@ func (n *V2BillingContractTermCreatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermDeletedEvent is the Go struct for the "v2.billing.contract_term.deleted" event.
@@ -12228,8 +16054,22 @@ func (n *V2BillingContractTermDeletedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermPricingOverrideEndedEvent is the Go struct for the "v2.billing.contract_term.pricing_override_ended" event.
@@ -12270,8 +16110,22 @@ func (n *V2BillingContractTermPricingOverrideEndedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermPricingOverrideEndedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermPricingOverrideStartedEvent is the Go struct for the "v2.billing.contract_term.pricing_override_started" event.
@@ -12312,8 +16166,22 @@ func (n *V2BillingContractTermPricingOverrideStartedEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermPricingOverrideStartedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermRecurringPriceEndedEvent is the Go struct for the "v2.billing.contract_term.recurring_price_ended" event.
@@ -12354,8 +16222,22 @@ func (n *V2BillingContractTermRecurringPriceEndedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermRecurringPriceEndedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermRecurringPriceStartedEvent is the Go struct for the "v2.billing.contract_term.recurring_price_started" event.
@@ -12396,8 +16278,22 @@ func (n *V2BillingContractTermRecurringPriceStartedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermRecurringPriceStartedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermScheduledFeeServicePeriodEndedEvent is the Go struct for the "v2.billing.contract_term.scheduled_fee_service_period_ended" event.
@@ -12438,8 +16334,22 @@ func (n *V2BillingContractTermScheduledFeeServicePeriodEndedEventNotification) F
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermScheduledFeeServicePeriodEndedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermScheduledFeeServicePeriodStartedEvent is the Go struct for the "v2.billing.contract_term.scheduled_fee_service_period_started" event.
@@ -12480,8 +16390,22 @@ func (n *V2BillingContractTermScheduledFeeServicePeriodStartedEventNotification)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermScheduledFeeServicePeriodStartedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingContractTermUpdatedEvent is the Go struct for the "v2.billing.contract_term.updated" event.
@@ -12522,8 +16446,22 @@ func (n *V2BillingContractTermUpdatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingContractTerm{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingContractTermUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingLicenseFeeCreatedEvent is the Go struct for the "v2.billing.license_fee.created" event.
@@ -12563,8 +16501,22 @@ func (n *V2BillingLicenseFeeCreatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingLicenseFee{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingLicenseFeeCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingLicenseFeeUpdatedEvent is the Go struct for the "v2.billing.license_fee.updated" event.
@@ -12604,8 +16556,22 @@ func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingLicenseFee{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingLicenseFeeUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingLicenseFeeVersionCreatedEvent is the Go struct for the "v2.billing.license_fee_version.created" event.
@@ -12646,8 +16612,22 @@ func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchRelatedObject(
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingLicenseFeeVersion{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingLicenseFeeVersionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingLicensedItemCreatedEvent is the Go struct for the "v2.billing.licensed_item.created" event.
@@ -12687,8 +16667,22 @@ func (n *V2BillingLicensedItemCreatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingLicensedItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingLicensedItemCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingLicensedItemUpdatedEvent is the Go struct for the "v2.billing.licensed_item.updated" event.
@@ -12728,8 +16722,22 @@ func (n *V2BillingLicensedItemUpdatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingLicensedItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingLicensedItemUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingMeteredItemCreatedEvent is the Go struct for the "v2.billing.metered_item.created" event.
@@ -12769,8 +16777,22 @@ func (n *V2BillingMeteredItemCreatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingMeteredItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingMeteredItemCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingMeteredItemUpdatedEvent is the Go struct for the "v2.billing.metered_item.updated" event.
@@ -12810,8 +16832,22 @@ func (n *V2BillingMeteredItemUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingMeteredItem{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingMeteredItemUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanCreatedEvent is the Go struct for the "v2.billing.pricing_plan.created" event.
@@ -12851,8 +16887,22 @@ func (n *V2BillingPricingPlanCreatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlan{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanUpdatedEvent is the Go struct for the "v2.billing.pricing_plan.updated" event.
@@ -12892,8 +16942,22 @@ func (n *V2BillingPricingPlanUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlan{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanComponentCreatedEvent is the Go struct for the "v2.billing.pricing_plan_component.created" event.
@@ -12934,8 +16998,22 @@ func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanComponent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanComponentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanComponentUpdatedEvent is the Go struct for the "v2.billing.pricing_plan_component.updated" event.
@@ -12976,8 +17054,22 @@ func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanComponent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanComponentUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_awaiting_customer_action" event.
@@ -13017,8 +17109,22 @@ func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNo
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionCollectionCurrentEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_current" event.
@@ -13058,8 +17164,22 @@ func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionCollectionPastDueEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_past_due" event.
@@ -13099,8 +17219,22 @@ func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionCollectionPausedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_paused" event.
@@ -13140,8 +17274,22 @@ func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) Fetc
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionCollectionUnpaidEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_unpaid" event.
@@ -13181,8 +17329,22 @@ func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) Fetc
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionServicingActivatedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_activated" event.
@@ -13222,8 +17384,22 @@ func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionServicingCanceledEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_canceled" event.
@@ -13263,8 +17439,22 @@ func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanSubscriptionServicingPausedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_paused" event.
@@ -13304,8 +17494,22 @@ func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanSubscriptionServicingPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingPricingPlanVersionCreatedEvent is the Go struct for the "v2.billing.pricing_plan_version.created" event.
@@ -13346,8 +17550,22 @@ func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingPricingPlanVersion{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingPricingPlanVersionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardCreatedEvent is the Go struct for the "v2.billing.rate_card.created" event.
@@ -13388,8 +17606,22 @@ func (n *V2BillingRateCardCreatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCard{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardUpdatedEvent is the Go struct for the "v2.billing.rate_card.updated" event.
@@ -13429,8 +17661,22 @@ func (n *V2BillingRateCardUpdatedEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCard{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent is the Go struct for the "v2.billing.rate_card_custom_pricing_unit_overage_rate.created" event.
@@ -13471,8 +17717,22 @@ func (n *V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification) 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardCustomPricingUnitOverageRate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardRateCreatedEvent is the Go struct for the "v2.billing.rate_card_rate.created" event.
@@ -13513,8 +17773,22 @@ func (n *V2BillingRateCardRateCreatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardRate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardRateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionActivatedEvent is the Go struct for the "v2.billing.rate_card_subscription.activated" event.
@@ -13554,8 +17828,22 @@ func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCanceledEvent is the Go struct for the "v2.billing.rate_card_subscription.canceled" event.
@@ -13595,8 +17883,22 @@ func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_awaiting_customer_action" event.
@@ -13636,8 +17938,22 @@ func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotif
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCollectionCurrentEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_current" event.
@@ -13677,8 +17993,22 @@ func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCollectionCurrentEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCollectionPastDueEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_past_due" event.
@@ -13718,8 +18048,22 @@ func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCollectionPastDueEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCollectionPausedEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_paused" event.
@@ -13759,8 +18103,22 @@ func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCollectionPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionCollectionUnpaidEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_unpaid" event.
@@ -13800,8 +18158,22 @@ func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionServicingActivatedEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_activated" event.
@@ -13841,8 +18213,22 @@ func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionServicingActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionServicingCanceledEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_canceled" event.
@@ -13882,8 +18268,22 @@ func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionServicingCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardSubscriptionServicingPausedEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_paused" event.
@@ -13923,8 +18323,22 @@ func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardSubscription{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardSubscriptionServicingPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2BillingRateCardVersionCreatedEvent is the Go struct for the "v2.billing.rate_card_version.created" event.
@@ -13965,8 +18379,22 @@ func (n *V2BillingRateCardVersionCreatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2BillingRateCardVersion{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2BillingRateCardVersionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CommerceProductCatalogImportsFailedEvent is the Go struct for the "v2.commerce.product_catalog.imports.failed" event.
@@ -14006,8 +18434,22 @@ func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CommerceProductCatalogImport{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CommerceProductCatalogImportsFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CommerceProductCatalogImportsProcessingEvent is the Go struct for the "v2.commerce.product_catalog.imports.processing" event.
@@ -14047,8 +18489,22 @@ func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CommerceProductCatalogImport{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CommerceProductCatalogImportsProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CommerceProductCatalogImportsSucceededEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded" event.
@@ -14088,8 +18544,22 @@ func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CommerceProductCatalogImport{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CommerceProductCatalogImportsSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CommerceProductCatalogImportsSucceededWithErrorsEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded_with_errors" event.
@@ -14129,8 +18599,22 @@ func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CommerceProductCatalogImport{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -14170,8 +18654,22 @@ func (n *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountClosedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
@@ -14211,8 +18709,22 @@ func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
@@ -14252,8 +18764,22 @@ func (n *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.card_creator].capability_status_updated" event.
@@ -14294,8 +18820,22 @@ func (n *V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEv
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent is the Go struct for the "v2.core.account[configuration.card_creator].updated" event.
@@ -14335,8 +18875,22 @@ func (n *V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
@@ -14377,8 +18931,22 @@ func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
@@ -14418,8 +18986,22 @@ func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
@@ -14460,8 +19042,22 @@ func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
@@ -14501,8 +19097,22 @@ func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.money_manager].capability_status_updated" event.
@@ -14543,8 +19153,22 @@ func (n *V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedE
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent is the Go struct for the "v2.core.account[configuration.money_manager].updated" event.
@@ -14584,8 +19208,22 @@ func (n *V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
@@ -14626,8 +19264,22 @@ func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
@@ -14667,8 +19319,22 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
@@ -14708,8 +19374,22 @@ func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingDefaultsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingFutureRequirementsUpdatedEvent is the Go struct for the "v2.core.account[future_requirements].updated" event.
@@ -14749,8 +19429,22 @@ func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
@@ -14790,8 +19484,22 @@ func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingIdentityUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
@@ -14831,8 +19539,22 @@ func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountIncludingRequirementsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
@@ -14855,6 +19577,16 @@ func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Cont
 		return nil, err
 	}
 	return evt.(*V2CoreAccountLinkReturnedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountLinkReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
@@ -14895,8 +19627,22 @@ func (n *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccountPerson{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountPersonCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
@@ -14937,8 +19683,22 @@ func (n *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccountPerson{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountPersonDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
@@ -14979,8 +19739,22 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccountPerson{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountPersonUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreAccountSignalsFraudulentWebsiteReadyEvent is the Go struct for the "v2.core.account_signals.fraudulent_website_ready" event.
@@ -15003,6 +19777,16 @@ func (n *V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification) FetchEvent
 		return nil, err
 	}
 	return evt.(*V2CoreAccountSignalsFraudulentWebsiteReadyEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreApprovalRequestApprovedEvent is the Go struct for the "v2.core.approval_request.approved" event.
@@ -15042,8 +19826,22 @@ func (n *V2CoreApprovalRequestApprovedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestApprovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestCanceledEvent is the Go struct for the "v2.core.approval_request.canceled" event.
@@ -15083,8 +19881,22 @@ func (n *V2CoreApprovalRequestCanceledEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestCreatedEvent is the Go struct for the "v2.core.approval_request.created" event.
@@ -15124,8 +19936,22 @@ func (n *V2CoreApprovalRequestCreatedEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestExpiredEvent is the Go struct for the "v2.core.approval_request.expired" event.
@@ -15165,8 +19991,22 @@ func (n *V2CoreApprovalRequestExpiredEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestFailedEvent is the Go struct for the "v2.core.approval_request.failed" event.
@@ -15206,8 +20046,22 @@ func (n *V2CoreApprovalRequestFailedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestRejectedEvent is the Go struct for the "v2.core.approval_request.rejected" event.
@@ -15247,8 +20101,22 @@ func (n *V2CoreApprovalRequestRejectedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestRejectedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreApprovalRequestSucceededEvent is the Go struct for the "v2.core.approval_request.succeeded" event.
@@ -15288,8 +20156,22 @@ func (n *V2CoreApprovalRequestSucceededEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreApprovalRequest{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreApprovalRequestSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobBatchFailedEvent is the Go struct for the "v2.core.batch_job.batch_failed" event.
@@ -15329,8 +20211,22 @@ func (n *V2CoreBatchJobBatchFailedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobBatchFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobCanceledEvent is the Go struct for the "v2.core.batch_job.canceled" event.
@@ -15370,8 +20266,22 @@ func (n *V2CoreBatchJobCanceledEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobCompletedEvent is the Go struct for the "v2.core.batch_job.completed" event.
@@ -15411,8 +20321,22 @@ func (n *V2CoreBatchJobCompletedEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobCreatedEvent is the Go struct for the "v2.core.batch_job.created" event.
@@ -15452,8 +20376,22 @@ func (n *V2CoreBatchJobCreatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobReadyForUploadEvent is the Go struct for the "v2.core.batch_job.ready_for_upload" event.
@@ -15493,8 +20431,22 @@ func (n *V2CoreBatchJobReadyForUploadEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobReadyForUploadEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobTimeoutEvent is the Go struct for the "v2.core.batch_job.timeout" event.
@@ -15534,8 +20486,22 @@ func (n *V2CoreBatchJobTimeoutEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobTimeoutEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobUpdatedEvent is the Go struct for the "v2.core.batch_job.updated" event.
@@ -15575,8 +20541,22 @@ func (n *V2CoreBatchJobUpdatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobUploadTimeoutEvent is the Go struct for the "v2.core.batch_job.upload_timeout" event.
@@ -15616,8 +20596,22 @@ func (n *V2CoreBatchJobUploadTimeoutEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobUploadTimeoutEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobValidatingEvent is the Go struct for the "v2.core.batch_job.validating" event.
@@ -15657,8 +20651,22 @@ func (n *V2CoreBatchJobValidatingEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobValidatingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreBatchJobValidationFailedEvent is the Go struct for the "v2.core.batch_job.validation_failed" event.
@@ -15698,8 +20706,22 @@ func (n *V2CoreBatchJobValidationFailedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreBatchJobValidationFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreClaimableSandboxClaimedEvent is the Go struct for the "v2.core.claimable_sandbox.claimed" event.
@@ -15739,8 +20761,22 @@ func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreClaimableSandboxClaimedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreClaimableSandboxCreatedEvent is the Go struct for the "v2.core.claimable_sandbox.created" event.
@@ -15780,8 +20816,22 @@ func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreClaimableSandboxCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreClaimableSandboxExpiredEvent is the Go struct for the "v2.core.claimable_sandbox.expired" event.
@@ -15821,8 +20871,22 @@ func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreClaimableSandboxExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreClaimableSandboxExpiringEvent is the Go struct for the "v2.core.claimable_sandbox.expiring" event.
@@ -15862,8 +20926,22 @@ func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreClaimableSandboxExpiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreClaimableSandboxUpdatedEvent is the Go struct for the "v2.core.claimable_sandbox.updated" event.
@@ -15903,8 +20981,22 @@ func (n *V2CoreClaimableSandboxUpdatedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreClaimableSandbox{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreClaimableSandboxUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
@@ -15944,8 +21036,22 @@ func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreEventDestination{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreEventDestinationPingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreHealthAPIErrorFiringEvent is the Go struct for the "v2.core.health.api_error.firing" event.
@@ -15970,6 +21076,16 @@ func (n *V2CoreHealthAPIErrorFiringEventNotification) FetchEvent(ctx context.Con
 	return evt.(*V2CoreHealthAPIErrorFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAPIErrorFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthAPIErrorResolvedEvent is the Go struct for the "v2.core.health.api_error.resolved" event.
 // Occurs when an API error alert is resolved.
 type V2CoreHealthAPIErrorResolvedEvent struct {
@@ -15990,6 +21106,16 @@ func (n *V2CoreHealthAPIErrorResolvedEventNotification) FetchEvent(ctx context.C
 		return nil, err
 	}
 	return evt.(*V2CoreHealthAPIErrorResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAPIErrorResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthAPILatencyFiringEvent is the Go struct for the "v2.core.health.api_latency.firing" event.
@@ -16014,6 +21140,16 @@ func (n *V2CoreHealthAPILatencyFiringEventNotification) FetchEvent(ctx context.C
 	return evt.(*V2CoreHealthAPILatencyFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAPILatencyFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthAPILatencyResolvedEvent is the Go struct for the "v2.core.health.api_latency.resolved" event.
 // Occurs when an API latency alert is resolved.
 type V2CoreHealthAPILatencyResolvedEvent struct {
@@ -16034,6 +21170,16 @@ func (n *V2CoreHealthAPILatencyResolvedEventNotification) FetchEvent(ctx context
 		return nil, err
 	}
 	return evt.(*V2CoreHealthAPILatencyResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAPILatencyResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthAuthorizationRateDropFiringEvent is the Go struct for the "v2.core.health.authorization_rate_drop.firing" event.
@@ -16058,6 +21204,16 @@ func (n *V2CoreHealthAuthorizationRateDropFiringEventNotification) FetchEvent(ct
 	return evt.(*V2CoreHealthAuthorizationRateDropFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAuthorizationRateDropFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthAuthorizationRateDropResolvedEvent is the Go struct for the "v2.core.health.authorization_rate_drop.resolved" event.
 // Occurs when an authorization rate drop alert is resolved.
 type V2CoreHealthAuthorizationRateDropResolvedEvent struct {
@@ -16078,6 +21234,16 @@ func (n *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(
 		return nil, err
 	}
 	return evt.(*V2CoreHealthAuthorizationRateDropResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthAuthorizationRateDropResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEvent is the Go struct for the "v2.core.health.custom_payment_method_adapter_degraded.firing" event.
@@ -16102,6 +21268,16 @@ func (n *V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEventNotification) 
 	return evt.(*V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEvent is the Go struct for the "v2.core.health.custom_payment_method_adapter_degraded.resolved" event.
 // Occurs when a custom payment method adapter degraded alert is resolved.
 type V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEvent struct {
@@ -16122,6 +21298,16 @@ func (n *V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEventNotification
 		return nil, err
 	}
 	return evt.(*V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthElementsErrorFiringEvent is the Go struct for the "v2.core.health.elements_error.firing" event.
@@ -16146,6 +21332,16 @@ func (n *V2CoreHealthElementsErrorFiringEventNotification) FetchEvent(ctx contex
 	return evt.(*V2CoreHealthElementsErrorFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthElementsErrorFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthElementsErrorResolvedEvent is the Go struct for the "v2.core.health.elements_error.resolved" event.
 // Occurs when an elements error alert is resolved.
 type V2CoreHealthElementsErrorResolvedEvent struct {
@@ -16166,6 +21362,16 @@ func (n *V2CoreHealthElementsErrorResolvedEventNotification) FetchEvent(ctx cont
 		return nil, err
 	}
 	return evt.(*V2CoreHealthElementsErrorResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthElementsErrorResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthEventGenerationFailureResolvedEvent is the Go struct for the "v2.core.health.event_generation_failure.resolved" event.
@@ -16190,6 +21396,16 @@ func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent
 	return evt.(*V2CoreHealthEventGenerationFailureResolvedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthEventGenerationFailureResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthFraudRateIncreasedEvent is the Go struct for the "v2.core.health.fraud_rate.increased" event.
 // Occurs when the fraud rate has increased.
 type V2CoreHealthFraudRateIncreasedEvent struct {
@@ -16210,6 +21426,16 @@ func (n *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context
 		return nil, err
 	}
 	return evt.(*V2CoreHealthFraudRateIncreasedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthFraudRateIncreasedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthInvoiceCountDroppedFiringEvent is the Go struct for the "v2.core.health.invoice_count_dropped.firing" event.
@@ -16234,6 +21460,16 @@ func (n *V2CoreHealthInvoiceCountDroppedFiringEventNotification) FetchEvent(ctx 
 	return evt.(*V2CoreHealthInvoiceCountDroppedFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthInvoiceCountDroppedFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthInvoiceCountDroppedResolvedEvent is the Go struct for the "v2.core.health.invoice_count_dropped.resolved" event.
 // Occurs when an invoice count dropped alert is resolved.
 type V2CoreHealthInvoiceCountDroppedResolvedEvent struct {
@@ -16254,6 +21490,16 @@ func (n *V2CoreHealthInvoiceCountDroppedResolvedEventNotification) FetchEvent(ct
 		return nil, err
 	}
 	return evt.(*V2CoreHealthInvoiceCountDroppedResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthInvoiceCountDroppedResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_errors.firing" event.
@@ -16278,6 +21524,16 @@ func (n *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) F
 	return evt.(*V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent is the Go struct for the "v2.core.health.issuing_authorization_request_errors.resolved" event.
 // Occurs when an issuing authorization request errors alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent struct {
@@ -16298,6 +21554,16 @@ func (n *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification)
 		return nil, err
 	}
 	return evt.(*V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_timeout.firing" event.
@@ -16322,6 +21588,16 @@ func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) 
 	return evt.(*V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent is the Go struct for the "v2.core.health.issuing_authorization_request_timeout.resolved" event.
 // Occurs when an issuing authorization request timeout alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent struct {
@@ -16342,6 +21618,16 @@ func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification
 		return nil, err
 	}
 	return evt.(*V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthMeterEventSummariesDelayedFiringEvent is the Go struct for the "v2.core.health.meter_event_summaries_delayed.firing" event.
@@ -16366,6 +21652,16 @@ func (n *V2CoreHealthMeterEventSummariesDelayedFiringEventNotification) FetchEve
 	return evt.(*V2CoreHealthMeterEventSummariesDelayedFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthMeterEventSummariesDelayedFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthMeterEventSummariesDelayedResolvedEvent is the Go struct for the "v2.core.health.meter_event_summaries_delayed.resolved" event.
 // Occurs when a meter event summaries delayed alert is resolved.
 type V2CoreHealthMeterEventSummariesDelayedResolvedEvent struct {
@@ -16386,6 +21682,16 @@ func (n *V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification) FetchE
 		return nil, err
 	}
 	return evt.(*V2CoreHealthMeterEventSummariesDelayedResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthMetronomeNotificationLatencyFiringEvent is the Go struct for the "v2.core.health.metronome_notification_latency.firing" event.
@@ -16410,6 +21716,16 @@ func (n *V2CoreHealthMetronomeNotificationLatencyFiringEventNotification) FetchE
 	return evt.(*V2CoreHealthMetronomeNotificationLatencyFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthMetronomeNotificationLatencyFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthMetronomeNotificationLatencyResolvedEvent is the Go struct for the "v2.core.health.metronome_notification_latency.resolved" event.
 // Occurs when a Metronome notification latency alert is resolved.
 type V2CoreHealthMetronomeNotificationLatencyResolvedEvent struct {
@@ -16430,6 +21746,16 @@ func (n *V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification) Fetc
 		return nil, err
 	}
 	return evt.(*V2CoreHealthMetronomeNotificationLatencyResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthPaymentMethodErrorFiringEvent is the Go struct for the "v2.core.health.payment_method_error.firing" event.
@@ -16454,6 +21780,16 @@ func (n *V2CoreHealthPaymentMethodErrorFiringEventNotification) FetchEvent(ctx c
 	return evt.(*V2CoreHealthPaymentMethodErrorFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthPaymentMethodErrorFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthPaymentMethodErrorResolvedEvent is the Go struct for the "v2.core.health.payment_method_error.resolved" event.
 // Occurs when a payment method error alert is resolved.
 type V2CoreHealthPaymentMethodErrorResolvedEvent struct {
@@ -16474,6 +21810,16 @@ func (n *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx
 		return nil, err
 	}
 	return evt.(*V2CoreHealthPaymentMethodErrorResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthPaymentMethodErrorResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthSEPADebitDelayedFiringEvent is the Go struct for the "v2.core.health.sepa_debit_delayed.firing" event.
@@ -16498,6 +21844,16 @@ func (n *V2CoreHealthSEPADebitDelayedFiringEventNotification) FetchEvent(ctx con
 	return evt.(*V2CoreHealthSEPADebitDelayedFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthSEPADebitDelayedFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthSEPADebitDelayedResolvedEvent is the Go struct for the "v2.core.health.sepa_debit_delayed.resolved" event.
 // Occurs when a SEPA debit delayed alert is resolved.
 type V2CoreHealthSEPADebitDelayedResolvedEvent struct {
@@ -16518,6 +21874,16 @@ func (n *V2CoreHealthSEPADebitDelayedResolvedEventNotification) FetchEvent(ctx c
 		return nil, err
 	}
 	return evt.(*V2CoreHealthSEPADebitDelayedResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthSEPADebitDelayedResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthTrafficVolumeDropFiringEvent is the Go struct for the "v2.core.health.traffic_volume_drop.firing" event.
@@ -16542,6 +21908,16 @@ func (n *V2CoreHealthTrafficVolumeDropFiringEventNotification) FetchEvent(ctx co
 	return evt.(*V2CoreHealthTrafficVolumeDropFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthTrafficVolumeDropFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthTrafficVolumeDropResolvedEvent is the Go struct for the "v2.core.health.traffic_volume_drop.resolved" event.
 // Occurs when a traffic volume drop alert is resolved.
 type V2CoreHealthTrafficVolumeDropResolvedEvent struct {
@@ -16562,6 +21938,16 @@ func (n *V2CoreHealthTrafficVolumeDropResolvedEventNotification) FetchEvent(ctx 
 		return nil, err
 	}
 	return evt.(*V2CoreHealthTrafficVolumeDropResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthTrafficVolumeDropResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreHealthWebhookLatencyFiringEvent is the Go struct for the "v2.core.health.webhook_latency.firing" event.
@@ -16586,6 +21972,16 @@ func (n *V2CoreHealthWebhookLatencyFiringEventNotification) FetchEvent(ctx conte
 	return evt.(*V2CoreHealthWebhookLatencyFiringEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthWebhookLatencyFiringEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2CoreHealthWebhookLatencyResolvedEvent is the Go struct for the "v2.core.health.webhook_latency.resolved" event.
 // Occurs when a webhook latency alert is resolved.
 type V2CoreHealthWebhookLatencyResolvedEvent struct {
@@ -16606,6 +22002,16 @@ func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx con
 		return nil, err
 	}
 	return evt.(*V2CoreHealthWebhookLatencyResolvedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreHealthWebhookLatencyResolvedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2CoreVaultNetworkTokenActivatedEvent is the Go struct for the "v2.core.vault.network_token.activated" event.
@@ -16645,8 +22051,22 @@ func (n *V2CoreVaultNetworkTokenActivatedEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreVaultNetworkToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreVaultNetworkTokenActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEvent is the Go struct for the "v2.core.vault.network_token.authorization_requirements_changed" event.
@@ -16690,8 +22110,22 @@ func (n *V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotificatio
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreVaultNetworkToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreVaultNetworkTokenDeactivatedEvent is the Go struct for the "v2.core.vault.network_token.deactivated" event.
@@ -16733,8 +22167,22 @@ func (n *V2CoreVaultNetworkTokenDeactivatedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreVaultNetworkToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreVaultNetworkTokenDeactivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreVaultNetworkTokenDetailsUpdatedEvent is the Go struct for the "v2.core.vault.network_token.details_updated" event.
@@ -16774,8 +22222,22 @@ func (n *V2CoreVaultNetworkTokenDetailsUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreVaultNetworkToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreVaultNetworkTokenDetailsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2CoreVaultNetworkTokenSuspendedEvent is the Go struct for the "v2.core.vault.network_token.suspended" event.
@@ -16815,8 +22277,22 @@ func (n *V2CoreVaultNetworkTokenSuspendedEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreVaultNetworkToken{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreVaultNetworkTokenSuspendedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataQueryRunCreatedEvent is the Go struct for the "v2.data.query_run.created" event.
@@ -16856,8 +22332,22 @@ func (n *V2DataQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataQueryRunCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataQueryRunFailedEvent is the Go struct for the "v2.data.query_run.failed" event.
@@ -16897,8 +22387,22 @@ func (n *V2DataQueryRunFailedEventNotification) FetchRelatedObject(ctx context.C
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataQueryRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataQueryRunSucceededEvent is the Go struct for the "v2.data.query_run.succeeded" event.
@@ -16938,8 +22442,22 @@ func (n *V2DataQueryRunSucceededEventNotification) FetchRelatedObject(ctx contex
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataQueryRunSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataQueryRunUpdatedEvent is the Go struct for the "v2.data.query_run.updated" event.
@@ -16979,8 +22497,22 @@ func (n *V2DataQueryRunUpdatedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataQueryRunUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportRunCreatedEvent is the Go struct for the "v2.data.report_run.created" event.
@@ -17020,8 +22552,22 @@ func (n *V2DataReportRunCreatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportRunCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportRunFailedEvent is the Go struct for the "v2.data.report_run.failed" event.
@@ -17061,8 +22607,22 @@ func (n *V2DataReportRunFailedEventNotification) FetchRelatedObject(ctx context.
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportRunSucceededEvent is the Go struct for the "v2.data.report_run.succeeded" event.
@@ -17102,8 +22662,22 @@ func (n *V2DataReportRunSucceededEventNotification) FetchRelatedObject(ctx conte
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportRunSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportRunUpdatedEvent is the Go struct for the "v2.data.report_run.updated" event.
@@ -17143,8 +22717,22 @@ func (n *V2DataReportRunUpdatedEventNotification) FetchRelatedObject(ctx context
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportRunUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportingQueryRunCreatedEvent is the Go struct for the "v2.data.reporting.query_run.created" event.
@@ -17184,8 +22772,22 @@ func (n *V2DataReportingQueryRunCreatedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportingQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportingQueryRunCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportingQueryRunFailedEvent is the Go struct for the "v2.data.reporting.query_run.failed" event.
@@ -17225,8 +22827,22 @@ func (n *V2DataReportingQueryRunFailedEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportingQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportingQueryRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportingQueryRunSucceededEvent is the Go struct for the "v2.data.reporting.query_run.succeeded" event.
@@ -17266,8 +22882,22 @@ func (n *V2DataReportingQueryRunSucceededEventNotification) FetchRelatedObject(c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportingQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportingQueryRunSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2DataReportingQueryRunUpdatedEvent is the Go struct for the "v2.data.reporting.query_run.updated" event.
@@ -17307,8 +22937,22 @@ func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchRelatedObject(ctx
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2DataReportingQueryRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2DataReportingQueryRunUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ExtendExtensionRunFailedEvent is the Go struct for the "v2.extend.extension_run.failed" event.
@@ -17331,6 +22975,16 @@ func (n *V2ExtendExtensionRunFailedEventNotification) FetchEvent(ctx context.Con
 		return nil, err
 	}
 	return evt.(*V2ExtendExtensionRunFailedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendExtensionRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2ExtendObjectDefinitionCreatedEvent is the Go struct for the "v2.extend.object_definition.created" event.
@@ -17371,8 +23025,22 @@ func (n *V2ExtendObjectDefinitionCreatedEventNotification) FetchRelatedObject(ct
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ExtendObjectDefinition{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendObjectDefinitionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ExtendObjectDefinitionVersionCreatedEvent is the Go struct for the "v2.extend.object_definition_version.created" event.
@@ -17413,8 +23081,22 @@ func (n *V2ExtendObjectDefinitionVersionCreatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ExtendObjectDefinitionVersion{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendObjectDefinitionVersionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ExtendWorkflowRunFailedEvent is the Go struct for the "v2.extend.workflow_run.failed" event.
@@ -17455,8 +23137,22 @@ func (n *V2ExtendWorkflowRunFailedEventNotification) FetchRelatedObject(ctx cont
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ExtendWorkflowRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendWorkflowRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ExtendWorkflowRunStartedEvent is the Go struct for the "v2.extend.workflow_run.started" event.
@@ -17496,8 +23192,22 @@ func (n *V2ExtendWorkflowRunStartedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ExtendWorkflowRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendWorkflowRunStartedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ExtendWorkflowRunSucceededEvent is the Go struct for the "v2.extend.workflow_run.succeeded" event.
@@ -17537,8 +23247,22 @@ func (n *V2ExtendWorkflowRunSucceededEventNotification) FetchRelatedObject(ctx c
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ExtendWorkflowRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ExtendWorkflowRunSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2IamAPIKeyCreatedEvent is the Go struct for the "v2.iam.api_key.created" event.
@@ -17559,6 +23283,16 @@ func (n *V2IamAPIKeyCreatedEventNotification) FetchEvent(ctx context.Context) (*
 		return nil, err
 	}
 	return evt.(*V2IamAPIKeyCreatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2IamAPIKeyDefaultSecretRevealedEvent is the Go struct for the "v2.iam.api_key.default_secret_revealed" event.
@@ -17583,6 +23317,16 @@ func (n *V2IamAPIKeyDefaultSecretRevealedEventNotification) FetchEvent(ctx conte
 	return evt.(*V2IamAPIKeyDefaultSecretRevealedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyDefaultSecretRevealedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamAPIKeyExpiredEvent is the Go struct for the "v2.iam.api_key.expired" event.
 // Occurs when an API Key is expired.
 type V2IamAPIKeyExpiredEvent struct {
@@ -17601,6 +23345,16 @@ func (n *V2IamAPIKeyExpiredEventNotification) FetchEvent(ctx context.Context) (*
 		return nil, err
 	}
 	return evt.(*V2IamAPIKeyExpiredEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2IamAPIKeyPermissionsUpdatedEvent is the Go struct for the "v2.iam.api_key.permissions_updated" event.
@@ -17625,6 +23379,16 @@ func (n *V2IamAPIKeyPermissionsUpdatedEventNotification) FetchEvent(ctx context.
 	return evt.(*V2IamAPIKeyPermissionsUpdatedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyPermissionsUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamAPIKeyRotatedEvent is the Go struct for the "v2.iam.api_key.rotated" event.
 // Occurs when an API Key is rotated.
 type V2IamAPIKeyRotatedEvent struct {
@@ -17645,6 +23409,16 @@ func (n *V2IamAPIKeyRotatedEventNotification) FetchEvent(ctx context.Context) (*
 	return evt.(*V2IamAPIKeyRotatedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyRotatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamAPIKeyUpdatedEvent is the Go struct for the "v2.iam.api_key.updated" event.
 // Occurs when an API Key is updated.
 type V2IamAPIKeyUpdatedEvent struct {
@@ -17663,6 +23437,16 @@ func (n *V2IamAPIKeyUpdatedEventNotification) FetchEvent(ctx context.Context) (*
 		return nil, err
 	}
 	return evt.(*V2IamAPIKeyUpdatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamAPIKeyUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2IamStripeAccessGrantApprovedEvent is the Go struct for the "v2.iam.stripe_access_grant.approved" event.
@@ -17687,6 +23471,16 @@ func (n *V2IamStripeAccessGrantApprovedEventNotification) FetchEvent(ctx context
 	return evt.(*V2IamStripeAccessGrantApprovedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantApprovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamStripeAccessGrantCanceledEvent is the Go struct for the "v2.iam.stripe_access_grant.canceled" event.
 // Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
 type V2IamStripeAccessGrantCanceledEvent struct {
@@ -17707,6 +23501,16 @@ func (n *V2IamStripeAccessGrantCanceledEventNotification) FetchEvent(ctx context
 		return nil, err
 	}
 	return evt.(*V2IamStripeAccessGrantCanceledEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2IamStripeAccessGrantDeniedEvent is the Go struct for the "v2.iam.stripe_access_grant.denied" event.
@@ -17731,6 +23535,16 @@ func (n *V2IamStripeAccessGrantDeniedEventNotification) FetchEvent(ctx context.C
 	return evt.(*V2IamStripeAccessGrantDeniedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantDeniedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamStripeAccessGrantRemovedEvent is the Go struct for the "v2.iam.stripe_access_grant.removed" event.
 // Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
 type V2IamStripeAccessGrantRemovedEvent struct {
@@ -17751,6 +23565,16 @@ func (n *V2IamStripeAccessGrantRemovedEventNotification) FetchEvent(ctx context.
 		return nil, err
 	}
 	return evt.(*V2IamStripeAccessGrantRemovedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantRemovedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2IamStripeAccessGrantRequestedEvent is the Go struct for the "v2.iam.stripe_access_grant.requested" event.
@@ -17775,6 +23599,16 @@ func (n *V2IamStripeAccessGrantRequestedEventNotification) FetchEvent(ctx contex
 	return evt.(*V2IamStripeAccessGrantRequestedEvent), nil
 }
 
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantRequestedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+}
+
 // V2IamStripeAccessGrantUpdatedEvent is the Go struct for the "v2.iam.stripe_access_grant.updated" event.
 // Occurs when a Stripe Access Grant is updated.
 type V2IamStripeAccessGrantUpdatedEvent struct {
@@ -17795,6 +23629,16 @@ func (n *V2IamStripeAccessGrantUpdatedEventNotification) FetchEvent(ctx context.
 		return nil, err
 	}
 	return evt.(*V2IamStripeAccessGrantUpdatedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2IamStripeAccessGrantUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
@@ -17834,8 +23678,22 @@ func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementAdjustment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementAdjustmentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementDebitDisputeFailedEvent is the Go struct for the "v2.money_management.debit_dispute.failed" event.
@@ -17875,8 +23733,22 @@ func (n *V2MoneyManagementDebitDisputeFailedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementDebitDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementDebitDisputeFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementDebitDisputeSubmittedEvent is the Go struct for the "v2.money_management.debit_dispute.submitted" event.
@@ -17916,8 +23788,22 @@ func (n *V2MoneyManagementDebitDisputeSubmittedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementDebitDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementDebitDisputeSubmittedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementDebitDisputeSucceededEvent is the Go struct for the "v2.money_management.debit_dispute.succeeded" event.
@@ -17957,8 +23843,22 @@ func (n *V2MoneyManagementDebitDisputeSucceededEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementDebitDispute{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementDebitDisputeSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementEarnedCreditSucceededEvent is the Go struct for the "v2.money_management.earned_credit.succeeded" event.
@@ -17998,8 +23898,22 @@ func (n *V2MoneyManagementEarnedCreditSucceededEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementEarnedCredit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementEarnedCreditSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
@@ -18039,8 +23953,22 @@ func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
@@ -18080,8 +24008,22 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountWalletExportCompletedEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.completed" event.
@@ -18121,8 +24063,22 @@ func (n *V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountWalletExportPendingEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.pending" event.
@@ -18162,8 +24118,22 @@ func (n *V2MoneyManagementFinancialAccountWalletExportPendingEventNotification) 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountWalletExportPendingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountWalletExportReadyEvent is the Go struct for the "v2.money_management.financial_account.wallet_export.ready" event.
@@ -18203,8 +24173,22 @@ func (n *V2MoneyManagementFinancialAccountWalletExportReadyEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountWalletExportReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountStatementCreatedEvent is the Go struct for the "v2.money_management.financial_account_statement.created" event.
@@ -18245,8 +24229,22 @@ func (n *V2MoneyManagementFinancialAccountStatementCreatedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccountStatement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountStatementCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAccountStatementRestatedEvent is the Go struct for the "v2.money_management.financial_account_statement.restated" event.
@@ -18295,8 +24293,22 @@ func (n *V2MoneyManagementFinancialAccountStatementRestatedEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccountStatement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAccountStatementRestatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
@@ -18336,8 +24348,22 @@ func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAddress{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAddressActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFinancialAddressFailedEvent is the Go struct for the "v2.money_management.financial_address.failed" event.
@@ -18377,8 +24403,22 @@ func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAddress{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFinancialAddressFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentCanceledEvent is the Go struct for the "v2.money_management.funding_intent.canceled" event.
@@ -18418,8 +24458,22 @@ func (n *V2MoneyManagementFundingIntentCanceledEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentCreatedEvent is the Go struct for the "v2.money_management.funding_intent.created" event.
@@ -18459,8 +24513,22 @@ func (n *V2MoneyManagementFundingIntentCreatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentProcessingEvent is the Go struct for the "v2.money_management.funding_intent.processing" event.
@@ -18500,8 +24568,22 @@ func (n *V2MoneyManagementFundingIntentProcessingEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentRequiresActionEvent is the Go struct for the "v2.money_management.funding_intent.requires_action" event.
@@ -18541,8 +24623,22 @@ func (n *V2MoneyManagementFundingIntentRequiresActionEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentRequiresActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentRequiresConfirmationEvent is the Go struct for the "v2.money_management.funding_intent.requires_confirmation" event.
@@ -18582,8 +24678,22 @@ func (n *V2MoneyManagementFundingIntentRequiresConfirmationEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentRequiresConfirmationEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentSucceededEvent is the Go struct for the "v2.money_management.funding_intent.succeeded" event.
@@ -18623,8 +24733,22 @@ func (n *V2MoneyManagementFundingIntentSucceededEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentUpdatedEvent is the Go struct for the "v2.money_management.funding_intent.updated" event.
@@ -18664,8 +24788,22 @@ func (n *V2MoneyManagementFundingIntentUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementFundingIntentValidatingEvent is the Go struct for the "v2.money_management.funding_intent.validating" event.
@@ -18705,8 +24843,22 @@ func (n *V2MoneyManagementFundingIntentValidatingEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFundingIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementFundingIntentValidatingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingAvailableEvent is the Go struct for the "v2.money_management.inbound_funding.available" event.
@@ -18747,8 +24899,22 @@ func (n *V2MoneyManagementInboundFundingAvailableEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingAvailableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCheckFailedEvent is the Go struct for the "v2.money_management.inbound_funding.check_failed" event.
@@ -18788,8 +24954,22 @@ func (n *V2MoneyManagementInboundFundingCheckFailedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCheckFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCheckProcessingEvent is the Go struct for the "v2.money_management.inbound_funding.check_processing" event.
@@ -18829,8 +25009,22 @@ func (n *V2MoneyManagementInboundFundingCheckProcessingEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCheckProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCheckQueuedEvent is the Go struct for the "v2.money_management.inbound_funding.check_queued" event.
@@ -18870,8 +25064,22 @@ func (n *V2MoneyManagementInboundFundingCheckQueuedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCheckQueuedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCheckReturnedEvent is the Go struct for the "v2.money_management.inbound_funding.check_returned" event.
@@ -18911,8 +25119,22 @@ func (n *V2MoneyManagementInboundFundingCheckReturnedEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCheckReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCheckSucceededEvent is the Go struct for the "v2.money_management.inbound_funding.check_succeeded" event.
@@ -18952,8 +25174,22 @@ func (n *V2MoneyManagementInboundFundingCheckSucceededEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCheckSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingCreatedEvent is the Go struct for the "v2.money_management.inbound_funding.created" event.
@@ -18993,8 +25229,22 @@ func (n *V2MoneyManagementInboundFundingCreatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundFundingUpdatedEvent is the Go struct for the "v2.money_management.inbound_funding.updated" event.
@@ -19034,8 +25284,22 @@ func (n *V2MoneyManagementInboundFundingUpdatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundFunding{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundFundingUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
@@ -19076,8 +25340,22 @@ func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferAvailableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
@@ -19117,8 +25395,22 @@ func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
@@ -19158,8 +25450,22 @@ func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) F
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
@@ -19199,8 +25505,22 @@ func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Fetch
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
@@ -19240,8 +25560,22 @@ func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
@@ -19281,8 +25615,22 @@ func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) Fe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferMandateActivatedEvent is the Go struct for the "v2.money_management.inbound_transfer_mandate.activated" event.
@@ -19322,8 +25670,22 @@ func (n *V2MoneyManagementInboundTransferMandateActivatedEventNotification) Fetc
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransferMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferMandateActivatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferMandateCreatedEvent is the Go struct for the "v2.money_management.inbound_transfer_mandate.created" event.
@@ -19363,8 +25725,22 @@ func (n *V2MoneyManagementInboundTransferMandateCreatedEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransferMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferMandateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferMandateExpiredEvent is the Go struct for the "v2.money_management.inbound_transfer_mandate.expired" event.
@@ -19406,8 +25782,22 @@ func (n *V2MoneyManagementInboundTransferMandateExpiredEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransferMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferMandateExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferMandateRefusedEvent is the Go struct for the "v2.money_management.inbound_transfer_mandate.refused" event.
@@ -19447,8 +25837,22 @@ func (n *V2MoneyManagementInboundTransferMandateRefusedEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransferMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferMandateRefusedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementInboundTransferMandateRevokedEvent is the Go struct for the "v2.money_management.inbound_transfer_mandate.revoked" event.
@@ -19488,8 +25892,22 @@ func (n *V2MoneyManagementInboundTransferMandateRevokedEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransferMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementInboundTransferMandateRevokedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
@@ -19529,8 +25947,22 @@ func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentCreatedEvent is the Go struct for the "v2.money_management.outbound_payment.created" event.
@@ -19570,8 +26002,22 @@ func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
@@ -19611,8 +26057,22 @@ func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
@@ -19652,8 +26112,22 @@ func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentPostedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
@@ -19693,8 +26167,22 @@ func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentUnderReviewEvent is the Go struct for the "v2.money_management.outbound_payment.under_review" event.
@@ -19734,8 +26222,22 @@ func (n *V2MoneyManagementOutboundPaymentUnderReviewEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentUnderReviewEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
@@ -19775,8 +26277,22 @@ func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundPaymentUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
@@ -19816,8 +26332,22 @@ func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferCreatedEvent is the Go struct for the "v2.money_management.outbound_transfer.created" event.
@@ -19857,8 +26387,22 @@ func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferFailedEvent is the Go struct for the "v2.money_management.outbound_transfer.failed" event.
@@ -19898,8 +26442,22 @@ func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferPostedEvent is the Go struct for the "v2.money_management.outbound_transfer.posted" event.
@@ -19939,8 +26497,22 @@ func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferPostedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferReturnedEvent is the Go struct for the "v2.money_management.outbound_transfer.returned" event.
@@ -19980,8 +26552,22 @@ func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferUnderReviewEvent is the Go struct for the "v2.money_management.outbound_transfer.under_review" event.
@@ -20021,8 +26607,22 @@ func (n *V2MoneyManagementOutboundTransferUnderReviewEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferUnderReviewEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
@@ -20062,8 +26662,22 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementOutboundTransferUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentCanceledEvent is the Go struct for the "v2.money_management.payout_intent.canceled" event.
@@ -20103,8 +26717,22 @@ func (n *V2MoneyManagementPayoutIntentCanceledEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentCreatedEvent is the Go struct for the "v2.money_management.payout_intent.created" event.
@@ -20144,8 +26772,22 @@ func (n *V2MoneyManagementPayoutIntentCreatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentPendingEvent is the Go struct for the "v2.money_management.payout_intent.pending" event.
@@ -20185,8 +26827,22 @@ func (n *V2MoneyManagementPayoutIntentPendingEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentPendingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentPostedEvent is the Go struct for the "v2.money_management.payout_intent.posted" event.
@@ -20226,8 +26882,22 @@ func (n *V2MoneyManagementPayoutIntentPostedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentPostedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentProcessingEvent is the Go struct for the "v2.money_management.payout_intent.processing" event.
@@ -20267,8 +26937,22 @@ func (n *V2MoneyManagementPayoutIntentProcessingEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentProcessingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentRequiresActionEvent is the Go struct for the "v2.money_management.payout_intent.requires_action" event.
@@ -20308,8 +26992,22 @@ func (n *V2MoneyManagementPayoutIntentRequiresActionEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentRequiresActionEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutIntentUpdatedEvent is the Go struct for the "v2.money_management.payout_intent.updated" event.
@@ -20349,8 +27047,22 @@ func (n *V2MoneyManagementPayoutIntentUpdatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutIntentUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutMethodCreatedEvent is the Go struct for the "v2.money_management.payout_method.created" event.
@@ -20390,8 +27102,22 @@ func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutMethodCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
@@ -20431,8 +27157,22 @@ func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutMethod{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementPayoutMethodUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
@@ -20473,8 +27213,22 @@ func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedCreditAvailableEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedCreditFailedEvent is the Go struct for the "v2.money_management.received_credit.failed" event.
@@ -20514,8 +27268,22 @@ func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedCreditFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedCreditReturnedEvent is the Go struct for the "v2.money_management.received_credit.returned" event.
@@ -20555,8 +27323,22 @@ func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedCreditReturnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedCreditSucceededEvent is the Go struct for the "v2.money_management.received_credit.succeeded" event.
@@ -20596,8 +27378,22 @@ func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedCreditSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitCanceledEvent is the Go struct for the "v2.money_management.received_debit.canceled" event.
@@ -20637,8 +27433,22 @@ func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitCreatedEvent is the Go struct for the "v2.money_management.received_debit.created" event.
@@ -20678,8 +27488,22 @@ func (n *V2MoneyManagementReceivedDebitCreatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitFailedEvent is the Go struct for the "v2.money_management.received_debit.failed" event.
@@ -20719,8 +27543,22 @@ func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitPendingEvent is the Go struct for the "v2.money_management.received_debit.pending" event.
@@ -20760,8 +27598,22 @@ func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitPendingEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitScheduledEvent is the Go struct for the "v2.money_management.received_debit.scheduled" event.
@@ -20801,8 +27653,22 @@ func (n *V2MoneyManagementReceivedDebitScheduledEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitScheduledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitSucceededEvent is the Go struct for the "v2.money_management.received_debit.succeeded" event.
@@ -20842,8 +27708,22 @@ func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitUpdatedEvent is the Go struct for the "v2.money_management.received_debit.updated" event.
@@ -20883,8 +27763,22 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitMandateCanceledEvent is the Go struct for the "v2.money_management.received_debit_mandate.canceled" event.
@@ -20926,8 +27820,22 @@ func (n *V2MoneyManagementReceivedDebitMandateCanceledEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitMandateCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitMandateCreatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.created" event.
@@ -20969,8 +27877,22 @@ func (n *V2MoneyManagementReceivedDebitMandateCreatedEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitMandateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitMandateExpiredEvent is the Go struct for the "v2.money_management.received_debit_mandate.expired" event.
@@ -21012,8 +27934,22 @@ func (n *V2MoneyManagementReceivedDebitMandateExpiredEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitMandateExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitMandatePendingCancellationEvent is the Go struct for the "v2.money_management.received_debit_mandate.pending_cancellation" event.
@@ -21055,8 +27991,22 @@ func (n *V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotificati
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementReceivedDebitMandateUpdatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.updated" event.
@@ -21098,8 +28048,22 @@ func (n *V2MoneyManagementReceivedDebitMandateUpdatedEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementReceivedDebitMandateUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementRecipientVerificationCreatedEvent is the Go struct for the "v2.money_management.recipient_verification.created" event.
@@ -21139,8 +28103,22 @@ func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementRecipientVerification{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementRecipientVerificationCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementRecipientVerificationUpdatedEvent is the Go struct for the "v2.money_management.recipient_verification.updated" event.
@@ -21180,8 +28158,22 @@ func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementRecipientVerification{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementRecipientVerificationUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementRewardProgramRewardEarnedEvent is the Go struct for the "v2.money_management.reward_program.reward_earned" event.
@@ -21224,8 +28216,22 @@ func (n *V2MoneyManagementRewardProgramRewardEarnedEventNotification) FetchRelat
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementRewardProgram{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementRewardProgramRewardEarnedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementRewardProgramRewardReversedEvent is the Go struct for the "v2.money_management.reward_program.reward_reversed" event.
@@ -21270,8 +28276,22 @@ func (n *V2MoneyManagementRewardProgramRewardReversedEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementRewardProgram{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementRewardProgramRewardReversedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementSpendingMandateCanceledEvent is the Go struct for the "v2.money_management.spending_mandate.canceled" event.
@@ -21311,8 +28331,22 @@ func (n *V2MoneyManagementSpendingMandateCanceledEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementSpendingMandateCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementSpendingMandateCreatedEvent is the Go struct for the "v2.money_management.spending_mandate.created" event.
@@ -21354,8 +28388,22 @@ func (n *V2MoneyManagementSpendingMandateCreatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementSpendingMandateCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementSpendingMandateExpiredEvent is the Go struct for the "v2.money_management.spending_mandate.expired" event.
@@ -21395,8 +28443,22 @@ func (n *V2MoneyManagementSpendingMandateExpiredEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementSpendingMandateExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementSpendingMandatePendingCancellationEvent is the Go struct for the "v2.money_management.spending_mandate.pending_cancellation" event.
@@ -21436,8 +28498,22 @@ func (n *V2MoneyManagementSpendingMandatePendingCancellationEventNotification) F
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementSpendingMandatePendingCancellationEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementSpendingMandateUpdatedEvent is the Go struct for the "v2.money_management.spending_mandate.updated" event.
@@ -21477,8 +28553,22 @@ func (n *V2MoneyManagementSpendingMandateUpdatedEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementSpendingMandate{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementSpendingMandateUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
@@ -21519,8 +28609,22 @@ func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementTransactionCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
@@ -21561,8 +28665,22 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementTransaction{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2MoneyManagementTransactionUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2OrchestratedCommerceAgreementConfirmedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.confirmed" event.
@@ -21603,8 +28721,22 @@ func (n *V2OrchestratedCommerceAgreementConfirmedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2OrchestratedCommerceAgreement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2OrchestratedCommerceAgreementConfirmedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2OrchestratedCommerceAgreementCreatedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.created" event.
@@ -21645,8 +28777,22 @@ func (n *V2OrchestratedCommerceAgreementCreatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2OrchestratedCommerceAgreement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2OrchestratedCommerceAgreementCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2OrchestratedCommerceAgreementPartiallyConfirmedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.partially_confirmed" event.
@@ -21687,8 +28833,22 @@ func (n *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2OrchestratedCommerceAgreement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2OrchestratedCommerceAgreementTerminatedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.terminated" event.
@@ -21729,8 +28889,22 @@ func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2OrchestratedCommerceAgreement{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2OrchestratedCommerceAgreementTerminatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.attempt_failed" event.
@@ -21771,8 +28945,22 @@ func (n *V2PaymentsOffSessionPaymentAttemptFailedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentAttemptFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.attempt_started" event.
@@ -21814,8 +29002,22 @@ func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchRelate
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentAttemptStartedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
@@ -21855,8 +29057,22 @@ func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchRelatedObjec
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
@@ -21896,8 +29112,22 @@ func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
@@ -21938,8 +29168,22 @@ func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentPausedEvent is the Go struct for the "v2.payments.off_session_payment.paused" event.
@@ -21979,8 +29223,22 @@ func (n *V2PaymentsOffSessionPaymentPausedEventNotification) FetchRelatedObject(
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentPausedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentResumedEvent is the Go struct for the "v2.payments.off_session_payment.resumed" event.
@@ -22020,8 +29278,22 @@ func (n *V2PaymentsOffSessionPaymentResumedEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentResumedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
@@ -22062,8 +29334,22 @@ func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObje
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsOffSessionPayment{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsOffSessionPaymentSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.canceled" event.
@@ -22103,8 +29389,22 @@ func (n *V2PaymentsSettlementAllocationIntentCanceledEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.created" event.
@@ -22144,8 +29444,22 @@ func (n *V2PaymentsSettlementAllocationIntentCreatedEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentErroredEvent is the Go struct for the "v2.payments.settlement_allocation_intent.errored" event.
@@ -22186,8 +29500,22 @@ func (n *V2PaymentsSettlementAllocationIntentErroredEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentErroredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.funds_not_received" event.
@@ -22227,8 +29555,22 @@ func (n *V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentMatchedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.matched" event.
@@ -22268,8 +29610,22 @@ func (n *V2PaymentsSettlementAllocationIntentMatchedEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentMatchedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentNotFoundEvent is the Go struct for the "v2.payments.settlement_allocation_intent.not_found" event.
@@ -22292,6 +29648,16 @@ func (n *V2PaymentsSettlementAllocationIntentNotFoundEventNotification) FetchEve
 		return nil, err
 	}
 	return evt.(*V2PaymentsSettlementAllocationIntentNotFoundEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentNotFoundEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // V2PaymentsSettlementAllocationIntentSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.settled" event.
@@ -22331,8 +29697,22 @@ func (n *V2PaymentsSettlementAllocationIntentSettledEventNotification) FetchRela
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentSettledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentSubmittedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.submitted" event.
@@ -22372,8 +29752,22 @@ func (n *V2PaymentsSettlementAllocationIntentSubmittedEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntent{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentSubmittedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.canceled" event.
@@ -22414,8 +29808,22 @@ func (n *V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) Fet
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.created" event.
@@ -22456,8 +29864,22 @@ func (n *V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) Fetc
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2PaymentsSettlementAllocationIntentSplitSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.settled" event.
@@ -22498,8 +29920,22 @@ func (n *V2PaymentsSettlementAllocationIntentSplitSettledEventNotification) Fetc
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2PaymentsSettlementAllocationIntentSplitSettledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
@@ -22539,8 +29975,22 @@ func (n *V2ReportingReportRunCreatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ReportingReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ReportingReportRunCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ReportingReportRunFailedEvent is the Go struct for the "v2.reporting.report_run.failed" event.
@@ -22580,8 +30030,22 @@ func (n *V2ReportingReportRunFailedEventNotification) FetchRelatedObject(ctx con
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ReportingReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ReportingReportRunFailedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ReportingReportRunSucceededEvent is the Go struct for the "v2.reporting.report_run.succeeded" event.
@@ -22621,8 +30085,22 @@ func (n *V2ReportingReportRunSucceededEventNotification) FetchRelatedObject(ctx 
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ReportingReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ReportingReportRunSucceededEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2ReportingReportRunUpdatedEvent is the Go struct for the "v2.reporting.report_run.updated" event.
@@ -22662,8 +30140,22 @@ func (n *V2ReportingReportRunUpdatedEventNotification) FetchRelatedObject(ctx co
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2ReportingReportRun{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2ReportingReportRunUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountEvaluationCompleteEvent is the Go struct for the "v2.signals.account_evaluation.complete" event.
@@ -22703,8 +30195,22 @@ func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchRelatedObject
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountEvaluationCompleteEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountSignalCustomerRiskReadyEvent is the Go struct for the "v2.signals.account_signal.customer_risk_ready" event.
@@ -22744,8 +30250,22 @@ func (n *V2SignalsAccountSignalCustomerRiskReadyEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountSignal{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountSignalCustomerRiskReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountSignalFraudulentMerchantReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_merchant_ready" event.
@@ -22785,8 +30305,22 @@ func (n *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) FetchRe
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountSignal{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountSignalFraudulentWebsiteReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_website_ready" event.
@@ -22826,8 +30360,22 @@ func (n *V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification) FetchRel
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountSignal{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountSignalMerchantDelinquencyReadyEvent is the Go struct for the "v2.signals.account_signal.merchant_delinquency_ready" event.
@@ -22867,8 +30415,22 @@ func (n *V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification) FetchR
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountSignal{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent is the Go struct for the "v2.signals.account_signal.payment_delinquency_exposure_ready" event.
@@ -22908,8 +30470,22 @@ func (n *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsAccountSignal{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationCanceledEvent is the Go struct for the "v2.signals.payment_retry_evaluation.canceled" event.
@@ -22949,8 +30525,22 @@ func (n *V2SignalsPaymentRetryEvaluationCanceledEventNotification) FetchRelatedO
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsPaymentRetryEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationCanceledEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationCompletedEvent is the Go struct for the "v2.signals.payment_retry_evaluation.completed" event.
@@ -22990,8 +30580,22 @@ func (n *V2SignalsPaymentRetryEvaluationCompletedEventNotification) FetchRelated
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsPaymentRetryEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationCompletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationCreatedEvent is the Go struct for the "v2.signals.payment_retry_evaluation.created" event.
@@ -23031,8 +30635,22 @@ func (n *V2SignalsPaymentRetryEvaluationCreatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsPaymentRetryEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationExpiredEvent is the Go struct for the "v2.signals.payment_retry_evaluation.expired" event.
@@ -23072,8 +30690,22 @@ func (n *V2SignalsPaymentRetryEvaluationExpiredEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsPaymentRetryEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationExpiredEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationUpdatedEvent is the Go struct for the "v2.signals.payment_retry_evaluation.updated" event.
@@ -23113,8 +30745,22 @@ func (n *V2SignalsPaymentRetryEvaluationUpdatedEventNotification) FetchRelatedOb
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2SignalsPaymentRetryEvaluation{}
 	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
 	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationUpdatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent is the Go struct for the "v2.signals.payment_retry_evaluations.retry_recommended" event.
@@ -23139,6 +30785,16 @@ func (n *V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification) Fetc
 		return nil, err
 	}
 	return evt.(*V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent), nil
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct{ V2CoreEventNotification base }
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
 }
 
 // Array of objects representing individual factors that contributed to the calculated probability of delinquency.
@@ -33464,3955 +41120,3955 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account.application.deauthorized":
 		evt := V1AccountApplicationDeauthorizedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account.external_account.created":
 		evt := V1AccountExternalAccountCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account.external_account.deleted":
 		evt := V1AccountExternalAccountDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account.external_account.updated":
 		evt := V1AccountExternalAccountUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account.updated":
 		evt := V1AccountUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.account_signals[delinquency].created":
 		evt := V1AccountSignalsIncludingDelinquencyCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.application_fee.created":
 		evt := V1ApplicationFeeCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.application_fee.refund.updated":
 		evt := V1ApplicationFeeRefundUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.application_fee.refunded":
 		evt := V1ApplicationFeeRefundedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.balance.available":
 		evt := V1BalanceAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.balance_settings.updated":
 		evt := V1BalanceSettingsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.alert.triggered":
 		evt := V1BillingAlertTriggeredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.credit_balance_transaction.created":
 		evt := V1BillingCreditBalanceTransactionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.credit_grant.created":
 		evt := V1BillingCreditGrantCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.credit_grant.updated":
 		evt := V1BillingCreditGrantUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.created":
 		evt := V1BillingMeterCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.deactivated":
 		evt := V1BillingMeterDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.error_report_triggered":
 		evt := V1BillingMeterErrorReportTriggeredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.no_meter_found":
 		evt := V1BillingMeterNoMeterFoundEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.reactivated":
 		evt := V1BillingMeterReactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing.meter.updated":
 		evt := V1BillingMeterUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing_portal.configuration.created":
 		evt := V1BillingPortalConfigurationCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing_portal.configuration.updated":
 		evt := V1BillingPortalConfigurationUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.billing_portal.session.created":
 		evt := V1BillingPortalSessionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.capability.updated":
 		evt := V1CapabilityUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.cash_balance.funds_available":
 		evt := V1CashBalanceFundsAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.captured":
 		evt := V1ChargeCapturedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.dispute.closed":
 		evt := V1ChargeDisputeClosedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.dispute.created":
 		evt := V1ChargeDisputeCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.dispute.funds_reinstated":
 		evt := V1ChargeDisputeFundsReinstatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.dispute.funds_withdrawn":
 		evt := V1ChargeDisputeFundsWithdrawnEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.dispute.updated":
 		evt := V1ChargeDisputeUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.expired":
 		evt := V1ChargeExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.failed":
 		evt := V1ChargeFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.pending":
 		evt := V1ChargePendingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.refund.updated":
 		evt := V1ChargeRefundUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.refunded":
 		evt := V1ChargeRefundedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.succeeded":
 		evt := V1ChargeSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.charge.updated":
 		evt := V1ChargeUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.checkout.session.async_payment_failed":
 		evt := V1CheckoutSessionAsyncPaymentFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.checkout.session.async_payment_succeeded":
 		evt := V1CheckoutSessionAsyncPaymentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.checkout.session.completed":
 		evt := V1CheckoutSessionCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.checkout.session.expired":
 		evt := V1CheckoutSessionExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.order.canceled":
 		evt := V1ClimateOrderCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.order.created":
 		evt := V1ClimateOrderCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.order.delayed":
 		evt := V1ClimateOrderDelayedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.order.delivered":
 		evt := V1ClimateOrderDeliveredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.order.product_substituted":
 		evt := V1ClimateOrderProductSubstitutedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.product.created":
 		evt := V1ClimateProductCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.climate.product.pricing_updated":
 		evt := V1ClimateProductPricingUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.coupon.created":
 		evt := V1CouponCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.coupon.deleted":
 		evt := V1CouponDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.coupon.updated":
 		evt := V1CouponUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.credit_note.created":
 		evt := V1CreditNoteCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.credit_note.updated":
 		evt := V1CreditNoteUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.credit_note.voided":
 		evt := V1CreditNoteVoidedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.created":
 		evt := V1CustomerCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.deleted":
 		evt := V1CustomerDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.discount.source_changed":
 		evt := V1CustomerDiscountSourceChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.active":
 		evt := V1CustomerSubscriptionActiveEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.cancel_at_changed":
 		evt := V1CustomerSubscriptionCancelAtChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.created":
 		evt := V1CustomerSubscriptionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.default_payment_method_changed":
 		evt := V1CustomerSubscriptionDefaultPaymentMethodChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.deleted":
 		evt := V1CustomerSubscriptionDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.incomplete":
 		evt := V1CustomerSubscriptionIncompleteEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.incomplete_expired":
 		evt := V1CustomerSubscriptionIncompleteExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.item_added":
 		evt := V1CustomerSubscriptionItemAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.item_price_changed":
 		evt := V1CustomerSubscriptionItemPriceChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.item_quantity_changed":
 		evt := V1CustomerSubscriptionItemQuantityChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.item_removed":
 		evt := V1CustomerSubscriptionItemRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.item_tax_rates_changed":
 		evt := V1CustomerSubscriptionItemTaxRatesChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.past_due":
 		evt := V1CustomerSubscriptionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.paused":
 		evt := V1CustomerSubscriptionPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.pending_update_applied":
 		evt := V1CustomerSubscriptionPendingUpdateAppliedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.pending_update_expired":
 		evt := V1CustomerSubscriptionPendingUpdateExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.resumed":
 		evt := V1CustomerSubscriptionResumedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.trial_will_end":
 		evt := V1CustomerSubscriptionTrialWillEndEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.trialing":
 		evt := V1CustomerSubscriptionTrialingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.unpaid":
 		evt := V1CustomerSubscriptionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.subscription.updated":
 		evt := V1CustomerSubscriptionUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.tax_id.created":
 		evt := V1CustomerTaxIDCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.tax_id.deleted":
 		evt := V1CustomerTaxIDDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.tax_id.updated":
 		evt := V1CustomerTaxIDUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer.updated":
 		evt := V1CustomerUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.customer_cash_balance_transaction.created":
 		evt := V1CustomerCashBalanceTransactionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.entitlements.active_entitlement_summary.entitlement_added":
 		evt := V1EntitlementsActiveEntitlementSummaryEntitlementAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.entitlements.active_entitlement_summary.entitlement_removed":
 		evt := V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.entitlements.active_entitlement_summary.updated":
 		evt := V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.file.created":
 		evt := V1FileCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.account_numbers_updated":
 		evt := V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.balance_refresh_failed":
 		evt := V1FinancialConnectionsAccountBalanceRefreshFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.balance_refresh_succeeded":
 		evt := V1FinancialConnectionsAccountBalanceRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.created":
 		evt := V1FinancialConnectionsAccountCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.deactivated":
 		evt := V1FinancialConnectionsAccountDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.disconnected":
 		evt := V1FinancialConnectionsAccountDisconnectedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.expected_deactivation_date_updated":
 		evt := V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.inferred_balances_refresh_failed":
 		evt := V1FinancialConnectionsAccountInferredBalancesRefreshFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.inferred_balances_refresh_succeeded":
 		evt := V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.ownership_refresh_failed":
 		evt := V1FinancialConnectionsAccountOwnershipRefreshFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.ownership_refresh_succeeded":
 		evt := V1FinancialConnectionsAccountOwnershipRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.reactivated":
 		evt := V1FinancialConnectionsAccountReactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.refreshed_balance":
 		evt := V1FinancialConnectionsAccountRefreshedBalanceEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.refreshed_ownership":
 		evt := V1FinancialConnectionsAccountRefreshedOwnershipEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.refreshed_transactions":
 		evt := V1FinancialConnectionsAccountRefreshedTransactionsEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.risk_intelligence_refresh_failed":
 		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.risk_intelligence_refresh_succeeded":
 		evt := V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.supported_payment_method_types_updated":
 		evt := V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.transactions_refresh_failed":
 		evt := V1FinancialConnectionsAccountTransactionsRefreshFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.transactions_refresh_succeeded":
 		evt := V1FinancialConnectionsAccountTransactionsRefreshSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.upcoming_account_number_expiry":
 		evt := V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.financial_connections.account.upcoming_deactivation":
 		evt := V1FinancialConnectionsAccountUpcomingDeactivationEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.canceled":
 		evt := V1IdentityVerificationSessionCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.created":
 		evt := V1IdentityVerificationSessionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.processing":
 		evt := V1IdentityVerificationSessionProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.redacted":
 		evt := V1IdentityVerificationSessionRedactedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.requires_input":
 		evt := V1IdentityVerificationSessionRequiresInputEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.identity.verification_session.verified":
 		evt := V1IdentityVerificationSessionVerifiedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.created":
 		evt := V1InvoiceCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.deleted":
 		evt := V1InvoiceDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.discount_added":
 		evt := V1InvoiceDiscountAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.discount_removed":
 		evt := V1InvoiceDiscountRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.finalization_failed":
 		evt := V1InvoiceFinalizationFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.finalized":
 		evt := V1InvoiceFinalizedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.line_item_added":
 		evt := V1InvoiceLineItemAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.line_item_pricing_changed":
 		evt := V1InvoiceLineItemPricingChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.line_item_quantity_changed":
 		evt := V1InvoiceLineItemQuantityChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.line_item_removed":
 		evt := V1InvoiceLineItemRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.marked_uncollectible":
 		evt := V1InvoiceMarkedUncollectibleEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.overdue":
 		evt := V1InvoiceOverdueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.overpaid":
 		evt := V1InvoiceOverpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.paid":
 		evt := V1InvoicePaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.payment_action_required":
 		evt := V1InvoicePaymentActionRequiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.payment_attempt_required":
 		evt := V1InvoicePaymentAttemptRequiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.payment_failed":
 		evt := V1InvoicePaymentFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.payment_succeeded":
 		evt := V1InvoicePaymentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.sent":
 		evt := V1InvoiceSentEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.upcoming":
 		evt := V1InvoiceUpcomingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.updated":
 		evt := V1InvoiceUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.voided":
 		evt := V1InvoiceVoidedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice.will_be_due":
 		evt := V1InvoiceWillBeDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice_payment.canceled":
 		evt := V1InvoicePaymentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice_payment.open":
 		evt := V1InvoicePaymentOpenEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoice_payment.paid":
 		evt := V1InvoicePaymentPaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoiceitem.amount_changed":
 		evt := V1InvoiceitemAmountChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoiceitem.created":
 		evt := V1InvoiceitemCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoiceitem.deleted":
 		evt := V1InvoiceitemDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoiceitem.discount_added":
 		evt := V1InvoiceitemDiscountAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.invoiceitem.discount_removed":
 		evt := V1InvoiceitemDiscountRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_authorization.created":
 		evt := V1IssuingAuthorizationCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_authorization.request":
 		evt := V1IssuingAuthorizationRequestEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_authorization.updated":
 		evt := V1IssuingAuthorizationUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_card.created":
 		evt := V1IssuingCardCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_card.updated":
 		evt := V1IssuingCardUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_cardholder.created":
 		evt := V1IssuingCardholderCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_cardholder.updated":
 		evt := V1IssuingCardholderUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.closed":
 		evt := V1IssuingDisputeClosedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.created":
 		evt := V1IssuingDisputeCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.funds_reinstated":
 		evt := V1IssuingDisputeFundsReinstatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.funds_rescinded":
 		evt := V1IssuingDisputeFundsRescindedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.submitted":
 		evt := V1IssuingDisputeSubmittedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_dispute.updated":
 		evt := V1IssuingDisputeUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_personalization_design.activated":
 		evt := V1IssuingPersonalizationDesignActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_personalization_design.deactivated":
 		evt := V1IssuingPersonalizationDesignDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_personalization_design.rejected":
 		evt := V1IssuingPersonalizationDesignRejectedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_personalization_design.updated":
 		evt := V1IssuingPersonalizationDesignUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_token.created":
 		evt := V1IssuingTokenCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_token.updated":
 		evt := V1IssuingTokenUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_transaction.created":
 		evt := V1IssuingTransactionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_transaction.purchase_details_receipt_updated":
 		evt := V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.issuing_transaction.updated":
 		evt := V1IssuingTransactionUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.mandate.updated":
 		evt := V1MandateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.amount_capturable_updated":
 		evt := V1PaymentIntentAmountCapturableUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.canceled":
 		evt := V1PaymentIntentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.created":
 		evt := V1PaymentIntentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.partially_funded":
 		evt := V1PaymentIntentPartiallyFundedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.payment_failed":
 		evt := V1PaymentIntentPaymentFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.processing":
 		evt := V1PaymentIntentProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.requires_action":
 		evt := V1PaymentIntentRequiresActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_intent.succeeded":
 		evt := V1PaymentIntentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_link.created":
 		evt := V1PaymentLinkCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_link.updated":
 		evt := V1PaymentLinkUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_method.attached":
 		evt := V1PaymentMethodAttachedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_method.automatically_updated":
 		evt := V1PaymentMethodAutomaticallyUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_method.detached":
 		evt := V1PaymentMethodDetachedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payment_method.updated":
 		evt := V1PaymentMethodUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.canceled":
 		evt := V1PayoutCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.created":
 		evt := V1PayoutCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.failed":
 		evt := V1PayoutFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.paid":
 		evt := V1PayoutPaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.reconciliation_completed":
 		evt := V1PayoutReconciliationCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.payout.updated":
 		evt := V1PayoutUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.person.created":
 		evt := V1PersonCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.person.deleted":
 		evt := V1PersonDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.person.updated":
 		evt := V1PersonUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.plan.created":
 		evt := V1PlanCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.plan.deleted":
 		evt := V1PlanDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.plan.updated":
 		evt := V1PlanUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.activated":
 		evt := V1PriceActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.created":
 		evt := V1PriceCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.deactivated":
 		evt := V1PriceDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.deleted":
 		evt := V1PriceDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.lookup_key_changed":
 		evt := V1PriceLookupKeyChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.tax_behavior_changed":
 		evt := V1PriceTaxBehaviorChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.price.updated":
 		evt := V1PriceUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.activated":
 		evt := V1ProductActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.created":
 		evt := V1ProductCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.deactivated":
 		evt := V1ProductDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.default_price_changed":
 		evt := V1ProductDefaultPriceChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.deleted":
 		evt := V1ProductDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.tax_code_changed":
 		evt := V1ProductTaxCodeChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.product.updated":
 		evt := V1ProductUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.promotion_code.created":
 		evt := V1PromotionCodeCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.promotion_code.fully_redeemed":
 		evt := V1PromotionCodeFullyRedeemedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.promotion_code.updated":
 		evt := V1PromotionCodeUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.quote.accepted":
 		evt := V1QuoteAcceptedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.quote.canceled":
 		evt := V1QuoteCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.quote.created":
 		evt := V1QuoteCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.quote.finalized":
 		evt := V1QuoteFinalizedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.radar.early_fraud_warning.created":
 		evt := V1RadarEarlyFraudWarningCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.radar.early_fraud_warning.updated":
 		evt := V1RadarEarlyFraudWarningUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.refund.created":
 		evt := V1RefundCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.refund.failed":
 		evt := V1RefundFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.refund.updated":
 		evt := V1RefundUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.review.closed":
 		evt := V1ReviewClosedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.review.opened":
 		evt := V1ReviewOpenedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.setup_intent.canceled":
 		evt := V1SetupIntentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.setup_intent.created":
 		evt := V1SetupIntentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.setup_intent.requires_action":
 		evt := V1SetupIntentRequiresActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.setup_intent.setup_failed":
 		evt := V1SetupIntentSetupFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.setup_intent.succeeded":
 		evt := V1SetupIntentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.sigma.scheduled_query_run.created":
 		evt := V1SigmaScheduledQueryRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.source.canceled":
 		evt := V1SourceCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.source.chargeable":
 		evt := V1SourceChargeableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.source.failed":
 		evt := V1SourceFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.source.refund_attributes_required":
 		evt := V1SourceRefundAttributesRequiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.aborted":
 		evt := V1SubscriptionScheduleAbortedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.canceled":
 		evt := V1SubscriptionScheduleCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.completed":
 		evt := V1SubscriptionScheduleCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.created":
 		evt := V1SubscriptionScheduleCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.expiring":
 		evt := V1SubscriptionScheduleExpiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.phase_added":
 		evt := V1SubscriptionSchedulePhaseAddedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.phase_default_tax_rates_changed":
 		evt := V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.phase_end_date_changed":
 		evt := V1SubscriptionSchedulePhaseEndDateChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.phase_removed":
 		evt := V1SubscriptionSchedulePhaseRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.phase_trial_end_changed":
 		evt := V1SubscriptionSchedulePhaseTrialEndChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.released":
 		evt := V1SubscriptionScheduleReleasedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.subscription_schedule.updated":
 		evt := V1SubscriptionScheduleUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.tax.settings.updated":
 		evt := V1TaxSettingsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.tax_rate.created":
 		evt := V1TaxRateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.tax_rate.updated":
 		evt := V1TaxRateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.terminal.reader.action_failed":
 		evt := V1TerminalReaderActionFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.terminal.reader.action_succeeded":
 		evt := V1TerminalReaderActionSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.terminal.reader.action_updated":
 		evt := V1TerminalReaderActionUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.test_helpers.test_clock.advancing":
 		evt := V1TestHelpersTestClockAdvancingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.test_helpers.test_clock.created":
 		evt := V1TestHelpersTestClockCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.test_helpers.test_clock.deleted":
 		evt := V1TestHelpersTestClockDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.test_helpers.test_clock.internal_failure":
 		evt := V1TestHelpersTestClockInternalFailureEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.test_helpers.test_clock.ready":
 		evt := V1TestHelpersTestClockReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.topup.canceled":
 		evt := V1TopupCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.topup.created":
 		evt := V1TopupCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.topup.failed":
 		evt := V1TopupFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.topup.reversed":
 		evt := V1TopupReversedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.topup.succeeded":
 		evt := V1TopupSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.transfer.created":
 		evt := V1TransferCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.transfer.reversed":
 		evt := V1TransferReversedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v1.transfer.updated":
 		evt := V1TransferUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.activated":
 		evt := V2BillingContractActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.canceled":
 		evt := V2BillingContractCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.collection_blocked":
 		evt := V2BillingContractCollectionBlockedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.collection_current":
 		evt := V2BillingContractCollectionCurrentEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.collection_past_due":
 		evt := V2BillingContractCollectionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.collection_unpaid":
 		evt := V2BillingContractCollectionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.created":
 		evt := V2BillingContractCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.ended":
 		evt := V2BillingContractEndedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract.updated":
 		evt := V2BillingContractUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.created":
 		evt := V2BillingContractTermCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.deleted":
 		evt := V2BillingContractTermDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.pricing_override_ended":
 		evt := V2BillingContractTermPricingOverrideEndedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.pricing_override_started":
 		evt := V2BillingContractTermPricingOverrideStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.recurring_price_ended":
 		evt := V2BillingContractTermRecurringPriceEndedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.recurring_price_started":
 		evt := V2BillingContractTermRecurringPriceStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.scheduled_fee_service_period_ended":
 		evt := V2BillingContractTermScheduledFeeServicePeriodEndedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.scheduled_fee_service_period_started":
 		evt := V2BillingContractTermScheduledFeeServicePeriodStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.contract_term.updated":
 		evt := V2BillingContractTermUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.license_fee.created":
 		evt := V2BillingLicenseFeeCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.license_fee.updated":
 		evt := V2BillingLicenseFeeUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.license_fee_version.created":
 		evt := V2BillingLicenseFeeVersionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.licensed_item.created":
 		evt := V2BillingLicensedItemCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.licensed_item.updated":
 		evt := V2BillingLicensedItemUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.metered_item.created":
 		evt := V2BillingMeteredItemCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.metered_item.updated":
 		evt := V2BillingMeteredItemUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan.created":
 		evt := V2BillingPricingPlanCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan.updated":
 		evt := V2BillingPricingPlanUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_component.created":
 		evt := V2BillingPricingPlanComponentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_component.updated":
 		evt := V2BillingPricingPlanComponentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.collection_awaiting_customer_action":
 		evt := V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.collection_current":
 		evt := V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.collection_past_due":
 		evt := V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.collection_paused":
 		evt := V2BillingPricingPlanSubscriptionCollectionPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.collection_unpaid":
 		evt := V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.servicing_activated":
 		evt := V2BillingPricingPlanSubscriptionServicingActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.servicing_canceled":
 		evt := V2BillingPricingPlanSubscriptionServicingCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_subscription.servicing_paused":
 		evt := V2BillingPricingPlanSubscriptionServicingPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.pricing_plan_version.created":
 		evt := V2BillingPricingPlanVersionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card.created":
 		evt := V2BillingRateCardCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card.updated":
 		evt := V2BillingRateCardUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_custom_pricing_unit_overage_rate.created":
 		evt := V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_rate.created":
 		evt := V2BillingRateCardRateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.activated":
 		evt := V2BillingRateCardSubscriptionActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.canceled":
 		evt := V2BillingRateCardSubscriptionCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.collection_awaiting_customer_action":
 		evt := V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.collection_current":
 		evt := V2BillingRateCardSubscriptionCollectionCurrentEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.collection_past_due":
 		evt := V2BillingRateCardSubscriptionCollectionPastDueEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.collection_paused":
 		evt := V2BillingRateCardSubscriptionCollectionPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.collection_unpaid":
 		evt := V2BillingRateCardSubscriptionCollectionUnpaidEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.servicing_activated":
 		evt := V2BillingRateCardSubscriptionServicingActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.servicing_canceled":
 		evt := V2BillingRateCardSubscriptionServicingCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_subscription.servicing_paused":
 		evt := V2BillingRateCardSubscriptionServicingPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.billing.rate_card_version.created":
 		evt := V2BillingRateCardVersionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.commerce.product_catalog.imports.failed":
 		evt := V2CommerceProductCatalogImportsFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.commerce.product_catalog.imports.processing":
 		evt := V2CommerceProductCatalogImportsProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.commerce.product_catalog.imports.succeeded":
 		evt := V2CommerceProductCatalogImportsSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.commerce.product_catalog.imports.succeeded_with_errors":
 		evt := V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account.closed":
 		evt := V2CoreAccountClosedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account.created":
 		evt := V2CoreAccountCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account.updated":
 		evt := V2CoreAccountUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.card_creator].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.card_creator].updated":
 		evt := V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.customer].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.customer].updated":
 		evt := V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.merchant].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.merchant].updated":
 		evt := V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.money_manager].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.money_manager].updated":
 		evt := V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.recipient].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[configuration.recipient].updated":
 		evt := V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[defaults].updated":
 		evt := V2CoreAccountIncludingDefaultsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[future_requirements].updated":
 		evt := V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[identity].updated":
 		evt := V2CoreAccountIncludingIdentityUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account[requirements].updated":
 		evt := V2CoreAccountIncludingRequirementsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account_link.returned":
 		evt := V2CoreAccountLinkReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account_person.created":
 		evt := V2CoreAccountPersonCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account_person.deleted":
 		evt := V2CoreAccountPersonDeletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account_person.updated":
 		evt := V2CoreAccountPersonUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.account_signals.fraudulent_website_ready":
 		evt := V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.approved":
 		evt := V2CoreApprovalRequestApprovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.canceled":
 		evt := V2CoreApprovalRequestCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.created":
 		evt := V2CoreApprovalRequestCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.expired":
 		evt := V2CoreApprovalRequestExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.failed":
 		evt := V2CoreApprovalRequestFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.rejected":
 		evt := V2CoreApprovalRequestRejectedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.approval_request.succeeded":
 		evt := V2CoreApprovalRequestSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.batch_failed":
 		evt := V2CoreBatchJobBatchFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.canceled":
 		evt := V2CoreBatchJobCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.completed":
 		evt := V2CoreBatchJobCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.created":
 		evt := V2CoreBatchJobCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.ready_for_upload":
 		evt := V2CoreBatchJobReadyForUploadEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.timeout":
 		evt := V2CoreBatchJobTimeoutEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.updated":
 		evt := V2CoreBatchJobUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.upload_timeout":
 		evt := V2CoreBatchJobUploadTimeoutEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.validating":
 		evt := V2CoreBatchJobValidatingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.batch_job.validation_failed":
 		evt := V2CoreBatchJobValidationFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.claimable_sandbox.claimed":
 		evt := V2CoreClaimableSandboxClaimedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.claimable_sandbox.created":
 		evt := V2CoreClaimableSandboxCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.claimable_sandbox.expired":
 		evt := V2CoreClaimableSandboxExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.claimable_sandbox.expiring":
 		evt := V2CoreClaimableSandboxExpiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.claimable_sandbox.updated":
 		evt := V2CoreClaimableSandboxUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.event_destination.ping":
 		evt := V2CoreEventDestinationPingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.api_error.firing":
 		evt := V2CoreHealthAPIErrorFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.api_error.resolved":
 		evt := V2CoreHealthAPIErrorResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.api_latency.firing":
 		evt := V2CoreHealthAPILatencyFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.api_latency.resolved":
 		evt := V2CoreHealthAPILatencyResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.authorization_rate_drop.firing":
 		evt := V2CoreHealthAuthorizationRateDropFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.authorization_rate_drop.resolved":
 		evt := V2CoreHealthAuthorizationRateDropResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.custom_payment_method_adapter_degraded.firing":
 		evt := V2CoreHealthCustomPaymentMethodAdapterDegradedFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.custom_payment_method_adapter_degraded.resolved":
 		evt := V2CoreHealthCustomPaymentMethodAdapterDegradedResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.elements_error.firing":
 		evt := V2CoreHealthElementsErrorFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.elements_error.resolved":
 		evt := V2CoreHealthElementsErrorResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.event_generation_failure.resolved":
 		evt := V2CoreHealthEventGenerationFailureResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.fraud_rate.increased":
 		evt := V2CoreHealthFraudRateIncreasedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.invoice_count_dropped.firing":
 		evt := V2CoreHealthInvoiceCountDroppedFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.invoice_count_dropped.resolved":
 		evt := V2CoreHealthInvoiceCountDroppedResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.issuing_authorization_request_errors.firing":
 		evt := V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.issuing_authorization_request_errors.resolved":
 		evt := V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.issuing_authorization_request_timeout.firing":
 		evt := V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.issuing_authorization_request_timeout.resolved":
 		evt := V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.meter_event_summaries_delayed.firing":
 		evt := V2CoreHealthMeterEventSummariesDelayedFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.meter_event_summaries_delayed.resolved":
 		evt := V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.metronome_notification_latency.firing":
 		evt := V2CoreHealthMetronomeNotificationLatencyFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.metronome_notification_latency.resolved":
 		evt := V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.payment_method_error.firing":
 		evt := V2CoreHealthPaymentMethodErrorFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.payment_method_error.resolved":
 		evt := V2CoreHealthPaymentMethodErrorResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.sepa_debit_delayed.firing":
 		evt := V2CoreHealthSEPADebitDelayedFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.sepa_debit_delayed.resolved":
 		evt := V2CoreHealthSEPADebitDelayedResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.traffic_volume_drop.firing":
 		evt := V2CoreHealthTrafficVolumeDropFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.traffic_volume_drop.resolved":
 		evt := V2CoreHealthTrafficVolumeDropResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.webhook_latency.firing":
 		evt := V2CoreHealthWebhookLatencyFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.health.webhook_latency.resolved":
 		evt := V2CoreHealthWebhookLatencyResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.vault.network_token.activated":
 		evt := V2CoreVaultNetworkTokenActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.vault.network_token.authorization_requirements_changed":
 		evt := V2CoreVaultNetworkTokenAuthorizationRequirementsChangedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.vault.network_token.deactivated":
 		evt := V2CoreVaultNetworkTokenDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.vault.network_token.details_updated":
 		evt := V2CoreVaultNetworkTokenDetailsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.core.vault.network_token.suspended":
 		evt := V2CoreVaultNetworkTokenSuspendedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.query_run.created":
 		evt := V2DataQueryRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.query_run.failed":
 		evt := V2DataQueryRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.query_run.succeeded":
 		evt := V2DataQueryRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.query_run.updated":
 		evt := V2DataQueryRunUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.report_run.created":
 		evt := V2DataReportRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.report_run.failed":
 		evt := V2DataReportRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.report_run.succeeded":
 		evt := V2DataReportRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.report_run.updated":
 		evt := V2DataReportRunUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.reporting.query_run.created":
 		evt := V2DataReportingQueryRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.reporting.query_run.failed":
 		evt := V2DataReportingQueryRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.reporting.query_run.succeeded":
 		evt := V2DataReportingQueryRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.data.reporting.query_run.updated":
 		evt := V2DataReportingQueryRunUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.extension_run.failed":
 		evt := V2ExtendExtensionRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.object_definition.created":
 		evt := V2ExtendObjectDefinitionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.object_definition_version.created":
 		evt := V2ExtendObjectDefinitionVersionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.workflow_run.failed":
 		evt := V2ExtendWorkflowRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.workflow_run.started":
 		evt := V2ExtendWorkflowRunStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.extend.workflow_run.succeeded":
 		evt := V2ExtendWorkflowRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.created":
 		evt := V2IamAPIKeyCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.default_secret_revealed":
 		evt := V2IamAPIKeyDefaultSecretRevealedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.expired":
 		evt := V2IamAPIKeyExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.permissions_updated":
 		evt := V2IamAPIKeyPermissionsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.rotated":
 		evt := V2IamAPIKeyRotatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.api_key.updated":
 		evt := V2IamAPIKeyUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.approved":
 		evt := V2IamStripeAccessGrantApprovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.canceled":
 		evt := V2IamStripeAccessGrantCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.denied":
 		evt := V2IamStripeAccessGrantDeniedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.removed":
 		evt := V2IamStripeAccessGrantRemovedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.requested":
 		evt := V2IamStripeAccessGrantRequestedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.iam.stripe_access_grant.updated":
 		evt := V2IamStripeAccessGrantUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.adjustment.created":
 		evt := V2MoneyManagementAdjustmentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.debit_dispute.failed":
 		evt := V2MoneyManagementDebitDisputeFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.debit_dispute.submitted":
 		evt := V2MoneyManagementDebitDisputeSubmittedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.debit_dispute.succeeded":
 		evt := V2MoneyManagementDebitDisputeSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.earned_credit.succeeded":
 		evt := V2MoneyManagementEarnedCreditSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account.created":
 		evt := V2MoneyManagementFinancialAccountCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account.updated":
 		evt := V2MoneyManagementFinancialAccountUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account.wallet_export.completed":
 		evt := V2MoneyManagementFinancialAccountWalletExportCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account.wallet_export.pending":
 		evt := V2MoneyManagementFinancialAccountWalletExportPendingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account.wallet_export.ready":
 		evt := V2MoneyManagementFinancialAccountWalletExportReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account_statement.created":
 		evt := V2MoneyManagementFinancialAccountStatementCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_account_statement.restated":
 		evt := V2MoneyManagementFinancialAccountStatementRestatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_address.activated":
 		evt := V2MoneyManagementFinancialAddressActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.financial_address.failed":
 		evt := V2MoneyManagementFinancialAddressFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.canceled":
 		evt := V2MoneyManagementFundingIntentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.created":
 		evt := V2MoneyManagementFundingIntentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.processing":
 		evt := V2MoneyManagementFundingIntentProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.requires_action":
 		evt := V2MoneyManagementFundingIntentRequiresActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.requires_confirmation":
 		evt := V2MoneyManagementFundingIntentRequiresConfirmationEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.succeeded":
 		evt := V2MoneyManagementFundingIntentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.updated":
 		evt := V2MoneyManagementFundingIntentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.funding_intent.validating":
 		evt := V2MoneyManagementFundingIntentValidatingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.available":
 		evt := V2MoneyManagementInboundFundingAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.check_failed":
 		evt := V2MoneyManagementInboundFundingCheckFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.check_processing":
 		evt := V2MoneyManagementInboundFundingCheckProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.check_queued":
 		evt := V2MoneyManagementInboundFundingCheckQueuedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.check_returned":
 		evt := V2MoneyManagementInboundFundingCheckReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.check_succeeded":
 		evt := V2MoneyManagementInboundFundingCheckSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.created":
 		evt := V2MoneyManagementInboundFundingCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_funding.updated":
 		evt := V2MoneyManagementInboundFundingUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.available":
 		evt := V2MoneyManagementInboundTransferAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.bank_debit_failed":
 		evt := V2MoneyManagementInboundTransferBankDebitFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.bank_debit_processing":
 		evt := V2MoneyManagementInboundTransferBankDebitProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.bank_debit_queued":
 		evt := V2MoneyManagementInboundTransferBankDebitQueuedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.bank_debit_returned":
 		evt := V2MoneyManagementInboundTransferBankDebitReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer.bank_debit_succeeded":
 		evt := V2MoneyManagementInboundTransferBankDebitSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer_mandate.activated":
 		evt := V2MoneyManagementInboundTransferMandateActivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer_mandate.created":
 		evt := V2MoneyManagementInboundTransferMandateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer_mandate.expired":
 		evt := V2MoneyManagementInboundTransferMandateExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer_mandate.refused":
 		evt := V2MoneyManagementInboundTransferMandateRefusedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.inbound_transfer_mandate.revoked":
 		evt := V2MoneyManagementInboundTransferMandateRevokedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.canceled":
 		evt := V2MoneyManagementOutboundPaymentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.created":
 		evt := V2MoneyManagementOutboundPaymentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.failed":
 		evt := V2MoneyManagementOutboundPaymentFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.posted":
 		evt := V2MoneyManagementOutboundPaymentPostedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.returned":
 		evt := V2MoneyManagementOutboundPaymentReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.under_review":
 		evt := V2MoneyManagementOutboundPaymentUnderReviewEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_payment.updated":
 		evt := V2MoneyManagementOutboundPaymentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.canceled":
 		evt := V2MoneyManagementOutboundTransferCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.created":
 		evt := V2MoneyManagementOutboundTransferCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.failed":
 		evt := V2MoneyManagementOutboundTransferFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.posted":
 		evt := V2MoneyManagementOutboundTransferPostedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.returned":
 		evt := V2MoneyManagementOutboundTransferReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.under_review":
 		evt := V2MoneyManagementOutboundTransferUnderReviewEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.updated":
 		evt := V2MoneyManagementOutboundTransferUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.canceled":
 		evt := V2MoneyManagementPayoutIntentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.created":
 		evt := V2MoneyManagementPayoutIntentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.pending":
 		evt := V2MoneyManagementPayoutIntentPendingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.posted":
 		evt := V2MoneyManagementPayoutIntentPostedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.processing":
 		evt := V2MoneyManagementPayoutIntentProcessingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.requires_action":
 		evt := V2MoneyManagementPayoutIntentRequiresActionEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_intent.updated":
 		evt := V2MoneyManagementPayoutIntentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_method.created":
 		evt := V2MoneyManagementPayoutMethodCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.payout_method.updated":
 		evt := V2MoneyManagementPayoutMethodUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_credit.available":
 		evt := V2MoneyManagementReceivedCreditAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_credit.failed":
 		evt := V2MoneyManagementReceivedCreditFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_credit.returned":
 		evt := V2MoneyManagementReceivedCreditReturnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_credit.succeeded":
 		evt := V2MoneyManagementReceivedCreditSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.canceled":
 		evt := V2MoneyManagementReceivedDebitCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.created":
 		evt := V2MoneyManagementReceivedDebitCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.failed":
 		evt := V2MoneyManagementReceivedDebitFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.pending":
 		evt := V2MoneyManagementReceivedDebitPendingEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.scheduled":
 		evt := V2MoneyManagementReceivedDebitScheduledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.succeeded":
 		evt := V2MoneyManagementReceivedDebitSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit.updated":
 		evt := V2MoneyManagementReceivedDebitUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit_mandate.canceled":
 		evt := V2MoneyManagementReceivedDebitMandateCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit_mandate.created":
 		evt := V2MoneyManagementReceivedDebitMandateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit_mandate.expired":
 		evt := V2MoneyManagementReceivedDebitMandateExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit_mandate.pending_cancellation":
 		evt := V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.received_debit_mandate.updated":
 		evt := V2MoneyManagementReceivedDebitMandateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.recipient_verification.created":
 		evt := V2MoneyManagementRecipientVerificationCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.recipient_verification.updated":
 		evt := V2MoneyManagementRecipientVerificationUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.reward_program.reward_earned":
 		evt := V2MoneyManagementRewardProgramRewardEarnedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.reward_program.reward_reversed":
 		evt := V2MoneyManagementRewardProgramRewardReversedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.spending_mandate.canceled":
 		evt := V2MoneyManagementSpendingMandateCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.spending_mandate.created":
 		evt := V2MoneyManagementSpendingMandateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.spending_mandate.expired":
 		evt := V2MoneyManagementSpendingMandateExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.spending_mandate.pending_cancellation":
 		evt := V2MoneyManagementSpendingMandatePendingCancellationEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.spending_mandate.updated":
 		evt := V2MoneyManagementSpendingMandateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.transaction.created":
 		evt := V2MoneyManagementTransactionCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.money_management.transaction.updated":
 		evt := V2MoneyManagementTransactionUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.orchestrated_commerce.agreement.confirmed":
 		evt := V2OrchestratedCommerceAgreementConfirmedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.orchestrated_commerce.agreement.created":
 		evt := V2OrchestratedCommerceAgreementCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.orchestrated_commerce.agreement.partially_confirmed":
 		evt := V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.orchestrated_commerce.agreement.terminated":
 		evt := V2OrchestratedCommerceAgreementTerminatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.attempt_failed":
 		evt := V2PaymentsOffSessionPaymentAttemptFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.attempt_started":
 		evt := V2PaymentsOffSessionPaymentAttemptStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.canceled":
 		evt := V2PaymentsOffSessionPaymentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.created":
 		evt := V2PaymentsOffSessionPaymentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.failed":
 		evt := V2PaymentsOffSessionPaymentFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.paused":
 		evt := V2PaymentsOffSessionPaymentPausedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.resumed":
 		evt := V2PaymentsOffSessionPaymentResumedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.off_session_payment.succeeded":
 		evt := V2PaymentsOffSessionPaymentSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.canceled":
 		evt := V2PaymentsSettlementAllocationIntentCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.created":
 		evt := V2PaymentsSettlementAllocationIntentCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.errored":
 		evt := V2PaymentsSettlementAllocationIntentErroredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.funds_not_received":
 		evt := V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.matched":
 		evt := V2PaymentsSettlementAllocationIntentMatchedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.not_found":
 		evt := V2PaymentsSettlementAllocationIntentNotFoundEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.settled":
 		evt := V2PaymentsSettlementAllocationIntentSettledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent.submitted":
 		evt := V2PaymentsSettlementAllocationIntentSubmittedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent_split.canceled":
 		evt := V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent_split.created":
 		evt := V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.payments.settlement_allocation_intent_split.settled":
 		evt := V2PaymentsSettlementAllocationIntentSplitSettledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.reporting.report_run.created":
 		evt := V2ReportingReportRunCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.reporting.report_run.failed":
 		evt := V2ReportingReportRunFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.reporting.report_run.succeeded":
 		evt := V2ReportingReportRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.reporting.report_run.updated":
 		evt := V2ReportingReportRunUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_evaluation.complete":
 		evt := V2SignalsAccountEvaluationCompleteEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_signal.customer_risk_ready":
 		evt := V2SignalsAccountSignalCustomerRiskReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_signal.fraudulent_merchant_ready":
 		evt := V2SignalsAccountSignalFraudulentMerchantReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_signal.fraudulent_website_ready":
 		evt := V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_signal.merchant_delinquency_ready":
 		evt := V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.account_signal.payment_delinquency_exposure_ready":
 		evt := V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluation.canceled":
 		evt := V2SignalsPaymentRetryEvaluationCanceledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluation.completed":
 		evt := V2SignalsPaymentRetryEvaluationCompletedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluation.created":
 		evt := V2SignalsPaymentRetryEvaluationCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluation.expired":
 		evt := V2SignalsPaymentRetryEvaluationExpiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluation.updated":
 		evt := V2SignalsPaymentRetryEvaluationUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	case "v2.signals.payment_retry_evaluations.retry_recommended":
 		evt := V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	default:
 		evt := UnknownEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
-		evt.client = client
+		evt.client = &client
 		return &evt, nil
 	}
 	// V2EventNotificationTypes: The end of the section generated from our OpenAPI spec
