@@ -516,13 +516,17 @@ func TestV2ListKeepsRequestHeadersAcrossPages(t *testing.T) {
 					http.Error(w, "unexpected request", http.StatusBadRequest)
 					return
 				}
+				var err error
 				switch r.RequestURI {
 				case firstURI:
-					fmt.Fprintf(w, `{"data":[{"id":"acct_first"}],"next_page_url":%q}`, nextURI)
+					_, err = fmt.Fprintf(w, `{"data":[{"id":"acct_first"}],"next_page_url":%q}`, nextURI)
 				case nextURI:
-					fmt.Fprint(w, `{"data":[{"id":"acct_second"}]}`)
+					_, err = fmt.Fprint(w, `{"data":[{"id":"acct_second"}]}`)
 				default:
 					http.Error(w, "unexpected request", http.StatusBadRequest)
+				}
+				if err != nil {
+					t.Errorf("write response for %s: %v", r.RequestURI, err)
 				}
 			}))
 			defer server.Close()
