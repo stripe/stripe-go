@@ -175,9 +175,9 @@ type ConstructEventOptions struct {
 // Private variables
 //
 
-// verifyPayload is validatePayload as called by constructEvent. Tests replace
-// it to change the payload between verification and parsing.
-var verifyPayload = validatePayload
+// validatePayload is validatePayloadImpl. Tests replace it to change the
+// payload between verification and parsing.
+var validatePayload = validatePayloadImpl
 
 //
 // Private functions
@@ -213,7 +213,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		tolerance = DefaultTolerance
 	}
 
-	if err := verifyPayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
+	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
 		return e, err
 	}
 
@@ -247,7 +247,7 @@ func checkEventNotification(payload []byte) error {
 	return nil
 }
 
-func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+func validatePayloadImpl(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
 	// Signature verification lives in the root stripe package; this package
 	// delegates so there is only one implementation to maintain. Always pass an
 	// explicit tolerance option: stripe.ValidatePayload defaults to a zero

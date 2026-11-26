@@ -415,18 +415,18 @@ func TestValidatePayload_NonBlankSecret(t *testing.T) {
 // overwrite buf with replacement once the real check passes, as if another
 // goroutine changed the caller's slice between verification and parsing.
 //
-// It swaps the package-level verifyPayload for the rest of the test, so tests
+// It swaps the package-level validatePayload for the rest of the test, so tests
 // that use it must not call t.Parallel().
 func overwritePayloadAfterVerification(t *testing.T, buf []byte, replacement []byte) {
 	t.Helper()
 	assert.Len(t, replacement, len(buf))
-	orig := verifyPayload
-	verifyPayload = func(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+	orig := validatePayload
+	validatePayload = func(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
 		err := orig(payload, sigHeader, secret, tolerance, enforceTolerance)
 		copy(buf, replacement)
 		return err
 	}
-	t.Cleanup(func() { verifyPayload = orig })
+	t.Cleanup(func() { validatePayload = orig })
 }
 
 func TestConstructEvent_ReturnsVerifiedEventWhenPayloadChangesAfterVerification(t *testing.T) {
