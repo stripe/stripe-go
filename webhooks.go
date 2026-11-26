@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
@@ -155,6 +156,14 @@ type webhookConfig struct {
 }
 
 //
+// Private variables
+//
+
+// computeSignature is ComputeSignature. Tests replace it to change the payload
+// while verification is in progress.
+var computeSignature = ComputeSignature
+
+//
 // Private types
 //
 
@@ -201,6 +210,9 @@ func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
 }
 
 func constructEvent(payload []byte, sigHeader string, secret string, cfg webhookConfig) (Event, error) {
+	// Verify and parse a private copy, so both steps see the same bytes even if
+	// the caller's slice changes during the call.
+	payload = bytes.Clone(payload)
 	e := Event{}
 
 	if err := validatePayload(payload, sigHeader, secret, cfg); err != nil {
@@ -293,7 +305,7 @@ func validatePayload(payload []byte, sigHeader string, secret string, cfg webhoo
 		return ErrWebhookEmptySecret
 	}
 
-	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
+	expectedSignature := computeSignature(header.timestamp, payload, secret)
 	// Check all given v1 signatures, multiple signatures will be sent temporarily in the case of a rolled signature secret
 	for _, sig := range header.signatures {
 		if hmac.Equal(expectedSignature, sig) {

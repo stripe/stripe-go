@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -601,6 +602,57 @@ func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
 	assert.Error(t, err)
 	// Check if error is related to signature verification
 	assert.Contains(t, err.Error(), "Stripe-Signature")
+}
+
+func TestParseEventNotification_ReturnsVerifiedNotificationWhenPayloadChangesDuringVerification(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+	signed := []byte(v1BillingMeterPayload())
+	replacement := bytes.Replace(signed, []byte("evt_123"), []byte("evt_789"), 1)
+	sigHeader := generateTestSignature(string(signed))
+	payload := bytes.Clone(signed)
+	overwritePayloadDuringVerification(t, payload, replacement)
+
+	notif, err := client.ParseEventNotification(payload, sigHeader, testWebhookSecret)
+
+	assert.NoError(t, err)
+	assert.Equal(t, replacement, payload)
+	assert.Equal(t, "evt_123", notif.GetEventNotification().ID)
+}
+
+func TestParseEventNotification_RejectsReplacementPayload(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+	signed := []byte(v1BillingMeterPayload())
+	replacement := bytes.Replace(signed, []byte("evt_123"), []byte("evt_789"), 1)
+	sigHeader := generateTestSignature(string(signed))
+
+	_, err := client.ParseEventNotification(replacement, sigHeader, testWebhookSecret)
+
+	assert.ErrorIs(t, err, ErrWebhookNoValidSignature)
+}
+
+func TestEventHandler_DispatchesVerifiedNotificationWhenPayloadChangesDuringVerification(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+	var receivedIDs []string
+	err := handler.OnV1BillingMeterErrorReportTriggered(func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		receivedIDs = append(receivedIDs, event.ID)
+		return nil
+	})
+	assert.NoError(t, err)
+
+	signed := []byte(v1BillingMeterPayload())
+	replacement := bytes.Replace(signed, []byte("evt_123"), []byte("evt_789"), 1)
+	sigHeader := generateTestSignature(string(signed))
+	payload := bytes.Clone(signed)
+	overwritePayloadDuringVerification(t, payload, replacement)
+
+	err = handler.Handle(context.TODO(), payload, sigHeader)
+
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"evt_123"}, receivedIDs)
 }
 
 // Test: RegisteredEventTypes returns empty list

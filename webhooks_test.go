@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
@@ -541,4 +542,56 @@ func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "EventNotification")
+}
+
+// overwritePayloadDuringVerification makes signature verification overwrite buf
+// with replacement right after computing the real signature, as if another
+// goroutine changed the caller's slice partway through the call.
+//
+// It swaps the package-level computeSignature for the rest of the test, so
+// tests that use it must not call t.Parallel().
+func overwritePayloadDuringVerification(t *testing.T, buf []byte, replacement []byte) {
+	t.Helper()
+	assert.Len(t, replacement, len(buf))
+	orig := computeSignature
+	computeSignature = func(ts time.Time, payload []byte, secret string) []byte {
+		sig := orig(ts, payload, secret)
+		copy(buf, replacement)
+		return sig
+	}
+	t.Cleanup(func() { computeSignature = orig })
+}
+
+func TestConstructEvent_ReturnsVerifiedEventWhenPayloadChangesDuringVerification(t *testing.T) {
+	for name, construct := range map[string]func(payload []byte, header string, secret string) (Event, error){
+		"ConstructEvent": func(payload []byte, header string, secret string) (Event, error) {
+			return ConstructEvent(payload, header, secret)
+		},
+		"Client.ConstructEvent": func(payload []byte, header string, secret string) (Event, error) {
+			return NewClient("sk_test_1234").ConstructEvent(payload, header, secret)
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			p := newSignedPayload()
+			replacement := bytes.Replace(p.Payload, []byte("evt_test_webhook"), []byte("evt_fake_webhook"), 1)
+			// newSignedPayload shares testPayload's backing array, so overwrite a copy.
+			payload := bytes.Clone(p.Payload)
+			overwritePayloadDuringVerification(t, payload, replacement)
+
+			event, err := construct(payload, p.Header, p.Secret)
+
+			assert.NoError(t, err)
+			assert.Equal(t, replacement, payload)
+			assert.Equal(t, "evt_test_webhook", event.ID)
+		})
+	}
+}
+
+func TestConstructEvent_RejectsReplacementPayload(t *testing.T) {
+	p := newSignedPayload()
+	replacement := bytes.Replace(p.Payload, []byte("evt_test_webhook"), []byte("evt_fake_webhook"), 1)
+
+	_, err := ConstructEvent(replacement, p.Header, p.Secret)
+
+	assert.ErrorIs(t, err, ErrWebhookNoValidSignature)
 }

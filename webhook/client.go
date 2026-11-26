@@ -4,6 +4,7 @@
 package webhook
 
 import (
+	"bytes"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -171,6 +172,14 @@ type ConstructEventOptions struct {
 }
 
 //
+// Private variables
+//
+
+// validatePayload is validatePayloadImpl. Tests replace it to change the
+// payload between verification and parsing.
+var validatePayload = validatePayloadImpl
+
+//
 // Private functions
 //
 
@@ -194,6 +203,9 @@ func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
 }
 
 func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
+	// Verify and parse a private copy, so both steps see the same bytes even if
+	// the caller's slice changes during the call.
+	payload = bytes.Clone(payload)
 	e := stripe.Event{}
 
 	tolerance := options.Tolerance
@@ -235,7 +247,7 @@ func checkEventNotification(payload []byte) error {
 	return nil
 }
 
-func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+func validatePayloadImpl(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
 	// Signature verification lives in the root stripe package; this package
 	// delegates so there is only one implementation to maintain. Always pass an
 	// explicit tolerance option: stripe.ValidatePayload defaults to a zero
