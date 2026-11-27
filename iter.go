@@ -340,10 +340,9 @@ type Seq2[K, V any] func(yield func(K, V) bool)
 // V2List contains a page of data received from a List API call,
 // and the means to paginate to the next page of data via the fetch function.
 type V2List[T any] struct {
-	fetch       v2Query[T]
-	params      ParamsContainer
-	initialized bool
-	err         error
+	fetch              v2Query[T]
+	continuationParams Params
+	err                error
 	// Page contains the items returned from the last API call.
 	v2Page *V2Page[T]
 }
@@ -393,23 +392,34 @@ func (l *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 			if !l.hasMore() {
 				return
 			}
-			l.page(ctx)
+			params := v2ListHeaderParams(&l.continuationParams)
+			l.page(ctx, &params)
 		}
+	}
+}
+
+// v2ListHeaderParams copies only header options; the next-page URL already contains the query.
+func v2ListHeaderParams(params *Params) Params {
+	if params == nil {
+		return Params{}
+	}
+	copyString := func(value *string) *string {
+		if value == nil {
+			return nil
+		}
+		return String(*value)
+	}
+	return Params{
+		Headers:        params.Headers.Clone(),
+		IdempotencyKey: copyString(params.IdempotencyKey),
+		StripeAccount:  copyString(params.StripeAccount),
+		StripeContext:  copyString(params.StripeContext),
 	}
 }
 
 // page fetches the next page of items and updates the V2List's state.
 // It returns an error if the fetch fails.
-func (l *V2List[T]) page(ctx context.Context) {
-	// if we've already fetched a page, the next page URL
-	// already contains all of the query parameters
-	var params ParamsContainer
-	if l.initialized {
-		params = &Params{}
-	} else {
-		params = l.params
-	}
-
+func (l *V2List[T]) page(ctx context.Context, params ParamsContainer) {
 	next, err := l.fetch(ctx, l.v2Page.NextPageURL, params)
 	l.v2Page = next
 	if err != nil {
@@ -651,11 +661,12 @@ func (l *V2List[T]) hasMore() bool {
 func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch v2Query[T]) *V2List[T] {
 	list := &V2List[T]{
 		fetch:  fetch,
-		params: p,
 		v2Page: &V2Page[T]{V2ListMeta: V2ListMeta{NextPageURL: path}},
 	}
-	list.page(ctx)
-	list.initialized = true
+	if p != nil {
+		list.continuationParams = v2ListHeaderParams(p.GetParams())
+	}
+	list.page(ctx, p)
 	return list
 }
 
