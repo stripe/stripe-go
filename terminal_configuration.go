@@ -577,7 +577,7 @@ func (p *TerminalConfigurationVerifoneV660pParams) AddUnsetField(field TerminalC
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
 type TerminalConfigurationWifiEnterpriseEapPeapParams struct {
-	// A File ID representing a PEM file containing the server certificate
+	// A File ID representing a PEM file containing the server certificate. The certificate is not currently used to validate the identity of the server, but will be used in a future device update.
 	CaCertificateFile *string `form:"ca_certificate_file" json:"ca_certificate_file,omitempty"`
 	// Password for connecting to the WiFi network
 	Password *string `form:"password" json:"password"`
@@ -1139,7 +1139,7 @@ func (p *TerminalConfigurationUpdateVerifoneV660pParams) AddUnsetField(field Ter
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
 type TerminalConfigurationUpdateWifiEnterpriseEapPeapParams struct {
-	// A File ID representing a PEM file containing the server certificate
+	// A File ID representing a PEM file containing the server certificate. The certificate is not currently used to validate the identity of the server, but will be used in a future device update.
 	CaCertificateFile *string `form:"ca_certificate_file" json:"ca_certificate_file,omitempty"`
 	// Password for connecting to the WiFi network
 	Password *string `form:"password" json:"password"`
@@ -1744,7 +1744,7 @@ func (p *TerminalConfigurationCreateVerifoneV660pParams) AddUnsetField(field Ter
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
 type TerminalConfigurationCreateWifiEnterpriseEapPeapParams struct {
-	// A File ID representing a PEM file containing the server certificate
+	// A File ID representing a PEM file containing the server certificate. The certificate is not currently used to validate the identity of the server, but will be used in a future device update.
 	CaCertificateFile *string `form:"ca_certificate_file" json:"ca_certificate_file,omitempty"`
 	// Password for connecting to the WiFi network
 	Password *string `form:"password" json:"password"`
@@ -2101,7 +2101,7 @@ type TerminalConfigurationVerifoneV660p struct {
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
 type TerminalConfigurationWifiEnterpriseEapPeap struct {
-	// A File ID representing a PEM file containing the server certificate
+	// A File ID representing a PEM file containing the server certificate. The certificate is not currently used to validate the identity of the server, but will be used in a future device update.
 	CaCertificateFile string `json:"ca_certificate_file,omitempty"`
 	// Password for connecting to the WiFi network
 	Password string `json:"password"`

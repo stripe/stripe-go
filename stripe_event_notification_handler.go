@@ -183,6 +183,21 @@ func (h *eventNotificationHandlerBase) OnV1ApplicationFeeRefunded(callback func(
 	return registerTypedHandler(h, "v1.application_fee.refunded", callback)
 }
 
+// OnV1AppsInstallCreated registers a callback to handle notifications about the "v1.apps.install.created" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallCreated(callback func(ctx context.Context, notif *V1AppsInstallCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.created", callback)
+}
+
+// OnV1AppsInstallDeleted registers a callback to handle notifications about the "v1.apps.install.deleted" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallDeleted(callback func(ctx context.Context, notif *V1AppsInstallDeletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.deleted", callback)
+}
+
+// OnV1AppsInstallUpdated registers a callback to handle notifications about the "v1.apps.install.updated" event.
+func (h *eventNotificationHandlerBase) OnV1AppsInstallUpdated(callback func(ctx context.Context, notif *V1AppsInstallUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.apps.install.updated", callback)
+}
+
 // OnV1BalanceAvailable registers a callback to handle notifications about the "v1.balance.available" event.
 func (h *eventNotificationHandlerBase) OnV1BalanceAvailable(callback func(ctx context.Context, notif *V1BalanceAvailableEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.balance.available", callback)
@@ -953,11 +968,6 @@ func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationCreated(callback 
 	return registerTypedHandler(h, "v1.issuing_authorization.created", callback)
 }
 
-// OnV1IssuingAuthorizationRequest registers a callback to handle notifications about the "v1.issuing_authorization.request" event.
-func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationRequest(callback func(ctx context.Context, notif *V1IssuingAuthorizationRequestEventNotification, client *Client) error) error {
-	return registerTypedHandler(h, "v1.issuing_authorization.request", callback)
-}
-
 // OnV1IssuingAuthorizationUpdated registers a callback to handle notifications about the "v1.issuing_authorization.updated" event.
 func (h *eventNotificationHandlerBase) OnV1IssuingAuthorizationUpdated(callback func(ctx context.Context, notif *V1IssuingAuthorizationUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.issuing_authorization.updated", callback)
@@ -1587,9 +1597,19 @@ func (h *eventNotificationHandlerBase) OnV2CoreAccountClosed(callback func(ctx c
 	return registerTypedHandler(h, "v2.core.account.closed", callback)
 }
 
+// OnV2CoreAccountConnected registers a callback to handle notifications about the "v2.core.account.connected" event.
+func (h *eventNotificationHandlerBase) OnV2CoreAccountConnected(callback func(ctx context.Context, notif *V2CoreAccountConnectedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.account.connected", callback)
+}
+
 // OnV2CoreAccountCreated registers a callback to handle notifications about the "v2.core.account.created" event.
 func (h *eventNotificationHandlerBase) OnV2CoreAccountCreated(callback func(ctx context.Context, notif *V2CoreAccountCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.account.created", callback)
+}
+
+// OnV2CoreAccountDisconnected registers a callback to handle notifications about the "v2.core.account.disconnected" event.
+func (h *eventNotificationHandlerBase) OnV2CoreAccountDisconnected(callback func(ctx context.Context, notif *V2CoreAccountDisconnectedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.account.disconnected", callback)
 }
 
 // OnV2CoreAccountUpdated registers a callback to handle notifications about the "v2.core.account.updated" event.

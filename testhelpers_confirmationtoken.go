@@ -303,6 +303,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -500,7 +502,7 @@ func (p *TestHelpersConfirmationTokenShippingParams) AddUnsetField(field TestHel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Creates a test mode Confirmation Token server side for your integration tests.
+// Creates a test Confirmation Token server side for your integration tests.
 type TestHelpersConfirmationTokenParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -823,6 +825,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams stru
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1020,7 +1024,7 @@ func (p *TestHelpersConfirmationTokenCreateShippingParams) AddUnsetField(field T
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Creates a test mode Confirmation Token server side for your integration tests.
+// Creates a test Confirmation Token server side for your integration tests.
 type TestHelpersConfirmationTokenCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

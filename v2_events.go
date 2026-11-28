@@ -22,6 +22,7 @@ const (
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingTenantPayloadKeys        V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_tenant_payload_keys"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
@@ -39,6 +40,7 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingTenantPayloadKeys        V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_tenant_payload_keys"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
@@ -63,6 +65,7 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAutomaticIndirectTax           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "automatic_indirect_tax"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBACSDebitPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bacs_debit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBancontactPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bancontact_payments"
@@ -87,6 +90,7 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityLinkPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "link_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMbWayPayments                  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mb_way_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMobilepayPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mobilepay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMomoPayments                   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "momo_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMultibancoPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "multibanco_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMXBankTransferPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mx_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNaverPayPayments               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "naver_pay_payments"
@@ -125,7 +129,6 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsRTP              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.rtp"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSEPA             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.sepa"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsSwift            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.swift"
-	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts         V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
@@ -524,6 +527,171 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 
 // Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
 func (n V1ApplicationFeeRefundedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
+// V1AppsInstallCreatedEvent is the Go struct for the "v1.apps.install.created" event.
+// Occurs whenever a user installs a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallCreatedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.created"
+// Occurs whenever a user installs a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallCreatedEvent that created this Notification
+func (n *V1AppsInstallCreatedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AppsInstallCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
+// V1AppsInstallDeletedEvent is the Go struct for the "v1.apps.install.deleted" event.
+// Occurs whenever a user uninstalls a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallDeletedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.deleted"
+// Occurs whenever a user uninstalls a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallDeletedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallDeletedEvent that created this Notification
+func (n *V1AppsInstallDeletedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallDeletedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallDeletedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AppsInstallDeletedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
+// V1AppsInstallUpdatedEvent is the Go struct for the "v1.apps.install.updated" event.
+// Occurs whenever a user updates a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*AppsInstall, error)
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (e *V1AppsInstallUpdatedEvent) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1AppsInstallUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.apps.install.updated"
+// Occurs whenever a user updates a Stripe app. Sent to the app developer, embedding platform, and installing merchant.
+type V1AppsInstallUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1AppsInstallUpdatedEvent that created this Notification
+func (n *V1AppsInstallUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AppsInstallUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AppsInstallUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the AppsInstall related to the event.
+func (n *V1AppsInstallUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*AppsInstall, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &AppsInstall{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V1AppsInstallUpdatedEventNotification) Format(f fmt.State, verb rune) {
 	type base V2CoreEventNotification
 	type notification struct {
 		V2CoreEventNotification base
@@ -4871,12 +5039,22 @@ func (n V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEventNotificatio
 
 // V1EntitlementsActiveEntitlementSummaryUpdatedEvent is the Go struct for the "v1.entitlements.active_entitlement_summary.updated" event.
 // Occurs whenever a customer's entitlements change.
-type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct{ V2BaseEvent }
+type V1EntitlementsActiveEntitlementSummaryUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Customer, error)
+}
+
+// FetchRelatedObject fetches the Customer related to the event.
+func (e *V1EntitlementsActiveEntitlementSummaryUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	return e.fetchRelatedObject()
+}
 
 // V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.entitlements.active_entitlement_summary.updated"
 // Occurs whenever a customer's entitlements change.
 type V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification struct {
 	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryUpdatedEvent that created this Notification
@@ -4888,14 +5066,30 @@ func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchEv
 	return evt.(*V1EntitlementsActiveEntitlementSummaryUpdatedEvent), nil
 }
 
+// FetchRelatedObject fetches the Customer related to the event.
+func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Customer{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
 func (n V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) Format(f fmt.State, verb rune) {
 	type base V2CoreEventNotification
-	type notification struct{ V2CoreEventNotification base }
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
 	b := base(n.V2CoreEventNotification)
 	b.client = nil
 	_, _ = fmt.Fprintf(
-		f, fmt.FormatString(f, verb), notification{V2CoreEventNotification: b})
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
 // V1FileCreatedEvent is the Go struct for the "v1.file.created" event.
@@ -8174,7 +8368,7 @@ func (n V1InvoiceitemDiscountRemovedEventNotification) Format(f fmt.State, verb 
 }
 
 // V1IssuingAuthorizationCreatedEvent is the Go struct for the "v1.issuing_authorization.created" event.
-// Occurs whenever an authorization is created.
+// Occurs whenever an authorization is created. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -8187,7 +8381,7 @@ func (e *V1IssuingAuthorizationCreatedEvent) FetchRelatedObject(ctx context.Cont
 }
 
 // V1IssuingAuthorizationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.created"
-// Occurs whenever an authorization is created.
+// Occurs whenever an authorization is created. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationCreatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -8228,63 +8422,8 @@ func (n V1IssuingAuthorizationCreatedEventNotification) Format(f fmt.State, verb
 			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
-// V1IssuingAuthorizationRequestEvent is the Go struct for the "v1.issuing_authorization.request" event.
-// Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
-type V1IssuingAuthorizationRequestEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*IssuingAuthorization, error)
-}
-
-// FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (e *V1IssuingAuthorizationRequestEvent) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1IssuingAuthorizationRequestEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.request"
-// Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
-type V1IssuingAuthorizationRequestEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
-func (n *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
-	evt, err := n.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1IssuingAuthorizationRequestEvent), nil
-}
-
-// FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &IssuingAuthorization{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
-func (n V1IssuingAuthorizationRequestEventNotification) Format(f fmt.State, verb rune) {
-	type base V2CoreEventNotification
-	type notification struct {
-		V2CoreEventNotification base
-		RelatedObject           V2CoreEventRelatedObject
-	}
-	b := base(n.V2CoreEventNotification)
-	b.client = nil
-	_, _ = fmt.Fprintf(
-		f, fmt.FormatString(
-			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
-}
-
 // V1IssuingAuthorizationUpdatedEvent is the Go struct for the "v1.issuing_authorization.updated" event.
-// Occurs whenever an authorization is updated.
+// Occurs whenever an authorization is updated. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -8297,7 +8436,7 @@ func (e *V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject(ctx context.Cont
 }
 
 // V1IssuingAuthorizationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.updated"
-// Occurs whenever an authorization is updated.
+// Occurs whenever an authorization is updated. For verification authorizations, this event is only accessible via private preview.
 type V1IssuingAuthorizationUpdatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -14938,6 +15077,61 @@ func (n V2CoreAccountClosedEventNotification) Format(f fmt.State, verb rune) {
 			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
 }
 
+// V2CoreAccountConnectedEvent is the Go struct for the "v2.core.account.connected" event.
+// Occurs when an existing Account connects to your platform or app.
+type V2CoreAccountConnectedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountConnectedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountConnectedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.connected"
+// Occurs when an existing Account connects to your platform or app.
+type V2CoreAccountConnectedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountConnectedEvent that created this Notification
+func (n *V2CoreAccountConnectedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountConnectedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountConnectedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountConnectedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountConnectedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
 // V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
 // Occurs when an Account is created.
 type V2CoreAccountCreatedEvent struct {
@@ -14981,6 +15175,61 @@ func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.C
 
 // Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
 func (n V2CoreAccountCreatedEventNotification) Format(f fmt.State, verb rune) {
+	type base V2CoreEventNotification
+	type notification struct {
+		V2CoreEventNotification base
+		RelatedObject           V2CoreEventRelatedObject
+	}
+	b := base(n.V2CoreEventNotification)
+	b.client = nil
+	_, _ = fmt.Fprintf(
+		f, fmt.FormatString(
+			f, verb), notification{V2CoreEventNotification: b, RelatedObject: n.RelatedObject})
+}
+
+// V2CoreAccountDisconnectedEvent is the Go struct for the "v2.core.account.disconnected" event.
+// Occurs when an Account disconnects from your platform or app.
+type V2CoreAccountDisconnectedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountDisconnectedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountDisconnectedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.disconnected"
+// Occurs when an Account disconnects from your platform or app.
+type V2CoreAccountDisconnectedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountDisconnectedEvent that created this Notification
+func (n *V2CoreAccountDisconnectedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountDisconnectedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountDisconnectedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountDisconnectedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, *n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// Format implements [fmt.Formatter] so that printing the notification doesn't write out its client's API key.
+func (n V2CoreAccountDisconnectedEventNotification) Format(f fmt.State, verb rune) {
 	type base V2CoreEventNotification
 	type notification struct {
 		V2CoreEventNotification base
@@ -18316,6 +18565,54 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v1.apps.install.created":
+		result := &V1AppsInstallCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.apps.install.deleted":
+		result := &V1AppsInstallDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.apps.install.updated":
+		result := &V1AppsInstallUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*AppsInstall, error) {
+			v := &AppsInstall{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v1.balance.available":
 		result := &V1BalanceAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -19561,6 +19858,18 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.entitlements.active_entitlement_summary.updated":
 		result := &V1EntitlementsActiveEntitlementSummaryUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Customer, error) {
+			v := &Customer{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
 		return result, nil
 	case "v1.file.created":
 		result := &V1FileCreatedEvent{}
@@ -20515,22 +20824,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.issuing_authorization.created":
 		result := &V1IssuingAuthorizationCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
-			v := &IssuingAuthorization{}
-			params := &Params{}
-			params.SetStripeContext(event.Context)
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.issuing_authorization.request":
-		result := &V1IssuingAuthorizationRequestEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
@@ -22481,8 +22774,40 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.core.account.connected":
+		result := &V2CoreAccountConnectedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.account.created":
 		result := &V2CoreAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			params := &Params{}
+			params.SetStripeContext(event.Context)
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account.disconnected":
+		result := &V2CoreAccountDisconnectedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
@@ -23505,6 +23830,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = &client
 		return &evt, nil
+	case "v1.apps.install.created":
+		evt := V1AppsInstallCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = &client
+		return &evt, nil
+	case "v1.apps.install.deleted":
+		evt := V1AppsInstallDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = &client
+		return &evt, nil
+	case "v1.apps.install.updated":
+		evt := V1AppsInstallUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = &client
+		return &evt, nil
 	case "v1.balance.available":
 		evt := V1BalanceAvailableEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -24506,13 +24852,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = &client
 		return &evt, nil
-	case "v1.issuing_authorization.request":
-		evt := V1IssuingAuthorizationRequestEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = &client
-		return &evt, nil
 	case "v1.issuing_authorization.updated":
 		evt := V1IssuingAuthorizationUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -25360,8 +25699,22 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = &client
 		return &evt, nil
+	case "v2.core.account.connected":
+		evt := V2CoreAccountConnectedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = &client
+		return &evt, nil
 	case "v2.core.account.created":
 		evt := V2CoreAccountCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = &client
+		return &evt, nil
+	case "v2.core.account.disconnected":
+		evt := V2CoreAccountDisconnectedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

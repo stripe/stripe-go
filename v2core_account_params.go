@@ -797,7 +797,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -805,7 +805,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -819,7 +819,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -833,7 +833,7 @@ type V2CoreAccountConfigurationParams struct {
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -927,6 +927,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
+	// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+	CryptoTransfersZerohashRecipient *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams `form:"crypto_transfers_zerohash_recipient" json:"crypto_transfers_zerohash_recipient,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	MoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
@@ -1483,7 +1485,10 @@ type V2CoreAccountIdentityIndividualParams struct {
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
-	// The individual's phone number.
+	// The individual's phone number. You can include a country calling code prefixed with `+`,
+	// for example `+12025550123`, or omit it, for example `2025550123`. Spaces, hyphens, periods,
+	// and parentheses are optional and accepted. Numbers beginning with `+` are checked against
+	// the numbering rules for their country calling code, including valid prefixes and number lengths.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
 	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`
@@ -1564,6 +1569,16 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams str
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -1579,6 +1594,24 @@ type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
 	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
 	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
+}
+
+// Rejects an Account and prevents it from operating across its configurations.
+type V2CoreAccountRejectParams struct {
+	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
+	// Operations that remain unaffected by the rejection. Repeated requests replace the previous set; omitting this field clears any preserved operations.
+	PreserveOperations []*string `form:"preserve_operations" json:"preserve_operations,omitempty"`
+	// The reason for rejecting the Account. Repeated requests replace the previously recorded reason.
+	Reason *string `form:"reason" json:"reason"`
+}
+
+// Reverses a platform rejection on an Account. Restrictions applied by Stripe or other risk controls remain in place.
+type V2CoreAccountUnrejectParams struct {
+	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
@@ -2231,7 +2264,7 @@ type V2CoreAccountCreateConfigurationMerchantSupportAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2348,7 +2381,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2356,7 +2389,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -2370,7 +2403,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountCreateConfigurationRecipientParams struct {
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountCreateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
@@ -2382,7 +2415,7 @@ type V2CoreAccountCreateConfigurationParams struct {
 	Customer *V2CoreAccountCreateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountCreateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -2513,7 +2546,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2693,7 +2726,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanaParams struct 
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2711,7 +2744,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanjiParams struct
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2787,7 +2820,7 @@ type V2CoreAccountCreateIdentityIndividualAdditionalAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2819,7 +2852,7 @@ type V2CoreAccountCreateIdentityIndividualAddressParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2939,7 +2972,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -2957,7 +2990,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanjiParams struct {
 	// City, district, suburb, town, or village.
 	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country" json:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Address line 1 (e.g., street, PO Box, or company name).
 	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Address line 2 (e.g., apartment, suite, unit, or building).
@@ -3879,7 +3912,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -3887,7 +3920,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -3901,7 +3934,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -3915,7 +3948,7 @@ type V2CoreAccountUpdateConfigurationParams struct {
 	Customer *V2CoreAccountUpdateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountUpdateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountUpdateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
@@ -4013,6 +4046,16 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerPara
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4029,6 +4072,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Crypto-specific terms of service.
 	CryptoMoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
+	// Details on the Account's acceptance of ZeroHash recipient-specific terms of service.
+	CryptoTransfersZerohashRecipient *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoTransfersZerohashRecipientParams `form:"crypto_transfers_zerohash_recipient" json:"crypto_transfers_zerohash_recipient,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	MoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
@@ -4585,7 +4630,10 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
-	// The individual's phone number.
+	// The individual's phone number. You can include a country calling code prefixed with `+`,
+	// for example `+12025550123`, or omit it, for example `2025550123`. Spaces, hyphens, periods,
+	// and parentheses are optional and accepted. Numbers beginning with `+` are checked against
+	// the numbering rules for their country calling code, including valid prefixes and number lengths.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
 	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`

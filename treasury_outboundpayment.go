@@ -150,6 +150,8 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams stru
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // Hash used to generate the PaymentMethod to be used for this OutboundPayment. Exclusive with `destination_payment_method`.
@@ -303,6 +305,8 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataUSBankAccountParam
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // Hash used to generate the PaymentMethod to be used for this OutboundPayment. Exclusive with `destination_payment_method`.
