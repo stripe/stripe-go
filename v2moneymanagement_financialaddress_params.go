@@ -30,7 +30,7 @@ type V2MoneyManagementFinancialAddressParams struct {
 	BankAccount *V2MoneyManagementFinancialAddressBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
-	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
+	// The type of FinancialAddress to create: bank_account or crypto_wallet. Must agree with which branch of financial_address_type_properties is set. Cash FinancialAddresses are managed by FundingIntents and cannot be created through this endpoint.
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
@@ -49,7 +49,7 @@ type V2MoneyManagementFinancialAddressCreateParams struct {
 	BankAccount *V2MoneyManagementFinancialAddressCreateBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
-	// The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set.
+	// The type of FinancialAddress to create: bank_account or crypto_wallet. Must agree with which branch of financial_address_type_properties is set. Cash FinancialAddresses are managed by FundingIntents and cannot be created through this endpoint.
 	Type *string `form:"type" json:"type"`
 }
 

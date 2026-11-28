@@ -6,6 +6,20 @@
 
 package stripe
 
+// Returns a list of `ReportRun` objects created through the API, most recent first. Listed
+// `ReportRun` objects don't include `result` or `sql`. Retrieve a `ReportRun` to access them.
+type V2DataReportRunListParams struct {
+	Params `form:"*"`
+	// If supplied, only return report runs created within this time range.
+	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
+	// The maximum number of results per page. Defaults to 10. Maximum is 100.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// If supplied, only return report runs of the `Report` with this ID.
+	Report *string `form:"report" json:"report,omitempty"`
+	// If supplied, only return report runs that have any of these statuses.
+	Statuses []*string `form:"statuses" json:"statuses,omitempty"`
+}
+
 // A reference to the `Report` to run, by ID or name.
 type V2DataReportRunReportParams struct {
 	// The unique identifier of the `Report`.

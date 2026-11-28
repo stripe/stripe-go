@@ -17,7 +17,7 @@ type v1TestHelpersConfirmationTokenService struct {
 	Key string
 }
 
-// Creates a test mode Confirmation Token server side for your integration tests.
+// Creates a test Confirmation Token server side for your integration tests.
 func (c v1TestHelpersConfirmationTokenService) Create(ctx context.Context, params *TestHelpersConfirmationTokenCreateParams) (*ConfirmationToken, error) {
 	if params == nil {
 		params = &TestHelpersConfirmationTokenCreateParams{}

@@ -134,10 +134,16 @@ type V2SignalsAccountSignalFraudulentMerchant struct {
 	RiskLevel V2SignalsAccountSignalFraudulentMerchantRiskLevel `json:"risk_level"`
 }
 
+// Additional information about the fraudulent website evaluation, when available.
+type V2SignalsAccountSignalFraudulentWebsiteAdditionalDetails struct {
+	// Human-readable explanation of the fraudulent website evaluation.
+	Explanation string `json:"explanation"`
+}
+
 // Data for the fraudulent website signal. Present only when type is fraudulent_website.
 type V2SignalsAccountSignalFraudulentWebsite struct {
-	// Human-readable details about the fraudulent website evaluation.
-	Details string `json:"details,omitempty"`
+	// Additional information about the fraudulent website evaluation, when available.
+	AdditionalDetails *V2SignalsAccountSignalFraudulentWebsiteAdditionalDetails `json:"additional_details,omitempty"`
 	// Categorical assessment of the fraudulent website risk.
 	RiskLevel V2SignalsAccountSignalFraudulentWebsiteRiskLevel `json:"risk_level"`
 }
@@ -163,7 +169,7 @@ type V2SignalsAccountSignalUserMultiAccounting struct {
 // An automatically evaluated signal on an account. Each Account Signal object corresponds to
 // exactly one signal type, indicated by type. Only the type-specific field is populated; other
 // type-specific payload fields are null. If an account has multiple signals, Stripe creates
-// separate account signal objects.
+// separate account signal objects. Account signals are available through the API for 180 days after creation.
 type V2SignalsAccountSignal struct {
 	APIResource
 	// The account or customer this signal is associated with.

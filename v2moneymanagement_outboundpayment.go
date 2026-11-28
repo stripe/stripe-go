@@ -79,6 +79,7 @@ type V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason string
 
 // List of values that V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason can take
 const (
+	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonPayoutMethodAccountTypeIncorrect   V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "payout_method_account_type_incorrect"
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonPayoutMethodCanceledByCustomer     V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "payout_method_canceled_by_customer"
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonPayoutMethodClosed                 V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "payout_method_closed"
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonPayoutMethodCurrencyUnsupported    V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "payout_method_currency_unsupported"
@@ -336,8 +337,6 @@ type V2MoneyManagementOutboundPayment struct {
 	PayoutIntent string `json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose V2MoneyManagementOutboundPaymentPurpose `json:"purpose,omitempty"`
-	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.
-	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotification `json:"recipient_notification"`
 	// The ID of the RecipientVerification for this OutboundPayment. Required where recipient-name verification is mandated before creating an OutboundPayment.

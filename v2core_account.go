@@ -405,6 +405,50 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusRejected    V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus = "rejected"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatus can take
@@ -2599,6 +2643,50 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusActive      V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus = "active"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusPending     V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus = "pending"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusRejected    V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus = "rejected"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusRestricted  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus = "restricted"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusUnsupported V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolutionContactStripe V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURStatus string
 
 // List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURStatus can take
@@ -2816,6 +2904,50 @@ const (
 	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolutionContactStripe V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusActive      V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus = "active"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusPending     V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus = "pending"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusRejected    V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus = "rejected"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusRestricted  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus = "restricted"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusUnsupported V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedFraud                   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_fraud"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedIncompleteVerification  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_incomplete_verification"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedListed                  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_listed"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedOther                   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedPlatformFraud           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_platform_fraud"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedPlatformOther           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_platform_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedPlatformTermsOfService  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_platform_terms_of_service"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRejectedTermsOfService          V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "rejected_terms_of_service"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolutionContactStripe V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution = "provide_info"
 )
 
 // The status of the Capability.
@@ -3841,6 +3973,7 @@ type V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode string
 const (
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCityStatePostalCode                      V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_city_state_postal_code"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCmraAddress                              V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_cmra_address"
+	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCryptoRegulatedState                     V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_crypto_regulated_state"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressHighwayContractBox                       V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_highway_contract_box"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressPrivateMailbox                           V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_private_mailbox"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidAddressRegisteredAgentAddress                   V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_address_registered_agent_address"
@@ -3882,6 +4015,7 @@ const (
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeInvalidValueOther                                      V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "invalid_value_other"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeUnresolvableIPAddress                                  V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "unresolvable_ip_address"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeUnresolvablePostalCode                                 V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "unresolvable_postal_code"
+	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationDataNotFound                               V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_data_not_found"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationDirectorsMismatch                          V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_directors_mismatch"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationDocumentAddressMismatch                    V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_document_address_mismatch"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationDocumentAddressMissing                     V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_document_address_missing"
@@ -3929,6 +4063,7 @@ const (
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationMissingDirectors                           V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_missing_directors"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationMissingExecutives                          V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_missing_executives"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationMissingOwners                              V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_missing_owners"
+	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationRelationshipsNotFound                      V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_relationships_not_found"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_requires_additional_memorandum_of_associations"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationRequiresAdditionalProofOfRegistration      V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_requires_additional_proof_of_registration"
 	V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCodeVerificationSelfieDocumentMissingPhoto                 V2CoreAccountFutureRequirementsAlternativeOptionEntryErrorCode = "verification_selfie_document_missing_photo"
@@ -3977,6 +4112,7 @@ type V2CoreAccountFutureRequirementsEntryErrorCode string
 const (
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressCityStatePostalCode                      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_city_state_postal_code"
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressCmraAddress                              V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_cmra_address"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressCryptoRegulatedState                     V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_crypto_regulated_state"
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressHighwayContractBox                       V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_highway_contract_box"
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressPrivateMailbox                           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_private_mailbox"
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressRegisteredAgentAddress                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_registered_agent_address"
@@ -4018,6 +4154,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidValueOther                                      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_value_other"
 	V2CoreAccountFutureRequirementsEntryErrorCodeUnresolvableIPAddress                                  V2CoreAccountFutureRequirementsEntryErrorCode = "unresolvable_ip_address"
 	V2CoreAccountFutureRequirementsEntryErrorCodeUnresolvablePostalCode                                 V2CoreAccountFutureRequirementsEntryErrorCode = "unresolvable_postal_code"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDataNotFound                               V2CoreAccountFutureRequirementsEntryErrorCode = "verification_data_not_found"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDirectorsMismatch                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_directors_mismatch"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentAddressMismatch                    V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_address_mismatch"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentAddressMissing                     V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_address_missing"
@@ -4065,6 +4202,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingDirectors                           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_directors"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingExecutives                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_executives"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingOwners                              V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_owners"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationRelationshipsNotFound                      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_relationships_not_found"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations V2CoreAccountFutureRequirementsEntryErrorCode = "verification_requires_additional_memorandum_of_associations"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationRequiresAdditionalProofOfRegistration      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_requires_additional_proof_of_registration"
 	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSelfieDocumentMissingPhoto                 V2CoreAccountFutureRequirementsEntryErrorCode = "verification_selfie_document_missing_photo"
@@ -4122,7 +4260,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesGBP                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.gbp"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesUSD                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.usd"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityIDEALPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "ideal_payments"
-	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersBankAccounts       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityJCBPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "jcb_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityJPBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "jp_bank_transfer_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKakaoPayPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "kakao_pay_payments"
@@ -4340,6 +4478,7 @@ type V2CoreAccountIdentityBusinessDetailsIDNumberType string
 const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAgTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ag_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAoNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ao_nif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeARCUIT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ar_cuit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtFn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_fn"
@@ -4348,25 +4487,31 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAUABN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_abn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuAcn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_acn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuIn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_in"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuWpn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_wpn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAzTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "az_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBaPib    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ba_pib"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBdEtin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "bd_etin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeCbe    V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_cbe"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGUIC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_uic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBjIfu    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bj_ifu"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBRCNPJ   V2CoreAccountIdentityBusinessDetailsIDNumberType = "br_cnpj"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_cn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCrarr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_crarr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCAGSTHST V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_gst_hst"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaNeq    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_neq"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCAQST    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_qst"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaRid    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_rid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeChChid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_chid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCHUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeClRut    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cl_rut"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrCpj    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_cpj"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrNite   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_nite"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyHE     V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_he"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyTic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_tic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzDic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_dic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzIco    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_ico"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEHrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_hrn"
@@ -4375,18 +4520,23 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkCvr    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_cvr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDORCN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "do_rcn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDzNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dz_nif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeRk     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_rk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESCIF    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_cif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeETTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "et_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIYt     V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_yt"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRRna    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_rna"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRSiren  V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_siren"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRSiret  V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_siret"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGeTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ge_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrAfm    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_afm"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_vat"
@@ -4399,14 +4549,25 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUCjs    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_cjs"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIDNPWP   V2CoreAccountIdentityBusinessDetailsIDNumberType = "id_npwp"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeTrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_trn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIlTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "il_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeILVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "il_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeINGST    V2CoreAccountIdentityBusinessDetailsIDNumberType = "in_gst"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeInPan    V2CoreAccountIdentityBusinessDetailsIDNumberType = "in_pan"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIsKt     V2CoreAccountIdentityBusinessDetailsIDNumberType = "is_kt"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITRea    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_rea"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJPCN     V2CoreAccountIdentityBusinessDetailsIDNumberType = "jp_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKhTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "kh_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKRBRN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "kr_brn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKzBin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "kz_bin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLaTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "la_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLcTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lc_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLIUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLiVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTCcrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_ccrn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_nif"
@@ -4414,30 +4575,38 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVUrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_urn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMdCf     V2CoreAccountIdentityBusinessDetailsIDNumberType = "md_cf"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMgNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mg_nif"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMkEdb    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mk_edb"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMuVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mu_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMXRFC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyBrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_brn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyCoid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_coid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYITN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_itn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYSST    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_sst"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMzNuit   V2CoreAccountIdentityBusinessDetailsIDNumberType = "mz_nuit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNeTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ne_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLKvk    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_kvk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLRsin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_rsin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNoOrgnr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "no_orgnr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzBn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_bn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzIrd    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_ird"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeOmTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "om_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePERUC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pe_ruc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePkNtn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pk_ntn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLNip    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_nip"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLRegon  V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_regon"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeQaTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "qa_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROCui    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_cui"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROOrc    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_orc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeRwTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "rw_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSeOrgnr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "se_orgnr"
@@ -4449,10 +4618,15 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKDic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_dic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKIco    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_ico"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSmCoe    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sm_coe"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHPrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_prn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTRTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "tr_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTtBir    V2CoreAccountIdentityBusinessDetailsIDNumberType = "tt_bir"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTtVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "tt_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeUSEIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "us_ein"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeVNTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "vn_tin"
 )
 
 // The category identifying the legal structure of the business.
@@ -4563,82 +4737,212 @@ type V2CoreAccountIdentityIndividualIDNumberType string
 // List of values that V2CoreAccountIdentityIndividualIDNumberType can take
 const (
 	V2CoreAccountIdentityIndividualIDNumberTypeAeEid       V2CoreAccountIdentityIndividualIDNumberType = "ae_eid"
+	V2CoreAccountIdentityIndividualIDNumberTypeAePp        V2CoreAccountIdentityIndividualIDNumberType = "ae_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeAlPp        V2CoreAccountIdentityIndividualIDNumberType = "al_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeAmPp        V2CoreAccountIdentityIndividualIDNumberType = "am_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeAoNif       V2CoreAccountIdentityIndividualIDNumberType = "ao_nif"
 	V2CoreAccountIdentityIndividualIDNumberTypeARCuil      V2CoreAccountIdentityIndividualIDNumberType = "ar_cuil"
 	V2CoreAccountIdentityIndividualIDNumberTypeARDni       V2CoreAccountIdentityIndividualIDNumberType = "ar_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeARPp        V2CoreAccountIdentityIndividualIDNumberType = "ar_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeAtPp        V2CoreAccountIdentityIndividualIDNumberType = "at_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeAtStn       V2CoreAccountIdentityIndividualIDNumberType = "at_stn"
+	V2CoreAccountIdentityIndividualIDNumberTypeAuPp        V2CoreAccountIdentityIndividualIDNumberType = "au_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeAzPIN       V2CoreAccountIdentityIndividualIDNumberType = "az_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeAzPp        V2CoreAccountIdentityIndividualIDNumberType = "az_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeAzTin       V2CoreAccountIdentityIndividualIDNumberType = "az_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdBrc       V2CoreAccountIdentityIndividualIDNumberType = "bd_brc"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdEtin      V2CoreAccountIdentityIndividualIDNumberType = "bd_etin"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdNid       V2CoreAccountIdentityIndividualIDNumberType = "bd_nid"
+	V2CoreAccountIdentityIndividualIDNumberTypeBdPp        V2CoreAccountIdentityIndividualIDNumberType = "bd_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeBeNrn       V2CoreAccountIdentityIndividualIDNumberType = "be_nrn"
+	V2CoreAccountIdentityIndividualIDNumberTypeBePp        V2CoreAccountIdentityIndividualIDNumberType = "be_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeBGPp        V2CoreAccountIdentityIndividualIDNumberType = "bg_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeBGUcn       V2CoreAccountIdentityIndividualIDNumberType = "bg_ucn"
+	V2CoreAccountIdentityIndividualIDNumberTypeBhPp        V2CoreAccountIdentityIndividualIDNumberType = "bh_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeBjPp        V2CoreAccountIdentityIndividualIDNumberType = "bj_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeBnNric      V2CoreAccountIdentityIndividualIDNumberType = "bn_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeBoPp        V2CoreAccountIdentityIndividualIDNumberType = "bo_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeBRCPF       V2CoreAccountIdentityIndividualIDNumberType = "br_cpf"
+	V2CoreAccountIdentityIndividualIDNumberTypeBrPp        V2CoreAccountIdentityIndividualIDNumberType = "br_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeBrRg        V2CoreAccountIdentityIndividualIDNumberType = "br_rg"
+	V2CoreAccountIdentityIndividualIDNumberTypeBsPp        V2CoreAccountIdentityIndividualIDNumberType = "bs_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeBsTin       V2CoreAccountIdentityIndividualIDNumberType = "bs_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeByPp        V2CoreAccountIdentityIndividualIDNumberType = "by_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeCaPp        V2CoreAccountIdentityIndividualIDNumberType = "ca_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCaSin       V2CoreAccountIdentityIndividualIDNumberType = "ca_sin"
 	V2CoreAccountIdentityIndividualIDNumberTypeChOasi      V2CoreAccountIdentityIndividualIDNumberType = "ch_oasi"
+	V2CoreAccountIdentityIndividualIDNumberTypeChPp        V2CoreAccountIdentityIndividualIDNumberType = "ch_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeCiPp        V2CoreAccountIdentityIndividualIDNumberType = "ci_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeClPp        V2CoreAccountIdentityIndividualIDNumberType = "cl_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeClRut       V2CoreAccountIdentityIndividualIDNumberType = "cl_rut"
+	V2CoreAccountIdentityIndividualIDNumberTypeCmPp        V2CoreAccountIdentityIndividualIDNumberType = "cm_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCnPp        V2CoreAccountIdentityIndividualIDNumberType = "cn_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCoNuip      V2CoreAccountIdentityIndividualIDNumberType = "co_nuip"
+	V2CoreAccountIdentityIndividualIDNumberTypeCoPp        V2CoreAccountIdentityIndividualIDNumberType = "co_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrCi        V2CoreAccountIdentityIndividualIDNumberType = "cr_ci"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrCpf       V2CoreAccountIdentityIndividualIDNumberType = "cr_cpf"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrDimex     V2CoreAccountIdentityIndividualIDNumberType = "cr_dimex"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrNite      V2CoreAccountIdentityIndividualIDNumberType = "cr_nite"
+	V2CoreAccountIdentityIndividualIDNumberTypeCrPp        V2CoreAccountIdentityIndividualIDNumberType = "cr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeCyPp        V2CoreAccountIdentityIndividualIDNumberType = "cy_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCyTic       V2CoreAccountIdentityIndividualIDNumberType = "cy_tic"
+	V2CoreAccountIdentityIndividualIDNumberTypeCzDic       V2CoreAccountIdentityIndividualIDNumberType = "cz_dic"
+	V2CoreAccountIdentityIndividualIDNumberTypeCzPp        V2CoreAccountIdentityIndividualIDNumberType = "cz_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeCzRc        V2CoreAccountIdentityIndividualIDNumberType = "cz_rc"
+	V2CoreAccountIdentityIndividualIDNumberTypeDEPp        V2CoreAccountIdentityIndividualIDNumberType = "de_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeDEStn       V2CoreAccountIdentityIndividualIDNumberType = "de_stn"
 	V2CoreAccountIdentityIndividualIDNumberTypeDkCpr       V2CoreAccountIdentityIndividualIDNumberType = "dk_cpr"
+	V2CoreAccountIdentityIndividualIDNumberTypeDkPp        V2CoreAccountIdentityIndividualIDNumberType = "dk_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeDoCie       V2CoreAccountIdentityIndividualIDNumberType = "do_cie"
+	V2CoreAccountIdentityIndividualIDNumberTypeDoPp        V2CoreAccountIdentityIndividualIDNumberType = "do_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeDORCN       V2CoreAccountIdentityIndividualIDNumberType = "do_rcn"
+	V2CoreAccountIdentityIndividualIDNumberTypeDzPp        V2CoreAccountIdentityIndividualIDNumberType = "dz_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeEcCi        V2CoreAccountIdentityIndividualIDNumberType = "ec_ci"
+	V2CoreAccountIdentityIndividualIDNumberTypeEcPp        V2CoreAccountIdentityIndividualIDNumberType = "ec_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeEeIk        V2CoreAccountIdentityIndividualIDNumberType = "ee_ik"
+	V2CoreAccountIdentityIndividualIDNumberTypeEePp        V2CoreAccountIdentityIndividualIDNumberType = "ee_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeEgPp        V2CoreAccountIdentityIndividualIDNumberType = "eg_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeESNif       V2CoreAccountIdentityIndividualIDNumberType = "es_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeESPp        V2CoreAccountIdentityIndividualIDNumberType = "es_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeETTin       V2CoreAccountIdentityIndividualIDNumberType = "et_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeFIHetu      V2CoreAccountIdentityIndividualIDNumberType = "fi_hetu"
+	V2CoreAccountIdentityIndividualIDNumberTypeFIPp        V2CoreAccountIdentityIndividualIDNumberType = "fi_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeFRNir       V2CoreAccountIdentityIndividualIDNumberType = "fr_nir"
+	V2CoreAccountIdentityIndividualIDNumberTypeFRPp        V2CoreAccountIdentityIndividualIDNumberType = "fr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeFRSpi       V2CoreAccountIdentityIndividualIDNumberType = "fr_spi"
+	V2CoreAccountIdentityIndividualIDNumberTypeGaNif       V2CoreAccountIdentityIndividualIDNumberType = "ga_nif"
 	V2CoreAccountIdentityIndividualIDNumberTypeGBNino      V2CoreAccountIdentityIndividualIDNumberType = "gb_nino"
+	V2CoreAccountIdentityIndividualIDNumberTypeGBPp        V2CoreAccountIdentityIndividualIDNumberType = "gb_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeGePp        V2CoreAccountIdentityIndividualIDNumberType = "ge_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeGhPp        V2CoreAccountIdentityIndividualIDNumberType = "gh_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeGrAfm       V2CoreAccountIdentityIndividualIDNumberType = "gr_afm"
+	V2CoreAccountIdentityIndividualIDNumberTypeGrPp        V2CoreAccountIdentityIndividualIDNumberType = "gr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeGtCui       V2CoreAccountIdentityIndividualIDNumberType = "gt_cui"
 	V2CoreAccountIdentityIndividualIDNumberTypeGtNit       V2CoreAccountIdentityIndividualIDNumberType = "gt_nit"
+	V2CoreAccountIdentityIndividualIDNumberTypeGtPp        V2CoreAccountIdentityIndividualIDNumberType = "gt_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeHkID        V2CoreAccountIdentityIndividualIDNumberType = "hk_id"
+	V2CoreAccountIdentityIndividualIDNumberTypeHkPp        V2CoreAccountIdentityIndividualIDNumberType = "hk_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeHnDni       V2CoreAccountIdentityIndividualIDNumberType = "hn_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeHnPp        V2CoreAccountIdentityIndividualIDNumberType = "hn_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeHROIB       V2CoreAccountIdentityIndividualIDNumberType = "hr_oib"
+	V2CoreAccountIdentityIndividualIDNumberTypeHRPp        V2CoreAccountIdentityIndividualIDNumberType = "hr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeHtPp        V2CoreAccountIdentityIndividualIDNumberType = "ht_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeHUAd        V2CoreAccountIdentityIndividualIDNumberType = "hu_ad"
+	V2CoreAccountIdentityIndividualIDNumberTypeHUPp        V2CoreAccountIdentityIndividualIDNumberType = "hu_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeIDNik       V2CoreAccountIdentityIndividualIDNumberType = "id_nik"
+	V2CoreAccountIdentityIndividualIDNumberTypeIDPp        V2CoreAccountIdentityIndividualIDNumberType = "id_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeIePp        V2CoreAccountIdentityIndividualIDNumberType = "ie_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeIePpsn      V2CoreAccountIdentityIndividualIDNumberType = "ie_ppsn"
+	V2CoreAccountIdentityIndividualIDNumberTypeIlPp        V2CoreAccountIdentityIndividualIDNumberType = "il_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeInPan       V2CoreAccountIdentityIndividualIDNumberType = "in_pan"
+	V2CoreAccountIdentityIndividualIDNumberTypeInPp        V2CoreAccountIdentityIndividualIDNumberType = "in_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeIqPp        V2CoreAccountIdentityIndividualIDNumberType = "iq_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeIsKt        V2CoreAccountIdentityIndividualIDNumberType = "is_kt"
+	V2CoreAccountIdentityIndividualIDNumberTypeIsPp        V2CoreAccountIdentityIndividualIDNumberType = "is_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeITCf        V2CoreAccountIdentityIndividualIDNumberType = "it_cf"
+	V2CoreAccountIdentityIndividualIDNumberTypeITPp        V2CoreAccountIdentityIndividualIDNumberType = "it_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeJePp        V2CoreAccountIdentityIndividualIDNumberType = "je_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeJmPp        V2CoreAccountIdentityIndividualIDNumberType = "jm_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeJoPp        V2CoreAccountIdentityIndividualIDNumberType = "jo_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeJPInc       V2CoreAccountIdentityIndividualIDNumberType = "jp_inc"
+	V2CoreAccountIdentityIndividualIDNumberTypeJPPp        V2CoreAccountIdentityIndividualIDNumberType = "jp_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeKEPIN       V2CoreAccountIdentityIndividualIDNumberType = "ke_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeKePp        V2CoreAccountIdentityIndividualIDNumberType = "ke_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeKrPp        V2CoreAccountIdentityIndividualIDNumberType = "kr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeKwPp        V2CoreAccountIdentityIndividualIDNumberType = "kw_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeKzIIN       V2CoreAccountIdentityIndividualIDNumberType = "kz_iin"
+	V2CoreAccountIdentityIndividualIDNumberTypeKzPp        V2CoreAccountIdentityIndividualIDNumberType = "kz_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeLbPp        V2CoreAccountIdentityIndividualIDNumberType = "lb_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeLiPeid      V2CoreAccountIdentityIndividualIDNumberType = "li_peid"
+	V2CoreAccountIdentityIndividualIDNumberTypeLiPp        V2CoreAccountIdentityIndividualIDNumberType = "li_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeLkPp        V2CoreAccountIdentityIndividualIDNumberType = "lk_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeLTAk        V2CoreAccountIdentityIndividualIDNumberType = "lt_ak"
+	V2CoreAccountIdentityIndividualIDNumberTypeLTPp        V2CoreAccountIdentityIndividualIDNumberType = "lt_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeLuNif       V2CoreAccountIdentityIndividualIDNumberType = "lu_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeLuPp        V2CoreAccountIdentityIndividualIDNumberType = "lu_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeLVPk        V2CoreAccountIdentityIndividualIDNumberType = "lv_pk"
+	V2CoreAccountIdentityIndividualIDNumberTypeLVPp        V2CoreAccountIdentityIndividualIDNumberType = "lv_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMaPp        V2CoreAccountIdentityIndividualIDNumberType = "ma_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMdCf        V2CoreAccountIdentityIndividualIDNumberType = "md_cf"
+	V2CoreAccountIdentityIndividualIDNumberTypeMdPp        V2CoreAccountIdentityIndividualIDNumberType = "md_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMgNif       V2CoreAccountIdentityIndividualIDNumberType = "mg_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeMkPIN       V2CoreAccountIdentityIndividualIDNumberType = "mk_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeMkPp        V2CoreAccountIdentityIndividualIDNumberType = "mk_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMmPp        V2CoreAccountIdentityIndividualIDNumberType = "mm_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMnPp        V2CoreAccountIdentityIndividualIDNumberType = "mn_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMTPp        V2CoreAccountIdentityIndividualIDNumberType = "mt_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMuPp        V2CoreAccountIdentityIndividualIDNumberType = "mu_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMXCurp      V2CoreAccountIdentityIndividualIDNumberType = "mx_curp"
+	V2CoreAccountIdentityIndividualIDNumberTypeMXPp        V2CoreAccountIdentityIndividualIDNumberType = "mx_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeMXRFC       V2CoreAccountIdentityIndividualIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityIndividualIDNumberTypeMyNric      V2CoreAccountIdentityIndividualIDNumberType = "my_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeMyPp        V2CoreAccountIdentityIndividualIDNumberType = "my_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeMzNuit      V2CoreAccountIdentityIndividualIDNumberType = "mz_nuit"
 	V2CoreAccountIdentityIndividualIDNumberTypeNgNin       V2CoreAccountIdentityIndividualIDNumberType = "ng_nin"
+	V2CoreAccountIdentityIndividualIDNumberTypeNgPp        V2CoreAccountIdentityIndividualIDNumberType = "ng_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeNLBsn       V2CoreAccountIdentityIndividualIDNumberType = "nl_bsn"
+	V2CoreAccountIdentityIndividualIDNumberTypeNLPp        V2CoreAccountIdentityIndividualIDNumberType = "nl_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeNoNin       V2CoreAccountIdentityIndividualIDNumberType = "no_nin"
+	V2CoreAccountIdentityIndividualIDNumberTypeNoPp        V2CoreAccountIdentityIndividualIDNumberType = "no_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeNpPp        V2CoreAccountIdentityIndividualIDNumberType = "np_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeNzIrd       V2CoreAccountIdentityIndividualIDNumberType = "nz_ird"
+	V2CoreAccountIdentityIndividualIDNumberTypeNzPp        V2CoreAccountIdentityIndividualIDNumberType = "nz_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypePaPp        V2CoreAccountIdentityIndividualIDNumberType = "pa_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypePeDni       V2CoreAccountIdentityIndividualIDNumberType = "pe_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypePePp        V2CoreAccountIdentityIndividualIDNumberType = "pe_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypePhPp        V2CoreAccountIdentityIndividualIDNumberType = "ph_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypePkCnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_cnic"
+	V2CoreAccountIdentityIndividualIDNumberTypePkPp        V2CoreAccountIdentityIndividualIDNumberType = "pk_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypePkSnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_snic"
 	V2CoreAccountIdentityIndividualIDNumberTypePLPesel     V2CoreAccountIdentityIndividualIDNumberType = "pl_pesel"
+	V2CoreAccountIdentityIndividualIDNumberTypePLPp        V2CoreAccountIdentityIndividualIDNumberType = "pl_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypePrPp        V2CoreAccountIdentityIndividualIDNumberType = "pr_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypePsPp        V2CoreAccountIdentityIndividualIDNumberType = "ps_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypePTNif       V2CoreAccountIdentityIndividualIDNumberType = "pt_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypePTPp        V2CoreAccountIdentityIndividualIDNumberType = "pt_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypePyCi        V2CoreAccountIdentityIndividualIDNumberType = "py_ci"
+	V2CoreAccountIdentityIndividualIDNumberTypePyPp        V2CoreAccountIdentityIndividualIDNumberType = "py_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeROCnp       V2CoreAccountIdentityIndividualIDNumberType = "ro_cnp"
+	V2CoreAccountIdentityIndividualIDNumberTypeROPp        V2CoreAccountIdentityIndividualIDNumberType = "ro_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeRsPp        V2CoreAccountIdentityIndividualIDNumberType = "rs_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeRUPp        V2CoreAccountIdentityIndividualIDNumberType = "ru_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeRwTin       V2CoreAccountIdentityIndividualIDNumberType = "rw_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeSaPp        V2CoreAccountIdentityIndividualIDNumberType = "sa_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeSaPtin      V2CoreAccountIdentityIndividualIDNumberType = "sa_ptin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSaTin       V2CoreAccountIdentityIndividualIDNumberType = "sa_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSePIN       V2CoreAccountIdentityIndividualIDNumberType = "se_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeSePp        V2CoreAccountIdentityIndividualIDNumberType = "se_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeSgFin       V2CoreAccountIdentityIndividualIDNumberType = "sg_fin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSGNRIC      V2CoreAccountIdentityIndividualIDNumberType = "sg_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeSgPp        V2CoreAccountIdentityIndividualIDNumberType = "sg_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeSiPp        V2CoreAccountIdentityIndividualIDNumberType = "si_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeSiPtin      V2CoreAccountIdentityIndividualIDNumberType = "si_ptin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSKDic       V2CoreAccountIdentityIndividualIDNumberType = "sk_dic"
+	V2CoreAccountIdentityIndividualIDNumberTypeSKPp        V2CoreAccountIdentityIndividualIDNumberType = "sk_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeSVPp        V2CoreAccountIdentityIndividualIDNumberType = "sv_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHLc        V2CoreAccountIdentityIndividualIDNumberType = "th_lc"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHPIN       V2CoreAccountIdentityIndividualIDNumberType = "th_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeTHPp        V2CoreAccountIdentityIndividualIDNumberType = "th_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeTnPp        V2CoreAccountIdentityIndividualIDNumberType = "tn_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeTRPp        V2CoreAccountIdentityIndividualIDNumberType = "tr_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeTRTIN       V2CoreAccountIdentityIndividualIDNumberType = "tr_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeTtBir       V2CoreAccountIdentityIndividualIDNumberType = "tt_bir"
+	V2CoreAccountIdentityIndividualIDNumberTypeTwPp        V2CoreAccountIdentityIndividualIDNumberType = "tw_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeUaPp        V2CoreAccountIdentityIndividualIDNumberType = "ua_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeUgPp        V2CoreAccountIdentityIndividualIDNumberType = "ug_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSItin      V2CoreAccountIdentityIndividualIDNumberType = "us_itin"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSItinLast4 V2CoreAccountIdentityIndividualIDNumberType = "us_itin_last_4"
+	V2CoreAccountIdentityIndividualIDNumberTypeUSPp        V2CoreAccountIdentityIndividualIDNumberType = "us_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSN       V2CoreAccountIdentityIndividualIDNumberType = "us_ssn"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSNLast4  V2CoreAccountIdentityIndividualIDNumberType = "us_ssn_last_4"
 	V2CoreAccountIdentityIndividualIDNumberTypeUyDni       V2CoreAccountIdentityIndividualIDNumberType = "uy_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeUyPp        V2CoreAccountIdentityIndividualIDNumberType = "uy_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeUzPp        V2CoreAccountIdentityIndividualIDNumberType = "uz_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeUzTin       V2CoreAccountIdentityIndividualIDNumberType = "uz_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeVePp        V2CoreAccountIdentityIndividualIDNumberType = "ve_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeVnPp        V2CoreAccountIdentityIndividualIDNumberType = "vn_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeZaID        V2CoreAccountIdentityIndividualIDNumberType = "za_id"
+	V2CoreAccountIdentityIndividualIDNumberTypeZaPp        V2CoreAccountIdentityIndividualIDNumberType = "za_pp"
 )
 
 // The individual's gender (International regulations require either "male" or "female").
@@ -4659,6 +4963,21 @@ const (
 	V2CoreAccountIdentityIndividualPoliticalExposureNone     V2CoreAccountIdentityIndividualPoliticalExposure = "none"
 )
 
+// The reason the platform rejected the Account.
+type V2CoreAccountRejectionPlatformRejectionReason string
+
+// List of values that V2CoreAccountRejectionPlatformRejectionReason can take
+const (
+	V2CoreAccountRejectionPlatformRejectionReasonCredit                   V2CoreAccountRejectionPlatformRejectionReason = "credit"
+	V2CoreAccountRejectionPlatformRejectionReasonFraud                    V2CoreAccountRejectionPlatformRejectionReason = "fraud"
+	V2CoreAccountRejectionPlatformRejectionReasonFraudNoIntentToFulfill   V2CoreAccountRejectionPlatformRejectionReason = "fraud_no_intent_to_fulfill"
+	V2CoreAccountRejectionPlatformRejectionReasonFraudOther               V2CoreAccountRejectionPlatformRejectionReason = "fraud_other"
+	V2CoreAccountRejectionPlatformRejectionReasonFraudPaymentMethodCasher V2CoreAccountRejectionPlatformRejectionReason = "fraud_payment_method_casher"
+	V2CoreAccountRejectionPlatformRejectionReasonFraudPaymentMethodTester V2CoreAccountRejectionPlatformRejectionReason = "fraud_payment_method_tester"
+	V2CoreAccountRejectionPlatformRejectionReasonOther                    V2CoreAccountRejectionPlatformRejectionReason = "other"
+	V2CoreAccountRejectionPlatformRejectionReasonTermsOfService           V2CoreAccountRejectionPlatformRejectionReason = "terms_of_service"
+)
+
 // Indicates whether the user or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`.
 type V2CoreAccountRequirementsAlternativeOptionEntryAwaitingActionFrom string
 
@@ -4675,6 +4994,7 @@ type V2CoreAccountRequirementsAlternativeOptionEntryErrorCode string
 const (
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCityStatePostalCode                      V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_city_state_postal_code"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCmraAddress                              V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_cmra_address"
+	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressCryptoRegulatedState                     V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_crypto_regulated_state"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressHighwayContractBox                       V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_highway_contract_box"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressPrivateMailbox                           V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_private_mailbox"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidAddressRegisteredAgentAddress                   V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_address_registered_agent_address"
@@ -4716,6 +5036,7 @@ const (
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeInvalidValueOther                                      V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "invalid_value_other"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeUnresolvableIPAddress                                  V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "unresolvable_ip_address"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeUnresolvablePostalCode                                 V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "unresolvable_postal_code"
+	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationDataNotFound                               V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_data_not_found"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationDirectorsMismatch                          V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_directors_mismatch"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationDocumentAddressMismatch                    V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_document_address_mismatch"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationDocumentAddressMissing                     V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_document_address_missing"
@@ -4763,6 +5084,7 @@ const (
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationMissingDirectors                           V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_missing_directors"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationMissingExecutives                          V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_missing_executives"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationMissingOwners                              V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_missing_owners"
+	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationRelationshipsNotFound                      V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_relationships_not_found"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_requires_additional_memorandum_of_associations"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationRequiresAdditionalProofOfRegistration      V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_requires_additional_proof_of_registration"
 	V2CoreAccountRequirementsAlternativeOptionEntryErrorCodeVerificationSelfieDocumentMissingPhoto                 V2CoreAccountRequirementsAlternativeOptionEntryErrorCode = "verification_selfie_document_missing_photo"
@@ -4811,6 +5133,7 @@ type V2CoreAccountRequirementsEntryErrorCode string
 const (
 	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressCityStatePostalCode                      V2CoreAccountRequirementsEntryErrorCode = "invalid_address_city_state_postal_code"
 	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressCmraAddress                              V2CoreAccountRequirementsEntryErrorCode = "invalid_address_cmra_address"
+	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressCryptoRegulatedState                     V2CoreAccountRequirementsEntryErrorCode = "invalid_address_crypto_regulated_state"
 	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressHighwayContractBox                       V2CoreAccountRequirementsEntryErrorCode = "invalid_address_highway_contract_box"
 	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressPrivateMailbox                           V2CoreAccountRequirementsEntryErrorCode = "invalid_address_private_mailbox"
 	V2CoreAccountRequirementsEntryErrorCodeInvalidAddressRegisteredAgentAddress                   V2CoreAccountRequirementsEntryErrorCode = "invalid_address_registered_agent_address"
@@ -4852,6 +5175,7 @@ const (
 	V2CoreAccountRequirementsEntryErrorCodeInvalidValueOther                                      V2CoreAccountRequirementsEntryErrorCode = "invalid_value_other"
 	V2CoreAccountRequirementsEntryErrorCodeUnresolvableIPAddress                                  V2CoreAccountRequirementsEntryErrorCode = "unresolvable_ip_address"
 	V2CoreAccountRequirementsEntryErrorCodeUnresolvablePostalCode                                 V2CoreAccountRequirementsEntryErrorCode = "unresolvable_postal_code"
+	V2CoreAccountRequirementsEntryErrorCodeVerificationDataNotFound                               V2CoreAccountRequirementsEntryErrorCode = "verification_data_not_found"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationDirectorsMismatch                          V2CoreAccountRequirementsEntryErrorCode = "verification_directors_mismatch"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationDocumentAddressMismatch                    V2CoreAccountRequirementsEntryErrorCode = "verification_document_address_mismatch"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationDocumentAddressMissing                     V2CoreAccountRequirementsEntryErrorCode = "verification_document_address_missing"
@@ -4899,6 +5223,7 @@ const (
 	V2CoreAccountRequirementsEntryErrorCodeVerificationMissingDirectors                           V2CoreAccountRequirementsEntryErrorCode = "verification_missing_directors"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationMissingExecutives                          V2CoreAccountRequirementsEntryErrorCode = "verification_missing_executives"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationMissingOwners                              V2CoreAccountRequirementsEntryErrorCode = "verification_missing_owners"
+	V2CoreAccountRequirementsEntryErrorCodeVerificationRelationshipsNotFound                      V2CoreAccountRequirementsEntryErrorCode = "verification_relationships_not_found"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations V2CoreAccountRequirementsEntryErrorCode = "verification_requires_additional_memorandum_of_associations"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationRequiresAdditionalProofOfRegistration      V2CoreAccountRequirementsEntryErrorCode = "verification_requires_additional_proof_of_registration"
 	V2CoreAccountRequirementsEntryErrorCodeVerificationSelfieDocumentMissingPhoto                 V2CoreAccountRequirementsEntryErrorCode = "verification_selfie_document_missing_photo"
@@ -4956,7 +5281,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesGBP                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.gbp"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesUSD                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.usd"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityIDEALPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "ideal_payments"
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersFinancialAccounts  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.financial_accounts"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersBankAccounts       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityJCBPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "jcb_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityJPBankTransferPayments             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "jp_bank_transfer_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityKakaoPayPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "kakao_pay_payments"
@@ -5296,6 +5621,22 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPayments struct {
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatus `json:"status"`
 	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+type V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTax struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTaxStatusDetail `json:"status_details"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
@@ -6072,6 +6413,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	AmazonPayPayments *V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPayments `json:"amazon_pay_payments,omitempty"`
 	// Allow the merchant to process Australian BECS Direct Debit payments.
 	AUBECSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPayments `json:"au_becs_debit_payments,omitempty"`
+	// Allow the merchant to be a "tax-only" merchant, enabling a reduced set of KYC requirements strictly focused on enabling Stripe Tax.
+	AutomaticIndirectTax *V2CoreAccountConfigurationMerchantCapabilitiesAutomaticIndirectTax `json:"automatic_indirect_tax,omitempty"`
 	// Allow the merchant to process BACS Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPayments `json:"bacs_debit_payments,omitempty"`
 	// Allow the merchant to process Bancontact payments.
@@ -6394,6 +6737,22 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCAD
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetailResolution `json:"resolution"`
+}
+
+// Can receive business storage-type funds on Stripe in DKK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKK struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKKStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURStatusDetailCode `json:"code"`
@@ -6447,6 +6806,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInbound st
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUD `json:"aud,omitempty"`
 	// Can receive business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCAD `json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundDKK `json:"dkk,omitempty"`
 	// Can receive business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEUR `json:"eur,omitempty"`
 	// Can receive business storage-type funds on Stripe in GBP.
@@ -6485,6 +6846,22 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCA
 	Status V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatus `json:"status"`
 	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetailResolution `json:"resolution"`
+}
+
+// Can send business storage-type funds on Stripe in DKK.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKK struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKKStatusDetail `json:"status_details"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
@@ -6541,6 +6918,8 @@ type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutbound s
 	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUD `json:"aud,omitempty"`
 	// Can send business storage-type funds on Stripe in CAD.
 	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCAD `json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in DKK.
+	DKK *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundDKK `json:"dkk,omitempty"`
 	// Can send business storage-type funds on Stripe in EUR.
 	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEUR `json:"eur,omitempty"`
 	// Can send business storage-type funds on Stripe in GBP.
@@ -6931,7 +7310,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 	Resolution V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailResolution `json:"resolution"`
 }
 
-// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers struct {
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatus `json:"status"`
@@ -6943,7 +7322,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance struct {
 	// Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
 	Payouts *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayouts `json:"payouts,omitempty"`
-	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance). Use this capability if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers `json:"stripe_transfers,omitempty"`
 }
 
@@ -6959,7 +7338,7 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+// The Recipient Configuration allows the Account to receive funds from you.
 type V2CoreAccountConfigurationRecipient struct {
 	// Indicates whether the recipient configuration is active. You can deactivate or reactivate the recipient configuration by updating this property. Deactivating the configuration by setting this value to false  unrequest all capabilities within the configuration. It will not delete any of the configuration's other properties.
 	Applied bool `json:"applied"`
@@ -6975,7 +7354,7 @@ type V2CoreAccountConfiguration struct {
 	Merchant *V2CoreAccountConfigurationMerchant `json:"merchant,omitempty"`
 	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
 	MoneyManager *V2CoreAccountConfigurationMoneyManager `json:"money_manager,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
+	// The Recipient Configuration allows the Account to receive funds from you.
 	Recipient *V2CoreAccountConfigurationRecipient `json:"recipient,omitempty"`
 }
 
@@ -7450,6 +7829,8 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Registrar string `json:"registrar,omitempty"`
 	// Open Enum. The ID number type of a business entity.
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
+	// The value of the ID number. Returned only when the API key is authorized to read it; otherwise null.
+	Value string `json:"value,omitempty"`
 }
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
@@ -7712,6 +8093,8 @@ type V2CoreAccountIdentityIndividualDocuments struct {
 type V2CoreAccountIdentityIndividualIDNumber struct {
 	// The ID number type of an individual.
 	Type V2CoreAccountIdentityIndividualIDNumberType `json:"type"`
+	// The value of the ID number. Returned only when the API key is authorized to read it; otherwise null.
+	Value string `json:"value,omitempty"`
 }
 
 // The relationship that this individual has with the Account's identity.
@@ -7864,6 +8247,18 @@ type V2CoreAccountIdentity struct {
 	EntityType V2CoreAccountIdentityEntityType `json:"entity_type,omitempty"`
 	// Information about the individual represented by the Account. This property is `null` unless `entity_type` is set to `individual`.
 	Individual *V2CoreAccountIdentityIndividual `json:"individual,omitempty"`
+}
+
+// Details about the platform's rejection of the Account. Null if the platform hasn't rejected the Account.
+type V2CoreAccountRejectionPlatformRejection struct {
+	// The reason the platform rejected the Account.
+	Reason V2CoreAccountRejectionPlatformRejectionReason `json:"reason"`
+}
+
+// Information about the rejection of the Account. Null if the platform has not rejected the Account.
+type V2CoreAccountRejection struct {
+	// Details about the platform's rejection of the Account. Null if the platform hasn't rejected the Account.
+	PlatformRejection *V2CoreAccountRejectionPlatformRejection `json:"platform_rejection,omitempty"`
 }
 
 // Descriptions of why the requirement must be collected, or why the collected information isn't satisfactory to Stripe.
@@ -8059,6 +8454,8 @@ type V2CoreAccount struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Information about the rejection of the Account. Null if the platform has not rejected the Account.
+	Rejection *V2CoreAccountRejection `json:"rejection,omitempty"`
 	// Information about the active requirements for the Account, including what information needs to be collected, and by when.
 	Requirements *V2CoreAccountRequirements `json:"requirements,omitempty"`
 }

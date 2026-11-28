@@ -86,7 +86,7 @@ type TestHelpersIssuingAuthorizationFuelParams struct {
 	UnitCostDecimal *decimal.Decimal `form:"unit_cost_decimal" json:"unit_cost_decimal,omitempty"`
 }
 
-// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened. Provide `merchant_data.state` and `merchant_data.postal_code` only if `merchant_data.country` is `US` or `CA`, or they will be ignored.
 type TestHelpersIssuingAuthorizationMerchantDataParams struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category" json:"category,omitempty"`
@@ -207,7 +207,7 @@ type TestHelpersIssuingAuthorizationParams struct {
 	MerchantAmount *int64 `form:"merchant_amount" json:"merchant_amount,omitempty"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency" json:"merchant_currency,omitempty"`
-	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened. Provide `merchant_data.state` and `merchant_data.postal_code` only if `merchant_data.country` is `US` or `CA`, or they will be ignored.
 	MerchantData *TestHelpersIssuingAuthorizationMerchantDataParams `form:"merchant_data" json:"merchant_data,omitempty"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
@@ -596,7 +596,7 @@ type TestHelpersIssuingAuthorizationCreateFuelParams struct {
 	UnitCostDecimal *decimal.Decimal `form:"unit_cost_decimal" json:"unit_cost_decimal,omitempty"`
 }
 
-// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened. Provide `merchant_data.state` and `merchant_data.postal_code` only if `merchant_data.country` is `US` or `CA`, or they will be ignored.
 type TestHelpersIssuingAuthorizationCreateMerchantDataParams struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category" json:"category,omitempty"`
@@ -717,7 +717,7 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	MerchantAmount *int64 `form:"merchant_amount" json:"merchant_amount,omitempty"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency" json:"merchant_currency,omitempty"`
-	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened. Provide `merchant_data.state` and `merchant_data.postal_code` only if `merchant_data.country` is `US` or `CA`, or they will be ignored.
 	MerchantData *TestHelpersIssuingAuthorizationCreateMerchantDataParams `form:"merchant_data" json:"merchant_data,omitempty"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationCreateNetworkDataParams `form:"network_data" json:"network_data,omitempty"`

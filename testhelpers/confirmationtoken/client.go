@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a test mode Confirmation Token server side for your integration tests.
+// Creates a test Confirmation Token server side for your integration tests.
 func New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	return getC().New(params)
 }
 
-// Creates a test mode Confirmation Token server side for your integration tests.
+// Creates a test Confirmation Token server side for your integration tests.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

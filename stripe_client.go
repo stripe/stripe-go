@@ -358,14 +358,6 @@ type Client struct {
 	V1TreasuryTransactions *v1TreasuryTransactionService
 	// V1WebhookEndpoints is the service used to invoke /v1/webhook_endpoints APIs.
 	V1WebhookEndpoints *v1WebhookEndpointService
-	// V2BillingBillSettings is the service used to invoke /v2/billing/bill_settings APIs.
-	V2BillingBillSettings *v2BillingBillSettingService
-	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
-	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
-	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
-	V2BillingCollectionSettings *v2BillingCollectionSettingService
-	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
-	V2BillingCollectionSettingsVersions *v2BillingCollectionSettingsVersionService
 	// V2BillingMeterEventAdjustments is the service used to invoke /v2/billing/meter_event_adjustments APIs.
 	V2BillingMeterEventAdjustments *v2BillingMeterEventAdjustmentService
 	// V2BillingMeterEvents is the service used to invoke /v2/billing/meter_events APIs.
@@ -374,8 +366,6 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
-	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
-	V2BillingProfiles *v2BillingProfileService
 	// V2CommerceProductCatalogImports is the service used to invoke /v2/commerce/product_catalog/imports APIs.
 	V2CommerceProductCatalogImports *v2CommerceProductCatalogImportService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
@@ -456,6 +446,8 @@ type Client struct {
 	V2NetworkBusinessProfiles *v2NetworkBusinessProfileService
 	// V2OrchestratedCommerceAgreements is the service used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2OrchestratedCommerceAgreementService
+	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
+	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
 	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activities APIs.
 	V2SignalsAccountActivities *v2SignalsAccountActivityService
 	// V2SignalsAccountEvaluations is the service used to invoke /v2/signals/account_evaluations APIs.
@@ -678,15 +670,10 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TreasuryTransactionEntries = &v1TreasuryTransactionEntryService{B: backends.API, Key: key}
 	client.V1TreasuryTransactions = &v1TreasuryTransactionService{B: backends.API, Key: key}
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
-	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
-	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
-	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
-	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
-	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
 	client.V2CommerceProductCatalogImports = &v2CommerceProductCatalogImportService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
@@ -727,6 +714,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
 	client.V2OrchestratedCommerceAgreements = &v2OrchestratedCommerceAgreementService{B: backends.API, Key: key}
+	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}

@@ -147,7 +147,7 @@ type V2SignalsAccountActivityRegistrationDecision struct {
 	Status V2SignalsAccountActivityRegistrationDecisionStatus `json:"status"`
 }
 
-// Account Activity resource for the Signals API.
+// Account Activity resource for the Signals API. Account activities are available through the API for 180 days after creation.
 type V2SignalsAccountActivity struct {
 	APIResource
 	// The account, customer, or inline account data associated with the activity.

@@ -42,3 +42,20 @@ func (c v2DataQueryRunService) Retrieve(ctx context.Context, id string, params *
 	err := c.B.Call(http.MethodGet, path, c.Key, params, queryrun)
 	return queryrun, err
 }
+
+// Returns a list of `QueryRun` objects created through the API, most recent first. Listed
+// `QueryRun` objects don't include `result`. Retrieve a `QueryRun` to access its result.
+func (c v2DataQueryRunService) List(ctx context.Context, listParams *V2DataQueryRunListParams) *V2List[*V2DataQueryRun] {
+	if listParams == nil {
+		listParams = &V2DataQueryRunListParams{}
+	}
+	listParams.Context = ctx
+	return newV2List(ctx, "/v2/data/query_runs", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2DataQueryRun], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		page := &V2Page[*V2DataQueryRun]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	})
+}

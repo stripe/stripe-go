@@ -198,6 +198,16 @@ type V2DataQueryRunStatusDetails struct {
 	QueryErrors []*V2DataQueryRunStatusDetailsQueryError `json:"query_errors"`
 }
 
+// Timestamps of when the `QueryRun` entered each terminal status.
+type V2DataQueryRunStatusTransitions struct {
+	// Time at which the run was canceled.
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// Time at which the run failed.
+	FailedAt time.Time `json:"failed_at,omitempty"`
+	// Time at which the run succeeded.
+	SucceededAt time.Time `json:"succeeded_at,omitempty"`
+}
+
 // The `QueryRun` resource represents an execution of ad-hoc SQL against a dataset. Once
 // created, Stripe processes the query. When the query has finished running, the object
 // provides a reference to the results. A `QueryRun` and its results are retained for 90 days
@@ -229,4 +239,6 @@ type V2DataQueryRun struct {
 	Status V2DataQueryRunStatus `json:"status"`
 	// Additional details about the current state of the `QueryRun`.
 	StatusDetails *V2DataQueryRunStatusDetails `json:"status_details,omitempty"`
+	// Timestamps of when the `QueryRun` entered each terminal status.
+	StatusTransitions *V2DataQueryRunStatusTransitions `json:"status_transitions"`
 }

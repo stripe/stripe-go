@@ -6,6 +6,18 @@
 
 package stripe
 
+// Returns a list of `QueryRun` objects created through the API, most recent first. Listed
+// `QueryRun` objects don't include `result`. Retrieve a `QueryRun` to access its result.
+type V2DataQueryRunListParams struct {
+	Params `form:"*"`
+	// If supplied, only return query runs created within this time range.
+	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
+	// The maximum number of results per page. Defaults to 10. Maximum is 100.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// If supplied, only return query runs that have any of these statuses.
+	Statuses []*string `form:"statuses" json:"statuses,omitempty"`
+}
+
 // The query to execute.
 type V2DataQueryRunQueryParams struct {
 	// Ad-hoc SQL to execute. The maximum length is 100,000 characters.

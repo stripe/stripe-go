@@ -219,8 +219,6 @@ type V2MoneyManagementReceivedCredit struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
-	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Open Enum. The status of the ReceivedCredit.
 	Status V2MoneyManagementReceivedCreditStatus `json:"status"`
 	// This hash contains detailed information that elaborates on the specific status of the ReceivedCredit. e.g the reason behind a failure if the status is marked as `failed`.

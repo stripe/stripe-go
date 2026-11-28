@@ -66,6 +66,10 @@ type V2CoreEventDestinationParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// For snapshot events only, the Stripe API version used to render event objects; do not provide this for thin events.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
+	// The initial status of the destination. Defaults to `enabled`. A destination created as
+	// `disabled` receives no delivery attempts until it is enabled. After creation, use the enable
+	// and disable actions to change the status.
+	Status *string `form:"status" json:"status,omitempty"`
 	// The delivery transport. Chosen when the destination is created and cannot be changed by update.
 	Type *string `form:"type" json:"type,omitempty"`
 	// New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
@@ -147,6 +151,10 @@ type V2CoreEventDestinationCreateParams struct {
 	Name *string `form:"name" json:"name"`
 	// For snapshot events only, the Stripe API version used to render event objects; do not provide this for thin events.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
+	// The initial status of the destination. Defaults to `enabled`. A destination created as
+	// `disabled` receives no delivery attempts until it is enabled. After creation, use the enable
+	// and disable actions to change the status.
+	Status *string `form:"status" json:"status,omitempty"`
 	// The delivery transport. Chosen when the destination is created and cannot be changed by update.
 	Type *string `form:"type" json:"type"`
 	// Delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.

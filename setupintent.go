@@ -943,6 +943,8 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -2056,6 +2058,8 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -2676,6 +2680,8 @@ type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -3786,6 +3792,8 @@ type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	FinancialConnectionsAccount *string `form:"financial_connections_account" json:"financial_connections_account,omitempty"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+	// The ID of a bank account [Token](https://docs.stripe.com/api/tokens/object) to use as a payment method.
+	Token *string `form:"token" json:"token,omitempty"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.

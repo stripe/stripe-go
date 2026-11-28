@@ -169,8 +169,6 @@ type V2MoneyManagementReceivedDebit struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// A link to the Stripe-hosted receipt for this ReceivedDebit.
-	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Open Enum. The status of the ReceivedDebit.
 	Status V2MoneyManagementReceivedDebitStatus `json:"status"`
 	// Detailed information about the status of the ReceivedDebit.

@@ -43,6 +43,7 @@ const (
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_expired"
+	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodInvalidAccountNumber        V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_invalid_account_number"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUnsupported                 V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_unsupported"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUsageFrequencyLimitExceeded V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_usage_frequency_limit_exceeded"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonReviewRejected                          V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "review_rejected"
@@ -62,6 +63,7 @@ type V2MoneyManagementOutboundTransferStatusDetailsReturnedReason string
 
 // List of values that V2MoneyManagementOutboundTransferStatusDetailsReturnedReason can take
 const (
+	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodAccountTypeIncorrect   V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_account_type_incorrect"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodCanceledByCustomer     V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_canceled_by_customer"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodClosed                 V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_closed"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodCurrencyUnsupported    V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_currency_unsupported"
@@ -229,8 +231,6 @@ type V2MoneyManagementOutboundTransfer struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// A link to the Stripe-hosted receipt for this OutboundTransfer. The receipt link remains active for 60 days from the OutboundTransfer creation date. After this period, the link will expire and the receipt url value will be null.
-	ReceiptURL string `json:"receipt_url,omitempty"`
 	// The description that appears on the receiving end for an OutboundTransfer (for example, bank statement for external bank transfer). It will default to `STRIPE` if not set on the account settings.
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Closed Enum. Current status of the OutboundTransfer: `processing`, `failed`, `posted`, `returned`, `canceled`.

@@ -27,6 +27,17 @@ const (
 	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesServices    DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "services"
 )
 
+// If the dispute was eligible for appeal, whether the appeal was submitted manually, with Smart Disputes, or not submitted.
+type DisputeEvidenceDetailsAppealMethod string
+
+// List of values that DisputeEvidenceDetailsAppealMethod can take
+const (
+	DisputeEvidenceDetailsAppealMethodManual        DisputeEvidenceDetailsAppealMethod = "manual"
+	DisputeEvidenceDetailsAppealMethodNotApplicable DisputeEvidenceDetailsAppealMethod = "not_applicable"
+	DisputeEvidenceDetailsAppealMethodNotSubmitted  DisputeEvidenceDetailsAppealMethod = "not_submitted"
+	DisputeEvidenceDetailsAppealMethodSmartDisputes DisputeEvidenceDetailsAppealMethod = "smart_disputes"
+)
+
 // Mastercard compliance eligibility status.
 type DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus string
 
@@ -897,6 +908,8 @@ type DisputeEvidenceDetailsEnhancedEligibility struct {
 	VisaCompliance          *DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance          `json:"visa_compliance,omitempty"`
 }
 type DisputeEvidenceDetails struct {
+	// If the dispute was eligible for appeal, whether the appeal was submitted manually, with Smart Disputes, or not submitted.
+	AppealMethod DisputeEvidenceDetailsAppealMethod `json:"appeal_method,omitempty"`
 	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute.
 	DueBy               int64                                      `json:"due_by"`
 	EnhancedEligibility *DisputeEvidenceDetailsEnhancedEligibility `json:"enhanced_eligibility"`
@@ -926,6 +939,8 @@ type DisputePaymentMethodDetailsCard struct {
 type DisputePaymentMethodDetailsKlarna struct {
 	// Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason
 	ChargebackLossReasonCode string `json:"chargeback_loss_reason_code,omitempty"`
+	// The ID of the dispute in Klarna.
+	DisputeID string `json:"dispute_id,omitempty"`
 	// The reason for the dispute as defined by Klarna
 	ReasonCode string `json:"reason_code"`
 }

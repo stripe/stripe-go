@@ -121,10 +121,16 @@ type V2SignalsAccountEvaluationAccountDetails struct {
 	Data *V2SignalsAccountEvaluationAccountDetailsData `json:"data,omitempty"`
 }
 
+// Additional information about the fraudulent website evaluation, when available.
+type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteAdditionalDetails struct {
+	// Human-readable explanation of the fraudulent website evaluation.
+	Explanation string `json:"explanation"`
+}
+
 // Fraudulent website result for the evaluation, when available.
 type V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsite struct {
-	// Human-readable details about the fraudulent website evaluation, when available.
-	Details string `json:"details,omitempty"`
+	// Additional information about the fraudulent website evaluation, when available.
+	AdditionalDetails *V2SignalsAccountEvaluationEvaluatedSignalsFraudulentWebsiteAdditionalDetails `json:"additional_details,omitempty"`
 	// Timestamp at which the signal was evaluated.
 	EvaluatedAt time.Time `json:"evaluated_at,omitempty"`
 	// Categorical assessment of the fraudulent website risk.
@@ -167,7 +173,7 @@ type V2SignalsAccountEvaluationEvaluatedSignals struct {
 	UserMultiAccounting *V2SignalsAccountEvaluationEvaluatedSignalsUserMultiAccounting `json:"user_multi_accounting,omitempty"`
 }
 
-// Account Evaluation resource for the Signals API.
+// Account Evaluation resource for the Signals API. Account evaluations are available through the API for 180 days after creation.
 type V2SignalsAccountEvaluation struct {
 	APIResource
 	// Account activity recorded alongside this evaluation, when applicable.

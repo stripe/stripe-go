@@ -184,6 +184,16 @@ type V2DataReportRunStatusDetails struct {
 	QueryErrors []*V2DataReportRunStatusDetailsQueryError `json:"query_errors"`
 }
 
+// Timestamps of when the `ReportRun` entered each terminal status.
+type V2DataReportRunStatusTransitions struct {
+	// Time at which the run was canceled.
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// Time at which the run failed.
+	FailedAt time.Time `json:"failed_at,omitempty"`
+	// Time at which the run succeeded.
+	SucceededAt time.Time `json:"succeeded_at,omitempty"`
+}
+
 // The `ReportRun` resource represents an instance of a `Report` generated with specific
 // parameter values. Once the object is created, Stripe begins processing the report. When
 // the report has finished running, it provides a reference to the results. A `ReportRun` and
@@ -220,4 +230,6 @@ type V2DataReportRun struct {
 	Status V2DataReportRunStatus `json:"status"`
 	// Additional details about the current state of the `ReportRun`.
 	StatusDetails *V2DataReportRunStatusDetails `json:"status_details,omitempty"`
+	// Timestamps of when the `ReportRun` entered each terminal status.
+	StatusTransitions *V2DataReportRunStatusTransitions `json:"status_transitions"`
 }

@@ -170,7 +170,7 @@ const (
 	ThreeDSecureAuthenticationOutcomeDetailsProtocolVersion231 ThreeDSecureAuthenticationOutcomeDetailsProtocolVersion = "2.3.1"
 )
 
-// The indicator provided to the issuer by Stripe in the AReq that indicates whether a challenge is requested for this Authentication. This indicator should match the flow_preference you specified but may be overridden (for compliance reasons for example).
+// The indicator provided to the issuer by Stripe in the AReq that indicates whether a challenge is requested for this Authentication. This indicator should match the flow_preference you specified but may be overridden (for compliance reasons or protocol version supportability for example).
 type ThreeDSecureAuthenticationOutcomeDetailsRequestorChallengeIndicator string
 
 // List of values that ThreeDSecureAuthenticationOutcomeDetailsRequestorChallengeIndicator can take
@@ -1008,7 +1008,7 @@ type ThreeDSecureAuthenticationOutcomeDetails struct {
 	NetworkDetails *ThreeDSecureAuthenticationOutcomeDetailsNetworkDetails `json:"network_details,omitempty"`
 	// The 3DS protocol version used for this 3DS Authentication.
 	ProtocolVersion ThreeDSecureAuthenticationOutcomeDetailsProtocolVersion `json:"protocol_version"`
-	// The indicator provided to the issuer by Stripe in the AReq that indicates whether a challenge is requested for this Authentication. This indicator should match the flow_preference you specified but may be overridden (for compliance reasons for example).
+	// The indicator provided to the issuer by Stripe in the AReq that indicates whether a challenge is requested for this Authentication. This indicator should match the flow_preference you specified but may be overridden (for compliance reasons or protocol version supportability for example).
 	RequestorChallengeIndicator ThreeDSecureAuthenticationOutcomeDetailsRequestorChallengeIndicator `json:"requestor_challenge_indicator,omitempty"`
 	// The Results Request Message (RReq) communicates the results of the authentication or verification.
 	Rreq string `json:"rreq,omitempty"`

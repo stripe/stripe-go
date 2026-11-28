@@ -65,9 +65,13 @@ type V2DataReportingQueryRunResultFile struct {
 
 // Details how to retrieve the results of a successfully completed `QueryRun`.
 type V2DataReportingQueryRunResult struct {
+	// The number of columns in the file.
+	ColCount int64 `json:"col_count,string,omitempty"`
 	// Contains metadata about the file produced by the `ReportRun` or `QueryRun`, including
 	// its content type, size, and a URL to download its contents.
 	File *V2DataReportingQueryRunResultFile `json:"file,omitempty"`
+	// The number of data rows in the file, excluding the column header row.
+	RowCount int64 `json:"row_count,string,omitempty"`
 	// The type of the `ReportRun` or `QueryRun` result.
 	Type V2DataReportingQueryRunResultType `json:"type"`
 }

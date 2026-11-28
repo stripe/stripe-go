@@ -44,3 +44,20 @@ func (c v2DataReportRunService) Retrieve(ctx context.Context, id string, params 
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reportrun)
 	return reportrun, err
 }
+
+// Returns a list of `ReportRun` objects created through the API, most recent first. Listed
+// `ReportRun` objects don't include `result` or `sql`. Retrieve a `ReportRun` to access them.
+func (c v2DataReportRunService) List(ctx context.Context, listParams *V2DataReportRunListParams) *V2List[*V2DataReportRun] {
+	if listParams == nil {
+		listParams = &V2DataReportRunListParams{}
+	}
+	listParams.Context = ctx
+	return newV2List(ctx, "/v2/data/report_runs", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2DataReportRun], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		page := &V2Page[*V2DataReportRun]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	})
+}
